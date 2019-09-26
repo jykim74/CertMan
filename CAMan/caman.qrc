@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/bad.png</file>
+        <file>images/berviewer.icns</file>
+        <file>images/copy.png</file>
+        <file>images/cut.png</file>
+        <file>images/exportpdf.png</file>
+        <file>images/fileprint.png</file>
+        <file>images/heart.png</file>
+        <file>images/new.png</file>
+        <file>images/open.png</file>
+        <file>images/paste.png</file>
+        <file>images/penguin_960_720.png</file>
+        <file>images/save.png</file>
+        <file>images/trash.png</file>
+        <file>i18n/caman_ko_KR.ts</file>
+    </qresource>
+</RCC>
