@@ -4,6 +4,7 @@
 #include <QObject>
 
 class MainWindow;
+class ManTrayIcon;
 
 class ManApplet : public QObject
 {
@@ -20,6 +21,7 @@ private:
     Q_DISABLE_COPY(ManApplet)
 
     MainWindow* main_win_;
+    ManTrayIcon* tray_icon_;
 };
 
 extern ManApplet *manApplet;

@@ -15,10 +15,10 @@ MainWindow::~MainWindow()
 {
     delete hsplitter_;
     delete vsplitter_;
-    delete leftTree_;
-    delete leftModel_;
-    delete rightText_;
-    delete rightTable_;
+    delete left_tree_;
+    delete left_model_;
+    delete right_text_;
+    delete right_table_;
 }
 
 
@@ -26,17 +26,17 @@ void MainWindow::initialize()
 {
     hsplitter_ = new QSplitter(Qt::Horizontal);
     vsplitter_ = new QSplitter(Qt::Vertical);
-    leftTree_ = new ManTreeView(this);
-    rightText_ = new QTextEdit();
-    rightTable_ = new QTableWidget;
-    leftModel_ = new ManTreeModel(this);
+    left_tree_ = new ManTreeView(this);
+    right_text_ = new QTextEdit();
+    right_table_ = new QTableWidget;
+    left_model_ = new ManTreeModel(this);
 
-    leftTree_->setModel(leftModel_);
+    left_tree_->setModel(left_model_);
 
-    hsplitter_->addWidget(leftTree_);
+    hsplitter_->addWidget(left_tree_);
     hsplitter_->addWidget(vsplitter_);
-    vsplitter_->addWidget(rightTable_);
-    vsplitter_->addWidget(rightText_);
+    vsplitter_->addWidget(right_table_);
+    vsplitter_->addWidget(right_text_);
 
     QList <int> vsizes;
     vsizes << 1200 << 500;

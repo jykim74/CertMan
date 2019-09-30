@@ -29,10 +29,10 @@ private:
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
 
-    ManTreeView     *leftTree_;
-    ManTreeModel    *leftModel_;
-    QTableWidget    *rightTable_;
-    QTextEdit       *rightText_;
+    ManTreeView     *left_tree_;
+    ManTreeModel    *left_model_;
+    QTableWidget    *right_table_;
+    QTextEdit       *right_text_;
 };
 
 #endif // MAINWINDOW_H
