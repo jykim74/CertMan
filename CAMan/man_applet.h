@@ -13,6 +13,8 @@ public:
     explicit ManApplet(QObject *parent = nullptr);
     void start();
 
+    MainWindow* mainWindow() { return main_win_; };
+
 signals:
 
 public slots:

@@ -8,7 +8,15 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    db_ = NULL;
+
     initialize();
+
+    createActions();
+    createStatusBar();
+
+    setUnifiedTitleAndToolBarOnMac(true);
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -48,4 +56,29 @@ void MainWindow::initialize()
 
     hsplitter_->setSizes(sizes);
     setCentralWidget(hsplitter_);
+}
+
+
+void MainWindow::createActions()
+{
+    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
+    QToolBar *fileToolBar = addToolBar(tr("File"));
+
+    const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
+    QAction *newAct = new QAction( newIcon, tr("&New"), this);
+    newAct->setShortcut( QKeySequence::New);
+    newAct->setStatusTip(tr("Create a new file"));
+    connect( newAct, &QAction::triggered, this, &MainWindow::newFile);
+    fileMenu->addAction(newAct);
+    fileToolBar->addAction(newAct);
+}
+
+void MainWindow::createStatusBar()
+{
+    statusBar()->showMessage(tr("Ready"));
+}
+
+void MainWindow::newFile()
+{
+
 }

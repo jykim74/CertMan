@@ -6,6 +6,7 @@
 #include <QTreeView>
 #include <QTableWidget>
 #include <QTextEdit>
+#include <QtSql>
 
 class ManTreeView;
 class ManTreeModel;
@@ -23,6 +24,13 @@ public:
     ~MainWindow();
 
     void initialize();
+    void createActions();
+    void createStatusBar();
+
+    QSqlDatabase* getDB() {return db_;};
+
+private slots:
+    void newFile();
 
 private:
 //    Ui::MainWindow *ui;
@@ -33,6 +41,8 @@ private:
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
     QTextEdit       *right_text_;
+
+    QSqlDatabase    *db_;
 };
 
 #endif // MAINWINDOW_H

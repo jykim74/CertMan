@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/bad.png</file>
-        <file>images/berviewer.icns</file>
         <file>images/copy.png</file>
         <file>images/cut.png</file>
         <file>images/exportpdf.png</file>
@@ -14,5 +13,6 @@
         <file>images/save.png</file>
         <file>images/trash.png</file>
         <file>i18n/caman_ko_KR.ts</file>
+        <file>images/caman.icns</file>
     </qresource>
 </RCC>
