@@ -29,8 +29,10 @@ CONFIG += c++11
 SOURCES += \
         about_dlg.cpp \
         auto_update_service.cpp \
+        export_dlg.cpp \
         get_ldap_dlg.cpp \
         i18n_helper.cpp \
+        import_dlg.cpp \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
@@ -52,8 +54,10 @@ SOURCES += \
 HEADERS += \
         about_dlg.h \
         auto_update_service.h \
+        export_dlg.h \
         get_ldap_dlg.h \
         i18n_helper.h \
+        import_dlg.h \
         mainwindow.h \
         make_cert_dlg.h \
         make_cert_policy_dlg.h \
@@ -74,7 +78,9 @@ HEADERS += \
 
 FORMS += \
         about_dlg.ui \
+        export_dlg.ui \
         get_ldap_dlg.ui \
+        import_dlg.ui \
         mainwindow.ui \
         make_cert_dlg.ui \
         make_cert_policy_dlg.ui \
