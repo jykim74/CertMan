@@ -7,6 +7,20 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "man_tray_icon.h"
+#include "settings_dlg.h"
+#include "settings_mgr.h"
+#include "about_dlg.h"
+#include "export_dlg.h"
+#include "get_ldap_dlg.h"
+#include "import_dlg.h"
+#include "make_cert_dlg.h"
+#include "make_cert_policy_dlg.h"
+#include "make_crl_dlg.h"
+#include "make_crl_policy_dlg.h"
+#include "make_req_dlg.h"
+#include "new_key_dlg.h"
+#include "pub_ldap_dlg.h"
+#include "revoke_cert_dlg.h"
 
 ManApplet *manApplet;
 
@@ -14,6 +28,21 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 {
     main_win_ = new MainWindow;
     tray_icon_ = new ManTrayIcon;
+
+    settings_dlg_ = new SettingsDlg;
+    settings_mgr_ = new SettingsMgr;
+    about_dlg_ = new AboutDlg;
+    export_dlg_ = new ExportDlg;
+    get_ldap_dlg_ = new GetLDAPDlg;
+    import_dlg_ = new ImportDlg;
+    make_cert_dlg_ = new MakeCertDlg;
+    make_cert_policy_dlg_ = new MakeCertPolicyDlg;
+    make_crl_dlg_ = new MakeCRLDlg;
+    make_crl_policy_dlg_ = new MakeCRLPolicyDlg;
+    make_req_dlg_ = new MakeReqDlg;
+    new_key_dlg_ = new NewKeyDlg;
+    pub_ldap_dlg_ = new PubLDAPDlg;
+    revoke_cert_dlg_ = new RevokeCertDlg;
 
     in_exit_ = false;
 }

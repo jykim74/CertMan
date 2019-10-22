@@ -2,12 +2,13 @@
 #define MAKE_REQ_DLG_H
 
 #include <QDialog>
+#include "ui_make_req_dlg.h"
 
 namespace Ui {
 class MakeReqDlg;
 }
 
-class MakeReqDlg : public QDialog
+class MakeReqDlg : public QDialog, public Ui::MakeReqDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~MakeReqDlg();
 
 private:
-    Ui::MakeReqDlg *ui;
+
 };
 
 #endif // MAKE_REQ_DLG_H

@@ -5,6 +5,23 @@
 #include "man_tree_model.h"
 #include "man_tree_view.h"
 
+#include "about_dlg.h"
+#include "export_dlg.h"
+#include "get_ldap_dlg.h"
+#include "import_dlg.h"
+#include "make_cert_dlg.h"
+#include "make_cert_policy_dlg.h"
+#include "make_crl_dlg.h"
+#include "make_crl_policy_dlg.h"
+#include "make_req_dlg.h"
+#include "new_key_dlg.h"
+#include "pub_ldap_dlg.h"
+#include "revoke_cert_dlg.h"
+#include "settings_dlg.h"
+#include "settings_mgr.h"
+
+#include "man_applet.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -201,117 +218,163 @@ void MainWindow::quit()
 
 void MainWindow::newKey()
 {
-
+    manApplet->newKeyDlg()->show();
+    manApplet->newKeyDlg()->raise();
+    manApplet->newKeyDlg()->activateWindow();
 }
 
 void MainWindow::makeRequest()
 {
-
+    manApplet->makeReqDlg()->show();
+    manApplet->makeReqDlg()->raise();
+    manApplet->makeReqDlg()->activateWindow();
 }
 
 void MainWindow::makeCertPolicy()
 {
-
+    manApplet->makeCertPolicyDlg()->show();
+    manApplet->makeCertPolicyDlg()->raise();
+    manApplet->makeCertPolicyDlg()->activateWindow();
 }
 
 void MainWindow::makeCRLPolicy()
 {
-
+    manApplet->makeCRLPolicyDlg()->show();
+    manApplet->makeCRLPolicyDlg()->raise();
+    manApplet->makeCRLPolicyDlg()->activateWindow();
 }
 
 void MainWindow::makeCertificate()
 {
-
+    manApplet->makeCertDlg()->show();
+    manApplet->makeCertDlg()->raise();
+    manApplet->makeCertDlg()->activateWindow();
 }
 
 void MainWindow::makeCRL()
 {
-
+    manApplet->makeCRLDlg()->show();
+    manApplet->makeCRLDlg()->raise();
+    manApplet->makeCRLDlg()->activateWindow();
 }
 
 void MainWindow::revokeCertificate()
 {
-
+    manApplet->revokeCertDlg()->show();
+    manApplet->revokeCertDlg()->raise();
+    manApplet->revokeCertDlg()->activateWindow();
 }
 
 void MainWindow::importPrivateKey()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::importEncPrivateKey()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::importRequest()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::importCertificate()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::importCRL()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::importPFX()
 {
-
+    manApplet->importDlg()->show();
+    manApplet->importDlg()->raise();
+    manApplet->importDlg()->activateWindow();
 }
 
 void MainWindow::exportPrivateKey()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::exportEncPrivateKey()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::exportRequest()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::exportCertificate()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::exportCRL()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::exportPFX()
 {
-
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
 }
 
 void MainWindow::publishLDAP()
 {
-
+    manApplet->pubLDAPDlg()->show();
+    manApplet->pubLDAPDlg()->raise();
+    manApplet->pubLDAPDlg()->activateWindow();
 }
 
 void MainWindow::getLDAP()
 {
-
+    manApplet->getLDAPDlg()->show();
+    manApplet->getLDAPDlg()->raise();
+    manApplet->getLDAPDlg()->activateWindow();
 }
 
 void MainWindow::about()
 {
-
+    manApplet->aboutDlg()->show();
+    manApplet->aboutDlg()->raise();
+    manApplet->aboutDlg()->activateWindow();
 }
 
 void MainWindow::settings()
 {
-
+    manApplet->settingsDlg()->show();
+    manApplet->settingsDlg()->raise();
+    manApplet->settingsDlg()->activateWindow();
 }
 
 void MainWindow::showWindow()

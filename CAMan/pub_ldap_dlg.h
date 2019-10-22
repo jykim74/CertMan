@@ -2,12 +2,13 @@
 #define PUB_LDAP_DLG_H
 
 #include <QDialog>
+#include "ui_pub_ldap_dlg.h"
 
 namespace Ui {
 class PubLDAPDlg;
 }
 
-class PubLDAPDlg : public QDialog
+class PubLDAPDlg : public QDialog, public Ui::PubLDAPDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~PubLDAPDlg();
 
 private:
-    Ui::PubLDAPDlg *ui;
+;
 };
 
 #endif // PUB_LDAP_DLG_H

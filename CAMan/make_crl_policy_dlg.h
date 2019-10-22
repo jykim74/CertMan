@@ -2,12 +2,13 @@
 #define MAKE_CRL_POLICY_DLG_H
 
 #include <QDialog>
+#include "ui_make_crl_policy_dlg.h"
 
 namespace Ui {
 class MakeCRLPolicyDlg;
 }
 
-class MakeCRLPolicyDlg : public QDialog
+class MakeCRLPolicyDlg : public QDialog, public Ui::MakeCRLPolicyDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~MakeCRLPolicyDlg();
 
 private:
-    Ui::MakeCRLPolicyDlg *ui;
+
 };
 
 #endif // MAKE_CRL_POLICY_DLG_H

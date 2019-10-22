@@ -2,12 +2,13 @@
 #define IMPORT_DLG_H
 
 #include <QDialog>
+#include "ui_import_dlg.h"
 
 namespace Ui {
 class ImportDlg;
 }
 
-class ImportDlg : public QDialog
+class ImportDlg : public QDialog, public Ui::ImportDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,6 @@ public:
     ~ImportDlg();
 
 private:
-    Ui::ImportDlg *ui;
 };
 
 #endif // IMPORT_DLG_H

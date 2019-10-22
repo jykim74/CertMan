@@ -2,12 +2,13 @@
 #define MAKE_CRL_DLG_H
 
 #include <QDialog>
+#include "ui_make_crl_dlg.h"
 
 namespace Ui {
 class MakeCRLDlg;
 }
 
-class MakeCRLDlg : public QDialog
+class MakeCRLDlg : public QDialog, public Ui::MakeCRLDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~MakeCRLDlg();
 
 private:
-    Ui::MakeCRLDlg *ui;
+;
 };
 
 #endif // MAKE_CRL_DLG_H

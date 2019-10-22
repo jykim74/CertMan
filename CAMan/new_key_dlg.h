@@ -2,12 +2,13 @@
 #define NEW_KEY_DLG_H
 
 #include <QDialog>
+#include "ui_new_key_dlg.h"
 
 namespace Ui {
 class NewKeyDlg;
 }
 
-class NewKeyDlg : public QDialog
+class NewKeyDlg : public QDialog, public Ui::NewKeyDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~NewKeyDlg();
 
 private:
-    Ui::NewKeyDlg *ui;
+
 };
 
 #endif // NEW_KEY_DLG_H

@@ -2,12 +2,13 @@
 #define REVOKE_CERT_DLG_H
 
 #include <QDialog>
+#include "ui_revoke_cert_dlg.h"
 
 namespace Ui {
 class RevokeCertDlg;
 }
 
-class RevokeCertDlg : public QDialog
+class RevokeCertDlg : public QDialog, public Ui::RevokeCertDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~RevokeCertDlg();
 
 private:
-    Ui::RevokeCertDlg *ui;
+
 };
 
 #endif // REVOKE_CERT_DLG_H

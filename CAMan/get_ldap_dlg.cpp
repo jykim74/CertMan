@@ -1,14 +1,12 @@
 #include "get_ldap_dlg.h"
-#include "ui_get_ldap_dlg.h"
 
 GetLDAPDlg::GetLDAPDlg(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::GetLDAPDlg)
+    QDialog(parent)
 {
-    ui->setupUi(this);
+    setupUi(this);
 }
 
 GetLDAPDlg::~GetLDAPDlg()
 {
-    delete ui;
+
 }

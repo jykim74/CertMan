@@ -2,12 +2,13 @@
 #define EXPORT_DLG_H
 
 #include <QDialog>
+#include "ui_export_dlg.h"
 
 namespace Ui {
 class ExportDlg;
 }
 
-class ExportDlg : public QDialog
+class ExportDlg : public QDialog, public Ui::ExportDlg
 {
     Q_OBJECT
 
@@ -16,7 +17,7 @@ public:
     ~ExportDlg();
 
 private:
-    Ui::ExportDlg *ui;
+
 };
 
 #endif // EXPORT_DLG_H
