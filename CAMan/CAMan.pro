@@ -25,24 +25,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        about_dlg.cpp \
+        auto_update_service.cpp \
+        i18n_helper.cpp \
+        mac_sparkle_support.mm \
         main.cpp \
         mainwindow.cpp \
         man_applet.cpp \
         man_tray_icon.cpp \
         man_tree_item.cpp \
         man_tree_model.cpp \
-        man_tree_view.cpp
+        man_tree_view.cpp \
+        settings_dlg.cpp \
+        settings_mgr.cpp
 
 HEADERS += \
+        about_dlg.h \
+        auto_update_service.h \
+        i18n_helper.h \
         mainwindow.h \
         man_applet.h \
         man_tray_icon.h \
         man_tree_item.h \
         man_tree_model.h \
-        man_tree_view.h
+        man_tree_view.h \
+        settings_dlg.h \
+        settings_mgr.h
 
 FORMS += \
-        mainwindow.ui
+        about_dlg.ui \
+        mainwindow.ui \
+        settings_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -53,3 +66,28 @@ RESOURCES += \
     caman.qrc
 
 TRANSLATIONS += i18n/caman_ko_KR.ts
+
+
+mac {
+    ICON = images/caman.icns
+
+    QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks
+    HEADERS += mac_sparkle_support.h
+    OBJECTIVE_SOURCES += mac_sparkle_support.mm
+    LIBS += -framework AppKit
+    LIBS += -framework Carbon
+    LIBS += -framework Foundation
+    LIBS += -framework ApplicationServices
+    LIBS += -framework Sparkle
+    INCLUDEPATH += "/usr/local/Sparkle.framework/Headers"
+
+    LIBS += -L"../../build-PKILib-Desktop_Qt_5_11_3_clang_64bit-Debug" -lPKILib
+    LIBS += -L"../../PKILib/lib/mac/openssl/lib" -lcrypto
+}
+
+win32 {
+    INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
+    LIBS += -L"../../build-PKILib-Desktop_Qt_5_12_2_MinGW_32_bit-Debug/debug" -lPKILib
+    LIBS += -L"../../PKILib/lib/win32/cmpossl-mingw32/lib" -lcrypto
+    LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle
+}
