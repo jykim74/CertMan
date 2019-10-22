@@ -27,11 +27,42 @@ public:
     void showWindow();
     void createActions();
     void createStatusBar();
+    void createTableMenu();
 
     QSqlDatabase* getDB() {return db_;};
 
 private slots:
     void newFile();
+    void open();
+    void quit();
+
+    void newKey();
+    void makeRequest();
+    void makeCertPolicy();
+    void makeCRLPolicy();
+    void makeCertificate();
+    void makeCRL();
+    void revokeCertificate();
+
+    void importPrivateKey();
+    void importEncPrivateKey();
+    void importRequest();
+    void importCertificate();
+    void importCRL();
+    void importPFX();
+
+    void exportPrivateKey();
+    void exportEncPrivateKey();
+    void exportRequest();
+    void exportCertificate();
+    void exportCRL();
+    void exportPFX();
+
+    void publishLDAP();
+    void getLDAP();
+
+    void about();
+    void settings();
 
 private:
 //    Ui::MainWindow *ui;
