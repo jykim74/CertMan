@@ -49,7 +49,6 @@ void SettingsDlg::updateSettings()
 void SettingsDlg::accept()
 {
     updateSettings();
-    accept();
 }
 
 
