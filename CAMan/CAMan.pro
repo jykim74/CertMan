@@ -28,7 +28,6 @@ SOURCES += \
         about_dlg.cpp \
         auto_update_service.cpp \
         i18n_helper.cpp \
-        mac_sparkle_support.mm \
         main.cpp \
         mainwindow.cpp \
         man_applet.cpp \
@@ -50,7 +49,8 @@ HEADERS += \
         man_tree_model.h \
         man_tree_view.h \
         settings_dlg.h \
-        settings_mgr.h
+        settings_mgr.h \
+        singleton.h
 
 FORMS += \
         about_dlg.ui \
@@ -67,6 +67,7 @@ RESOURCES += \
 
 TRANSLATIONS += i18n/caman_ko_KR.ts
 
+DEFINES += _AUTO_UPDATE
 
 mac {
     ICON = images/caman.icns
