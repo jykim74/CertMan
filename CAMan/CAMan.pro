@@ -29,20 +29,8 @@ CONFIG += c++11
 SOURCES += \
         about_dlg.cpp \
         auto_update_service.cpp \
-        export_cert_dlg.cpp \
-        export_crl_dlg.cpp \
-        export_enc_pri_key_dlg.cpp \
-        export_pfx_dlg.cpp \
-        export_pri_key_dlg.cpp \
-        export_req_dlg.cpp \
         get_ldap_dlg.cpp \
         i18n_helper.cpp \
-        import_cert_dlg.cpp \
-        import_crl_dlg.cpp \
-        import_enc_pri_key_dlg.cpp \
-        import_pfx_dlg.cpp \
-        import_pri_key_dlg.cpp \
-        import_req_dlg.cpp \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
@@ -64,20 +52,8 @@ SOURCES += \
 HEADERS += \
         about_dlg.h \
         auto_update_service.h \
-        export_cert_dlg.h \
-        export_crl_dlg.h \
-        export_enc_pri_key_dlg.h \
-        export_pfx_dlg.h \
-        export_pri_key_dlg.h \
-        export_req_dlg.h \
         get_ldap_dlg.h \
         i18n_helper.h \
-        import_cert_dlg.h \
-        import_crl_dlg.h \
-        import_enc_pri_key_dlg.h \
-        import_pfx_dlg.h \
-        import_pri_key_dlg.h \
-        import_req_dlg.h \
         mainwindow.h \
         make_cert_dlg.h \
         make_cert_policy_dlg.h \
@@ -98,19 +74,7 @@ HEADERS += \
 
 FORMS += \
         about_dlg.ui \
-        export_cert_dlg.ui \
-        export_crl_dlg.ui \
-        export_enc_pri_key_dlg.ui \
-        export_pfx_dlg.ui \
-        export_pri_key_dlg.ui \
-        export_req_dlg.ui \
         get_ldap_dlg.ui \
-        import_cert_dlg.ui \
-        import_crl_dlg.ui \
-        import_enc_pri_key_dlg.ui \
-        import_pfx_dlg.ui \
-        import_pri_key_dlg.ui \
-        import_req_dlg.ui \
         mainwindow.ui \
         make_cert_dlg.ui \
         make_cert_policy_dlg.ui \
