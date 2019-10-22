@@ -24,6 +24,7 @@ public:
     ~MainWindow();
 
     void initialize();
+    void showWindow();
     void createActions();
     void createStatusBar();
 

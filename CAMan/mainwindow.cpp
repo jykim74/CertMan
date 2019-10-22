@@ -82,3 +82,11 @@ void MainWindow::newFile()
 {
 
 }
+
+void MainWindow::showWindow()
+{
+    showNormal();
+    show();
+    raise();
+    activateWindow();
+}
