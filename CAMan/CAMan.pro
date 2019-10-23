@@ -122,6 +122,8 @@ TRANSLATIONS += i18n/caman_ko_KR.ts
 
 DEFINES += _AUTO_UPDATE
 
+INCLUDEPATH += "../../PKILib"
+
 mac {
     ICON = images/caman.icns
 

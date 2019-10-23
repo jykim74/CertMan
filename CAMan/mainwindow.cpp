@@ -21,11 +21,12 @@
 #include "settings_mgr.h"
 
 #include "man_applet.h"
+#include "db_mgr.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    db_ = NULL;
+    db_mgr_ = new DBMgr;
 
     initialize();
 

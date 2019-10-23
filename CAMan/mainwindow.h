@@ -10,6 +10,7 @@
 
 class ManTreeView;
 class ManTreeModel;
+class DBMgr;
 
 namespace Ui {
 class MainWindow;
@@ -29,7 +30,7 @@ public:
     void createStatusBar();
     void createTableMenu();
 
-    QSqlDatabase* getDB() {return db_;};
+    DBMgr* dbMgr() { return db_mgr_; };
 
 private slots:
     void newFile();
@@ -74,7 +75,7 @@ private:
     QTableWidget    *right_table_;
     QTextEdit       *right_text_;
 
-    QSqlDatabase    *db_;
+    DBMgr           *db_mgr_;
 };
 
 #endif // MAINWINDOW_H

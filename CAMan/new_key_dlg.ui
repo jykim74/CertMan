@@ -15,21 +15,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="5" column="0">
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="mOptionLabel">
      <property name="text">
       <string>Key Length</string>
      </property>
     </widget>
    </item>
    <item row="3" column="3">
-    <widget class="QLineEdit" name="lineEdit_2"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Algorithm</string>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="mExponentText"/>
    </item>
    <item row="3" column="2">
     <widget class="QLabel" name="label_5">
@@ -45,13 +38,6 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Mechanism</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
@@ -60,10 +46,10 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="mOptionCombo"/>
    </item>
    <item row="3" column="1">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mMechCombo"/>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
@@ -86,7 +72,7 @@
     </spacer>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="mNameText"/>
    </item>
    <item row="7" column="2" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -95,6 +81,13 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Mechanism</string>
      </property>
     </widget>
    </item>
