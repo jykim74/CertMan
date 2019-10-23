@@ -29,6 +29,11 @@ CONFIG += c++11
 SOURCES += \
         about_dlg.cpp \
         auto_update_service.cpp \
+        cert_policy_rec.cpp \
+        cert_rec.cpp \
+        crl_policy_rec.cpp \
+        crl_rec.cpp \
+        db_mgr.cpp \
         export_dlg.cpp \
         get_ldap_dlg.cpp \
         i18n_helper.cpp \
@@ -54,6 +59,11 @@ SOURCES += \
 HEADERS += \
         about_dlg.h \
         auto_update_service.h \
+        cert_policy_rec.h \
+        cert_rec.h \
+        crl_policy_rec.h \
+        crl_rec.h \
+        db_mgr.h \
         export_dlg.h \
         get_ldap_dlg.h \
         i18n_helper.h \
