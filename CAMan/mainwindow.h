@@ -30,6 +30,8 @@ public:
     void createStatusBar();
     void createTableMenu();
 
+    void createTreeMenu();
+
     DBMgr* dbMgr() { return db_mgr_; };
 
 private slots:

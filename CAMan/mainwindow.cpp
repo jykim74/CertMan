@@ -1,3 +1,5 @@
+#include <QFileDialog>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -22,6 +24,7 @@
 
 #include "man_applet.h"
 #include "db_mgr.h"
+#include "cert_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -200,6 +203,53 @@ void MainWindow::createTableMenu()
 
 }
 
+void MainWindow::createTreeMenu()
+{
+    ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
+    ManTreeItem *pTopItem = new ManTreeItem( QString( "CAManager" ) );
+    pRootItem->insertRow( 0, pTopItem );
+
+    ManTreeItem *pKeyPairItem = new ManTreeItem( QString("KeyPair") );
+    pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
+    pTopItem->appendRow( pKeyPairItem );
+
+    ManTreeItem *pCSRItem = new ManTreeItem( QString("CSR"));
+    pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
+    pTopItem->appendRow( pCSRItem );
+
+    ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
+    pCertPolicyItem->setType( CM_ITEM_TYPE_CERT_POLICY );
+    pTopItem->appendRow( pCertPolicyItem );
+
+    ManTreeItem *pCRLPolicyItem = new ManTreeItem( QString("CRLPolicy" ) );
+    pCRLPolicyItem->setType( CM_ITEM_TYPE_CRL_POLICY );
+    pTopItem->appendRow( pCRLPolicyItem );
+
+    ManTreeItem *pRootCAItem = new ManTreeItem( QString("RootCA") );
+    pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
+    pTopItem->appendRow( pRootCAItem );
+
+    int nIssuerNum = -1;
+    QList<CertRec> certList;
+    db_mgr_->getCertList( nIssuerNum, certList );
+    qDebug() << "RootCA count : " << certList.size();
+
+    for( int i=0; i < certList.size(); i++ )
+    {
+        CertRec certRec = certList.at(i);
+        ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
+        pCAItem->setType( CM_ITEM_TYPE_CA );
+        pRootCAItem->appendRow( pCAItem );
+    }
+
+    ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
+    pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
+    pTopItem->appendRow( pImportCertItem );
+
+    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( "ImportCRL" ) );
+    pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
+    pTopItem->appendRow( pImportCRLItem );
+}
 
 void MainWindow::newFile()
 {
@@ -208,7 +258,27 @@ void MainWindow::newFile()
 
 void MainWindow::open()
 {
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
 
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     tr("QFileDialog::getOpenFileName()"),
+                                                     "./",
+                                                     tr("DB Files (*.db);;All Files (*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    db_mgr_->close();
+    int ret = db_mgr_->open(fileName);
+
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to open database"), this );
+        return;
+    }
+
+    createTreeMenu();
 }
 
 void MainWindow::quit()
