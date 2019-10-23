@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>440</width>
     <height>300</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="4" column="1">
-    <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+    <widget class="QDateTimeEdit" name="mRevokeDateTime"/>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="label_5">
@@ -59,10 +59,10 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="mSerialText"/>
    </item>
    <item row="4" column="3">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mReasonCombo"/>
    </item>
    <item row="6" column="2" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -75,7 +75,7 @@
     </widget>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="mSubjectDNText"/>
    </item>
    <item row="0" column="0" colspan="2">
     <widget class="QLabel" name="label">

@@ -29,14 +29,7 @@
     </widget>
    </item>
    <item row="4" column="3">
-    <widget class="QLineEdit" name="lineEdit_4"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Key information</string>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="mOptionText"/>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_5">
@@ -46,9 +39,9 @@
     </widget>
    </item>
    <item row="4" column="2">
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="mOptionLabel">
      <property name="text">
-      <string>Param</string>
+      <string>Key size</string>
      </property>
     </widget>
    </item>
@@ -70,7 +63,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="mAlgorithmText"/>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
@@ -93,16 +86,23 @@
     </spacer>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="mNameText"/>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="mDNText"/>
    </item>
    <item row="2" column="1" colspan="3">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mKeyNameCombo"/>
    </item>
    <item row="5" column="1" colspan="2">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="mHashCombo"/>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Key information</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

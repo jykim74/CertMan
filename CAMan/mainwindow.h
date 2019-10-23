@@ -31,6 +31,12 @@ public:
     void createTableMenu();
 
     void createTreeMenu();
+    void createRightKeyPairList();
+    void createRightRequestList();
+    void createRightCertPolicyList();
+    void createRightCRLPolicyList();
+    void createCertList();
+    void createCRLList();
 
     DBMgr* dbMgr() { return db_mgr_; };
 
@@ -66,6 +72,8 @@ private slots:
 
     void about();
     void settings();
+
+    void menuClick( QModelIndex index );
 
 private:
 //    Ui::MainWindow *ui;

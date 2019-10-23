@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>412</width>
     <height>300</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="6" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_5"/>
+    <widget class="QLineEdit" name="mDNText"/>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_3">
@@ -25,20 +25,20 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="mLDAPHostText"/>
    </item>
    <item row="3" column="3">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="mLDAPPortText"/>
    </item>
    <item row="1" column="0">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="mUseURICheck">
      <property name="text">
       <string>Use URI</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mSearchCombo"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_2">
@@ -48,13 +48,13 @@
     </widget>
    </item>
    <item row="5" column="2">
-    <widget class="QLineEdit" name="lineEdit_4"/>
+    <widget class="QLineEdit" name="mFilterText"/>
    </item>
    <item row="5" column="3">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="mFilterCombo"/>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="mURIText"/>
    </item>
    <item row="3" column="2">
     <widget class="QLabel" name="label_4">

@@ -25,6 +25,7 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 #include "cert_rec.h"
+#include "key_pair_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -77,6 +78,8 @@ void MainWindow::initialize()
 
     hsplitter_->setSizes(sizes);
     setCentralWidget(hsplitter_);
+
+    connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(menuClick(QModelIndex)));
 }
 
 
@@ -213,7 +216,7 @@ void MainWindow::createTreeMenu()
     pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
     pTopItem->appendRow( pKeyPairItem );
 
-    ManTreeItem *pCSRItem = new ManTreeItem( QString("CSR"));
+    ManTreeItem *pCSRItem = new ManTreeItem( QString("Request"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
@@ -448,10 +451,80 @@ void MainWindow::settings()
     manApplet->settingsDlg()->activateWindow();
 }
 
+
+
 void MainWindow::showWindow()
 {
     showNormal();
     show();
     raise();
     activateWindow();
+}
+
+void MainWindow::menuClick(QModelIndex index )
+{
+    int nType = -1;
+    ManTreeItem *pItem = (ManTreeItem *)left_model_->itemFromIndex(index);
+
+    if( pItem == NULL ) return;
+
+    nType = pItem->getType();
+
+    if( nType == CM_ITEM_TYPE_KEYPAIR )
+        createRightKeyPairList();
+    else if( nType == CM_ITEM_TYPE_REQUEST )
+        createRightRequestList();
+    else if( nType == CM_ITEM_TYPE_CERT_POLICY )
+        createRightCertPolicyList();
+    else if( nType == CM_ITEM_TYPE_CRL_POLICY )
+        createRightCRLPolicyList();
+}
+
+void MainWindow::createRightKeyPairList()
+{
+    QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Status" };
+
+    right_table_->setHorizontalHeaderLabels( headerList );
+
+    QList<KeyPairRec> keyPairList;
+    db_mgr_->getKeyPairList( keyPairList );
+
+    for( int i = 0; i < keyPairList.size(); i++ )
+    {
+        KeyPairRec keyPairRec = keyPairList.at(i);
+
+        right_table_->insertRow(i);
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() )));
+        right_table_->setItem( i, 1, new QTableWidgetItem( keyPairRec.getAlg()));
+        right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getName()));
+        right_table_->setItem(i, 3, new QTableWidgetItem( keyPairRec.getPublicKey()));
+        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPrivateKey()));
+        right_table_->setItem(i, 5, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
+    }
+}
+
+
+void MainWindow::createRightRequestList()
+{
+
+}
+
+void MainWindow::createRightCertPolicyList()
+{
+
+}
+
+void MainWindow::createRightCRLPolicyList()
+{
+
+}
+
+void MainWindow::createCertList()
+{
+
+}
+
+void MainWindow::createCRLList()
+{
+
 }

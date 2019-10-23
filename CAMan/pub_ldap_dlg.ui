@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>382</height>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
     </widget>
    </item>
    <item row="8" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit_5"/>
+    <widget class="QLineEdit" name="mPublishDNText"/>
    </item>
    <item row="3" column="2">
     <widget class="QLabel" name="label_10">
@@ -39,10 +39,10 @@
     </widget>
    </item>
    <item row="5" column="0" colspan="4">
-    <widget class="QTextEdit" name="textEdit"/>
+    <widget class="QTextEdit" name="mInfoText"/>
    </item>
    <item row="7" column="3">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="mAttributeCombo"/>
    </item>
    <item row="7" column="0">
     <widget class="QLabel" name="label_7">
@@ -52,10 +52,10 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mTypeCombo"/>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="mBindDNText"/>
    </item>
    <item row="7" column="2">
     <widget class="QLabel" name="label_11">
@@ -65,7 +65,7 @@
     </widget>
    </item>
    <item row="1" column="3">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="mLDAPPortText"/>
    </item>
    <item row="6" column="0" colspan="2">
     <widget class="QLabel" name="label_6">
@@ -88,7 +88,7 @@
     </spacer>
    </item>
    <item row="3" column="3">
-    <widget class="QLineEdit" name="lineEdit_4"/>
+    <widget class="QLineEdit" name="mPasswordText"/>
    </item>
    <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="label_3">
@@ -142,7 +142,7 @@
     </spacer>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="mLDAPHostText"/>
    </item>
    <item row="1" column="2">
     <widget class="QLabel" name="label_9">
