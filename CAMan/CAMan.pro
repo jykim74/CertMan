@@ -38,6 +38,7 @@ SOURCES += \
         get_ldap_dlg.cpp \
         i18n_helper.cpp \
         import_dlg.cpp \
+        key_pair_rec.cpp \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
@@ -51,8 +52,11 @@ SOURCES += \
         man_tree_model.cpp \
         man_tree_view.cpp \
         new_key_dlg.cpp \
+        policy_ext_rec.cpp \
         pub_ldap_dlg.cpp \
+        req_rec.cpp \
         revoke_cert_dlg.cpp \
+        revoke_rec.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp
 
@@ -68,6 +72,7 @@ HEADERS += \
         get_ldap_dlg.h \
         i18n_helper.h \
         import_dlg.h \
+        key_pair_rec.h \
         mainwindow.h \
         make_cert_dlg.h \
         make_cert_policy_dlg.h \
@@ -80,8 +85,11 @@ HEADERS += \
         man_tree_model.h \
         man_tree_view.h \
         new_key_dlg.h \
+        policy_ext_rec.h \
         pub_ldap_dlg.h \
+        req_rec.h \
         revoke_cert_dlg.h \
+        revoke_rec.h \
         settings_dlg.h \
         settings_mgr.h \
         singleton.h
