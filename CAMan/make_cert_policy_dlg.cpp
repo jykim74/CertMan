@@ -39,6 +39,7 @@ MakeCertPolicyDlg::MakeCertPolicyDlg(QWidget *parent) :
     initUI();
     connectExtends();
     setExtends();
+    setTableMenus();
 }
 
 MakeCertPolicyDlg::~MakeCertPolicyDlg()
@@ -54,7 +55,57 @@ void MakeCertPolicyDlg::showEvent(QShowEvent *event)
 
 void MakeCertPolicyDlg::accept()
 {
+    CertPolicyRec certPolicyRec;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
 
+    if( dbMgr == NULL ) return;
+
+    QString strName = mNameText->text();
+
+    if( strName.isEmpty() )
+    {
+        manApplet->warningBox( tr( "You have to insert name"), this );
+        mNameText->setFocus();
+        return;
+    }
+
+    QString strSubjectDN = mSubjectDNText->text();
+    if( strSubjectDN.isEmpty() )
+    {
+        manApplet->warningBox(tr( "You have to set subjec dn"), this );
+        return;
+    }
+
+    int nPolicyNum = dbMgr->getCertPolicyNextNum();
+
+    certPolicyRec.setNum( nPolicyNum );
+    certPolicyRec.setVersion( mVersionCombo->currentIndex() );
+    certPolicyRec.setName( strName );
+    certPolicyRec.setDNTemplate( strSubjectDN );
+
+    if( mUseDaysCheck->isChecked() )
+    {
+        certPolicyRec.setNotBefore(0);
+        certPolicyRec.setNotAfter( mDaysText->text().toLong());
+    }
+    else {
+        QDateTime beforeTime;
+        QDateTime afterTime;
+
+        beforeTime.setDate( mNotBeforeDateTime->date() );
+        afterTime.setDate( mNotAfterDateTime->date() );
+
+        certPolicyRec.setNotBefore( beforeTime.toTime_t() );
+        certPolicyRec.setNotAfter( afterTime.toTime_t() );
+    }
+
+    certPolicyRec.setHash( mHashCombo->currentText() );
+    dbMgr->addCertPolicyRec( certPolicyRec );
+
+    /* need to set extend fields here */
+    /* ....... */
+
+    QDialog::accept();
 }
 
 void MakeCertPolicyDlg::initUI()
@@ -73,8 +124,49 @@ void MakeCertPolicyDlg::initUI()
     mHashCombo->addItems(sHashList);
 }
 
+void MakeCertPolicyDlg::setTableMenus()
+{
+    QStringList sPolicyLabels = { "OID", "CPS", "UserNotice" };
+    mPolicyTable->setColumnCount(3);
+    mPolicyTable->horizontalHeader()->setStretchLastSection(true);
+    mPolicyTable->setHorizontalHeaderLabels( sPolicyLabels );
+
+    QStringList sCRLDPLabels = { "Type", "Value" };
+    mCRLDPTable->setColumnCount(2);
+    mCRLDPTable->horizontalHeader()->setStretchLastSection(true);
+    mCRLDPTable->setHorizontalHeaderLabels(sCRLDPLabels);
+
+    QStringList sAIALabels = { "Target", "Type", "Value" };
+    mAIATable->setColumnCount(3);
+    mAIATable->horizontalHeader()->setStretchLastSection(true);
+    mAIATable->setHorizontalHeaderLabels(sAIALabels);
+
+    QStringList sSANLabels = { "Type", "Value" };
+    mSANTable->setColumnCount(2);
+    mSANTable->horizontalHeader()->setStretchLastSection(true);
+    mSANTable->setHorizontalHeaderLabels(sSANLabels);
+
+    QStringList sIANLabels = { "Type", "Value" };
+    mIANTable->setColumnCount(2);
+    mIANTable->horizontalHeader()->setStretchLastSection(true);
+    mIANTable->setHorizontalHeaderLabels(sIANLabels);
+
+    QStringList sPMLabels = { "Tareg", "Value", "Target", "Value" };
+    mPMTable->setColumnCount(4);
+    mPMTable->horizontalHeader()->setStretchLastSection(true);
+    mPMTable->setHorizontalHeaderLabels(sPMLabels);
+
+    QStringList sNCLabels = { "Type", "Target", "Value", "Min", "Max" };
+    mNCTable->setColumnCount(5);
+    mNCTable->horizontalHeader()->setStretchLastSection(true);
+    mNCTable->setHorizontalHeaderLabels(sNCLabels);
+}
+
 void MakeCertPolicyDlg::connectExtends()
 {
+    connect( mUseCSRCheck, SIGNAL(clicked()), this, SLOT(clickUseCSR()));
+    connect( mUseDaysCheck, SIGNAL(clicked()), this, SLOT(clickUseDays()));
+
     connect( mAIAUseCheck, SIGNAL(clicked()), this, SLOT(clickAIAUse()));
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKIUse()));
     connect( mBCUseCheck, SIGNAL(clicked()), this, SLOT(clickBCUse()));
@@ -100,8 +192,33 @@ void MakeCertPolicyDlg::connectExtends()
     connect( mNCAddBtn, SIGNAL(clicked()), this, SLOT(addNC()));
 }
 
+void MakeCertPolicyDlg::clickUseCSR()
+{
+    bool bStatus = mUseCSRCheck->isChecked();
+
+    mSubjectDNText->setEnabled( !bStatus );
+
+    if( bStatus )
+        mSubjectDNText->setText( "#CSR" );
+    else {
+        mSubjectDNText->setText( "" );
+    }
+}
+
+void MakeCertPolicyDlg::clickUseDays()
+{
+    bool bStatus = mUseDaysCheck->isChecked();
+
+    mDaysText->setEnabled(bStatus);
+    mNotAfterDateTime->setEnabled(!bStatus);
+    mNotBeforeDateTime->setEnabled(!bStatus);
+}
+
 void MakeCertPolicyDlg::setExtends()
 {
+    clickUseCSR();
+    clickUseDays();
+
     clickAIAUse();
     clickAKIUse();
     clickBCUse();

@@ -20,6 +20,9 @@ private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
 
+    void clickUseCSR();
+    void clickUseDays();
+
     void clickAIAUse();
     void clickAKIUse();
     void clickBCUse();
@@ -49,6 +52,7 @@ private:
     void initUI();
     void connectExtends();
     void setExtends();
+    void setTableMenus();
 };
 
 #endif // MAKE_CERT_POLICY_DLG_H
