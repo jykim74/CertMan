@@ -15,9 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="mBCUseCheck">
+    <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -166,7 +166,7 @@
         <widget class="QListWidget" name="mKeyUsageList"/>
        </item>
        <item row="7" column="1" colspan="3">
-        <widget class="QLineEdit" name="mUserNoticeText"/>
+        <widget class="QLineEdit" name="mPolicyUserNoticeText"/>
        </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_13">
@@ -232,7 +232,7 @@
         </widget>
        </item>
        <item row="6" column="1" colspan="3">
-        <widget class="QLineEdit" name="mCPSText"/>
+        <widget class="QLineEdit" name="mPolicyCPSText"/>
        </item>
        <item row="1" column="0">
         <widget class="QCheckBox" name="mKeyUsageUseCheck">
@@ -439,7 +439,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox_19">
+        <widget class="QCheckBox" name="mBCUseCheck">
          <property name="text">
           <string>Use</string>
          </property>
@@ -507,7 +507,7 @@
         <widget class="QLineEdit" name="mPCInhibitText"/>
        </item>
        <item row="5" column="1">
-        <widget class="QCheckBox" name="mSANCriticalCritical">
+        <widget class="QCheckBox" name="mSANCriticalCheck">
          <property name="text">
           <string>Critical</string>
          </property>

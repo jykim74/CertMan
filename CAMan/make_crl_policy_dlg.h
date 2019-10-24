@@ -16,8 +16,13 @@ public:
     explicit MakeCRLPolicyDlg(QWidget *parent = nullptr);
     ~MakeCRLPolicyDlg();
 
-private:
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
 
+
+private:
+    void initUI();
 };
 
 #endif // MAKE_CRL_POLICY_DLG_H
