@@ -103,6 +103,19 @@ void MakeCertPolicyDlg::accept()
     dbMgr->addCertPolicyRec( certPolicyRec );
 
     /* need to set extend fields here */
+    if( mAIAUseCheck->isChecked() ) setAIAUse();
+    if( mAKIUseCheck->isChecked() ) setAKIUse();
+    if( mBCUseCheck->isChecked() ) setBCUse();
+    if( mCRLDPUseCheck->isChecked() ) setCRLDPUse();
+    if( mEKUUseCheck->isChecked() ) setEKUUse();
+    if( mIANUseCheck->isChecked() ) setIANUse();
+    if( mKeyUsageUseCheck->isChecked() ) setKeyUsageUse();
+    if( mNCUseCheck->isChecked() ) setNCUse();
+    if( mPolicyUseCheck->isChecked() ) setPolicyUse();
+    if( mPCUseCheck->isChecked() ) setPCUse();
+    if( mPMUseCheck->isChecked() ) setPMUse();
+    if( mSKIUseCheck->isChecked() ) setSKIUse();
+    if( mSANUseCheck->isChecked() ) setSANUse();
     /* ....... */
 
     QDialog::accept();
@@ -482,4 +495,69 @@ void MakeCertPolicyDlg::addNC()
     mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
     mNCTable->setItem( row, 3, new QTableWidgetItem(strMax));
     mNCTable->setItem( row, 4, new QTableWidgetItem(strMin));
+}
+
+void MakeCertPolicyDlg::setAIAUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setAKIUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setBCUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setCRLDPUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setEKUUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setIANUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setKeyUsageUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setNCUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setPolicyUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setPCUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setPMUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setSKIUse()
+{
+
+}
+
+void MakeCertPolicyDlg::setSANUse()
+{
+
 }

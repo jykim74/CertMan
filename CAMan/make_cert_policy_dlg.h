@@ -53,6 +53,20 @@ private:
     void connectExtends();
     void setExtends();
     void setTableMenus();
+
+    void setAIAUse();
+    void setAKIUse();
+    void setBCUse();
+    void setCRLDPUse();
+    void setEKUUse();
+    void setIANUse();
+    void setKeyUsageUse();
+    void setNCUse();
+    void setPolicyUse();
+    void setPCUse();
+    void setPMUse();
+    void setSKIUse();
+    void setSANUse();
 };
 
 #endif // MAKE_CERT_POLICY_DLG_H
