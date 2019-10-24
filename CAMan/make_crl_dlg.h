@@ -4,6 +4,9 @@
 #include <QDialog>
 #include "ui_make_crl_dlg.h"
 
+class CertRec;
+class CRLPolicyRec;
+
 namespace Ui {
 class MakeCRLDlg;
 }
@@ -16,7 +19,17 @@ public:
     explicit MakeCRLDlg(QWidget *parent = nullptr);
     ~MakeCRLDlg();
 
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
+    void issuerChanged(int index);
+    void clickRevokeAdd();
+
 private:
+    void initialize();
+
+    QList<CertRec> ca_cert_list_;
+    QList<CRLPolicyRec> crl_policy_list_;
 ;
 };
 

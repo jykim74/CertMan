@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>498</width>
-    <height>391</height>
+    <width>511</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,13 +29,13 @@
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+    <widget class="QDateTimeEdit" name="mRevokeDateTime"/>
    </item>
    <item row="4" column="1" colspan="3">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="mPolicyNameCombo"/>
    </item>
    <item row="2" column="3">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="mOptionText"/>
    </item>
    <item row="10" column="3">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -54,9 +54,6 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="lineEdit"/>
-   </item>
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
@@ -65,17 +62,17 @@
     </widget>
    </item>
    <item row="7" column="3">
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="mRevokeAddBtn">
      <property name="text">
       <string>Add</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="mAlgorithmText"/>
    </item>
    <item row="8" column="0" colspan="4">
-    <widget class="QTableWidget" name="tableWidget"/>
+    <widget class="QTableWidget" name="mRevokeTable"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
@@ -106,17 +103,17 @@
     </widget>
    </item>
    <item row="6" column="1" colspan="3">
-    <widget class="QComboBox" name="comboBox_2"/>
+    <widget class="QComboBox" name="mCertCombo"/>
    </item>
    <item row="2" column="2">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="mOptionLabel">
      <property name="text">
       <string>Key Param</string>
      </property>
     </widget>
    </item>
    <item row="7" column="2">
-    <widget class="QComboBox" name="comboBox_3"/>
+    <widget class="QComboBox" name="mRevokeReasonCombo"/>
    </item>
    <item row="9" column="0">
     <spacer name="verticalSpacer">
@@ -130,6 +127,9 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="1" column="1" colspan="3">
+    <widget class="QComboBox" name="mIssuerNameCombo"/>
    </item>
   </layout>
  </widget>
