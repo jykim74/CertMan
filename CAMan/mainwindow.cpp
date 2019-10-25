@@ -26,6 +26,10 @@
 #include "db_mgr.h"
 #include "cert_rec.h"
 #include "key_pair_rec.h"
+#include "req_rec.h"
+#include "cert_policy_rec.h"
+#include "crl_policy_rec.h"
+#include "crl_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -506,25 +510,141 @@ void MainWindow::createRightKeyPairList()
 
 void MainWindow::createRightRequestList()
 {
+    right_table_->clear();
 
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("SEQ") ));
+    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("KEY_NUM") ));
+    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("NAME") ));
+    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("DN") ));
+    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("CSR") ));
+    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH") ));
+    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("STATUS") ));
+
+    QList<ReqRec> reqList;
+    db_mgr_->getReqList( reqList );
+
+    for( int i=0; i < reqList.size(); i++ )
+    {
+        ReqRec reqRec = reqList.at(i);
+
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( reqRec.getKeyNum() ) ));
+        right_table_->setItem( i, 2, new QTableWidgetItem( reqRec.getName() ));
+        right_table_->setItem( i, 3, new QTableWidgetItem( reqRec.getDN() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getCSR() ));
+        right_table_->setItem( i, 5, new QTableWidgetItem( reqRec.getHash() ));
+        right_table_->setItem( i, 6, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
+    }
 }
 
 void MainWindow::createRightCertPolicyList()
 {
+    right_table_->clear();
 
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
+    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("NAME")));
+    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("VERSION")));
+    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("NOTBEFORE")));
+    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("NOTAFTER")));
+    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH")));
+    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("DNTEMPLATE")));
+
+    QList<CertPolicyRec> certPolicyList;
+    db_mgr_->getCertPolicyList( certPolicyList );
+
+    for( int i=0; i < certPolicyList.size(); i++ )
+    {
+        CertPolicyRec certPolicy = certPolicyList.at(i);
+
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certPolicy.getNum()) ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( certPolicy.getName() ));
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg(certPolicy.getVersion() )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(certPolicy.getNotBefore() )));
+        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg(certPolicy.getNotAfter() )));
+        right_table_->setItem( i, 5, new QTableWidgetItem( certPolicy.getHash() ));
+        right_table_->setItem( i, 6, new QTableWidgetItem( certPolicy.getDNTemplate() ));
+    }
 }
 
 void MainWindow::createRightCRLPolicyList()
 {
+    right_table_->clear();
 
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
+    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("NAME")));
+    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("VERSION")));
+    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("THISUPDATE")));
+    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("NEXTUPDATE")));
+    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH")));
+
+    QList<CRLPolicyRec> crlPolicyList;
+    db_mgr_->getCRLPolicyList( crlPolicyList );
+
+    for( int i=0; i < crlPolicyList.size(); i++ )
+    {
+        CRLPolicyRec crlPolicy = crlPolicyList.at(i);
+
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNum() )) );
+        right_table_->setItem( i, 1, new QTableWidgetItem( crlPolicy.getName()) );
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg(crlPolicy.getVersion() )) );
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(crlPolicy.getThisUpdate())) );
+        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNextUpdate())) );
+        right_table_->setItem( i, 5, new QTableWidgetItem( crlPolicy.getHash()) );
+    }
 }
 
-void MainWindow::createCertList()
+void MainWindow::createCertList( int nIssuerNum )
 {
+    right_table_->clear();
 
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM") ));
+    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("KEYNUM") ));
+    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("SIGNALG") ));
+    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("CERT") ));
+    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("ISSELF") ));
+    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("ISCA") ));
+    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("ISSUERNUM") ));
+    right_table_->setHorizontalHeaderItem( 7, new QTableWidgetItem(QString("SUBJECTDN") ));
+    right_table_->setHorizontalHeaderItem( 8, new QTableWidgetItem(QString("STATUS") ));
+
+    QList<CertRec> certList;
+    db_mgr_->getCertList( nIssuerNum, certList );
+
+    for( int i=0; i < certList.size(); i++ )
+    {
+        CertRec cert = certList.at(i);
+
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
+        right_table_->setItem( i, 2, new QTableWidgetItem( cert.getSignAlg() ));
+        right_table_->setItem( i, 3, new QTableWidgetItem( cert.getCert() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( cert.isSelf())));
+        right_table_->setItem( i, 5, new QTableWidgetItem( QString("%1").arg( cert.isCA() )));
+        right_table_->setItem( i, 6, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
+        right_table_->setItem( i, 7, new QTableWidgetItem( cert.getSubjectDN() ));
+        right_table_->setItem( i, 8, new QTableWidgetItem( QString("%1").arg( cert.getStatus() )));
+    }
 }
 
-void MainWindow::createCRLList()
+void MainWindow::createCRLList( int nIssuerNum )
 {
+    right_table_->clear();
 
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("ISSUERNUM")));
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("SIGNALG")));
+    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("CRL")));
+
+    QList<CRLRec> crlList;
+    db_mgr_->getCRLList( nIssuerNum, crlList );
+
+    for( int i=0; i < crlList.size(); i++ )
+    {
+        CRLRec crl = crlList.at(i);
+
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crl.getNum() )));
+        right_table_->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
+        right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
+        right_table_->setItem( i, 3, new QTableWidgetItem( crl.getCRL() ));
+    }
 }
