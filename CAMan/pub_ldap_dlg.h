@@ -16,8 +16,16 @@ public:
     explicit PubLDAPDlg(QWidget *parent = nullptr);
     ~PubLDAPDlg();
 
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
+    void dataTypeChanged(int index);
+
+
 private:
-;
+    void initUI();
+    void initialize();
+
 };
 
 #endif // PUB_LDAP_DLG_H

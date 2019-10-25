@@ -16,6 +16,15 @@ public:
     explicit GetLDAPDlg(QWidget *parent = nullptr);
     ~GetLDAPDlg();
 
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
+
+
+private:
+    void initUI();
+    void initialize();
+
 private:
 
 };

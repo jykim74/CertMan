@@ -16,6 +16,16 @@ public:
     explicit ExportDlg(QWidget *parent = nullptr);
     ~ExportDlg();
 
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
+
+    void clickFind();
+
+private:
+    void initUI();
+    void initialize();
+
 private:
 
 };
