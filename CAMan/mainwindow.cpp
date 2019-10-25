@@ -482,6 +482,10 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCertPolicyList();
     else if( nType == CM_ITEM_TYPE_CRL_POLICY )
         createRightCRLPolicyList();
+    else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
+        createRightCertList( -2 );
+    else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
+        createRightCRLList( -2 );
 }
 
 void MainWindow::createRightKeyPairList()
@@ -593,7 +597,7 @@ void MainWindow::createRightCRLPolicyList()
     }
 }
 
-void MainWindow::createCertList( int nIssuerNum )
+void MainWindow::createRightCertList( int nIssuerNum )
 {
     right_table_->clear();
 
@@ -626,7 +630,7 @@ void MainWindow::createCertList( int nIssuerNum )
     }
 }
 
-void MainWindow::createCRLList( int nIssuerNum )
+void MainWindow::createRightCRLList( int nIssuerNum )
 {
     right_table_->clear();
 

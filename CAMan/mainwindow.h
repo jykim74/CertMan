@@ -35,8 +35,8 @@ public:
     void createRightRequestList();
     void createRightCertPolicyList();
     void createRightCRLPolicyList();
-    void createCertList( int nIssuerNum );
-    void createCRLList(int nIssuerNum);
+    void createRightCertList( int nIssuerNum );
+    void createRightCRLList(int nIssuerNum);
 
     DBMgr* dbMgr() { return db_mgr_; };
 
