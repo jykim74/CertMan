@@ -15,9 +15,17 @@ class RevokeCertDlg : public QDialog, public Ui::RevokeCertDlg
 public:
     explicit RevokeCertDlg(QWidget *parent = nullptr);
     ~RevokeCertDlg();
+    void setCertNum( int cert_num );
+
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
 
 private:
+    void initUI();
+    void initialize();
 
+    int cert_num_;
 };
 
 #endif // REVOKE_CERT_DLG_H

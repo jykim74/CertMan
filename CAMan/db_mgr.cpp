@@ -82,6 +82,19 @@ int DBMgr::getCACertList( QList<CertRec>& certList )
     return _getCertList( strSQL, certList );
 }
 
+int DBMgr::getCertRec( int nNum, CertRec cert )
+{
+    QList<CertRec> certList;
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE NUM = %1").arg( nNum );
+
+    _getCertList( strSQL, certList );
+    if( certList.size() <= 0 ) return -1;
+
+    cert = certList.at(0);
+    return 0;
+}
+
 int DBMgr::getCertList( int nIssuerNum, QList<CertRec>& certList )
 {
     QString strSQL = "";
@@ -472,6 +485,18 @@ int DBMgr::modReqStatus( int nSeq, int nStatus )
     return 0;
 }
 
+int DBMgr::modCertStatus( int nNum, int nStatus )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_CERT SET STATUS = ? WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( 0, nStatus );
+    sqlQuery.bindValue( 1, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::addCRLRec( CRLRec& crlRec )
 {
     QSqlQuery sqlQuery;
@@ -535,6 +560,24 @@ int DBMgr::addCertPolicyExtension( PolicyExtRec& policyExtension )
     sqlQuery.bindValue( 1, policyExtension.isCritical() );
     sqlQuery.bindValue( 2, policyExtension.getSN() );
     sqlQuery.bindValue( 3, policyExtension.getValue() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+
+int DBMgr::addRevokeRec( RevokeRec& revokeRec )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_REVOKED "
+                      "( SEQ, CERTNUM, ISSUERNUM, SERIAL, REVOKEDDATE, REASON ) "
+                      "VALUES( null, ?, ?, ?, ?, ?);" );
+
+    sqlQuery.bindValue( 0, revokeRec.getCertNum() );
+    sqlQuery.bindValue( 1, revokeRec.getIssuerNum() );
+    sqlQuery.bindValue( 2, revokeRec.getSerial() );
+    sqlQuery.bindValue( 3, revokeRec.getRevokeDate() );
+    sqlQuery.bindValue( 4, revokeRec.getReason() );
 
     sqlQuery.exec();
     return 0;

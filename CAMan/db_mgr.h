@@ -20,6 +20,7 @@ public:
     int open( const QString dbPath );
     void close();
 
+    int getCertRec( int nNum, CertRec cert );
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
     int getCACertList( QList<CertRec>& certList );
 
@@ -38,8 +39,10 @@ public:
     int addCRLRec( CRLRec& crlRec );
     int addCertPolicyRec( CertPolicyRec& certPolicyRec );
     int addCertPolicyExtension( PolicyExtRec& policyExtension );
+    int addRevokeRec( RevokeRec& revokeRec );
 
     int modReqStatus( int nSeq, int nStatus );
+    int modCertStatus( int nNum, int nStatus );
 
     int getSeq( QString strTable );
     int getCertPolicyNextNum();
