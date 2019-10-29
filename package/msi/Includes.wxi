@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include Id="CAManInclude">
+  <?define CurrentBerViewerVersion="0.9.1" ?>
+
+  <!-- BerViewer Product Guid  -->
+  <?define ProductGuid="AC80483F-C23F-4BD8-806D-C8A907D777A0" ?> <!-- Version 0.9.1 -->
+
+  <?define CurrentUpdateGuid="AC80483F-C23F-4BD8-806D-C8A907D777AF" ?>
+  <?define GuidOfCustomComponent="AC80483F-C23F-4BD8-806D-C8A907D77700" ?>
+  <?define GuidOfAutoStartComponent="AC80483F-C23F-4BD8-806D-C8A907D77701" ?>
+  <?define GuidOfStartMenuShortCutComponent="AC80483F-C23F-4BD8-806D-C8A907D77702" ?>
+</Include>

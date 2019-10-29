@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+	<?include Includes.wxi?>
+	<Product Id="$(var.ProductGuid)"
+			Name='!(loc.AppName) $(var.CurrentBerViewerVersion)'
+			Language='1033'
+			Version='$(var.CurrentCAManVersion)'
+			Manufacturer='!(loc.Manufacturer)'
+			UpgradeCode="$(var.CurrentUpdateGuid)" >
+
+		<!-- We set InstallScope to perMachine to install for all users -->
+		<Package Description='!(loc.PackageDescription)' Comments='!(loc.PackageComments)'
+				Manufacturer='!(loc.Manufacturer)'
+				InstallerVersion='200'
+				InstallPrivileges='elevated' InstallScope='perMachine'
+				Compressed='yes' />
+
+		<!-- http://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/configure_arp_appearance.html -->
+		<Icon Id="icon.ico" SourceFile="caman.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+		<!-- Don't allow downgrade. -->
+		<MajorUpgrade DowngradeErrorMessage='!(loc.DowngradeErrorMessage)' />
+
+		<Property Id="SUPPRESS_LAUNCH_BERVIEWER_AFTER_INSTALL_FINISH">
+			<RegistrySearch Id="SuppressLaunchCAManHKCU"
+							Root="HKCU"
+							Key="SOFTWARE\!(loc.AppName)"
+							Name="PreconfigureSuppressLaunchAfterInstall"
+							Type="raw" />
+
+			<RegistrySearch Id="SuppressLaunchCAManHKLM"
+							Root="HKLM"
+							Key="SOFTWARE\!(loc.AppName)"
+							Name="PreconfigureSuppressLaunchAfterInstall"
+							Type="raw" />
+		</Property>
+
+		<Media Id='1' Cabinet='caman.cab' EmbedCab='yes' />
+	
+		<Directory Id='TARGETDIR' Name='SourceDir'>
+			<Directory Id='DesktopFolder' Name="DesktopFolder" />
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="CAManStartMenuFolder" Name='!(loc.AppName)' />
+			</Directory>
+
+			<Directory Id='ProgramFilesFolder' Name='PFiles'>
+				<Directory Id='INSTALLDIR' Name='!(loc.AppName)'>
+					<Directory Id='bin' Name='bin'>
+					</Directory>
+				</Directory>
+			</Directory>
+		</Directory>
+
+		<Property Id="BERVIEWER_AUTO_START">1</Property>
+
+		<!-- Auto-start via REgistry -->
+		<DirectoryRef Id="INSTALLDIR">
+			<Component Id="CAManAutoStart" Guid="$(var.GuidOfAutoStartComponent)">
+				<RegistryKey Root="HKCU"
+							Key="Software\Microsoft\Windows\CurrentVersion\Run"
+							Action="create">
+					<RegistryValue Name='!(loc.AppName)' Value="[#caman.exe]" Type="string" KeyPath="yes" />
+				</RegistryKey>
+
+				<Condition>HSMMAN_AUTO_START</Condition>
+			</Component>
+		</DirectoryRef>
+
+		<DirectoryRef Id="CAManStartMenuFolder">
+			<Component Id="CAMan_StartMenuShortCut" Guid="$(var.GuidOfStartMenuShortCutComponent)" >
+				<RemoveFolder Id="CAManStartMenuFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
+						Name="Installed" Type="integer" Value="1" KeyPath='yes' />
+
+				<!-- shortcut to 'start caman' -->
+				<Shortcut Id="ApplicationStartMenuShortCut" Directory="CAManStartMenuFolder"
+							Name="!(loc.StartCAMan)" Target="[#caman.exe]"
+							Hotkey="0" IconIndex="0" Show="normal"
+							WorkingDirectory="bin" />
+
+				<!-- shortcut to 'Uninstall' -->
+				<Shortcut Id="UninstallProduct" Name="!(loc.UninstallCAMan)"
+							Target="[SystemFolder]msiexec.exe" IconIndex="0"
+							Arguments="/x [ProductCode]" Description="!(loc.UninstallCAMan)" />
+			</Component>
+		</DirectoryRef>
+
+		<!-- UI related -->
+		<Property Id='WIXUI_INSTALLDIR' Value="INSTALLDIR" />
+		<UI>
+			<UIRef Id='WixUI_InstallDir_NoLicense' />
+			<UIRef Id='WixUI_ErrorProgressText' />
+			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
+				<!-- Launch CAMan after setup. -->
+				(NOT Installed) AND (NOT SUPPRESS_LAUNCH_BERVIEWER_AFTER_INSTALL_FINISH)
+			</Publish>
+		</UI>
+
+		<Property Id="WixShellExecTarget" Value="[#caman.exe]" />
+		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+		<Feature Id='Main' Level='1'>
+			<ComponentRef Id='CAMan_StartMenuShortCut' />
+			<ComponentRef Id='CAManAutoStart' />
+			<!-- defined in fragment.wxs -->
+			<ComponentGroupRef Id='group_bin' />
+		</Feature>
+
+		<Property Id="CHECKBOX_DEL_BERVIEWER_DATA" Secure="yes" />
+		<WixVariable Id="WixUIBannerBmp" Value="caman-top-banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="caman-background.bmp" />
+
+	</Product>
+</Wix>
