@@ -26,6 +26,7 @@ void SettingsDlg::updateSettings()
 {
     SettingsMgr *mgr = manApplet->settingsMgr();
 
+    mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -64,6 +65,9 @@ void SettingsDlg::showEvent(QShowEvent *event)
     SettingsMgr *mgr = manApplet->settingsMgr();
 
     Qt::CheckState state;
+
+    state = mgr->saveDBPath() ? Qt::Checked : Qt::Unchecked;
+    mSaveDBPathCheck->setCheckState(state);
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {

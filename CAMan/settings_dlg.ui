@@ -32,6 +32,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="mSaveDBPathCheck">
+         <property name="text">
+          <string>Save db path</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>

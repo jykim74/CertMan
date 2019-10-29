@@ -265,13 +265,25 @@ void MainWindow::newFile()
 
 void MainWindow::open()
 {
+    bool bSavePath = manApplet->settingsMgr()->saveDBPath();
+    QString strPath = QDir::currentPath();
+
+    if( bSavePath )
+    {
+        QSettings settings;
+        settings.beginGroup("mainwindow");
+        strPath = settings.value( "dbPath", "" ).toString();
+        settings.endGroup();
+    }
+
+
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("QFileDialog::getOpenFileName()"),
-                                                     "./",
+                                                     tr("Open CAMan db file"),
+                                                     strPath,
                                                      tr("DB Files (*.db);;All Files (*)"),
                                                      &selectedFilter,
                                                      options );
@@ -285,6 +297,16 @@ void MainWindow::open()
         return;
     }
 
+    if( bSavePath )
+    {
+        QFileInfo fileInfo( fileName );
+        QString strDir = fileInfo.dir().path();
+
+        QSettings settings;
+        settings.beginGroup("mainwindow");
+        settings.setValue( "dbPath", strDir );
+        settings.endGroup();
+    }
     createTreeMenu();
 }
 
