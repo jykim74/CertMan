@@ -49,6 +49,7 @@ void SettingsDlg::updateSettings()
 void SettingsDlg::accept()
 {
     updateSettings();
+    QDialog::accept();
 }
 
 
