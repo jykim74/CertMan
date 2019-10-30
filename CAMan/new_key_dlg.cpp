@@ -101,6 +101,8 @@ end:
     JS_BIN_reset(&binPub2);
     if( pPriHex ) JS_free( pPriHex );
     if( pPubHex ) JS_free( pPubHex );
+
+    if( ret == 0 ) QDialog::accept();
 }
 
 void NewKeyDlg::mechChanged(int index )

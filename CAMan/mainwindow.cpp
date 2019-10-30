@@ -1,4 +1,5 @@
 #include <QFileDialog>
+#include <QtWidgets>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -512,9 +513,14 @@ void MainWindow::menuClick(QModelIndex index )
 
 void MainWindow::createRightKeyPairList()
 {
-    QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Status" };
+    QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
 
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(7);
     right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
 
     QList<KeyPairRec> keyPairList;
     db_mgr_->getKeyPairList( keyPairList );
@@ -529,7 +535,8 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getName()));
         right_table_->setItem(i, 3, new QTableWidgetItem( keyPairRec.getPublicKey()));
         right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPrivateKey()));
-        right_table_->setItem(i, 5, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
+        right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getParam()));
+        right_table_->setItem(i, 6, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
     }
 }
 

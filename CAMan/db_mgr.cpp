@@ -219,9 +219,16 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     query.bindValue(1, keyPair.getName() );
     query.bindValue(2, keyPair.getPublicKey() );
     query.bindValue(3, keyPair.getPrivateKey() );
-    query.bindValue(4, keyPair.getStatus() );
+    query.bindValue(4, keyPair.getParam() );
+    query.bindValue(5, keyPair.getStatus() );
 
-    query.exec();
+    bool res = query.exec();
+
+    if( res == false )
+    {
+        qDebug() << query.lastError();
+        return -1;
+    }
 
     return 0;
 }
