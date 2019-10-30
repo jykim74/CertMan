@@ -96,6 +96,8 @@ end :
     JS_BIN_reset( &binPri );
     JS_BIN_reset( &binCSR );
     if( pHexCSR ) JS_free( pHexCSR );
+
+    if( ret == 0 ) QDialog::accept();
 }
 
 void MakeReqDlg::keyNameChanged(int index)

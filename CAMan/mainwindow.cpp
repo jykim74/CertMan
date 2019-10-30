@@ -543,15 +543,14 @@ void MainWindow::createRightKeyPairList()
 
 void MainWindow::createRightRequestList()
 {
-    right_table_->clear();
+    QStringList headerList = { "Seq", "KeyNum", "Name", "DN", "CSR", "Hash", "Status" };
 
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("SEQ") ));
-    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("KEY_NUM") ));
-    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("NAME") ));
-    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("DN") ));
-    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("CSR") ));
-    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH") ));
-    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("STATUS") ));
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(7);
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
 
     QList<ReqRec> reqList;
     db_mgr_->getReqList( reqList );
@@ -560,6 +559,7 @@ void MainWindow::createRightRequestList()
     {
         ReqRec reqRec = reqList.at(i);
 
+        right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( reqRec.getKeyNum() ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( reqRec.getName() ));
@@ -572,15 +572,14 @@ void MainWindow::createRightRequestList()
 
 void MainWindow::createRightCertPolicyList()
 {
-    right_table_->clear();
+    QStringList headerList = { "Num", "Name", "Version", "NotBerfoer", "NotAfter", "Hash", "DNTemplate" };
 
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
-    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("NAME")));
-    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("VERSION")));
-    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("NOTBEFORE")));
-    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("NOTAFTER")));
-    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH")));
-    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("DNTEMPLATE")));
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(7);
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
 
     QList<CertPolicyRec> certPolicyList;
     db_mgr_->getCertPolicyList( certPolicyList );
@@ -589,6 +588,7 @@ void MainWindow::createRightCertPolicyList()
     {
         CertPolicyRec certPolicy = certPolicyList.at(i);
 
+        right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certPolicy.getNum()) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( certPolicy.getName() ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg(certPolicy.getVersion() )));
@@ -601,14 +601,14 @@ void MainWindow::createRightCertPolicyList()
 
 void MainWindow::createRightCRLPolicyList()
 {
+    QStringList headerList = { "Num", "Name", "Version", "ThisUpdate", "NextUpdate", "Hash" };
     right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
-    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("NAME")));
-    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("VERSION")));
-    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("THISUPDATE")));
-    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("NEXTUPDATE")));
-    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("HASH")));
+    right_table_->setColumnCount(6);
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
+
 
     QList<CRLPolicyRec> crlPolicyList;
     db_mgr_->getCRLPolicyList( crlPolicyList );
@@ -617,6 +617,7 @@ void MainWindow::createRightCRLPolicyList()
     {
         CRLPolicyRec crlPolicy = crlPolicyList.at(i);
 
+        right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNum() )) );
         right_table_->setItem( i, 1, new QTableWidgetItem( crlPolicy.getName()) );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg(crlPolicy.getVersion() )) );
@@ -628,17 +629,15 @@ void MainWindow::createRightCRLPolicyList()
 
 void MainWindow::createRightCertList( int nIssuerNum )
 {
-    right_table_->clear();
+    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
 
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM") ));
-    right_table_->setHorizontalHeaderItem( 1, new QTableWidgetItem(QString("KEYNUM") ));
-    right_table_->setHorizontalHeaderItem( 2, new QTableWidgetItem(QString("SIGNALG") ));
-    right_table_->setHorizontalHeaderItem( 3, new QTableWidgetItem(QString("CERT") ));
-    right_table_->setHorizontalHeaderItem( 4, new QTableWidgetItem(QString("ISSELF") ));
-    right_table_->setHorizontalHeaderItem( 5, new QTableWidgetItem(QString("ISCA") ));
-    right_table_->setHorizontalHeaderItem( 6, new QTableWidgetItem(QString("ISSUERNUM") ));
-    right_table_->setHorizontalHeaderItem( 7, new QTableWidgetItem(QString("SUBJECTDN") ));
-    right_table_->setHorizontalHeaderItem( 8, new QTableWidgetItem(QString("STATUS") ));
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(9);
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
+
 
     QList<CertRec> certList;
     db_mgr_->getCertList( nIssuerNum, certList );
@@ -647,6 +646,7 @@ void MainWindow::createRightCertList( int nIssuerNum )
     {
         CertRec cert = certList.at(i);
 
+        right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
         right_table_->setItem( i, 2, new QTableWidgetItem( cert.getSignAlg() ));
@@ -661,12 +661,13 @@ void MainWindow::createRightCertList( int nIssuerNum )
 
 void MainWindow::createRightCRLList( int nIssuerNum )
 {
+    QStringList headerList = { "Num", "IssuerNum", "SignAlg", "CRL" };
     right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("NUM")));
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("ISSUERNUM")));
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("SIGNALG")));
-    right_table_->setHorizontalHeaderItem( 0, new QTableWidgetItem(QString("CRL")));
+    right_table_->setColumnCount(4);
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
 
     QList<CRLRec> crlList;
     db_mgr_->getCRLList( nIssuerNum, crlList );
@@ -675,6 +676,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     {
         CRLRec crl = crlList.at(i);
 
+        right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crl.getNum() )));
         right_table_->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
         right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
