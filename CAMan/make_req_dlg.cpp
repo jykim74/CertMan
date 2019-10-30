@@ -84,7 +84,8 @@ void MakeReqDlg::accept()
 
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
-    reqRec.setCSR( pHexCSR );
+    reqRec.setName( strName );
+    reqRec.setCSR( QString(pHexCSR) );
     reqRec.setDN( strDN );
     reqRec.setHash( mHashCombo->currentText() );
     reqRec.setKeyNum( keyRec.getNum() );

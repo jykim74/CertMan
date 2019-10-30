@@ -104,6 +104,7 @@ void MakeCertDlg::accept()
     /* need to work more */
 
 
+    QDialog::accept();
 }
 
 void MakeCertDlg::reqChanged( int index )

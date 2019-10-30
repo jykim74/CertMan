@@ -74,6 +74,7 @@ private slots:
     void settings();
 
     void menuClick( QModelIndex index );
+    void tableClick( QModelIndex index );
 
 private:
 //    Ui::MainWindow *ui;

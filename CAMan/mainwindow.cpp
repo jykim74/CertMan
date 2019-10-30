@@ -85,6 +85,7 @@ void MainWindow::initialize()
     setCentralWidget(hsplitter_);
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(menuClick(QModelIndex)));
+    connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
 }
 
 
@@ -509,6 +510,18 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCertList( -2 );
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
         createRightCRLList( -2 );
+}
+
+void MainWindow::tableClick(QModelIndex index )
+{
+    int row = index.row();
+    int col = index.column();
+
+    QString strVal;
+
+    strVal = QString( "row: %1 column %2").arg(row).arg(col);
+
+    right_text_->setText( strVal );
 }
 
 void MainWindow::createRightKeyPairList()
