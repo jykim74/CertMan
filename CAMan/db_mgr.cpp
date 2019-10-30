@@ -602,6 +602,22 @@ int DBMgr::addCertPolicyExtension( PolicyExtRec& policyExtension )
     return 0;
 }
 
+int DBMgr::addCRLPolicyExtension( PolicyExtRec& policyExtension )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY_EXTENSION "
+                      "( SEQ, POLICYNUM, CRITICAL, SN, VALUE ) "
+                      "VALUES( null, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( 0, policyExtension.getPolicyNum() );
+    sqlQuery.bindValue( 1, policyExtension.isCritical() );
+    sqlQuery.bindValue( 2, policyExtension.getSN() );
+    sqlQuery.bindValue( 3, policyExtension.getValue() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 
 int DBMgr::addRevokeRec( RevokeRec& revokeRec )
 {

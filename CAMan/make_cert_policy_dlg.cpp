@@ -540,6 +540,16 @@ void MakeCertPolicyDlg::setAKIUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "authorityKeyIdentifier" );
+    policyExt.setCritical( mAKICriticalCheck->isChecked() );
+
+    QString strVal;
+
+    if( mAKICertIssuerCheck->isChecked() ) strVal += "ISSUER#";
+    if( mAKICertSerialCheck->isChecked() ) strVal += "SERIAL#";
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }
 
 void MakeCertPolicyDlg::setBCUse(int nPolicyNum )
@@ -633,6 +643,27 @@ void MakeCertPolicyDlg::setIANUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "issuerAltName" );
+    policyExt.setCritical( mIANCriticalCheck->isChecked() );
+
+    QString strVal;
+
+    for( int i=0; i < mIANTable->rowCount(); i++ )
+    {
+        QString strType;
+        QString strData;
+
+        strType = mIANTable->takeItem( i, 0)->text();
+        strData = mIANTable->takeItem( i, 1)->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strType;
+        strVal += "$";
+        strVal += strData;
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }
 
 void MakeCertPolicyDlg::setKeyUsageUse(int nPolicyNum )
@@ -666,6 +697,39 @@ void MakeCertPolicyDlg::setNCUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "nameConstraints" );
+    policyExt.setCritical( mNCCriticalCheck->isChecked() );
+
+    QString strVal = "";
+
+    for( int i=0; i < mNCTable->rowCount(); i++ )
+    {
+        QString strType;
+        QString strKind;
+        QString strData;
+        QString strMin;
+        QString strMax;
+
+        strType = mNCTable->takeItem( i, 0 )->text();
+        strKind = mNCTable->takeItem(i, 1)->text();
+        strData = mNCTable->takeItem(i, 2)->text();
+        strMin = mNCTable->takeItem(i,3)->text();
+        strMax = mNCTable->takeItem(i,4)->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strType;
+        strVal += "$";
+        strVal += strKind;
+        strVal += "$";
+        strVal += strData;
+        strVal += "$";
+        strVal += strMin;
+        strVal += "$";
+        strVal += strMax;
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }
 
 void MakeCertPolicyDlg::setPolicyUse(int nPolicyNum )
@@ -676,6 +740,26 @@ void MakeCertPolicyDlg::setPolicyUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "certificatePolicies" );
+    policyExt.setCritical( mPolicyCriticalCheck->isChecked() );
+
+    QString strVal;
+
+    for( int i=0; i < mPolicyTable->rowCount(); i++ )
+    {
+        if( i != 0 ) strVal += "#";
+
+        strVal += "OID$";
+        strVal += mPolicyTable->takeItem(i,0)->text();
+        strVal += "#CPS$";
+        strVal += mPolicyTable->takeItem(i,1)->text();
+        strVal += "#UserNotice$";
+        strVal += mPolicyTable->takeItem(i,2)->text();
+        strVal += "#";
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }
 
 void MakeCertPolicyDlg::setPCUse(int nPolicyNum )
@@ -717,6 +801,27 @@ void MakeCertPolicyDlg::setPMUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "policyMappings" );
+    policyExt.setCritical( mPMCriticalCheck->isChecked() );
+
+    QString strVal;
+
+    for( int i=0; mPMTable->rowCount(); i++ )
+    {
+        QString strIDP;
+        QString strSDP;
+
+        strIDP = mPMTable->takeItem(i, 1)->text();
+        strSDP = mPMTable->takeItem(i, 3)->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strIDP;
+        strVal += "$";
+        strVal += strSDP;
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }
 
 void MakeCertPolicyDlg::setSKIUse(int nPolicyNum )
@@ -727,6 +832,10 @@ void MakeCertPolicyDlg::setSKIUse(int nPolicyNum )
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "subjectKeyIdentifier" );
+    policyExt.setCritical( mSKICriticalCheck->isChecked() );
+
+    dbMgr->addCertPolicyExtension(policyExt);
 }
 
 void MakeCertPolicyDlg::setSANUse(int nPolicyNum)
@@ -737,4 +846,24 @@ void MakeCertPolicyDlg::setSANUse(int nPolicyNum)
     PolicyExtRec policyExt;
 
     policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "subjectAltName" );
+    policyExt.setCritical( mSANCriticalCheck->isChecked() );
+
+    QString strVal = "";
+    for( int i=0; mSANTable->rowCount(); i++ )
+    {
+        QString strType;
+        QString strData;
+
+        strType = mSANTable->takeItem( i, 0 )->text();
+        strData = mSANTable->takeItem( i, 1 )->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strType;
+        strVal += "$";
+        strVal += strData;
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCertPolicyExtension( policyExt );
 }

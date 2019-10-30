@@ -193,20 +193,108 @@ void MakeCRLPolicyDlg::addIAN()
 
 void MakeCRLPolicyDlg::setCRLNumUse( int nPolicyNum )
 {
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
 
+    PolicyExtRec policyExt;
+
+    policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "crlNumber" );
+    policyExt.setCritical( mCRLNumCriticalCheck->isChecked() );
+
+    QString strVal;
+
+    if( mCRLNumAutoCheck->isChecked() )
+        strVal = "auto";
+    else {
+        strVal = mCRLNumText->text();
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCRLPolicyExtension( policyExt );
 }
 
 void MakeCRLPolicyDlg::setAKIUse( int nPolicyNum )
 {
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
 
+    PolicyExtRec policyExt;
+
+    policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "authorityKeyIdentifier" );
+    policyExt.setCritical( mAKICriticalCheck->isChecked() );
+
+    QString strVal;
+
+    if( mAKICertIssuerCheck->isChecked() )
+        strVal += "ISSUER#";
+
+    if( mAKICertSerialCheck->isChecked() )
+        strVal += "SERIAL#";
+
+    policyExt.setValue( strVal );
+    dbMgr->addCRLPolicyExtension(policyExt);
 }
 
 void MakeCRLPolicyDlg::setDPNUse( int nPolicyNum )
 {
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
 
+    PolicyExtRec policyExt;
+
+    policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "issuingDistributionPoint" );
+    policyExt.setCritical( mDPNCriticalCheck->isChecked() );
+
+    QString strVal;
+
+    for( int i = 0; i < mDPNTable->rowCount(); i++ )
+    {
+        QString strType;
+        QString strData;
+
+        strType = mDPNTable->takeItem(i,0)->text();
+        strData = mDPNTable->takeItem(i,1)->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strType;
+        strVal += "$";
+        strVal += strData;
+    }
+
+    policyExt.setValue(strVal);
+    dbMgr->addCRLPolicyExtension(policyExt);
 }
 
 void MakeCRLPolicyDlg::setIANUse( int nPolicyNum )
 {
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
 
+    PolicyExtRec policyExt;
+
+    policyExt.setPolicyNum(nPolicyNum);
+    policyExt.setSN( "issuerAltName" );
+    policyExt.setCritical( mIANCriticalCheck->isChecked() );
+
+    QString strVal = "";
+
+    for( int i=0; i < mIANTable->rowCount(); i++ )
+    {
+        QString strType;
+        QString strData;
+
+        strType = mIANTable->takeItem(i,0)->text();
+        strData = mIANTable->takeItem(i,1)->text();
+
+        if( i != 0 ) strVal += "#";
+        strVal += strType;
+        strVal += "$";
+        strVal += strData;
+    }
+
+    policyExt.setValue( strVal );
+    dbMgr->addCRLPolicyExtension(policyExt);
 }
