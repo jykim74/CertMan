@@ -54,19 +54,19 @@ private:
     void setExtends();
     void setTableMenus();
 
-    void setAIAUse();
-    void setAKIUse();
-    void setBCUse();
-    void setCRLDPUse();
-    void setEKUUse();
-    void setIANUse();
-    void setKeyUsageUse();
-    void setNCUse();
-    void setPolicyUse();
-    void setPCUse();
-    void setPMUse();
-    void setSKIUse();
-    void setSANUse();
+    void setAIAUse( int nPolicyNum );
+    void setAKIUse(int nPolicyNum );
+    void setBCUse(int nPolicyNum );
+    void setCRLDPUse(int nPolicyNum );
+    void setEKUUse(int nPolicyNum );
+    void setIANUse(int nPolicyNum );
+    void setKeyUsageUse(int nPolicyNum );
+    void setNCUse(int nPolicyNum );
+    void setPolicyUse(int nPolicyNum );
+    void setPCUse(int nPolicyNum );
+    void setPMUse(int nPolicyNum );
+    void setSKIUse(int nPolicyNum );
+    void setSANUse(int nPolicyNum );
 };
 
 #endif // MAKE_CERT_POLICY_DLG_H

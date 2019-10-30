@@ -531,12 +531,49 @@ int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
     return 0;
 }
 
+int DBMgr::addCRLPolicyRec( CRLPolicyRec& crlPolicyRec )
+{
+    QSqlQuery sqlQuery;
+
+    sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY "
+                      "( NUM, NAME, VERSION, THISUPDATE, NEXTUPDATE, HASH ) "
+                      "VALUES( ?, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( 0, crlPolicyRec.getNum() );
+    sqlQuery.bindValue( 1, crlPolicyRec.getName() );
+    sqlQuery.bindValue( 2, crlPolicyRec.getVersion() );
+    sqlQuery.bindValue( 3, QString("%1").arg(crlPolicyRec.getThisUpdate()));
+    sqlQuery.bindValue( 4, QString("%1").arg(crlPolicyRec.getNextUpdate()));
+    sqlQuery.bindValue( 5, crlPolicyRec.getHash());
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::getCertPolicyNextNum()
 {
     int nNextNum = -1;
 
     QString strSQL;
     strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CERT_POLICY" );
+    QSqlQuery query( strSQL );
+
+    while( query.next() )
+    {
+        nNextNum = query.value(0).toInt();
+        break;
+    }
+
+    query.finish();
+    return nNextNum;
+}
+
+int DBMgr::getCRLPolicyNextNum()
+{
+    int nNextNum = -1;
+
+    QString strSQL;
+    strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CRL_POLICY" );
     QSqlQuery query( strSQL );
 
     while( query.next() )

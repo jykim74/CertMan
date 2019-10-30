@@ -34,7 +34,57 @@ void MakeCRLPolicyDlg::showEvent(QShowEvent *event)
 
 void MakeCRLPolicyDlg::accept()
 {
+    CRLPolicyRec crlPolicyRec;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
 
+    if( dbMgr == NULL ) return;
+
+    QString strName = mNameText->text();
+
+    if( strName.isEmpty() )
+    {
+        manApplet->warningBox( tr( "You have to insert name"), this );
+        mNameText->setFocus();
+        return;
+    }
+
+
+    int nPolicyNum = dbMgr->getCRLPolicyNextNum();
+
+    crlPolicyRec.setNum( nPolicyNum );
+    crlPolicyRec.setVersion( mVersionCombo->currentIndex() );
+    crlPolicyRec.setName( strName );
+
+    if( mUseFromNowCheck->isChecked() )
+    {
+        crlPolicyRec.setThisUpdate(0);
+        crlPolicyRec.setNextUpdate(mValidDaysText->text().toLong());
+    }
+    else {
+        QDateTime thisTime;
+        QDateTime nextTime;
+
+        thisTime.setDate( mThisUpdateDateTime->date() );
+        nextTime.setDate( mNextUpdateDateTime->date() );
+
+        crlPolicyRec.setThisUpdate( thisTime.toTime_t() );
+        crlPolicyRec.setNextUpdate( nextTime.toTime_t() );
+    }
+
+    crlPolicyRec.setHash( mHashCombo->currentText() );
+    dbMgr->addCRLPolicyRec( crlPolicyRec );
+
+
+    /* need to set extend fields here */
+
+    if( mCRLNumUseCheck->isChecked() ) setCRLNumUse( nPolicyNum );
+    if( mDPNUseCheck->isChecked() ) setDPNUse( nPolicyNum );
+    if( mAKIUseCheck->isChecked() ) setAKIUse( nPolicyNum );
+    if( mIANUseCheck->isChecked() ) setIANUse( nPolicyNum );
+
+    /* ....... */
+
+    QDialog::accept();
 }
 
 void MakeCRLPolicyDlg::initUI()
@@ -139,4 +189,24 @@ void MakeCRLPolicyDlg::addIAN()
 
     mIANTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+}
+
+void MakeCRLPolicyDlg::setCRLNumUse( int nPolicyNum )
+{
+
+}
+
+void MakeCRLPolicyDlg::setAKIUse( int nPolicyNum )
+{
+
+}
+
+void MakeCRLPolicyDlg::setDPNUse( int nPolicyNum )
+{
+
+}
+
+void MakeCRLPolicyDlg::setIANUse( int nPolicyNum )
+{
+
 }

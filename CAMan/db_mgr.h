@@ -38,6 +38,7 @@ public:
     int addCertRec( CertRec& certRec );
     int addCRLRec( CRLRec& crlRec );
     int addCertPolicyRec( CertPolicyRec& certPolicyRec );
+    int addCRLPolicyRec( CRLPolicyRec& crlPolicyRec );
     int addCertPolicyExtension( PolicyExtRec& policyExtension );
     int addRevokeRec( RevokeRec& revokeRec );
 
@@ -46,6 +47,7 @@ public:
 
     int getSeq( QString strTable );
     int getCertPolicyNextNum();
+    int getCRLPolicyNextNum();
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
+    <width>593</width>
     <height>613</height>
    </rect>
   </property>
@@ -79,7 +79,7 @@
         <widget class="QLineEdit" name="mNameText"/>
        </item>
        <item row="4" column="0" colspan="2">
-        <widget class="QCheckBox" name="mUserFromNowCheck">
+        <widget class="QCheckBox" name="mUseFromNowCheck">
          <property name="text">
           <string>Use from now</string>
          </property>

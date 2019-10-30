@@ -34,6 +34,11 @@ private:
     void connectExtends();
     void setExtends();
     void setTableMenus();
+
+    void setCRLNumUse( int nPolicyNum );
+    void setAKIUse( int nPolicyNum );
+    void setDPNUse( int nPolicyNum );
+    void setIANUse( int nPolicyNum );
 };
 
 #endif // MAKE_CRL_POLICY_DLG_H
