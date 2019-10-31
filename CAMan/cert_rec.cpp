@@ -2,7 +2,15 @@
 
 CertRec::CertRec()
 {
-
+    m_nNum = -1;
+    m_nKeyNum = -1;
+    m_strCert = "";
+    m_strSignAlg = "";
+    m_bSelf = false;
+    m_bCA = false;
+    m_nIssuerNum = -1;
+    m_strSubjectDN = "";
+    m_nStatus = -1;
 }
 
 

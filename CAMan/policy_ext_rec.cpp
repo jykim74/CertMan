@@ -2,7 +2,11 @@
 
 PolicyExtRec::PolicyExtRec()
 {
-
+    m_nSeq = -1;
+    m_nPolicyNum = -1;
+    m_bCritical = false;
+    m_strSN = "";
+    m_strValue = "";
 }
 
 void PolicyExtRec::setSeq( int nSeq )

@@ -3,7 +3,12 @@
 
 CRLPolicyRec::CRLPolicyRec()
 {
-
+    m_nNum = -1;
+    m_nVersion = -1;
+    m_strName = "";
+    m_strHash = "";
+    m_tLastUpdate = -1;
+    m_tNextUpdate = -1;
 }
 
 void CRLPolicyRec::setNum( int nNum )

@@ -186,7 +186,7 @@ void MakeCertDlg::accept()
                         strSerial.toStdString().c_str(),
                         strSignAlg.toStdString().c_str(),
                         NULL,
-                        NULL,
+                        strDN.toStdString().c_str(),
                         notBefore,
                         notAfter,
                         NULL,

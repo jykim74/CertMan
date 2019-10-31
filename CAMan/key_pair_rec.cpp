@@ -2,7 +2,13 @@
 
 KeyPairRec::KeyPairRec()
 {
-
+    m_nNum = -1;
+    m_strAlg = "";
+    m_strName = "";
+    m_strPublicKey = "";
+    m_strPrivateKey = "";
+    m_strParam = "";
+    m_nStatus = -1;
 }
 
 void KeyPairRec::setNum( int nNum )

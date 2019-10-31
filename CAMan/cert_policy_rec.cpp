@@ -2,7 +2,13 @@
 
 CertPolicyRec::CertPolicyRec()
 {
-
+    m_nNum = -1;
+    m_nVersion = -1;
+    m_uNotBefore = -1;
+    m_uNotAfter = -1;
+    m_strName = "";
+    m_strHash = "";
+    m_strDNTemplate = "";
 }
 
 void CertPolicyRec::setNum( int nNum )

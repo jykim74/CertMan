@@ -4,7 +4,9 @@
 
 CRLRec::CRLRec()
 {
-
+    m_nNum = -1;
+    m_nIssuerNum = -1;
+    m_strCRL = "";
 }
 
 void CRLRec::setNum( int nNum )

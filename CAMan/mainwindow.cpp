@@ -506,6 +506,8 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCertPolicyList();
     else if( nType == CM_ITEM_TYPE_CRL_POLICY )
         createRightCRLPolicyList();
+    else if( nType == CM_ITEM_TYPE_ROOTCA )
+        createRightCertList( -1 );
     else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
         createRightCertList( -2 );
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
