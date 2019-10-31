@@ -96,7 +96,7 @@ void MakeCRLDlg::accept()
     /* need to set revoked certificate information */
     /* need to support extensions */
 
-    ret = JS_PKI_makeCRL( &sCRLInfo, &binSignPri, &binSignCert, &binCRL );
+    ret = JS_PKI_makeCRL( &sCRLInfo, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );

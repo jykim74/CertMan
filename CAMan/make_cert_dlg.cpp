@@ -126,6 +126,7 @@ void MakeCertDlg::accept()
     int issuerIdx = mIssuerNameCombo->currentIndex();
 
     int nIssueKeyNum = -1;
+    int nKeyType = -1;
 
     CertPolicyRec policyRec = cert_policy_list_.at( policyIdx );
     ReqRec reqRec = req_list_.at( reqIdx );
@@ -148,6 +149,11 @@ void MakeCertDlg::accept()
 
     strSerial = QString("%1").arg(nSeq);
     QString strSignAlg = getSignAlg( issueKeyPair.getAlg(), policyRec.getHash() );
+    if( issueKeyPair.getAlg() == "RSA" )
+        nKeyType = JS_PKI_KEY_TYPE_RSA;
+    else if( issueKeyPair.getAlg() == "EC" )
+        nKeyType = JS_PKI_KEY_TYPE_ECC;
+
 
     QString strDN;
     if( policyRec.getDNTemplate() == "#CSR" )
@@ -175,6 +181,7 @@ void MakeCertDlg::accept()
     JS_BIN_decodeHex( issueKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
     JS_PKI_setCertInfo( &sCertInfo,
+                        nKeyType,
                         policyRec.getVersion(),
                         strSerial.toStdString().c_str(),
                         strSignAlg.toStdString().c_str(),
@@ -188,7 +195,7 @@ void MakeCertDlg::accept()
     /* need to support extensions start */
     /* need to support extensions end */
 
-    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, &binCSR, &binSignPri, &binSignCert, &binCert );
+    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
