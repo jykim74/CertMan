@@ -249,6 +249,18 @@ void MainWindow::createTreeMenu()
         ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
         pCAItem->setType( CM_ITEM_TYPE_CA );
         pRootCAItem->appendRow( pCAItem );
+
+        ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+        pCAItem->appendRow( pCertItem );
+
+        ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+        pCAItem->appendRow( pCRLItem );
+
+        ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+        pCAItem->appendRow( pRevokeItem );
+
+        ManTreeItem *PSubCAItem = new ManTreeItem( QString("CA"));
+        pCAItem->appendRow( PSubCAItem );
     }
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
