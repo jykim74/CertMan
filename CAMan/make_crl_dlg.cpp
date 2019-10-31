@@ -5,6 +5,12 @@
 #include "crl_policy_rec.h"
 #include "key_pair_rec.h"
 #include "db_mgr.h"
+#include "crl_rec.h"
+
+
+#include "js_pki.h"
+#include "js_pki_x509.h"
+
 
 static QStringList	sRevokeReasonList = {
     "unused", "keyCompromise", "CACompromise",
@@ -40,20 +46,87 @@ void MakeCRLDlg::showEvent(QShowEvent *event)
 
 void MakeCRLDlg::accept()
 {
+    int         ret = 0;
+    JSCRLInfo   sCRLInfo;
+    JSCRLInfo   sMadeCRLInfo;
+
+    BIN         binSignCert = {0,0};
+    BIN         binSignPri = {0,0};
+    BIN         binCRL = {0,0};
+
+    char        *pHexCRL = NULL;
+
+    CRLRec      madeCRLRec;
+
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
     int issuerIdx = mIssuerNameCombo->currentIndex();
     int policyIdx = mPolicyNameCombo->currentIndex();
 
+    long uThisUpdate = -1;
+    long uNextUpdate = -1;
+
     CertRec caCert = ca_cert_list_.at(issuerIdx);
     CRLPolicyRec policy = crl_policy_list_.at(policyIdx);
     KeyPairRec caKeyPair;
 
+    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
+    memset( &sMadeCRLInfo, 0x00, sizeof(sMadeCRLInfo));
+
     dbMgr->getKeyPairRec( caCert.getKeyNum(), caKeyPair );
 
-    /* need to work more */
+    JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
+    JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
+    if( policy.getThisUpdate() <= 0 )
+    {
+        long uValidSecs = policy.getNextUpdate() * 60 * 60 * 24;
+
+        uThisUpdate = 0;
+        uNextUpdate = uValidSecs;
+    }
+    else
+    {
+        time_t now_t = time(NULL);
+        uThisUpdate = policy.getThisUpdate() - now_t;
+        uNextUpdate = policy.getNextUpdate() - now_t;
+    }
+
+    /* need to set revoked certificate information */
+    /* need to support extensions */
+
+    ret = JS_PKI_makeCRL( &sCRLInfo, &binSignPri, &binSignCert, &binCRL );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );
+        goto end;
+    }
+
+    ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr("fail to get CRL information(%1)").arg(ret), this );
+        goto end;
+    }
+
+    JS_BIN_encodeHex( &binCRL, &pHexCRL );
+
+    madeCRLRec.setIssuerNum( caCert.getNum() );
+    madeCRLRec.setSignAlg( caCert.getSignAlg() );
+    madeCRLRec.setCRL( pHexCRL );
+
+    dbMgr->addCRLRec( madeCRLRec );
+
+end :
+    JS_PKI_resetCRLInfo( &sCRLInfo );
+    JS_PKI_resetCRLInfo( &sMadeCRLInfo );
+    JS_BIN_reset( &binSignPri );
+    JS_BIN_reset( &binSignCert );
+    JS_BIN_reset( &binCRL );
+    if( pHexCRL ) JS_free( pHexCRL );
+
+    if( ret == 0 ) QDialog::accept();
 }
 
 void MakeCRLDlg::issuerChanged(int index)
