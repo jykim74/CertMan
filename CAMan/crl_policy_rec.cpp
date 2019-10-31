@@ -26,9 +26,9 @@ void CRLPolicyRec::setHash( QString strHash )
     m_strHash = strHash;
 }
 
-void CRLPolicyRec::setThisUpdate( time_t tThisUpdate )
+void CRLPolicyRec::setLastUpdate( time_t tLastUpdate )
 {
-    m_tThisUpdate = tThisUpdate;
+    m_tLastUpdate = tLastUpdate;
 }
 
 void CRLPolicyRec::setNextUpdate( time_t tNextUpdate )

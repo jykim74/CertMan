@@ -10,7 +10,7 @@ private:
     int             m_nVersion;
     QString         m_strName;
     QString         m_strHash;
-    time_t          m_tThisUpdate;
+    time_t          m_tLastUpdate;
     time_t          m_tNextUpdate;
 
 public:
@@ -20,14 +20,14 @@ public:
     int getVersion() { return m_nVersion; };
     QString getName() { return m_strName; };
     QString getHash() { return m_strHash; };
-    time_t getThisUpdate() { return m_tThisUpdate; };
+    time_t getLastUpdate() { return m_tLastUpdate; };
     time_t getNextUpdate() { return m_tNextUpdate; };
 
     void setNum( int nNum );
     void setVersion( int nVersion );
     void setName( QString strName );
     void setHash( QString strHash );
-    void setThisUpdate( time_t tThisUpdate );
+    void setLastUpdate( time_t tLastUpdate );
     void setNextUpdate( time_t tNextUpdate );
 };
 

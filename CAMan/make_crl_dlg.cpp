@@ -64,7 +64,7 @@ void MakeCRLDlg::accept()
     int issuerIdx = mIssuerNameCombo->currentIndex();
     int policyIdx = mPolicyNameCombo->currentIndex();
 
-    long uThisUpdate = -1;
+    long uLastUpdate = -1;
     long uNextUpdate = -1;
 
     CertRec caCert = ca_cert_list_.at(issuerIdx);
@@ -79,19 +79,27 @@ void MakeCRLDlg::accept()
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
     JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-    if( policy.getThisUpdate() <= 0 )
+    if( policy.getLastUpdate() <= 0 )
     {
         long uValidSecs = policy.getNextUpdate() * 60 * 60 * 24;
 
-        uThisUpdate = 0;
+        uLastUpdate = 0;
         uNextUpdate = uValidSecs;
     }
     else
     {
         time_t now_t = time(NULL);
-        uThisUpdate = policy.getThisUpdate() - now_t;
+        uLastUpdate = policy.getLastUpdate() - now_t;
         uNextUpdate = policy.getNextUpdate() - now_t;
     }
+
+    JS_PKI_setCRLInfo( &sCRLInfo,
+                       policy.getVersion(),
+                       caKeyPair.getAlg().toStdString().c_str(),
+                       caCert.getSubjectDN().toStdString().c_str(),
+                       uLastUpdate,
+                       uNextUpdate,
+                       NULL );
 
     /* need to set revoked certificate information */
     /* need to support extensions */

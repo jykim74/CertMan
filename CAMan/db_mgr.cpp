@@ -356,7 +356,7 @@ int DBMgr::_getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyLi
     int nPosNum = SQL.record().indexOf( "NUM" );
     int nPosName = SQL.record().indexOf( "NAME" );
     int nPosVersion = SQL.record().indexOf( "VERSION" );
-    int nPosThisUpdate = SQL.record().indexOf( "THISUPDATE" );
+    int nPosLastUpdate = SQL.record().indexOf( "LASTUPDATE" );
     int nPosNextUpdate = SQL.record().indexOf( "NEXTUPDATE" );
     int nPosHash = SQL.record().indexOf( "HASH" );
 
@@ -367,7 +367,7 @@ int DBMgr::_getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyLi
         crlPolicy.setNum( SQL.value(nPosNum).toInt() );
         crlPolicy.setName( SQL.value(nPosName).toString() );
         crlPolicy.setVersion( SQL.value(nPosVersion).toInt() );
-        crlPolicy.setThisUpdate( SQL.value(nPosThisUpdate).toInt() );
+        crlPolicy.setLastUpdate( SQL.value(nPosLastUpdate).toInt() );
         crlPolicy.setNextUpdate( SQL.value(nPosNextUpdate).toInt() );
         crlPolicy.setHash( SQL.value(nPosHash).toString() );
 
@@ -543,13 +543,13 @@ int DBMgr::addCRLPolicyRec( CRLPolicyRec& crlPolicyRec )
     QSqlQuery sqlQuery;
 
     sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY "
-                      "( NUM, NAME, VERSION, THISUPDATE, NEXTUPDATE, HASH ) "
+                      "( NUM, NAME, VERSION, LASTUPDATE, NEXTUPDATE, HASH ) "
                       "VALUES( ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, crlPolicyRec.getNum() );
     sqlQuery.bindValue( 1, crlPolicyRec.getName() );
     sqlQuery.bindValue( 2, crlPolicyRec.getVersion() );
-    sqlQuery.bindValue( 3, QString("%1").arg(crlPolicyRec.getThisUpdate()));
+    sqlQuery.bindValue( 3, QString("%1").arg(crlPolicyRec.getLastUpdate()));
     sqlQuery.bindValue( 4, QString("%1").arg(crlPolicyRec.getNextUpdate()));
     sqlQuery.bindValue( 5, crlPolicyRec.getHash());
 

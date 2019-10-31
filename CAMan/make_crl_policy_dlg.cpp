@@ -57,17 +57,17 @@ void MakeCRLPolicyDlg::accept()
 
     if( mUseFromNowCheck->isChecked() )
     {
-        crlPolicyRec.setThisUpdate(0);
+        crlPolicyRec.setLastUpdate(0);
         crlPolicyRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
-        QDateTime thisTime;
+        QDateTime lastTime;
         QDateTime nextTime;
 
-        thisTime.setDate( mThisUpdateDateTime->date() );
+        lastTime.setDate( mLastUpdateDateTime->date() );
         nextTime.setDate( mNextUpdateDateTime->date() );
 
-        crlPolicyRec.setThisUpdate( thisTime.toTime_t() );
+        crlPolicyRec.setLastUpdate( lastTime.toTime_t() );
         crlPolicyRec.setNextUpdate( nextTime.toTime_t() );
     }
 

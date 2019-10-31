@@ -71,7 +71,7 @@
        <item row="5" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>This Update</string>
+          <string>Last Update</string>
          </property>
         </widget>
        </item>
@@ -113,7 +113,7 @@
         <widget class="QComboBox" name="mHashCombo"/>
        </item>
        <item row="5" column="1">
-        <widget class="QDateTimeEdit" name="mThisUpdateDateTime"/>
+        <widget class="QDateTimeEdit" name="mLastUpdateDateTime"/>
        </item>
        <item row="4" column="3" colspan="2">
         <widget class="QLineEdit" name="mValidDaysText"/>

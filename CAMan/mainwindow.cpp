@@ -614,7 +614,7 @@ void MainWindow::createRightCertPolicyList()
 
 void MainWindow::createRightCRLPolicyList()
 {
-    QStringList headerList = { "Num", "Name", "Version", "ThisUpdate", "NextUpdate", "Hash" };
+    QStringList headerList = { "Num", "Name", "Version", "LastUpdate", "NextUpdate", "Hash" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
@@ -634,7 +634,7 @@ void MainWindow::createRightCRLPolicyList()
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNum() )) );
         right_table_->setItem( i, 1, new QTableWidgetItem( crlPolicy.getName()) );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg(crlPolicy.getVersion() )) );
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(crlPolicy.getThisUpdate())) );
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(crlPolicy.getLastUpdate())) );
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNextUpdate())) );
         right_table_->setItem( i, 5, new QTableWidgetItem( crlPolicy.getHash()) );
     }
