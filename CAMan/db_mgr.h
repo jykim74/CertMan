@@ -3,6 +3,15 @@
 
 #include <QtSql/QSqlDatabase>
 
+#include "cert_rec.h"
+#include "cert_policy_rec.h"
+#include "crl_rec.h"
+#include "crl_policy_rec.h"
+#include "key_pair_rec.h"
+#include "policy_ext_rec.h"
+#include "req_rec.h"
+#include "revoke_rec.h"
+
 class CertRec;
 class KeyPairRec;
 class CRLRec;

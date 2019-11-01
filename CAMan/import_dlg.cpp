@@ -52,7 +52,7 @@ void ImportDlg::clickFind()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("QFileDialog::getOpenFileName()"),
+                                                     tr("Import files"),
                                                      "/",
                                                      tr("Cert Files (*.crt);;Key Files (*.key);;All Files (*)"),
                                                      &selectedFilter,

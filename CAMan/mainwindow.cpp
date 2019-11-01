@@ -1079,7 +1079,7 @@ void MainWindow::showRightRevoke( int seq )
     strPart = QString( "CertNum: %1\n").arg( revokeRec.getCertNum() );
     strMsg += strPart;
 
-    strPart = QString( "IssueNum: %1\n").arg( revokeRec.getIssuerNum() );
+    strPart = QString( "IssuerNum: %1\n").arg( revokeRec.getIssuerNum() );
     strMsg += strPart;
 
     strPart = QString( "Serial: %1\n").arg( revokeRec.getSerial() );
