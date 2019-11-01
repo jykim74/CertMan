@@ -166,6 +166,42 @@ int DBMgr::getReqList(QList<ReqRec> &reqList)
     return _getReqList( strQuery, reqList );
 }
 
+int DBMgr::getReqRec( int nNum, ReqRec& reqRec )
+{
+    QList<ReqRec> reqList;
+    QString strQuery = QString( "SELECT * FROM TB_REQ WHERE SEQ = %1" ).arg(nNum);
+
+    _getReqList( strQuery, reqList );
+    if( reqList.size() <= 0 ) return -1;
+
+    reqRec = reqList.at(0);
+    return 0;
+}
+
+int DBMgr::getRevokeRec( int nSeq, RevokeRec& revokeRec )
+{
+    QList<RevokeRec> revokeList;
+    QString strQuery = QString( "SELECT * FROM TB_REVOKED WHERE SEQ = %1").arg(nSeq);
+
+    _getRevokeList( strQuery, revokeList );
+    if( revokeList.size() <= 0 ) return -1;
+
+    revokeRec = revokeList.at(0);
+    return 0;
+}
+
+int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
+{
+    QList<CRLRec> crlList;
+    QString strQuery = QString( "SELECT * FROM TB_CRL WHERE NUM = %1").arg(nNum);
+
+    _getCRLList( strQuery, crlList );
+    if( crlList.size() <= 0 ) return -1;
+
+    crlRec = crlList.at(0);
+    return 0;
+}
+
 int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
 {
     QString strQuery;
@@ -259,6 +295,7 @@ int DBMgr::getCertPolicyList( QList<CertPolicyRec>& certPolicyList )
     return _getCertPolicyList( strSQL, certPolicyList );
 }
 
+
 int DBMgr::getCertPolicyRec( int nNum, CertPolicyRec& certPolicy )
 {
     QString strSQL;
@@ -270,6 +307,21 @@ int DBMgr::getCertPolicyRec( int nNum, CertPolicyRec& certPolicy )
     if( certPolicyList.size() <= 0 ) return -1;
 
     certPolicy = certPolicyList.at(0);
+
+    return 0;
+}
+
+int DBMgr::getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy )
+{
+    QString strSQL;
+    strSQL.sprintf( "SELECT * FROM TB_CRL_POLICY WHERE NUM = %d", nNum );
+
+    QList<CRLPolicyRec> crlPolicyList;
+
+    _getCRLPolicyList( strSQL, crlPolicyList );
+    if( crlPolicyList.size() <= 0 ) return -1;
+
+    crlPolicy = crlPolicyList.at(0);
 
     return 0;
 }
@@ -410,6 +462,19 @@ int DBMgr::_getRevokeList( QString strQuery, QList<RevokeRec>& revokeList )
     return 0;
 }
 
+int DBMgr::getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList )
+{
+    QString strQuery = QString( "SELECT * FROM TB_CERT_POLICY_EXTENSION WHERE POLICYNUM = %1").arg( nPolicyNum );
+
+    return _getPolicyExtensionList( strQuery, policyExtList );
+}
+
+int DBMgr::getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList )
+{
+    QString strQuery = QString( "SELECT * FROM TB_CRL_POLICY_EXTENSION WHERE POLICYNUM = %1").arg( nPolicyNum );
+
+    return _getPolicyExtensionList( strQuery, policyExtList );
+}
 
 int DBMgr::_getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList )
 {

@@ -49,9 +49,19 @@ public:
     void createRightCertList( int nIssuerNum );
     void createRightCRLList(int nIssuerNum);
 
+    void removeAllRight();
+
+    void showRightKeyPair( int seq );
+    void showRightRequest( int seq );
+    void showRightCertificate( int seq );
+    void showRightCertPolicy( int seq );
+    void showRightCRL( int seq );
+    void showRightCRLPolicy( int seq );
+    void showRightRevoke( int seq );
+
     DBMgr* dbMgr() { return db_mgr_; };
 
-    void removeAllRight();
+
 
 public slots:
     void newFile();

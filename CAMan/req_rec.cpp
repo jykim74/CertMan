@@ -2,7 +2,13 @@
 
 ReqRec::ReqRec()
 {
-
+    m_nSeq = -1;
+    m_nKeyNum = -1;
+    m_strName = "";
+    m_strDN = "";
+    m_strCSR = "";
+    m_strHash = "";
+    m_nStatus = -1;
 }
 
 void ReqRec::setSeq( int nSeq )

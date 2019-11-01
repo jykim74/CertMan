@@ -31,6 +31,8 @@
 #include "cert_policy_rec.h"
 #include "crl_policy_rec.h"
 #include "crl_rec.h"
+#include "policy_ext_rec.h"
+#include "revoke_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -577,8 +579,40 @@ void MainWindow::tableClick(QModelIndex index )
     QString strVal;
 
     strVal = QString( "row: %1 column %2").arg(row).arg(col);
+    QTableWidgetItem* item = right_table_->item(row, 0);
+
+    int nSeq = item->text().toInt();
 
     right_text_->setText( strVal );
+
+    if( right_type_ == RightType::TYPE_KEYPAIR )
+    {
+        showRightKeyPair( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_REQUEST )
+    {
+        showRightRequest( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_CERTIFICATE )
+    {
+        showRightCertificate( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_CRL )
+    {
+        showRightCRL( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_REVOKE )
+    {
+        showRightRevoke( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_CERT_POLICY )
+    {
+        showRightCertPolicy( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_CRL_POLICY )
+    {
+        showRightCRLPolicy( nSeq );
+    }
 }
 
 void MainWindow::createRightKeyPairList()
@@ -770,4 +804,292 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getCRL() ));
     }
+}
+
+void MainWindow::showRightKeyPair( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    KeyPairRec keyPair;
+
+    db_mgr_->getKeyPairRec( seq, keyPair );
+
+    strMsg = "[ KeyPair information ]\n";
+    strPart = QString( "Num:%1\n\n").arg( keyPair.getNum() );
+    strMsg += strPart;
+
+    strPart = QString( "Algorithm: %1\n").arg( keyPair.getAlg());
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n").arg( keyPair.getName());
+    strMsg += strPart;
+
+    strPart = QString( "PublicKey: %1\n").arg( keyPair.getPublicKey());
+    strMsg += strPart;
+
+    strPart = QString( "PrivateKey: %1\n").arg( keyPair.getPrivateKey());
+    strMsg += strPart;
+
+    strPart = QString( "Param: %1\n").arg( keyPair.getParam());
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1\n").arg( keyPair.getStatus());
+    strMsg += strPart;
+
+    right_text_->setText(strMsg);
+}
+
+void MainWindow::showRightRequest( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    ReqRec reqRec;
+    db_mgr_->getReqRec( seq, reqRec );
+
+    strMsg = "[ Request information ]\n";
+
+    strPart = QString( "SEQ: %1\n").arg(reqRec.getSeq());
+    strMsg += strPart;
+
+    strPart = QString( "KeyNum: %1\n").arg(reqRec.getKeyNum());
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n").arg( reqRec.getName() );
+    strMsg += strPart;
+
+    strPart = QString( "DN: %1\n").arg( reqRec.getDN());
+    strMsg += strPart;
+
+    strPart = QString( "Request: %1\n").arg( reqRec.getCSR() );
+    strMsg + strPart;
+
+    strPart = QString( "Hash: %1\n").arg( reqRec.getHash());
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1").arg( reqRec.getStatus());
+    strMsg += strPart;
+
+    right_text_->setText(strMsg);
+}
+
+void MainWindow::showRightCertificate( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    CertRec certRec;
+    db_mgr_->getCertRec( seq, certRec );
+
+    strMsg = "[ Ceritificate information ]\n";
+
+    strPart = QString("Num: %1").arg( certRec.getNum() );
+    strMsg += strPart;
+
+    strPart = QString( "KeyNum: %1").arg( certRec.getKeyNum() );
+    strMsg += strPart;
+
+    strPart = QString( "SignAlgorithm: %1").arg( certRec.getSignAlg() );
+    strMsg += strPart;
+
+    strPart = QString( "Certificate: %1").arg( certRec.getCert() );
+    strMsg += strPart;
+
+    strPart = QString( "IsCA: %1").arg( certRec.isCA() );
+    strMsg += strPart;
+
+    strPart = QString( "IsSelf: %1").arg( certRec.isSelf() );
+    strMsg += strPart;
+
+    strPart = QString( "SubjectDN: %1").arg( certRec.getSubjectDN() );
+    strMsg += strPart;
+
+    strPart = QString( "IssuerNum: %1").arg( certRec.getIssuerNum() );
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1").arg( certRec.getStatus() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightCertPolicy( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    CertPolicyRec certPolicy;
+
+    db_mgr_->getCertPolicyRec( seq, certPolicy );
+
+    strMsg = "[ Certificate policy information ]\n";
+
+    strPart = QString( "Num: %1\n").arg( certPolicy.getNum());
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n").arg( certPolicy.getName());
+    strMsg += strPart;
+
+    strPart = QString( "Version: %1\n").arg(certPolicy.getVersion());
+    strMsg += strPart;
+
+    strPart = QString( "NotBefore: %1\n").arg(certPolicy.getNotBefore());
+    strMsg += strPart;
+
+    strPart = QString( "NotAfter: %1\n").arg( certPolicy.getNotAfter());
+    strMsg += strPart;
+
+    strPart = QString( "Hash: %1\n").arg(certPolicy.getHash());
+    strMsg += strPart;
+
+    strPart = QString( "DNTemplate: %1\n").arg( certPolicy.getDNTemplate() );
+    strMsg += strPart;
+
+    strMsg += "========= Extensions information ==========\n";
+
+    QList<PolicyExtRec> extList;
+    db_mgr_->getCertPolicyExtensionList( seq, extList );
+
+    for( int i = 0; i < extList.size(); i++ )
+    {
+        PolicyExtRec extRec = extList.at(i);
+
+        strPart = QString( "%1 || %2 || %3 || %4\n")
+                .arg(extRec.getSeq())
+                .arg(extRec.isCritical())
+                .arg(extRec.getSN())
+                .arg(extRec.getValue());
+
+        strMsg += strPart;
+    }
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightCRL( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    CRLRec crlRec;
+
+    db_mgr_->getCRLRec( seq, crlRec );
+
+    strMsg = "[ CRL information ]\n";
+
+    strPart = QString( "Num: %1\n" ).arg( crlRec.getNum() );
+    strMsg += strPart;
+
+    strPart = QString( "IssuerNum: %1\n").arg( crlRec.getIssuerNum() );
+    strMsg += strPart;
+
+    strPart = QString( "SignAlgorithm: %1\n").arg(crlRec.getSignAlg());
+    strMsg += strPart;
+
+    strPart = QString( "CRL: %1\n").arg( crlRec.getCRL());
+    strMsg += strPart;
+
+    /* need for revoked list information */
+    // strPart = "============= Revoked List ==============\n";
+    // strMsg += strPart;
+
+
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightCRLPolicy( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    CRLPolicyRec crlPolicy;
+
+    db_mgr_->getCRLPolicyRec( seq, crlPolicy );
+
+    strMsg = "[ CRL information ]\n";
+
+    strPart = QString( "Num: %1\n").arg(crlPolicy.getNum());
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n").arg( crlPolicy.getName());
+    strMsg += strPart;
+
+    strPart = QString( "Version: %1\n").arg( crlPolicy.getVersion());
+    strMsg += strPart;
+
+    strPart = QString( "LastUpdate : %1\n").arg(crlPolicy.getLastUpdate());
+    strMsg += strPart;
+
+    strPart = QString("NextUpdate: %1\n").arg(crlPolicy.getNextUpdate());
+    strMsg += strPart;
+
+    strPart = QString("Hash: %1\n").arg(crlPolicy.getHash());
+    strMsg += strPart;
+
+    strMsg += "========= Extensions information ==========\n";
+
+    QList<PolicyExtRec> extList;
+    db_mgr_->getCRLPolicyExtensionList( seq, extList );
+
+    for( int i = 0; i < extList.size(); i++ )
+    {
+        PolicyExtRec extRec = extList.at(i);
+
+        strPart = QString( "%1 || %2 || %3 || %4\n")
+                .arg(extRec.getSeq())
+                .arg(extRec.isCritical())
+                .arg(extRec.getSN())
+                .arg(extRec.getValue());
+
+        strMsg += strPart;
+    }
+
+    right_text_->setText(strMsg);
+}
+
+void MainWindow::showRightRevoke( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    RevokeRec revokeRec;
+    db_mgr_->getRevokeRec( seq, revokeRec );
+
+    strMsg = "[ Revoke information ]\n";
+
+    strPart = QString( "Seq: %1\n").arg( revokeRec.getSeq());
+    strMsg += strPart;
+
+    strPart = QString( "CertNum: %1\n").arg( revokeRec.getCertNum() );
+    strMsg += strPart;
+
+    strPart = QString( "IssueNum: %1\n").arg( revokeRec.getIssuerNum() );
+    strMsg += strPart;
+
+    strPart = QString( "Serial: %1\n").arg( revokeRec.getSerial() );
+    strMsg += strPart;
+
+    strPart = QString( "RevokeDate: %1\n").arg( revokeRec.getRevokeDate());
+    strMsg += strPart;
+
+    strPart = QString( "Reason: %1\n").arg( revokeRec.getReason() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
 }

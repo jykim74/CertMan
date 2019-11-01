@@ -28,10 +28,16 @@ public:
     int getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus = -1 );
     int getKeyPairRec( int nNum, KeyPairRec& keyPairRec );
     int getReqList( QList<ReqRec>& reqList );
+    int getReqRec( int nNum, ReqRec& reqRec );
+    int getCRLRec( int nNum, CRLRec& crlRec );
     int getReqList( int nStatus, QList<ReqRec>& reqList );
     int getCertPolicyRec( int nNum, CertPolicyRec& certPolicy );
     int getCertPolicyList( QList<CertPolicyRec>& certPolicyList );
+    int getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy );
     int getCRLPolicyList( QList<CRLPolicyRec>& crlPolicyList );
+    int getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
+    int getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
+    int getRevokeRec( int nSeq, RevokeRec& revokeRec );
 
     int addKeyPairRec( KeyPairRec& keyPair );
     int addReqRec( ReqRec& reqRec );

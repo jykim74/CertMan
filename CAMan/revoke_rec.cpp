@@ -2,7 +2,11 @@
 
 RevokeRec::RevokeRec()
 {
-
+    m_nSeq = -1;
+    m_nCertNum = -1;
+    m_nIssuerNum = -1;
+    m_strSerial = "";
+    m_nRevokeDate = -1;
 }
 
 void RevokeRec::setSeq( int nSeq )
