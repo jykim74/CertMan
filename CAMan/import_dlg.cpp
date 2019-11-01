@@ -6,6 +6,7 @@
 #include "db_mgr.h"
 #include "js_pki.h"
 #include "js_pki_tools.h"
+#include "js_pki_x509.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -178,20 +179,110 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 
 int ImportDlg::ImportCert( const BIN *pCert )
 {
+    int ret = 0;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return -1;
+
+    char *pHexCert = NULL;
+    JSCertInfo sCertInfo;
+    CertRec     cert;
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    ret = JS_PKI_getCertInfo( pCert, &sCertInfo );
+    if( ret != 0 ) return ret;
+
+    JS_BIN_encodeHex( pCert, &pHexCert );
+
+    cert.setCert( pHexCert );
+    cert.setSubjectDN( sCertInfo.pSubjectName );
+    cert.setIssuerNum( -2 );
+    cert.setSignAlg( sCertInfo.pSignAlgorithm );
+
+    dbMgr->addCertRec( cert );
+
+    if( pHexCert ) JS_free( pHexCert );
+    JS_PKI_resetCertInfo( &sCertInfo );
+
     return 0;
 }
 
 int ImportDlg::ImportCRL( const BIN *pCRL )
 {
+    int ret = 0;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return -1;
+
+    JSCRLInfo sCRLInfo;
+    char *pHexCRL = NULL;
+    CRLRec crl;
+
+    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
+
+    ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo );
+    if( ret != 0 ) return ret;
+
+    JS_BIN_encodeHex( pCRL, &pHexCRL );
+
+    crl.setCRL( pHexCRL );
+    crl.setSignAlg( sCRLInfo.pSignAlgorithm );
+    crl.setIssuerNum( -2 );
+
+    dbMgr->addCRLRec( crl );
+
+    if( pHexCRL ) JS_free( pHexCRL );
+    JS_PKI_resetCRLInfo( &sCRLInfo );
+
     return 0;
 }
 
 int ImportDlg::ImportRequest( const BIN *pCSR )
 {
+    int ret = 0;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return -1;
+
+    ReqRec  req;
+    JSReqInfo   sReqInfo;
+    char *pHexCSR = NULL;
+    memset( &sReqInfo, 0x00, sizeof(sReqInfo));
+
+    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo );
+    if( ret != 0 ) return ret;
+
+    JS_BIN_encodeHex( pCSR, &pHexCSR );
+
+    req.setCSR( pHexCSR );
+    req.setDN( sReqInfo.pSubjectDN );
+    req.setHash( sReqInfo.pSignAlgorithm );
+    req.setName( mNameText->text() );
+
+    dbMgr->addReqRec( req );
+    if( pHexCSR ) JS_free( pHexCSR );
+    JS_PKI_resetReqInfo( &sReqInfo );
+
     return 0;
 }
 
 int ImportDlg::ImportPFX( const BIN *pPFX )
 {
+    int ret = 0;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return -1;
+
+    BIN binCert = {0,0};
+    BIN binPri = {0,0};
+
+    const char *pPasswd = mPasswordText->text().toStdString().c_str();
+
+    ret = JS_PKI_decodePFX( pPFX, pPasswd, &binPri, &binCert );
+    if( ret != 0 ) return ret;
+
+    ImportCert( &binCert );
+    ImportKeyPair( &binPri );
+
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binPri );
+
     return 0;
 }
