@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setUnifiedTitleAndToolBarOnMac(true);
     setAcceptDrops(true);
+
+    right_type_ = -1;
 }
 
 MainWindow::~MainWindow()
@@ -86,6 +88,9 @@ void MainWindow::initialize()
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(menuClick(QModelIndex)));
     connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
+
+    right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect( right_table_, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showRightMenu(QPoint)));
 }
 
 
@@ -210,6 +215,44 @@ void MainWindow::createStatusBar()
 void MainWindow::createTableMenu()
 {
 
+}
+
+void MainWindow::removeAllRight()
+{
+    right_text_->setText("");
+
+    int rowCnt = right_table_->rowCount();
+
+    for( int i=0; i < rowCnt; i++ )
+        right_table_->removeRow(0);
+}
+
+void MainWindow::showRightMenu(QPoint point)
+{
+    QTableWidgetItem* item = right_table_->itemAt(point);
+    if( item == NULL ) return;
+
+    QMenu menu(this);
+
+    if( right_type_ == RightType::TYPE_CERTIFICATE)
+    {
+        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+    }
+    else if( right_type_ == RightType::TYPE_CRL )
+    {
+        menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
+    }
+    else if( right_type_ == RightType::TYPE_KEYPAIR )
+    {
+        menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPrivateKey );
+        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPrivateKey );
+    }
+    else if( right_type_ == RightType::TYPE_REQUEST )
+    {
+        menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest);
+    }
+
+    menu.exec(QCursor::pos());
 }
 
 void MainWindow::createTreeMenu()
@@ -540,6 +583,9 @@ void MainWindow::tableClick(QModelIndex index )
 
 void MainWindow::createRightKeyPairList()
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_KEYPAIR;
+
     QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
 
     right_table_->clear();
@@ -570,6 +616,9 @@ void MainWindow::createRightKeyPairList()
 
 void MainWindow::createRightRequestList()
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_REQUEST;
+
     QStringList headerList = { "Seq", "KeyNum", "Name", "DN", "CSR", "Hash", "Status" };
 
     right_table_->clear();
@@ -599,6 +648,9 @@ void MainWindow::createRightRequestList()
 
 void MainWindow::createRightCertPolicyList()
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_CERT_POLICY;
+
     QStringList headerList = { "Num", "Name", "Version", "NotBerfoer", "NotAfter", "Hash", "DNTemplate" };
 
     right_table_->clear();
@@ -628,6 +680,9 @@ void MainWindow::createRightCertPolicyList()
 
 void MainWindow::createRightCRLPolicyList()
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_CRL_POLICY;
+
     QStringList headerList = { "Num", "Name", "Version", "LastUpdate", "NextUpdate", "Hash" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -656,6 +711,9 @@ void MainWindow::createRightCRLPolicyList()
 
 void MainWindow::createRightCertList( int nIssuerNum )
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_CERTIFICATE;
+
     QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
 
     right_table_->clear();
@@ -688,6 +746,9 @@ void MainWindow::createRightCertList( int nIssuerNum )
 
 void MainWindow::createRightCRLList( int nIssuerNum )
 {
+    removeAllRight();
+    right_type_ = RightType::TYPE_CRL;
+
     QStringList headerList = { "Num", "IssuerNum", "SignAlg", "CRL" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);

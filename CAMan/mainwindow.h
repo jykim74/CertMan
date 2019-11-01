@@ -8,6 +8,7 @@
 #include <QTextEdit>
 #include <QtSql>
 
+
 class ManTreeView;
 class ManTreeModel;
 class DBMgr;
@@ -15,6 +16,16 @@ class DBMgr;
 namespace Ui {
 class MainWindow;
 }
+
+enum RightType {
+    TYPE_KEYPAIR = 1,
+    TYPE_REQUEST,
+    TYPE_CERTIFICATE,
+    TYPE_CERT_POLICY,
+    TYPE_CRL_POLICY,
+    TYPE_CRL,
+    TYPE_REVOKE
+};
 
 class MainWindow : public QMainWindow
 {
@@ -40,7 +51,9 @@ public:
 
     DBMgr* dbMgr() { return db_mgr_; };
 
-private slots:
+    void removeAllRight();
+
+public slots:
     void newFile();
     void open();
     void quit();
@@ -76,6 +89,9 @@ private slots:
     void menuClick( QModelIndex index );
     void tableClick( QModelIndex index );
 
+private slots:
+    void showRightMenu( QPoint point );
+
 private:
 //    Ui::MainWindow *ui;
     QSplitter       *hsplitter_;
@@ -87,6 +103,7 @@ private:
     QTextEdit       *right_text_;
 
     DBMgr           *db_mgr_;
+    int             right_type_;
 };
 
 #endif // MAINWINDOW_H
