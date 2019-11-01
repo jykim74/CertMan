@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_import_dlg.h"
 
+#include "js_bin.h"
+
 namespace Ui {
 class ImportDlg;
 }
@@ -26,6 +28,12 @@ private slots:
 private:
     void initUI();
     void initialize();
+
+    int ImportKeyPair( const BIN *pPriKey );
+    int ImportCert( const BIN *pCert );
+    int ImportCRL( const BIN *pCRL );
+    int ImportRequest( const BIN *pCSR );
+    int ImportPFX( const BIN *pPFX );
 
 private:
 };
