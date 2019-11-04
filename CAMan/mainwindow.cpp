@@ -253,6 +253,14 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest);
     }
+    else if( right_type_ == RightType::TYPE_CERT_POLICY )
+    {
+        menu.addAction(tr("Delete CertPolicy"), this, &MainWindow::deleteCertPolicy );
+    }
+    else if( right_type_ == RightType::TYPE_CRL_POLICY )
+    {
+        menu.addAction(tr("Delete CRLPolicy"), this, &MainWindow::deleteCRLPolicy );
+    }
 
     menu.exec(QCursor::pos());
 }
@@ -536,6 +544,27 @@ void MainWindow::settings()
     manApplet->settingsDlg()->activateWindow();
 }
 
+void MainWindow::deleteCertPolicy()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    db_mgr_->delCertPolicy( num );
+    db_mgr_->delCertPolicyExtensionList( num );
+}
+
+void MainWindow::deleteCRLPolicy()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    db_mgr_->delCRLPolicy( num );
+    db_mgr_->delCRLPolicyExtensionList( num );
+}
 
 
 void MainWindow::showWindow()

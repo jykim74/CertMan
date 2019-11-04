@@ -65,6 +65,11 @@ public:
     int getCertPolicyNextNum();
     int getCRLPolicyNextNum();
 
+    int delCertPolicy( int nNum );
+    int delCRLPolicy( int nNum );
+    int delCertPolicyExtensionList( int nPolicyNum );
+    int delCRLPolicyExtensionList( int nPolicyNum );
+
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
     int _getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList );

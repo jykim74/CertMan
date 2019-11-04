@@ -90,6 +90,9 @@ public slots:
     void exportCRL();
     void exportPFX();
 
+    void deleteCertPolicy();
+    void deleteCRLPolicy();
+
     void publishLDAP();
     void getLDAP();
 

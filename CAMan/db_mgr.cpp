@@ -707,3 +707,46 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     sqlQuery.exec();
     return 0;
 }
+
+int DBMgr::delCertPolicy( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CERT_POLICY WHERE NUM = ?");
+
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::delCRLPolicy( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CRL_POLICY WHERE NUM = ?");
+
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delCertPolicyExtensionList( int nPolicyNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CERT_POLICY_EXTENSION WHERE POLICYNUM = ?");
+
+    sqlQuery.bindValue( 0, nPolicyNum );
+
+    sqlQuery.exec();
+}
+
+int DBMgr::delCRLPolicyExtensionList( int nPolicyNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CRL_POLICY_EXTENSION WHERE POLICYNUM = ?");
+
+    sqlQuery.bindValue( 0, nPolicyNum );
+
+    sqlQuery.exec();
+}
