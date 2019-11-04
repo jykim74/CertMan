@@ -5,7 +5,6 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 
-static QStringList sFieldLabels = { "Field", "Value" };
 
 CertInfoDlg::CertInfoDlg(QWidget *parent) :
     QDialog(parent)

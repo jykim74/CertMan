@@ -19,8 +19,15 @@ public:
     void setCRLNum( int crl_num );
     int getCRLNum() { return crl_num_; };
 
+private slots:
+    void showEvent(QShowEvent *event);
+    void clickClose();
+
 private:
     int crl_num_;
+    void initialize();
+    void initUI();
+    void clearTable();
 };
 
 #endif // CRL_INFO_DLG_H
