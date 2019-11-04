@@ -16,6 +16,12 @@ public:
     explicit PubLDAPDlg(QWidget *parent = nullptr);
     ~PubLDAPDlg();
 
+    int dataType() { return data_type_; };
+    int dataNum() { return data_num_; };
+
+    void setDataType( int data_type );
+    void setDataNum( int data_num );
+
 private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
@@ -26,6 +32,8 @@ private:
     void initUI();
     void initialize();
 
+    int data_type_;
+    int data_num_;
 };
 
 #endif // PUB_LDAP_DLG_H
