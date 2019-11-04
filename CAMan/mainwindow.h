@@ -46,7 +46,7 @@ public:
     void createRightRequestList();
     void createRightCertPolicyList();
     void createRightCRLPolicyList();
-    void createRightCertList( int nIssuerNum );
+    void createRightCertList( int nIssuerNum, bool bIsCA = false );
     void createRightCRLList(int nIssuerNum);
 
     void removeAllRight();
@@ -76,6 +76,9 @@ public slots:
     void makeCRL();
     void revokeCertificate();
 
+    void viewCertificate();
+    void viewCRL();
+
     void importPrivateKey();
     void importEncPrivateKey();
     void importRequest();
@@ -92,6 +95,8 @@ public slots:
 
     void deleteCertPolicy();
     void deleteCRLPolicy();
+    void deleteCertificate();
+    void deleteCRL();
 
     void publishLDAP();
     void getLDAP();

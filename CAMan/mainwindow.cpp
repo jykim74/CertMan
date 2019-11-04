@@ -22,6 +22,8 @@
 #include "revoke_cert_dlg.h"
 #include "settings_dlg.h"
 #include "settings_mgr.h"
+#include "cert_info_dlg.h"
+#include "crl_info_dlg.h"
 
 #include "man_applet.h"
 #include "db_mgr.h"
@@ -239,10 +241,14 @@ void MainWindow::showRightMenu(QPoint point)
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+        menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
+        menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
         menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
+        menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
+        menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
@@ -293,27 +299,37 @@ void MainWindow::createTreeMenu()
 
     int nIssuerNum = -1;
     QList<CertRec> certList;
-    db_mgr_->getCertList( nIssuerNum, certList );
+    db_mgr_->getCACertList( nIssuerNum, certList );
     qDebug() << "RootCA count : " << certList.size();
 
     for( int i=0; i < certList.size(); i++ )
     {
         CertRec certRec = certList.at(i);
+
         ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
         pCAItem->setType( CM_ITEM_TYPE_CA );
+        pCAItem->setDataNum( certRec.getNum() );
         pRootCAItem->appendRow( pCAItem );
 
         ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+        pCertItem->setType( CM_ITEM_TYPE_CERT );
+        pCertItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pCertItem );
 
         ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+        pCRLItem->setType( CM_ITEM_TYPE_CRL );
+        pCRLItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pCRLItem );
 
         ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+        pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
+        pRevokeItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pRevokeItem );
 
-        ManTreeItem *PSubCAItem = new ManTreeItem( QString("CA"));
-        pCAItem->appendRow( PSubCAItem );
+        ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
+        pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
+        pSubCAItem->setDataNum( certRec.getNum() );
+        pCAItem->appendRow( pSubCAItem );
     }
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
@@ -430,6 +446,20 @@ void MainWindow::revokeCertificate()
     manApplet->revokeCertDlg()->show();
     manApplet->revokeCertDlg()->raise();
     manApplet->revokeCertDlg()->activateWindow();
+}
+
+void MainWindow::viewCertificate()
+{
+    manApplet->certInfoDlg()->show();
+    manApplet->certInfoDlg()->raise();
+    manApplet->certInfoDlg()->activateWindow();
+}
+
+void MainWindow::viewCRL()
+{
+    manApplet->crlInfoDlg()->show();
+    manApplet->crlInfoDlg()->raise();
+    manApplet->crlInfoDlg()->activateWindow();
 }
 
 void MainWindow::importPrivateKey()
@@ -566,6 +596,25 @@ void MainWindow::deleteCRLPolicy()
     db_mgr_->delCRLPolicyExtensionList( num );
 }
 
+void MainWindow::deleteCertificate()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    db_mgr_->delCertRec( num );
+}
+
+void MainWindow::deleteCRL()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row , 0 );
+
+    int num = item->text().toInt();
+
+    db_mgr_->delCRLRec( num );
+}
 
 void MainWindow::showWindow()
 {
@@ -578,9 +627,13 @@ void MainWindow::showWindow()
 void MainWindow::menuClick(QModelIndex index )
 {
     int nType = -1;
+    int nNum = -1;
+
     ManTreeItem *pItem = (ManTreeItem *)left_model_->itemFromIndex(index);
 
     if( pItem == NULL ) return;
+
+    nNum = pItem->getDataNum();
 
     nType = pItem->getType();
 
@@ -598,6 +651,14 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCertList( -2 );
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
         createRightCRLList( -2 );
+    else if( nType == CM_ITEM_TYPE_CA )
+        createRightCertList( nNum );
+    else if( nType == CM_ITEM_TYPE_CERT )
+        createRightCertList( nNum );
+    else if( nType == CM_ITEM_TYPE_CRL )
+        createRightCRLList( nNum );
+    else if( nType == CM_ITEM_TYPE_SUBCA )
+        createRightCertList( nNum, true );
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -772,7 +833,7 @@ void MainWindow::createRightCRLPolicyList()
     }
 }
 
-void MainWindow::createRightCertList( int nIssuerNum )
+void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
     removeAllRight();
     right_type_ = RightType::TYPE_CERTIFICATE;
@@ -788,7 +849,11 @@ void MainWindow::createRightCertList( int nIssuerNum )
 
 
     QList<CertRec> certList;
-    db_mgr_->getCertList( nIssuerNum, certList );
+
+    if( bIsCA )
+        db_mgr_->getCACertList( nIssuerNum, certList );
+    else
+        db_mgr_->getCertList( nIssuerNum, certList );
 
     for( int i=0; i < certList.size(); i++ )
     {
@@ -896,7 +961,7 @@ void MainWindow::showRightRequest( int seq )
     strMsg += strPart;
 
     strPart = QString( "Request: %1\n").arg( reqRec.getCSR() );
-    strMsg + strPart;
+    strMsg += strPart;
 
     strPart = QString( "Hash: %1\n").arg( reqRec.getHash());
     strMsg += strPart;
@@ -919,31 +984,31 @@ void MainWindow::showRightCertificate( int seq )
 
     strMsg = "[ Ceritificate information ]\n";
 
-    strPart = QString("Num: %1").arg( certRec.getNum() );
+    strPart = QString("Num: %1\n").arg( certRec.getNum() );
     strMsg += strPart;
 
-    strPart = QString( "KeyNum: %1").arg( certRec.getKeyNum() );
+    strPart = QString( "KeyNum: %1\n").arg( certRec.getKeyNum() );
     strMsg += strPart;
 
-    strPart = QString( "SignAlgorithm: %1").arg( certRec.getSignAlg() );
+    strPart = QString( "SignAlgorithm: %1\n").arg( certRec.getSignAlg() );
     strMsg += strPart;
 
-    strPart = QString( "Certificate: %1").arg( certRec.getCert() );
+    strPart = QString( "Certificate: %1\n").arg( certRec.getCert() );
     strMsg += strPart;
 
-    strPart = QString( "IsCA: %1").arg( certRec.isCA() );
+    strPart = QString( "IsCA: %1\n").arg( certRec.isCA() );
     strMsg += strPart;
 
-    strPart = QString( "IsSelf: %1").arg( certRec.isSelf() );
+    strPart = QString( "IsSelf: %1\n").arg( certRec.isSelf() );
     strMsg += strPart;
 
-    strPart = QString( "SubjectDN: %1").arg( certRec.getSubjectDN() );
+    strPart = QString( "SubjectDN: %1\n").arg( certRec.getSubjectDN() );
     strMsg += strPart;
 
-    strPart = QString( "IssuerNum: %1").arg( certRec.getIssuerNum() );
+    strPart = QString( "IssuerNum: %1\n").arg( certRec.getIssuerNum() );
     strMsg += strPart;
 
-    strPart = QString( "Status: %1").arg( certRec.getStatus() );
+    strPart = QString( "Status: %1\n").arg( certRec.getStatus() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

@@ -127,6 +127,7 @@ void MakeCertDlg::accept()
 
     int nIssueKeyNum = -1;
     int nKeyType = -1;
+    int nIssuerNum = -1;
 
     CertPolicyRec policyRec = cert_policy_list_.at( policyIdx );
     ReqRec reqRec = req_list_.at( reqIdx );
@@ -136,6 +137,7 @@ void MakeCertDlg::accept()
     else {
         CertRec issuerCert = ca_cert_list_.at( issuerIdx );
         nIssueKeyNum = issuerCert.getKeyNum();
+        nIssuerNum = issuerCert.getNum();
         JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binSignCert );
     }
 
@@ -219,8 +221,8 @@ void MakeCertDlg::accept()
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( false );
+    madeCertRec.setIssuerNum( nIssuerNum );
 
-    if( !bSelf ) madeCertRec.setIssuerNum( issueKeyPair.getNum() );
 
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );

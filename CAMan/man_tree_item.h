@@ -14,6 +14,7 @@
 #define CM_ITEM_TYPE_CRL            9
 #define CM_ITEM_TYPE_REVOKE         10
 #define CM_ITEM_TYPE_CA             11
+#define CM_ITEM_TYPE_SUBCA          12
 
 class ManTreeItem : public QStandardItem
 {
@@ -23,8 +24,12 @@ public:
     int getType() { return type_; };
     void setType( int type );
 
+    int getDataNum() { return data_num_; };
+    void setDataNum( int data_num );
+
 private:
     int     type_;
+    int     data_num_;
 };
 
 #endif // MAN_TREE_ITEM_H

@@ -29,9 +29,10 @@ public:
     int open( const QString dbPath );
     void close();
 
-    int getCertRec( int nNum, CertRec cert );
+    int getCertRec( int nNum, CertRec& cert );
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
     int getCACertList( QList<CertRec>& certList );
+    int getCACertList( int nIssuerNum, QList<CertRec>& certList );
 
     int getCRLList( int nIssuerNum, QList<CRLRec>& crlList );
     int getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus = -1 );
@@ -69,6 +70,8 @@ public:
     int delCRLPolicy( int nNum );
     int delCertPolicyExtensionList( int nPolicyNum );
     int delCRLPolicyExtensionList( int nPolicyNum );
+    int delCertRec( int nNum );
+    int delCRLRec( int nNum );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );

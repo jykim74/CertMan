@@ -82,7 +82,14 @@ int DBMgr::getCACertList( QList<CertRec>& certList )
     return _getCertList( strSQL, certList );
 }
 
-int DBMgr::getCertRec( int nNum, CertRec cert )
+int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
+{
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1").arg( nIssuerNum );
+
+    return _getCertList( strSQL, certList );
+}
+
+int DBMgr::getCertRec( int nNum, CertRec& cert )
 {
     QList<CertRec> certList;
     QString strSQL = "";
@@ -749,4 +756,29 @@ int DBMgr::delCRLPolicyExtensionList( int nPolicyNum )
     sqlQuery.bindValue( 0, nPolicyNum );
 
     sqlQuery.exec();
+}
+
+
+int DBMgr::delCertRec( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CERT WHERE NUM = ?");
+
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delCRLRec( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CRL WHERE NUM = ?");
+
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
 }

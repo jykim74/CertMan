@@ -21,6 +21,8 @@
 #include "new_key_dlg.h"
 #include "pub_ldap_dlg.h"
 #include "revoke_cert_dlg.h"
+#include "cert_info_dlg.h"
+#include "crl_info_dlg.h"
 
 ManApplet *manApplet;
 
@@ -43,6 +45,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     new_key_dlg_ = new NewKeyDlg;
     pub_ldap_dlg_ = new PubLDAPDlg;
     revoke_cert_dlg_ = new RevokeCertDlg;
+    cert_info_dlg_ = new CertInfoDlg;
+    crl_info_dlg_ = new CRLInfoDlg;
 
     in_exit_ = false;
 }

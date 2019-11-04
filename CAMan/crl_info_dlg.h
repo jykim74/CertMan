@@ -16,8 +16,11 @@ public:
     explicit CRLInfoDlg(QWidget *parent = nullptr);
     ~CRLInfoDlg();
 
-private:
+    void setCRLNum( int crl_num );
+    int getCRLNum() { return crl_num_; };
 
+private:
+    int crl_num_;
 };
 
 #endif // CRL_INFO_DLG_H

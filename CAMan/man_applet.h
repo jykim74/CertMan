@@ -21,6 +21,8 @@ class MakeReqDlg;
 class NewKeyDlg;
 class PubLDAPDlg;
 class RevokeCertDlg;
+class CertInfoDlg;
+class CRLInfoDlg;
 
 class ManApplet : public QObject
 {
@@ -44,6 +46,8 @@ public:
     PubLDAPDlg* pubLDAPDlg() { return pub_ldap_dlg_; };
     RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
     SettingsDlg* settingsDlg() { return settings_dlg_; };
+    CertInfoDlg* certInfoDlg() { return cert_info_dlg_; };
+    CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
 
     void messageBox(const QString& msg, QWidget *parent=0);
     void warningBox(const QString& msg, QWidget *parent=0);
@@ -80,6 +84,8 @@ private:
     PubLDAPDlg* pub_ldap_dlg_;
     RevokeCertDlg* revoke_cert_dlg_;
     SettingsDlg* settings_dlg_;
+    CertInfoDlg* cert_info_dlg_;
+    CRLInfoDlg* crl_info_dlg_;
 
     bool in_exit_;
 };
