@@ -150,47 +150,14 @@ void MainWindow::createActions()
     QAction *revokeCertAct = toolsMenu->addAction(tr("&RevokeCert"), this, &MainWindow::revokeCertificate);
     revokeCertAct->setStatusTip(tr( "Revoke certificate"));
 
-    QMenu *importMenu = menuBar()->addMenu(tr("&Import"));
-    QToolBar *importToolBar = addToolBar(tr("Import"));
+    QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
+    QToolBar *dataToolBar = addToolBar(tr("Data"));
 
-    QAction* importPriKeyAct = importMenu->addAction(tr("&ImportPrivateKey"), this, &MainWindow::importPrivateKey);
-    importPriKeyAct->setStatusTip(tr("Import private key"));
+    QAction* importDataAct = dataMenu->addAction(tr("&ImportData"), this, &MainWindow::importData);
+    importDataAct->setStatusTip(tr("Import data"));
 
-    QAction* importEncPriKeyAct = importMenu->addAction(tr("&ImportEncryptedPrivateKey"), this, &MainWindow::importEncPrivateKey);
-    importEncPriKeyAct->setStatusTip(tr("Import encrypted private key"));
-
-    QAction* importReqAct = importMenu->addAction(tr("&ImportRequest"), this, &MainWindow::importRequest);
-    importReqAct->setStatusTip(tr("Import Request"));
-
-    QAction* importCertAct = importMenu->addAction(tr("&ImportCertificate"), this, &MainWindow::importCertificate);
-    importCertAct->setStatusTip(tr("Import certificate"));
-
-    QAction* importCRLAct = importMenu->addAction(tr("&ImportCRL"), this, &MainWindow::importCRL);
-    importCRLAct->setStatusTip(tr("Import CRL"));
-
-    QAction* importPFXAct = importMenu->addAction(tr("&ImportPFX"), this, &MainWindow::importPFX);
-    importPFXAct->setStatusTip(tr("Import PFX"));
-
-    QMenu *exportMenu = menuBar()->addMenu(tr("&Export"));
-    QToolBar *exprotToolBar = addToolBar(tr("Export"));
-
-    QAction* exportPriKeyAct = exportMenu->addAction(tr("&ExportPrivateKey"), this, &MainWindow::exportPrivateKey);
-    exportPriKeyAct->setStatusTip(tr("Export private key"));
-
-    QAction* exportEncPriKeyAct = exportMenu->addAction(tr("&ExportEncryptedPrivateKey"), this, &MainWindow::exportEncPrivateKey);
-    exportEncPriKeyAct->setStatusTip(tr("Export encrypted private key"));
-
-    QAction* exportReqAct = exportMenu->addAction(tr("&ExportRequest"), this, &MainWindow::exportRequest);
-    exportReqAct->setStatusTip(tr("Export Request"));
-
-    QAction* exportCertAct = exportMenu->addAction(tr("&ExportCertificate"), this, &MainWindow::exportCertificate);
-    exportCertAct->setStatusTip(tr("Export certificate"));
-
-    QAction* exportCRLAct = exportMenu->addAction(tr("&ExportCRL"), this, &MainWindow::exportCRL);
-    exportCRLAct->setStatusTip(tr("Export CRL"));
-
-    QAction* exportPFXAct = exportMenu->addAction(tr("&ExportPFX"), this, &MainWindow::exportPFX);
-    exportPFXAct->setStatusTip(tr("Export PFX"));
+    QAction* exportDataAct = dataMenu->addAction(tr("&ExportData"), this, &MainWindow::exportData);
+    exportDataAct->setStatusTip(tr("Export private key"));
 
     QMenu *ldapMenu = menuBar()->addMenu(tr("&LDAP"));
     QToolBar *ldapToolBar = addToolBar(tr("LDAP"));
@@ -240,24 +207,24 @@ void MainWindow::showRightMenu(QPoint point)
 
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
-        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportData );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
-        menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
+        menu.addAction( tr("Export CRL"), this, &MainWindow::exportData );
         menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
         menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
-        menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPrivateKey );
-        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPrivateKey );
+        menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportData );
+        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportData );
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
-        menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest);
+        menu.addAction(tr("Export Request"), this, &MainWindow::exportData);
     }
     else if( right_type_ == RightType::TYPE_CERT_POLICY )
     {
@@ -462,84 +429,14 @@ void MainWindow::viewCRL()
     manApplet->crlInfoDlg()->activateWindow();
 }
 
-void MainWindow::importPrivateKey()
+void MainWindow::importData()
 {
     manApplet->importDlg()->show();
     manApplet->importDlg()->raise();
     manApplet->importDlg()->activateWindow();
 }
 
-void MainWindow::importEncPrivateKey()
-{
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
-}
-
-void MainWindow::importRequest()
-{
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
-}
-
-void MainWindow::importCertificate()
-{
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
-}
-
-void MainWindow::importCRL()
-{
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
-}
-
-void MainWindow::importPFX()
-{
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
-}
-
-void MainWindow::exportPrivateKey()
-{
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
-}
-
-void MainWindow::exportEncPrivateKey()
-{
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
-}
-
-void MainWindow::exportRequest()
-{
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
-}
-
-void MainWindow::exportCertificate()
-{
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
-}
-
-void MainWindow::exportCRL()
-{
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
-}
-
-void MainWindow::exportPFX()
+void MainWindow::exportData()
 {
     manApplet->exportDlg()->show();
     manApplet->exportDlg()->raise();

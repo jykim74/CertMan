@@ -79,19 +79,8 @@ public slots:
     void viewCertificate();
     void viewCRL();
 
-    void importPrivateKey();
-    void importEncPrivateKey();
-    void importRequest();
-    void importCertificate();
-    void importCRL();
-    void importPFX();
-
-    void exportPrivateKey();
-    void exportEncPrivateKey();
-    void exportRequest();
-    void exportCertificate();
-    void exportCRL();
-    void exportPFX();
+    void importData();
+    void exportData();
 
     void deleteCertPolicy();
     void deleteCRLPolicy();

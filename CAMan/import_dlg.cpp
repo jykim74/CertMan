@@ -16,6 +16,7 @@ ImportDlg::ImportDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 }
 
 ImportDlg::~ImportDlg()
@@ -37,7 +38,7 @@ void ImportDlg::accept()
     QString strPath = mPathText->text();
     QString strPass = mPasswordText->text();
 
-    if( strPass.isEmpty() )
+    if( strPath.isEmpty() )
     {
         manApplet->warningBox( tr( "select file to import"), this );
         return;

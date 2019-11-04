@@ -42,11 +42,11 @@ void ManTreeView::showContextMenu(QPoint point)
     }
     else if( item->getType() == CM_ITEM_TYPE_IMPORT_CERT )
     {
-        menu.addAction(tr("Import Certificate"), manApplet->mainWindow(), &MainWindow::importCertificate );
+        menu.addAction(tr("Import Certificate"), manApplet->mainWindow(), &MainWindow::importData );
     }
     else if( item->getType() == CM_ITEM_TYPE_IMPORT_CRL )
     {
-        menu.addAction(tr("Import CRL"), manApplet->mainWindow(), &MainWindow::importCRL );
+        menu.addAction(tr("Import CRL"), manApplet->mainWindow(), &MainWindow::importData );
     }
 
     menu.exec(QCursor::pos());
