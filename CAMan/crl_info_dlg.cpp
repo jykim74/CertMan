@@ -209,6 +209,11 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     int row = index.row();
     int col = index.column();
 
+    int rowCnt = mRevokeDetailTable->rowCount();
+
+    for( int i=0; i < rowCnt; i++ )
+        mRevokeDetailTable->removeRow(0);
+
     JSRevokeInfoList *pRevInfoList = crl_info_.pRevokeList;
     JSExtensionInfoList *pExtInfoList = NULL;
 
@@ -217,23 +222,10 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
         pRevInfoList = pRevInfoList->pNext;
     }
 
-    pExtInfoList = pRevInfoList->sRevokeInfo.pExtList;
-
-
-    int pos = 0;
-
-    while( pExtInfoList )
-    {
-        mRevokeDetailTable->insertRow(pos);
-        mRevokeDetailTable->setItem(pos,0, new QTableWidgetItem(QString("%1").arg(pExtInfoList->sExtensionInfo.pOID)));
-        mRevokeDetailTable->setItem(pos,1, new QTableWidgetItem(QString("[%1]%2")
-                                                           .arg(pExtInfoList->sExtensionInfo.bCritical)
-                                                           .arg(pExtInfoList->sExtensionInfo.pValue)));
-
-        pExtInfoList = pExtInfoList->pNext;
-
-        pos++;
-
-    }
-
+    mRevokeDetailTable->insertRow(0);
+    mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
+                                                                .arg(pRevInfoList->sRevokeInfo.sExtReason.pOID)));
+    mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")
+                                                           .arg(pRevInfoList->sRevokeInfo.sExtReason.bCritical)
+                                                           .arg(pRevInfoList->sRevokeInfo.sExtReason.pValue)));
 }
