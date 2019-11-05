@@ -12,6 +12,7 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     setupUi(this);
 
     initUI();
+    cert_num_ = -1;
 }
 
 CertInfoDlg::~CertInfoDlg()
@@ -40,6 +41,13 @@ void CertInfoDlg::initialize()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( cert_num_ < 0 )
+    {
+        manApplet->warningBox( tr( "Select certificate"), this );
+        this->hide();
+        return;
+    }
+
     clearTable();
 
     CertRec cert;
@@ -53,6 +61,7 @@ void CertInfoDlg::initialize()
     {
         manApplet->warningBox( tr("fail to get certificate information"), this );
         JS_BIN_reset( &binCert );
+        this->hide();
         return;
     }
 
@@ -117,6 +126,23 @@ void CertInfoDlg::initialize()
         mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("Signature")));
         mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignature)));
         i++;
+    }
+
+    if( sCertInfo.pExtList )
+    {
+        int k = 0;
+        JSExtensionInfoList *pCurList = sCertInfo.pExtList;
+
+        while( pCurList )
+        {
+            mExtensionTable->insertRow(k);
+            mExtensionTable->setItem(k,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
+            mExtensionTable->setItem(k,1, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.bCritical)));
+            mExtensionTable->setItem(k,2, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pValue)));
+
+            pCurList = pCurList->pNext;
+            k++;
+        }
     }
 
     JS_BIN_reset( &binCert );

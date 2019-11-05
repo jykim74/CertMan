@@ -10,6 +10,7 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
 {
     setupUi(this);
     initUI();
+    crl_num_ = -1;
 }
 
 CRLInfoDlg::~CRLInfoDlg()
@@ -43,6 +44,13 @@ void CRLInfoDlg::initialize()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( crl_num_ < 0 )
+    {
+        manApplet->warningBox( tr("Select CRL"), this );
+        this->hide();
+        return;
+    }
+
     clearTable();
 
     CRLRec crl;
@@ -56,6 +64,7 @@ void CRLInfoDlg::initialize()
     {
         manApplet->warningBox( tr("fail to get CRL information"), this );
         JS_BIN_reset( &binCRL );
+        this->hide();
         return;
     }
 

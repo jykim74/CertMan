@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     right_type_ = -1;
+    right_num_ = -1;
 }
 
 MainWindow::~MainWindow()
@@ -159,23 +160,20 @@ void MainWindow::createActions()
     QAction* exportDataAct = dataMenu->addAction(tr("&ExportData"), this, &MainWindow::exportData);
     exportDataAct->setStatusTip(tr("Export private key"));
 
-    QMenu *ldapMenu = menuBar()->addMenu(tr("&LDAP"));
-    QToolBar *ldapToolBar = addToolBar(tr("LDAP"));
-
-    QAction* pubLDAPAct = ldapMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
+    QAction* pubLDAPAct = dataMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish LDAP"));
 
-    QAction* getLDAPAct = ldapMenu->addAction(tr("GetLDAP"), this, &MainWindow::getLDAP);
+    QAction* getLDAPAct = dataMenu->addAction(tr("GetLDAP"), this, &MainWindow::getLDAP);
     getLDAPAct->setStatusTip(tr("Get LDAP"));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
 
     QAction *aboutAct = helpMenu->addAction(tr("About"), this, &MainWindow::about );
-    aboutAct->setStatusTip(tr("About HsmMan"));
+    aboutAct->setStatusTip(tr("About CAMan"));
 
     QAction *settingsAct = helpMenu->addAction(tr("Settings"), this, &MainWindow::settings );
-    settingsAct->setStatusTip(tr("Settings HsmMan"));
+    settingsAct->setStatusTip(tr("Settings CAMan"));
 }
 
 void MainWindow::createStatusBar()
@@ -200,7 +198,11 @@ void MainWindow::removeAllRight()
 
 void MainWindow::showRightMenu(QPoint point)
 {
-    QTableWidgetItem* item = right_table_->itemAt(point);
+//    QTableWidgetItem* item = right_table_->itemAt(point);
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    right_num_ = item->text().toInt();
     if( item == NULL ) return;
 
     QMenu menu(this);
@@ -417,6 +419,7 @@ void MainWindow::revokeCertificate()
 
 void MainWindow::viewCertificate()
 {
+    manApplet->certInfoDlg()->setCertNum( right_num_ );
     manApplet->certInfoDlg()->show();
     manApplet->certInfoDlg()->raise();
     manApplet->certInfoDlg()->activateWindow();
@@ -424,6 +427,7 @@ void MainWindow::viewCertificate()
 
 void MainWindow::viewCRL()
 {
+    manApplet->crlInfoDlg()->setCRLNum( right_num_ );
     manApplet->crlInfoDlg()->show();
     manApplet->crlInfoDlg()->raise();
     manApplet->crlInfoDlg()->activateWindow();
@@ -569,6 +573,7 @@ void MainWindow::tableClick(QModelIndex index )
     QTableWidgetItem* item = right_table_->item(row, 0);
 
     int nSeq = item->text().toInt();
+    right_num_ = item->text().toInt();
 
     right_text_->setText( strVal );
 
