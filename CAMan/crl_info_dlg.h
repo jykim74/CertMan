@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "ui_crl_info_dlg.h"
+#include "js_bin.h"
+#include "js_pki_x509.h"
 
 namespace Ui {
 class CRLInfoDlg;
@@ -22,13 +24,16 @@ public:
 private slots:
     void showEvent(QShowEvent *event);
     void clickClose();
-    void clickField( QModelIndex index );
+    void clickCRLField( QModelIndex index );
+    void clickRevokeField( QModelIndex index );
 
 private:
     int crl_num_;
     void initialize();
     void initUI();
     void clearTable();
+
+    JSCRLInfo crl_info_;
 };
 
 #endif // CRL_INFO_DLG_H

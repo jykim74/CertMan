@@ -11,6 +11,8 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     setupUi(this);
     initUI();
     crl_num_ = -1;
+
+    memset( &crl_info_, 0x00, sizeof(crl_info_));
 }
 
 CRLInfoDlg::~CRLInfoDlg()
@@ -39,10 +41,12 @@ void CRLInfoDlg::initialize()
     int i = 0;
 
     BIN binCRL = {0,0};
-    JSCRLInfo  sCRLInfo;
+//    JSCRLInfo  sCRLInfo;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
+
+    JS_PKI_resetCRLInfo( &crl_info_ );
 
     if( crl_num_ < 0 )
     {
@@ -56,10 +60,9 @@ void CRLInfoDlg::initialize()
     CRLRec crl;
     dbMgr->getCRLRec( crl_num_, crl );
 
-    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
     JS_BIN_decodeHex( crl.getCRL().toStdString().c_str(), &binCRL );
 
-    ret = JS_PKI_getCRLInfo( &binCRL, &sCRLInfo );
+    ret = JS_PKI_getCRLInfo( &binCRL, &crl_info_ );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to get CRL information"), this );
@@ -70,46 +73,46 @@ void CRLInfoDlg::initialize()
 
     mCRLListTable->insertRow(i);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.nVersion)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.nVersion)));
     i++;
 
-    if( sCRLInfo.pIssuerName )
+    if( crl_info_.pIssuerName )
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("IssuerName")));
-        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.pIssuerName)));
+        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pIssuerName)));
         i++;
     }
 
     mCRLListTable->insertRow(i);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("LastUpdate")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.uLastUpdate)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.uLastUpdate)));
     i++;
 
     mCRLListTable->insertRow(i);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("NextUpdate")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.uNextUpdate)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.uNextUpdate)));
     i++;
 
-    if( sCRLInfo.pSignAlgorithm )
+    if( crl_info_.pSignAlgorithm )
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("SignAlgorithm")));
-        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.pSignAlgorithm)));
+        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignAlgorithm)));
         i++;
     }
 
-    if( sCRLInfo.pSignature )
+    if( crl_info_.pSignature )
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Signature")));
-        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCRLInfo.pSignature)));
+        mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignature)));
         i++;
     }
 
-    if( sCRLInfo.pExtList )
+    if( crl_info_.pExtList )
     {
-        JSExtensionInfoList *pCurList = sCRLInfo.pExtList;
+        JSExtensionInfoList *pCurList = crl_info_.pExtList;
 
         while( pCurList )
         {
@@ -125,8 +128,23 @@ void CRLInfoDlg::initialize()
         }
     }
 
+    if( crl_info_.pRevokeList )
+    {
+        int k = 0;
+        JSRevokeInfoList *pCurRevList = crl_info_.pRevokeList;
+
+        while( pCurRevList )
+        {
+            mRevokeListTable->insertRow(k);
+            mRevokeListTable->setItem( k, 0, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.pSerial)));
+            mRevokeListTable->setItem( k, 1, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.uRevokeDate)));
+
+            pCurRevList = pCurRevList->pNext;
+            k++;
+        }
+    }
+
     JS_BIN_reset( &binCRL );
-    JS_PKI_resetCRLInfo( &sCRLInfo );
 }
 
 void CRLInfoDlg::initUI()
@@ -139,8 +157,22 @@ void CRLInfoDlg::initUI()
     mCRLListTable->setHorizontalHeaderLabels( sCRLLabels );
     mCRLListTable->verticalHeader()->setVisible(false);
 
+    QStringList sRevokeLabels = { tr("Serial"), tr("RevokedDate") };
+    mRevokeListTable->clear();
+    mRevokeListTable->horizontalHeader()->setStretchLastSection(true);
+    mRevokeListTable->setColumnCount(2);
+    mRevokeListTable->setHorizontalHeaderLabels( sRevokeLabels );
+    mRevokeListTable->verticalHeader()->setVisible(false);
+
+    mRevokeDetailTable->clear();
+    mRevokeDetailTable->horizontalHeader()->setStretchLastSection(true);
+    mRevokeDetailTable->setColumnCount(2);
+    mRevokeDetailTable->setHorizontalHeaderLabels(sCRLLabels);
+    mRevokeDetailTable->verticalHeader()->setVisible(false);
+
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
-    connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
+    connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
+    connect( mRevokeListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickRevokeField(QModelIndex)));
 }
 
 void CRLInfoDlg::clearTable()
@@ -161,7 +193,7 @@ void CRLInfoDlg::clearTable()
         mRevokeDetailTable->removeRow(0);
 }
 
-void CRLInfoDlg::clickField(QModelIndex index)
+void CRLInfoDlg::clickCRLField(QModelIndex index)
 {
     int row = index.row();
     int col = index.column();
@@ -170,4 +202,38 @@ void CRLInfoDlg::clickField(QModelIndex index)
     if( item == NULL ) return;
 
     mCRLDetailText->setPlainText( item->text() );
+}
+
+void CRLInfoDlg::clickRevokeField(QModelIndex index)
+{
+    int row = index.row();
+    int col = index.column();
+
+    JSRevokeInfoList *pRevInfoList = crl_info_.pRevokeList;
+    JSExtensionInfoList *pExtInfoList = NULL;
+
+    for( int i = 0; i < row; i++ )
+    {
+        pRevInfoList = pRevInfoList->pNext;
+    }
+
+    pExtInfoList = pRevInfoList->sRevokeInfo.pExtList;
+
+
+    int pos = 0;
+
+    while( pExtInfoList )
+    {
+        mRevokeDetailTable->insertRow(pos);
+        mRevokeDetailTable->setItem(pos,0, new QTableWidgetItem(QString("%1").arg(pExtInfoList->sExtensionInfo.pOID)));
+        mRevokeDetailTable->setItem(pos,1, new QTableWidgetItem(QString("[%1]%2")
+                                                           .arg(pExtInfoList->sExtensionInfo.bCritical)
+                                                           .arg(pExtInfoList->sExtensionInfo.pValue)));
+
+        pExtInfoList = pExtInfoList->pNext;
+
+        pos++;
+
+    }
+
 }
