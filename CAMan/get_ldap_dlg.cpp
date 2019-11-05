@@ -130,10 +130,11 @@ int GetLDAPDlg::ImportCert( const BIN *pCert )
     char *pHexCert = NULL;
     JSCertInfo sCertInfo;
     CertRec     cert;
+    JSExtensionInfoList *pExtInfoList = NULL;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    ret = JS_PKI_getCertInfo( pCert, &sCertInfo );
+    ret = JS_PKI_getCertInfo( pCert, &sCertInfo, &pExtInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCert, &pHexCert );
@@ -147,6 +148,7 @@ int GetLDAPDlg::ImportCert( const BIN *pCert )
 
     if( pHexCert ) JS_free( pHexCert );
     JS_PKI_resetCertInfo( &sCertInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
     return 0;
 }
@@ -160,10 +162,12 @@ int GetLDAPDlg::ImportCRL( const BIN *pCRL )
     JSCRLInfo sCRLInfo;
     char *pHexCRL = NULL;
     CRLRec crl;
+    JSExtensionInfoList *pExtInfoList = NULL;
+    JSRevokeInfoList *pRevokeInfoList = NULL;
 
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
 
-    ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo );
+    ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, &pExtInfoList, &pRevokeInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCRL, &pHexCRL );
@@ -176,6 +180,8 @@ int GetLDAPDlg::ImportCRL( const BIN *pCRL )
 
     if( pHexCRL ) JS_free( pHexCRL );
     JS_PKI_resetCRLInfo( &sCRLInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
     return 0;
 }

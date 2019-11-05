@@ -37,6 +37,7 @@ void CertInfoDlg::initialize()
 
     BIN binCert = {0,0};
     JSCertInfo  sCertInfo;
+    JSExtensionInfoList *pExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -56,7 +57,7 @@ void CertInfoDlg::initialize()
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
 
-    ret = JS_PKI_getCertInfo( &binCert, &sCertInfo );
+    ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to get certificate information"), this );
@@ -128,9 +129,9 @@ void CertInfoDlg::initialize()
         i++;
     }
 
-    if( sCertInfo.pExtList )
+    if( pExtInfoList )
     {
-        JSExtensionInfoList *pCurList = sCertInfo.pExtList;
+        JSExtensionInfoList *pCurList = pExtInfoList;
 
         while( pCurList )
         {
@@ -148,6 +149,7 @@ void CertInfoDlg::initialize()
 
     JS_BIN_reset( &binCert );
     JS_PKI_resetCertInfo( &sCertInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 }
 
 void CertInfoDlg::initUI()

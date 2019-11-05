@@ -34,6 +34,8 @@ private:
     void clearTable();
 
     JSCRLInfo crl_info_;
+    JSExtensionInfoList* ext_info_list_;
+    JSRevokeInfoList* revoke_info_list_;
 };
 
 #endif // CRL_INFO_DLG_H

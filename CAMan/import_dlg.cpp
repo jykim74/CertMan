@@ -187,10 +187,11 @@ int ImportDlg::ImportCert( const BIN *pCert )
     char *pHexCert = NULL;
     JSCertInfo sCertInfo;
     CertRec     cert;
+    JSExtensionInfoList *pExtInfoList = NULL;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    ret = JS_PKI_getCertInfo( pCert, &sCertInfo );
+    ret = JS_PKI_getCertInfo( pCert, &sCertInfo, &pExtInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCert, &pHexCert );
@@ -204,6 +205,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
 
     if( pHexCert ) JS_free( pHexCert );
     JS_PKI_resetCertInfo( &sCertInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
     return 0;
 }
@@ -217,10 +219,12 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     JSCRLInfo sCRLInfo;
     char *pHexCRL = NULL;
     CRLRec crl;
+    JSExtensionInfoList *pExtInfoList = NULL;
+    JSRevokeInfoList *pRevokeInfoList = NULL;
 
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
 
-    ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo );
+    ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, &pExtInfoList, &pRevokeInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCRL, &pHexCRL );
@@ -233,6 +237,8 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
 
     if( pHexCRL ) JS_free( pHexCRL );
     JS_PKI_resetCRLInfo( &sCRLInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
     return 0;
 }
@@ -246,9 +252,10 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     ReqRec  req;
     JSReqInfo   sReqInfo;
     char *pHexCSR = NULL;
+    JSExtensionInfoList *pExtInfoList = NULL;
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
-    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo );
+    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, &pExtInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCSR, &pHexCSR );
@@ -261,6 +268,7 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     dbMgr->addReqRec( req );
     if( pHexCSR ) JS_free( pHexCSR );
     JS_PKI_resetReqInfo( &sReqInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
     return 0;
 }

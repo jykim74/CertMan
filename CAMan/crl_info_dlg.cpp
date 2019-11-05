@@ -11,6 +11,8 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     setupUi(this);
     initUI();
     crl_num_ = -1;
+    ext_info_list_ = NULL;
+    revoke_info_list_ = NULL;
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
 }
@@ -56,13 +58,15 @@ void CRLInfoDlg::initialize()
     }
 
     clearTable();
+    if( ext_info_list_ ) JS_PKI_resetExtensionInfoList( &ext_info_list_ );
+    if( revoke_info_list_ ) JS_PKI_resetRevokeInfoList( &revoke_info_list_ );
 
     CRLRec crl;
     dbMgr->getCRLRec( crl_num_, crl );
 
     JS_BIN_decodeHex( crl.getCRL().toStdString().c_str(), &binCRL );
 
-    ret = JS_PKI_getCRLInfo( &binCRL, &crl_info_ );
+    ret = JS_PKI_getCRLInfo( &binCRL, &crl_info_, &ext_info_list_, &revoke_info_list_ );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to get CRL information"), this );
@@ -110,9 +114,9 @@ void CRLInfoDlg::initialize()
         i++;
     }
 
-    if( crl_info_.pExtList )
+    if( ext_info_list_ )
     {
-        JSExtensionInfoList *pCurList = crl_info_.pExtList;
+        JSExtensionInfoList *pCurList = ext_info_list_;
 
         while( pCurList )
         {
@@ -128,10 +132,10 @@ void CRLInfoDlg::initialize()
         }
     }
 
-    if( crl_info_.pRevokeList )
+    if( revoke_info_list_ )
     {
         int k = 0;
-        JSRevokeInfoList *pCurRevList = crl_info_.pRevokeList;
+        JSRevokeInfoList *pCurRevList = revoke_info_list_;
 
         while( pCurRevList )
         {
@@ -214,8 +218,7 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     for( int i=0; i < rowCnt; i++ )
         mRevokeDetailTable->removeRow(0);
 
-    JSRevokeInfoList *pRevInfoList = crl_info_.pRevokeList;
-    JSExtensionInfoList *pExtInfoList = NULL;
+    JSRevokeInfoList *pRevInfoList = revoke_info_list_;
 
     for( int i = 0; i < row; i++ )
     {

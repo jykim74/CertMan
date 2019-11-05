@@ -49,6 +49,8 @@ void MakeCRLDlg::accept()
     int         ret = 0;
     JSCRLInfo   sCRLInfo;
     JSCRLInfo   sMadeCRLInfo;
+    JSExtensionInfoList *pExtInfoList = NULL;
+    JSRevokeInfoList *pRevokeInfoList = NULL;
 
     BIN         binSignCert = {0,0};
     BIN         binSignPri = {0,0};
@@ -104,14 +106,14 @@ void MakeCRLDlg::accept()
     /* need to set revoked certificate information */
     /* need to support extensions */
 
-    ret = JS_PKI_makeCRL( &sCRLInfo, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
+    ret = JS_PKI_makeCRL( &sCRLInfo, NULL, NULL, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );
         goto end;
     }
 
-    ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo );
+    ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pExtInfoList, &pRevokeInfoList );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to get CRL information(%1)").arg(ret), this );
@@ -133,6 +135,8 @@ end :
     JS_BIN_reset( &binSignCert );
     JS_BIN_reset( &binCRL );
     if( pHexCRL ) JS_free( pHexCRL );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
     if( ret == 0 ) QDialog::accept();
 }

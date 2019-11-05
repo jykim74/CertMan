@@ -92,6 +92,7 @@ void MakeCertDlg::accept()
     char *pHexCert = NULL;
 
     CertRec madeCertRec;
+    JSExtensionInfoList *pExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -197,7 +198,7 @@ void MakeCertDlg::accept()
     /* need to support extensions start */
     /* need to support extensions end */
 
-    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
+    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, NULL, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
@@ -205,7 +206,7 @@ void MakeCertDlg::accept()
 
     }
 
-    ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo );
+    ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pExtInfoList );
     if( ret != 0 )
     {
         manApplet->warningBox(tr("fail to get certificate information(%1)").arg(ret), this );
@@ -235,6 +236,7 @@ end :
     JS_PKI_resetCertInfo( &sCertInfo );
     JS_PKI_resetCertInfo( &sMadeCertInfo );
     if( pHexCert ) JS_free( pHexCert );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
     if( ret == 0 ) QDialog::accept();
 }
