@@ -107,6 +107,24 @@ void CRLInfoDlg::initialize()
         i++;
     }
 
+    if( sCRLInfo.pExtList )
+    {
+        JSExtensionInfoList *pCurList = sCRLInfo.pExtList;
+
+        while( pCurList )
+        {
+            mCRLListTable->insertRow(i);
+            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
+            mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
+                                                               .arg(pCurList->sExtensionInfo.bCritical)
+                                                               .arg(pCurList->sExtensionInfo.pValue)));
+
+
+            pCurList = pCurList->pNext;
+            i++;
+        }
+    }
+
     JS_BIN_reset( &binCRL );
     JS_PKI_resetCRLInfo( &sCRLInfo );
 }
@@ -122,6 +140,7 @@ void CRLInfoDlg::initUI()
     mCRLListTable->verticalHeader()->setVisible(false);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+    connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
 }
 
 void CRLInfoDlg::clearTable()
@@ -140,4 +159,15 @@ void CRLInfoDlg::clearTable()
 
     for( int i=0; i < rowCnt; i++ )
         mRevokeDetailTable->removeRow(0);
+}
+
+void CRLInfoDlg::clickField(QModelIndex index)
+{
+    int row = index.row();
+    int col = index.column();
+
+    QTableWidgetItem* item = mCRLListTable->item( row, 1 );
+    if( item == NULL ) return;
+
+    mCRLDetailText->setPlainText( item->text() );
 }

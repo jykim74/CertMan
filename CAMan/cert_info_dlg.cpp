@@ -65,83 +65,84 @@ void CertInfoDlg::initialize()
         return;
     }
 
-    mBaseTable->insertRow(i);
-    mBaseTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
-    mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.nVersion)));
+    mFieldTable->insertRow(i);
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.nVersion)));
     i++;
 
     if( sCertInfo.pSerial )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("Serial")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSerial)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("Serial")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSerial)));
         i++;
     }
 
-    mBaseTable->insertRow(i);
-    mBaseTable->setItem( i, 0, new QTableWidgetItem( QString("NotBefore")));
-    mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotBefore)));
+    mFieldTable->insertRow(i);
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotBefore")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotBefore)));
     i++;
 
-    mBaseTable->insertRow(i);
-    mBaseTable->setItem( i, 0, new QTableWidgetItem( QString("NotAfter")));
-    mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotAfter)));
+    mFieldTable->insertRow(i);
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotAfter")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotAfter)));
     i++;
 
     if( sCertInfo.pSubjectName )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("SubjectName")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSubjectName)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("SubjectName")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSubjectName)));
         i++;
     }
 
     if( sCertInfo.pPublicKey )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("PublicKey")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pPublicKey)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("PublicKey")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pPublicKey)));
         i++;
     }
 
     if( sCertInfo.pIssuerName )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("IssuerName")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pIssuerName)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("IssuerName")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pIssuerName)));
         i++;
     }
 
     if( sCertInfo.pSignAlgorithm )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("SigAlgorithm")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignAlgorithm)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("SigAlgorithm")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignAlgorithm)));
         i++;
     }
 
     if( sCertInfo.pSignature )
     {
-        mBaseTable->insertRow(i);
-        mBaseTable->setItem(i, 0, new QTableWidgetItem(QString("Signature")));
-        mBaseTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignature)));
+        mFieldTable->insertRow(i);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("Signature")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignature)));
         i++;
     }
 
     if( sCertInfo.pExtList )
     {
-        int k = 0;
         JSExtensionInfoList *pCurList = sCertInfo.pExtList;
 
         while( pCurList )
         {
-            mExtensionTable->insertRow(k);
-            mExtensionTable->setItem(k,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
-            mExtensionTable->setItem(k,1, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.bCritical)));
-            mExtensionTable->setItem(k,2, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pValue)));
+            mFieldTable->insertRow(i);
+            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
+            mFieldTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
+                                                               .arg(pCurList->sExtensionInfo.bCritical)
+                                                               .arg(pCurList->sExtensionInfo.pValue)));
+
 
             pCurList = pCurList->pNext;
-            k++;
+            i++;
         }
     }
 
@@ -153,20 +154,14 @@ void CertInfoDlg::initUI()
 {
     QStringList sBaseLabels = { tr("Field"), tr("Value") };
 
-    mBaseTable->clear();
-    mBaseTable->horizontalHeader()->setStretchLastSection(true);
-    mBaseTable->setColumnCount(2);
-    mBaseTable->setHorizontalHeaderLabels( sBaseLabels );
-    mBaseTable->verticalHeader()->setVisible(false);
-
-    QStringList sExtLabels = { tr("Field"), tr("Critical"), tr("Value") };
-    mExtensionTable->clear();
-    mExtensionTable->horizontalHeader()->setStretchLastSection(true);
-    mExtensionTable->setColumnCount(3);
-    mExtensionTable->setHorizontalHeaderLabels(sExtLabels);
-    mExtensionTable->verticalHeader()->setVisible(false);
+    mFieldTable->clear();
+    mFieldTable->horizontalHeader()->setStretchLastSection(true);
+    mFieldTable->setColumnCount(2);
+    mFieldTable->setHorizontalHeaderLabels( sBaseLabels );
+    mFieldTable->verticalHeader()->setVisible(false);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+    connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
 }
 
 void CertInfoDlg::clickClose()
@@ -174,15 +169,21 @@ void CertInfoDlg::clickClose()
     this->hide();
 }
 
+void CertInfoDlg::clickField(QModelIndex index)
+{
+    int row = index.row();
+    int col = index.column();
+
+    QTableWidgetItem* item = mFieldTable->item( row, 1 );
+    if( item == NULL ) return;
+
+    mDetailText->setText( item->text() );
+}
+
 void CertInfoDlg::clearTable()
 {
-    int rowCnt = mBaseTable->rowCount();
+    int rowCnt = mFieldTable->rowCount();
 
     for( int i=0; i < rowCnt; i++ )
-        mBaseTable->removeRow(0);
-
-    rowCnt = mExtensionTable->rowCount();
-
-    for( int i=0; i < rowCnt; i++ )
-        mExtensionTable->removeRow(0);
+        mFieldTable->removeRow(0);
 }
