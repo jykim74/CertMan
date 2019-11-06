@@ -9,7 +9,7 @@
 #include "js_pki_ext.h"
 
 
-int setKeyUsage( BIN *pBinExt, const QString strVal )
+static int _setKeyUsage( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
     int nKeyUsage = 0;
@@ -45,7 +45,7 @@ int setKeyUsage( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-int setCRLNum( BIN *pBinExt, const QString strVal )
+static int _setCRLNum( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
 
@@ -54,7 +54,7 @@ int setCRLNum( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-int setCertPolicy( BIN *pBinExt, const QString strVal )
+static int _setCertPolicy( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
     JSExtPolicyList *pPolicyList = NULL;
@@ -101,11 +101,23 @@ int setCertPolicy( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-int setSKI( BIN *pBinExt, const QString strVal )
+static int _setSKI( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
 
     ret = JS_PKI_setSubjectKeyIdentifierValue( pBinExt, strVal.toStdString().c_str() );
+
+    return ret;
+}
+
+static int _setAKI( BIN *pBinExt, const QString strVal )
+{
+    int ret = 0;
+    char sAKI[128];
+    char sSerial[128];
+    char sIssuer[1024];
+
+    ret = JS_PKI_setAuthorityKeyIdentifierValue( pBinExt, sAKI, sIssuer, sSerial );
 
     return ret;
 }
@@ -127,19 +139,23 @@ int setExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
 
     if( strSN == kExtNameKeyUsage )
     {
-        ret = setKeyUsage( &binExt, strVal );
+        ret = _setKeyUsage( &binExt, strVal );
     }
     else if( strSN == kExtNameCRLNum )
     {
-        ret = setCRLNum( &binExt, strVal );
+        ret = _setCRLNum( &binExt, strVal );
     }
     else if( strSN == kExtNamePolicy )
     {
-        ret = setCertPolicy( &binExt, strVal );
+        ret = _setCertPolicy( &binExt, strVal );
     }
     else if( strSN == kExtNameSKI )
     {
-        ret = setSKI( &binExt, strVal );
+        ret = _setSKI( &binExt, strVal );
+    }
+    else if( strSN == KExtNameAKI )
+    {
+        ret = _setAKI( &binExt, strVal );
     }
 
     if( ret == 0 )
