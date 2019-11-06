@@ -3,10 +3,13 @@
 
 #include <QDialog>
 #include "ui_make_cert_dlg.h"
+#include "js_pki.h"
+#include "js_pki_x509.h"
 
 class ReqRec;
 class CertRec;
 class CertPolicyRec;
+class PolicyExtRec;
 
 namespace Ui {
 class MakeCertDlg;

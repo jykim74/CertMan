@@ -33,6 +33,7 @@ SOURCES += \
         cert_info_dlg.cpp \
         cert_policy_rec.cpp \
         cert_rec.cpp \
+        commons.cpp \
         crl_info_dlg.cpp \
         crl_policy_rec.cpp \
         crl_rec.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
         cert_info_dlg.h \
         cert_policy_rec.h \
         cert_rec.h \
+        commons.h \
         crl_info_dlg.h \
         crl_policy_rec.h \
         crl_rec.h \

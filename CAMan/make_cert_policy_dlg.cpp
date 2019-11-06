@@ -4,31 +4,7 @@
 #include "cert_policy_rec.h"
 #include "policy_ext_rec.h"
 #include "db_mgr.h"
-
-static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
-static QStringList sKeyUsageList = {
-    "digitalSignature", "nonRepudiation", "keyEncipherment",
-    "dataEncipherment", "keyAgreement", "keyCertSign",
-    "cRLSign", "encipherOnly", "decipherOnly"
-};
-
-
-static QStringList sExtKeyUsageList = {
-    "serverAuth", "clientAuth", "codeSigning",
-    "emailProtection", "timeStamping", "OCSPSigning",
-    "ipsecIKE", "msCodeInd", "msCodeCom",
-    "msCTLSign", "msEFS"
-};
-
-static QStringList sVersionList = { "V1", "V2", "V3" };
-
-static QStringList sTypeList = { "URI", "email", "DNS" };
-
-static QStringList sAIATargetList = { "OCSP", "caIssuer" };
-
-static QStringList sNCSubList = { "permittedSubtrees", "excludedSubtrees" };
-
-static QStringList sBCTypeList = { "CA", "End Entity" };
+#include "commons.h"
 
 
 MakeCertPolicyDlg::MakeCertPolicyDlg(QWidget *parent) :
@@ -123,18 +99,18 @@ void MakeCertPolicyDlg::accept()
 
 void MakeCertPolicyDlg::initUI()
 {
-    mKeyUsageCombo->addItems(sKeyUsageList);
-    mEKUCombo->addItems(sExtKeyUsageList);
-    mVersionCombo->addItems(sVersionList);
-    mCRLDPCombo->addItems(sTypeList);
-    mAIATargetCombo->addItems( sAIATargetList );
-    mAIATypeCombo->addItems(sTypeList);
-    mSANCombo->addItems(sTypeList);
-    mIANCombo->addItems(sTypeList);
-    mNCTypeCombo->addItems(sTypeList);
-    mNCSubCombo->addItems(sNCSubList);
-    mBCCombo->addItems(sBCTypeList);
-    mHashCombo->addItems(sHashList);
+    mKeyUsageCombo->addItems(kKeyUsageList);
+    mEKUCombo->addItems(kExtKeyUsageList);
+    mVersionCombo->addItems(kCertVersionList);
+    mCRLDPCombo->addItems(kTypeList);
+    mAIATargetCombo->addItems( kAIATargetList );
+    mAIATypeCombo->addItems(kTypeList);
+    mSANCombo->addItems(kTypeList);
+    mIANCombo->addItems(kTypeList);
+    mNCTypeCombo->addItems(kTypeList);
+    mNCSubCombo->addItems(kNCSubList);
+    mBCCombo->addItems(kBCTypeList);
+    mHashCombo->addItems(kHashList);
 }
 
 void MakeCertPolicyDlg::setTableMenus()
@@ -747,7 +723,7 @@ void MakeCertPolicyDlg::setPolicyUse(int nPolicyNum )
 
     for( int i=0; i < mPolicyTable->rowCount(); i++ )
     {
-        if( i != 0 ) strVal += "#";
+        if( i != 0 ) strVal += "%%";
 
         strVal += "OID$";
         strVal += mPolicyTable->takeItem(i,0)->text();

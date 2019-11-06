@@ -9,6 +9,8 @@
 
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "js_pki_tools.h"
+#include "commons.h"
 
 QString getSignAlg( const QString strAlg, const QString strHash )
 {
@@ -93,6 +95,7 @@ void MakeCertDlg::accept()
 
     CertRec madeCertRec;
     JSExtensionInfoList *pExtInfoList = NULL;
+    JSExtensionInfoList *pMadeExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -196,9 +199,67 @@ void MakeCertDlg::accept()
                         NULL );
 
     /* need to support extensions start */
+    QList<PolicyExtRec> policyExtList;
+    dbMgr->getCertPolicyExtensionList( policyRec.getNum(), policyExtList );
+    for( int i=0; i < policyExtList.size(); i++ )
+    {
+        JSExtensionInfo sExtInfo;
+        PolicyExtRec policyExt = policyExtList.at(i);
+
+        memset( &sExtInfo, 0x00, sizeof(sExtInfo));
+
+        if( policyExt.getSN() == kExtNameSKI )
+        {
+            BIN binPub = {0,0};
+            char sHexID[128];
+
+            memset( sHexID, 0x00, sizeof(sHexID));
+
+            JS_BIN_decodeHex( issueKeyPair.getPublicKey().toStdString().c_str(), &binPub );
+            JS_PKI_getKeyIdentifier( &binPub, sHexID );
+            policyExt.setValue( sHexID );
+            JS_BIN_reset( &binPub );
+        }
+        else if( policyExt.getSN() == kExtNameIAN )
+        {
+            if( bSelf == false )
+            {
+                BIN binCert = {0,0};
+                char sHexID[256];
+                char sHexSerial[256];
+                char sHexIssuer[1024];
+
+                memset( sHexID, 0x00, sizeof(sHexID) );
+                memset( sHexSerial, 0x00, sizeof(sHexSerial) );
+                memset( sHexIssuer, 0x00, sizeof(sHexIssuer) );
+
+
+                CertRec issuerCert = ca_cert_list_.at( issuerIdx );
+                JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binCert );
+
+                JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
+                QString strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( sHexID ).arg( sHexIssuer ).arg( sHexSerial );
+                policyExt.setValue( strVal );
+
+                JS_BIN_reset( &binCert );
+            }
+            else
+            {
+                /* SelfSign 경우 무시 한다. */
+                continue;
+            }
+        }
+
+        setExtInfo( &sExtInfo, policyExt );
+
+        if( pExtInfoList == NULL )
+            JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
+        else
+            JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+    }
     /* need to support extensions end */
 
-    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, NULL, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
+    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, pExtInfoList, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
@@ -206,7 +267,7 @@ void MakeCertDlg::accept()
 
     }
 
-    ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pExtInfoList );
+    ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pMadeExtInfoList );
     if( ret != 0 )
     {
         manApplet->warningBox(tr("fail to get certificate information(%1)").arg(ret), this );
@@ -237,6 +298,7 @@ end :
     JS_PKI_resetCertInfo( &sMadeCertInfo );
     if( pHexCert ) JS_free( pHexCert );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
 
     if( ret == 0 ) QDialog::accept();
 }
