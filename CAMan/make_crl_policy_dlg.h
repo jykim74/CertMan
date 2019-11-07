@@ -22,10 +22,10 @@ private slots:
 
     void clickCRLNum();
     void clickAKI();
-    void clickDPN();
+    void clickIDP();
     void clickIAN();
 
-    void addDPN();
+    void addIDP();
     void addIAN();
 
 
@@ -37,7 +37,7 @@ private:
 
     void setCRLNumUse( int nPolicyNum );
     void setAKIUse( int nPolicyNum );
-    void setDPNUse( int nPolicyNum );
+    void setIDPUse( int nPolicyNum );
     void setIANUse( int nPolicyNum );
 };
 

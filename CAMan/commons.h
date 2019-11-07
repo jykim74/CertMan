@@ -9,7 +9,7 @@
 #include "js_pki_x509.h"
 
 const QString kExtNameAIA = "authorityInfoAccess";
-const QString KExtNameAKI = "authorityKeyIdentifier";
+const QString kExtNameAKI = "authorityKeyIdentifier";
 const QString kExtNameBC = "basicConstraints";
 const QString kExtNameCRLDP = "crlDistributionPoints";
 const QString kExtNameEKU = "extendedKeyUsage";
@@ -22,7 +22,7 @@ const QString kExtNamePM = "policyMappings";
 const QString kExtNameSKI = "subjectKeyIdentifier";
 const QString kExtNameSAN = "subjectAltName";
 const QString kExtNameCRLNum = "crlNumber";
-const QString kExtNameDPN = "issuingDistributionPoint";
+const QString kExtNameIDP = "issuingDistributionPoint";
 const QString kExtNameCRLReason = "crlReason";
 
 

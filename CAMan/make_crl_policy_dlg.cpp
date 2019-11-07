@@ -78,7 +78,7 @@ void MakeCRLPolicyDlg::accept()
     /* need to set extend fields here */
 
     if( mCRLNumUseCheck->isChecked() ) setCRLNumUse( nPolicyNum );
-    if( mDPNUseCheck->isChecked() ) setDPNUse( nPolicyNum );
+    if( mIDPUseCheck->isChecked() ) setIDPUse( nPolicyNum );
     if( mAKIUseCheck->isChecked() ) setAKIUse( nPolicyNum );
     if( mIANUseCheck->isChecked() ) setIANUse( nPolicyNum );
 
@@ -90,7 +90,7 @@ void MakeCRLPolicyDlg::accept()
 void MakeCRLPolicyDlg::initUI()
 {
     mHashCombo->addItems(sHashList);
-    mDPNCombo->addItems(sTypeList);
+    mIDPCombo->addItems(sTypeList);
     mIANCombo->addItems(sTypeList);
     mVersionCombo->addItems(sVersionList);
 }
@@ -99,10 +99,10 @@ void MakeCRLPolicyDlg::connectExtends()
 {
     connect( mCRLNumUseCheck, SIGNAL(clicked()), this, SLOT(clickCRLNum()));
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
-    connect( mDPNUseCheck, SIGNAL(clicked()), this, SLOT(clickDPN()));
+    connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
     connect( mIANUseCheck, SIGNAL(clicked()), this, SLOT(clickIAN()));
 
-    connect( mDPNAddBtn, SIGNAL(clicked()), this, SLOT(addDPN()));
+    connect( mIDPAddBtn, SIGNAL(clicked()), this, SLOT(addIDP()));
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
 }
 
@@ -110,16 +110,16 @@ void MakeCRLPolicyDlg::setExtends()
 {
     clickCRLNum();
     clickAKI();
-    clickDPN();
+    clickIDP();
     clickIAN();
 }
 
 void MakeCRLPolicyDlg::setTableMenus()
 {
     QStringList sDPNLabels = { "Type", "Value" };
-    mDPNTable->setColumnCount(2);
-    mDPNTable->horizontalHeader()->setStretchLastSection(true);
-    mDPNTable->setHorizontalHeaderLabels(sDPNLabels);
+    mIDPTable->setColumnCount(2);
+    mIDPTable->horizontalHeader()->setStretchLastSection(true);
+    mIDPTable->setHorizontalHeaderLabels(sDPNLabels);
 
     QStringList sIANLabels = { "Type", "Value" };
     mIANTable->setColumnCount(2);
@@ -145,15 +145,15 @@ void MakeCRLPolicyDlg::clickAKI()
     mAKICertSerialCheck->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::clickDPN()
+void MakeCRLPolicyDlg::clickIDP()
 {
-    bool bStatus = mDPNUseCheck->isChecked();
+    bool bStatus = mIDPUseCheck->isChecked();
 
-    mDPNCriticalCheck->setEnabled(bStatus);
-    mDPNAddBtn->setEnabled(bStatus);
-    mDPNText->setEnabled(bStatus);
-    mDPNTable->setEnabled(bStatus);
-    mDPNCombo->setEnabled(bStatus);
+    mIDPCriticalCheck->setEnabled(bStatus);
+    mIDPAddBtn->setEnabled(bStatus);
+    mIDPText->setEnabled(bStatus);
+    mIDPTable->setEnabled(bStatus);
+    mIDPCombo->setEnabled(bStatus);
 }
 
 void MakeCRLPolicyDlg::clickIAN()
@@ -167,16 +167,16 @@ void MakeCRLPolicyDlg::clickIAN()
     mIANAddBtn->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::addDPN()
+void MakeCRLPolicyDlg::addIDP()
 {
-    QString strType = mDPNCombo->currentText();
-    QString strVal = mDPNText->text();
+    QString strType = mIDPCombo->currentText();
+    QString strVal = mIDPText->text();
 
-    int row = mDPNTable->rowCount();
-    mDPNTable->setRowCount( row + 1 );
+    int row = mIDPTable->rowCount();
+    mIDPTable->setRowCount( row + 1 );
 
-    mDPNTable->setItem( row, 0, new QTableWidgetItem( strType ));
-    mDPNTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+    mIDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
+    mIDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
 
 void MakeCRLPolicyDlg::addIAN()
@@ -237,7 +237,7 @@ void MakeCRLPolicyDlg::setAKIUse( int nPolicyNum )
     dbMgr->addCRLPolicyExtension(policyExt);
 }
 
-void MakeCRLPolicyDlg::setDPNUse( int nPolicyNum )
+void MakeCRLPolicyDlg::setIDPUse( int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -246,17 +246,17 @@ void MakeCRLPolicyDlg::setDPNUse( int nPolicyNum )
 
     policyExt.setPolicyNum(nPolicyNum);
     policyExt.setSN( "issuingDistributionPoint" );
-    policyExt.setCritical( mDPNCriticalCheck->isChecked() );
+    policyExt.setCritical( mIDPCriticalCheck->isChecked() );
 
     QString strVal;
 
-    for( int i = 0; i < mDPNTable->rowCount(); i++ )
+    for( int i = 0; i < mIDPTable->rowCount(); i++ )
     {
         QString strType;
         QString strData;
 
-        strType = mDPNTable->takeItem(i,0)->text();
-        strData = mDPNTable->takeItem(i,1)->text();
+        strType = mIDPTable->takeItem(i,0)->text();
+        strData = mIDPTable->takeItem(i,1)->text();
 
         if( i != 0 ) strVal += "#";
         strVal += strType;
