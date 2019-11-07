@@ -4,12 +4,8 @@
 #include "db_mgr.h"
 #include "revoke_rec.h"
 #include "cert_rec.h"
+#include "commons.h"
 
-static QStringList sRevokeReasonList = {
-    "unused", "keyCompromise", "CACompromise",
-    "affiliationChanged", "superseded", "cessationOfOperation",
-    "certificateHold", "privilegeWithdrawn", "AACompromise"
-};
 
 RevokeCertDlg::RevokeCertDlg(QWidget *parent) :
     QDialog(parent)
@@ -80,5 +76,5 @@ void RevokeCertDlg::accept()
 
 void RevokeCertDlg::initUI()
 {
-    mReasonCombo->addItems( sRevokeReasonList );
+    mReasonCombo->addItems( kRevokeReasonList );
 }

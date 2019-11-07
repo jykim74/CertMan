@@ -47,6 +47,13 @@ const QStringList kAIATargetList = { "OCSP", "caIssuer" };
 const QStringList kNCSubList = { "permittedSubtrees", "excludedSubtrees" };
 const QStringList kBCTypeList = { "CA", "End Entity" };
 
+const QStringList kRevokeReasonList = {
+    "unspecified", "keyCompromise", "CACompromise",
+    "affiliationChanged", "superseded", "cessationOfOperation",
+    "certificateHold", "removeFromCRL", "holdInstruction",
+    "keyTime","CAKeyTime"
+};
+
 int setExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
 
 #endif // COMMONS_H
