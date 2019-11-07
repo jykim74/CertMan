@@ -10,7 +10,8 @@
 
 #include "js_pki.h"
 #include "js_pki_x509.h"
-
+#include "js_pki_tools.h"
+#include "commons.h"
 
 static QStringList	sRevokeReasonList = {
     "unused", "keyCompromise", "CACompromise",
@@ -50,7 +51,9 @@ void MakeCRLDlg::accept()
     JSCRLInfo   sCRLInfo;
     JSCRLInfo   sMadeCRLInfo;
     JSExtensionInfoList *pExtInfoList = NULL;
+    JSExtensionInfoList *pMadeExtInfoList = NULL;
     JSRevokeInfoList *pRevokeInfoList = NULL;
+    JSRevokeInfoList *pMadeRevokeInfoList = NULL;
 
     BIN         binSignCert = {0,0};
     BIN         binSignPri = {0,0};
@@ -104,16 +107,56 @@ void MakeCRLDlg::accept()
                        NULL );
 
     /* need to set revoked certificate information */
+
+    QList<PolicyExtRec> policyExtList;
+    dbMgr->getCRLPolicyExtensionList( policy.getNum(), policyExtList );
+    for( int i=0; i < policyExtList.size(); i++ )
+    {
+        JSExtensionInfo sExtInfo;
+        PolicyExtRec policyExt = policyExtList.at(i);
+
+        memset( &sExtInfo, 0x00, sizeof(sExtInfo));
+
+        if( policyExt.getSN() == kExtNameIAN )
+        {
+            BIN binCert = {0,0};
+            char sHexID[256];
+            char sHexSerial[256];
+            char sHexIssuer[1024];
+
+            memset( sHexID, 0x00, sizeof(sHexID) );
+            memset( sHexSerial, 0x00, sizeof(sHexSerial) );
+            memset( sHexIssuer, 0x00, sizeof(sHexIssuer) );
+
+
+            CertRec issuerCert = ca_cert_list_.at( issuerIdx );
+            JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binCert );
+
+            JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
+            QString strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( sHexID ).arg( sHexIssuer ).arg( sHexSerial );
+            policyExt.setValue( strVal );
+
+            JS_BIN_reset( &binCert );
+        }
+
+        setExtInfo( &sExtInfo, policyExt );
+
+        if( pExtInfoList == NULL )
+            JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
+        else
+            JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+    }
+
     /* need to support extensions */
 
-    ret = JS_PKI_makeCRL( &sCRLInfo, NULL, NULL, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
+    ret = JS_PKI_makeCRL( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );
         goto end;
     }
 
-    ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pExtInfoList, &pRevokeInfoList );
+    ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pMadeExtInfoList, &pMadeRevokeInfoList );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to get CRL information(%1)").arg(ret), this );
@@ -136,7 +179,9 @@ end :
     JS_BIN_reset( &binCRL );
     if( pHexCRL ) JS_free( pHexCRL );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
+    if( pMadeRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pMadeRevokeInfoList );
 
     if( ret == 0 ) QDialog::accept();
 }
