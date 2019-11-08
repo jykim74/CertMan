@@ -62,7 +62,7 @@ public:
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
     int modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec );
-    int modeCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec );
+    int modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec );
 
     int getSeq( QString strTable );
     int getCertPolicyNextNum();

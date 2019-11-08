@@ -600,7 +600,7 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
     return 0;
 }
 
-int DBMgr::modeCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
+int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "UPDATE TB_CRL_POLICY SET "

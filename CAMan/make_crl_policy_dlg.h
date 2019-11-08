@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_make_crl_policy_dlg.h"
 
+class PolicyExtRec;
+
 namespace Ui {
 class MakeCRLPolicyDlg;
 }
@@ -45,7 +47,14 @@ private:
     void saveIDPUse( int nPolicyNum );
     void saveIANUse( int nPolicyNum );
 
+    void setCRLNumUse( const PolicyExtRec& policyRec );
+    void setAKIUse( const PolicyExtRec& policyRec );
+    void setIDPUse( const PolicyExtRec& policyRec );
+    void setIANUse( const PolicyExtRec& policyRec );
+
     void initialize();
+    void loadPolicy();
+    void defaultPolicy();
 
     bool is_edit_;
     int policy_num_;

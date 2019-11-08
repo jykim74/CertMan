@@ -4,6 +4,7 @@
 #include "policy_ext_rec.h"
 #include "crl_policy_rec.h"
 #include "db_mgr.h"
+#include "commons.h"
 
 static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
 static QStringList sTypeList = { "URI", "email", "DNS" };
@@ -47,6 +48,64 @@ void MakeCRLPolicyDlg::showEvent(QShowEvent *event)
 void MakeCRLPolicyDlg::initialize()
 {
     mCRLTab->setCurrentIndex(0);
+
+    if( is_edit_ )
+        loadPolicy();
+    else
+        defaultPolicy();
+}
+
+void MakeCRLPolicyDlg::loadPolicy()
+{
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    CRLPolicyRec crlPolicy;
+
+    dbMgr->getCRLPolicyRec( policy_num_, crlPolicy );
+
+    mNameText->setText( crlPolicy.getName() );
+    mVersionCombo->setCurrentIndex( crlPolicy.getVersion() );
+    mHashCombo->setCurrentText( crlPolicy.getHash() );
+
+    if( crlPolicy.getLastUpdate() == 0 )
+    {
+        mUseFromNowCheck->setChecked(true);
+        mValidDaysText->setText( QString("%1").arg(crlPolicy.getNextUpdate()));
+    }
+    else
+    {
+        QDateTime lastUpdate;
+        QDateTime nextUpdate;
+
+        lastUpdate.setTime_t( crlPolicy.getLastUpdate() );
+        nextUpdate.setTime_t( crlPolicy.getNextUpdate() );
+
+        mLastUpdateDateTime->setDateTime(lastUpdate);
+        mNextUpdateDateTime->setDateTime(nextUpdate );
+    }
+
+    QList<PolicyExtRec> extPolicyList;
+    dbMgr->getCRLPolicyExtensionList( policy_num_, extPolicyList );
+
+    for( int i=0; i < extPolicyList.size(); i++ )
+    {
+        PolicyExtRec extPolicy = extPolicyList.at(i);
+
+        if( extPolicy.getSN() == kExtNameCRLNum )
+            setCRLNumUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameAKI )
+            setAKIUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameIDP )
+            setIDPUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameIAN )
+            setIANUse( extPolicy );
+    }
+}
+
+void MakeCRLPolicyDlg::defaultPolicy()
+{
+    mNameText->setText("");
 }
 
 void MakeCRLPolicyDlg::accept()
@@ -89,7 +148,17 @@ void MakeCRLPolicyDlg::accept()
     }
 
     crlPolicyRec.setHash( mHashCombo->currentText() );
-    dbMgr->addCRLPolicyRec( crlPolicyRec );
+
+    if( is_edit_ )
+    {
+        dbMgr->modCRLPolicyRec( policy_num_, crlPolicyRec );
+        dbMgr->delCRLPolicyExtensionList( policy_num_ );
+        nPolicyNum = policy_num_;
+    }
+    else
+    {
+        dbMgr->addCRLPolicyRec( crlPolicyRec );
+    }
 
 
     /* need to set extend fields here */
@@ -314,4 +383,24 @@ void MakeCRLPolicyDlg::saveIANUse( int nPolicyNum )
 
     policyExt.setValue( strVal );
     dbMgr->addCRLPolicyExtension(policyExt);
+}
+
+void MakeCRLPolicyDlg::setCRLNumUse( const PolicyExtRec& policyRec )
+{
+
+}
+
+void MakeCRLPolicyDlg::setAKIUse( const PolicyExtRec& policyRec )
+{
+
+}
+
+void MakeCRLPolicyDlg::setIDPUse( const PolicyExtRec& policyRec )
+{
+
+}
+
+void MakeCRLPolicyDlg::setIANUse( const PolicyExtRec& policyRec )
+{
+
 }

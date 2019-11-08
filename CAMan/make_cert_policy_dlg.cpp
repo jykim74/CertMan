@@ -82,19 +82,42 @@ void MakeCertPolicyDlg::loadPolicy()
         mNotAfterDateTime->setDateTime( notAfter );
     }
 
-    loadAIAUse( policy_num_ );
-    loadAKIUse( policy_num_ );
-    loadBCUse( policy_num_ );
-    loadCRLDPUse( policy_num_ );
-    loadEKUUse( policy_num_ );
-    loadIANUse( policy_num_ );
-    loadKeyUsageUse( policy_num_ );
-    loadNCUse( policy_num_ );
-    loadPolicyUse( policy_num_ );
-    loadPCUse( policy_num_ );
-    loadPMUse( policy_num_ );
-    loadSKIUse( policy_num_ );
-    loadSANUse( policy_num_ );
+
+    QList<PolicyExtRec> extPolicyList;
+    dbMgr->getCertPolicyExtensionList( policy_num_, extPolicyList );
+
+    for( int i=0; i < extPolicyList.size(); i++ )
+    {
+        PolicyExtRec extPolicy = extPolicyList.at(i);
+
+        if( extPolicy.getSN() == kExtNameAIA )
+            setAIAUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameAKI )
+            setAKIUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameBC )
+            setBCUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameCRLDP )
+            setCRLDPUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameEKU )
+            setEKUUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameIAN )
+            setIANUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameKeyUsage )
+            setKeyUsageUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameNC )
+            setNCUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNamePolicy )
+            setPolicyUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNamePC )
+            setPCUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNamePM )
+            setPMUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameSKI )
+            setSKIUse( extPolicy );
+        else if( extPolicy.getSN() == kExtNameSAN )
+            setSANUse( extPolicy );
+    }
+
 }
 
 void MakeCertPolicyDlg::defaultPolicy()
@@ -154,6 +177,7 @@ void MakeCertPolicyDlg::accept()
     {
         dbMgr->modCertPolicyRec( policy_num_, certPolicyRec );
         dbMgr->delCertPolicyExtensionList( policy_num_ );
+        nPolicyNum = policy_num_;
     }
     else
     {
@@ -926,67 +950,67 @@ void MakeCertPolicyDlg::saveSANUse(int nPolicyNum)
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::loadAIAUse( int nPolicyNum )
+void MakeCertPolicyDlg::setAIAUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadAKIUse(int nPolicyNum )
+void MakeCertPolicyDlg::setAKIUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadBCUse(int nPolicyNum )
+void MakeCertPolicyDlg::setBCUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadCRLDPUse(int nPolicyNum )
+void MakeCertPolicyDlg::setCRLDPUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadEKUUse(int nPolicyNum )
+void MakeCertPolicyDlg::setEKUUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadIANUse(int nPolicyNum )
+void MakeCertPolicyDlg::setIANUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadKeyUsageUse(int nPolicyNum )
+void MakeCertPolicyDlg::setKeyUsageUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadNCUse(int nPolicyNum )
+void MakeCertPolicyDlg::setNCUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadPolicyUse(int nPolicyNum )
+void MakeCertPolicyDlg::setPolicyUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadPCUse(int nPolicyNum )
+void MakeCertPolicyDlg::setPCUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadPMUse(int nPolicyNum )
+void MakeCertPolicyDlg::setPMUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadSKIUse(int nPolicyNum )
+void MakeCertPolicyDlg::setSKIUse( const PolicyExtRec& policyRec )
 {
 
 }
 
-void MakeCertPolicyDlg::loadSANUse(int nPolicyNum )
+void MakeCertPolicyDlg::setSANUse( const PolicyExtRec& policyRec )
 {
 
 }

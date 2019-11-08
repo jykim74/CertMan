@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_make_cert_policy_dlg.h"
 
+class PolicyExtRec;
+
 namespace Ui {
 class MakeCertPolicyDlg;
 }
@@ -73,19 +75,19 @@ private:
     void saveSKIUse(int nPolicyNum );
     void saveSANUse(int nPolicyNum );
 
-    void loadAIAUse( int nPolicyNum );
-    void loadAKIUse(int nPolicyNum );
-    void loadBCUse(int nPolicyNum );
-    void loadCRLDPUse(int nPolicyNum );
-    void loadEKUUse(int nPolicyNum );
-    void loadIANUse(int nPolicyNum );
-    void loadKeyUsageUse(int nPolicyNum );
-    void loadNCUse(int nPolicyNum );
-    void loadPolicyUse(int nPolicyNum );
-    void loadPCUse(int nPolicyNum );
-    void loadPMUse(int nPolicyNum );
-    void loadSKIUse(int nPolicyNum );
-    void loadSANUse(int nPolicyNum );
+    void setAIAUse( const PolicyExtRec& policyRec );
+    void setAKIUse( const PolicyExtRec& policyRec );
+    void setBCUse( const PolicyExtRec& policyRec );
+    void setCRLDPUse( const PolicyExtRec& policyRec );
+    void setEKUUse( const PolicyExtRec& policyRec );
+    void setIANUse( const PolicyExtRec& policyRec );
+    void setKeyUsageUse( const PolicyExtRec& policyRec );
+    void setNCUse( const PolicyExtRec& policyRec );
+    void setPolicyUse( const PolicyExtRec& policyRec );
+    void setPCUse( const PolicyExtRec& policyRec );
+    void setPMUse( const PolicyExtRec& policyRec );
+    void setSKIUse( const PolicyExtRec& policyRec );
+    void setSANUse( const PolicyExtRec& policyRec );
 
     void initialize();
     void loadPolicy();
