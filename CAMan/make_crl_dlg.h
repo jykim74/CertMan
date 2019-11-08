@@ -25,8 +25,10 @@ private slots:
     void issuerChanged(int index);
     void clickRevokeAdd();
 
+
 private:
     void initialize();
+    void setRevokeList();
 
     QList<CertRec> ca_cert_list_;
     QList<CRLPolicyRec> crl_policy_list_;

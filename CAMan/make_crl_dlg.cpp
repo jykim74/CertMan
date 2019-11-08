@@ -211,6 +211,8 @@ void MakeCRLDlg::issuerChanged(int index)
         QVariant objVal = QVariant( cert.getNum() );
         mCertCombo->addItem( cert.getSubjectDN() );
     }
+
+    setRevokeList();
 }
 
 void MakeCRLDlg::clickRevokeAdd()
@@ -254,7 +256,29 @@ void MakeCRLDlg::initialize()
     QDateTime dateTime = QDateTime::currentDateTime();
     mRevokeDateTime->setDateTime( dateTime );
 
+    setRevokeList();
+}
+
+void MakeCRLDlg::setRevokeList()
+{
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    int rowCnt = mRevokeTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mRevokeTable->removeRow(0);
+
     QList<RevokeRec> revokeList;
     CertRec issuer = ca_cert_list_.at( mIssuerNameCombo->currentIndex() );
     dbMgr->getRevokeList( issuer.getNum(), revokeList );
+
+    for( int i=0; i < revokeList.size(); i++ )
+    {
+        RevokeRec revoke = revokeList.at(i);
+
+        mRevokeTable->insertRow(i);
+        mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
+        mRevokeTable->setItem( i, 1, new QTableWidgetItem( revoke.getReason() ));
+        mRevokeTable->setItem( i, 2, new QTableWidgetItem( revoke.getRevokeDate() ));
+    }
 }
