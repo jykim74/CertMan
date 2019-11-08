@@ -197,6 +197,13 @@ int DBMgr::getRevokeRec( int nSeq, RevokeRec& revokeRec )
     return 0;
 }
 
+int DBMgr::getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList )
+{
+    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1").arg(nIssuerNum);
+
+    return _getRevokeList( strQuery, revokeList );
+}
+
 int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
 {
     QList<CRLRec> crlList;

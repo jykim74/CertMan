@@ -253,4 +253,8 @@ void MakeCRLDlg::initialize()
 
     QDateTime dateTime = QDateTime::currentDateTime();
     mRevokeDateTime->setDateTime( dateTime );
+
+    QList<RevokeRec> revokeList;
+    CertRec issuer = ca_cert_list_.at( mIssuerNameCombo->currentIndex() );
+    dbMgr->getRevokeList( issuer.getNum(), revokeList );
 }

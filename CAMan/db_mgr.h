@@ -48,6 +48,7 @@ public:
     int getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
     int getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
     int getRevokeRec( int nSeq, RevokeRec& revokeRec );
+    int getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList );
 
     int addKeyPairRec( KeyPairRec& keyPair );
     int addReqRec( ReqRec& reqRec );
