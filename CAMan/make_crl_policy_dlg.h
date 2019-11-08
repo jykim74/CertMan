@@ -47,10 +47,10 @@ private:
     void saveIDPUse( int nPolicyNum );
     void saveIANUse( int nPolicyNum );
 
-    void setCRLNumUse( const PolicyExtRec& policyRec );
-    void setAKIUse( const PolicyExtRec& policyRec );
-    void setIDPUse( const PolicyExtRec& policyRec );
-    void setIANUse( const PolicyExtRec& policyRec );
+    void setCRLNumUse( PolicyExtRec& policyRec );
+    void setAKIUse( PolicyExtRec& policyRec );
+    void setIDPUse( PolicyExtRec& policyRec );
+    void setIANUse( PolicyExtRec& policyRec );
 
     void initialize();
     void loadPolicy();

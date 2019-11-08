@@ -75,19 +75,19 @@ private:
     void saveSKIUse(int nPolicyNum );
     void saveSANUse(int nPolicyNum );
 
-    void setAIAUse( const PolicyExtRec& policyRec );
-    void setAKIUse( const PolicyExtRec& policyRec );
-    void setBCUse( const PolicyExtRec& policyRec );
-    void setCRLDPUse( const PolicyExtRec& policyRec );
-    void setEKUUse( const PolicyExtRec& policyRec );
-    void setIANUse( const PolicyExtRec& policyRec );
-    void setKeyUsageUse( const PolicyExtRec& policyRec );
-    void setNCUse( const PolicyExtRec& policyRec );
-    void setPolicyUse( const PolicyExtRec& policyRec );
-    void setPCUse( const PolicyExtRec& policyRec );
-    void setPMUse( const PolicyExtRec& policyRec );
-    void setSKIUse( const PolicyExtRec& policyRec );
-    void setSANUse( const PolicyExtRec& policyRec );
+    void setAIAUse( PolicyExtRec& policyRec );
+    void setAKIUse( PolicyExtRec& policyRec );
+    void setBCUse( PolicyExtRec& policyRec );
+    void setCRLDPUse( PolicyExtRec& policyRec );
+    void setEKUUse( PolicyExtRec& policyRec );
+    void setIANUse( PolicyExtRec& policyRec );
+    void setKeyUsageUse( PolicyExtRec& policyRec );
+    void setNCUse( PolicyExtRec& policyRec );
+    void setPolicyUse( PolicyExtRec& policyRec );
+    void setPCUse( PolicyExtRec& policyRec );
+    void setPMUse( PolicyExtRec& policyRec );
+    void setSKIUse( PolicyExtRec& policyRec );
+    void setSANUse( PolicyExtRec& policyRec );
 
     void initialize();
     void loadPolicy();

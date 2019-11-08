@@ -105,7 +105,31 @@ void MakeCRLPolicyDlg::loadPolicy()
 
 void MakeCRLPolicyDlg::defaultPolicy()
 {
+    int rowCnt = 0;
     mNameText->setText("");
+
+    mCRLNumText->setText("");
+    mCRLNumUseCheck->setChecked(false);
+    mCRLNumAutoCheck->setChecked(false);
+    mCRLNumCriticalCheck->setChecked(false);
+
+    mAKIUseCheck->setChecked(false);
+    mAKICriticalCheck->setChecked(false);
+    mAKICertIssuerCheck->setChecked(false);
+    mAKICertSerialCheck->setChecked(false);
+
+    rowCnt = mIDPTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mIDPTable->removeRow(0);
+    mIDPUseCheck->setChecked(false);
+    mIDPCriticalCheck->setChecked(false);
+
+    rowCnt = mIANTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mIANTable->removeRow(0);
+    mIANUseCheck->setChecked(false);
+    mIANCriticalCheck->setChecked(false);
+    mIANText->setText("");
 }
 
 void MakeCRLPolicyDlg::accept()
@@ -385,22 +409,71 @@ void MakeCRLPolicyDlg::saveIANUse( int nPolicyNum )
     dbMgr->addCRLPolicyExtension(policyExt);
 }
 
-void MakeCRLPolicyDlg::setCRLNumUse( const PolicyExtRec& policyRec )
+void MakeCRLPolicyDlg::setCRLNumUse( PolicyExtRec& policyRec )
 {
+    mCRLNumUseCheck->setChecked(true);
+    mCRLNumCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    if( strVal == "auto" )
+        mCRLNumAutoCheck->setChecked(true);
+    else
+        mCRLNumText->setText( strVal );
 }
 
-void MakeCRLPolicyDlg::setAKIUse( const PolicyExtRec& policyRec )
+void MakeCRLPolicyDlg::setAKIUse( PolicyExtRec& policyRec )
 {
+    mAKIUseCheck->setChecked(true);
+    mAKICriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    mAKICertIssuerCheck->setChecked( strVal.contains("ISSUER") );
+    mAKICertSerialCheck->setChecked( strVal.contains("SERIAL") );
 }
 
-void MakeCRLPolicyDlg::setIDPUse( const PolicyExtRec& policyRec )
+void MakeCRLPolicyDlg::setIDPUse( PolicyExtRec& policyRec )
 {
+    mIDPUseCheck->setChecked(true);
+    mIDPCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+
+        QStringList infoList = info.split("$");
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIDPTable->insertRow(i);
+        mIDPTable->setItem(i, 0, new QTableWidgetItem(strType));
+        mIDPTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
 
-void MakeCRLPolicyDlg::setIANUse( const PolicyExtRec& policyRec )
+void MakeCRLPolicyDlg::setIANUse( PolicyExtRec& policyRec )
 {
+    mIANUseCheck->setChecked(true);
+    mIANCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+
+        QStringList infoList = info.split("$");
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIANTable->insertRow(i);
+        mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mIANTable->setItem( i, 1, new QTableWidgetItem(strData));
+    }
 }

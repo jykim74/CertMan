@@ -122,7 +122,81 @@ void MakeCertPolicyDlg::loadPolicy()
 
 void MakeCertPolicyDlg::defaultPolicy()
 {
+    int rowCnt = 0;
     mNameText->setText("");
+
+
+    mAIAText->setText("");
+
+    rowCnt = mAIATable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mAIATable->removeRow(0);
+
+    mAIAUseCheck->setChecked(false);
+    mAIACriticalCheck->setChecked(false);
+
+    mAKIUseCheck->setChecked(false);
+    mAKICriticalCheck->setChecked(false);
+    mAKICertIssuerCheck->setChecked(false);
+    mAKICertSerialCheck->setChecked(false);
+
+    mBCUseCheck->setChecked(false);
+    mBCCriticalCheck->setChecked(false);
+    mBCPathLenText->setText("");
+
+    rowCnt = mCRLDPTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mCRLDPTable->removeRow(0);
+
+    mCRLDPUseCheck->setChecked(false);
+    mCRLDPCriticalCheck->setChecked(false);
+
+    mEKUList->clear();
+    mEKUUseCheck->setChecked(false);
+    mEKUCriticalCheck->setChecked(false);
+
+    mIANUseCheck->setChecked(false);
+    mIANCriticalCheck->setChecked(false);
+    rowCnt = mIANTable->rowCount();
+    for( int i = 0; i < rowCnt; i++ )
+        mIANTable->removeRow(0);
+
+    mKeyUsageList->clear();
+    mKeyUsageUseCheck->setChecked(false);
+    mKeyUsageCriticalCheck->setChecked(false);
+
+    rowCnt = mNCTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mNCTable->removeRow(0);
+    mNCUseCheck->setChecked(false);
+    mNCCriticalCheck->setChecked(false);
+
+    rowCnt = mPolicyTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mPolicyTable->removeRow(0);
+    mPolicyUseCheck->setChecked(false);
+    mPolicyCriticalCheck->setChecked(false);
+
+    mPCUseCheck->setChecked(false);
+    mPCCriticalCheck->setChecked(false);
+    mPCInhibitText->setText("");
+    mPCExplicitText->setText("");
+
+    rowCnt = mPMTable->rowCount();
+    for( int i=0; i < rowCnt; i++ )
+        mPMTable->removeRow(0);
+
+    mPMUseCheck->setChecked(false);
+    mPMCriticalCheck->setChecked(false);
+
+    mSKIUseCheck->setChecked(false);
+    mSKICriticalCheck->setChecked(false);
+
+    rowCnt = mSANTable->rowCount();
+    for( int i = 0; i < rowCnt; i++ )
+        mSANTable->removeRow(0);
+    mSANUseCheck->setChecked(false);
+    mSANCriticalCheck->setChecked(false);
 }
 
 void MakeCertPolicyDlg::accept()
@@ -950,67 +1024,280 @@ void MakeCertPolicyDlg::saveSANUse(int nPolicyNum)
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setAIAUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setAIAUse( PolicyExtRec& policyRec )
 {
+    mAIAUseCheck->setChecked(true);
+    mAIACriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QString strMethod = "";
+        QString strType = "";
+        QString strData = "";
+
+        QStringList infoList = info.split("$");
+        strMethod = infoList.at(0);
+        strType = infoList.at(1);
+        strData = infoList.at(2);
+
+        mAIATable->insertRow(i);
+        mAIATable->setItem( i, 0, new QTableWidgetItem(strMethod));
+        mAIATable->setItem( i, 1, new QTableWidgetItem(strType));
+        mAIATable->setItem( i, 2, new QTableWidgetItem(strData));
+    }
 }
 
-void MakeCertPolicyDlg::setAKIUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setAKIUse( PolicyExtRec& policyRec )
 {
+    mAKIUseCheck->setChecked(true);
+    mAKICriticalCheck->setChecked( policyRec.isCritical() );
 
+    QString strVal = policyRec.getValue();
+
+    bool bStatus = strVal.contains("ISSUER");
+    mAKICertIssuerCheck->setChecked(bStatus);
+
+    bStatus = strVal.contains("SERIAL");
+    mAKICertSerialCheck->setChecked(bStatus);
 }
 
-void MakeCertPolicyDlg::setBCUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setBCUse( PolicyExtRec& policyRec )
 {
+    mBCUseCheck->setChecked(true);
+    mBCCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+    QString strType= valList.at(0);
+    QString strLen = valList.at(1);
+
+    mBCCombo->setCurrentText( strType );
+    mBCPathLenText->setText( strLen );
 }
 
-void MakeCertPolicyDlg::setCRLDPUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setCRLDPUse( PolicyExtRec& policyRec )
 {
+    mCRLDPUseCheck->setChecked(true);
+    mCRLDPCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList typeData = info.split("$");
+
+        QString strType = typeData.at(0);
+        QString strData = typeData.at(1);
+
+        mCRLDPTable->insertRow(i);
+        mCRLDPTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mCRLDPTable->setItem( i, 1, new QTableWidgetItem(strData));
+    }
 }
 
-void MakeCertPolicyDlg::setEKUUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setEKUUse( PolicyExtRec& policyRec )
 {
+    QString strVal = "";
 
+    mEKUUseCheck->setChecked(true);
+    mEKUCriticalCheck->setChecked(policyRec.isCritical());
+
+    strVal = policyRec.getValue();
+    QStringList valList = strVal.split("#");
+
+    if( valList.size() > 0 ) mEKUList->insertItems( 0, valList );
 }
 
-void MakeCertPolicyDlg::setIANUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setIANUse( PolicyExtRec& policyRec )
 {
+    mIANUseCheck->setChecked(true);
+    mIANCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIANTable->insertRow(i);
+        mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mIANTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
 
-void MakeCertPolicyDlg::setKeyUsageUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setKeyUsageUse( PolicyExtRec& policyRec )
 {
+    mKeyUsageUseCheck->setChecked(true);
+    mKeyUsageCriticalCheck->setChecked( policyRec.isCritical() );
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+    if( valList.size() > 0 ) mKeyUsageList->insertItems(0, valList );
 }
 
-void MakeCertPolicyDlg::setNCUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setNCUse( PolicyExtRec& policyRec )
 {
+    mNCUseCheck->setChecked(true);
+    mNCCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strKind = infoList.at(1);
+        QString strData = infoList.at(2);
+        QString strMin;
+        QString strMax;
+
+        if( infoList.size() > 3 ) strMin = infoList.at(3);
+        if( infoList.size() > 4 ) strMax = infoList.at(4);
+
+        mNCTable->insertRow(i);
+        mNCTable->setItem(i, 0, new QTableWidgetItem(strType));
+        mNCTable->setItem(i, 1, new QTableWidgetItem(strKind));
+        mNCTable->setItem(i, 2, new QTableWidgetItem(strData));
+        mNCTable->setItem(i, 3, new QTableWidgetItem(strMin));
+        mNCTable->setItem(i, 4, new QTableWidgetItem(strMax));
+    }
 }
 
-void MakeCertPolicyDlg::setPolicyUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setPolicyUse( PolicyExtRec& policyRec )
 {
+    mPolicyUseCheck->setChecked(true);
+    mPolicyCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("%%");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString strInfo = valList.at(i);
+        QStringList infoList = strInfo.split("#");
+        QString strOID = "";
+        QString strCPS = "";
+        QString strUserNotice = "";
+
+        for( int k = 0; k < infoList.size(); k++ )
+        {
+            QString info = infoList.at(i);
+            QStringList typeData = info.split("$");
+
+            QString strType = typeData.at(0);
+            QString strData = typeData.at(1);
+
+            if( strType == "OID" )
+                strOID = strData;
+            else if( strType == "CPS" )
+                strCPS = strData;
+            else if( strType == "UserNotice" )
+                strUserNotice = strData;
+        }
+
+        int row = mPolicyTable->rowCount();
+
+        mPolicyTable->setRowCount( row + 1 );
+
+        mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
+        mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
+        mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+    }
 }
 
-void MakeCertPolicyDlg::setPCUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setPCUse( PolicyExtRec& policyRec )
 {
+    mPCUseCheck->setChecked(true);
+    mPCCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        if( strType == "REP" )
+            mPCExplicitText->setText( strData );
+        else if( strType == "IPM" )
+            mPCInhibitText->setText( strData );
+    }
 }
 
-void MakeCertPolicyDlg::setPMUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setPMUse( PolicyExtRec& policyRec )
 {
+    mPMUseCheck->setChecked(true);
+    mPMCriticalCheck->setChecked(policyRec.isCritical());
+    QString strVal = policyRec.getValue();
 
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strIDP = infoList.at(0);
+        QString strSDP = infoList.at(1);
+
+        mPMTable->insertRow(i);
+        mPMTable->setItem(i,0,new QTableWidgetItem("issuerDomainPolicy"));
+        mPMTable->setItem(i,1,new QTableWidgetItem(strIDP));
+        mPMTable->setItem(i,2,new QTableWidgetItem("subjectDomainPolicy"));
+        mPMTable->setItem(i,3,new QTableWidgetItem(strSDP));
+    }
 }
 
-void MakeCertPolicyDlg::setSKIUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setSKIUse( PolicyExtRec& policyRec )
 {
-
+    mSKIUseCheck->setChecked(true);
+    mSKICriticalCheck->setChecked(policyRec.isCritical());
 }
 
-void MakeCertPolicyDlg::setSANUse( const PolicyExtRec& policyRec )
+void MakeCertPolicyDlg::setSANUse( PolicyExtRec& policyRec )
 {
+    mSANUseCheck->setChecked(true);
+    mSANCriticalCheck->setChecked(policyRec.isCritical());
 
+    QString strVal = policyRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mSANTable->insertRow(i);
+        mSANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mSANTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
