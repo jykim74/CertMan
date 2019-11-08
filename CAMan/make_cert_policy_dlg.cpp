@@ -16,6 +16,9 @@ MakeCertPolicyDlg::MakeCertPolicyDlg(QWidget *parent) :
     connectExtends();
     setExtends();
     setTableMenus();
+
+    is_edit_ = false;
+    policy_num_ = -1;
 }
 
 MakeCertPolicyDlg::~MakeCertPolicyDlg()
@@ -23,10 +26,80 @@ MakeCertPolicyDlg::~MakeCertPolicyDlg()
 
 }
 
+void MakeCertPolicyDlg::setEdit(bool is_edit)
+{
+    is_edit_ = is_edit;
+}
+
+void MakeCertPolicyDlg::setPolicyNum(int policy_num)
+{
+    policy_num_ = policy_num;
+}
 
 void MakeCertPolicyDlg::showEvent(QShowEvent *event)
 {
+    initialize();
 
+
+}
+
+void MakeCertPolicyDlg::initialize()
+{
+    mCertTab->setCurrentIndex(0);
+
+    if( is_edit_ )
+        loadPolicy();
+    else
+        defaultPolicy();
+}
+
+void MakeCertPolicyDlg::loadPolicy()
+{
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    CertPolicyRec certPolicy;
+    QDateTime notBefore;
+    QDateTime notAfter;
+
+    dbMgr->getCertPolicyRec( policy_num_, certPolicy );
+
+    mNameText->setText( certPolicy.getName() );
+    mVersionCombo->setCurrentIndex( certPolicy.getVersion() );
+    mHashCombo->setCurrentText( certPolicy.getHash() );
+    mSubjectDNText->setText( certPolicy.getDNTemplate() );
+
+    if( certPolicy.getNotBefore() == 0 )
+    {
+        mUseDaysCheck->setChecked(true);
+        mDaysText->setText( QString("%1").arg(certPolicy.getNotAfter()));
+    }
+    else {
+        notBefore.setTime_t( certPolicy.getNotBefore() );
+        notAfter.setTime_t( certPolicy.getNotAfter() );
+
+        mNotBeforeDateTime->setDateTime( notBefore );
+        mNotAfterDateTime->setDateTime( notAfter );
+    }
+
+    loadAIAUse( policy_num_ );
+    loadAKIUse( policy_num_ );
+    loadBCUse( policy_num_ );
+    loadCRLDPUse( policy_num_ );
+    loadEKUUse( policy_num_ );
+    loadIANUse( policy_num_ );
+    loadKeyUsageUse( policy_num_ );
+    loadNCUse( policy_num_ );
+    loadPolicyUse( policy_num_ );
+    loadPCUse( policy_num_ );
+    loadPMUse( policy_num_ );
+    loadSKIUse( policy_num_ );
+    loadSANUse( policy_num_ );
+}
+
+void MakeCertPolicyDlg::defaultPolicy()
+{
+    mNameText->setText("");
 }
 
 void MakeCertPolicyDlg::accept()
@@ -76,22 +149,31 @@ void MakeCertPolicyDlg::accept()
     }
 
     certPolicyRec.setHash( mHashCombo->currentText() );
-    dbMgr->addCertPolicyRec( certPolicyRec );
+
+    if( is_edit_ )
+    {
+        dbMgr->modCertPolicyRec( policy_num_, certPolicyRec );
+        dbMgr->delCertPolicyExtensionList( policy_num_ );
+    }
+    else
+    {
+        dbMgr->addCertPolicyRec( certPolicyRec );
+    }
 
     /* need to set extend fields here */
-    if( mAIAUseCheck->isChecked() ) setAIAUse( nPolicyNum );
-    if( mAKIUseCheck->isChecked() ) setAKIUse( nPolicyNum );
-    if( mBCUseCheck->isChecked() ) setBCUse( nPolicyNum );
-    if( mCRLDPUseCheck->isChecked() ) setCRLDPUse( nPolicyNum );
-    if( mEKUUseCheck->isChecked() ) setEKUUse( nPolicyNum );
-    if( mIANUseCheck->isChecked() ) setIANUse( nPolicyNum );
-    if( mKeyUsageUseCheck->isChecked() ) setKeyUsageUse( nPolicyNum );
-    if( mNCUseCheck->isChecked() ) setNCUse( nPolicyNum );
-    if( mPolicyUseCheck->isChecked() ) setPolicyUse( nPolicyNum );
-    if( mPCUseCheck->isChecked() ) setPCUse( nPolicyNum );
-    if( mPMUseCheck->isChecked() ) setPMUse( nPolicyNum );
-    if( mSKIUseCheck->isChecked() ) setSKIUse( nPolicyNum );
-    if( mSANUseCheck->isChecked() ) setSANUse( nPolicyNum );
+    if( mAIAUseCheck->isChecked() ) saveAIAUse( nPolicyNum );
+    if( mAKIUseCheck->isChecked() ) saveAKIUse( nPolicyNum );
+    if( mBCUseCheck->isChecked() ) saveBCUse( nPolicyNum );
+    if( mCRLDPUseCheck->isChecked() ) saveCRLDPUse( nPolicyNum );
+    if( mEKUUseCheck->isChecked() ) saveEKUUse( nPolicyNum );
+    if( mIANUseCheck->isChecked() ) saveIANUse( nPolicyNum );
+    if( mKeyUsageUseCheck->isChecked() ) saveKeyUsageUse( nPolicyNum );
+    if( mNCUseCheck->isChecked() ) saveNCUse( nPolicyNum );
+    if( mPolicyUseCheck->isChecked() ) savePolicyUse( nPolicyNum );
+    if( mPCUseCheck->isChecked() ) savePCUse( nPolicyNum );
+    if( mPMUseCheck->isChecked() ) savePMUse( nPolicyNum );
+    if( mSKIUseCheck->isChecked() ) saveSKIUse( nPolicyNum );
+    if( mSANUseCheck->isChecked() ) saveSANUse( nPolicyNum );
     /* ....... */
 
     QDialog::accept();
@@ -473,7 +555,7 @@ void MakeCertPolicyDlg::addNC()
     mNCTable->setItem( row, 4, new QTableWidgetItem(strMin));
 }
 
-void MakeCertPolicyDlg::setAIAUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveAIAUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -508,7 +590,7 @@ void MakeCertPolicyDlg::setAIAUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension(policyExt);
 }
 
-void MakeCertPolicyDlg::setAKIUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveAKIUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -528,7 +610,7 @@ void MakeCertPolicyDlg::setAKIUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setBCUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveBCUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -557,7 +639,7 @@ void MakeCertPolicyDlg::setBCUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setCRLDPUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveCRLDPUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -588,7 +670,7 @@ void MakeCertPolicyDlg::setCRLDPUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setEKUUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveEKUUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -611,7 +693,7 @@ void MakeCertPolicyDlg::setEKUUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setIANUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveIANUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -642,7 +724,7 @@ void MakeCertPolicyDlg::setIANUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setKeyUsageUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveKeyUsageUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -665,7 +747,7 @@ void MakeCertPolicyDlg::setKeyUsageUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setNCUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveNCUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -708,7 +790,7 @@ void MakeCertPolicyDlg::setNCUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setPolicyUse(int nPolicyNum )
+void MakeCertPolicyDlg::savePolicyUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -738,7 +820,7 @@ void MakeCertPolicyDlg::setPolicyUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setPCUse(int nPolicyNum )
+void MakeCertPolicyDlg::savePCUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -769,7 +851,7 @@ void MakeCertPolicyDlg::setPCUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension(policyExt);
 }
 
-void MakeCertPolicyDlg::setPMUse(int nPolicyNum )
+void MakeCertPolicyDlg::savePMUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -800,7 +882,7 @@ void MakeCertPolicyDlg::setPMUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension( policyExt );
 }
 
-void MakeCertPolicyDlg::setSKIUse(int nPolicyNum )
+void MakeCertPolicyDlg::saveSKIUse(int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -814,7 +896,7 @@ void MakeCertPolicyDlg::setSKIUse(int nPolicyNum )
     dbMgr->addCertPolicyExtension(policyExt);
 }
 
-void MakeCertPolicyDlg::setSANUse(int nPolicyNum)
+void MakeCertPolicyDlg::saveSANUse(int nPolicyNum)
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -842,4 +924,69 @@ void MakeCertPolicyDlg::setSANUse(int nPolicyNum)
 
     policyExt.setValue( strVal );
     dbMgr->addCertPolicyExtension( policyExt );
+}
+
+void MakeCertPolicyDlg::loadAIAUse( int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadAKIUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadBCUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadCRLDPUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadEKUUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadIANUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadKeyUsageUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadNCUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadPolicyUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadPCUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadPMUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadSKIUse(int nPolicyNum )
+{
+
+}
+
+void MakeCertPolicyDlg::loadSANUse(int nPolicyNum )
+{
+
 }

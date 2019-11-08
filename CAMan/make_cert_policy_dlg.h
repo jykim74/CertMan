@@ -15,6 +15,11 @@ class MakeCertPolicyDlg : public QDialog, public Ui::MakeCertPolicyDlg
 public:
     explicit MakeCertPolicyDlg(QWidget *parent = nullptr);
     ~MakeCertPolicyDlg();
+    void setEdit( bool is_edit );
+    bool isEdit() { return is_edit_; };
+    void setPolicyNum( int policy_num );
+    int policyNum() { return policy_num_; };
+
 
 private slots:
     void showEvent(QShowEvent *event);
@@ -54,19 +59,40 @@ private:
     void setExtends();
     void setTableMenus();
 
-    void setAIAUse( int nPolicyNum );
-    void setAKIUse(int nPolicyNum );
-    void setBCUse(int nPolicyNum );
-    void setCRLDPUse(int nPolicyNum );
-    void setEKUUse(int nPolicyNum );
-    void setIANUse(int nPolicyNum );
-    void setKeyUsageUse(int nPolicyNum );
-    void setNCUse(int nPolicyNum );
-    void setPolicyUse(int nPolicyNum );
-    void setPCUse(int nPolicyNum );
-    void setPMUse(int nPolicyNum );
-    void setSKIUse(int nPolicyNum );
-    void setSANUse(int nPolicyNum );
+    void saveAIAUse( int nPolicyNum );
+    void saveAKIUse(int nPolicyNum );
+    void saveBCUse(int nPolicyNum );
+    void saveCRLDPUse(int nPolicyNum );
+    void saveEKUUse(int nPolicyNum );
+    void saveIANUse(int nPolicyNum );
+    void saveKeyUsageUse(int nPolicyNum );
+    void saveNCUse(int nPolicyNum );
+    void savePolicyUse(int nPolicyNum );
+    void savePCUse(int nPolicyNum );
+    void savePMUse(int nPolicyNum );
+    void saveSKIUse(int nPolicyNum );
+    void saveSANUse(int nPolicyNum );
+
+    void loadAIAUse( int nPolicyNum );
+    void loadAKIUse(int nPolicyNum );
+    void loadBCUse(int nPolicyNum );
+    void loadCRLDPUse(int nPolicyNum );
+    void loadEKUUse(int nPolicyNum );
+    void loadIANUse(int nPolicyNum );
+    void loadKeyUsageUse(int nPolicyNum );
+    void loadNCUse(int nPolicyNum );
+    void loadPolicyUse(int nPolicyNum );
+    void loadPCUse(int nPolicyNum );
+    void loadPMUse(int nPolicyNum );
+    void loadSKIUse(int nPolicyNum );
+    void loadSANUse(int nPolicyNum );
+
+    void initialize();
+    void loadPolicy();
+    void defaultPolicy();
+
+    bool is_edit_;
+    int policy_num_;
 };
 
 #endif // MAKE_CERT_POLICY_DLG_H

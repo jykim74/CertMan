@@ -72,6 +72,8 @@ void RevokeCertDlg::accept()
 
     dbMgr->addRevokeRec( revoke );
     dbMgr->modCertStatus( cert_num_, 1 );
+
+    QDialog::accept();
 }
 
 void RevokeCertDlg::initUI()

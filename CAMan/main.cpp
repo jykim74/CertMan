@@ -3,6 +3,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include "man_applet.h"
+#include "i18n_helper.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addPositionalArgument( "file", "The file to open" );
     parser.process(app);
+
+    I18NHelper::getInstance()->init();
 
     ManApplet mApplet;
     manApplet = &mApplet;

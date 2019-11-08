@@ -341,8 +341,8 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
     int nPosNum = SQL.record().indexOf( "NUM" );
     int nPosName = SQL.record().indexOf( "NAME" );
     int nPosVersion = SQL.record().indexOf( "VERSION" );
-    int nPosNotBefore = SQL.record().indexOf( "ValidFrom" );
-    int nPosNotAfter = SQL.record().indexOf( "ValidTo" );
+    int nPosNotBefore = SQL.record().indexOf( "NotBefore" );
+    int nPosNotAfter = SQL.record().indexOf( "NotAfter" );
     int nPosHash = SQL.record().indexOf( "HASH" );
     int nPosDNTemplate = SQL.record().indexOf( "DNTemplate" );
 
@@ -576,6 +576,52 @@ int DBMgr::modCertStatus( int nNum, int nStatus )
     return 0;
 }
 
+int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_CERT_POLICY SET "
+                      "NAME = ?, "
+                      "VERSION = ?, "
+                      "NOTBEFORE = ?, "
+                      "NOTAFTER = ?, "
+                      "HASH = ?, "
+                      "DNTemplate = ? "
+                      "WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( 0, policyRec.getName() );
+    sqlQuery.bindValue( 1, policyRec.getVersion() );
+    sqlQuery.bindValue( 2, (int)policyRec.getNotBefore() );
+    sqlQuery.bindValue( 3, (int)policyRec.getNotAfter() );
+    sqlQuery.bindValue( 4, policyRec.getHash() );
+    sqlQuery.bindValue( 5, policyRec.getDNTemplate() );
+    sqlQuery.bindValue( 6, nPolicyNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::modeCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_CRL_POLICY SET "
+                      "NAME = ?, "
+                      "VERSION = ?, "
+                      "LASTUPDATE = ?, "
+                      "NEXTUPDATE = ?, "
+                      "HASH = ? "
+                      "WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( 0, policyRec.getName() );
+    sqlQuery.bindValue( 1, policyRec.getVersion() );
+    sqlQuery.bindValue( 2, (int)policyRec.getLastUpdate() );
+    sqlQuery.bindValue( 3, (int)policyRec.getNextUpdate() );
+    sqlQuery.bindValue( 4, policyRec.getHash() );
+    sqlQuery.bindValue( 5, nPolicyNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::addCRLRec( CRLRec& crlRec )
 {
     QSqlQuery sqlQuery;
@@ -595,7 +641,7 @@ int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT_POLICY "
-                      "( NUM, NAME, VERSION, VALIDFROM, VALIDTO, HASH, DNTEMPLATE ) "
+                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE ) "
                       "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, certPolicyRec.getNum() );

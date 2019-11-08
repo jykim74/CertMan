@@ -72,6 +72,8 @@ public slots:
     void makeRequest();
     void makeCertPolicy();
     void makeCRLPolicy();
+    void editCertPolicy();
+    void editCRLPolicy();
     void makeCertificate();
     void makeCRL();
     void revokeCertificate();

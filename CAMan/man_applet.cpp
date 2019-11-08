@@ -23,6 +23,7 @@
 #include "revoke_cert_dlg.h"
 #include "cert_info_dlg.h"
 #include "crl_info_dlg.h"
+#include "auto_update_service.h"
 
 ManApplet *manApplet;
 
@@ -49,6 +50,22 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     crl_info_dlg_ = new CRLInfoDlg;
 
     in_exit_ = false;
+
+#ifdef _AUTO_UPDATE
+    if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
+        AutoUpdateService::instance()->start();
+    }
+#endif
+}
+
+ManApplet::~ManApplet()
+{
+//    delete main_win_;
+
+#ifdef _AUTO_UPDATE
+    AutoUpdateService::instance()->stop();
+#endif
+
 }
 
 void ManApplet::start()

@@ -19,6 +19,9 @@ MakeCRLPolicyDlg::MakeCRLPolicyDlg(QWidget *parent) :
     connectExtends();
     setExtends();
     setTableMenus();
+
+    is_edit_ = false;
+    policy_num_ = -1;
 }
 
 MakeCRLPolicyDlg::~MakeCRLPolicyDlg()
@@ -26,10 +29,24 @@ MakeCRLPolicyDlg::~MakeCRLPolicyDlg()
 
 }
 
+void MakeCRLPolicyDlg::setEdit(bool is_edit)
+{
+    is_edit_ = is_edit;
+}
+
+void MakeCRLPolicyDlg::setPolicyNum(int policy_num)
+{
+    policy_num_ = policy_num;
+}
 
 void MakeCRLPolicyDlg::showEvent(QShowEvent *event)
 {
+    initialize();
+}
 
+void MakeCRLPolicyDlg::initialize()
+{
+    mCRLTab->setCurrentIndex(0);
 }
 
 void MakeCRLPolicyDlg::accept()
@@ -77,10 +94,10 @@ void MakeCRLPolicyDlg::accept()
 
     /* need to set extend fields here */
 
-    if( mCRLNumUseCheck->isChecked() ) setCRLNumUse( nPolicyNum );
-    if( mIDPUseCheck->isChecked() ) setIDPUse( nPolicyNum );
-    if( mAKIUseCheck->isChecked() ) setAKIUse( nPolicyNum );
-    if( mIANUseCheck->isChecked() ) setIANUse( nPolicyNum );
+    if( mCRLNumUseCheck->isChecked() ) saveCRLNumUse( nPolicyNum );
+    if( mIDPUseCheck->isChecked() ) saveIDPUse( nPolicyNum );
+    if( mAKIUseCheck->isChecked() ) saveAKIUse( nPolicyNum );
+    if( mIANUseCheck->isChecked() ) saveIANUse( nPolicyNum );
 
     /* ....... */
 
@@ -191,7 +208,7 @@ void MakeCRLPolicyDlg::addIAN()
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
 
-void MakeCRLPolicyDlg::setCRLNumUse( int nPolicyNum )
+void MakeCRLPolicyDlg::saveCRLNumUse( int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -214,7 +231,7 @@ void MakeCRLPolicyDlg::setCRLNumUse( int nPolicyNum )
     dbMgr->addCRLPolicyExtension( policyExt );
 }
 
-void MakeCRLPolicyDlg::setAKIUse( int nPolicyNum )
+void MakeCRLPolicyDlg::saveAKIUse( int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -237,7 +254,7 @@ void MakeCRLPolicyDlg::setAKIUse( int nPolicyNum )
     dbMgr->addCRLPolicyExtension(policyExt);
 }
 
-void MakeCRLPolicyDlg::setIDPUse( int nPolicyNum )
+void MakeCRLPolicyDlg::saveIDPUse( int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -268,7 +285,7 @@ void MakeCRLPolicyDlg::setIDPUse( int nPolicyNum )
     dbMgr->addCRLPolicyExtension(policyExt);
 }
 
-void MakeCRLPolicyDlg::setIANUse( int nPolicyNum )
+void MakeCRLPolicyDlg::saveIANUse( int nPolicyNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;

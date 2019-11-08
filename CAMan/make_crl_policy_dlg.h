@@ -16,6 +16,11 @@ public:
     explicit MakeCRLPolicyDlg(QWidget *parent = nullptr);
     ~MakeCRLPolicyDlg();
 
+    void setEdit( bool is_edit );
+    bool isEdit() { return is_edit_; };
+    void setPolicyNum( int policy_num );
+    int policyNum() { return policy_num_; };
+
 private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
@@ -35,10 +40,15 @@ private:
     void setExtends();
     void setTableMenus();
 
-    void setCRLNumUse( int nPolicyNum );
-    void setAKIUse( int nPolicyNum );
-    void setIDPUse( int nPolicyNum );
-    void setIANUse( int nPolicyNum );
+    void saveCRLNumUse( int nPolicyNum );
+    void saveAKIUse( int nPolicyNum );
+    void saveIDPUse( int nPolicyNum );
+    void saveIANUse( int nPolicyNum );
+
+    void initialize();
+
+    bool is_edit_;
+    int policy_num_;
 };
 
 #endif // MAKE_CRL_POLICY_DLG_H

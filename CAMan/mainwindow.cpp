@@ -231,10 +231,12 @@ void MainWindow::showRightMenu(QPoint point)
     else if( right_type_ == RightType::TYPE_CERT_POLICY )
     {
         menu.addAction(tr("Delete CertPolicy"), this, &MainWindow::deleteCertPolicy );
+        menu.addAction(tr("Edit CertPolicy" ), this, &MainWindow::editCertPolicy );
     }
     else if( right_type_ == RightType::TYPE_CRL_POLICY )
     {
         menu.addAction(tr("Delete CRLPolicy"), this, &MainWindow::deleteCRLPolicy );
+        menu.addAction(tr("Edit CRLPolicy"), this, &MainWindow::editCRLPolicy );
     }
 
     menu.exec(QCursor::pos());
@@ -384,6 +386,9 @@ void MainWindow::makeRequest()
 
 void MainWindow::makeCertPolicy()
 {
+    manApplet->makeCertPolicyDlg()->setEdit(false);
+    manApplet->makeCertPolicyDlg()->setPolicyNum(-1);
+
     manApplet->makeCertPolicyDlg()->show();
     manApplet->makeCertPolicyDlg()->raise();
     manApplet->makeCertPolicyDlg()->activateWindow();
@@ -391,6 +396,39 @@ void MainWindow::makeCertPolicy()
 
 void MainWindow::makeCRLPolicy()
 {
+    manApplet->makeCRLPolicyDlg()->setEdit(false);
+    manApplet->makeCRLPolicyDlg()->setPolicyNum(-1);
+
+    manApplet->makeCRLPolicyDlg()->show();
+    manApplet->makeCRLPolicyDlg()->raise();
+    manApplet->makeCRLPolicyDlg()->activateWindow();
+}
+
+void MainWindow::editCertPolicy()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    manApplet->makeCertPolicyDlg()->setEdit(true);
+    manApplet->makeCertPolicyDlg()->setPolicyNum( num );
+
+    manApplet->makeCertPolicyDlg()->show();
+    manApplet->makeCertPolicyDlg()->raise();
+    manApplet->makeCertPolicyDlg()->activateWindow();
+}
+
+void MainWindow::editCRLPolicy()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    manApplet->makeCRLPolicyDlg()->setEdit(true);
+    manApplet->makeCRLPolicyDlg()->setPolicyNum(num);
+
     manApplet->makeCRLPolicyDlg()->show();
     manApplet->makeCRLPolicyDlg()->raise();
     manApplet->makeCRLPolicyDlg()->activateWindow();
