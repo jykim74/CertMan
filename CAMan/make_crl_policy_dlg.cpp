@@ -413,6 +413,7 @@ void MakeCRLPolicyDlg::setCRLNumUse( PolicyExtRec& policyRec )
 {
     mCRLNumUseCheck->setChecked(true);
     mCRLNumCriticalCheck->setChecked(policyRec.isCritical());
+    clickCRLNum();
 
     QString strVal = policyRec.getValue();
 
@@ -426,6 +427,7 @@ void MakeCRLPolicyDlg::setAKIUse( PolicyExtRec& policyRec )
 {
     mAKIUseCheck->setChecked(true);
     mAKICriticalCheck->setChecked(policyRec.isCritical());
+    clickAKI();
 
     QString strVal = policyRec.getValue();
 
@@ -437,6 +439,7 @@ void MakeCRLPolicyDlg::setIDPUse( PolicyExtRec& policyRec )
 {
     mIDPUseCheck->setChecked(true);
     mIDPCriticalCheck->setChecked(policyRec.isCritical());
+    clickIDP();
 
     QString strVal = policyRec.getValue();
 
@@ -459,6 +462,7 @@ void MakeCRLPolicyDlg::setIANUse( PolicyExtRec& policyRec )
 {
     mIANUseCheck->setChecked(true);
     mIANCriticalCheck->setChecked(policyRec.isCritical());
+    clickIAN();
 
     QString strVal = policyRec.getValue();
 

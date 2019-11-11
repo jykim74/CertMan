@@ -27,6 +27,7 @@ private slots:
 
 private:
     void initUI();
+    void initialize();
 
     QList<KeyPairRec> key_list_;
 

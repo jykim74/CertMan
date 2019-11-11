@@ -92,6 +92,7 @@ void MakeCertDlg::accept()
     BIN binSignCert = {0,0};
     BIN binCert = {0,0};
     char *pHexCert = NULL;
+    bool bCA = false;
 
     CertRec madeCertRec;
     JSExtensionInfoList *pExtInfoList = NULL;
@@ -129,7 +130,7 @@ void MakeCertDlg::accept()
     int policyIdx = mPolicyNameCombo->currentIndex();
     int issuerIdx = mIssuerNameCombo->currentIndex();
 
-    int nIssueKeyNum = -1;
+    int nSignKeyNum = -1;
     int nKeyType = -1;
     int nIssuerNum = -1;
 
@@ -137,16 +138,16 @@ void MakeCertDlg::accept()
     ReqRec reqRec = req_list_.at( reqIdx );
 
     if( bSelf )
-        nIssueKeyNum = reqRec.getKeyNum();
+        nSignKeyNum = reqRec.getKeyNum();
     else {
         CertRec issuerCert = ca_cert_list_.at( issuerIdx );
-        nIssueKeyNum = issuerCert.getKeyNum();
+        nSignKeyNum = issuerCert.getKeyNum();
         nIssuerNum = issuerCert.getNum();
         JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binSignCert );
     }
 
-    KeyPairRec issueKeyPair;
-    dbMgr->getKeyPairRec( nIssueKeyNum, issueKeyPair );
+    KeyPairRec signKeyPair;
+    dbMgr->getKeyPairRec( nSignKeyNum, signKeyPair );
 
     /* need to work more */
 
@@ -154,10 +155,10 @@ void MakeCertDlg::accept()
     int nSeq = dbMgr->getSeq( "TB_CERT" );
 
     strSerial = QString("%1").arg(nSeq);
-    QString strSignAlg = getSignAlg( issueKeyPair.getAlg(), policyRec.getHash() );
-    if( issueKeyPair.getAlg() == "RSA" )
+    QString strSignAlg = getSignAlg( signKeyPair.getAlg(), policyRec.getHash() );
+    if( signKeyPair.getAlg() == "RSA" )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( issueKeyPair.getAlg() == "EC" )
+    else if( signKeyPair.getAlg() == "EC" )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
 
 
@@ -184,7 +185,7 @@ void MakeCertDlg::accept()
     }
 
     JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
-    JS_BIN_decodeHex( issueKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+    JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
     JS_PKI_setCertInfo( &sCertInfo,
                         nKeyType,
@@ -208,14 +209,22 @@ void MakeCertDlg::accept()
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( policyExt.getSN() == kExtNameSKI )
+        if( policyExt.getSN() == kExtNameBC )
+        {
+            QString strVal = policyExt.getValue();
+            if( strVal.contains( "CA#" ) == true )
+                bCA = true;
+            else
+                bCA = false;
+        }
+        else if( policyExt.getSN() == kExtNameSKI )
         {
             BIN binPub = {0,0};
             char sHexID[128];
 
             memset( sHexID, 0x00, sizeof(sHexID));
 
-            JS_BIN_decodeHex( issueKeyPair.getPublicKey().toStdString().c_str(), &binPub );
+            JS_BIN_decodeHex( signKeyPair.getPublicKey().toStdString().c_str(), &binPub );
             JS_PKI_getKeyIdentifier( &binPub, sHexID );
             policyExt.setValue( sHexID );
             JS_BIN_reset( &binPub );
@@ -282,7 +291,7 @@ void MakeCertDlg::accept()
     madeCertRec.setCert( pHexCert );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
-    madeCertRec.setCA( false );
+    madeCertRec.setCA( bCA );
     madeCertRec.setIssuerNum( nIssuerNum );
 
 
@@ -300,7 +309,11 @@ end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
 
-    if( ret == 0 ) QDialog::accept();
+    if( ret == 0 )
+    {
+        manApplet->mainWindow()->createRightCertList( nIssuerNum );
+        QDialog::accept();
+    }
 }
 
 void MakeCertDlg::reqChanged( int index )

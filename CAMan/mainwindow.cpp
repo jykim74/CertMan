@@ -200,6 +200,8 @@ void MainWindow::showRightMenu(QPoint point)
 {
 //    QTableWidgetItem* item = right_table_->itemAt(point);
     int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     right_num_ = item->text().toInt();
@@ -223,10 +225,13 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportData );
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportData );
+        menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
         menu.addAction(tr("Export Request"), this, &MainWindow::exportData);
+        menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
+        menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
     }
     else if( right_type_ == RightType::TYPE_CERT_POLICY )
     {
@@ -266,8 +271,11 @@ void MainWindow::createTreeMenu()
 
     ManTreeItem *pRootCAItem = new ManTreeItem( QString("RootCA") );
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
+    pRootCAItem->setDataNum(-1);
     pTopItem->appendRow( pRootCAItem );
 
+    // expandMenu();
+    /*
     int nIssuerNum = -1;
     QList<CertRec> certList;
     db_mgr_->getCACertList( nIssuerNum, certList );
@@ -302,6 +310,7 @@ void MainWindow::createTreeMenu()
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
     }
+    */
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
     pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
@@ -310,6 +319,9 @@ void MainWindow::createTreeMenu()
     ManTreeItem *pImportCRLItem = new ManTreeItem( QString( "ImportCRL" ) );
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
+
+    QModelIndex ri = left_model_->index(0,0);
+    left_tree_->expand(ri);
 }
 
 void MainWindow::newFile()
@@ -522,6 +534,7 @@ void MainWindow::deleteCertPolicy()
 
     db_mgr_->delCertPolicy( num );
     db_mgr_->delCertPolicyExtensionList( num );
+    createRightCertPolicyList();
 }
 
 void MainWindow::deleteCRLPolicy()
@@ -533,6 +546,7 @@ void MainWindow::deleteCRLPolicy()
 
     db_mgr_->delCRLPolicy( num );
     db_mgr_->delCRLPolicyExtensionList( num );
+    createRightCRLPolicyList();
 }
 
 void MainWindow::deleteCertificate()
@@ -553,6 +567,27 @@ void MainWindow::deleteCRL()
     int num = item->text().toInt();
 
     db_mgr_->delCRLRec( num );
+
+}
+
+void MainWindow::deleteKeyPair()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+    db_mgr_->delKeyPairRec( num );
+    createRightKeyPairList();
+}
+
+void MainWindow::deleteRequest()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+    dbMgr()->delReqRec( num );
+    createRightRequestList();
 }
 
 void MainWindow::showWindow()
@@ -591,7 +626,7 @@ void MainWindow::menuClick(QModelIndex index )
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
         createRightCRLList( -2 );
     else if( nType == CM_ITEM_TYPE_CA )
-        createRightCertList( nNum );
+        createRightCertList( nNum, true );
     else if( nType == CM_ITEM_TYPE_CERT )
         createRightCertList( nNum );
     else if( nType == CM_ITEM_TYPE_CRL )
@@ -642,6 +677,45 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_CRL_POLICY )
     {
         showRightCRLPolicy( nSeq );
+    }
+}
+
+void MainWindow::expandMenu()
+{
+    ManTreeItem* item = left_tree_->currentItem();
+    int nIssuerNum = item->getDataNum();
+
+    QList<CertRec> certList;
+    db_mgr_->getCACertList( nIssuerNum, certList );
+
+    for( int i=0; i < certList.size(); i++ )
+    {
+        CertRec certRec = certList.at(i);
+
+        ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
+        pCAItem->setType( CM_ITEM_TYPE_CA );
+        pCAItem->setDataNum( certRec.getNum() );
+        item->appendRow( pCAItem );
+
+        ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+        pCertItem->setType( CM_ITEM_TYPE_CERT );
+        pCertItem->setDataNum( certRec.getNum() );
+        pCAItem->appendRow( pCertItem );
+
+        ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+        pCRLItem->setType( CM_ITEM_TYPE_CRL );
+        pCRLItem->setDataNum( certRec.getNum() );
+        pCAItem->appendRow( pCRLItem );
+
+        ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+        pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
+        pRevokeItem->setDataNum( certRec.getNum() );
+        pCAItem->appendRow( pRevokeItem );
+
+        ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
+        pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
+        pSubCAItem->setDataNum( certRec.getNum() );
+        pCAItem->appendRow( pSubCAItem );
     }
 }
 

@@ -24,6 +24,7 @@ private slots:
 
 private:
     void initUI();
+    void initialize();
 
 };
 

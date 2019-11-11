@@ -1028,6 +1028,7 @@ void MakeCertPolicyDlg::setAIAUse( PolicyExtRec& policyRec )
 {
     mAIAUseCheck->setChecked(true);
     mAIACriticalCheck->setChecked(policyRec.isCritical());
+    clickAIAUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1056,6 +1057,7 @@ void MakeCertPolicyDlg::setAKIUse( PolicyExtRec& policyRec )
 {
     mAKIUseCheck->setChecked(true);
     mAKICriticalCheck->setChecked( policyRec.isCritical() );
+    clickAKIUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1070,6 +1072,7 @@ void MakeCertPolicyDlg::setBCUse( PolicyExtRec& policyRec )
 {
     mBCUseCheck->setChecked(true);
     mBCCriticalCheck->setChecked(policyRec.isCritical());
+    clickBCUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1085,6 +1088,7 @@ void MakeCertPolicyDlg::setCRLDPUse( PolicyExtRec& policyRec )
 {
     mCRLDPUseCheck->setChecked(true);
     mCRLDPCriticalCheck->setChecked(policyRec.isCritical());
+    clickCRLDPUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1110,6 +1114,7 @@ void MakeCertPolicyDlg::setEKUUse( PolicyExtRec& policyRec )
 
     mEKUUseCheck->setChecked(true);
     mEKUCriticalCheck->setChecked(policyRec.isCritical());
+    clickEKUUse();
 
     strVal = policyRec.getValue();
     QStringList valList = strVal.split("#");
@@ -1121,6 +1126,7 @@ void MakeCertPolicyDlg::setIANUse( PolicyExtRec& policyRec )
 {
     mIANUseCheck->setChecked(true);
     mIANCriticalCheck->setChecked(policyRec.isCritical());
+    clickIANUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1144,8 +1150,11 @@ void MakeCertPolicyDlg::setKeyUsageUse( PolicyExtRec& policyRec )
 {
     mKeyUsageUseCheck->setChecked(true);
     mKeyUsageCriticalCheck->setChecked( policyRec.isCritical() );
+    clickKeyUsageUse();
 
     QString strVal = policyRec.getValue();
+
+    mKeyUsageList->clear();
 
     QStringList valList = strVal.split("#");
     if( valList.size() > 0 ) mKeyUsageList->insertItems(0, valList );
@@ -1155,6 +1164,7 @@ void MakeCertPolicyDlg::setNCUse( PolicyExtRec& policyRec )
 {
     mNCUseCheck->setChecked(true);
     mNCCriticalCheck->setChecked(policyRec.isCritical());
+    clickNCUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1187,6 +1197,7 @@ void MakeCertPolicyDlg::setPolicyUse( PolicyExtRec& policyRec )
 {
     mPolicyUseCheck->setChecked(true);
     mPolicyCriticalCheck->setChecked(policyRec.isCritical());
+    clickPolicyUse();
 
     QString strVal = policyRec.getValue();
 
@@ -1202,8 +1213,10 @@ void MakeCertPolicyDlg::setPolicyUse( PolicyExtRec& policyRec )
 
         for( int k = 0; k < infoList.size(); k++ )
         {
-            QString info = infoList.at(i);
+            QString info = infoList.at(k);
             QStringList typeData = info.split("$");
+
+            if( typeData.size() < 2 ) continue;
 
             QString strType = typeData.at(0);
             QString strData = typeData.at(1);
@@ -1230,6 +1243,7 @@ void MakeCertPolicyDlg::setPCUse( PolicyExtRec& policyRec )
 {
     mPCUseCheck->setChecked(true);
     mPCCriticalCheck->setChecked(policyRec.isCritical());
+    clickPCUse();
 
     QString strVal = policyRec.getValue();
     QStringList valList = strVal.split("#");
@@ -1253,6 +1267,8 @@ void MakeCertPolicyDlg::setPMUse( PolicyExtRec& policyRec )
 {
     mPMUseCheck->setChecked(true);
     mPMCriticalCheck->setChecked(policyRec.isCritical());
+    clickPMUse();
+
     QString strVal = policyRec.getValue();
 
     QStringList valList = strVal.split("#");
@@ -1277,12 +1293,14 @@ void MakeCertPolicyDlg::setSKIUse( PolicyExtRec& policyRec )
 {
     mSKIUseCheck->setChecked(true);
     mSKICriticalCheck->setChecked(policyRec.isCritical());
+    clickSKIUse();
 }
 
 void MakeCertPolicyDlg::setSANUse( PolicyExtRec& policyRec )
 {
     mSANUseCheck->setChecked(true);
     mSANCriticalCheck->setChecked(policyRec.isCritical());
+    clickSANUse();
 
     QString strVal = policyRec.getValue();
 

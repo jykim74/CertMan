@@ -835,3 +835,25 @@ int DBMgr::delCRLRec( int nNum )
 
     return 0;
 }
+
+int DBMgr::delKeyPairRec(int nNum)
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_KEY_PAIR WHERE NUM = ?" );
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delReqRec(int nNum)
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_REQ WHERE SEQ = ?" );
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}

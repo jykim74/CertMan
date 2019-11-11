@@ -23,7 +23,7 @@ const QString kExtNameSKI = "subjectKeyIdentifier";
 const QString kExtNameSAN = "subjectAltName";
 const QString kExtNameCRLNum = "crlNumber";
 const QString kExtNameIDP = "issuingDistributionPoint";
-const QString kExtNameCRLReason = "crlReason";
+const QString kExtNameCRLReason = "CRLReason";
 
 
 const QStringList kHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };

@@ -14,6 +14,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 
     connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
 }
@@ -25,7 +26,24 @@ MakeReqDlg::~MakeReqDlg()
 
 void MakeReqDlg::showEvent(QShowEvent *event)
 {
-    initUI();
+    initialize();
+}
+
+void MakeReqDlg::initialize()
+{
+    mHashCombo->addItems(sHashList);
+
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    key_list_.clear();
+    dbMgr->getKeyPairList( key_list_, 0 );
+
+    for( int i = 0; i < key_list_.size(); i++ )
+    {
+        KeyPairRec keyRec = key_list_.at(i);
+        mKeyNameCombo->addItem( keyRec.getName() );
+    }
 }
 
 void MakeReqDlg::accept()
@@ -98,7 +116,11 @@ end :
     JS_BIN_reset( &binCSR );
     if( pHexCSR ) JS_free( pHexCSR );
 
-    if( ret == 0 ) QDialog::accept();
+    if( ret == 0 )
+    {
+        manApplet->mainWindow()->createRightRequestList();
+        QDialog::accept();
+    }
 }
 
 void MakeReqDlg::keyNameChanged(int index)
@@ -117,17 +139,7 @@ void MakeReqDlg::keyNameChanged(int index)
 
 void MakeReqDlg::initUI()
 {
-    mHashCombo->addItems(sHashList);
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
-    if( dbMgr == NULL ) return;
-
-    key_list_.clear();
-    dbMgr->getKeyPairList( key_list_, 0 );
-
-    for( int i = 0; i < key_list_.size(); i++ )
-    {
-        KeyPairRec keyRec = key_list_.at(i);
-        mKeyNameCombo->addItem( keyRec.getName() );
-    }
 }
+
+

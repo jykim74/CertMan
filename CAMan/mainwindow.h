@@ -88,9 +88,12 @@ public slots:
     void deleteCRLPolicy();
     void deleteCertificate();
     void deleteCRL();
+    void deleteKeyPair();
+    void deleteRequest();
 
     void publishLDAP();
     void getLDAP();
+    void expandMenu();
 
     void about();
     void settings();
@@ -102,7 +105,6 @@ private slots:
     void showRightMenu( QPoint point );
 
 private:
-//    Ui::MainWindow *ui;
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
 

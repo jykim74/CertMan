@@ -14,7 +14,7 @@ public:
 private slots:
     void showContextMenu( QPoint point );
 
-private:
+public:
     ManTreeItem* currentItem();
 };
 

@@ -75,6 +75,8 @@ public:
     int delCRLPolicyExtensionList( int nPolicyNum );
     int delCertRec( int nNum );
     int delCRLRec( int nNum );
+    int delKeyPairRec( int nNum );
+    int delReqRec( int nNum );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );

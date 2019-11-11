@@ -48,6 +48,10 @@ void ManTreeView::showContextMenu(QPoint point)
     {
         menu.addAction(tr("Import CRL"), manApplet->mainWindow(), &MainWindow::importData );
     }
+    else if( item->getType() == CM_ITEM_TYPE_SUBCA || item->getType() == CM_ITEM_TYPE_ROOTCA )
+    {
+        menu.addAction(tr("Expand Menu"), manApplet->mainWindow(), &MainWindow::expandMenu );
+    }
 
     menu.exec(QCursor::pos());
 }

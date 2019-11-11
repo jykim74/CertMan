@@ -23,7 +23,7 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
-
+    initUI();
     connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
 }
 
@@ -34,13 +34,18 @@ NewKeyDlg::~NewKeyDlg()
 
 void NewKeyDlg::showEvent(QShowEvent *event)
 {
-    initUI();
+    initialize();
 }
 
 void NewKeyDlg::initUI()
 {
     mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(sRSAOptionList);
+}
+
+void NewKeyDlg::initialize()
+{
+
 }
 
 void NewKeyDlg::accept()
@@ -102,7 +107,12 @@ end:
     if( pPriHex ) JS_free( pPriHex );
     if( pPubHex ) JS_free( pPubHex );
 
-    if( ret == 0 ) QDialog::accept();
+
+    if( ret == 0 )
+    {
+        manApplet->mainWindow()->createRightKeyPairList();
+        QDialog::accept();
+    }
 }
 
 void NewKeyDlg::mechChanged(int index )
