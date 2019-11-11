@@ -343,7 +343,7 @@ void MakeCRLDlg::setRevokeList()
 
         mRevokeTable->insertRow(i);
         mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
-        mRevokeTable->setItem( i, 1, new QTableWidgetItem( revoke.getReason() ));
+        mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(revoke.getReason()) ));
  //       mRevokeTable->setItem( i, 2, new QTableWidgetItem( revoke.getRevokeDate() ));
         mRevokeTable->setItem( i, 2, dateItem );
     }
