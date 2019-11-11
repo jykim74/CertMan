@@ -214,6 +214,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportData );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
+        menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -462,6 +463,11 @@ void MainWindow::makeCRL()
 
 void MainWindow::revokeCertificate()
 {
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
+    manApplet->revokeCertDlg()->setCertNum( num );
     manApplet->revokeCertDlg()->show();
     manApplet->revokeCertDlg()->raise();
     manApplet->revokeCertDlg()->activateWindow();
@@ -633,6 +639,8 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCRLList( nNum );
     else if( nType == CM_ITEM_TYPE_SUBCA )
         createRightCertList( nNum, true );
+    else if( nType == CM_ITEM_TYPE_REVOKE )
+        createRightRevokeList( nNum );
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -911,6 +919,39 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
         right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getCRL() ));
+    }
+}
+
+void MainWindow::createRightRevokeList(int nIssuerNum)
+{
+    removeAllRight();
+    right_type_ = RightType::TYPE_REVOKE;
+
+    QStringList headerList = {"Num", "CertNum", "IssuerNum", "Serial", "RevokeDate", "Reason" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(6);
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<RevokeRec> revokeList;
+
+    db_mgr_->getRevokeList( nIssuerNum, revokeList );
+
+    for( int i=0; i < revokeList.size(); i++ )
+    {
+        RevokeRec revoke = revokeList.at(i);
+
+        right_table_->insertRow(i);
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg(revoke.getSeq() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg(revoke.getCertNum())));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg(revoke.getIssuerNum())));
+        right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg(revoke.getRevokeDate())));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg(revoke.getReason())));
     }
 }
 

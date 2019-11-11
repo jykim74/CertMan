@@ -48,6 +48,7 @@ public:
     void createRightCRLPolicyList();
     void createRightCertList( int nIssuerNum, bool bIsCA = false );
     void createRightCRLList(int nIssuerNum);
+    void createRightRevokeList( int nIssuerNum );
 
     void removeAllRight();
 
