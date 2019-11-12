@@ -33,6 +33,7 @@ SOURCES += \
         cert_info_dlg.cpp \
         cert_policy_rec.cpp \
         cert_rec.cpp \
+        check_cert_dlg.cpp \
         commons.cpp \
         crl_info_dlg.cpp \
         crl_policy_rec.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
         cert_info_dlg.h \
         cert_policy_rec.h \
         cert_rec.h \
+        check_cert_dlg.h \
         commons.h \
         crl_info_dlg.h \
         crl_policy_rec.h \
@@ -104,6 +106,7 @@ HEADERS += \
 FORMS += \
         about_dlg.ui \
         cert_info_dlg.ui \
+        check_cert_dlg.ui \
         crl_info_dlg.ui \
         export_dlg.ui \
         get_ldap_dlg.ui \

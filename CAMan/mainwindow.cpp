@@ -35,6 +35,7 @@
 #include "crl_rec.h"
 #include "policy_ext_rec.h"
 #include "revoke_rec.h"
+#include "check_cert_dlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -215,6 +216,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
+        menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -725,6 +727,13 @@ void MainWindow::expandMenu()
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
     }
+}
+
+void MainWindow::checkCertificate()
+{
+    manApplet->checkCertDlg()->show();
+    manApplet->checkCertDlg()->raise();
+    manApplet->checkCertDlg()->activateWindow();
 }
 
 void MainWindow::createRightKeyPairList()

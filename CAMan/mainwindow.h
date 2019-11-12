@@ -95,6 +95,7 @@ public slots:
     void publishLDAP();
     void getLDAP();
     void expandMenu();
+    void checkCertificate();
 
     void about();
     void settings();

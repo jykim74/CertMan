@@ -23,6 +23,7 @@
 #include "revoke_cert_dlg.h"
 #include "cert_info_dlg.h"
 #include "crl_info_dlg.h"
+#include "check_cert_dlg.h"
 #include "auto_update_service.h"
 
 ManApplet *manApplet;
@@ -48,6 +49,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     revoke_cert_dlg_ = new RevokeCertDlg;
     cert_info_dlg_ = new CertInfoDlg;
     crl_info_dlg_ = new CRLInfoDlg;
+    check_cert_dlg_ = new CheckCertDlg;
 
     in_exit_ = false;
 
