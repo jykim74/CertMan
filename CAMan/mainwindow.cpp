@@ -158,8 +158,8 @@ void MainWindow::createActions()
     QAction* importDataAct = dataMenu->addAction(tr("&ImportData"), this, &MainWindow::importData);
     importDataAct->setStatusTip(tr("Import data"));
 
-    QAction* exportDataAct = dataMenu->addAction(tr("&ExportData"), this, &MainWindow::exportData);
-    exportDataAct->setStatusTip(tr("Export private key"));
+//    QAction* exportDataAct = dataMenu->addAction(tr("&ExportData"), this, &MainWindow::exportData);
+//    exportDataAct->setStatusTip(tr("Export private key"));
 
     QAction* pubLDAPAct = dataMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish LDAP"));
@@ -212,7 +212,7 @@ void MainWindow::showRightMenu(QPoint point)
 
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
-        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportData );
+        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
@@ -220,19 +220,19 @@ void MainWindow::showRightMenu(QPoint point)
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
-        menu.addAction( tr("Export CRL"), this, &MainWindow::exportData );
+        menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
         menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
         menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
-        menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportData );
-        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportData );
+        menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
+        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
-        menu.addAction(tr("Export Request"), this, &MainWindow::exportData);
+        menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest );
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
         menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
     }
@@ -498,12 +498,69 @@ void MainWindow::importData()
     manApplet->importDlg()->activateWindow();
 }
 
-void MainWindow::exportData()
+void MainWindow::exportPriKey()
 {
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PRIKEY );
     manApplet->exportDlg()->show();
     manApplet->exportDlg()->raise();
     manApplet->exportDlg()->activateWindow();
 }
+
+void MainWindow::exportEncPriKey()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_ENC_PRIKEY );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
+void MainWindow::exportPubKey()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PUBKEY );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
+void MainWindow::exportRequest()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_REQUEST );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
+void MainWindow::exportCertificate()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_CERTIFICATE );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
+void MainWindow::exportCRL()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_CRL );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
+void MainWindow::exportPFX()
+{
+    manApplet->exportDlg()->setDataNum( right_num_ );
+    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PFX );
+    manApplet->exportDlg()->show();
+    manApplet->exportDlg()->raise();
+    manApplet->exportDlg()->activateWindow();
+}
+
 
 void MainWindow::publishLDAP()
 {
@@ -731,6 +788,12 @@ void MainWindow::expandMenu()
 
 void MainWindow::checkCertificate()
 {
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    manApplet->checkCertDlg()->setCertNum(num);
     manApplet->checkCertDlg()->show();
     manApplet->checkCertDlg()->raise();
     manApplet->checkCertDlg()->activateWindow();

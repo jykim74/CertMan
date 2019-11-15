@@ -11,7 +11,7 @@ ExportDlg::ExportDlg(QWidget *parent) :
     QDialog(parent)
 {
     data_num_ = -1;
-    data_type_ = -1;
+    export_type_ = -1;
 
     setupUi(this);
 
@@ -23,9 +23,9 @@ ExportDlg::~ExportDlg()
 
 }
 
-void ExportDlg::setDataType( int data_type )
+void ExportDlg::setExportType( int export_type )
 {
-    data_type_ = data_type;
+    export_type_ = export_type;
 }
 
 void ExportDlg::setDataNum( int data_num )
@@ -52,7 +52,7 @@ void ExportDlg::accept()
         return;
     }
 
-    if( data_type_ == DATA_TYPE_PFX || data_type_ == DATA_TYPE_ENC_PRIKEY )
+    if( export_type_ == EXPORT_TYPE_PFX || export_type_ == EXPORT_TYPE_ENC_PRIKEY )
     {
         if( strPass.isEmpty() )
         {
@@ -64,16 +64,16 @@ void ExportDlg::accept()
 
     BIN binData = {0,0};
 
-    if( data_type_ == DATA_TYPE_PRIKEY || data_type_ == DATA_TYPE_ENC_PRIKEY || data_type_ == DATA_TYPE_PUBKEY )
+    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY || export_type_ == EXPORT_TYPE_PUBKEY )
     {
         KeyPairRec keyPair;
         dbMgr->getKeyPairRec( data_num_, keyPair );
 
-        if( data_type_ == DATA_TYPE_PRIKEY )
+        if( export_type_ == EXPORT_TYPE_PRIKEY )
             JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
-        else if( data_type_ == DATA_TYPE_PUBKEY )
+        else if( export_type_ == EXPORT_TYPE_PUBKEY )
             JS_BIN_decodeHex( keyPair.getPublicKey().toStdString().c_str(), &binData );
-        else if( data_type_ == DATA_TYPE_ENC_PRIKEY )
+        else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             BIN binSrc = {0,0};
             BIN binInfo = {0,0};
@@ -92,19 +92,25 @@ void ExportDlg::accept()
             JS_BIN_reset( &binInfo );
         }
     }
-    else if( data_type_ == DATA_TYPE_CRL )
+    else if( export_type_ == EXPORT_TYPE_CERTIFICATE )
+    {
+        CertRec cert;
+        dbMgr->getCertRec( data_num_, cert );
+        JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binData );
+    }
+    else if( export_type_ == EXPORT_TYPE_CRL )
     {
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
         JS_BIN_decodeHex( crl.getCRL().toStdString().c_str(), &binData );
     }
-    else if( data_type_ == DATA_TYPE_REQUEST )
+    else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
         ReqRec req;
         dbMgr->getReqRec( data_num_, req );
         JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binData );
     }
-    else if( data_type_ == DATA_TYPE_PFX )
+    else if( export_type_ == EXPORT_TYPE_PFX )
     {
         int nKeyType = -1;
         KeyPairRec keyPair;
@@ -140,7 +146,7 @@ void ExportDlg::clickFind()
     options |= QFileDialog::DontUseNativeDialog;
 
     QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
+    QString fileName = QFileDialog::getSaveFileName( this,
                                                      tr("Export Files"),
                                                      QDir::currentPath(),
                                                      tr("Cert Files (*.crt);;Key Files (*.key);;All Files (*)"),
@@ -163,16 +169,22 @@ void ExportDlg::initialize()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    if( data_type_ == DATA_TYPE_PRIKEY || data_type_ == DATA_TYPE_ENC_PRIKEY || data_type_ == DATA_TYPE_PUBKEY )
+    if( data_num_ < 0 || export_type_ < 0 )
+    {
+        manApplet->warningBox( tr( "There is no data to be selected" ));
+        return;
+    }
+
+    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY || export_type_ == EXPORT_TYPE_PUBKEY )
     {
         KeyPairRec keyPair;
         dbMgr->getKeyPairRec( data_num_, keyPair );
 
-        if( data_type_ == DATA_TYPE_PRIKEY )
+        if( export_type_ == EXPORT_TYPE_PRIKEY )
             strMsg = "[Private Key data]\n";
-        else if( data_type_ == DATA_TYPE_ENC_PRIKEY )
+        else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
             strMsg = "[Encrypting Private Key data]\n";
-        else if( data_type_ == DATA_TYPE_PUBKEY )
+        else if( export_type_ == EXPORT_TYPE_PUBKEY )
             strMsg = "[Public Key data]\n";
 
         strPart = QString( "Num: %1\nAlgorithm: %2\nName: %3\n")
@@ -180,14 +192,14 @@ void ExportDlg::initialize()
                 .arg( keyPair.getAlg() )
                 .arg( keyPair.getName() );
     }
-    else if( data_type_ == DATA_TYPE_CERTIFICATE || data_type_ == DATA_TYPE_PFX )
+    else if( export_type_ == EXPORT_TYPE_CERTIFICATE || export_type_ == EXPORT_TYPE_PFX )
     {
         CertRec cert;
         dbMgr->getCertRec( data_num_, cert );
 
-        if( data_type_ == DATA_TYPE_CERTIFICATE )
+        if( export_type_ == EXPORT_TYPE_CERTIFICATE )
             strMsg = "[ Certificate data ]\n";
-        else if( data_type_ == DATA_TYPE_PFX )
+        else if( export_type_ == EXPORT_TYPE_PFX )
             strMsg = "[ PFX data ]\n";
 
         strPart = QString( "Num: %1\nDN: %2\nAlgorithm: %3\n")
@@ -195,7 +207,7 @@ void ExportDlg::initialize()
                 .arg( cert.getSubjectDN() )
                 .arg( cert.getSignAlg() );
     }
-    else if( data_type_ == DATA_TYPE_CRL )
+    else if( export_type_ == EXPORT_TYPE_CRL )
     {
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
@@ -205,7 +217,7 @@ void ExportDlg::initialize()
                 .arg( data_num_ )
                 .arg( crl.getSignAlg() );
     }
-    else if( data_type_ == DATA_TYPE_REQUEST )
+    else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
         ReqRec req;
         dbMgr->getReqRec( data_num_, req );
@@ -218,7 +230,7 @@ void ExportDlg::initialize()
     }
 
 
-    if( data_type_ == DATA_TYPE_PFX || data_type_ == DATA_TYPE_ENC_PRIKEY )
+    if( export_type_ == EXPORT_TYPE_PFX || export_type_ == EXPORT_TYPE_ENC_PRIKEY )
     {
         mPasswordText->setEnabled( true );
     }

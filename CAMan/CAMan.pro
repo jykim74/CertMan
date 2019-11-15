@@ -150,7 +150,8 @@ mac {
     INCLUDEPATH += "/usr/local/Sparkle.framework/Headers"
 
     LIBS += -L"../../build-PKILib-Desktop_Qt_5_11_3_clang_64bit-Debug" -lPKILib
-    LIBS += -L"../../PKILib/lib/mac/openssl/lib" -lcrypto
+    LIBS += -L"../../PKILib/lib/mac/openssl/lib" -lcrypto -lssl
+
     LIBS += -lldap -llber
 }
 

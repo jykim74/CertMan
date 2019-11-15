@@ -83,7 +83,13 @@ public slots:
     void viewCRL();
 
     void importData();
-    void exportData();
+    void exportPriKey();
+    void exportEncPriKey();
+    void exportPubKey();
+    void exportRequest();
+    void exportCertificate();
+    void exportCRL();
+    void exportPFX();
 
     void deleteCertPolicy();
     void deleteCRLPolicy();

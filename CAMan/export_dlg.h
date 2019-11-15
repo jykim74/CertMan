@@ -9,13 +9,13 @@ class ExportDlg;
 }
 
 enum {
-    DATA_TYPE_PRIKEY = 1,
-    DATA_TYPE_ENC_PRIKEY,
-    DATA_TYPE_PUBKEY,
-    DATA_TYPE_REQUEST,
-    DATA_TYPE_CERTIFICATE,
-    DATA_TYPE_CRL,
-    DATA_TYPE_PFX
+    EXPORT_TYPE_PRIKEY = 1,
+    EXPORT_TYPE_ENC_PRIKEY,
+    EXPORT_TYPE_PUBKEY,
+    EXPORT_TYPE_REQUEST,
+    EXPORT_TYPE_CERTIFICATE,
+    EXPORT_TYPE_CRL,
+    EXPORT_TYPE_PFX
 };
 
 class ExportDlg : public QDialog, public Ui::ExportDlg
@@ -25,10 +25,10 @@ class ExportDlg : public QDialog, public Ui::ExportDlg
 public:
     explicit ExportDlg(QWidget *parent = nullptr);
     ~ExportDlg();
-    int dataType() { return data_type_; };
+    int exportType() { return export_type_; };
     int dataNum() { return data_num_; };
 
-    void setDataType( int data_type );
+    void setExportType( int export_type );
     void setDataNum( int data_num );
 
 private slots:
@@ -42,7 +42,7 @@ private:
     void initialize();
 
 private:
-    int data_type_;
+    int export_type_;
     int data_num_;
 };
 
