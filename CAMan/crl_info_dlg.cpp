@@ -228,10 +228,14 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
         pRevInfoList = pRevInfoList->pNext;
     }
 
+    PolicyExtRec policyExt;
+
+    getExtInfo( &pRevInfoList->sRevokeInfo.sExtReason, policyExt );
+
     mRevokeDetailTable->insertRow(0);
     mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
-                                                                .arg(pRevInfoList->sRevokeInfo.sExtReason.pOID)));
+                                                                .arg(policyExt.getSN())));
     mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")
-                                                           .arg(pRevInfoList->sRevokeInfo.sExtReason.bCritical)
-                                                           .arg(pRevInfoList->sRevokeInfo.sExtReason.pValue)));
+                                                           .arg(policyExt.isCritical())
+                                                           .arg(policyExt.getValue())));
 }

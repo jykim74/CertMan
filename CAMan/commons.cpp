@@ -394,7 +394,7 @@ static int _getBC( const BIN *pBinExt, QString& strVal )
         strType = "EE";
 
     if( nPathLen >= 0 )
-        strPathLen = QString("$PathLen:%d").arg( nPathLen );
+        strPathLen = QString("$PathLen:%1").arg( nPathLen );
 
     strVal += strType;
     strVal += strPathLen;
