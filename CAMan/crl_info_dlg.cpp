@@ -4,6 +4,7 @@
 #include "crl_info_dlg.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "commons.h"
 
 CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     QDialog(parent)
@@ -120,11 +121,13 @@ void CRLInfoDlg::initialize()
 
         while( pCurList )
         {
+            PolicyExtRec policyExt;
+            getExtInfo( &pCurList->sExtensionInfo, policyExt );
             mCRLListTable->insertRow(i);
-            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
+            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyExt.getSN())));
             mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(pCurList->sExtensionInfo.bCritical)
-                                                               .arg(pCurList->sExtensionInfo.pValue)));
+                                                               .arg(policyExt.isCritical())
+                                                               .arg(policyExt.getValue())));
 
 
             pCurList = pCurList->pNext;

@@ -55,5 +55,6 @@ const QStringList kRevokeReasonList = {
 };
 
 int setExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
+int getExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 
 #endif // COMMONS_H

@@ -4,6 +4,7 @@
 #include "cert_info_dlg.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "commons.h"
 
 
 CertInfoDlg::CertInfoDlg(QWidget *parent) :
@@ -133,13 +134,18 @@ void CertInfoDlg::initialize()
     {
         JSExtensionInfoList *pCurList = pExtInfoList;
 
+
+
         while( pCurList )
         {
+            PolicyExtRec policyRec;
+            getExtInfo( &pCurList->sExtensionInfo, policyRec );
+
             mFieldTable->insertRow(i);
-            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(pCurList->sExtensionInfo.pOID)));
+            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyRec.getSN())));
             mFieldTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(pCurList->sExtensionInfo.bCritical)
-                                                               .arg(pCurList->sExtensionInfo.pValue)));
+                                                               .arg(policyRec.isCritical())
+                                                               .arg(policyRec.getValue())));
 
 
             pCurList = pCurList->pNext;
