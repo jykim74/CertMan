@@ -5,6 +5,7 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 
+#include "js_bin.h"
 #include "js_pki.h"
 
 ExportDlg::ExportDlg(QWidget *parent) :
@@ -46,6 +47,8 @@ void ExportDlg::accept()
     QString strPass = mPasswordText->text();
     QString strPath = mPathText->text();
 
+    int nPEMType = -1;
+
     if( strPath.isEmpty() )
     {
         manApplet->warningBox( tr( "select folder path to save"), this );
@@ -70,9 +73,21 @@ void ExportDlg::accept()
         dbMgr->getKeyPairRec( data_num_, keyPair );
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
+        {
             JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
+            if( keyPair.getAlg() == "RSA" )
+                nPEMType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
+            else
+                nPEMType = JS_PEM_TYPE_EC_PRIVATE_KEY;
+        }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
+        {
             JS_BIN_decodeHex( keyPair.getPublicKey().toStdString().c_str(), &binData );
+            if( keyPair.getAlg() == "RSA" )
+                nPEMType = JS_PEM_TYPE_RSA_PUBLIC_KEY;
+            else
+                nPEMType = JS_PEM_TYPE_EC_PUBLIC_KEY;
+        }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             BIN binSrc = {0,0};
@@ -97,18 +112,21 @@ void ExportDlg::accept()
         CertRec cert;
         dbMgr->getCertRec( data_num_, cert );
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binData );
+        nPEMType = JS_PEM_TYPE_CERTIFICATE;
     }
     else if( export_type_ == EXPORT_TYPE_CRL )
     {
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
         JS_BIN_decodeHex( crl.getCRL().toStdString().c_str(), &binData );
+        nPEMType = JS_PEM_TYPE_CRL;
     }
     else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
         ReqRec req;
         dbMgr->getReqRec( data_num_, req );
         JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binData );
+        nPEMType = JS_PEM_TYPE_CSR;
     }
     else if( export_type_ == EXPORT_TYPE_PFX )
     {
@@ -135,7 +153,11 @@ void ExportDlg::accept()
         JS_BIN_reset( &binCert );
     }
 
-    JS_BIN_fileWrite( &binData, strPath.toStdString().c_str() );
+    if( mPEMSaveCheck->isChecked() )
+        JS_BIN_writePEM( &binData, nPEMType, strPath.toStdString().c_str() );
+    else
+        JS_BIN_fileWrite( &binData, strPath.toStdString().c_str() );
+
     JS_BIN_reset( &binData );
     QDialog::accept();
 }
@@ -236,6 +258,14 @@ void ExportDlg::initialize()
     }
     else
         mPasswordText->setEnabled( false );
+
+    if( exportType() == EXPORT_TYPE_PFX )
+    {
+        mPEMSaveCheck->setChecked(false);
+        mPEMSaveCheck->setEnabled(false);
+    }
+    else
+        mPEMSaveCheck->setEnabled(true);
 
     strMsg += strPart;
     mInfoText->setPlainText( strMsg );
