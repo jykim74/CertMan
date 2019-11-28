@@ -194,6 +194,7 @@ void MakeCRLPolicyDlg::accept()
 
     /* ....... */
 
+    manApplet->mainWindow()->createRightCRLPolicyList();
     QDialog::accept();
 }
 

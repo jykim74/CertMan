@@ -273,47 +273,10 @@ void MainWindow::createTreeMenu()
     pTopItem->appendRow( pCRLPolicyItem );
 
     ManTreeItem *pRootCAItem = new ManTreeItem( QString("RootCA") );
+    pRootCAItem->setIcon( QIcon(":/images/cert.png") );
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
     pRootCAItem->setDataNum(-1);
     pTopItem->appendRow( pRootCAItem );
-
-    // expandMenu();
-    /*
-    int nIssuerNum = -1;
-    QList<CertRec> certList;
-    db_mgr_->getCACertList( nIssuerNum, certList );
-    qDebug() << "RootCA count : " << certList.size();
-
-    for( int i=0; i < certList.size(); i++ )
-    {
-        CertRec certRec = certList.at(i);
-
-        ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
-        pCAItem->setType( CM_ITEM_TYPE_CA );
-        pCAItem->setDataNum( certRec.getNum() );
-        pRootCAItem->appendRow( pCAItem );
-
-        ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
-        pCertItem->setType( CM_ITEM_TYPE_CERT );
-        pCertItem->setDataNum( certRec.getNum() );
-        pCAItem->appendRow( pCertItem );
-
-        ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
-        pCRLItem->setType( CM_ITEM_TYPE_CRL );
-        pCRLItem->setDataNum( certRec.getNum() );
-        pCAItem->appendRow( pCRLItem );
-
-        ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
-        pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
-        pRevokeItem->setDataNum( certRec.getNum() );
-        pCAItem->appendRow( pRevokeItem );
-
-        ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
-        pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
-        pSubCAItem->setDataNum( certRec.getNum() );
-        pCAItem->appendRow( pSubCAItem );
-    }
-    */
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
     pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
@@ -325,6 +288,8 @@ void MainWindow::createTreeMenu()
 
     QModelIndex ri = left_model_->index(0,0);
     left_tree_->expand(ri);
+
+    expandItem( pRootCAItem );
 }
 
 void MainWindow::newFile()
@@ -750,6 +715,11 @@ void MainWindow::tableClick(QModelIndex index )
 void MainWindow::expandMenu()
 {
     ManTreeItem* item = left_tree_->currentItem();
+    expandItem( item );
+}
+
+void MainWindow::expandItem( ManTreeItem *item )
+{
     int nIssuerNum = item->getDataNum();
 
     QList<CertRec> certList;
@@ -784,6 +754,8 @@ void MainWindow::expandMenu()
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
     }
+
+    left_tree_->expand( item->index() );
 }
 
 void MainWindow::checkCertificate()

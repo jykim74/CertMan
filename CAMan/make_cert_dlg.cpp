@@ -229,7 +229,7 @@ void MakeCertDlg::accept()
             policyExt.setValue( sHexID );
             JS_BIN_reset( &binPub );
         }
-        else if( policyExt.getSN() == kExtNameIAN )
+        else if( policyExt.getSN() == kExtNameAKI )
         {
             if( bSelf == false )
             {

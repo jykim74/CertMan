@@ -14,5 +14,6 @@
         <file>images/trash.png</file>
         <file>i18n/caman_ko_KR.ts</file>
         <file>images/caman.icns</file>
+        <file>images/cert.png</file>
     </qresource>
 </RCC>

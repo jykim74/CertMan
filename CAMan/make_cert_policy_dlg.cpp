@@ -274,6 +274,7 @@ void MakeCertPolicyDlg::accept()
     if( mSANUseCheck->isChecked() ) saveSANUse( nPolicyNum );
     /* ....... */
 
+    manApplet->mainWindow()->createRightCertPolicyList();
     QDialog::accept();
 }
 

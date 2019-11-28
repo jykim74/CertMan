@@ -50,7 +50,8 @@ void ManTreeView::showContextMenu(QPoint point)
     }
     else if( item->getType() == CM_ITEM_TYPE_SUBCA || item->getType() == CM_ITEM_TYPE_ROOTCA )
     {
-        menu.addAction(tr("Expand Menu"), manApplet->mainWindow(), &MainWindow::expandMenu );
+        if( item->hasChildren() == false )
+            menu.addAction(tr("Expand Menu"), manApplet->mainWindow(), &MainWindow::expandMenu );
     }
 
     menu.exec(QCursor::pos());

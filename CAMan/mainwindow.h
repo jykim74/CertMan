@@ -11,6 +11,7 @@
 
 class ManTreeView;
 class ManTreeModel;
+class ManTreeItem;
 class DBMgr;
 
 namespace Ui {
@@ -101,6 +102,7 @@ public slots:
     void publishLDAP();
     void getLDAP();
     void expandMenu();
+    void expandItem( ManTreeItem *item );
     void checkCertificate();
 
     void about();
