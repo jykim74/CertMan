@@ -249,7 +249,10 @@ void MainWindow::showRightMenu(QPoint point)
 
 void MainWindow::createTreeMenu()
 {
+    left_tree_->header()->setVisible(false);
+
     ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
+
     ManTreeItem *pTopItem = new ManTreeItem( QString( "CAManager" ) );
     pTopItem->setIcon(QIcon(":/images/man.png"));
     pRootItem->insertRow( 0, pTopItem );
@@ -281,10 +284,12 @@ void MainWindow::createTreeMenu()
     pTopItem->appendRow( pRootCAItem );
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
+    pImportCertItem->setIcon(QIcon(":/images/im_cert.png"));
     pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
     pTopItem->appendRow( pImportCertItem );
 
     ManTreeItem *pImportCRLItem = new ManTreeItem( QString( "ImportCRL" ) );
+    pImportCRLItem->setIcon(QIcon(":/images/im_crl.png"));
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
 

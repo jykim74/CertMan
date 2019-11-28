@@ -19,5 +19,7 @@
         <file>images/csr.jpg</file>
         <file>images/policy.png</file>
         <file>images/man.png</file>
+        <file>images/im_cert.png</file>
+        <file>images/im_crl.png</file>
     </qresource>
 </RCC>
