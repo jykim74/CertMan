@@ -158,9 +158,6 @@ void MainWindow::createActions()
     QAction* importDataAct = dataMenu->addAction(tr("&ImportData"), this, &MainWindow::importData);
     importDataAct->setStatusTip(tr("Import data"));
 
-//    QAction* exportDataAct = dataMenu->addAction(tr("&ExportData"), this, &MainWindow::exportData);
-//    exportDataAct->setStatusTip(tr("Export private key"));
-
     QAction* pubLDAPAct = dataMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish LDAP"));
 
@@ -254,21 +251,26 @@ void MainWindow::createTreeMenu()
 {
     ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
     ManTreeItem *pTopItem = new ManTreeItem( QString( "CAManager" ) );
+    pTopItem->setIcon(QIcon(":/images/man.png"));
     pRootItem->insertRow( 0, pTopItem );
 
     ManTreeItem *pKeyPairItem = new ManTreeItem( QString("KeyPair") );
+    pKeyPairItem->setIcon(QIcon(":/images/key.jpeg"));
     pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
     pTopItem->appendRow( pKeyPairItem );
 
     ManTreeItem *pCSRItem = new ManTreeItem( QString("Request"));
+    pCSRItem->setIcon(QIcon(":/images/csr.jpg"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
+    pCertPolicyItem->setIcon(QIcon(":/images/policy.png"));
     pCertPolicyItem->setType( CM_ITEM_TYPE_CERT_POLICY );
     pTopItem->appendRow( pCertPolicyItem );
 
     ManTreeItem *pCRLPolicyItem = new ManTreeItem( QString("CRLPolicy" ) );
+    pCRLPolicyItem->setIcon(QIcon(":/images/policy.png"));
     pCRLPolicyItem->setType( CM_ITEM_TYPE_CRL_POLICY );
     pTopItem->appendRow( pCRLPolicyItem );
 

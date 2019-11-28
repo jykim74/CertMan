@@ -15,5 +15,9 @@
         <file>i18n/caman_ko_KR.ts</file>
         <file>images/caman.icns</file>
         <file>images/cert.png</file>
+        <file>images/key.jpeg</file>
+        <file>images/csr.jpg</file>
+        <file>images/policy.png</file>
+        <file>images/man.png</file>
     </qresource>
 </RCC>
