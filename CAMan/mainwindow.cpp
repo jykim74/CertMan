@@ -586,7 +586,11 @@ void MainWindow::deleteCertificate()
 
     int num = item->text().toInt();
 
+    CertRec cert;
+    db_mgr_->getCertRec( num, cert );
     db_mgr_->delCertRec( num );
+
+    createRightCertList( cert.getIssuerNum() );
 }
 
 void MainWindow::deleteCRL()
@@ -596,8 +600,12 @@ void MainWindow::deleteCRL()
 
     int num = item->text().toInt();
 
+    CRLRec crl;
+
+    db_mgr_->getCRLRec( num, crl );
     db_mgr_->delCRLRec( num );
 
+    createRightCRLList( crl.getIssuerNum() );
 }
 
 void MainWindow::deleteKeyPair()
