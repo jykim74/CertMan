@@ -63,7 +63,8 @@ SOURCES += \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
         settings_dlg.cpp \
-        settings_mgr.cpp
+        settings_mgr.cpp \
+        user_rec.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -101,7 +102,8 @@ HEADERS += \
         revoke_rec.h \
         settings_dlg.h \
         settings_mgr.h \
-        singleton.h
+        singleton.h \
+        user_rec.h
 
 FORMS += \
         about_dlg.ui \

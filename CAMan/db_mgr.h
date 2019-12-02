@@ -20,6 +20,7 @@ class CRLPolicyRec;
 class ReqRec;
 class PolicyExtRec;
 class RevokeRec;
+class UserRec;
 
 class DBMgr
 {
@@ -87,6 +88,7 @@ private:
     int _getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyList );
     int _getRevokeList( QString strQuery, QList<RevokeRec>& revokeList );
     int _getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList );
+    int _getUserList( QString strQuery, QList<UserRec>& userList );
 
 private:
     QSqlDatabase   db_;

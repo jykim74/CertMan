@@ -85,8 +85,8 @@ void MakeCertDlg::initialize()
 void MakeCertDlg::accept()
 {
     int ret = 0;
-    JSCertInfo sCertInfo;
-    JSCertInfo sMadeCertInfo;
+    JCertInfo sCertInfo;
+    JCertInfo sMadeCertInfo;
     BIN binCSR = {0,0};
     BIN binSignPri = {0,0};
     BIN binSignCert = {0,0};
@@ -95,8 +95,8 @@ void MakeCertDlg::accept()
     bool bCA = false;
 
     CertRec madeCertRec;
-    JSExtensionInfoList *pExtInfoList = NULL;
-    JSExtensionInfoList *pMadeExtInfoList = NULL;
+    JExtensionInfoList *pExtInfoList = NULL;
+    JExtensionInfoList *pMadeExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -204,7 +204,7 @@ void MakeCertDlg::accept()
     dbMgr->getCertPolicyExtensionList( policyRec.getNum(), policyExtList );
     for( int i=0; i < policyExtList.size(); i++ )
     {
-        JSExtensionInfo sExtInfo;
+        JExtensionInfo sExtInfo;
         PolicyExtRec policyExt = policyExtList.at(i);
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));

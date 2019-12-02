@@ -10,6 +10,7 @@
 #include "policy_ext_rec.h"
 #include "req_rec.h"
 #include "revoke_rec.h"
+#include "user_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -513,6 +514,40 @@ int DBMgr::_getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& polic
 
         policyExtensionList.append( policyExtension );
         iCount++;
+    }
+
+    SQL.finish();
+    return 0;
+}
+
+int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
+{
+    int     iCount = 0;
+    QSqlQuery   SQL( strQuery );
+
+    int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosName = SQL.record().indexOf( "Name" );
+    int nPosSSN = SQL.record().indexOf( "SSN" );
+    int nPosEmail = SQL.record().indexOf( "Email" );
+    int nPosCertNum = SQL.record().indexOf( "CertNum" );
+    int nPosStatus = SQL.record().indexOf( "Status" );
+    int nPosRefCode = SQL.record().indexOf( "RefCode" );
+    int nPosSecretNum = SQL.record().indexOf( "SecretNum" );
+
+    while( SQL.next() )
+    {
+        UserRec     user;
+
+        user.setNum( SQL.value(nPosNum).toInt() );
+        user.setName( SQL.value(nPosName).toString() );
+        user.setSSN( SQL.value(nPosSSN).toString() );
+        user.setEmail( SQL.value(nPosEmail).toString());
+        user.setCertNum( SQL.value(nPosCertNum).toInt() );
+        user.setStatus( SQL.value(nPosStatus).toInt());
+        user.setRefCode( SQL.value(nPosRefCode).toString());
+        user.setSecretNum( SQL.value(nPosSecretNum).toString());
+
+        userList.append( user );
     }
 
     SQL.finish();

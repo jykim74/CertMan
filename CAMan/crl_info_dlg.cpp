@@ -117,7 +117,7 @@ void CRLInfoDlg::initialize()
 
     if( ext_info_list_ )
     {
-        JSExtensionInfoList *pCurList = ext_info_list_;
+        JExtensionInfoList *pCurList = ext_info_list_;
 
         while( pCurList )
         {
@@ -138,7 +138,7 @@ void CRLInfoDlg::initialize()
     if( revoke_info_list_ )
     {
         int k = 0;
-        JSRevokeInfoList *pCurRevList = revoke_info_list_;
+        JRevokeInfoList *pCurRevList = revoke_info_list_;
 
         while( pCurRevList )
         {
@@ -221,7 +221,7 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     for( int i=0; i < rowCnt; i++ )
         mRevokeDetailTable->removeRow(0);
 
-    JSRevokeInfoList *pRevInfoList = revoke_info_list_;
+    JRevokeInfoList *pRevInfoList = revoke_info_list_;
 
     for( int i = 0; i < row; i++ )
     {

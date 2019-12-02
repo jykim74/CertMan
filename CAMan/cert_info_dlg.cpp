@@ -37,8 +37,8 @@ void CertInfoDlg::initialize()
     int i = 0;
 
     BIN binCert = {0,0};
-    JSCertInfo  sCertInfo;
-    JSExtensionInfoList *pExtInfoList = NULL;
+    JCertInfo  sCertInfo;
+    JExtensionInfoList *pExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -132,7 +132,7 @@ void CertInfoDlg::initialize()
 
     if( pExtInfoList )
     {
-        JSExtensionInfoList *pCurList = pExtInfoList;
+        JExtensionInfoList *pCurList = pExtInfoList;
 
 
 

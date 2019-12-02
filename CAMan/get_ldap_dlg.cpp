@@ -128,9 +128,9 @@ int GetLDAPDlg::ImportCert( const BIN *pCert )
     if( dbMgr == NULL ) return -1;
 
     char *pHexCert = NULL;
-    JSCertInfo sCertInfo;
+    JCertInfo sCertInfo;
     CertRec     cert;
-    JSExtensionInfoList *pExtInfoList = NULL;
+    JExtensionInfoList *pExtInfoList = NULL;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
@@ -159,11 +159,11 @@ int GetLDAPDlg::ImportCRL( const BIN *pCRL )
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return -1;
 
-    JSCRLInfo sCRLInfo;
+    JCRLInfo sCRLInfo;
     char *pHexCRL = NULL;
     CRLRec crl;
-    JSExtensionInfoList *pExtInfoList = NULL;
-    JSRevokeInfoList *pRevokeInfoList = NULL;
+    JExtensionInfoList *pExtInfoList = NULL;
+    JRevokeInfoList *pRevokeInfoList = NULL;
 
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
 

@@ -48,12 +48,12 @@ void MakeCRLDlg::showEvent(QShowEvent *event)
 void MakeCRLDlg::accept()
 {
     int         ret = 0;
-    JSCRLInfo   sCRLInfo;
-    JSCRLInfo   sMadeCRLInfo;
-    JSExtensionInfoList *pExtInfoList = NULL;
-    JSExtensionInfoList *pMadeExtInfoList = NULL;
-    JSRevokeInfoList *pRevokeInfoList = NULL;
-    JSRevokeInfoList *pMadeRevokeInfoList = NULL;
+    JCRLInfo   sCRLInfo;
+    JCRLInfo   sMadeCRLInfo;
+    JExtensionInfoList *pExtInfoList = NULL;
+    JExtensionInfoList *pMadeExtInfoList = NULL;
+    JRevokeInfoList *pRevokeInfoList = NULL;
+    JRevokeInfoList *pMadeRevokeInfoList = NULL;
 
     BIN         binSignCert = {0,0};
     BIN         binSignPri = {0,0};
@@ -112,7 +112,7 @@ void MakeCRLDlg::accept()
     dbMgr->getCRLPolicyExtensionList( policy.getNum(), policyExtList );
     for( int i=0; i < policyExtList.size(); i++ )
     {
-        JSExtensionInfo sExtInfo;
+        JExtensionInfo sExtInfo;
         PolicyExtRec policyExt = policyExtList.at(i);
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
@@ -162,11 +162,11 @@ void MakeCRLDlg::accept()
     int nRevokeCnt = mRevokeTable->rowCount();
     for( int i = 0; i < nRevokeCnt; i++ )
     {
-        JSRevokeInfo sRevokeInfo;
+        JRevokeInfo sRevokeInfo;
         const char *pSerial = NULL;
         long uRevokeDate = -1;
         int nReason = -1;
-        JSExtensionInfo sExtReason;
+        JExtensionInfo sExtReason;
         PolicyExtRec policyReason;
 
         memset( &sRevokeInfo, 0x00, sizeof(sRevokeInfo) );

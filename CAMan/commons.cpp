@@ -110,12 +110,12 @@ static int _getCRLNum( const BIN *pBinExt, QString& strVal )
 static int _setCertPolicy( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSExtPolicyList *pPolicyList = NULL;
+    JExtPolicyList *pPolicyList = NULL;
     QStringList strList = strVal.split("%%");
 
     for( int i=0; i < strList.size(); i++ )
     {
-        JSExtPolicy sPolicy;
+        JExtPolicy sPolicy;
         QString strPolicy = strList.at(i);
 
         QStringList infoList = strPolicy.split("#");
@@ -159,8 +159,8 @@ static int _setCertPolicy( BIN *pBinExt, const QString strVal )
 static int _getCertPolicy( const BIN *pBinExt, QString& strVal )
 {
     int ret = 0;
-    JSExtPolicyList *pPolicyList = NULL;
-    JSExtPolicyList *pCurList = NULL;
+    JExtPolicyList *pPolicyList = NULL;
+    JExtPolicyList *pCurList = NULL;
 
     ret = JS_PKI_getCertificatePoliciesValue( pBinExt, &pPolicyList );
 
@@ -257,7 +257,7 @@ static int _getAKI( const BIN *pBinExt, QString& strVal )
 static int _setEKU( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSStrList *pEKUList = NULL;
+    JStrList *pEKUList = NULL;
 
     QStringList infoList = strVal.split("#");
 
@@ -281,8 +281,8 @@ static int _setEKU( BIN *pBinExt, const QString strVal )
 static int _getEKU( const BIN *pBinExt, QString& strVal )
 {
     int     ret = 0;
-    JSStrList   *pEKUList = NULL;
-    JSStrList   *pCurList = NULL;
+    JStrList   *pEKUList = NULL;
+    JStrList   *pCurList = NULL;
 
     ret = JS_PKI_getExtendedKeyUsageValue( pBinExt, &pEKUList );
 
@@ -303,13 +303,13 @@ static int _getEKU( const BIN *pBinExt, QString& strVal )
 static int _setCRLDP( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSNameValList   *pDPList = NULL;
+    JNameValList   *pDPList = NULL;
 
     QStringList infoList = strVal.split("#");
 
     for( int i = 0; i < infoList.size(); i++ )
     {
-        JSNameVal sNameVal;
+        JNameVal sNameVal;
         QString info = infoList.at(i);
         QStringList typeData = info.split( "$" );
         QString strType = typeData.at(0);
@@ -335,8 +335,8 @@ static int _setCRLDP( BIN *pBinExt, const QString strVal )
 static int _getCRLDP( const BIN *pBinExt, QString& strVal )
 {
     int     ret = 0;
-    JSNameValList   *pCRLDPList = NULL;
-    JSNameValList    *pCurList = NULL;
+    JNameValList   *pCRLDPList = NULL;
+    JNameValList    *pCurList = NULL;
 
     ret = JS_PKI_getCRLDPValue( pBinExt, &pCRLDPList );
 
@@ -445,7 +445,7 @@ static int _getPC( const BIN *pBinExt, QString& strVal )
 static int _setAIA( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSExtAuthorityInfoAccessList *pAIAList = NULL;
+    JExtAuthorityInfoAccessList *pAIAList = NULL;
 
     QStringList infoList = strVal.split("#");
 
@@ -455,7 +455,7 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
         QString strMethod = "";
         QString strName = "";
 
-        JSExtAuthorityInfoAccess sAIA;
+        JExtAuthorityInfoAccess sAIA;
 
         QString info = infoList.at(i);
         QStringList subList = info.split("$");
@@ -488,8 +488,8 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
 static int _getAIA( const BIN *pBinExt, QString& strVal )
 {
     int ret = 0;
-    JSExtAuthorityInfoAccessList    *pAIAList = NULL;
-    JSExtAuthorityInfoAccessList    *pCurList = NULL;
+    JExtAuthorityInfoAccessList    *pAIAList = NULL;
+    JExtAuthorityInfoAccessList    *pCurList = NULL;
 
     ret = JS_PKI_getAuthorityInfoAccessValue( pBinExt, &pAIAList );
 
@@ -514,12 +514,12 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
 static int _setIDP( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSNumValList   *pIDPList = NULL;
+    JNumValList   *pIDPList = NULL;
     QStringList infoList = strVal.split("#");
 
     for( int i = 0; i < infoList.size(); i++ )
     {
-        JSNumVal sNumVal;
+        JNumVal sNumVal;
 
         QString info = infoList.at(i);
         QStringList typeVal = info.split("$");
@@ -555,8 +555,8 @@ static int _setIDP( BIN *pBinExt, const QString strVal )
 static int _getIDP( const BIN *pBinExt, QString& strVal )
 {
     int ret = 0;
-    JSNumValList    *pIDPList = NULL;
-    JSNumValList    *pCurList = NULL;
+    JNumValList    *pIDPList = NULL;
+    JNumValList    *pCurList = NULL;
 
     ret = JS_PKI_getIssuingDistPointValue( pBinExt, &pIDPList );
 
@@ -575,12 +575,12 @@ static int _getIDP( const BIN *pBinExt, QString& strVal )
 static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
 {
     int ret = 0;
-    JSNumValList    *pNameList = NULL;
+    JNumValList    *pNameList = NULL;
     QStringList infoList = strVal.split("#");
 
     for( int i=0; i < infoList.size(); i++ )
     {
-        JSNumVal sNumVal;
+        JNumVal sNumVal;
         int nType = -1;
 
         QString info = infoList.at(i);
@@ -617,8 +617,8 @@ static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
 static int _getAltName( const BIN *pBinExt, int nNid, QString& strVal )
 {
     int     ret = 0;
-    JSNumValList    *pAltNameList = NULL;
-    JSNumValList    *pCurList = NULL;
+    JNumValList    *pAltNameList = NULL;
+    JNumValList    *pCurList = NULL;
 
     ret = JS_PKI_getAlternativNameValue( pBinExt, &pAltNameList );
 
@@ -637,13 +637,13 @@ static int _getAltName( const BIN *pBinExt, int nNid, QString& strVal )
 static int _setPM( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSExtPolicyMappingsList *pPMList = NULL;
+    JExtPolicyMappingsList *pPMList = NULL;
 
     QStringList infoList = strVal.split("#");
 
     for( int i=0; i < infoList.size(); i++ )
     {
-        JSExtPolicyMappings sPM;
+        JExtPolicyMappings sPM;
 
         QString info = infoList.at(i);
         QStringList valList = info.split("$");
@@ -670,8 +670,8 @@ static int _setPM( BIN *pBinExt, const QString strVal )
 static int _getPM( const BIN *pBinExt, QString& strVal )
 {
     int ret = 0;
-    JSExtPolicyMappingsList *pPMList = NULL;
-    JSExtPolicyMappingsList *pCurList = NULL;
+    JExtPolicyMappingsList *pPMList = NULL;
+    JExtPolicyMappingsList *pCurList = NULL;
 
     ret = JS_PKI_getPolicyMappingsValue( pBinExt, &pPMList );
 
@@ -695,13 +695,13 @@ static int _getPM( const BIN *pBinExt, QString& strVal )
 static int _setNC( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
-    JSExtNameConstsList *pNCList = NULL;
+    JExtNameConstsList *pNCList = NULL;
 
     QStringList infoList = strVal.split("#");
 
     for( int i=0; i < infoList.size(); i++ )
     {
-        JSExtNameConsts sNC;
+        JExtNameConsts sNC;
 
         int nMin = -1;
         int nMax = -1;
@@ -750,8 +750,8 @@ static int _setNC( BIN *pBinExt, const QString strVal )
 static int _getNC( const BIN *pBinExt, QString& strVal )
 {
     int     ret = 0;
-    JSExtNameConstsList     *pNCList = NULL;
-    JSExtNameConstsList     *pCurList = NULL;
+    JExtNameConstsList     *pNCList = NULL;
+    JExtNameConstsList     *pCurList = NULL;
 
     ret = JS_PKI_getNameConstraintsValue( pBinExt, &pNCList );
 
@@ -794,7 +794,7 @@ static int _getCRLReason( const BIN *pBinExt, QString& strVal )
     return 0;
 }
 
-int setExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
+int setExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
 {
     int ret = 0;
     BIN binExt = {0,0};
@@ -888,7 +888,7 @@ int setExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
     return ret;
 }
 
-int getExtInfo( JSExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
+int getExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
 {
     int ret = 0;
     QString strVal = "";
