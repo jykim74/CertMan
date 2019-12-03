@@ -15,6 +15,7 @@
 #define CM_ITEM_TYPE_REVOKE         10
 #define CM_ITEM_TYPE_CA             11
 #define CM_ITEM_TYPE_SUBCA          12
+#define CM_ITEM_TYPE_USER           13
 
 class ManTreeItem : public QStandardItem
 {

@@ -205,6 +205,26 @@ int DBMgr::getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList )
     return _getRevokeList( strQuery, revokeList );
 }
 
+int DBMgr::getUserRec( int nSeq, UserRec& userRec )
+{
+    QList<UserRec> userList;
+    QString strQuery = QString( "SELECT * FROM TB_USER WHERE NUM = %1").arg(nSeq);
+
+    _getUserList( strQuery, userList );
+    if( userList.size() <= 0 ) return -1;
+
+    userRec = userList.at(0);
+
+    return 0;
+}
+
+int DBMgr::getUserList( QList<UserRec>& userList )
+{
+    QString strQuery = QString("SELECT * FROM TB_USER" );
+
+    return _getUserList( strQuery, userList );
+}
+
 int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
 {
     QList<CRLRec> crlList;
@@ -886,6 +906,17 @@ int DBMgr::delReqRec(int nNum)
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "DELETE FROM TB_REQ WHERE SEQ = ?" );
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delUserRec(int nNum)
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_USER WHERE NUM = ?" );
     sqlQuery.bindValue( 0, nNum );
 
     sqlQuery.exec();

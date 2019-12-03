@@ -25,7 +25,8 @@ enum RightType {
     TYPE_CERT_POLICY,
     TYPE_CRL_POLICY,
     TYPE_CRL,
-    TYPE_REVOKE
+    TYPE_REVOKE,
+    TYPE_USER
 };
 
 class MainWindow : public QMainWindow
@@ -50,6 +51,7 @@ public:
     void createRightCertList( int nIssuerNum, bool bIsCA = false );
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
+    void createRightUserList();
 
     void removeAllRight();
 
@@ -60,6 +62,7 @@ public:
     void showRightCRL( int seq );
     void showRightCRLPolicy( int seq );
     void showRightRevoke( int seq );
+    void showRightUser( int seq );
 
     DBMgr* dbMgr() { return db_mgr_; };
 
@@ -98,6 +101,8 @@ public slots:
     void deleteCRL();
     void deleteKeyPair();
     void deleteRequest();
+
+    void deleteUser();
 
     void publishLDAP();
     void getLDAP();

@@ -50,6 +50,8 @@ public:
     int getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
     int getRevokeRec( int nSeq, RevokeRec& revokeRec );
     int getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList );
+    int getUserList( QList<UserRec>& userList );
+    int getUserRec( int nSeq, UserRec& userRec );
 
     int addKeyPairRec( KeyPairRec& keyPair );
     int addReqRec( ReqRec& reqRec );
@@ -78,6 +80,7 @@ public:
     int delCRLRec( int nNum );
     int delKeyPairRec( int nNum );
     int delReqRec( int nNum );
+    int delUserRec( int nNum );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );

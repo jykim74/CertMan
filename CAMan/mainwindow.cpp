@@ -36,6 +36,7 @@
 #include "policy_ext_rec.h"
 #include "revoke_rec.h"
 #include "check_cert_dlg.h"
+#include "user_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -243,6 +244,10 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Delete CRLPolicy"), this, &MainWindow::deleteCRLPolicy );
         menu.addAction(tr("Edit CRLPolicy"), this, &MainWindow::editCRLPolicy );
     }
+    else if( right_type_ == RightType::TYPE_USER )
+    {
+        menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
+    }
 
     menu.exec(QCursor::pos());
 }
@@ -266,6 +271,11 @@ void MainWindow::createTreeMenu()
     pCSRItem->setIcon(QIcon(":/images/csr.jpg"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
+
+    ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
+    pUserItem->setIcon(QIcon(":/images/user.jpg"));
+    pUserItem->setType( CM_ITEM_TYPE_USER );
+    pTopItem->appendRow( pUserItem );
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
     pCertPolicyItem->setIcon(QIcon(":/images/policy.png"));
@@ -635,6 +645,16 @@ void MainWindow::deleteRequest()
     createRightRequestList();
 }
 
+void MainWindow::deleteUser()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+    dbMgr()->delUserRec( num );
+    createRightUserList();
+}
+
 void MainWindow::showWindow()
 {
     showNormal();
@@ -680,6 +700,8 @@ void MainWindow::menuClick(QModelIndex index )
         createRightCertList( nNum, true );
     else if( nType == CM_ITEM_TYPE_REVOKE )
         createRightRevokeList( nNum );
+    else if( nType == CM_ITEM_TYPE_USER )
+        createRightUserList();
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -724,6 +746,10 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_CRL_POLICY )
     {
         showRightCRLPolicy( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_USER )
+    {
+        showRightUser( nSeq );
     }
 }
 
@@ -1014,6 +1040,40 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     }
 }
 
+void MainWindow::createRightUserList()
+{
+    removeAllRight();
+    right_type_ = RightType::TYPE_USER;
+
+    QStringList headerList = {"Num", "Name", "SSN", "Email", "CertNum", "Status", "RefCode", "SecretNum" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(8);
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<UserRec> userList;
+
+    db_mgr_->getUserList( userList );
+
+    for( int i = 0; i < userList.size(); i++ )
+    {
+        UserRec user = userList.at(i);
+        right_table_->insertRow(i);
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( user.getNum() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( user.getName())));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getCertNum() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getRefCode() )));
+        right_table_->setItem(i,7, new QTableWidgetItem(QString("%1").arg( user.getSecretNum() )));
+    }
+}
+
 void MainWindow::showRightKeyPair( int seq )
 {
     if( db_mgr_ == NULL ) return;
@@ -1297,6 +1357,45 @@ void MainWindow::showRightRevoke( int seq )
     strMsg += strPart;
 
     strPart = QString( "Reason: %1\n").arg( revokeRec.getReason() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightUser( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    UserRec userRec;
+    db_mgr_->getUserRec( seq, userRec );
+
+    strMsg = "[ User information ]\n";
+
+    strPart = QString( "Num: %1\n").arg( userRec.getNum());
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n").arg( userRec.getName() );
+    strMsg += strPart;
+
+    strPart = QString( "SSN: %1\n").arg( userRec.getSSN() );
+    strMsg += strPart;
+
+    strPart = QString( "Email: %1\n").arg( userRec.getEmail() );
+    strMsg += strPart;
+
+    strPart = QString( "CertNum: %1\n").arg( userRec.getCertNum());
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1\n").arg( userRec.getStatus() );
+    strMsg += strPart;
+
+    strPart = QString( "RefCode: %1\n").arg( userRec.getRefCode() );
+    strMsg += strPart;
+
+    strPart = QString( "SecretNum: %1\n").arg( userRec.getSecretNum() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );
