@@ -53,6 +53,10 @@ void ManTreeView::showContextMenu(QPoint point)
         if( item->hasChildren() == false )
             menu.addAction(tr("Expand Menu"), manApplet->mainWindow(), &MainWindow::expandMenu );
     }
+    else if( item->getType() == CM_ITEM_TYPE_USER )
+    {
+        menu.addAction(tr("Register User"), manApplet->mainWindow(), &MainWindow::registerUser );
+    }
 
     menu.exec(QCursor::pos());
 }

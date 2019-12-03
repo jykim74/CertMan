@@ -82,6 +82,7 @@ public slots:
     void makeCertificate();
     void makeCRL();
     void revokeCertificate();
+    void registerUser();
 
     void viewCertificate();
     void viewCRL();

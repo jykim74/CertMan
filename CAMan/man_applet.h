@@ -24,6 +24,7 @@ class RevokeCertDlg;
 class CertInfoDlg;
 class CRLInfoDlg;
 class CheckCertDlg;
+class UserDlg;
 
 class ManApplet : public QObject
 {
@@ -52,6 +53,7 @@ public:
     CertInfoDlg* certInfoDlg() { return cert_info_dlg_; };
     CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
     CheckCertDlg* checkCertDlg() { return check_cert_dlg_; };
+    UserDlg* userDlg() { return user_dlg_; };
 
     void messageBox(const QString& msg, QWidget *parent=0);
     void warningBox(const QString& msg, QWidget *parent=0);
@@ -91,6 +93,7 @@ private:
     CertInfoDlg* cert_info_dlg_;
     CRLInfoDlg* crl_info_dlg_;
     CheckCertDlg* check_cert_dlg_;
+    UserDlg* user_dlg_;
 
     bool in_exit_;
 };

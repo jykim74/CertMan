@@ -64,6 +64,7 @@ SOURCES += \
         revoke_rec.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp \
+        user_dlg.cpp \
         user_rec.cpp
 
 HEADERS += \
@@ -103,6 +104,7 @@ HEADERS += \
         settings_dlg.h \
         settings_mgr.h \
         singleton.h \
+        user_dlg.h \
         user_rec.h
 
 FORMS += \
@@ -122,7 +124,8 @@ FORMS += \
         new_key_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
-        settings_dlg.ui
+        settings_dlg.ui \
+        user_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

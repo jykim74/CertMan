@@ -37,6 +37,7 @@
 #include "revoke_rec.h"
 #include "check_cert_dlg.h"
 #include "user_rec.h"
+#include "user_dlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -137,6 +138,9 @@ void MainWindow::createActions()
 
     QAction *makeReqAct = toolsMenu->addAction(tr("&MakeRequest"), this, &MainWindow::makeRequest);
     makeReqAct->setStatusTip(tr( "Make Request"));
+
+    QAction *regUserAct = toolsMenu->addAction(tr("&RegisterUser"), this, &MainWindow::registerUser );
+    regUserAct->setStatusTip(tr("Register User"));
 
     QAction *makeCertPolicyAct = toolsMenu->addAction(tr("&MakeCertPolicy"), this, &MainWindow::makeCertPolicy);
     makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
@@ -455,6 +459,13 @@ void MainWindow::revokeCertificate()
     manApplet->revokeCertDlg()->show();
     manApplet->revokeCertDlg()->raise();
     manApplet->revokeCertDlg()->activateWindow();
+}
+
+void MainWindow::registerUser()
+{
+    manApplet->userDlg()->show();
+    manApplet->userDlg()->raise();
+    manApplet->userDlg()->activateWindow();
 }
 
 void MainWindow::viewCertificate()
