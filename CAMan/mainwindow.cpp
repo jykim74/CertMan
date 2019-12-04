@@ -38,6 +38,8 @@
 #include "check_cert_dlg.h"
 #include "user_rec.h"
 #include "user_dlg.h"
+#include "signer_dlg.h"
+#include "signer_rec.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -141,6 +143,9 @@ void MainWindow::createActions()
 
     QAction *regUserAct = toolsMenu->addAction(tr("&RegisterUser"), this, &MainWindow::registerUser );
     regUserAct->setStatusTip(tr("Register User"));
+
+    QAction *regSignerAct = toolsMenu->addAction(tr("&RegisterSigner"), this, &MainWindow::registerSigner);
+    regSignerAct->setStatusTip(tr("Register Signer"));
 
     QAction *makeCertPolicyAct = toolsMenu->addAction(tr("&MakeCertPolicy"), this, &MainWindow::makeCertPolicy);
     makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
@@ -280,6 +285,16 @@ void MainWindow::createTreeMenu()
     pUserItem->setIcon(QIcon(":/images/user.jpg"));
     pUserItem->setType( CM_ITEM_TYPE_USER );
     pTopItem->appendRow( pUserItem );
+
+    ManTreeItem *pRegSignerItem = new ManTreeItem( QString("REGSigner") );
+    pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
+    pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
+    pTopItem->appendRow( pRegSignerItem );
+
+    ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString("OCSPSigner") );
+    pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
+    pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
+    pTopItem->appendRow( pOCSPSignerItem );
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
     pCertPolicyItem->setIcon(QIcon(":/images/policy.png"));
@@ -466,6 +481,13 @@ void MainWindow::registerUser()
     manApplet->userDlg()->show();
     manApplet->userDlg()->raise();
     manApplet->userDlg()->activateWindow();
+}
+
+void MainWindow::registerSigner()
+{
+    manApplet->signerDlg()->show();
+    manApplet->signerDlg()->raise();
+    manApplet->signerDlg()->activateWindow();
 }
 
 void MainWindow::viewCertificate()
@@ -713,6 +735,10 @@ void MainWindow::menuClick(QModelIndex index )
         createRightRevokeList( nNum );
     else if( nType == CM_ITEM_TYPE_USER )
         createRightUserList();
+    else if( nType == CM_ITEM_TYPE_REG_SIGNER )
+        createRightSignerList( SIGNER_TYPE_REG );
+    else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
+        createRightSignerList( SIGNER_TYPE_OCSP );
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -1085,6 +1111,36 @@ void MainWindow::createRightUserList()
     }
 }
 
+void MainWindow::createRightSignerList(int nType)
+{
+    removeAllRight();
+    right_type_ = RightType::TYPE_SIGNER;
+
+    QStringList headerList = { "Num", "Type", "DN", "Status", "Cert" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+
+    right_table_->setColumnCount(5);
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<SignerRec> signerList;
+    db_mgr_->getSignerList( nType, signerList );
+
+    for( int i = 0; i < signerList.size(); i++ )
+    {
+        SignerRec signer = signerList.at(i);
+        right_table_->insertRow(i);
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( signer.getNum() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( signer.getType() )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( signer.getDN() )));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( signer.getStatus() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( signer.getCert() )));
+    }
+}
+
 void MainWindow::showRightKeyPair( int seq )
 {
     if( db_mgr_ == NULL ) return;
@@ -1194,6 +1250,15 @@ void MainWindow::showRightCertificate( int seq )
     strMsg += strPart;
 
     strPart = QString( "Status: %1\n").arg( certRec.getStatus() );
+    strMsg += strPart;
+
+    strPart = QString( "Serial: %1\n").arg( certRec.getSerial() );
+    strMsg += strPart;
+
+    strPart = QString( "DNHash: %1\n").arg( certRec.getDNHash() );
+    strMsg += strPart;
+
+    strPart = QString( "KeyHash: %1\n").arg( certRec.getKeyHash() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

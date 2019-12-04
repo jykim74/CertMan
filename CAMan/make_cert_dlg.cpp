@@ -93,6 +93,9 @@ void MakeCertDlg::accept()
     BIN binCert = {0,0};
     char *pHexCert = NULL;
     bool bCA = false;
+    BIN binPub = {0,0};
+    BIN binKeyHash = {0,0};
+    char *pKeyHash = NULL;
 
     CertRec madeCertRec;
     JExtensionInfoList *pExtInfoList = NULL;
@@ -197,6 +200,7 @@ void MakeCertDlg::accept()
                         notBefore,
                         notAfter,
                         NULL,
+                        NULL,
                         NULL );
 
     /* need to support extensions start */
@@ -293,10 +297,19 @@ void MakeCertDlg::accept()
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( bCA );
     madeCertRec.setIssuerNum( nIssuerNum );
+    madeCertRec.setSerial( sMadeCertInfo.pSerial );
+    madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
 
+    JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
+    JS_PKI_genHash( "SHA1", &binPub, &binKeyHash );
+    JS_BIN_encodeHex( &binKeyHash, &pKeyHash );
+
+    madeCertRec.setKeyHash( pKeyHash );
 
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
+
+
 
 end :
     JS_BIN_reset( &binCSR );
@@ -308,6 +321,9 @@ end :
     if( pHexCert ) JS_free( pHexCert );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKeyHash );
+    if( pKeyHash ) JS_free( pKeyHash );
 
     if( ret == 0 )
     {

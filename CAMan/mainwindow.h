@@ -26,7 +26,8 @@ enum RightType {
     TYPE_CRL_POLICY,
     TYPE_CRL,
     TYPE_REVOKE,
-    TYPE_USER
+    TYPE_USER,
+    TYPE_SIGNER
 };
 
 class MainWindow : public QMainWindow
@@ -52,6 +53,7 @@ public:
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
     void createRightUserList();
+    void createRightSignerList(int nType);
 
     void removeAllRight();
 
@@ -83,6 +85,7 @@ public slots:
     void makeCRL();
     void revokeCertificate();
     void registerUser();
+    void registerSigner();
 
     void viewCertificate();
     void viewCRL();

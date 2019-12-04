@@ -16,6 +16,8 @@
 #define CM_ITEM_TYPE_CA             11
 #define CM_ITEM_TYPE_SUBCA          12
 #define CM_ITEM_TYPE_USER           13
+#define CM_ITEM_TYPE_REG_SIGNER     14
+#define CM_ITEM_TYPE_OCSP_SIGNER    15
 
 class ManTreeItem : public QStandardItem
 {

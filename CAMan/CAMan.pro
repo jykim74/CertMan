@@ -64,6 +64,8 @@ SOURCES += \
         revoke_rec.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp \
+        signer_dlg.cpp \
+        signer_rec.cpp \
         user_dlg.cpp \
         user_rec.cpp
 
@@ -103,6 +105,8 @@ HEADERS += \
         revoke_rec.h \
         settings_dlg.h \
         settings_mgr.h \
+        signer_dlg.h \
+        signer_rec.h \
         singleton.h \
         user_dlg.h \
         user_rec.h
@@ -125,6 +129,7 @@ FORMS += \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
         settings_dlg.ui \
+        signer_dlg.ui \
         user_dlg.ui
 
 # Default rules for deployment.

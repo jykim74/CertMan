@@ -22,5 +22,7 @@
         <file>images/im_cert.png</file>
         <file>images/im_crl.png</file>
         <file>images/user.jpg</file>
+        <file>images/ocsp_signer.png</file>
+        <file>images/reg_signer.png</file>
     </qresource>
 </RCC>

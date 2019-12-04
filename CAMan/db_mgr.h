@@ -21,6 +21,7 @@ class ReqRec;
 class PolicyExtRec;
 class RevokeRec;
 class UserRec;
+class SignerRec;
 
 class DBMgr
 {
@@ -52,6 +53,8 @@ public:
     int getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList );
     int getUserList( QList<UserRec>& userList );
     int getUserRec( int nSeq, UserRec& userRec );
+    int getSignerList( int nType, QList<SignerRec>& signerList );
+    int getSignerRec( int nNum, SignerRec& signerRec );
 
     int addKeyPairRec( KeyPairRec& keyPair );
     int addReqRec( ReqRec& reqRec );
@@ -63,6 +66,7 @@ public:
     int addCRLPolicyExtension( PolicyExtRec& policyExtension );
     int addRevokeRec( RevokeRec& revokeRec );
     int addUserRec( UserRec& userRec );
+    int addSignerRec( SignerRec& signerRec );
 
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
@@ -82,6 +86,7 @@ public:
     int delKeyPairRec( int nNum );
     int delReqRec( int nNum );
     int delUserRec( int nNum );
+    int delSignerRec( int nNum );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
@@ -93,6 +98,7 @@ private:
     int _getRevokeList( QString strQuery, QList<RevokeRec>& revokeList );
     int _getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList );
     int _getUserList( QString strQuery, QList<UserRec>& userList );
+    int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
 
 private:
     QSqlDatabase   db_;

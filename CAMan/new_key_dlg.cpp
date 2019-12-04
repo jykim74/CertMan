@@ -41,6 +41,8 @@ void NewKeyDlg::initUI()
 {
     mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(sRSAOptionList);
+
+    mExponentText->setText( QString( "65537" ) );
 }
 
 void NewKeyDlg::initialize()

@@ -11,6 +11,7 @@
 #include "req_rec.h"
 #include "revoke_rec.h"
 #include "user_rec.h"
+#include "signer_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -229,6 +230,26 @@ int DBMgr::getUserList( QList<UserRec>& userList )
     QString strQuery = QString("SELECT * FROM TB_USER" );
 
     return _getUserList( strQuery, userList );
+}
+
+int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
+{
+    QString strQuery = QString("SELECT * FROM TB_SIGNER WHERE TYPE = %1").arg( nType );
+
+    return _getSignerList( strQuery, signerList );
+}
+
+int DBMgr::getSignerRec( int nNum, SignerRec& signerRec )
+{
+    QList<SignerRec> signerList;
+    QString strQuery = QString( "SELECT * FROM TB_USER WHERE NUM = %1").arg( nNum );
+
+    _getSignerList( strQuery, signerList );
+    if( signerList.size() <= 0 ) return -1;
+
+    signerRec = signerList.at(0);
+
+    return 0;
 }
 
 int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
@@ -580,6 +601,36 @@ int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
     return 0;
 }
 
+int DBMgr::_getSignerList( QString strQuery, QList<SignerRec>& signerList )
+{
+    int         iCount = 0;
+    QSqlQuery   SQL(strQuery);
+
+    int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosType = SQL.record().indexOf( "TYPE" );
+    int nPosDN = SQL.record().indexOf( "DN" );
+    int nPosStatus = SQL.record().indexOf( "STATUS" );
+    int nPosCert = SQL.record().indexOf( "CERT" );
+    int nPosDesc = SQL.record().indexOf( "DESC" );
+
+    while( SQL.next() )
+    {
+        SignerRec signer;
+
+        signer.setNum( SQL.value(nPosNum).toInt());
+        signer.setType( SQL.value(nPosType).toInt());
+        signer.setDN( SQL.value(nPosDN).toString());
+        signer.setStatus( SQL.value(nPosStatus).toInt());
+        signer.setCert( SQL.value(nPosCert).toString());
+        signer.setDesc( SQL.value(nPosDesc).toString());
+
+        signerList.append( signer );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
 int DBMgr::getSeq( QString strTable )
 {
     int nSeq = -1;
@@ -604,7 +655,7 @@ int DBMgr::addCertRec( CertRec& certRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, KEYNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS ) "
+                      "( NUM, KEYNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH ) "
                       "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, certRec.getKeyNum() );
@@ -851,6 +902,23 @@ int DBMgr::addUserRec(UserRec &userRec)
     return 0;
 }
 
+int DBMgr::addSignerRec( SignerRec& signerRec )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_SIGNER "
+                      "( NUM, TYPE, DN, STATUS, CERT, DESC ) "
+                      "VALUES( null, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( 0, signerRec.getType() );
+    sqlQuery.bindValue( 1, signerRec.getDN() );
+    sqlQuery.bindValue( 2, signerRec.getStatus() );
+    sqlQuery.bindValue( 3, signerRec.getCert() );
+    sqlQuery.bindValue( 4, signerRec.getDesc() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::delCertPolicy( int nNum )
 {
     QSqlQuery sqlQuery;
@@ -945,6 +1013,17 @@ int DBMgr::delUserRec(int nNum)
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "DELETE FROM TB_USER WHERE NUM = ?" );
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delSignerRec(int nNum)
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_SIGNER WHERE NUM = ?" );
     sqlQuery.bindValue( 0, nNum );
 
     sqlQuery.exec();

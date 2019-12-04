@@ -25,6 +25,7 @@ class CertInfoDlg;
 class CRLInfoDlg;
 class CheckCertDlg;
 class UserDlg;
+class SignerDlg;
 
 class ManApplet : public QObject
 {
@@ -54,6 +55,7 @@ public:
     CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
     CheckCertDlg* checkCertDlg() { return check_cert_dlg_; };
     UserDlg* userDlg() { return user_dlg_; };
+    SignerDlg* signerDlg() { return signer_dlg_; };
 
     void messageBox(const QString& msg, QWidget *parent=0);
     void warningBox(const QString& msg, QWidget *parent=0);
@@ -94,6 +96,7 @@ private:
     CRLInfoDlg* crl_info_dlg_;
     CheckCertDlg* check_cert_dlg_;
     UserDlg* user_dlg_;
+    SignerDlg* signer_dlg_;
 
     bool in_exit_;
 };

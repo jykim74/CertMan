@@ -57,6 +57,14 @@ void ManTreeView::showContextMenu(QPoint point)
     {
         menu.addAction(tr("Register User"), manApplet->mainWindow(), &MainWindow::registerUser );
     }
+    else if( item->getType() == CM_ITEM_TYPE_REG_SIGNER )
+    {
+        menu.addAction(tr("Regiter Signer"), manApplet->mainWindow(), &MainWindow::registerSigner);
+    }
+    else if( item->getType() == CM_ITEM_TYPE_OCSP_SIGNER )
+    {
+        menu.addAction(tr("Register Signer"), manApplet->mainWindow(), &MainWindow::registerSigner);
+    }
 
     menu.exec(QCursor::pos());
 }

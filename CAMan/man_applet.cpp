@@ -26,6 +26,7 @@
 #include "check_cert_dlg.h"
 #include "auto_update_service.h"
 #include "user_dlg.h"
+#include "signer_dlg.h"
 
 ManApplet *manApplet;
 
@@ -52,6 +53,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     crl_info_dlg_ = new CRLInfoDlg;
     check_cert_dlg_ = new CheckCertDlg;
     user_dlg_ = new UserDlg;
+    signer_dlg_ = new SignerDlg;
 
     in_exit_ = false;
 
