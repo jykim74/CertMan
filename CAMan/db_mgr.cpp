@@ -823,6 +823,25 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     return 0;
 }
 
+int DBMgr::addUserRec(UserRec &userRec)
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_USER "
+                      "( NUM, NAME, SSN, EMAIL, CERTNUM, STATUS, REFCODE, SECRETNUM ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( 0, userRec.getName() );
+    sqlQuery.bindValue( 1, userRec.getSSN() );
+    sqlQuery.bindValue( 2, userRec.getEmail() );
+    sqlQuery.bindValue( 3, userRec.getCertNum() );
+    sqlQuery.bindValue( 4, userRec.getStatus() );
+    sqlQuery.bindValue( 5, userRec.getRefCode() );
+    sqlQuery.bindValue( 6, userRec.getSecretNum() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::delCertPolicy( int nNum )
 {
     QSqlQuery sqlQuery;

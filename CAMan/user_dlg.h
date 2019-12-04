@@ -16,8 +16,15 @@ public:
     explicit UserDlg(QWidget *parent = nullptr);
     ~UserDlg();
 
-private:
+private slots:
+    void showEvent(QShowEvent *event);
+    virtual void accept();
 
+    void getRefCode();
+    void getSecretNum();
+private:
+    void initUI();
+    void initialize();
 };
 
 #endif // USER_DLG_H

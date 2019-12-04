@@ -62,6 +62,7 @@ public:
     int addCertPolicyExtension( PolicyExtRec& policyExtension );
     int addCRLPolicyExtension( PolicyExtRec& policyExtension );
     int addRevokeRec( RevokeRec& revokeRec );
+    int addUserRec( UserRec& userRec );
 
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
