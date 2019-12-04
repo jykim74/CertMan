@@ -242,7 +242,7 @@ int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
 int DBMgr::getSignerRec( int nNum, SignerRec& signerRec )
 {
     QList<SignerRec> signerList;
-    QString strQuery = QString( "SELECT * FROM TB_USER WHERE NUM = %1").arg( nNum );
+    QString strQuery = QString( "SELECT * FROM TB_SIGNER WHERE NUM = %1").arg( nNum );
 
     _getSignerList( strQuery, signerList );
     if( signerList.size() <= 0 ) return -1;

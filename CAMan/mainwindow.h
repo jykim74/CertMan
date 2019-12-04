@@ -65,6 +65,7 @@ public:
     void showRightCRLPolicy( int seq );
     void showRightRevoke( int seq );
     void showRightUser( int seq );
+    void showRightSigner( int seq );
 
     DBMgr* dbMgr() { return db_mgr_; };
 
@@ -107,6 +108,7 @@ public slots:
     void deleteRequest();
 
     void deleteUser();
+    void deleteSigner();
 
     void publishLDAP();
     void getLDAP();

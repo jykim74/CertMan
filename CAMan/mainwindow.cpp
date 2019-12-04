@@ -257,6 +257,10 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
     }
+    else if( right_type_ == RightType::TYPE_SIGNER )
+    {
+        menu.addAction(tr("Delete Signer"), this, &MainWindow::deleteSigner );
+    }
 
     menu.exec(QCursor::pos());
 }
@@ -688,6 +692,19 @@ void MainWindow::deleteUser()
     createRightUserList();
 }
 
+void MainWindow::deleteSigner()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    SignerRec signer;
+    dbMgr()->getSignerRec( num, signer );
+    dbMgr()->delSignerRec( num );
+    createRightSignerList( signer.getType() );
+}
+
 void MainWindow::showWindow()
 {
     showNormal();
@@ -787,6 +804,10 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_USER )
     {
         showRightUser( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_SIGNER )
+    {
+        showRightSigner( nSeq );
     }
 }
 
@@ -1472,6 +1493,39 @@ void MainWindow::showRightUser( int seq )
     strMsg += strPart;
 
     strPart = QString( "SecretNum: %1\n").arg( userRec.getSecretNum() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightSigner(int seq)
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    SignerRec signerRec;
+    db_mgr_->getSignerRec( seq, signerRec );
+
+    strMsg = "[ Signer information ]\n";
+
+    strPart = QString( "Num: %1\n").arg( signerRec.getNum());
+    strMsg += strPart;
+
+    strPart = QString( "Type: %1\n").arg( signerRec.getType() );
+    strMsg += strPart;
+
+    strPart = QString( "DN: %1\n").arg( signerRec.getDN() );
+    strMsg += strPart;
+
+    strPart = QString( "Cert: %1\n").arg( signerRec.getCert() );
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1\n").arg( signerRec.getStatus() );
+    strMsg += strPart;
+
+    strPart = QString( "Desc: %1\n").arg( signerRec.getDesc());
     strMsg += strPart;
 
     right_text_->setText( strMsg );
