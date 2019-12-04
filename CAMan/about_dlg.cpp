@@ -10,7 +10,7 @@ AboutDlg::AboutDlg(QWidget *parent) :
     setWindowTitle(tr("About %1").arg(manApplet->getBrand()));
     setWindowFlags( (windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint );
 
-    version_label_ = tr( "About %1 (%2)").arg( "BerViewer").arg(STRINGIZE(CAMAN_VERSION));
+    version_label_ = tr( "About %1 (%2)").arg( "CAMan").arg(STRINGIZE(CAMAN_VERSION));
     mVersionLabel->setText( version_label_ );
 
 #ifdef _AUTO_UPDATE

@@ -50,6 +50,9 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     int nPosIssuerNum = SQL.record().indexOf( "IssuerNum" );
     int nPosSubjectDN = SQL.record().indexOf( "SubjectDN" );
     int nPosStatus = SQL.record().indexOf( "Status" );
+    int nPosSerial = SQL.record().indexOf( "Serial" );
+    int nPosDNHash = SQL.record().indexOf( "DNHash" );
+    int nPosKeyHash = SQL.record().indexOf( "KeyHash" );
 
     while( SQL.next() )
     {
@@ -64,6 +67,9 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
         certRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt());
         certRec.setSubjectDN( SQL.value(nPosSubjectDN).toString() );
         certRec.setStatus( SQL.value(nPosStatus).toInt());
+        certRec.setSerial( SQL.value(nPosSerial).toString() );
+        certRec.setDNHash( SQL.value(nPosDNHash).toString() );
+        certRec.setKeyHash( SQL.value(nPosKeyHash).toString() );
 
         certList.append( certRec );
         iCount++;
@@ -599,7 +605,7 @@ int DBMgr::addCertRec( CertRec& certRec )
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT "
                       "( NUM, KEYNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, certRec.getKeyNum() );
     sqlQuery.bindValue( 1, certRec.getSignAlg() );
@@ -609,6 +615,9 @@ int DBMgr::addCertRec( CertRec& certRec )
     sqlQuery.bindValue( 5, certRec.getIssuerNum() );
     sqlQuery.bindValue( 6, certRec.getSubjectDN() );
     sqlQuery.bindValue( 7, certRec.getStatus() );
+    sqlQuery.bindValue( 8, certRec.getSerial() );
+    sqlQuery.bindValue( 9, certRec.getDNHash() );
+    sqlQuery.bindValue( 10, certRec.getKeyHash() );
 
     sqlQuery.exec();
     return 0;

@@ -3,6 +3,8 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 
+#include "js_bin.h"
+#include "js_pki.h"
 
 CheckCertDlg::CheckCertDlg(QWidget *parent) :
     QDialog(parent)
@@ -34,12 +36,44 @@ void CheckCertDlg::clickClose()
 
 void CheckCertDlg::clickView()
 {
-
+    manApplet->mainWindow()->viewCertificate();
 }
 
 void CheckCertDlg::clickCheck()
 {
+    int ret = 0;
+    BINList *pChainList = NULL;
+    BIN     binCert = {0,0};
 
+    for( int i = 0; i < cert_list_.size(); i++ )
+    {
+        CertRec cert = cert_list_.at(i);
+
+        if( i == cert_list_.size() - 1 )
+        {
+            JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+        }
+        else
+        {
+            BIN bin = {0,0};
+            JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &bin );
+
+            if( pChainList == NULL )
+                JS_BIN_createList( &bin, &pChainList );
+            else
+                JS_BIN_appendList( pChainList, &bin );
+
+            JS_BIN_reset( &bin );
+        }
+    }
+
+    ret = JS_PKI_checkValidPath( pChainList, NULL, &binCert );
+
+    QString strRes = QString( "Ret: %1").arg( ret );
+    mCertInfoText->setText( strRes );
+
+    if( pChainList ) JS_BIN_resetList( &pChainList );
+    JS_BIN_reset( &binCert );
 }
 
 void CheckCertDlg::initUI()
@@ -75,11 +109,21 @@ void CheckCertDlg::initialize()
     mCertPathTree->clear();
     mCertPathTree->setColumnCount(1);
     QList<QTreeWidgetItem *> items;
+    QTreeWidgetItem* pPrevItem = NULL;
 
     for( int i=0; i < cert_list_.size(); i++ )
     {
-        items.append(new QTreeWidgetItem((QTreeWidget*)0, QStringList(QString("item: %1").arg(i))));
-    }
+        CertRec cert = cert_list_.at(i);
+        QTreeWidgetItem *item = new QTreeWidgetItem( 0 );
+        item->setText( 0, cert.getSubjectDN() );
 
-    mCertPathTree->insertTopLevelItems(0, items );
+        if( i == 0 )
+            mCertPathTree->insertTopLevelItem(0, item );
+        else
+        {
+            pPrevItem->addChild( item );
+        }
+
+        pPrevItem = item;
+    }
 }

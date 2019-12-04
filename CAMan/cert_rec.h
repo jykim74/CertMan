@@ -16,6 +16,9 @@ private:
     int         m_nIssuerNum;
     QString     m_strSubjectDN;
     int         m_nStatus;
+    QString     m_strSerial;
+    QString     m_strDNHash;
+    QString     m_strKeyHash;
 
 public:
     CertRec();
@@ -29,6 +32,9 @@ public:
     int getIssuerNum() { return m_nIssuerNum; };
     QString getSubjectDN() { return m_strSubjectDN; };
     int getStatus() { return m_nStatus; };
+    QString getSerial() { return m_strSerial; };
+    QString getDNHash() { return m_strDNHash; };
+    QString getKeyHash() { return m_strKeyHash; };
 
     void setNum( int nNum );
     void setKeyNum( int nKeyNum );
@@ -39,6 +45,9 @@ public:
     void setIssuerNum( int nIssuerNum );
     void setSubjectDN( QString strSubjectDN );
     void setStatus( int nStatus );
+    void setSerial( QString strSerial );
+    void setDNHash( QString strDNHash );
+    void setKeyHash( QString strKeyHash );
 };
 
 

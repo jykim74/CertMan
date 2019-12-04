@@ -97,7 +97,7 @@ void ManApplet::restartApp()
 
 QString ManApplet::getBrand()
 {
-    return QString::fromUtf8( "HsmMan" );
+    return QString::fromUtf8( "CAMan" );
 }
 
 void ManApplet::warningBox(const QString& msg, QWidget *parent)

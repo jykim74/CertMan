@@ -59,3 +59,17 @@ void CertRec::setStatus( int nStatus )
     m_nStatus = nStatus;
 }
 
+void CertRec::setSerial( QString strSerial )
+{
+    m_strSerial = strSerial;
+}
+
+void CertRec::setDNHash( QString strDNHash )
+{
+    m_strDNHash = strDNHash;
+}
+
+void CertRec::setKeyHash( QString strKeyHash )
+{
+    m_strKeyHash = strKeyHash;
+}
