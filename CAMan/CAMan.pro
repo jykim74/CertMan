@@ -62,6 +62,7 @@ SOURCES += \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
+        server_status_dlg.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp \
         signer_dlg.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
         req_rec.h \
         revoke_cert_dlg.h \
         revoke_rec.h \
+        server_status_dlg.h \
         settings_dlg.h \
         settings_mgr.h \
         signer_dlg.h \
@@ -128,6 +130,7 @@ FORMS += \
         new_key_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
+        server_status_dlg.ui \
         settings_dlg.ui \
         signer_dlg.ui \
         user_dlg.ui

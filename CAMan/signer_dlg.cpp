@@ -4,6 +4,7 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 #include "signer_dlg.h"
+#include "signer_rec.h"
 
 #include "js_bin.h"
 #include "js_pki_x509.h"
@@ -45,7 +46,41 @@ void SignerDlg::findCert()
 
 void SignerDlg::accept()
 {
+    BIN binCert = {0,0};
+    JCertInfo   sCertInfo;
+    JExtensionInfoList  *pExtInfoList = NULL;
+    SignerRec signer;
+    char *pCert = NULL;
 
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    QString strCertPath = mCertPathText->text();
+
+    JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binCert );
+    JS_BIN_encodeHex( &binCert, &pCert );
+
+    JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
+
+    int nType = mTypeCombo->currentIndex();
+
+    signer.setType( nType );
+    signer.setDN( sCertInfo.pSubjectName );
+    signer.setStatus( mStatusText->text().toInt() );
+    signer.setCert( pCert );
+    signer.setDesc( mDescText->toPlainText() );
+
+    dbMgr->addSignerRec( signer );
+
+    if( pCert ) JS_free( pCert );
+    JS_BIN_reset( &binCert );
+    JS_PKI_resetCertInfo( &sCertInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+
+    QDialog::accept();
+    manApplet->mainWindow()->createRightSignerList(nType);
 }
 
 void SignerDlg::initialize()
