@@ -63,6 +63,7 @@ SOURCES += \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
         server_status_dlg.cpp \
+        server_status_service.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp \
         signer_dlg.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
         revoke_cert_dlg.h \
         revoke_rec.h \
         server_status_dlg.h \
+        server_status_service.h \
         settings_dlg.h \
         settings_mgr.h \
         signer_dlg.h \

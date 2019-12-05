@@ -27,6 +27,7 @@
 #include "auto_update_service.h"
 #include "user_dlg.h"
 #include "signer_dlg.h"
+#include "server_status_service.h"
 
 ManApplet *manApplet;
 
@@ -78,6 +79,8 @@ void ManApplet::start()
 {
     main_win_->show();
     tray_icon_->show();
+
+    ServerStatusService::instance()->start();
 }
 
 

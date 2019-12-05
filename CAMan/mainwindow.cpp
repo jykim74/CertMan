@@ -40,6 +40,7 @@
 #include "user_dlg.h"
 #include "signer_dlg.h"
 #include "signer_rec.h"
+#include "server_status_dlg.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -179,6 +180,9 @@ void MainWindow::createActions()
 
     QAction *aboutAct = helpMenu->addAction(tr("About"), this, &MainWindow::about );
     aboutAct->setStatusTip(tr("About CAMan"));
+
+    QAction *srvStatusAct = helpMenu->addAction(tr("ServerStatus"), this, &MainWindow::serverStatus );
+    srvStatusAct->setStatusTip(tr("Server Status Information"));
 
     QAction *settingsAct = helpMenu->addAction(tr("Settings"), this, &MainWindow::settings );
     settingsAct->setStatusTip(tr("Settings CAMan"));
@@ -607,6 +611,12 @@ void MainWindow::settings()
     manApplet->settingsDlg()->show();
     manApplet->settingsDlg()->raise();
     manApplet->settingsDlg()->activateWindow();
+}
+
+void MainWindow::serverStatus()
+{
+    ServerStatusDlg srvStatusDlg;
+    srvStatusDlg.exec();
 }
 
 void MainWindow::deleteCertPolicy()

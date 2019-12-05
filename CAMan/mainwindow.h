@@ -118,6 +118,7 @@ public slots:
 
     void about();
     void settings();
+    void serverStatus();
 
     void menuClick( QModelIndex index );
     void tableClick( QModelIndex index );

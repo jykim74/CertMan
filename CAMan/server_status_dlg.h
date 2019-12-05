@@ -16,8 +16,11 @@ public:
     explicit ServerStatusDlg(QWidget *parent = nullptr);
     ~ServerStatusDlg();
 
-private:
+private slots:
+    void refreshStatus();
 
+private:
+    Q_DISABLE_COPY(ServerStatusDlg)
 };
 
 #endif // SERVER_STATUS_DLG_H

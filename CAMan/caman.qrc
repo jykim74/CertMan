@@ -24,5 +24,7 @@
         <file>images/user.jpg</file>
         <file>images/ocsp_signer.png</file>
         <file>images/reg_signer.png</file>
+        <file>images/done.png</file>
+        <file>images/red_cross.png</file>
     </qresource>
 </RCC>
