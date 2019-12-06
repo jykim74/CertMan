@@ -396,9 +396,13 @@ void MainWindow::quit()
 
 void MainWindow::newKey()
 {
+    NewKeyDlg newKeyDlg;
+    newKeyDlg.exec();
+    /*
     manApplet->newKeyDlg()->show();
     manApplet->newKeyDlg()->raise();
     manApplet->newKeyDlg()->activateWindow();
+    */
 }
 
 void MainWindow::makeRequest()
@@ -1527,6 +1531,9 @@ void MainWindow::showRightSigner(int seq)
     strMsg += strPart;
 
     strPart = QString( "DN: %1\n").arg( signerRec.getDN() );
+    strMsg += strPart;
+
+    strPart = QString( "DNHash: %1\n").arg( signerRec.getDNHash() );
     strMsg += strPart;
 
     strPart = QString( "Cert: %1\n").arg( signerRec.getCert() );

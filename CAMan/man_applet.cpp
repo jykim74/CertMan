@@ -47,7 +47,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     make_crl_dlg_ = new MakeCRLDlg;
     make_crl_policy_dlg_ = new MakeCRLPolicyDlg;
     make_req_dlg_ = new MakeReqDlg;
-    new_key_dlg_ = new NewKeyDlg;
+//    new_key_dlg_ = new NewKeyDlg;
     pub_ldap_dlg_ = new PubLDAPDlg;
     revoke_cert_dlg_ = new RevokeCertDlg;
     cert_info_dlg_ = new CertInfoDlg;

@@ -68,6 +68,7 @@ void SignerDlg::accept()
 
     signer.setType( nType );
     signer.setDN( sCertInfo.pSubjectName );
+    signer.setDNHash( sCertInfo.pDNHash );
     signer.setStatus( mStatusText->text().toInt() );
     signer.setCert( pCert );
     signer.setDesc( mDescText->toPlainText() );

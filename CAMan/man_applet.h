@@ -18,7 +18,7 @@ class MakeCertPolicyDlg;
 class MakeCRLDlg;
 class MakeCRLPolicyDlg;
 class MakeReqDlg;
-class NewKeyDlg;
+// class NewKeyDlg;
 class PubLDAPDlg;
 class RevokeCertDlg;
 class CertInfoDlg;
@@ -47,7 +47,7 @@ public:
     MakeCRLDlg* makeCRLDlg() { return make_crl_dlg_; };
     MakeCRLPolicyDlg* makeCRLPolicyDlg() { return make_crl_policy_dlg_; };
     MakeReqDlg* makeReqDlg() { return make_req_dlg_; };
-    NewKeyDlg* newKeyDlg() { return new_key_dlg_; };
+//    NewKeyDlg* newKeyDlg() { return new_key_dlg_; };
     PubLDAPDlg* pubLDAPDlg() { return pub_ldap_dlg_; };
     RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
     SettingsDlg* settingsDlg() { return settings_dlg_; };
@@ -88,7 +88,7 @@ private:
     MakeCRLDlg* make_crl_dlg_;
     MakeCRLPolicyDlg* make_crl_policy_dlg_;
     MakeReqDlg* make_req_dlg_;
-    NewKeyDlg* new_key_dlg_;
+//    NewKeyDlg* new_key_dlg_;
     PubLDAPDlg* pub_ldap_dlg_;
     RevokeCertDlg* revoke_cert_dlg_;
     SettingsDlg* settings_dlg_;
