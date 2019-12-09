@@ -272,7 +272,7 @@ void MakeCertDlg::accept()
     }
     /* need to support extensions end */
 
-    ret = JS_PKI_makeCertificate( bSelf, &sCertInfo, pExtInfoList, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
+    ret = JS_PKI_makeCertificateByCSR( bSelf, &sCertInfo, pExtInfoList, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
