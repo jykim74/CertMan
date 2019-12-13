@@ -151,7 +151,7 @@ void MakeCRLDlg::accept()
             }
         }
 
-        setExtInfo( &sExtInfo, policyExt );
+        setExtInfoToDB( &sExtInfo, policyExt );
 
         if( pExtInfoList == NULL )
             JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
@@ -181,7 +181,7 @@ void MakeCRLDlg::accept()
         policyReason.setValue( QString("%1").arg(nReason) );
         policyReason.setSeq(-1);
 
-        setExtInfo( &sExtReason, policyReason );
+        setExtInfoToDB( &sExtReason, policyReason );
 
         JS_PKI_setRevokeInfo( &sRevokeInfo, pSerial, uRevokeDate, &sExtReason );
 

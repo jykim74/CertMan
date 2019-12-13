@@ -794,7 +794,7 @@ static int _getCRLReason( const BIN *pBinExt, QString& strVal )
     return 0;
 }
 
-int setExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
+int setExtInfoToDB( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
 {
     int ret = 0;
     BIN binExt = {0,0};
@@ -888,7 +888,7 @@ int setExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
     return ret;
 }
 
-int getExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
+int getExtInfoFromDB( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
 {
     int ret = 0;
     QString strVal = "";

@@ -54,7 +54,7 @@ const QStringList kRevokeReasonList = {
     "keyTime","CAKeyTime"
 };
 
-int setExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
-int getExtInfo( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
+int setExtInfoToDB( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
+int getExtInfoFromDB( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 
 #endif // COMMONS_H

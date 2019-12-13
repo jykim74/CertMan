@@ -4,6 +4,7 @@ CertRec::CertRec()
 {
     m_nNum = -1;
     m_nKeyNum = -1;
+    m_nUserNum = -1;
     m_strCert = "";
     m_strSignAlg = "";
     m_bSelf = false;
@@ -22,6 +23,11 @@ void CertRec::setNum( int nNum )
 void CertRec::setKeyNum( int nKeyNum )
 {
     m_nKeyNum = nKeyNum;
+}
+
+void CertRec::setUserNum(int nUserNum)
+{
+    m_nUserNum = nUserNum;
 }
 
 void CertRec::setSignAlg( QString strSignAlg )

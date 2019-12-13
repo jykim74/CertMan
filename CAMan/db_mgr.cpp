@@ -44,6 +44,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 
     int nPosNum = SQL.record().indexOf( "Num" );
     int nPosKeyNum = SQL.record().indexOf( "KeyNum" );
+    int nPosUserNum = SQL.record().indexOf( "UserNum" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
     int nPosCert = SQL.record().indexOf( "CERT" );
     int nPosSelf = SQL.record().indexOf( "IsSelf" );
@@ -61,6 +62,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 
         certRec.setNum( SQL.value(nPosNum).toInt() );
         certRec.setKeyNum( SQL.value(nPosKeyNum).toInt());
+        certRec.setUserNum( SQL.value( nPosUserNum ).toInt());
         certRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
         certRec.setCert( SQL.value(nPosCert).toString() );
         certRec.setSelf( SQL.value(nPosSelf).toBool() );
@@ -657,20 +659,21 @@ int DBMgr::addCertRec( CertRec& certRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, KEYNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, certRec.getKeyNum() );
-    sqlQuery.bindValue( 1, certRec.getSignAlg() );
-    sqlQuery.bindValue( 2, certRec.getCert() );
-    sqlQuery.bindValue( 3, certRec.isSelf() );
-    sqlQuery.bindValue( 4, certRec.isCA() );
-    sqlQuery.bindValue( 5, certRec.getIssuerNum() );
-    sqlQuery.bindValue( 6, certRec.getSubjectDN() );
-    sqlQuery.bindValue( 7, certRec.getStatus() );
-    sqlQuery.bindValue( 8, certRec.getSerial() );
-    sqlQuery.bindValue( 9, certRec.getDNHash() );
-    sqlQuery.bindValue( 10, certRec.getKeyHash() );
+    sqlQuery.bindValue( 1, certRec.getUserNum() );
+    sqlQuery.bindValue( 2, certRec.getSignAlg() );
+    sqlQuery.bindValue( 3, certRec.getCert() );
+    sqlQuery.bindValue( 4, certRec.isSelf() );
+    sqlQuery.bindValue( 5, certRec.isCA() );
+    sqlQuery.bindValue( 6, certRec.getIssuerNum() );
+    sqlQuery.bindValue( 7, certRec.getSubjectDN() );
+    sqlQuery.bindValue( 8, certRec.getStatus() );
+    sqlQuery.bindValue( 9, certRec.getSerial() );
+    sqlQuery.bindValue( 10, certRec.getDNHash() );
+    sqlQuery.bindValue( 11, certRec.getKeyHash() );
 
     sqlQuery.exec();
     return 0;

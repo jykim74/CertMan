@@ -263,7 +263,7 @@ void MakeCertDlg::accept()
             }
         }
 
-        setExtInfo( &sExtInfo, policyExt );
+        setExtInfoToDB( &sExtInfo, policyExt );
 
         if( pExtInfoList == NULL )
             JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );

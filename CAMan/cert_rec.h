@@ -9,6 +9,7 @@ class CertRec
 private:
     int         m_nNum;
     int         m_nKeyNum;
+    int         m_nUserNum;
     QString     m_strSignAlg;
     QString     m_strCert;
     bool        m_bSelf;
@@ -25,6 +26,7 @@ public:
 
     int getNum() { return m_nNum; };
     int getKeyNum() { return m_nKeyNum; };
+    int getUserNum() { return m_nUserNum; };
     QString getSignAlg() { return m_strSignAlg; };
     QString getCert() { return m_strCert; };
     bool isSelf() { return m_bSelf; };
@@ -38,6 +40,7 @@ public:
 
     void setNum( int nNum );
     void setKeyNum( int nKeyNum );
+    void setUserNum( int nUserNum );
     void setSignAlg( QString strSignAlg );
     void setCert( QString strCert );
     void setSelf( bool bSelf );
