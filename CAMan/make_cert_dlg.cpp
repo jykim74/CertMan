@@ -87,6 +87,8 @@ void MakeCertDlg::accept()
     int ret = 0;
     JCertInfo sCertInfo;
     JCertInfo sMadeCertInfo;
+    JReqInfo    sReqInfo;
+
     BIN binCSR = {0,0};
     BIN binSignPri = {0,0};
     BIN binSignCert = {0,0};
@@ -94,8 +96,10 @@ void MakeCertDlg::accept()
     char *pHexCert = NULL;
     bool bCA = false;
     BIN binPub = {0,0};
-    BIN binKeyHash = {0,0};
-    char *pKeyHash = NULL;
+
+    char sKeyID[128];
+
+    memset( sKeyID, 0x00, sizeof(sKeyID));
 
     CertRec madeCertRec;
     JExtensionInfoList *pExtInfoList = NULL;
@@ -107,6 +111,7 @@ void MakeCertDlg::accept()
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
+    memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
     if( req_list_.size() <= 0 )
     {
@@ -139,6 +144,12 @@ void MakeCertDlg::accept()
 
     CertPolicyRec policyRec = cert_policy_list_.at( policyIdx );
     ReqRec reqRec = req_list_.at( reqIdx );
+
+    JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
+    JS_PKI_getReqInfo( &binCSR, &sReqInfo, NULL );
+
+    JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, sKeyID );
 
     if( bSelf )
         nSignKeyNum = reqRec.getKeyNum();
@@ -187,8 +198,10 @@ void MakeCertDlg::accept()
         notAfter = policyRec.getNotAfter() - now_t;
     }
 
-    JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
+
     JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
+
 
     JS_PKI_setCertInfo( &sCertInfo,
                         nKeyType,
@@ -223,15 +236,7 @@ void MakeCertDlg::accept()
         }
         else if( policyExt.getSN() == kExtNameSKI )
         {
-            BIN binPub = {0,0};
-            char sHexID[128];
-
-            memset( sHexID, 0x00, sizeof(sHexID));
-
-            JS_BIN_decodeHex( signKeyPair.getPublicKey().toStdString().c_str(), &binPub );
-            JS_PKI_getKeyIdentifier( &binPub, sHexID );
-            policyExt.setValue( sHexID );
-            JS_BIN_reset( &binPub );
+            policyExt.setValue( sKeyID );
         }
         else if( policyExt.getSN() == kExtNameAKI )
         {
@@ -301,15 +306,10 @@ void MakeCertDlg::accept()
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
 
     JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
-    JS_PKI_genHash( "SHA1", &binPub, &binKeyHash );
-    JS_BIN_encodeHex( &binKeyHash, &pKeyHash );
-
-    madeCertRec.setKeyHash( pKeyHash );
+    madeCertRec.setKeyHash( sKeyID );
 
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
-
-
 
 end :
     JS_BIN_reset( &binCSR );
@@ -322,8 +322,7 @@ end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );
-    JS_BIN_reset( &binKeyHash );
-    if( pKeyHash ) JS_free( pKeyHash );
+    JS_PKI_resetReqInfo( &sReqInfo );
 
     if( ret == 0 )
     {

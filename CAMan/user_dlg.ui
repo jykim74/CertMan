@@ -28,16 +28,6 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Status</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="mCertNumText"/>
-   </item>
    <item row="7" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -50,13 +40,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>CertNum</string>
-     </property>
-    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -78,9 +61,6 @@
       <string>RefCode</string>
      </property>
     </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QLineEdit" name="mStatusText"/>
    </item>
    <item row="5" column="3">
     <widget class="QPushButton" name="mRefCodeBtn">
@@ -120,6 +100,16 @@
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Status</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="mStatusText"/>
    </item>
   </layout>
  </widget>

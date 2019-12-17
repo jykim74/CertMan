@@ -6,7 +6,6 @@ UserRec::UserRec()
     m_strName = "";
     m_strSSN = "";
     m_strEmail = "";
-    m_nCertNum = -1;
     m_nStatus = -1;
     m_strRefCode = "";
     m_strSecretNum = "";
@@ -30,11 +29,6 @@ void UserRec::setSSN( const QString strSSN )
 void UserRec::setEmail(const QString strEmail)
 {
     m_strEmail = strEmail;
-}
-
-void UserRec::setCertNum( int nCertNum )
-{
-    m_nCertNum = nCertNum;
 }
 
 void UserRec::setStatus( int nStatus )

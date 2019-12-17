@@ -338,7 +338,39 @@ void MainWindow::createTreeMenu()
 
 void MainWindow::newFile()
 {
+    BIN binDB = {0,0};
+    QString strFilter = "";
 
+    QFile resFile( ":/ca.db" );
+    resFile.open(QIODevice::ReadOnly);
+    QByteArray data = resFile.readAll();
+    resFile.close();
+
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getSaveFileName( this,
+                                                     tr("New DB Files"),
+                                                     QDir::currentPath(),
+                                                     tr("DB Files (*.db);;All Files (*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    JS_BIN_set( &binDB, (unsigned char *)data.data(), data.size() );
+    JS_BIN_fileWrite( &binDB, fileName.toStdString().c_str() );
+    JS_BIN_reset(&binDB);
+
+    db_mgr_->close();
+    int ret = db_mgr_->open(fileName);
+
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to open database"), this );
+        return;
+    }
+
+    createTreeMenu();
 }
 
 void MainWindow::open()
@@ -407,19 +439,31 @@ void MainWindow::newKey()
 
 void MainWindow::makeRequest()
 {
+    /*
     manApplet->makeReqDlg()->show();
     manApplet->makeReqDlg()->raise();
     manApplet->makeReqDlg()->activateWindow();
+    */
+    MakeReqDlg makeReqDlg;
+    makeReqDlg.exec();
 }
 
 void MainWindow::makeCertPolicy()
 {
+    /*
     manApplet->makeCertPolicyDlg()->setEdit(false);
     manApplet->makeCertPolicyDlg()->setPolicyNum(-1);
 
     manApplet->makeCertPolicyDlg()->show();
     manApplet->makeCertPolicyDlg()->raise();
     manApplet->makeCertPolicyDlg()->activateWindow();
+    */
+
+    MakeCertPolicyDlg makeCertPolicyDlg;
+    makeCertPolicyDlg.setEdit(false);
+    makeCertPolicyDlg.setPolicyNum(-1);
+
+    makeCertPolicyDlg.exec();
 }
 
 void MainWindow::makeCRLPolicy()
@@ -439,12 +483,20 @@ void MainWindow::editCertPolicy()
 
     int num = item->text().toInt();
 
+    MakeCertPolicyDlg makeCertPolicyDlg;
+    makeCertPolicyDlg.setEdit(true);
+    makeCertPolicyDlg.setPolicyNum(num);
+
+    makeCertPolicyDlg.exec();
+
+    /*
     manApplet->makeCertPolicyDlg()->setEdit(true);
     manApplet->makeCertPolicyDlg()->setPolicyNum( num );
 
     manApplet->makeCertPolicyDlg()->show();
     manApplet->makeCertPolicyDlg()->raise();
     manApplet->makeCertPolicyDlg()->activateWindow();
+    */
 }
 
 void MainWindow::editCRLPolicy()
@@ -464,9 +516,8 @@ void MainWindow::editCRLPolicy()
 
 void MainWindow::makeCertificate()
 {
-    manApplet->makeCertDlg()->show();
-    manApplet->makeCertDlg()->raise();
-    manApplet->makeCertDlg()->activateWindow();
+    MakeCertDlg makeCertDlg;
+    makeCertDlg.exec();
 }
 
 void MainWindow::makeCRL()
@@ -490,9 +541,8 @@ void MainWindow::revokeCertificate()
 
 void MainWindow::registerUser()
 {
-    manApplet->userDlg()->show();
-    manApplet->userDlg()->raise();
-    manApplet->userDlg()->activateWindow();
+    UserDlg userDlg;
+    userDlg.exec();
 }
 
 void MainWindow::registerSigner()
@@ -504,10 +554,9 @@ void MainWindow::registerSigner()
 
 void MainWindow::viewCertificate()
 {
-    manApplet->certInfoDlg()->setCertNum( right_num_ );
-    manApplet->certInfoDlg()->show();
-    manApplet->certInfoDlg()->raise();
-    manApplet->certInfoDlg()->activateWindow();
+    CertInfoDlg certInfoDlg;
+    certInfoDlg.setCertNum( right_num_ );
+    certInfoDlg.exec();
 }
 
 void MainWindow::viewCRL()
@@ -527,65 +576,58 @@ void MainWindow::importData()
 
 void MainWindow::exportPriKey()
 {
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PRIKEY );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_PRIKEY );
+    exportDlg.exec();
 }
 
 void MainWindow::exportEncPriKey()
-{
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_ENC_PRIKEY );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+{   
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_ENC_PRIKEY );
+    exportDlg.exec();
 }
 
 void MainWindow::exportPubKey()
-{
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PUBKEY );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+{  
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_PUBKEY );
+    exportDlg.exec();
 }
 
 void MainWindow::exportRequest()
 {
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_REQUEST );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_REQUEST );
+    exportDlg.exec();
 }
 
 void MainWindow::exportCertificate()
 {
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_CERTIFICATE );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_CERTIFICATE );
+    exportDlg.exec();
 }
 
 void MainWindow::exportCRL()
 {
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_CRL );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_CRL );
+    exportDlg.exec();
 }
 
 void MainWindow::exportPFX()
 {
-    manApplet->exportDlg()->setDataNum( right_num_ );
-    manApplet->exportDlg()->setExportType( EXPORT_TYPE_PFX );
-    manApplet->exportDlg()->show();
-    manApplet->exportDlg()->raise();
-    manApplet->exportDlg()->activateWindow();
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( right_num_ );
+    exportDlg.setExportType( EXPORT_TYPE_PFX );
+    exportDlg.exec();
 }
 
 
@@ -1117,12 +1159,12 @@ void MainWindow::createRightUserList()
     removeAllRight();
     right_type_ = RightType::TYPE_USER;
 
-    QStringList headerList = {"Num", "Name", "SSN", "Email", "CertNum", "Status", "RefCode", "SecretNum" };
+    QStringList headerList = {"Num", "Name", "SSN", "Email", "Status", "RefCode", "SecretNum" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(8);
+    right_table_->setColumnCount(7);
     right_table_->setHorizontalHeaderLabels(headerList);
     right_table_->verticalHeader()->setVisible(false);
 
@@ -1139,10 +1181,9 @@ void MainWindow::createRightUserList()
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( user.getName())));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getCertNum() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getRefCode() )));
-        right_table_->setItem(i,7, new QTableWidgetItem(QString("%1").arg( user.getSecretNum() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getRefCode() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getSecretNum() )));
     }
 }
 
@@ -1495,9 +1536,6 @@ void MainWindow::showRightUser( int seq )
     strMsg += strPart;
 
     strPart = QString( "Email: %1\n").arg( userRec.getEmail() );
-    strMsg += strPart;
-
-    strPart = QString( "CertNum: %1\n").arg( userRec.getCertNum());
     strMsg += strPart;
 
     strPart = QString( "Status: %1\n").arg( userRec.getStatus() );

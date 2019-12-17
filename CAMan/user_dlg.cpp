@@ -25,12 +25,14 @@ void UserDlg::showEvent(QShowEvent *event)
 {
     initialize();
 
-    mCertNumText->setText( "-1" );
     mStatusText->setText( "0" );
 }
 
 void UserDlg::accept()
 {
+    BIN binRef = {0,0};
+    char *pHexRef = NULL;
+
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -39,20 +41,24 @@ void UserDlg::accept()
     QString strName = mNameText->text();
     QString strSSN = mSSNText->text();
     QString strEmail = mEmailText->text();
-    int nCertNum = mCertNumText->text().toInt();
     int nStatus = mStatusText->text().toInt();
     QString strRefCode = mRefCodeText->text();
     QString strSecretNum = mSecretNumText->text();
 
+    JS_BIN_set( &binRef, (unsigned char *)strRefCode.toStdString().c_str(), strRefCode.length() );
+    JS_BIN_encodeHex( &binRef, &pHexRef );
+
     user.setName( strName );
     user.setSSN( strSSN );
     user.setEmail( strEmail );
-    user.setCertNum( nCertNum );
     user.setStatus( nStatus );
-    user.setRefCode( strRefCode );
+    user.setRefCode( pHexRef );
     user.setSecretNum( strSecretNum );
 
     dbMgr->addUserRec( user );
+
+    JS_BIN_reset( &binRef );
+    if( pHexRef ) JS_free( pHexRef );
 
     QDialog::accept();
     manApplet->mainWindow()->createRightUserList();

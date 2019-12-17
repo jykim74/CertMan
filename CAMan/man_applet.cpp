@@ -39,21 +39,17 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     settings_dlg_ = new SettingsDlg;
     settings_mgr_ = new SettingsMgr;
     about_dlg_ = new AboutDlg;
-    export_dlg_ = new ExportDlg;
     get_ldap_dlg_ = new GetLDAPDlg;
     import_dlg_ = new ImportDlg;
-    make_cert_dlg_ = new MakeCertDlg;
-    make_cert_policy_dlg_ = new MakeCertPolicyDlg;
+
     make_crl_dlg_ = new MakeCRLDlg;
     make_crl_policy_dlg_ = new MakeCRLPolicyDlg;
-    make_req_dlg_ = new MakeReqDlg;
-//    new_key_dlg_ = new NewKeyDlg;
+
     pub_ldap_dlg_ = new PubLDAPDlg;
     revoke_cert_dlg_ = new RevokeCertDlg;
-    cert_info_dlg_ = new CertInfoDlg;
+
     crl_info_dlg_ = new CRLInfoDlg;
     check_cert_dlg_ = new CheckCertDlg;
-    user_dlg_ = new UserDlg;
     signer_dlg_ = new SignerDlg;
 
     in_exit_ = false;

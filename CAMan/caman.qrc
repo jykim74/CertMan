@@ -26,5 +26,7 @@
         <file>images/reg_signer.png</file>
         <file>images/done.png</file>
         <file>images/red_cross.png</file>
+        <file>ca_db.sql</file>
+        <file>ca.db</file>
     </qresource>
 </RCC>
