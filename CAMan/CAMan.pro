@@ -62,6 +62,7 @@ SOURCES += \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
+        search_menu.cpp \
         server_status_dlg.cpp \
         server_status_service.cpp \
         settings_dlg.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
         req_rec.h \
         revoke_cert_dlg.h \
         revoke_rec.h \
+        search_menu.h \
         server_status_dlg.h \
         server_status_service.h \
         settings_dlg.h \

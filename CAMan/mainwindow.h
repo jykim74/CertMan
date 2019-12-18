@@ -12,6 +12,7 @@
 class ManTreeView;
 class ManTreeModel;
 class ManTreeItem;
+class SearchMenu;
 class DBMgr;
 
 namespace Ui {
@@ -134,6 +135,7 @@ private:
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
     QTextEdit       *right_text_;
+    SearchMenu      *right_menu_;
 
     DBMgr           *db_mgr_;
     int             right_type_;

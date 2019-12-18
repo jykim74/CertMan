@@ -7,6 +7,7 @@
 #include "man_tree_item.h"
 #include "man_tree_model.h"
 #include "man_tree_view.h"
+#include "search_menu.h"
 
 #include "about_dlg.h"
 #include "export_dlg.h"
@@ -78,16 +79,19 @@ void MainWindow::initialize()
     right_text_ = new QTextEdit();
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
+    right_menu_ = new SearchMenu;
 
     left_tree_->setModel(left_model_);
+
 
     hsplitter_->addWidget(left_tree_);
     hsplitter_->addWidget(vsplitter_);
     vsplitter_->addWidget(right_table_);
+    vsplitter_->addWidget(right_menu_);
     vsplitter_->addWidget(right_text_);
 
     QList <int> vsizes;
-    vsizes << 1200 << 500;
+    vsizes << 1200 << 10 << 500;
     vsplitter_->setSizes(vsizes);
 
     QList <int> sizes;
