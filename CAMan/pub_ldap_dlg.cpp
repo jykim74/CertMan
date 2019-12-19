@@ -4,6 +4,7 @@
 #include "db_mgr.h"
 #include "js_pki.h"
 #include "js_ldap.h"
+#include "js_pki_tools.h"
 
 static QStringList sTypeList = { "Certificate", "CRL" };
 
@@ -68,7 +69,6 @@ void PubLDAPDlg::accept()
     nType = JS_LDAP_getType( mAttributeCombo->currentText().toStdString().c_str() );
     pLD = JS_LDAP_init( mLDAPHostText->text().toStdString().c_str(), mLDAPPortText->text().toInt());
 
-
     ret = JS_LDAP_bind( pLD, mBindDNText->text().toStdString().c_str(), mPasswordText->text().toStdString().c_str() );
     ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toStdString().c_str(), nType, &binData );
 
@@ -82,6 +82,11 @@ void PubLDAPDlg::initUI()
     mTypeCombo->addItems(sTypeList);
     mAttributeCombo->addItems(sCertAttributeList);
 
+    mLDAPHostText->setText( "localhost" );
+    mLDAPPortText->setText( "389" );
+    mBindDNText->setText( "cn=Manager,c=kr" );
+    mPasswordText->setText( "secret" );
+
     connect( mTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
 }
 
@@ -93,13 +98,18 @@ void PubLDAPDlg::initialize()
     if( data_type_ == RightType::TYPE_CERTIFICATE )
     {
         CertRec cert;
+        char sPureDN[1024];
         dbMgr->getCertRec( data_num_, cert );
 
         QString strInfo = QString( "DN: %1\nSignAlgorithm: %2\n")
                 .arg( cert.getSubjectDN() )
                 .arg( cert.getSignAlg() );
 
+
         mInfoText->setText( strInfo );
+
+        JS_PKI_getPureDN( cert.getSubjectDN().toStdString().c_str(), sPureDN );
+        mPublishDNText->setText( sPureDN );
     }
     else if( data_type_ == RightType::TYPE_CRL )
     {
@@ -115,8 +125,6 @@ void PubLDAPDlg::initialize()
     else
     {
         manApplet->warningBox(tr("Invalid data type"), this );
-        this->hide();
-        return;
     }
 }
 

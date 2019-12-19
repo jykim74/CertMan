@@ -10,13 +10,11 @@ class SettingsMgr;
 class SettingsDlg;
 
 class AboutDlg;
-class GetLDAPDlg;
 class ImportDlg;
 
 class MakeCRLDlg;
 class MakeCRLPolicyDlg;
 
-class PubLDAPDlg;
 class RevokeCertDlg;
 class CRLInfoDlg;
 class CheckCertDlg;
@@ -33,15 +31,14 @@ public:
     void start();
 
     MainWindow* mainWindow() { return main_win_; };
+    ManTrayIcon* trayIcon() { return tray_icon_; };
     SettingsMgr* settingsMgr() { return settings_mgr_; };
     AboutDlg* aboutDlg() { return  about_dlg_; };
-    GetLDAPDlg* getLDAPDlg() { return get_ldap_dlg_; };
     ImportDlg* importDlg() { return import_dlg_; };
 
     MakeCRLDlg* makeCRLDlg() { return make_crl_dlg_; };
     MakeCRLPolicyDlg* makeCRLPolicyDlg() { return make_crl_policy_dlg_; };
 
-    PubLDAPDlg* pubLDAPDlg() { return pub_ldap_dlg_; };
     RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
     SettingsDlg* settingsDlg() { return settings_dlg_; };
     CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
@@ -72,13 +69,11 @@ private:
     ManTrayIcon* tray_icon_;
     SettingsMgr* settings_mgr_;
     AboutDlg* about_dlg_;
-    GetLDAPDlg* get_ldap_dlg_;
     ImportDlg* import_dlg_;
 
     MakeCRLDlg* make_crl_dlg_;
     MakeCRLPolicyDlg* make_crl_policy_dlg_;
 
-    PubLDAPDlg* pub_ldap_dlg_;
     RevokeCertDlg* revoke_cert_dlg_;
     SettingsDlg* settings_dlg_;
     CRLInfoDlg* crl_info_dlg_;

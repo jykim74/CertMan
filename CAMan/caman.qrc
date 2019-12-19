@@ -28,5 +28,6 @@
         <file>images/red_cross.png</file>
         <file>ca_db.sql</file>
         <file>ca.db</file>
+        <file>images/caman.png</file>
     </qresource>
 </RCC>

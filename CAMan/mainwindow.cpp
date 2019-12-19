@@ -1,6 +1,7 @@
 #include <QFileDialog>
 #include <QtWidgets>
 
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -42,6 +43,7 @@
 #include "signer_dlg.h"
 #include "signer_rec.h"
 #include "server_status_dlg.h"
+#include "man_tray_icon.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -232,12 +234,14 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
         menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
+        menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
         menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
         menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
         menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
+        menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
@@ -422,6 +426,9 @@ void MainWindow::open()
         settings.endGroup();
     }
     createTreeMenu();
+
+    if( manApplet->trayIcon()->supportsMessages() )
+        manApplet->trayIcon()->showMessage( "CAMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
 }
 
 void MainWindow::quit()
@@ -637,16 +644,16 @@ void MainWindow::exportPFX()
 
 void MainWindow::publishLDAP()
 {
-    manApplet->pubLDAPDlg()->show();
-    manApplet->pubLDAPDlg()->raise();
-    manApplet->pubLDAPDlg()->activateWindow();
+    PubLDAPDlg pubLDAPDlg;
+    pubLDAPDlg.setDataNum( right_num_ );
+    pubLDAPDlg.setDataType( right_type_ );
+    pubLDAPDlg.exec();
 }
 
 void MainWindow::getLDAP()
 {
-    manApplet->getLDAPDlg()->show();
-    manApplet->getLDAPDlg()->raise();
-    manApplet->getLDAPDlg()->activateWindow();
+    GetLDAPDlg getLDAPDlg;
+    getLDAPDlg.exec();
 }
 
 void MainWindow::about()
