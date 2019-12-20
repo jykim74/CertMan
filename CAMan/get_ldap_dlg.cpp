@@ -87,6 +87,9 @@ void GetLDAPDlg::initUI()
     mSearchCombo->addItems(sDataAttributeList);
     mFilterCombo->addItems(sFilterList);
 
+    mLDAPPortText->setText( "389" );
+    mFilterText->setText( "(objectclass=*)" );
+
     connect( mUseURICheck, SIGNAL(clicked()), this, SLOT(clickUseURI()));
 }
 
@@ -143,6 +146,13 @@ int GetLDAPDlg::ImportCert( const BIN *pCert )
     cert.setSubjectDN( sCertInfo.pSubjectName );
     cert.setIssuerNum( -2 );
     cert.setSignAlg( sCertInfo.pSignAlgorithm );
+
+    if( strcasecmp( sCertInfo.pIssuerName, sCertInfo.pSubjectName ) == 0 )
+        cert.setSelf(1);
+
+    /* need to check IsCA */
+    if( mSearchCombo->currentIndex() == 0 )
+        cert.setCA(1);
 
     dbMgr->addCertRec( cert );
 
