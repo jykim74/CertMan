@@ -98,7 +98,7 @@ void PubLDAPDlg::initialize()
     if( data_type_ == RightType::TYPE_CERTIFICATE )
     {
         CertRec cert;
-        char sPureDN[1024];
+        char *pPureDN = NULL;
         dbMgr->getCertRec( data_num_, cert );
 
         QString strInfo = QString( "DN: %1\nSignAlgorithm: %2\n")
@@ -108,8 +108,9 @@ void PubLDAPDlg::initialize()
 
         mInfoText->setText( strInfo );
 
-        JS_PKI_getPureDN( cert.getSubjectDN().toStdString().c_str(), sPureDN );
-        mPublishDNText->setText( sPureDN );
+        JS_PKI_getPureDN( cert.getSubjectDN().toStdString().c_str(), &pPureDN );
+        mPublishDNText->setText( pPureDN );
+        if( pPureDN ) JS_free( pPureDN );
     }
     else if( data_type_ == RightType::TYPE_CRL )
     {
