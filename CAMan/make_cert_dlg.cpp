@@ -294,10 +294,13 @@ void MakeCertDlg::accept()
 
     JS_BIN_encodeHex( &binCert, &pHexCert );
 
+//    QString strSubjectDN = sMadeCertInfo.pSubjectName;
+
     madeCertRec.setSelf( bSelf );
     madeCertRec.setStatus(0);
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( pHexCert );
+//    madeCertRec.setSubjectDN( QString::fromUtf8( sMadeCertInfo.pSubjectName  ));
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( bCA );
