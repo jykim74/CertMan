@@ -105,6 +105,10 @@ void MakeCertDlg::accept()
     JExtensionInfoList *pExtInfoList = NULL;
     JExtensionInfoList *pMadeExtInfoList = NULL;
 
+    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
+    QByteArray ba;
+
+
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
     bool bSelf = mSelfSignCheck->isChecked();
@@ -300,7 +304,11 @@ void MakeCertDlg::accept()
     madeCertRec.setStatus(0);
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( pHexCert );
+
+    ba = sMadeCertInfo.pSubjectName;
+    madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 //    madeCertRec.setSubjectDN( QString::fromUtf8( sMadeCertInfo.pSubjectName  ));
+
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( bCA );
