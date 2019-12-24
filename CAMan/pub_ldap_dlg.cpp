@@ -70,7 +70,7 @@ void PubLDAPDlg::accept()
     pLD = JS_LDAP_init( mLDAPHostText->text().toStdString().c_str(), mLDAPPortText->text().toInt());
 
     ret = JS_LDAP_bind( pLD, mBindDNText->text().toStdString().c_str(), mPasswordText->text().toStdString().c_str() );
-    ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toStdString().c_str(), nType, &binData );
+    ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toUtf8().toStdString().c_str(), nType, &binData );
 
     JS_BIN_reset( &binData );
     if( pLD ) JS_LDAP_close( pLD );
