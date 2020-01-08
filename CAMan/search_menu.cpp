@@ -97,6 +97,16 @@ void SearchMenu::setCondCombo(int nType)
         cond_combo_->addItems( s_condCRLList );
 }
 
+QString SearchMenu::getCondName()
+{
+    return cond_combo_->currentText();
+}
+
+QString SearchMenu::getInputWord()
+{
+    return input_text_->text();
+}
+
 void SearchMenu::leftPage()
 {
 
@@ -119,5 +129,30 @@ void SearchMenu::rightEndPage()
 
 void SearchMenu::search()
 {
+    int nType = manApplet->mainWindow()->rightType();
 
+    if( nType == RightType::TYPE_CERTIFICATE )
+    {
+
+    }
+    else if( nType == RightType::TYPE_KEYPAIR )
+    {
+
+    }
+    else if( nType == RightType::TYPE_REVOKE )
+    {
+
+    }
+    else if( nType == RightType::TYPE_REQUEST )
+    {
+
+    }
+    else if( nType == RightType::TYPE_USER )
+    {
+
+    }
+    else if( nType == RightType::TYPE_CRL )
+    {
+
+    }
 }

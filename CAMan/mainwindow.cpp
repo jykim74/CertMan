@@ -1084,18 +1084,32 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
 
     QList<CertRec> certList;
 
     if( bIsCA )
     {
-        db_mgr_->getCACertList( nIssuerNum, certList );
+        if( strWord.length() > 0 )
+            db_mgr_->getCACertList( nIssuerNum, strTarget, strWord, certList );
+        else
+            db_mgr_->getCACertList( nIssuerNum, certList );
+
         nTotalCount = certList.size();
     }
     else
     {
-        nTotalCount = db_mgr_->getCertCount( nIssuerNum );
-        db_mgr_->getCertList( nIssuerNum, certList );
+        if( strWord.length() > 0 )
+        {
+            nTotalCount = db_mgr_->getCertSearchCount( nIssuerNum,  strTarget, strWord );
+            db_mgr_->getCertList( nIssuerNum, strTarget, strWord, nOffset, nLimit, certList );
+        }
+        else
+        {
+            nTotalCount = db_mgr_->getCertCount( nIssuerNum );
+            db_mgr_->getCertList( nIssuerNum, nOffset, nLimit, certList );
+        }
     }
 
     right_menu_->setTotalCount( nTotalCount );

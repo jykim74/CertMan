@@ -68,6 +68,8 @@ public:
     void showRightUser( int seq );
     void showRightSigner( int seq );
 
+    int rightType() { return right_type_; };
+
     DBMgr* dbMgr() { return db_mgr_; };
 
 

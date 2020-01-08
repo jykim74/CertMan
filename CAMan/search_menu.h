@@ -24,6 +24,9 @@ public:
     void setListCount( int nCount );
     void setCurOffset( int nOffset );
 
+    QString getCondName();
+    QString getInputWord();
+
 
 private:
     void setupModel();
