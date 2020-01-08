@@ -1068,6 +1068,11 @@ void MainWindow::createRightCRLPolicyList()
 void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
     removeAllRight();
+    int nTotalCount = 0;
+    int nLimit = 15;
+    int nOffset = right_menu_->curOffset();
+    int nPage = right_menu_->curPage();
+
     right_type_ = RightType::TYPE_CERTIFICATE;
 
     QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
@@ -1083,9 +1088,22 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     QList<CertRec> certList;
 
     if( bIsCA )
+    {
         db_mgr_->getCACertList( nIssuerNum, certList );
+        nTotalCount = certList.size();
+    }
     else
+    {
+        nTotalCount = db_mgr_->getCertCount( nIssuerNum );
         db_mgr_->getCertList( nIssuerNum, certList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( certList.size() );
+//    right_menu_->setCurOffset( nOffset );
+//    right_menu_->setCurPage( nPage );
+    right_menu_->updatePageLabel();
+    right_menu_->setCondCombo( RightType::TYPE_CERTIFICATE );
 
     for( int i=0; i < certList.size(); i++ )
     {

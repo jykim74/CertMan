@@ -85,6 +85,147 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     return 0;
 }
 
+int DBMgr::getCertCount( int nIssuerNum )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1").arg( nIssuerNum );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getCRLCount( int nIssuerNum )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL WHERE ISSUERNUM = %1").arg( nIssuerNum );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getKeyPairCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_KEY_PAIR" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getReqCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_REQ" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getRevokeCount( int nIssuerNum )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_REVOKED WHERE ISSUERNUM = %1").arg( nIssuerNum );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getUserCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_USER" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE %%%3%%" )
+            .arg( nIssuerNum )
+            .arg( strTarget )
+            .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord )
+{
+    return -1;
+}
+
+int DBMgr::getKeyPairSearchCount( QString strTarget, QString strWord)
+{
+    return -1;
+}
+
+int DBMgr::getReqSearchCount( QString strTarget, QString strWord)
+{
+    return -1;
+}
+
+int DBMgr::getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord )
+{
+    return -1;
+}
+
+int DBMgr::getUserSearchCount( QString strTarget, QString strWord)
+{
+    return -1;
+}
+
 int DBMgr::getCACertList( QList<CertRec>& certList )
 {
     QString strSQL  = "SELECT * FROM TB_CERT WHERE ISCA=1";
@@ -95,6 +236,16 @@ int DBMgr::getCACertList( QList<CertRec>& certList )
 int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
 {
     QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1").arg( nIssuerNum );
+
+    return _getCertList( strSQL, certList );
+}
+
+int DBMgr::getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList )
+{
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE %%%3%%")
+            .arg( nIssuerNum )
+            .arg( strTarget )
+            .arg( strWord );
 
     return _getCertList( strSQL, certList );
 }
@@ -120,12 +271,48 @@ int DBMgr::getCertList( int nIssuerNum, QList<CertRec>& certList )
     return _getCertList( strSQL, certList );
 }
 
+int DBMgr::getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>& certList )
+{
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 LIMIT %2 OFFSET %3" )
+            .arg( nIssuerNum )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getCertList( strSQL, certList );
+}
+
+int DBMgr::getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList )
+{
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE %%%3%% LIMIT %4 OFFSET %5" )
+            .arg( nIssuerNum )
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getCertList( strSQL, certList );
+}
+
 int DBMgr::getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus )
 {
     QString strSQL = "";
     strSQL = QString( "SELECT * FROM TB_KEY_PAIR" );
 
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
+    return _getKeyPairList( strSQL, keyPairList );
+}
+
+int DBMgr::getKeyPairList( int nOffset, int nLimit, QList<KeyPairRec>& keyPairList, int nStatus )
+{
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_KEY_PAIR" );
+
+    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
+    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nOffset ).arg( nLimit );
 
     return _getKeyPairList( strSQL, keyPairList );
 }
@@ -214,6 +401,17 @@ int DBMgr::getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList )
     return _getRevokeList( strQuery, revokeList );
 }
 
+int DBMgr::getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeRec>& revokeList )
+{
+    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1 LIMIT %2 OFFSET %3")
+            .arg(nIssuerNum)
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getRevokeList( strQuery, revokeList );
+}
+
+
 int DBMgr::getUserRec( int nSeq, UserRec& userRec )
 {
     QList<UserRec> userList;
@@ -230,6 +428,13 @@ int DBMgr::getUserRec( int nSeq, UserRec& userRec )
 int DBMgr::getUserList( QList<UserRec>& userList )
 {
     QString strQuery = QString("SELECT * FROM TB_USER" );
+
+    return _getUserList( strQuery, userList );
+}
+
+int DBMgr::getUserList( int nOffset, int nLimit, QList<UserRec>& userList )
+{
+    QString strQuery = QString("SELECT * FROM TB_USER LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getUserList( strQuery, userList );
 }
@@ -271,6 +476,18 @@ int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
     QString strQuery;
 
     strQuery.sprintf( "SELECT * FROM TB_REQ STATUS = %d", nStatus );
+
+    return _getReqList( strQuery, reqList );
+}
+
+int DBMgr::getReqList( int nOffset, int nLimit, int nStatus, QList<ReqRec>& reqList )
+{
+    QString strQuery;
+
+    strQuery = QString( "SELECT * FROM TB_REQ STATUS = %1 LIMIT %2 OFFSET %3" )
+            .arg( nStatus )
+            .arg( nLimit )
+            .arg( nOffset );
 
     return _getReqList( strQuery, reqList );
 }
@@ -426,6 +643,16 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
 int DBMgr::getCRLList( int nIssuerNum, QList<CRLRec>& crlList )
 {
     QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1" ).arg( nIssuerNum );
+
+    return _getCRLList( strSQL, crlList );
+}
+
+int DBMgr::getCRLList( int nIssuerNum, int nOffset, int nLimit, QList<CRLRec>& crlList )
+{
+    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 LIMIT %2 OFFSET %3" )
+            .arg( nIssuerNum )
+            .arg( nLimit )
+            .arg( nOffset );
 
     return _getCRLList( strSQL, crlList );
 }

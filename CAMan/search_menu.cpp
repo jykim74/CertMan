@@ -4,7 +4,12 @@
 #include "mainwindow.h"
 #include "man_applet.h"
 
-static QStringList  s_condList = { "Name", "Page" };
+static QStringList  s_condCertList = { "Page", "SubjectDN", "Serial" };
+static QStringList  s_condCRLList = { "Page" };
+static QStringList  s_condKeyPairList = { "Page", "Name" };
+static QStringList  s_condReqList = { "Page", "Name" };
+static QStringList  s_condRevokeList = { "Page", "Serial" };
+static QStringList  s_condUserList = { "Page", "Name", "Email", "SSN" };
 
 SearchMenu::SearchMenu(QWidget *parent) : QWidget(parent)
 {
@@ -17,10 +22,12 @@ SearchMenu::SearchMenu(QWidget *parent) : QWidget(parent)
     input_text_ = new QLineEdit;
     search_btn_ = new QPushButton( tr( "Search"));
 
-    cond_combo_->addItems( s_condList );
+    cond_combo_->addItems( s_condCertList );
 
     cur_page_ = 0;
     total_count_ = 0;
+    list_count_ = 0;
+    cur_offset_ = 0;
 
     connect( left_end_btn_, SIGNAL(clicked()), this, SLOT(leftEndPage()));
     connect( left_btn_, SIGNAL(clicked()), this, SLOT(leftPage()));
@@ -45,6 +52,49 @@ void SearchMenu::setupModel()
     layout->addWidget( search_btn_, 0, 7 );
 
     setLayout( layout );
+}
+void SearchMenu::setTotalCount( int nCount )
+{
+    total_count_ = nCount;
+}
+
+void SearchMenu::setCurPage( int nPage )
+{
+   cur_page_ = nPage;
+}
+
+void SearchMenu::setListCount( int nCount )
+{
+    list_count_ = nCount;
+}
+
+void SearchMenu::setCurOffset(int nOffset)
+{
+    cur_offset_ = nOffset;
+}
+
+void SearchMenu::updatePageLabel()
+{
+    QString label = QString( "%1-%2 of %3" ).arg(cur_offset_).arg( list_count_ ).arg( total_count_ );
+    page_label_->setText( label );
+}
+
+void SearchMenu::setCondCombo(int nType)
+{
+    cond_combo_->clear();
+
+    if( nType == RightType::TYPE_CERTIFICATE )
+        cond_combo_->addItems( s_condCertList );
+    else if( nType == RightType::TYPE_KEYPAIR )
+        cond_combo_->addItems( s_condKeyPairList );
+    else if( nType == RightType::TYPE_REVOKE )
+        cond_combo_->addItems( s_condRevokeList );
+    else if( nType == RightType::TYPE_REQUEST )
+        cond_combo_->addItems( s_condReqList );
+    else if( nType == RightType::TYPE_USER )
+        cond_combo_->addItems( s_condUserList );
+    else if( nType == RightType::TYPE_CRL )
+        cond_combo_->addItems( s_condCRLList );
 }
 
 void SearchMenu::leftPage()

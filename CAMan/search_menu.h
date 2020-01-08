@@ -14,6 +14,16 @@ public:
     explicit SearchMenu(QWidget *parent = nullptr);
     int curPage() { return cur_page_; };
     int totalCount() { return total_count_; };
+    int listCount() { return list_count_; };
+    int curOffset() { return cur_offset_; };
+    void updatePageLabel();
+    void setCondCombo( int nType );
+
+    void setTotalCount( int nCount );
+    void setCurPage( int nPage );
+    void setListCount( int nCount );
+    void setCurOffset( int nOffset );
+
 
 private:
     void setupModel();
@@ -27,6 +37,7 @@ public slots:
     void rightEndPage();
     void search();
 
+
 private:
     QLabel          *page_label_;
     QPushButton     *left_end_btn_;
@@ -38,7 +49,9 @@ private:
     QPushButton     *search_btn_;
 
     int             cur_page_;
+    int             list_count_;
     int             total_count_;
+    int             cur_offset_;
 };
 
 #endif // SEARCHMENU_H
