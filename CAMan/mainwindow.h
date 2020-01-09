@@ -46,6 +46,7 @@ public:
     void createTableMenu();
 
     void createTreeMenu();
+    void createRightList( int nType, int nNum );
     void createRightKeyPairList();
     void createRightRequestList();
     void createRightCertPolicyList();
@@ -123,7 +124,7 @@ public slots:
     void settings();
     void serverStatus();
 
-    void menuClick( QModelIndex index );
+    void treeMenuClick( QModelIndex index );
     void tableClick( QModelIndex index );
 
 private slots:

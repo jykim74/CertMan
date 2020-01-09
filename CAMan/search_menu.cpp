@@ -1,9 +1,11 @@
 #include <QGridLayout>
 
+#include "man_tree_item.h"
 #include "search_menu.h"
 #include "mainwindow.h"
 #include "man_applet.h"
 
+static QStringList  s_condBaseList = { "Page" };
 static QStringList  s_condCertList = { "Page", "SubjectDN", "Serial" };
 static QStringList  s_condCRLList = { "Page" };
 static QStringList  s_condKeyPairList = { "Page", "Name" };
@@ -73,28 +75,46 @@ void SearchMenu::setCurOffset(int nOffset)
     cur_offset_ = nOffset;
 }
 
+void SearchMenu::setLeftType( int nType )
+{
+    left_type_ = nType;
+    setCondCombo();
+}
+
+void SearchMenu::setLeftNum( int nNum )
+{
+    left_num_ = nNum;
+}
+
 void SearchMenu::updatePageLabel()
 {
     QString label = QString( "%1-%2 of %3" ).arg(cur_offset_).arg( list_count_ ).arg( total_count_ );
     page_label_->setText( label );
 }
 
-void SearchMenu::setCondCombo(int nType)
+void SearchMenu::setCondCombo()
 {
     cond_combo_->clear();
 
-    if( nType == RightType::TYPE_CERTIFICATE )
+    if( left_type_ == CM_ITEM_TYPE_ROOTCA
+            || left_type_ == CM_ITEM_TYPE_IMPORT_CERT
+            || left_type_ == CM_ITEM_TYPE_CA
+            || left_type_ == CM_ITEM_TYPE_CERT
+            || left_type_ == CM_ITEM_TYPE_SUBCA )
         cond_combo_->addItems( s_condCertList );
-    else if( nType == RightType::TYPE_KEYPAIR )
+    else if( left_type_ == CM_ITEM_TYPE_KEYPAIR )
         cond_combo_->addItems( s_condKeyPairList );
-    else if( nType == RightType::TYPE_REVOKE )
+    else if( left_type_ == CM_ITEM_TYPE_REVOKE )
         cond_combo_->addItems( s_condRevokeList );
-    else if( nType == RightType::TYPE_REQUEST )
+    else if( left_type_ == CM_ITEM_TYPE_REQUEST )
         cond_combo_->addItems( s_condReqList );
-    else if( nType == RightType::TYPE_USER )
+    else if( left_type_ == CM_ITEM_TYPE_USER  )
         cond_combo_->addItems( s_condUserList );
-    else if( nType == RightType::TYPE_CRL )
+    else if( left_type_ == CM_ITEM_TYPE_CRL
+             || left_type_ == CM_ITEM_TYPE_IMPORT_CRL )
         cond_combo_->addItems( s_condCRLList );
+    else
+        cond_combo_->addItems( s_condBaseList );
 }
 
 QString SearchMenu::getCondName()
@@ -129,30 +149,5 @@ void SearchMenu::rightEndPage()
 
 void SearchMenu::search()
 {
-    int nType = manApplet->mainWindow()->rightType();
-
-    if( nType == RightType::TYPE_CERTIFICATE )
-    {
-
-    }
-    else if( nType == RightType::TYPE_KEYPAIR )
-    {
-
-    }
-    else if( nType == RightType::TYPE_REVOKE )
-    {
-
-    }
-    else if( nType == RightType::TYPE_REQUEST )
-    {
-
-    }
-    else if( nType == RightType::TYPE_USER )
-    {
-
-    }
-    else if( nType == RightType::TYPE_CRL )
-    {
-
-    }
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }

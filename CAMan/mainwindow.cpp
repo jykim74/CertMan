@@ -103,7 +103,7 @@ void MainWindow::initialize()
     hsplitter_->setSizes(sizes);
     setCentralWidget(hsplitter_);
 
-    connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(menuClick(QModelIndex)));
+    connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
     connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -780,7 +780,7 @@ void MainWindow::showWindow()
     activateWindow();
 }
 
-void MainWindow::menuClick(QModelIndex index )
+void MainWindow::treeMenuClick(QModelIndex index )
 {
     int nType = -1;
     int nNum = -1;
@@ -790,39 +790,12 @@ void MainWindow::menuClick(QModelIndex index )
     if( pItem == NULL ) return;
 
     nNum = pItem->getDataNum();
-
     nType = pItem->getType();
 
-    if( nType == CM_ITEM_TYPE_KEYPAIR )
-        createRightKeyPairList();
-    else if( nType == CM_ITEM_TYPE_REQUEST )
-        createRightRequestList();
-    else if( nType == CM_ITEM_TYPE_CERT_POLICY )
-        createRightCertPolicyList();
-    else if( nType == CM_ITEM_TYPE_CRL_POLICY )
-        createRightCRLPolicyList();
-    else if( nType == CM_ITEM_TYPE_ROOTCA )
-        createRightCertList( -1 );
-    else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
-        createRightCertList( -2 );
-    else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
-        createRightCRLList( -2 );
-    else if( nType == CM_ITEM_TYPE_CA )
-        createRightCertList( nNum, true );
-    else if( nType == CM_ITEM_TYPE_CERT )
-        createRightCertList( nNum );
-    else if( nType == CM_ITEM_TYPE_CRL )
-        createRightCRLList( nNum );
-    else if( nType == CM_ITEM_TYPE_SUBCA )
-        createRightCertList( nNum, true );
-    else if( nType == CM_ITEM_TYPE_REVOKE )
-        createRightRevokeList( nNum );
-    else if( nType == CM_ITEM_TYPE_USER )
-        createRightUserList();
-    else if( nType == CM_ITEM_TYPE_REG_SIGNER )
-        createRightSignerList( SIGNER_TYPE_REG );
-    else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
-        createRightSignerList( SIGNER_TYPE_OCSP );
+    right_menu_->setLeftNum( nNum );
+    right_menu_->setLeftType( nType );
+
+    createRightList( nType, nNum );
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -935,6 +908,40 @@ void MainWindow::checkCertificate()
     manApplet->checkCertDlg()->show();
     manApplet->checkCertDlg()->raise();
     manApplet->checkCertDlg()->activateWindow();
+}
+
+void MainWindow::createRightList( int nType, int nNum )
+{
+    if( nType == CM_ITEM_TYPE_KEYPAIR )
+        createRightKeyPairList();
+    else if( nType == CM_ITEM_TYPE_REQUEST )
+        createRightRequestList();
+    else if( nType == CM_ITEM_TYPE_CERT_POLICY )
+        createRightCertPolicyList();
+    else if( nType == CM_ITEM_TYPE_CRL_POLICY )
+        createRightCRLPolicyList();
+    else if( nType == CM_ITEM_TYPE_ROOTCA )
+        createRightCertList( -1 );
+    else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
+        createRightCertList( -2 );
+    else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
+        createRightCRLList( -2 );
+    else if( nType == CM_ITEM_TYPE_CA )
+        createRightCertList( nNum, true );
+    else if( nType == CM_ITEM_TYPE_CERT )
+        createRightCertList( nNum );
+    else if( nType == CM_ITEM_TYPE_CRL )
+        createRightCRLList( nNum );
+    else if( nType == CM_ITEM_TYPE_SUBCA )
+        createRightCertList( nNum, true );
+    else if( nType == CM_ITEM_TYPE_REVOKE )
+        createRightRevokeList( nNum );
+    else if( nType == CM_ITEM_TYPE_USER )
+        createRightUserList();
+    else if( nType == CM_ITEM_TYPE_REG_SIGNER )
+        createRightSignerList( SIGNER_TYPE_REG );
+    else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
+        createRightSignerList( SIGNER_TYPE_OCSP );
 }
 
 void MainWindow::createRightKeyPairList()
@@ -1091,7 +1098,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     if( bIsCA )
     {
-        if( strWord.length() > 0 )
+        if( strWord.length() > 0 && strTarget != "Page" )
             db_mgr_->getCACertList( nIssuerNum, strTarget, strWord, certList );
         else
             db_mgr_->getCACertList( nIssuerNum, certList );
@@ -1100,7 +1107,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     }
     else
     {
-        if( strWord.length() > 0 )
+        if( strWord.length() > 0 && strTarget != "Page"  )
         {
             nTotalCount = db_mgr_->getCertSearchCount( nIssuerNum,  strTarget, strWord );
             db_mgr_->getCertList( nIssuerNum, strTarget, strWord, nOffset, nLimit, certList );
@@ -1114,10 +1121,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_menu_->setTotalCount( nTotalCount );
     right_menu_->setListCount( certList.size() );
-//    right_menu_->setCurOffset( nOffset );
-//    right_menu_->setCurPage( nPage );
     right_menu_->updatePageLabel();
-    right_menu_->setCondCombo( RightType::TYPE_CERTIFICATE );
 
     for( int i=0; i < certList.size(); i++ )
     {

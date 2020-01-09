@@ -17,12 +17,14 @@ public:
     int listCount() { return list_count_; };
     int curOffset() { return cur_offset_; };
     void updatePageLabel();
-    void setCondCombo( int nType );
+
 
     void setTotalCount( int nCount );
     void setCurPage( int nPage );
     void setListCount( int nCount );
     void setCurOffset( int nOffset );
+    void setLeftType( int nType );
+    void setLeftNum( int nNum );
 
     QString getCondName();
     QString getInputWord();
@@ -30,6 +32,7 @@ public:
 
 private:
     void setupModel();
+    void setCondCombo();
 
 signals:
 
@@ -55,6 +58,9 @@ private:
     int             list_count_;
     int             total_count_;
     int             cur_offset_;
+
+    int             left_num_;
+    int             left_type_;
 };
 
 #endif // SEARCHMENU_H
