@@ -33,15 +33,15 @@ public:
 
     int getCertCount( int nIssuerNum );
     int getCRLCount( int nIssuerNum );
-    int getKeyPairCount();
-    int getReqCount();
+    int getKeyPairCount( int nStatus );
+    int getReqCount( int nStatus );
     int getRevokeCount( int nIssuerNum );
     int getUserCount();
 
     int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord );
-    int getKeyPairSearchCount( QString strTarget, QString strWord);
-    int getReqSearchCount( QString strTarget, QString strWord);
+    int getKeyPairSearchCount( int nStatus, QString strTarget, QString strWord);
+    int getReqSearchCount( int nStatus, QString strTarget, QString strWord);
     int getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getUserSearchCount( QString strTarget, QString strWord);
 
@@ -55,14 +55,19 @@ public:
 
     int getCRLList( int nIssuerNum, QList<CRLRec>& crlList );
     int getCRLList( int nIssuerNum, int nOffset, int nLimit, QList<CRLRec>& crlList );
-    int getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus = -1 );
-    int getKeyPairList( int nOffset, int nLimit, QList<KeyPairRec>& keyPairList, int nStatus = -1 );
+    int getCRLList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CRLRec>& crlList );
+
+    int getKeyPairList( int nStatus, QList<KeyPairRec>& keyPairList );
+    int getKeyPairList( int nStatus, int nOffset, int nLimit, QList<KeyPairRec>& keyPairList );
+    int getKeyPairList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<KeyPairRec>& keyPairList );
     int getKeyPairRec( int nNum, KeyPairRec& keyPairRec );
-    int getReqList( QList<ReqRec>& reqList );
+
     int getReqRec( int nNum, ReqRec& reqRec );
     int getCRLRec( int nNum, CRLRec& crlRec );
     int getReqList( int nStatus, QList<ReqRec>& reqList );
-    int getReqList( int nOffset, int nLimit, int nStatus, QList<ReqRec>& reqList );
+    int getReqList( int nStatus, int nOffset, int nLimit, QList<ReqRec>& reqList );
+    int getReqList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<ReqRec>& reqList );
+
     int getCertPolicyRec( int nNum, CertPolicyRec& certPolicy );
     int getCertPolicyList( QList<CertPolicyRec>& certPolicyList );
     int getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy );
@@ -70,10 +75,15 @@ public:
     int getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
     int getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
     int getRevokeRec( int nSeq, RevokeRec& revokeRec );
+
     int getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList );
     int getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeRec>& revokeList );
+    int getRevokeList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<RevokeRec>& revokeList );
+
     int getUserList( QList<UserRec>& userList );
     int getUserList( int nOffset, int nLimit, QList<UserRec>& userList );
+    int getUserList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<UserRec>& userList );
+
     int getUserRec( int nSeq, UserRec& userRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );

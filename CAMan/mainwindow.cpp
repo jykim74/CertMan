@@ -1,7 +1,7 @@
 #include <QFileDialog>
 #include <QtWidgets>
 
-
+#include "commons.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -912,6 +912,16 @@ void MainWindow::checkCertificate()
 
 void MainWindow::createRightList( int nType, int nNum )
 {
+    if( nType == CM_ITEM_TYPE_CRL_POLICY ||
+            nType == CM_ITEM_TYPE_CERT_POLICY ||
+            nType == CM_ITEM_TYPE_OCSP_SIGNER ||
+            nType == CM_ITEM_TYPE_REG_SIGNER )
+    {
+        right_menu_->hide();
+    }
+    else
+        right_menu_->show();
+
     if( nType == CM_ITEM_TYPE_KEYPAIR )
         createRightKeyPairList();
     else if( nType == CM_ITEM_TYPE_REQUEST )
@@ -949,17 +959,40 @@ void MainWindow::createRightKeyPairList()
     removeAllRight();
     right_type_ = RightType::TYPE_KEYPAIR;
 
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
     QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(7);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
     QList<KeyPairRec> keyPairList;
-    db_mgr_->getKeyPairList( keyPairList );
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getKeyPairSearchCount( -1,  strTarget, strWord );
+        db_mgr_->getKeyPairList( -1, strTarget, strWord, nOffset, nLimit, keyPairList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getKeyPairCount( -1 );
+        db_mgr_->getKeyPairList( -1, nOffset, nLimit, keyPairList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( keyPairList.size() );
+    right_menu_->updatePageLabel();
+
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
@@ -982,6 +1015,14 @@ void MainWindow::createRightRequestList()
     removeAllRight();
     right_type_ = RightType::TYPE_REQUEST;
 
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
     QStringList headerList = { "Seq", "KeyNum", "Name", "DN", "CSR", "Hash", "Status" };
 
     right_table_->clear();
@@ -992,7 +1033,22 @@ void MainWindow::createRightRequestList()
     right_table_->verticalHeader()->setVisible(false);
 
     QList<ReqRec> reqList;
-    db_mgr_->getReqList( reqList );
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getReqSearchCount( -1,  strTarget, strWord );
+        db_mgr_->getReqList( -1, strTarget, strWord, nOffset, nLimit, reqList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getReqCount( -1 );
+        db_mgr_->getReqList( -1, nOffset, nLimit, reqList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( reqList.size() );
+    right_menu_->updatePageLabel();
+
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -1076,9 +1132,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
     removeAllRight();
     int nTotalCount = 0;
-    int nLimit = 15;
-    int nOffset = right_menu_->curOffset();
+    int nLimit = kListCount;
     int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
@@ -1087,7 +1143,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(9);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
@@ -1096,9 +1152,10 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     QList<CertRec> certList;
 
+
     if( bIsCA )
     {
-        if( strWord.length() > 0 && strTarget != "Page" )
+        if( strWord.length() > 0 )
             db_mgr_->getCACertList( nIssuerNum, strTarget, strWord, certList );
         else
             db_mgr_->getCACertList( nIssuerNum, certList );
@@ -1107,7 +1164,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     }
     else
     {
-        if( strWord.length() > 0 && strTarget != "Page"  )
+        if( strWord.length() > 0 )
         {
             nTotalCount = db_mgr_->getCertSearchCount( nIssuerNum,  strTarget, strWord );
             db_mgr_->getCertList( nIssuerNum, strTarget, strWord, nOffset, nLimit, certList );
@@ -1145,16 +1202,38 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     removeAllRight();
     right_type_ = RightType::TYPE_CRL;
 
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
     QStringList headerList = { "Num", "IssuerNum", "SignAlg", "CRL" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(4);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
     QList<CRLRec> crlList;
-    db_mgr_->getCRLList( nIssuerNum, crlList );
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getCRLSearchCount( nIssuerNum,  strTarget, strWord );
+        db_mgr_->getCRLList( nIssuerNum, strTarget, strWord, nOffset, nLimit, crlList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getCRLCount( nIssuerNum );
+        db_mgr_->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( crlList.size() );
+    right_menu_->updatePageLabel();
 
     for( int i=0; i < crlList.size(); i++ )
     {
@@ -1173,18 +1252,40 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     removeAllRight();
     right_type_ = RightType::TYPE_REVOKE;
 
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
     QStringList headerList = {"Num", "CertNum", "IssuerNum", "Serial", "RevokeDate", "Reason" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(6);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
     right_table_->verticalHeader()->setVisible(false);
 
     QList<RevokeRec> revokeList;
 
-    db_mgr_->getRevokeList( nIssuerNum, revokeList );
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getRevokeSearchCount( nIssuerNum,  strTarget, strWord );
+        db_mgr_->getRevokeList( nIssuerNum, strTarget, strWord, nOffset, nLimit, revokeList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getRevokeCount( nIssuerNum );
+        db_mgr_->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( revokeList.size() );
+    right_menu_->updatePageLabel();
+
 
     for( int i=0; i < revokeList.size(); i++ )
     {
@@ -1206,16 +1307,39 @@ void MainWindow::createRightUserList()
     removeAllRight();
     right_type_ = RightType::TYPE_USER;
 
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
     QStringList headerList = {"Num", "Name", "SSN", "Email", "Status", "RefCode", "SecretNum" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(7);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
     right_table_->verticalHeader()->setVisible(false);
 
     QList<UserRec> userList;
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getUserSearchCount( strTarget, strWord );
+        db_mgr_->getUserList( strTarget, strWord, nOffset, nLimit, userList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getUserCount();
+        db_mgr_->getUserList( nOffset, nLimit, userList );
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->setListCount( userList.size() );
+    right_menu_->updatePageLabel();
 
     db_mgr_->getUserList( userList );
 

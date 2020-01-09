@@ -37,7 +37,7 @@ void MakeReqDlg::initialize()
     if( dbMgr == NULL ) return;
 
     key_list_.clear();
-    dbMgr->getKeyPairList( key_list_, 0 );
+    dbMgr->getKeyPairList( 0, key_list_ );
 
     for( int i = 0; i < key_list_.size(); i++ )
     {

@@ -8,6 +8,8 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 
+const int   kListCount = 15;
+
 const QString kExtNameAIA = "authorityInfoAccess";
 const QString kExtNameAKI = "authorityKeyIdentifier";
 const QString kExtNameBC = "basicConstraints";

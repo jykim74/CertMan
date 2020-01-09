@@ -117,11 +117,13 @@ int DBMgr::getCRLCount( int nIssuerNum )
     return -1;
 }
 
-int DBMgr::getKeyPairCount()
+int DBMgr::getKeyPairCount( int nStatus )
 {
     int nCount = -1;
 
     QString strSQL = QString( "SELECT COUNT(*) FROM TB_KEY_PAIR" );
+    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
@@ -133,11 +135,13 @@ int DBMgr::getKeyPairCount()
     return -1;
 }
 
-int DBMgr::getReqCount()
+int DBMgr::getReqCount( int nStatus )
 {
     int nCount = -1;
 
     QString strSQL = QString( "SELECT COUNT(*) FROM TB_REQ" );
+    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
@@ -203,26 +207,65 @@ int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWor
 
 int DBMgr::getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord )
 {
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%'" )
+            .arg( nIssuerNum )
+            .arg( strTarget )
+            .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
     return -1;
 }
 
-int DBMgr::getKeyPairSearchCount( QString strTarget, QString strWord)
+int DBMgr::getKeyPairSearchCount( int nStatus, QString strTarget, QString strWord)
 {
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_CRL WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
+    if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
+
     return -1;
 }
 
-int DBMgr::getReqSearchCount( QString strTarget, QString strWord)
+int DBMgr::getReqSearchCount( int nStatus, QString strTarget, QString strWord)
 {
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_REQ WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
+    if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
+
     return -1;
 }
 
 int DBMgr::getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord )
 {
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_REVOKED WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
     return -1;
 }
 
 int DBMgr::getUserSearchCount( QString strTarget, QString strWord)
 {
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_USER WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
     return -1;
 }
 
@@ -295,7 +338,7 @@ int DBMgr::getCertList( int nIssuerNum, QString strTarget, QString strWord, int 
     return _getCertList( strSQL, certList );
 }
 
-int DBMgr::getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus )
+int DBMgr::getKeyPairList( int nStatus, QList<KeyPairRec>& keyPairList )
 {
     QString strSQL = "";
     strSQL = QString( "SELECT * FROM TB_KEY_PAIR" );
@@ -305,14 +348,26 @@ int DBMgr::getKeyPairList( QList<KeyPairRec>& keyPairList, int nStatus )
     return _getKeyPairList( strSQL, keyPairList );
 }
 
-int DBMgr::getKeyPairList( int nOffset, int nLimit, QList<KeyPairRec>& keyPairList, int nStatus )
+int DBMgr::getKeyPairList( int nStatus, int nOffset, int nLimit, QList<KeyPairRec>& keyPairList )
 {
     QString strSQL = "";
     strSQL = QString( "SELECT * FROM TB_KEY_PAIR" );
 
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
 
-    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nOffset ).arg( nLimit );
+    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+
+    return _getKeyPairList( strSQL, keyPairList );
+}
+
+int DBMgr::getKeyPairList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<KeyPairRec>& keyPairList )
+{
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_KEY_PAIR WHERE %1 LIKE '%%2%'" ).arg( strTarget ).arg( strWord );
+
+    if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
+
+    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getKeyPairList( strSQL, keyPairList );
 }
@@ -363,13 +418,6 @@ int DBMgr::_getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList )
     return 0;
 }
 
-int DBMgr::getReqList(QList<ReqRec> &reqList)
-{
-    QString strQuery = "SELECT * FROM TB_REQ";
-
-    return _getReqList( strQuery, reqList );
-}
-
 int DBMgr::getReqRec( int nNum, ReqRec& reqRec )
 {
     QList<ReqRec> reqList;
@@ -411,6 +459,17 @@ int DBMgr::getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeR
     return _getRevokeList( strQuery, revokeList );
 }
 
+int DBMgr::getRevokeList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<RevokeRec>& revokeList )
+{
+    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1" ).arg( nIssuerNum );
+    strQuery += QString( " AND %1 LIKE '%%2%' LIMIT %3 OFFSET %4 ")
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getRevokeList( strQuery, revokeList );
+}
 
 int DBMgr::getUserRec( int nSeq, UserRec& userRec )
 {
@@ -435,6 +494,17 @@ int DBMgr::getUserList( QList<UserRec>& userList )
 int DBMgr::getUserList( int nOffset, int nLimit, QList<UserRec>& userList )
 {
     QString strQuery = QString("SELECT * FROM TB_USER LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+
+    return _getUserList( strQuery, userList );
+}
+
+int DBMgr::getUserList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<UserRec>& userList )
+{
+    QString strQuery = QString("SELECT * FROM TB_USER WHERE %1 LIKE '%%2%' LIMIT %3 OFFSET %4" )
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
 
     return _getUserList( strQuery, userList );
 }
@@ -473,21 +543,34 @@ int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
 
 int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
 {
+    QString strSQL;
+
+    strSQL.sprintf( "SELECT * FROM TB_REQ STATUS = %d", nStatus );
+    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
+    return _getReqList( strSQL, reqList );
+}
+
+int DBMgr::getReqList( int nStatus, int nOffset, int nLimit, QList<ReqRec>& reqList )
+{
     QString strQuery;
 
-    strQuery.sprintf( "SELECT * FROM TB_REQ STATUS = %d", nStatus );
+    strQuery = QString( "SELECT * FROM TB_REQ" );
+    if( nStatus >= 0 ) strQuery += QString( " WHERE STATUS = %1" ).arg( nStatus );
+
+    strQuery += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getReqList( strQuery, reqList );
 }
 
-int DBMgr::getReqList( int nOffset, int nLimit, int nStatus, QList<ReqRec>& reqList )
+int DBMgr::getReqList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<ReqRec>& reqList )
 {
     QString strQuery;
 
-    strQuery = QString( "SELECT * FROM TB_REQ STATUS = %1 LIMIT %2 OFFSET %3" )
-            .arg( nStatus )
-            .arg( nLimit )
-            .arg( nOffset );
+    strQuery = QString( "SELECT * FROM TB_REQ WHERE %1 LIKE '%%2%'" ).arg( strTarget ).arg( strWord );
+    if( nStatus >= 0 ) strQuery += QString( " AND STATUS = %1" ).arg( nStatus );
+
+    strQuery += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getReqList( strQuery, reqList );
 }
@@ -651,6 +734,18 @@ int DBMgr::getCRLList( int nIssuerNum, int nOffset, int nLimit, QList<CRLRec>& c
 {
     QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 LIMIT %2 OFFSET %3" )
             .arg( nIssuerNum )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getCRLList( strSQL, crlList );
+}
+
+int DBMgr::getCRLList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CRLRec>& crlList )
+{
+    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' LIMIT %4 OFFSET %5" )
+            .arg( nIssuerNum )
+            .arg( strTarget )
+            .arg( strWord )
             .arg( nLimit )
             .arg( nOffset );
 

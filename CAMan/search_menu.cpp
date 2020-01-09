@@ -1,5 +1,6 @@
 #include <QGridLayout>
 
+#include "commons.h"
 #include "man_tree_item.h"
 #include "search_menu.h"
 #include "mainwindow.h"
@@ -29,7 +30,8 @@ SearchMenu::SearchMenu(QWidget *parent) : QWidget(parent)
     cur_page_ = 0;
     total_count_ = 0;
     list_count_ = 0;
-    cur_offset_ = 0;
+    left_type_ = -1;
+    left_num_ = -1;
 
     connect( left_end_btn_, SIGNAL(clicked()), this, SLOT(leftEndPage()));
     connect( left_btn_, SIGNAL(clicked()), this, SLOT(leftPage()));
@@ -70,10 +72,6 @@ void SearchMenu::setListCount( int nCount )
     list_count_ = nCount;
 }
 
-void SearchMenu::setCurOffset(int nOffset)
-{
-    cur_offset_ = nOffset;
-}
 
 void SearchMenu::setLeftType( int nType )
 {
@@ -88,13 +86,17 @@ void SearchMenu::setLeftNum( int nNum )
 
 void SearchMenu::updatePageLabel()
 {
-    QString label = QString( "%1-%2 of %3" ).arg(cur_offset_).arg( list_count_ ).arg( total_count_ );
+    int nOffset = cur_page_ * kListCount;
+    int nEnd = nOffset + list_count_;
+
+    QString label = QString( "%1-%2 of %3" ).arg( nOffset ).arg( nEnd ).arg( total_count_ );
     page_label_->setText( label );
 }
 
 void SearchMenu::setCondCombo()
 {
     cond_combo_->clear();
+    input_text_->clear();
 
     if( left_type_ == CM_ITEM_TYPE_ROOTCA
             || left_type_ == CM_ITEM_TYPE_IMPORT_CERT
@@ -129,25 +131,40 @@ QString SearchMenu::getInputWord()
 
 void SearchMenu::leftPage()
 {
+    cur_page_ = cur_page_ - 1;
+    if( cur_page_ < 0 ) cur_page_ = 0;
 
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
 void SearchMenu::leftEndPage()
 {
-
+    cur_page_ = 0;
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
 void SearchMenu::rightPage()
 {
-
+    cur_page_ = cur_page_ + 1;
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
 void SearchMenu::rightEndPage()
 {
-
+    cur_page_ = int(total_count_ / kListCount);
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
 void SearchMenu::search()
 {
+    QString strTarget = cond_combo_->currentText();
+    QString strWord = input_text_->text();
+
+    if( strTarget == "Page" )
+    {
+        cur_page_ = strWord.toInt();
+        input_text_->clear();
+    }
+
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }

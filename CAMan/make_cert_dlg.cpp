@@ -56,7 +56,7 @@ void MakeCertDlg::initialize()
 
     req_list_.clear();
 
-    dbMgr->getReqList( req_list_ );
+    dbMgr->getReqList( -1, req_list_ );
     for( int i = 0; i < req_list_.size(); i++ )
     {
         ReqRec reqRec = req_list_.at(i);
