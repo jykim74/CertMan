@@ -1138,7 +1138,8 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
-    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
+//    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
+    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IssuerNum", "SubjectDN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1182,18 +1183,25 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     for( int i=0; i < certList.size(); i++ )
     {
+        int pos = 0;
         CertRec cert = certList.at(i);
 
+        QString strDNInfo;
+        if( cert.isSelf() ) strDNInfo += "[Self]";
+        if( cert.isCA() ) strDNInfo += "[CA]";
+        strDNInfo += QString( "[%1] " ).arg( cert.getStatus() );
+        strDNInfo += cert.getSubjectDN();
+
         right_table_->insertRow(i);
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
-        right_table_->setItem( i, 2, new QTableWidgetItem( cert.getSignAlg() ));
-        right_table_->setItem( i, 3, new QTableWidgetItem( cert.getCert() ));
-        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( cert.isSelf())));
-        right_table_->setItem( i, 5, new QTableWidgetItem( QString("%1").arg( cert.isCA() )));
-        right_table_->setItem( i, 6, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
-        right_table_->setItem( i, 7, new QTableWidgetItem( cert.getSubjectDN() ));
-        right_table_->setItem( i, 8, new QTableWidgetItem( QString("%1").arg( cert.getStatus() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getCert() ));
+//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.isSelf())));
+//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.isCA() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
+//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getStatus() )));
     }
 }
 
