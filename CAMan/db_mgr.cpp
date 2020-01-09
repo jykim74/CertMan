@@ -185,7 +185,7 @@ int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWor
 {
     int nCount = -1;
 
-    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE %%%3%%" )
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%'" )
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord );
@@ -242,7 +242,7 @@ int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
 
 int DBMgr::getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList )
 {
-    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE %%%3%%")
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE '%%3%'")
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord );
@@ -285,7 +285,7 @@ int DBMgr::getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>&
 int DBMgr::getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList )
 {
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE %%%3%% LIMIT %4 OFFSET %5" )
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' LIMIT %4 OFFSET %5" )
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord )
