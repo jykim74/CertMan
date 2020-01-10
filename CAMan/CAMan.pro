@@ -57,6 +57,8 @@ SOURCES += \
         man_tree_model.cpp \
         man_tree_view.cpp \
         new_key_dlg.cpp \
+        new_passwd_dlg.cpp \
+        passwd_dlg.cpp \
         policy_ext_rec.cpp \
         pub_ldap_dlg.cpp \
         req_rec.cpp \
@@ -101,6 +103,8 @@ HEADERS += \
         man_tree_model.h \
         man_tree_view.h \
         new_key_dlg.h \
+        new_passwd_dlg.h \
+        passwd_dlg.h \
         policy_ext_rec.h \
         pub_ldap_dlg.h \
         req_rec.h \
@@ -132,6 +136,8 @@ FORMS += \
         make_crl_policy_dlg.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
+        new_passwd_dlg.ui \
+        passwd_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \
