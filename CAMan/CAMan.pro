@@ -59,6 +59,7 @@ SOURCES += \
         new_key_dlg.cpp \
         new_passwd_dlg.cpp \
         passwd_dlg.cpp \
+        pin_dlg.cpp \
         policy_ext_rec.cpp \
         pub_ldap_dlg.cpp \
         req_rec.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
         new_key_dlg.h \
         new_passwd_dlg.h \
         passwd_dlg.h \
+        pin_dlg.h \
         policy_ext_rec.h \
         pub_ldap_dlg.h \
         req_rec.h \
@@ -138,6 +140,7 @@ FORMS += \
         new_key_dlg.ui \
         new_passwd_dlg.ui \
         passwd_dlg.ui \
+        pin_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \

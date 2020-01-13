@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_new_key_dlg.h"
+#include "js_bin.h"
 
 namespace Ui {
 class NewKeyDlg;
@@ -25,6 +26,7 @@ private slots:
 private:
     void initUI();
     void initialize();
+    int genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPub2 );
 
 };
 

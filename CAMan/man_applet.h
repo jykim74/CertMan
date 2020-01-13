@@ -45,6 +45,7 @@ public:
     CheckCertDlg* checkCertDlg() { return check_cert_dlg_; };
 
     SignerDlg* signerDlg() { return signer_dlg_; };
+    void* P11CTX() { return p11_ctx_; };
 
     void messageBox(const QString& msg, QWidget *parent=0);
     void warningBox(const QString& msg, QWidget *parent=0);
@@ -57,6 +58,9 @@ public:
 
     QString getBrand();
     void restartApp();
+
+private:
+    int loadPKCS11();
 
 signals:
 
@@ -80,6 +84,7 @@ private:
     CheckCertDlg* check_cert_dlg_;
 
     SignerDlg* signer_dlg_;
+    void*       p11_ctx_;
 
     bool in_exit_;
 };

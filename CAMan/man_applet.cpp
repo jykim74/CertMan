@@ -28,6 +28,7 @@
 #include "user_dlg.h"
 #include "signer_dlg.h"
 #include "server_status_service.h"
+#include "js_pkcs11.h"
 
 ManApplet *manApplet;
 
@@ -57,6 +58,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
         AutoUpdateService::instance()->start();
     }
 #endif
+
+    loadPKCS11();
 }
 
 ManApplet::~ManApplet()
@@ -67,6 +70,22 @@ ManApplet::~ManApplet()
     AutoUpdateService::instance()->stop();
 #endif
 
+}
+
+int ManApplet::loadPKCS11()
+{
+    bool bval = settings_mgr_->PKCS11Use();
+
+    if( bval )
+    {
+        QString strLibPath = settings_mgr_->PKCS11LibraryPath();
+        int rv = JS_PKCS11_LoadLibrary( (JP11_CTX **)&p11_ctx_, strLibPath.toStdString().c_str() );
+        if( rv == CKR_OK ) JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_ );
+    }
+    else
+    {
+        p11_ctx_ = NULL;
+    }
 }
 
 void ManApplet::start()

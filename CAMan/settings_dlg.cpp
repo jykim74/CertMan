@@ -15,6 +15,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     mLangCombo->addItems(I18NHelper::getInstance()->getLanguages());
 
+    connect( mUseP11Check, SIGNAL(clicked()), this, SLOT(checkP11Use()));
+    connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
 }
 
 SettingsDlg::~SettingsDlg()
@@ -35,6 +37,10 @@ void SettingsDlg::updateSettings()
     }
 #endif
 
+    mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
+    mgr->setSlotID( mSlotIDText->text().toInt() );
+    mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
+
     bool language_changed = false;
 
     if( mLangCombo->currentIndex() != I18NHelper::getInstance()->preferredLanguage() )
@@ -45,6 +51,34 @@ void SettingsDlg::updateSettings()
 
     if( language_changed && manApplet->yesOrNoBox(tr("You have changed language. Restart to apply it?"), this, true))
         manApplet->restartApp();
+}
+
+void SettingsDlg::checkP11Use()
+{
+    bool bVal = mUseP11Check->isChecked();
+
+    bool val = mUseP11Check->isChecked();
+    mSlotIDText->setEnabled(val);
+    mLibraryP11PathText->setEnabled(val);
+    mP11FindBtn->setEnabled(val);
+}
+
+void SettingsDlg::findP11Path()
+{
+    QString strPath = "/usr/local/lib";
+
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     tr("Open cryptoki library file"),
+                                                     strPath,
+                                                     tr("SO Files (*.so);;All Files (*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    mLibraryP11PathText->setText( fileName );
 }
 
 void SettingsDlg::accept()
@@ -68,6 +102,12 @@ void SettingsDlg::showEvent(QShowEvent *event)
 
     state = mgr->saveDBPath() ? Qt::Checked : Qt::Unchecked;
     mSaveDBPathCheck->setCheckState(state);
+
+    state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
+    mUseP11Check->setCheckState( state );
+
+    checkP11Use();
+
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {

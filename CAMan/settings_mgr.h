@@ -13,6 +13,17 @@ public:
     void setSaveDBPath( bool val );
     bool saveDBPath();
 
+    void setPKCS11Use( bool val );
+    bool PKCS11Use();
+
+    void setSlotID( int nID );
+    int slotID();
+
+    void setPKCS11LibraryPath( QString strLibPath );
+    QString PKCS11LibraryPath();
+
+    void loadSettings();
+
 private:
     Q_DISABLE_COPY(SettingsMgr)
 };

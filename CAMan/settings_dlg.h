@@ -23,6 +23,9 @@ private slots:
     void closeEvent(QCloseEvent *event );
     void showEvent(QShowEvent *event);
 
+    void checkP11Use();
+    void findP11Path();
+
 private:
     Q_DISABLE_COPY(SettingsDlg)
 };
