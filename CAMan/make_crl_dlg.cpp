@@ -12,6 +12,7 @@
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
 #include "commons.h"
+#include "settings_mgr.h"
 
 static QStringList	sRevokeReasonList = {
     "unused", "keyCompromise", "CACompromise",
@@ -196,7 +197,27 @@ void MakeCRLDlg::accept()
 
     /* need to support extensions */
 
-    ret = JS_PKI_makeCRL( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
+    if( caKeyPair.getAlg() == "PKCS11_RSA" || caKeyPair.getAlg() == "PKCS11_ECC" )
+    {
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        int nSlotID = manApplet->settingsMgr()->slotID();
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
+
+        if( hSession < 0 )
+        {
+            goto end;
+        }
+
+        ret = JS_PKI_makeCRLByP11( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignCert, pP11CTX, hSession, &binCRL );
+
+        JS_PKCS11_Logout( pP11CTX, hSession );
+        JS_PKCS11_CloseSession( pP11CTX, hSession );
+    }
+    else
+    {
+        ret = JS_PKI_makeCRL( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
+    }
+
     if( ret != 0 )
     {
         manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );

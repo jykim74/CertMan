@@ -8,6 +8,7 @@
 #include "js_pki_tools.h"
 #include "js_pki_ext.h"
 #include "js_util.h"
+#include "pin_dlg.h"
 
 
 static int _setKeyUsage( BIN *pBinExt, const QString strVal )
@@ -969,4 +970,63 @@ int getExtInfoFromDB( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
     policyExtRec.setValue( strVal );
 
     return 0;
+}
+
+CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
+{
+    PinDlg pinDlg;
+    QString strPin;
+    CK_SESSION_HANDLE   hSession = -1;
+    JP11_CTX    *pCTX = (JP11_CTX *)pP11CTX;
+
+    int nFlags = 0;
+
+    CK_ULONG uSlotCnt = 0;
+    CK_SLOT_ID  sSlotList[10];
+
+    int nUserType = 0;
+
+    nFlags |= CKF_RW_SESSION;
+    nFlags |= CKF_SERIAL_SESSION;
+    nUserType = CKU_USER;
+
+
+    int ret = pinDlg.exec();
+    if( ret == QDialog::Accepted )
+    {
+        strPin = pinDlg.getPinText();
+    }
+    else
+    {
+        return -1;
+    }
+
+    ret = JS_PKCS11_GetSlotList2( pCTX, CK_TRUE, sSlotList, &uSlotCnt );
+    if( ret != CKR_OK )
+    {
+        fprintf( stderr, "fail to run getSlotList fail(%d)\n", ret );
+        return -1;
+    }
+
+    if( uSlotCnt < 1 || uSlotCnt < nSlotID )
+    {
+        fprintf( stderr, "there is no slot(%d)\n", uSlotCnt );
+        return -1;
+    }
+
+    ret = JS_PKCS11_OpenSession( pCTX, sSlotList[nSlotID], nFlags, &hSession );
+    if( ret != CKR_OK )
+    {
+        fprintf( stderr, "fail to run opensession(%s:%x)\n", JS_PKCS11_GetErrorMsg(ret), ret );
+        return -1;
+    }
+
+    ret = JS_PKCS11_Login( pCTX, hSession, nUserType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
+    if( ret != 0 )
+    {
+        fprintf( stderr, "fail to run login hsm(%d)\n", ret );
+        return -1;
+    }
+
+    return hSession;
 }

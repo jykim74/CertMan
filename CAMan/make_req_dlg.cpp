@@ -7,6 +7,8 @@
 #include "db_mgr.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "settings_mgr.h"
+#include "commons.h"
 
 static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
 
@@ -79,19 +81,58 @@ void MakeReqDlg::accept()
 
     int keyIdx = mKeyNameCombo->currentIndex();
     keyRec = key_list_.at( keyIdx );
+    QString strAlg = mAlgorithmText->text();
+    QString strHash = mHashCombo->currentText();
 
-    if( mAlgorithmText->text() == "RSA" )
-        nAlg = JS_PKI_KEY_TYPE_RSA;
-    else {
-        nAlg = JS_PKI_KEY_TYPE_RSA;
+    if( strAlg == "PKCS11_RSA" || strAlg == "PKCS11_ECC" )
+    {
+        JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        int nSlotID = manApplet->settingsMgr()->slotID();
+        BIN binPubKey = {0,0};
+
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
+        if( hSession < 0 )
+        {
+            goto end;
+        }
+
+        if( strAlg == "PKCS11_RSA" )
+            nAlg = JS_PKI_KEY_TYPE_RSA;
+        else
+            nAlg = JS_PKI_KEY_TYPE_ECC;
+
+        JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
+
+        ret = JS_PKI_makeCSRByP11( nAlg,
+                                   strHash.toStdString().c_str(),
+                                   strDN.toStdString().c_str(),
+                                   &binPubKey,
+                                   NULL,
+                                   pP11CTX,
+                                   hSession,
+                                   &binCSR );
+
+        JS_BIN_reset( &binPubKey );
+
+        JS_PKCS11_Logout( pP11CTX, hSession );
+        JS_PKCS11_CloseSession( pP11CTX, hSession );
     }
+    else
+    {
+        if( mAlgorithmText->text() == "RSA" )
+            nAlg = JS_PKI_KEY_TYPE_RSA;
+        else {
+            nAlg = JS_PKI_KEY_TYPE_ECC;
+        }
 
-    JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
-    ret = JS_PKI_makeCSR( nAlg, mHashCombo->currentText().toStdString().c_str(),
-                    strDN.toStdString().c_str(),
-                    &binPri,
-                    NULL,
-                    &binCSR );
+
+        JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
+        ret = JS_PKI_makeCSR( nAlg, mHashCombo->currentText().toStdString().c_str(),
+                        strDN.toStdString().c_str(),
+                        &binPri,
+                        NULL,
+                        &binCSR );
+    }
 
 
     if( ret != 0 )
