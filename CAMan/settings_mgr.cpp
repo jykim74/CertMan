@@ -12,12 +12,15 @@ namespace  {
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
 {
-
+    loadSettings();
 }
 
 void SettingsMgr::loadSettings()
 {
+    QSettings settings;
 
+    settings.beginGroup(kBehaviorGroup);
+    settings.endGroup();
 }
 
 void SettingsMgr::setSaveDBPath( bool val )

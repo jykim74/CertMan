@@ -20,8 +20,7 @@ private slots:
     void updateSettings();
     virtual void accept();
 
-    void closeEvent(QCloseEvent *event );
-    void showEvent(QShowEvent *event);
+    void initialize();
 
     void checkP11Use();
     void findP11Path();

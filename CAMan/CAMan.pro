@@ -159,6 +159,7 @@ RESOURCES += \
 TRANSLATIONS += i18n/caman_ko_KR.ts
 
 DEFINES += _AUTO_UPDATE
+# DEFINES += _PRO
 
 INCLUDEPATH += "../../PKILib"
 

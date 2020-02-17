@@ -37,7 +37,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     main_win_ = new MainWindow;
     tray_icon_ = new ManTrayIcon;
 
-    settings_dlg_ = new SettingsDlg;
     settings_mgr_ = new SettingsMgr;
     about_dlg_ = new AboutDlg;
     import_dlg_ = new ImportDlg;

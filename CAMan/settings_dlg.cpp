@@ -17,6 +17,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     connect( mUseP11Check, SIGNAL(clicked()), this, SLOT(checkP11Use()));
     connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
+
+    initialize();
 }
 
 SettingsDlg::~SettingsDlg()
@@ -87,14 +89,7 @@ void SettingsDlg::accept()
     QDialog::accept();
 }
 
-
-void SettingsDlg::closeEvent(QCloseEvent *event)
-{
-    event->ignore();
-    hide();
-}
-
-void SettingsDlg::showEvent(QShowEvent *event)
+void SettingsDlg::initialize()
 {
     SettingsMgr *mgr = manApplet->settingsMgr();
 
@@ -108,6 +103,9 @@ void SettingsDlg::showEvent(QShowEvent *event)
 
     checkP11Use();
 
+    QString strSlotID = QString( "%1" ).arg( mgr->slotID() );
+    mSlotIDText->setText( strSlotID );
+    mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {
@@ -117,6 +115,4 @@ void SettingsDlg::showEvent(QShowEvent *event)
 #endif
 
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
-
-    QDialog::showEvent(event);
 }

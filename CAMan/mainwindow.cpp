@@ -148,11 +148,13 @@ void MainWindow::createActions()
     QAction *makeReqAct = toolsMenu->addAction(tr("&MakeRequest"), this, &MainWindow::makeRequest);
     makeReqAct->setStatusTip(tr( "Make Request"));
 
+#ifdef _PRO
     QAction *regUserAct = toolsMenu->addAction(tr("&RegisterUser"), this, &MainWindow::registerUser );
     regUserAct->setStatusTip(tr("Register User"));
 
     QAction *regSignerAct = toolsMenu->addAction(tr("&RegisterSigner"), this, &MainWindow::registerSigner);
     regSignerAct->setStatusTip(tr("Register Signer"));
+#endif
 
     QAction *makeCertPolicyAct = toolsMenu->addAction(tr("&MakeCertPolicy"), this, &MainWindow::makeCertPolicy);
     makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
@@ -187,8 +189,10 @@ void MainWindow::createActions()
     QAction *aboutAct = helpMenu->addAction(tr("About"), this, &MainWindow::about );
     aboutAct->setStatusTip(tr("About CAMan"));
 
+#ifdef _PRO
     QAction *srvStatusAct = helpMenu->addAction(tr("ServerStatus"), this, &MainWindow::serverStatus );
     srvStatusAct->setStatusTip(tr("Server Status Information"));
+#endif
 
     QAction *settingsAct = helpMenu->addAction(tr("Settings"), this, &MainWindow::settings );
     settingsAct->setStatusTip(tr("Settings CAMan"));
@@ -297,6 +301,7 @@ void MainWindow::createTreeMenu()
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
+#ifdef _PRO
     ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
     pUserItem->setIcon(QIcon(":/images/user.jpg"));
     pUserItem->setType( CM_ITEM_TYPE_USER );
@@ -311,6 +316,7 @@ void MainWindow::createTreeMenu()
     pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
     pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
     pTopItem->appendRow( pOCSPSignerItem );
+#endif
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
     pCertPolicyItem->setIcon(QIcon(":/images/policy.png"));
@@ -441,35 +447,16 @@ void MainWindow::newKey()
 {
     NewKeyDlg newKeyDlg;
     newKeyDlg.exec();
-    /*
-    manApplet->newKeyDlg()->show();
-    manApplet->newKeyDlg()->raise();
-    manApplet->newKeyDlg()->activateWindow();
-    */
 }
 
 void MainWindow::makeRequest()
 {
-    /*
-    manApplet->makeReqDlg()->show();
-    manApplet->makeReqDlg()->raise();
-    manApplet->makeReqDlg()->activateWindow();
-    */
     MakeReqDlg makeReqDlg;
     makeReqDlg.exec();
 }
 
 void MainWindow::makeCertPolicy()
 {
-    /*
-    manApplet->makeCertPolicyDlg()->setEdit(false);
-    manApplet->makeCertPolicyDlg()->setPolicyNum(-1);
-
-    manApplet->makeCertPolicyDlg()->show();
-    manApplet->makeCertPolicyDlg()->raise();
-    manApplet->makeCertPolicyDlg()->activateWindow();
-    */
-
     MakeCertPolicyDlg makeCertPolicyDlg;
     makeCertPolicyDlg.setEdit(false);
     makeCertPolicyDlg.setPolicyNum(-1);
@@ -499,15 +486,6 @@ void MainWindow::editCertPolicy()
     makeCertPolicyDlg.setPolicyNum(num);
 
     makeCertPolicyDlg.exec();
-
-    /*
-    manApplet->makeCertPolicyDlg()->setEdit(true);
-    manApplet->makeCertPolicyDlg()->setPolicyNum( num );
-
-    manApplet->makeCertPolicyDlg()->show();
-    manApplet->makeCertPolicyDlg()->raise();
-    manApplet->makeCertPolicyDlg()->activateWindow();
-    */
 }
 
 void MainWindow::editCRLPolicy()
@@ -665,9 +643,8 @@ void MainWindow::about()
 
 void MainWindow::settings()
 {
-    manApplet->settingsDlg()->show();
-    manApplet->settingsDlg()->raise();
-    manApplet->settingsDlg()->activateWindow();
+    SettingsDlg settingsDlg;
+    settingsDlg.exec();
 }
 
 void MainWindow::serverStatus()

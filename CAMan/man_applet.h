@@ -7,7 +7,6 @@
 class MainWindow;
 class ManTrayIcon;
 class SettingsMgr;
-class SettingsDlg;
 
 class AboutDlg;
 class ImportDlg;
@@ -40,7 +39,6 @@ public:
     MakeCRLPolicyDlg* makeCRLPolicyDlg() { return make_crl_policy_dlg_; };
 
     RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
-    SettingsDlg* settingsDlg() { return settings_dlg_; };
     CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
     CheckCertDlg* checkCertDlg() { return check_cert_dlg_; };
 
@@ -79,7 +77,6 @@ private:
     MakeCRLPolicyDlg* make_crl_policy_dlg_;
 
     RevokeCertDlg* revoke_cert_dlg_;
-    SettingsDlg* settings_dlg_;
     CRLInfoDlg* crl_info_dlg_;
     CheckCertDlg* check_cert_dlg_;
 

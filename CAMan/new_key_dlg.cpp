@@ -28,6 +28,7 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     setupUi(this);
     initUI();
     connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
+    initialize();
 }
 
 NewKeyDlg::~NewKeyDlg()
@@ -35,9 +36,9 @@ NewKeyDlg::~NewKeyDlg()
 
 }
 
-void NewKeyDlg::showEvent(QShowEvent *event)
+void NewKeyDlg::initialize()
 {
-    initialize();
+
 }
 
 void NewKeyDlg::initUI()
@@ -54,10 +55,6 @@ void NewKeyDlg::initUI()
     mExponentText->setText( QString( "65537" ) );
 }
 
-void NewKeyDlg::initialize()
-{
-
-}
 
 void NewKeyDlg::accept()
 {
@@ -101,7 +98,7 @@ void NewKeyDlg::accept()
         if( ret == QDialog::Accepted )
         {
             strPin = pinDlg.getPinText();
-            ret = genKeyPairWithP11( strPin, &binPub, &binPub2, &binPri );
+            ret = genKeyPairWithP11( strPin, &binPri, &binPub, &binPub2 );
         }
         else
         {
@@ -168,6 +165,9 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
 
     pP11CTX = (JP11_CTX *)manApplet->P11CTX();
     int nSlotID = manApplet->settingsMgr()->slotID();
+
+    CK_ULONG uSlotCnt = 0;
+    CK_SLOT_ID  sSlotList[10];
 
     CK_LONG nFlags = CKF_SERIAL_SESSION | CKF_RW_SESSION;
     CK_SESSION_HANDLE uSession = -1;
@@ -349,7 +349,13 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
     sPriTemplate[uPriCount].ulValueLen = sizeof( bTrue );
     uPriCount++;
 
-    rv = JS_PKCS11_OpenSession( pP11CTX, nSlotID, nFlags, (CK_SESSION_HANDLE_PTR)&uSession );
+    rv = JS_PKCS11_GetSlotList2( pP11CTX, CK_TRUE, sSlotList, &uSlotCnt );
+    if( rv != 0 ) goto end;
+
+    if( uSlotCnt < nSlotID )
+        goto end;
+
+    rv = JS_PKCS11_OpenSession( pP11CTX, sSlotList[nSlotID], nFlags, (CK_SESSION_HANDLE_PTR)&uSession );
     if( rv != 0 ) goto end;
 
 

@@ -18,7 +18,6 @@ public:
     ~NewKeyDlg();
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
     void mechChanged(int index);
 
