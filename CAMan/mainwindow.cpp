@@ -1000,12 +1000,12 @@ void MainWindow::createRightRequestList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Seq", "KeyNum", "Name", "DN", "CSR", "Hash", "Status" };
+    QStringList headerList = { "Seq", "KeyNum", "Name", "Hash", "Status", "DN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(7);
+    right_table_->setColumnCount(6);
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
@@ -1035,10 +1035,9 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( reqRec.getKeyNum() ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( reqRec.getName() ));
-        right_table_->setItem( i, 3, new QTableWidgetItem( reqRec.getDN() ));
-        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getCSR() ));
-        right_table_->setItem( i, 5, new QTableWidgetItem( reqRec.getHash() ));
-        right_table_->setItem( i, 6, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( reqRec.getHash() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
+        right_table_->setItem( i, 5, new QTableWidgetItem( reqRec.getDN() ));
     }
 }
 

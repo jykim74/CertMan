@@ -19,16 +19,13 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     initUI();
 
     connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
+
+    initialize();
 }
 
 MakeReqDlg::~MakeReqDlg()
 {
 
-}
-
-void MakeReqDlg::showEvent(QShowEvent *event)
-{
-    initialize();
 }
 
 void MakeReqDlg::initialize()

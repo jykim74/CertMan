@@ -37,7 +37,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
 
-//    initialize();
+    initialize();
 }
 
 MakeCertDlg::~MakeCertDlg()
@@ -45,10 +45,6 @@ MakeCertDlg::~MakeCertDlg()
 
 }
 
-void MakeCertDlg::showEvent(QShowEvent *event)
-{
-    initialize();
-}
 
 void MakeCertDlg::initialize()
 {

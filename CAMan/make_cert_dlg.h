@@ -24,7 +24,6 @@ public:
     ~MakeCertDlg();
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
     void reqChanged( int index );
     void issuerChanged( int index );

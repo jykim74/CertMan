@@ -545,7 +545,7 @@ int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
 {
     QString strSQL;
 
-    strSQL.sprintf( "SELECT * FROM TB_REQ STATUS = %d", nStatus );
+    strSQL.sprintf( "SELECT * FROM TB_REQ" );
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
 
     return _getReqList( strSQL, reqList );

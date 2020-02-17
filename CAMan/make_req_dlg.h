@@ -20,7 +20,6 @@ public:
     ~MakeReqDlg();
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
     void keyNameChanged(int index);
 
