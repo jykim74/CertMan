@@ -10,7 +10,7 @@
 #include "pin_dlg.h"
 #include "js_pkcs11.h"
 
-static QStringList sMechList = { "RSA", "ECC" };
+static QStringList sMechList = { "RSA", "EC" };
 static QStringList sRSAOptionList = { "1024", "2048", "3072", "4096" };
 static QStringList sECCOptionList = {
     "secp112r1", "secp112r2", "secp128r1", "secp128r2", "secp160k1",
