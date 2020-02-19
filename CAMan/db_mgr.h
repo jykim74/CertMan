@@ -100,6 +100,7 @@ public:
     int addUserRec( UserRec& userRec );
     int addSignerRec( SignerRec& signerRec );
 
+    int modKeyPairStatus( int nNum, int nStatus );
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
     int modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec );

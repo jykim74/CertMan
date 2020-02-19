@@ -252,6 +252,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
+        menu.addAction(tr("Make Request"), this, &MainWindow::makeRequest );
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {

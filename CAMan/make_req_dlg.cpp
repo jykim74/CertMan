@@ -148,6 +148,7 @@ void MakeReqDlg::accept()
     reqRec.setStatus(0);
 
     dbMgr->addReqRec( reqRec );
+    dbMgr->modKeyPairStatus( keyRec.getNum(), 1 );
 
 end :
     JS_BIN_reset( &binPri );

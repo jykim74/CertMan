@@ -998,6 +998,17 @@ int DBMgr::addCertRec( CertRec& certRec )
     sqlQuery.exec();
     return 0;
 }
+int DBMgr::modKeyPairStatus( int nNum, int nStatus )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_KEY_PAIR SET STATUS = ? WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( 0, nStatus );
+    sqlQuery.bindValue( 1, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
 
 int DBMgr::modReqStatus( int nSeq, int nStatus )
 {
