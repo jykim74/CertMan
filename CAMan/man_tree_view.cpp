@@ -1,5 +1,6 @@
 #include <QMenu>
 
+
 #include "man_tree_view.h"
 #include "man_tree_item.h"
 #include "man_tree_model.h"

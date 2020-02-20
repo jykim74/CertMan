@@ -4,10 +4,15 @@ ManTreeItem::ManTreeItem()
 {
     type_ = -1;
     data_num_ = -1;
+    setEditable(false);
 }
 
 ManTreeItem::ManTreeItem(const QString name )
 {
+    type_ = -1;
+    data_num_ = -1;
+
+    setEditable(false);
     this->setText(name);
 }
 

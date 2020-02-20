@@ -284,6 +284,7 @@ void MainWindow::showRightMenu(QPoint point)
 
 void MainWindow::createTreeMenu()
 {
+    left_model_->clear();
     left_tree_->header()->setVisible(false);
 
     ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
