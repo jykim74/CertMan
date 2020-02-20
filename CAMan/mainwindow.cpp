@@ -544,6 +544,8 @@ void MainWindow::makeCRL()
 void MainWindow::revokeCertificate()
 {
     int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
@@ -869,25 +871,30 @@ void MainWindow::expandItem( ManTreeItem *item )
         ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
         pCAItem->setType( CM_ITEM_TYPE_CA );
         pCAItem->setDataNum( certRec.getNum() );
+        pCAItem->setIcon( QIcon(":/images/ca.png"));
         item->appendRow( pCAItem );
 
         ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
         pCertItem->setType( CM_ITEM_TYPE_CERT );
         pCertItem->setDataNum( certRec.getNum() );
+        pCertItem->setIcon(QIcon(":/images/cert.png"));
         pCAItem->appendRow( pCertItem );
 
         ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
         pCRLItem->setType( CM_ITEM_TYPE_CRL );
         pCRLItem->setDataNum( certRec.getNum() );
+        pCRLItem->setIcon(QIcon(":/images/crl.png"));
         pCAItem->appendRow( pCRLItem );
 
         ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
         pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
         pRevokeItem->setDataNum( certRec.getNum() );
+        pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
         pCAItem->appendRow( pRevokeItem );
 
         ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
         pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
+        pSubCAItem->setIcon(QIcon(":/images/ca.png"));
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
     }

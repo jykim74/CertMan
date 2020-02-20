@@ -29,5 +29,8 @@
         <file>ca_db.sql</file>
         <file>ca.db</file>
         <file>images/caman.png</file>
+        <file>images/ca.png</file>
+        <file>images/crl.png</file>
+        <file>images/revoke.png</file>
     </qresource>
 </RCC>
