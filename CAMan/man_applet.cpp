@@ -41,7 +41,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     about_dlg_ = new AboutDlg;
     import_dlg_ = new ImportDlg;
 
-    make_crl_dlg_ = new MakeCRLDlg;
     make_crl_policy_dlg_ = new MakeCRLPolicyDlg;
 
     revoke_cert_dlg_ = new RevokeCertDlg;

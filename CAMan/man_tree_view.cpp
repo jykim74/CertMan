@@ -55,6 +55,11 @@ void ManTreeView::showContextMenu(QPoint point)
         if( item->hasChildren() == false )
             menu.addAction(tr("Expand Menu"), manApplet->mainWindow(), &MainWindow::expandMenu );
     }
+    else if( item->getType() == CM_ITEM_TYPE_CA )
+    {
+        menu.addAction(tr("Make Certificate"), manApplet->mainWindow(), &MainWindow::makeCertificate );
+        menu.addAction(tr("Make CRL"), manApplet->mainWindow(), &MainWindow::makeCRL );
+    }
     else if( item->getType() == CM_ITEM_TYPE_USER )
     {
         menu.addAction(tr("Register User"), manApplet->mainWindow(), &MainWindow::registerUser );

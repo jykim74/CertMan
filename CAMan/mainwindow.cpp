@@ -72,6 +72,15 @@ MainWindow::~MainWindow()
     delete right_table_;
 }
 
+ManTreeItem* MainWindow::currentItem()
+{
+    ManTreeItem *item = NULL;
+    QModelIndex index = left_tree_->currentIndex();
+
+    item = (ManTreeItem *)left_model_->itemFromIndex( index );
+
+    return item;
+}
 
 void MainWindow::initialize()
 {
@@ -507,15 +516,33 @@ void MainWindow::editCRLPolicy()
 
 void MainWindow::makeCertificate()
 {
+    ManTreeItem *pItem = currentItem();
+
     MakeCertDlg makeCertDlg;
+
+    if( pItem )
+    {
+        if( pItem->getType() == CM_ITEM_TYPE_CA )
+        {
+            makeCertDlg.setFixIssuer( pItem->text() );
+        }
+    }
+
     makeCertDlg.exec();
 }
 
 void MainWindow::makeCRL()
 {
-    manApplet->makeCRLDlg()->show();
-    manApplet->makeCRLDlg()->raise();
-    manApplet->makeCRLDlg()->activateWindow();
+    ManTreeItem *pItem = currentItem();
+    MakeCRLDlg makeCRLDlg;
+
+    if( pItem )
+    {
+        if( pItem->getType() == CM_ITEM_TYPE_CA )
+            makeCRLDlg.setFixIssuer( pItem->text() );
+    }
+
+    makeCRLDlg.exec();
 }
 
 void MainWindow::revokeCertificate()

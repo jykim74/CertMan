@@ -18,9 +18,9 @@ class MakeCRLDlg : public QDialog, public Ui::MakeCRLDlg
 public:
     explicit MakeCRLDlg(QWidget *parent = nullptr);
     ~MakeCRLDlg();
+    void setFixIssuer( QString strIssuerName );
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
     void issuerChanged(int index);
     void clickRevokeAdd();

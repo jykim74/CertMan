@@ -22,6 +22,7 @@ class MakeCertDlg : public QDialog, public Ui::MakeCertDlg
 public:
     explicit MakeCertDlg(QWidget *parent = nullptr);
     ~MakeCertDlg();
+    void setFixIssuer( QString strIssuerName );
 
 private slots:
     virtual void accept();

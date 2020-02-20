@@ -11,7 +11,6 @@ class SettingsMgr;
 class AboutDlg;
 class ImportDlg;
 
-class MakeCRLDlg;
 class MakeCRLPolicyDlg;
 
 class RevokeCertDlg;
@@ -35,7 +34,6 @@ public:
     AboutDlg* aboutDlg() { return  about_dlg_; };
     ImportDlg* importDlg() { return import_dlg_; };
 
-    MakeCRLDlg* makeCRLDlg() { return make_crl_dlg_; };
     MakeCRLPolicyDlg* makeCRLPolicyDlg() { return make_crl_policy_dlg_; };
 
     RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
@@ -73,7 +71,6 @@ private:
     AboutDlg* about_dlg_;
     ImportDlg* import_dlg_;
 
-    MakeCRLDlg* make_crl_dlg_;
     MakeCRLPolicyDlg* make_crl_policy_dlg_;
 
     RevokeCertDlg* revoke_cert_dlg_;

@@ -34,6 +34,8 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     mRevokeTable->setColumnCount(3);
     mRevokeTable->horizontalHeader()->setStretchLastSection(true);
     mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
+
+    initialize();
 }
 
 MakeCRLDlg::~MakeCRLDlg()
@@ -41,9 +43,12 @@ MakeCRLDlg::~MakeCRLDlg()
 
 }
 
-void MakeCRLDlg::showEvent(QShowEvent *event)
+void MakeCRLDlg::setFixIssuer(QString strIssuerName)
 {
-    initialize();
+    mIssuerNameCombo->setCurrentText( strIssuerName );
+    mIssuerNameCombo->setDisabled(true);
+    mAlgorithmText->setDisabled(true);
+    mOptionText->setDisabled(true);
 }
 
 void MakeCRLDlg::accept()

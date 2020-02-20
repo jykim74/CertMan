@@ -53,7 +53,7 @@ void MakeCertDlg::initialize()
 
     req_list_.clear();
 
-    dbMgr->getReqList( -1, req_list_ );
+    dbMgr->getReqList( 0, req_list_ );
     for( int i = 0; i < req_list_.size(); i++ )
     {
         ReqRec reqRec = req_list_.at(i);
@@ -77,6 +77,15 @@ void MakeCertDlg::initialize()
         CertPolicyRec certPolicyRec = cert_policy_list_.at(i);
         mPolicyNameCombo->addItem( certPolicyRec.getName() );
     }
+}
+
+void MakeCertDlg::setFixIssuer(QString strIssuerName)
+{
+    mIssuerNameCombo->setCurrentText( strIssuerName );
+    mIssuerNameCombo->setDisabled(true);
+    mIssuerAlgorithmText->setDisabled(true);
+    mIssuerOptionText->setDisabled(true);
+    mSelfSignCheck->setDisabled(true);
 }
 
 void MakeCertDlg::accept()
