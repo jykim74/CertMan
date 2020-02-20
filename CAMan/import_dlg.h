@@ -19,7 +19,6 @@ public:
     ~ImportDlg();
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
 
     void clickFind();

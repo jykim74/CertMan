@@ -21,7 +21,6 @@ public:
     void setCertNum( int cert_num );
 
 private slots:
-    void showEvent(QShowEvent *event);
     void clickClose();
     void clickView();
     void clickCheck();

@@ -39,15 +39,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 
     settings_mgr_ = new SettingsMgr;
     about_dlg_ = new AboutDlg;
-    import_dlg_ = new ImportDlg;
-
-    make_crl_policy_dlg_ = new MakeCRLPolicyDlg;
-
-    revoke_cert_dlg_ = new RevokeCertDlg;
-
-    crl_info_dlg_ = new CRLInfoDlg;
-    check_cert_dlg_ = new CheckCertDlg;
-    signer_dlg_ = new SignerDlg;
 
     in_exit_ = false;
 

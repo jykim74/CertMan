@@ -17,7 +17,6 @@ public:
     ~SignerDlg();
 
 private slots:
-    void showEvent(QShowEvent *event);
     void findCert();
     virtual void accept();
 

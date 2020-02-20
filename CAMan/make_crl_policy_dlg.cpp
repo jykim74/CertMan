@@ -23,6 +23,8 @@ MakeCRLPolicyDlg::MakeCRLPolicyDlg(QWidget *parent) :
 
     is_edit_ = false;
     policy_num_ = -1;
+
+    initialize();
 }
 
 MakeCRLPolicyDlg::~MakeCRLPolicyDlg()
@@ -40,10 +42,6 @@ void MakeCRLPolicyDlg::setPolicyNum(int policy_num)
     policy_num_ = policy_num;
 }
 
-void MakeCRLPolicyDlg::showEvent(QShowEvent *event)
-{
-    initialize();
-}
 
 void MakeCRLPolicyDlg::initialize()
 {

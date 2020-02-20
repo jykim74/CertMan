@@ -22,7 +22,6 @@ public:
     int getCRLNum() { return crl_num_; };
 
 private slots:
-    void showEvent(QShowEvent *event);
     void clickClose();
     void clickCRLField( QModelIndex index );
     void clickRevokeField( QModelIndex index );

@@ -16,16 +16,12 @@ SignerDlg::SignerDlg(QWidget *parent) :
 {
     setupUi(this);
     initUI();
+    initialize();
 }
 
 SignerDlg::~SignerDlg()
 {
 
-}
-
-void SignerDlg::showEvent(QShowEvent *event)
-{
-    initialize();
 }
 
 void SignerDlg::findCert()

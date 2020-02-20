@@ -17,17 +17,12 @@ ImportDlg::ImportDlg(QWidget *parent) :
 {
     setupUi(this);
     initUI();
+    initialize();
 }
 
 ImportDlg::~ImportDlg()
 {
 
-}
-
-
-void ImportDlg::showEvent(QShowEvent *event)
-{
-    initialize();
 }
 
 void ImportDlg::accept()

@@ -16,6 +16,7 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     revoke_info_list_ = NULL;
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
+    initialize();
 }
 
 CRLInfoDlg::~CRLInfoDlg()
@@ -26,11 +27,6 @@ CRLInfoDlg::~CRLInfoDlg()
 void CRLInfoDlg::setCRLNum(int crl_num)
 {
     crl_num_ = crl_num;
-}
-
-void CRLInfoDlg::showEvent(QShowEvent *event)
-{
-    initialize();
 }
 
 void CRLInfoDlg::clickClose()

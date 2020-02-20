@@ -7,17 +7,8 @@
 class MainWindow;
 class ManTrayIcon;
 class SettingsMgr;
-
 class AboutDlg;
-class ImportDlg;
 
-class MakeCRLPolicyDlg;
-
-class RevokeCertDlg;
-class CRLInfoDlg;
-class CheckCertDlg;
-
-class SignerDlg;
 
 class ManApplet : public QObject
 {
@@ -32,15 +23,7 @@ public:
     ManTrayIcon* trayIcon() { return tray_icon_; };
     SettingsMgr* settingsMgr() { return settings_mgr_; };
     AboutDlg* aboutDlg() { return  about_dlg_; };
-    ImportDlg* importDlg() { return import_dlg_; };
 
-    MakeCRLPolicyDlg* makeCRLPolicyDlg() { return make_crl_policy_dlg_; };
-
-    RevokeCertDlg* revokeCertDlg() { return revoke_cert_dlg_; };
-    CRLInfoDlg* crlInfoDlg() { return crl_info_dlg_; };
-    CheckCertDlg* checkCertDlg() { return check_cert_dlg_; };
-
-    SignerDlg* signerDlg() { return signer_dlg_; };
     void* P11CTX() { return p11_ctx_; };
 
     void messageBox(const QString& msg, QWidget *parent=0);
@@ -69,15 +52,7 @@ private:
     ManTrayIcon* tray_icon_;
     SettingsMgr* settings_mgr_;
     AboutDlg* about_dlg_;
-    ImportDlg* import_dlg_;
 
-    MakeCRLPolicyDlg* make_crl_policy_dlg_;
-
-    RevokeCertDlg* revoke_cert_dlg_;
-    CRLInfoDlg* crl_info_dlg_;
-    CheckCertDlg* check_cert_dlg_;
-
-    SignerDlg* signer_dlg_;
     void*       p11_ctx_;
 
     bool in_exit_;

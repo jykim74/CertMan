@@ -14,6 +14,7 @@ RevokeCertDlg::RevokeCertDlg(QWidget *parent) :
     setupUi(this);
 
     initUI();
+    initialize();
 }
 
 RevokeCertDlg::~RevokeCertDlg()
@@ -26,10 +27,6 @@ void RevokeCertDlg::setCertNum(int cert_num)
     cert_num_ = cert_num;
 }
 
-void RevokeCertDlg::showEvent(QShowEvent *event)
-{
-    initialize();
-}
 
 void RevokeCertDlg::initialize()
 {

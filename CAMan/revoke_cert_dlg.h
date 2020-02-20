@@ -18,7 +18,6 @@ public:
     void setCertNum( int cert_num );
 
 private slots:
-    void showEvent(QShowEvent *event);
     virtual void accept();
 
 private:

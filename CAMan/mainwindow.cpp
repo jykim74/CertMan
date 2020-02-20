@@ -477,12 +477,10 @@ void MainWindow::makeCertPolicy()
 
 void MainWindow::makeCRLPolicy()
 {
-    manApplet->makeCRLPolicyDlg()->setEdit(false);
-    manApplet->makeCRLPolicyDlg()->setPolicyNum(-1);
-
-    manApplet->makeCRLPolicyDlg()->show();
-    manApplet->makeCRLPolicyDlg()->raise();
-    manApplet->makeCRLPolicyDlg()->activateWindow();
+    MakeCRLPolicyDlg makeCRLPolicyDlg;
+    makeCRLPolicyDlg.setEdit(false);
+    makeCRLPolicyDlg.setPolicyNum(-1);
+    makeCRLPolicyDlg.exec();
 }
 
 void MainWindow::editCertPolicy()
@@ -506,12 +504,10 @@ void MainWindow::editCRLPolicy()
 
     int num = item->text().toInt();
 
-    manApplet->makeCRLPolicyDlg()->setEdit(true);
-    manApplet->makeCRLPolicyDlg()->setPolicyNum(num);
-
-    manApplet->makeCRLPolicyDlg()->show();
-    manApplet->makeCRLPolicyDlg()->raise();
-    manApplet->makeCRLPolicyDlg()->activateWindow();
+    MakeCRLPolicyDlg makeCRLPolicyDlg;
+    makeCRLPolicyDlg.setEdit(true);
+    makeCRLPolicyDlg.setPolicyNum(num);
+    makeCRLPolicyDlg.exec();
 }
 
 void MainWindow::makeCertificate()
@@ -551,10 +547,9 @@ void MainWindow::revokeCertificate()
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
-    manApplet->revokeCertDlg()->setCertNum( num );
-    manApplet->revokeCertDlg()->show();
-    manApplet->revokeCertDlg()->raise();
-    manApplet->revokeCertDlg()->activateWindow();
+    RevokeCertDlg revokeCertDlg;
+    revokeCertDlg.setCertNum(num);
+    revokeCertDlg.exec();
 }
 
 void MainWindow::registerUser()
@@ -565,9 +560,8 @@ void MainWindow::registerUser()
 
 void MainWindow::registerSigner()
 {
-    manApplet->signerDlg()->show();
-    manApplet->signerDlg()->raise();
-    manApplet->signerDlg()->activateWindow();
+    SignerDlg signerDlg;
+    signerDlg.exec();
 }
 
 void MainWindow::viewCertificate()
@@ -579,17 +573,15 @@ void MainWindow::viewCertificate()
 
 void MainWindow::viewCRL()
 {
-    manApplet->crlInfoDlg()->setCRLNum( right_num_ );
-    manApplet->crlInfoDlg()->show();
-    manApplet->crlInfoDlg()->raise();
-    manApplet->crlInfoDlg()->activateWindow();
+    CRLInfoDlg crlInfoDlg;
+    crlInfoDlg.setCRLNum( right_num_ );
+    crlInfoDlg.exec();
 }
 
 void MainWindow::importData()
 {
-    manApplet->importDlg()->show();
-    manApplet->importDlg()->raise();
-    manApplet->importDlg()->activateWindow();
+    ImportDlg importDlg;
+    importDlg.exec();
 }
 
 void MainWindow::exportPriKey()
@@ -910,10 +902,9 @@ void MainWindow::checkCertificate()
 
     int num = item->text().toInt();
 
-    manApplet->checkCertDlg()->setCertNum(num);
-    manApplet->checkCertDlg()->show();
-    manApplet->checkCertDlg()->raise();
-    manApplet->checkCertDlg()->activateWindow();
+    CheckCertDlg checkCertDlg;
+    checkCertDlg.setCertNum(num);
+    checkCertDlg.exec();
 }
 
 void MainWindow::createRightList( int nType, int nNum )
