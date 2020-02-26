@@ -131,6 +131,9 @@ public slots:
 private slots:
     void showRightMenu( QPoint point );
 
+    virtual void dragEnterEvent( QDragEnterEvent *event );
+    virtual void dropEvent( QDropEvent *event );
+
 private:
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
@@ -144,6 +147,8 @@ private:
     DBMgr           *db_mgr_;
     int             right_type_;
     int             right_num_;
+
+    int             openDB( const QString dbPath );
 };
 
 #endif // MAINWINDOW_H

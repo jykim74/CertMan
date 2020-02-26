@@ -72,6 +72,23 @@ MainWindow::~MainWindow()
     delete right_table_;
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    foreach (const QUrl &url, event->mimeData()->urls()) {
+        QString fileName = url.toLocalFile();
+        qDebug() << "Dropped file:" << fileName;
+        openDB(fileName);
+        return;
+    }
+}
+
 ManTreeItem* MainWindow::currentItem()
 {
     ManTreeItem *item = NULL;
@@ -398,6 +415,25 @@ void MainWindow::newFile()
     createTreeMenu();
 }
 
+int MainWindow::openDB( const QString dbPath )
+{
+    db_mgr_->close();
+    int ret = db_mgr_->open(dbPath);
+
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to open database"), this );
+        return ret;
+    }
+
+    createTreeMenu();
+
+    if( manApplet->trayIcon()->supportsMessages() )
+        manApplet->trayIcon()->showMessage( "CAMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+
+    return ret;
+}
+
 void MainWindow::open()
 {
     bool bSavePath = manApplet->settingsMgr()->saveDBPath();
@@ -423,16 +459,9 @@ void MainWindow::open()
                                                      &selectedFilter,
                                                      options );
 
-    db_mgr_->close();
-    int ret = db_mgr_->open(fileName);
+    int ret = openDB( fileName );
 
-    if( ret != 0 )
-    {
-        manApplet->warningBox( tr( "fail to open database"), this );
-        return;
-    }
-
-    if( bSavePath )
+    if( bSavePath && ret == 0 )
     {
         QFileInfo fileInfo( fileName );
         QString strDir = fileInfo.dir().path();
@@ -442,10 +471,6 @@ void MainWindow::open()
         settings.setValue( "dbPath", strDir );
         settings.endGroup();
     }
-    createTreeMenu();
-
-    if( manApplet->trayIcon()->supportsMessages() )
-        manApplet->trayIcon()->showMessage( "CAMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
 }
 
 void MainWindow::quit()
