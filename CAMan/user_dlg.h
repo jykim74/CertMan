@@ -20,8 +20,8 @@ private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
 
-    void getRefCode();
-    void getSecretNum();
+    void getRefNum();
+    void getAuthCode();
 private:
     void initUI();
     void initialize();

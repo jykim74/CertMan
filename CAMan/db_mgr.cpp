@@ -901,8 +901,8 @@ int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
     int nPosSSN = SQL.record().indexOf( "SSN" );
     int nPosEmail = SQL.record().indexOf( "Email" );
     int nPosStatus = SQL.record().indexOf( "Status" );
-    int nPosRefCode = SQL.record().indexOf( "RefCode" );
-    int nPosSecretNum = SQL.record().indexOf( "SecretNum" );
+    int nPosRefNum = SQL.record().indexOf( "RefNum" );
+    int nPosAuthCode = SQL.record().indexOf( "AuthCode" );
 
     while( SQL.next() )
     {
@@ -913,8 +913,8 @@ int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
         user.setSSN( SQL.value(nPosSSN).toString() );
         user.setEmail( SQL.value(nPosEmail).toString());
         user.setStatus( SQL.value(nPosStatus).toInt());
-        user.setRefCode( SQL.value(nPosRefCode).toString());
-        user.setSecretNum( SQL.value(nPosSecretNum).toString());
+        user.setRefNum( SQL.value(nPosRefNum).toString());
+        user.setAuthCode( SQL.value(nPosAuthCode).toString());
 
         userList.append( user );
     }
@@ -1223,15 +1223,15 @@ int DBMgr::addUserRec(UserRec &userRec)
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_USER "
-                      "( NUM, NAME, SSN, EMAIL, STATUS, REFCODE, SECRETNUM ) "
+                      "( NUM, NAME, SSN, EMAIL, STATUS, REFNUM, AUTHCODE ) "
                       "VALUES( null, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, userRec.getName() );
     sqlQuery.bindValue( 1, userRec.getSSN() );
     sqlQuery.bindValue( 2, userRec.getEmail() );
     sqlQuery.bindValue( 3, userRec.getStatus() );
-    sqlQuery.bindValue( 4, userRec.getRefCode() );
-    sqlQuery.bindValue( 5, userRec.getSecretNum() );
+    sqlQuery.bindValue( 4, userRec.getRefNum() );
+    sqlQuery.bindValue( 5, userRec.getAuthCode() );
 
     sqlQuery.exec();
     return 0;

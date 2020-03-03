@@ -7,8 +7,8 @@ UserRec::UserRec()
     m_strSSN = "";
     m_strEmail = "";
     m_nStatus = -1;
-    m_strRefCode = "";
-    m_strSecretNum = "";
+    m_strRefNum = "";
+    m_strAuthCode = "";
 }
 
 void UserRec::setNum( int nNum )
@@ -36,12 +36,12 @@ void UserRec::setStatus( int nStatus )
     m_nStatus = nStatus;
 }
 
-void UserRec::setRefCode( const QString strRefCode )
+void UserRec::setRefNum( const QString strRefNum )
 {
-    m_strRefCode = strRefCode;
+    m_strRefNum = strRefNum;
 }
 
-void UserRec::setSecretNum( const QString strSecretNum )
+void UserRec::setAuthCode( const QString strAuthCode )
 {
-    m_strSecretNum = strSecretNum;
+    m_strAuthCode = strAuthCode;
 }

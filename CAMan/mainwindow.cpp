@@ -70,6 +70,7 @@ MainWindow::~MainWindow()
     delete left_model_;
     delete right_text_;
     delete right_table_;
+    delete right_menu_;
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -1351,7 +1352,7 @@ void MainWindow::createRightUserList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "Name", "SSN", "Email", "Status", "RefCode", "SecretNum" };
+    QStringList headerList = {"Num", "Name", "SSN", "Email", "Status", "RefNum", "AuthCode" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1389,8 +1390,8 @@ void MainWindow::createRightUserList()
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getRefCode() )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getSecretNum() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
     }
 }
 
@@ -1748,10 +1749,10 @@ void MainWindow::showRightUser( int seq )
     strPart = QString( "Status: %1\n").arg( userRec.getStatus() );
     strMsg += strPart;
 
-    strPart = QString( "RefCode: %1\n").arg( userRec.getRefCode() );
+    strPart = QString( "RefNum: %1\n").arg( userRec.getRefNum() );
     strMsg += strPart;
 
-    strPart = QString( "SecretNum: %1\n").arg( userRec.getSecretNum() );
+    strPart = QString( "AuthCode: %1\n").arg( userRec.getAuthCode() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

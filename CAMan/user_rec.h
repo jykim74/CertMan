@@ -11,8 +11,8 @@ private:
     QString     m_strSSN;
     QString     m_strEmail;
     int         m_nStatus;
-    QString     m_strRefCode;
-    QString     m_strSecretNum;
+    QString     m_strRefNum;
+    QString     m_strAuthCode;
 
 public:
     UserRec();
@@ -22,16 +22,16 @@ public:
     QString getSSN() { return m_strSSN; };
     QString getEmail() { return m_strEmail; };
     int getStatus() { return m_nStatus; };
-    QString getRefCode() { return m_strRefCode; };
-    QString getSecretNum() { return m_strSecretNum; };
+    QString getRefNum() { return m_strRefNum; };
+    QString getAuthCode() { return m_strAuthCode; };
 
     void setNum( int nNum );
     void setName( const QString strName );
     void setSSN( const QString strSSN );
     void setEmail( const QString strEmail );
     void setStatus( int nStatus );
-    void setRefCode( const QString strRefCode );
-    void setSecretNum( const QString strSecretNum );
+    void setRefNum( const QString strRefNum );
+    void setAuthCode( const QString strAuthCode );
 };
 
 #endif // USERREC_H

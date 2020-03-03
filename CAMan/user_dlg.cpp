@@ -42,18 +42,18 @@ void UserDlg::accept()
     QString strSSN = mSSNText->text();
     QString strEmail = mEmailText->text();
     int nStatus = mStatusText->text().toInt();
-    QString strRefCode = mRefCodeText->text();
-    QString strSecretNum = mSecretNumText->text();
+    QString strRefNum = mRefNumText->text();
+    QString strAuthCode = mAuthCodeText->text();
 
-    JS_BIN_set( &binRef, (unsigned char *)strRefCode.toStdString().c_str(), strRefCode.length() );
+    JS_BIN_set( &binRef, (unsigned char *)strRefNum.toStdString().c_str(), strRefNum.length() );
     JS_BIN_encodeHex( &binRef, &pHexRef );
 
     user.setName( strName );
     user.setSSN( strSSN );
     user.setEmail( strEmail );
     user.setStatus( nStatus );
-    user.setRefCode( pHexRef );
-    user.setSecretNum( strSecretNum );
+    user.setRefNum( pHexRef );
+    user.setAuthCode( strAuthCode );
 
     dbMgr->addUserRec( user );
 
@@ -64,17 +64,17 @@ void UserDlg::accept()
     manApplet->mainWindow()->createRightUserList();
 }
 
-void UserDlg::getRefCode()
+void UserDlg::getRefNum()
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
     int nSeq = dbMgr->getSeq( "TB_USER" );
 
-    mRefCodeText->setText( QString("%1").arg( nSeq));
+    mRefNumText->setText( QString("%1").arg( nSeq));
 }
 
-void UserDlg::getSecretNum()
+void UserDlg::getAuthCode()
 {
     BIN binRand = {0,0};
     char    *pRand = NULL;
@@ -82,7 +82,7 @@ void UserDlg::getSecretNum()
     JS_PKI_genRandom( 4, &binRand );
     JS_BIN_encodeHex( &binRand, &pRand );
 
-    mSecretNumText->setText( pRand );
+    mAuthCodeText->setText( pRand );
 
     JS_BIN_reset( &binRand );
     if( pRand ) JS_free( pRand );
@@ -90,8 +90,8 @@ void UserDlg::getSecretNum()
 
 void UserDlg::initUI()
 {
-    connect( mRefCodeBtn, SIGNAL(clicked()), this, SLOT(getRefCode()));
-    connect( mSecretNumBtn, SIGNAL(clicked()), this, SLOT(getSecretNum()));
+    connect( mRefNumBtn, SIGNAL(clicked()), this, SLOT(getRefNum()));
+    connect( mAuthCodeBtn, SIGNAL(clicked()), this, SLOT(getAuthCode()));
 }
 
 void UserDlg::initialize()
