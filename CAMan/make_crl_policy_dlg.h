@@ -24,6 +24,7 @@ public:
     int policyNum() { return policy_num_; };
 
 private slots:
+    void showEvent(QShowEvent *event);
     virtual void accept();
 
     void clickCRLNum();
