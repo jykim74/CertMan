@@ -1104,7 +1104,7 @@ void MainWindow::createRightCertPolicyList()
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
-    right_table_->setColumnCount(7);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
