@@ -31,9 +31,9 @@ void SignerDlg::findCert()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Import files"),
+                                                     tr("Certificate files"),
                                                      QDir::currentPath(),
-                                                     tr("Cert Files (*.crt);;Key Files (*.key);;All Files (*)"),
+                                                     tr("Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
                                                      &selectedFilter,
                                                      options );
 
