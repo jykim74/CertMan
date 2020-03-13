@@ -54,7 +54,7 @@ void MakeCRLDlg::setFixIssuer(QString strIssuerName)
 void MakeCRLDlg::accept()
 {
     int         ret = 0;
-    JCRLInfo   sCRLInfo;
+    JIssueCRLInfo   sIssueCRLInfo;
     JCRLInfo   sMadeCRLInfo;
     JExtensionInfoList *pExtInfoList = NULL;
     JExtensionInfoList *pMadeExtInfoList = NULL;
@@ -77,15 +77,21 @@ void MakeCRLDlg::accept()
 
     long uLastUpdate = -1;
     long uNextUpdate = -1;
+    int nKeyType = -1;
 
     CertRec caCert = ca_cert_list_.at(issuerIdx);
     CRLPolicyRec policy = crl_policy_list_.at(policyIdx);
     KeyPairRec caKeyPair;
 
-    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
+    memset( &sIssueCRLInfo, 0x00, sizeof(sIssueCRLInfo));
     memset( &sMadeCRLInfo, 0x00, sizeof(sMadeCRLInfo));
 
     dbMgr->getKeyPairRec( caCert.getKeyNum(), caKeyPair );
+
+    if( caKeyPair.getAlg() == "RSA" )
+        nKeyType = JS_PKI_KEY_TYPE_RSA;
+    else if( caKeyPair.getAlg() == "EC" )
+        nKeyType = JS_PKI_KEY_TYPE_ECC;
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
     JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
@@ -104,13 +110,11 @@ void MakeCRLDlg::accept()
         uNextUpdate = policy.getNextUpdate() - now_t;
     }
 
-    JS_PKI_setCRLInfo( &sCRLInfo,
+    JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
                        policy.getVersion(),
-                       caKeyPair.getAlg().toStdString().c_str(),
-                       caCert.getSubjectDN().toStdString().c_str(),
+                       policy.getHash().toStdString().c_str(),
                        uLastUpdate,
-                       uNextUpdate,
-                       NULL );
+                       uNextUpdate );
 
     /* need to set revoked certificate information */
 
@@ -213,14 +217,14 @@ void MakeCRLDlg::accept()
             goto end;
         }
 
-        ret = JS_PKI_makeCRLByP11( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignCert, pP11CTX, hSession, &binCRL );
+        ret = JS_PKI_makeCRLByP11( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binSignCert, pP11CTX, hSession, &binCRL );
 
         JS_PKCS11_Logout( pP11CTX, hSession );
         JS_PKCS11_CloseSession( pP11CTX, hSession );
     }
     else
     {
-        ret = JS_PKI_makeCRL( &sCRLInfo, pExtInfoList, pRevokeInfoList, policy.getHash().toStdString().c_str(), &binSignPri, &binSignCert, &binCRL );
+        ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, nKeyType, &binSignPri, &binSignCert, &binCRL );
     }
 
     if( ret != 0 )
@@ -245,7 +249,7 @@ void MakeCRLDlg::accept()
     dbMgr->addCRLRec( madeCRLRec );
 
 end :
-    JS_PKI_resetCRLInfo( &sCRLInfo );
+    JS_PKI_resetIssueCRLInfo( &sIssueCRLInfo );
     JS_PKI_resetCRLInfo( &sMadeCRLInfo );
     JS_BIN_reset( &binSignPri );
     JS_BIN_reset( &binSignCert );

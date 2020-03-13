@@ -91,7 +91,7 @@ void MakeCertDlg::setFixIssuer(QString strIssuerName)
 void MakeCertDlg::accept()
 {
     int ret = 0;
-    JCertInfo sCertInfo;
+    JIssueCertInfo sIssueCertInfo;
     JCertInfo sMadeCertInfo;
     JReqInfo    sReqInfo;
 
@@ -119,7 +119,7 @@ void MakeCertDlg::accept()
     if( dbMgr == NULL ) return;
     bool bSelf = mSelfSignCheck->isChecked();
 
-    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+    memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
@@ -157,6 +157,12 @@ void MakeCertDlg::accept()
 
     JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
     JS_PKI_getReqInfo( &binCSR, &sReqInfo, NULL );
+
+    if( sReqInfo.bVerify == 0 )
+    {
+        manApplet->warningBox(tr("Request is not verified"), this );
+        return;
+    }
 
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
     JS_PKI_getKeyIdentifier( &binPub, sKeyID );
@@ -213,18 +219,14 @@ void MakeCertDlg::accept()
 
 
 
-    JS_PKI_setCertInfo( &sCertInfo,
-                        nKeyType,
+    JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         policyRec.getVersion(),
                         strSerial.toStdString().c_str(),
-                        strSignAlg.toStdString().c_str(),
-                        NULL,
+                        policyRec.getHash().toStdString().c_str(),
                         strDN.toStdString().c_str(),
                         notBefore,
                         notAfter,
-                        NULL,
-                        NULL,
-                        NULL );
+                        sReqInfo.pPublicKey );
 
     /* need to support extensions start */
     QList<PolicyExtRec> policyExtList;
@@ -298,14 +300,14 @@ void MakeCertDlg::accept()
             goto end;
         }
 
-        ret = JS_PKI_makeCertificateByP11( bSelf, &sCertInfo, pExtInfoList, policyRec.getHash().toStdString().c_str(), &binSignCert, pP11CTX, hSession, &binCert );
+        ret = JS_PKI_makeCertificateByP11( bSelf, &sIssueCertInfo, pExtInfoList, &binSignCert, pP11CTX, hSession, &binCert );
 
         JS_PKCS11_Logout( pP11CTX, hSession );
         JS_PKCS11_CloseSession( pP11CTX, hSession );
     }
     else
     {
-        ret = JS_PKI_makeCertificateByCSR( bSelf, &sCertInfo, pExtInfoList, policyRec.getHash().toStdString().c_str(), &binCSR, &binSignPri, &binSignCert, &binCert );
+        ret = JS_PKI_makeCertificate( bSelf, &sIssueCertInfo, pExtInfoList, nKeyType, &binSignPri, &binSignCert, &binCert );
     }
 
     if( ret != 0 )
@@ -353,7 +355,7 @@ end :
     JS_BIN_reset( &binSignPri );
     JS_BIN_reset(&binSignCert);
     JS_BIN_reset(&binCSR);
-    JS_PKI_resetCertInfo( &sCertInfo );
+    JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
     JS_PKI_resetCertInfo( &sMadeCertInfo );
     if( pHexCert ) JS_free( pHexCert );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
