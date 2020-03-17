@@ -71,6 +71,7 @@ public:
     void showRightSigner( int seq );
 
     int rightType() { return right_type_; };
+    int rightCount();
 
     DBMgr* dbMgr() { return db_mgr_; };
 

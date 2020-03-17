@@ -29,7 +29,6 @@ SearchMenu::SearchMenu(QWidget *parent) : QWidget(parent)
 
     cur_page_ = 0;
     total_count_ = 0;
-    list_count_ = 0;
     left_type_ = -1;
     left_num_ = -1;
 
@@ -67,11 +66,6 @@ void SearchMenu::setCurPage( int nPage )
    cur_page_ = nPage;
 }
 
-void SearchMenu::setListCount( int nCount )
-{
-    list_count_ = nCount;
-}
-
 
 void SearchMenu::setLeftType( int nType )
 {
@@ -87,7 +81,7 @@ void SearchMenu::setLeftNum( int nNum )
 void SearchMenu::updatePageLabel()
 {
     int nOffset = cur_page_ * kListCount;
-    int nEnd = nOffset + list_count_;
+    int nEnd = nOffset + manApplet->mainWindow()->rightCount();
 
     QString label = QString( "%1-%2 of %3" ).arg( nOffset ).arg( nEnd ).arg( total_count_ );
     page_label_->setText( label );
@@ -148,7 +142,7 @@ void SearchMenu::rightPage()
     int end_page = int ( total_count_ / kListCount );
 
     cur_page_ = cur_page_ + 1;
-    if( cur_page_ > end_page ) cur_page_ = end_page;
+    if( cur_page_ >= end_page ) cur_page_ = (end_page-1);
 
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }

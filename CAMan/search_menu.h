@@ -14,13 +14,11 @@ public:
     explicit SearchMenu(QWidget *parent = nullptr);
     int curPage() { return cur_page_; };
     int totalCount() { return total_count_; };
-    int listCount() { return list_count_; };
     void updatePageLabel();
 
 
     void setTotalCount( int nCount );
     void setCurPage( int nPage );
-    void setListCount( int nCount );
     void setLeftType( int nType );
     void setLeftNum( int nNum );
 
@@ -53,7 +51,6 @@ private:
     QPushButton     *search_btn_;
 
     int             cur_page_;
-    int             list_count_;
     int             total_count_;
 
     int             left_num_;

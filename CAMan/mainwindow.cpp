@@ -1020,7 +1020,6 @@ void MainWindow::createRightKeyPairList()
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( keyPairList.size() );
     right_menu_->updatePageLabel();
 
 
@@ -1076,7 +1075,6 @@ void MainWindow::createRightRequestList()
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( reqList.size() );
     right_menu_->updatePageLabel();
 
 
@@ -1207,7 +1205,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( certList.size() );
     right_menu_->updatePageLabel();
 
     for( int i=0; i < certList.size(); i++ )
@@ -1269,7 +1266,6 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( crlList.size() );
     right_menu_->updatePageLabel();
 
     for( int i=0; i < crlList.size(); i++ )
@@ -1320,7 +1316,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( revokeList.size() );
     right_menu_->updatePageLabel();
 
 
@@ -1375,7 +1370,6 @@ void MainWindow::createRightUserList()
     }
 
     right_menu_->setTotalCount( nTotalCount );
-    right_menu_->setListCount( userList.size() );
     right_menu_->updatePageLabel();
 
     db_mgr_->getUserList( userList );
@@ -1792,4 +1786,9 @@ void MainWindow::showRightSigner(int seq)
     strMsg += strPart;
 
     right_text_->setText( strMsg );
+}
+
+int MainWindow::rightCount()
+{
+    return right_table_->rowCount();
 }
