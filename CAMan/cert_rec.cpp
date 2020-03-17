@@ -12,6 +12,7 @@ CertRec::CertRec()
     m_nIssuerNum = -1;
     m_strSubjectDN = "";
     m_nStatus = -1;
+    m_strCRLDP = "";
 }
 
 
@@ -78,4 +79,9 @@ void CertRec::setDNHash( QString strDNHash )
 void CertRec::setKeyHash( QString strKeyHash )
 {
     m_strKeyHash = strKeyHash;
+}
+
+void CertRec::setCRLDP(QString strCRLDP)
+{
+    m_strCRLDP = strCRLDP;
 }

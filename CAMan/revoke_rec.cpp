@@ -7,6 +7,7 @@ RevokeRec::RevokeRec()
     m_nIssuerNum = -1;
     m_strSerial = "";
     m_nRevokeDate = -1;
+    m_strCRLDP = "";
 }
 
 void RevokeRec::setSeq( int nSeq )
@@ -37,4 +38,9 @@ void RevokeRec::setRevokeDate( int nRevokeDate )
 void RevokeRec::setReason( int nReason )
 {
     m_nReason = nReason;
+}
+
+void RevokeRec::setCRLDP(QString strCRLDP)
+{
+    m_strCRLDP = strCRLDP;
 }

@@ -1166,7 +1166,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_type_ = RightType::TYPE_CERTIFICATE;
 
 //    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
-    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IssuerNum", "SubjectDN" };
+    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IssuerNum", "SubjectDN", "CRLDP" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1223,11 +1223,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getCert() ));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.isSelf())));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.isCA() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getStatus() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
     }
 }
 
@@ -1293,7 +1291,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "CertNum", "IssuerNum", "Serial", "RevokeDate", "Reason" };
+    QStringList headerList = {"Num", "CertNum", "IssuerNum", "Serial", "RevokeDate", "Reason", "CRLDP" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1331,6 +1329,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg(revoke.getRevokeDate())));
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg(revoke.getReason())));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
     }
 }
 
@@ -1539,6 +1538,9 @@ void MainWindow::showRightCertificate( int seq )
     strPart = QString( "KeyHash: %1\n").arg( certRec.getKeyHash() );
     strMsg += strPart;
 
+    strPart = QString( "CRLDP: %1\n").arg( certRec.getCRLDP() );
+    strMsg += strPart;
+
     right_text_->setText( strMsg );
 }
 
@@ -1711,6 +1713,9 @@ void MainWindow::showRightRevoke( int seq )
     strMsg += strPart;
 
     strPart = QString( "Reason: %1\n").arg( revokeRec.getReason() );
+    strMsg += strPart;
+
+    strPart = QString( "CRLDP: %1\n").arg( revokeRec.getCRLDP() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

@@ -12,6 +12,7 @@ private:
     QString     m_strSerial;
     int         m_nRevokeDate;
     int         m_nReason;
+    QString     m_strCRLDP;
 
 public:
     RevokeRec();
@@ -22,6 +23,7 @@ public:
     QString getSerial() { return m_strSerial; };
     int getRevokeDate() { return m_nRevokeDate; };
     int getReason() { return m_nReason; };
+    QString getCRLDP() { return m_strCRLDP; };
 
     void setSeq( int nSeq );
     void setCertNum( int nCertNum );
@@ -29,6 +31,7 @@ public:
     void setSerial( QString strSerial );
     void setRevokeDate( int nRevokeDate );
     void setReason( int nReason );
+    void setCRLDP( QString strCRLDP );
 };
 
 #endif // REVOKE_REC_H

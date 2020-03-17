@@ -55,6 +55,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     int nPosSerial = SQL.record().indexOf( "Serial" );
     int nPosDNHash = SQL.record().indexOf( "DNHash" );
     int nPosKeyHash = SQL.record().indexOf( "KeyHash" );
+    int nPosCRLDP = SQL.record().indexOf( "CRLDP" );
 
     while( SQL.next() )
     {
@@ -73,6 +74,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
         certRec.setSerial( SQL.value(nPosSerial).toString() );
         certRec.setDNHash( SQL.value(nPosDNHash).toString() );
         certRec.setKeyHash( SQL.value(nPosKeyHash).toString() );
+        certRec.setCRLDP( SQL.value(nPosCRLDP).toString());
 
         certList.append( certRec );
         iCount++;
@@ -828,6 +830,7 @@ int DBMgr::_getRevokeList( QString strQuery, QList<RevokeRec>& revokeList )
     int nPosSerial = SQL.record().indexOf( "SERIAL" );
     int nPosRevokeDate = SQL.record().indexOf( "REVOKEDDATE" );
     int nPosReason = SQL.record().indexOf( "REASON" );
+    int nPosCRLDP = SQL.record().indexOf( "CRLDP" );
 
     while( SQL.next() )
     {
@@ -839,6 +842,7 @@ int DBMgr::_getRevokeList( QString strQuery, QList<RevokeRec>& revokeList )
         revokeRec.setSerial( SQL.value(nPosSerial).toString() );
         revokeRec.setRevokeDate( SQL.value(nPosRevokeDate).toInt() );
         revokeRec.setReason( SQL.value(nPosReason).toInt() );
+        revokeRec.setCRLDP( SQL.value(nPosCRLDP).toString() );
 
         revokeList.append( revokeRec );
         iCount++;
@@ -979,8 +983,8 @@ int DBMgr::addCertRec( CertRec& certRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, certRec.getKeyNum() );
     sqlQuery.bindValue( 1, certRec.getUserNum() );
@@ -994,6 +998,7 @@ int DBMgr::addCertRec( CertRec& certRec )
     sqlQuery.bindValue( 9, certRec.getSerial() );
     sqlQuery.bindValue( 10, certRec.getDNHash() );
     sqlQuery.bindValue( 11, certRec.getKeyHash() );
+    sqlQuery.bindValue( 12, certRec.getCRLDP() );
 
     sqlQuery.exec();
     return 0;
@@ -1206,7 +1211,7 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_REVOKED "
-                      "( SEQ, CERTNUM, ISSUERNUM, SERIAL, REVOKEDDATE, REASON ) "
+                      "( SEQ, CERTNUM, ISSUERNUM, SERIAL, REVOKEDDATE, REASON, CRLDP ) "
                       "VALUES( null, ?, ?, ?, ?, ?);" );
 
     sqlQuery.bindValue( 0, revokeRec.getCertNum() );
@@ -1214,6 +1219,7 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     sqlQuery.bindValue( 2, revokeRec.getSerial() );
     sqlQuery.bindValue( 3, revokeRec.getRevokeDate() );
     sqlQuery.bindValue( 4, revokeRec.getReason() );
+    sqlQuery.bindValue( 5, revokeRec.getCRLDP() );
 
     sqlQuery.exec();
     return 0;

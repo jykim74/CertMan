@@ -20,6 +20,7 @@ private:
     QString     m_strSerial;
     QString     m_strDNHash;
     QString     m_strKeyHash;
+    QString     m_strCRLDP;
 
 public:
     CertRec();
@@ -37,6 +38,7 @@ public:
     QString getSerial() { return m_strSerial; };
     QString getDNHash() { return m_strDNHash; };
     QString getKeyHash() { return m_strKeyHash; };
+    QString getCRLDP() { return m_strCRLDP; };
 
     void setNum( int nNum );
     void setKeyNum( int nKeyNum );
@@ -51,6 +53,7 @@ public:
     void setSerial( QString strSerial );
     void setDNHash( QString strDNHash );
     void setKeyHash( QString strKeyHash );
+    void setCRLDP( QString strCRLDP );
 };
 
 
