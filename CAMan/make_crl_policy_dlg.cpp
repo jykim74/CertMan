@@ -232,11 +232,13 @@ void MakeCRLPolicyDlg::setTableMenus()
     mIDPTable->setColumnCount(2);
     mIDPTable->horizontalHeader()->setStretchLastSection(true);
     mIDPTable->setHorizontalHeaderLabels(sDPNLabels);
+    mIDPTable->verticalHeader()->setVisible(false);
 
     QStringList sIANLabels = { "Type", "Value" };
     mIANTable->setColumnCount(2);
     mIANTable->horizontalHeader()->setStretchLastSection(true);
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
+    mIANTable->verticalHeader()->setVisible(false);
 }
 
 void MakeCRLPolicyDlg::clickCRLNum()

@@ -125,6 +125,8 @@ void MakeCertPolicyDlg::defaultPolicy()
     int rowCnt = 0;
     mNameText->setText("");
 
+    mVersionCombo->setCurrentIndex(2);
+    mHashCombo->setCurrentIndex(2);
 
     mAIAText->setText("");
 
@@ -283,7 +285,8 @@ void MakeCertPolicyDlg::initUI()
     mKeyUsageCombo->addItems(kKeyUsageList);
     mEKUCombo->addItems(kExtKeyUsageList);
     mVersionCombo->addItems(kCertVersionList);
-    mCRLDPCombo->addItems(kTypeList);
+//    mCRLDPCombo->addItems(kTypeList);
+    mCRLDPCombo->addItem( "URI" );
     mAIATargetCombo->addItems( kAIATargetList );
     mAIATypeCombo->addItems(kTypeList);
     mSANCombo->addItems(kTypeList);
@@ -300,36 +303,43 @@ void MakeCertPolicyDlg::setTableMenus()
     mPolicyTable->setColumnCount(3);
     mPolicyTable->horizontalHeader()->setStretchLastSection(true);
     mPolicyTable->setHorizontalHeaderLabels( sPolicyLabels );
+    mPolicyTable->verticalHeader()->setVisible(false);
 
     QStringList sCRLDPLabels = { "Type", "Value" };
     mCRLDPTable->setColumnCount(2);
     mCRLDPTable->horizontalHeader()->setStretchLastSection(true);
     mCRLDPTable->setHorizontalHeaderLabels(sCRLDPLabels);
+    mCRLDPTable->verticalHeader()->setVisible(false);
 
     QStringList sAIALabels = { "Target", "Type", "Value" };
     mAIATable->setColumnCount(3);
     mAIATable->horizontalHeader()->setStretchLastSection(true);
     mAIATable->setHorizontalHeaderLabels(sAIALabels);
+    mAIATable->verticalHeader()->setVisible(false);
 
     QStringList sSANLabels = { "Type", "Value" };
     mSANTable->setColumnCount(2);
     mSANTable->horizontalHeader()->setStretchLastSection(true);
     mSANTable->setHorizontalHeaderLabels(sSANLabels);
+    mSANTable->verticalHeader()->setVisible(false);
 
     QStringList sIANLabels = { "Type", "Value" };
     mIANTable->setColumnCount(2);
     mIANTable->horizontalHeader()->setStretchLastSection(true);
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
+    mIANTable->verticalHeader()->setVisible(false);
 
     QStringList sPMLabels = { "Tareg", "Value", "Target", "Value" };
     mPMTable->setColumnCount(4);
     mPMTable->horizontalHeader()->setStretchLastSection(true);
     mPMTable->setHorizontalHeaderLabels(sPMLabels);
+    mPMTable->verticalHeader()->setVisible(false);
 
     QStringList sNCLabels = { "Type", "Target", "Value", "Min", "Max" };
     mNCTable->setColumnCount(5);
     mNCTable->horizontalHeader()->setStretchLastSection(true);
     mNCTable->setHorizontalHeaderLabels(sNCLabels);
+    mNCTable->verticalHeader()->setVisible(false);
 }
 
 void MakeCertPolicyDlg::connectExtends()
@@ -751,7 +761,7 @@ void MakeCertPolicyDlg::saveCRLDPUse(int nPolicyNum )
 
     QString strVal = "";
 
-    for( int i=0; mCRLDPTable->rowCount(); i++ )
+    for( int i=0; i < mCRLDPTable->rowCount(); i++ )
     {
         QString strType = "";
         QString strData = "";

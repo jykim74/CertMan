@@ -93,11 +93,6 @@ void CertInfoDlg::initialize()
     if( sCertInfo.pSubjectName )
     {
         QString name = QString::fromUtf8( sCertInfo.pSubjectName );
-//        QString name = QString::fromUtf8( "CN=\xED\x95\x9C\xEA\xB8\x80,C=kr" );
-//        QString name = QString( "CN=\xED\x95\x9C\xEA\xB8\x80,C=kr" );
-//        char sBuf[1024];
-//        memset( sBuf, 0x00, sizeof(sBuf));
-//        sprintf( sBuf, "%s", "CN=\xED\x95\x9C\xEA\xB8\x80,C=kr" );
 
         mFieldTable->insertRow(i);
         mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("SubjectName")));

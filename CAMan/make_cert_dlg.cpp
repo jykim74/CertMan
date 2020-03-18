@@ -10,8 +10,11 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
+#include "js_pki_ext.h"
 #include "commons.h"
 #include "settings_mgr.h"
+
+static int g_iVerbose = 1;
 
 QString getSignAlg( const QString strAlg, const QString strHash )
 {
@@ -104,6 +107,7 @@ void MakeCertDlg::accept()
     BIN binPub = {0,0};
 
     char sKeyID[128];
+    char *pCRLDP = NULL;
 
     memset( sKeyID, 0x00, sizeof(sKeyID));
 
@@ -217,7 +221,12 @@ void MakeCertDlg::accept()
 
     JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-
+if( g_iVerbose )
+{
+    BIN binPub = {0,0};
+    JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+    JS_BIN_fileWrite( &binPub, "/Users/jykim/tmp/pub.der" );
+}
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         policyRec.getVersion(),
@@ -226,6 +235,7 @@ void MakeCertDlg::accept()
                         strDN.toStdString().c_str(),
                         notBefore,
                         notAfter,
+                        sReqInfo.nKeyAlg,
                         sReqInfo.pPublicKey );
 
     /* need to support extensions start */
@@ -324,9 +334,9 @@ void MakeCertDlg::accept()
         goto end;
     }
 
-    JS_BIN_encodeHex( &binCert, &pHexCert );
+    JS_PKI_getExtensionValue( pMadeExtInfoList, JS_PKI_ExtNameCRLDP, &pCRLDP );
 
-//    QString strSubjectDN = sMadeCertInfo.pSubjectName;
+    JS_BIN_encodeHex( &binCert, &pHexCert );
 
     madeCertRec.setSelf( bSelf );
     madeCertRec.setStatus(0);
@@ -335,7 +345,6 @@ void MakeCertDlg::accept()
 
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
-//    madeCertRec.setSubjectDN( QString::fromUtf8( sMadeCertInfo.pSubjectName  ));
 
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
@@ -343,7 +352,7 @@ void MakeCertDlg::accept()
     madeCertRec.setIssuerNum( nIssuerNum );
     madeCertRec.setSerial( sMadeCertInfo.pSerial );
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
-
+    if( pCRLDP ) madeCertRec.setCRLDP( pCRLDP );
     JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
     madeCertRec.setKeyHash( sKeyID );
 
@@ -362,6 +371,7 @@ end :
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );
     JS_PKI_resetReqInfo( &sReqInfo );
+    if( pCRLDP ) JS_free( pCRLDP );
 
     if( ret == 0 )
     {
