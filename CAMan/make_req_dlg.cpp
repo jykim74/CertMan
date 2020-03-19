@@ -44,6 +44,7 @@ void MakeReqDlg::initialize()
         KeyPairRec keyRec = key_list_.at(i);
         mKeyNameCombo->addItem( keyRec.getName() );
     }
+
 }
 
 void MakeReqDlg::accept()
@@ -179,6 +180,9 @@ void MakeReqDlg::keyNameChanged(int index)
     QString strTitle = keyRec.getName();
     strTitle += "(REQ)";
     mNameText->setText( strTitle );
+
+    QString strDN = QString( "CN=%1,%2").arg( keyRec.getName() ).arg( manApplet->settingsMgr()->baseDN() );
+    mDNText->setText( strDN );
 }
 
 void MakeReqDlg::initUI()

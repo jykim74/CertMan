@@ -205,7 +205,10 @@ void ExportDlg::initialize()
         if( export_type_ == EXPORT_TYPE_PRIKEY )
             strMsg = "[Private Key data]\n";
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
+        {
+            mPasswordText->setEnabled(true);
             strMsg = "[Encrypting Private Key data]\n";
+        }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
             strMsg = "[Public Key data]\n";
 
@@ -222,7 +225,10 @@ void ExportDlg::initialize()
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
             strMsg = "[ Certificate data ]\n";
         else if( export_type_ == EXPORT_TYPE_PFX )
+        {
+            mPasswordText->setEnabled(true);
             strMsg = "[ PFX data ]\n";
+        }
 
         strPart = QString( "Num: %1\nDN: %2\nAlgorithm: %3\n")
                 .arg( data_num_ )

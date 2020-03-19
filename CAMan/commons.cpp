@@ -289,7 +289,7 @@ static int _getEKU( const BIN *pBinExt, QString& strVal )
 
     pCurList = pEKUList;
 
-    if( pCurList )
+    while( pCurList )
     {
         strVal += QString( pCurList->pStr );
         strVal += ",";

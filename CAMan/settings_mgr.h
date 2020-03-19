@@ -22,6 +22,12 @@ public:
     void setPKCS11LibraryPath( QString strLibPath );
     QString PKCS11LibraryPath();
 
+    void setBaseDN( QString strBaseDN );
+    QString baseDN();
+
+    void setListCount( int nCount );
+    int listCount();
+
     void loadSettings();
 
 private:

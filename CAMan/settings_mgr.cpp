@@ -8,6 +8,8 @@ namespace  {
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotID = "SlotID";
     const char *kP11LibPath = "PKCS11LibPath";
+    const char *kBaseDN = "BaseDN";
+    const char *kListCount = "ListCount";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -108,4 +110,46 @@ QString SettingsMgr::PKCS11LibraryPath()
     settings.endGroup();
 
     return strPath;
+}
+
+void SettingsMgr::setBaseDN( QString strBaseDN )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kBaseDN, strBaseDN );
+    settings.endGroup();
+}
+
+QString SettingsMgr::baseDN()
+{
+    QString strBaseDN;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strBaseDN = settings.value( kBaseDN, "").toString();
+    settings.endGroup();
+
+    return strBaseDN;
+}
+
+void SettingsMgr::setListCount( int nCount )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kListCount, nCount );
+    settings.endGroup();
+}
+
+int SettingsMgr::listCount()
+{
+    int nCount = 0;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    nCount = settings.value( kListCount, 15 ).toInt();
+    settings.endGroup();
+
+    return nCount;
 }

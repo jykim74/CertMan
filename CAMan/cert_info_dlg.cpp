@@ -136,8 +136,6 @@ void CertInfoDlg::initialize()
     {
         JExtensionInfoList *pCurList = pExtInfoList;
 
-
-
         while( pCurList )
         {
             PolicyExtRec policyRec;

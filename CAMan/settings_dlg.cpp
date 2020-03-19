@@ -42,6 +42,8 @@ void SettingsDlg::updateSettings()
     mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
     mgr->setSlotID( mSlotIDText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
+    mgr->setBaseDN( mBaseDNText->text() );
+    mgr->setListCount( mListCountText->text().toInt() );
 
     bool language_changed = false;
 
@@ -106,6 +108,8 @@ void SettingsDlg::initialize()
     QString strSlotID = QString( "%1" ).arg( mgr->slotID() );
     mSlotIDText->setText( strSlotID );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
+    mListCountText->setText( QString("%1").arg( mgr->listCount() ));
+    mBaseDNText->setText( mgr->baseDN() );
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {

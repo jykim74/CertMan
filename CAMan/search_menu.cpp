@@ -5,6 +5,7 @@
 #include "search_menu.h"
 #include "mainwindow.h"
 #include "man_applet.h"
+#include "settings_mgr.h"
 
 static QStringList  s_condBaseList = { "Page" };
 static QStringList  s_condCertList = { "Page", "SubjectDN", "Serial" };
@@ -80,7 +81,7 @@ void SearchMenu::setLeftNum( int nNum )
 
 void SearchMenu::updatePageLabel()
 {
-    int nOffset = cur_page_ * kListCount;
+    int nOffset = cur_page_ * manApplet->settingsMgr()->listCount();
     int nEnd = nOffset + manApplet->mainWindow()->rightCount();
 
     QString label = QString( "%1-%2 of %3 [%4p]" ).arg( nOffset + 1 ).arg( nEnd ).arg( total_count_ ).arg(cur_page_+1);
@@ -139,7 +140,8 @@ void SearchMenu::leftEndPage()
 
 void SearchMenu::rightPage()
 {
-    int end_page = int ( (total_count_ - 1 ) / kListCount );
+    int nListCnt = manApplet->settingsMgr()->listCount();
+    int end_page = int ( (total_count_ - 1 ) / nListCnt );
 
     cur_page_ = cur_page_ + 1;
     if( cur_page_ >= end_page ) cur_page_ = end_page;
@@ -149,7 +151,8 @@ void SearchMenu::rightPage()
 
 void SearchMenu::rightEndPage()
 {
-    int end_page = int ( (total_count_ - 1 ) / kListCount );
+    int nListCnt = manApplet->settingsMgr()->listCount();
+    int end_page = int ( (total_count_ - 1 ) / nListCnt );
     cur_page_ = end_page;
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
