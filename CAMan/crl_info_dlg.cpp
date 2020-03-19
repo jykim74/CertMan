@@ -16,12 +16,16 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     revoke_info_list_ = NULL;
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
-    initialize();
 }
 
 CRLInfoDlg::~CRLInfoDlg()
 {
 
+}
+
+void CRLInfoDlg::showEvent(QShowEvent *event)
+{
+    initialize();
 }
 
 void CRLInfoDlg::setCRLNum(int crl_num)
@@ -50,7 +54,6 @@ void CRLInfoDlg::initialize()
     if( crl_num_ < 0 )
     {
         manApplet->warningBox( tr("Select CRL"), this );
-        this->hide();
         return;
     }
 

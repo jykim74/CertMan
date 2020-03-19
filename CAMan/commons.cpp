@@ -582,7 +582,16 @@ static int _getIDP( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
-        strVal += QString( "#%1$%2" ).arg( pCurList->sNumVal.nNum ).arg( pCurList->sNumVal.pValue );
+        QString strType;
+
+        if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_DNS )
+            strType = "DNS";
+        else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_URI )
+            strType = "URI";
+        else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_EMAIL )
+            strType = "Email";
+
+        strVal += QString( "#%1$%2" ).arg( strType ).arg( pCurList->sNumVal.pValue );
         pCurList = pCurList->pNext;
     }
 

@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     right_type_ = -1;
-    right_num_ = -1;
 }
 
 MainWindow::~MainWindow()
@@ -253,7 +252,6 @@ void MainWindow::showRightMenu(QPoint point)
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
-    right_num_ = item->text().toInt();
     if( item == NULL ) return;
 
     QMenu menu(this);
@@ -594,15 +592,27 @@ void MainWindow::registerSigner()
 
 void MainWindow::viewCertificate()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     CertInfoDlg certInfoDlg;
-    certInfoDlg.setCertNum( right_num_ );
+    certInfoDlg.setCertNum( num );
     certInfoDlg.exec();
 }
 
 void MainWindow::viewCRL()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     CRLInfoDlg crlInfoDlg;
-    crlInfoDlg.setCRLNum( right_num_ );
+    crlInfoDlg.setCRLNum( num );
     crlInfoDlg.exec();
 }
 
@@ -614,56 +624,98 @@ void MainWindow::importData()
 
 void MainWindow::exportPriKey()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_PRIKEY );
     exportDlg.exec();
 }
 
 void MainWindow::exportEncPriKey()
 {   
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_ENC_PRIKEY );
     exportDlg.exec();
 }
 
 void MainWindow::exportPubKey()
-{  
+{
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_PUBKEY );
     exportDlg.exec();
 }
 
 void MainWindow::exportRequest()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_REQUEST );
     exportDlg.exec();
 }
 
 void MainWindow::exportCertificate()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_CERTIFICATE );
     exportDlg.exec();
 }
 
 void MainWindow::exportCRL()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_CRL );
     exportDlg.exec();
 }
 
 void MainWindow::exportPFX()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( right_num_ );
+    exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_PFX );
     exportDlg.exec();
 }
@@ -671,8 +723,14 @@ void MainWindow::exportPFX()
 
 void MainWindow::publishLDAP()
 {
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     PubLDAPDlg pubLDAPDlg;
-    pubLDAPDlg.setDataNum( right_num_ );
+    pubLDAPDlg.setDataNum( num );
     pubLDAPDlg.setDataType( right_type_ );
     pubLDAPDlg.exec();
 }
@@ -835,7 +893,6 @@ void MainWindow::tableClick(QModelIndex index )
     QTableWidgetItem* item = right_table_->item(row, 0);
 
     int nSeq = item->text().toInt();
-    right_num_ = item->text().toInt();
 
     right_text_->setText( strVal );
 

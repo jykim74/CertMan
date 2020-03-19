@@ -127,7 +127,7 @@ void MakeCRLDlg::accept()
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( policyExt.getSN() == kExtNameIAN )
+        if( policyExt.getSN() == kExtNameAKI )
         {
             BIN binCert = {0,0};
             char sHexID[256];

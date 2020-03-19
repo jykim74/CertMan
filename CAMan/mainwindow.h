@@ -147,7 +147,6 @@ private:
 
     DBMgr           *db_mgr_;
     int             right_type_;
-    int             right_num_;
 
     int             openDB( const QString dbPath );
 };

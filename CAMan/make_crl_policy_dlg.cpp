@@ -218,7 +218,7 @@ void MakeCRLPolicyDlg::initUI()
 
 void MakeCRLPolicyDlg::connectExtends()
 {
-    connect( mUseFromNowCheck, SIGNAL(clicked()), this, SLOT(clickUserFromNow()));
+    connect( mUseFromNowCheck, SIGNAL(clicked()), this, SLOT(clickUseFromNow()));
     connect( mCRLNumUseCheck, SIGNAL(clicked()), this, SLOT(clickCRLNum()));
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
     connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
@@ -496,6 +496,8 @@ void MakeCRLPolicyDlg::setIANUse( PolicyExtRec& policyRec )
         QString info = valList.at(i);
 
         QStringList infoList = info.split("$");
+        if( infoList.size() < 2 ) continue;
+
         QString strType = infoList.at(0);
         QString strData = infoList.at(1);
 
