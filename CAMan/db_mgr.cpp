@@ -273,21 +273,24 @@ int DBMgr::getUserSearchCount( QString strTarget, QString strWord)
 
 int DBMgr::getCACertList( QList<CertRec>& certList )
 {
-    QString strSQL  = "SELECT * FROM TB_CERT WHERE ISCA=1";
+    QString strSQL  = "SELECT * FROM TB_CERT WHERE ISCA=1 ORDER BY NUM DESC";
 
     return _getCertList( strSQL, certList );
 }
 
 int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
 {
-    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1").arg( nIssuerNum );
+    QString strSQL  = QString( "SELECT * FROM TB_CERT "
+                               "WHERE ISCA=1 AND ISSUERNUM = %1 ORDER BY NUM DESC").arg( nIssuerNum );
 
     return _getCertList( strSQL, certList );
 }
 
 int DBMgr::getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList )
 {
-    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE '%%3%'")
+    QString strSQL  = QString( "SELECT * FROM TB_CERT "
+                               "WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE '%%3%' "
+                               "ORDER BY NUM DESC")
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord );
@@ -311,7 +314,7 @@ int DBMgr::getCertRec( int nNum, CertRec& cert )
 int DBMgr::getCertList( int nIssuerNum, QList<CertRec>& certList )
 {
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1" ).arg( nIssuerNum );
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 ORDER BY NUM DESC" ).arg( nIssuerNum );
 
     return _getCertList( strSQL, certList );
 }
@@ -319,7 +322,8 @@ int DBMgr::getCertList( int nIssuerNum, QList<CertRec>& certList )
 int DBMgr::getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>& certList )
 {
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 LIMIT %2 OFFSET %3" )
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 "
+                      "ORDER BY NUM DESC LIMIT %2 OFFSET %3" )
             .arg( nIssuerNum )
             .arg( nLimit )
             .arg( nOffset );
@@ -330,7 +334,9 @@ int DBMgr::getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>&
 int DBMgr::getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList )
 {
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' LIMIT %4 OFFSET %5" )
+    strSQL = QString( "SELECT * FROM TB_CERT "
+                      "WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' "
+                      "ORDER BY NUM DESC LIMIT %4 OFFSET %5" )
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord )
@@ -347,6 +353,8 @@ int DBMgr::getKeyPairList( int nStatus, QList<KeyPairRec>& keyPairList )
 
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
 
+    strSQL += " ORDER BY NUM DESC";
+
     return _getKeyPairList( strSQL, keyPairList );
 }
 
@@ -357,7 +365,7 @@ int DBMgr::getKeyPairList( int nStatus, int nOffset, int nLimit, QList<KeyPairRe
 
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
 
-    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+    strSQL += QString( " ORDER BY NUM DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getKeyPairList( strSQL, keyPairList );
 }
@@ -369,7 +377,7 @@ int DBMgr::getKeyPairList( int nStatus, QString strTarget, QString strWord, int 
 
     if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
 
-    strSQL += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+    strSQL += QString( " ORDER BY NUM DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getKeyPairList( strSQL, keyPairList );
 }
@@ -446,14 +454,15 @@ int DBMgr::getRevokeRec( int nSeq, RevokeRec& revokeRec )
 
 int DBMgr::getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList )
 {
-    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1").arg(nIssuerNum);
+    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1 ORDER BY SEQ DESC").arg(nIssuerNum);
 
     return _getRevokeList( strQuery, revokeList );
 }
 
 int DBMgr::getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeRec>& revokeList )
 {
-    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1 LIMIT %2 OFFSET %3")
+    QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1 "
+                               "ORDER BY SEQ DESC LIMIT %2 OFFSET %3")
             .arg(nIssuerNum)
             .arg( nLimit )
             .arg( nOffset );
@@ -464,7 +473,7 @@ int DBMgr::getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeR
 int DBMgr::getRevokeList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<RevokeRec>& revokeList )
 {
     QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1" ).arg( nIssuerNum );
-    strQuery += QString( " AND %1 LIKE '%%2%' LIMIT %3 OFFSET %4 ")
+    strQuery += QString( " AND %1 LIKE '%%2%' ORDER BY SEQ DESC LIMIT %3 OFFSET %4 ")
             .arg( strTarget )
             .arg( strWord )
             .arg( nLimit )
@@ -488,21 +497,21 @@ int DBMgr::getUserRec( int nSeq, UserRec& userRec )
 
 int DBMgr::getUserList( QList<UserRec>& userList )
 {
-    QString strQuery = QString("SELECT * FROM TB_USER" );
+    QString strQuery = QString("SELECT * FROM TB_USER ORDER BY NUM DESC" );
 
     return _getUserList( strQuery, userList );
 }
 
 int DBMgr::getUserList( int nOffset, int nLimit, QList<UserRec>& userList )
 {
-    QString strQuery = QString("SELECT * FROM TB_USER LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+    QString strQuery = QString("SELECT * FROM TB_USER ORDER BY NUM DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getUserList( strQuery, userList );
 }
 
 int DBMgr::getUserList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<UserRec>& userList )
 {
-    QString strQuery = QString("SELECT * FROM TB_USER WHERE %1 LIKE '%%2%' LIMIT %3 OFFSET %4" )
+    QString strQuery = QString("SELECT * FROM TB_USER WHERE %1 LIKE '%%2%' ORDER BY NUM DESC LIMIT %3 OFFSET %4" )
             .arg( strTarget )
             .arg( strWord )
             .arg( nLimit )
@@ -513,7 +522,7 @@ int DBMgr::getUserList( QString strTarget, QString strWord, int nOffset, int nLi
 
 int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
 {
-    QString strQuery = QString("SELECT * FROM TB_SIGNER WHERE TYPE = %1").arg( nType );
+    QString strQuery = QString("SELECT * FROM TB_SIGNER WHERE TYPE = %1 ORDER BY NUM DESC").arg( nType );
 
     return _getSignerList( strQuery, signerList );
 }
@@ -548,7 +557,9 @@ int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
     QString strSQL;
 
     strSQL.sprintf( "SELECT * FROM TB_REQ" );
-    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1" ).arg( nStatus );
+    if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1 " ).arg( nStatus );
+
+    strSQL += "ORDER BY SEQ DESC";
 
     return _getReqList( strSQL, reqList );
 }
@@ -560,7 +571,7 @@ int DBMgr::getReqList( int nStatus, int nOffset, int nLimit, QList<ReqRec>& reqL
     strQuery = QString( "SELECT * FROM TB_REQ" );
     if( nStatus >= 0 ) strQuery += QString( " WHERE STATUS = %1" ).arg( nStatus );
 
-    strQuery += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+    strQuery += QString( " ORDER BY SEQ DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getReqList( strQuery, reqList );
 }
@@ -572,7 +583,7 @@ int DBMgr::getReqList( int nStatus, QString strTarget, QString strWord, int nOff
     strQuery = QString( "SELECT * FROM TB_REQ WHERE %1 LIKE '%%2%'" ).arg( strTarget ).arg( strWord );
     if( nStatus >= 0 ) strQuery += QString( " AND STATUS = %1" ).arg( nStatus );
 
-    strQuery += QString( " LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+    strQuery += QString( " ORDER BY SEQ DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
 
     return _getReqList( strQuery, reqList );
 }
@@ -656,7 +667,7 @@ int DBMgr::addReqRec( ReqRec& reqRec )
 
 int DBMgr::getCertPolicyList( QList<CertPolicyRec>& certPolicyList )
 {
-    QString strSQL = "SELECT * FROM TB_CERT_POLICY";
+    QString strSQL = "SELECT * FROM TB_CERT_POLICY ORDER BY NUM DESC";
 
     return _getCertPolicyList( strSQL, certPolicyList );
 }
@@ -727,14 +738,14 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
 
 int DBMgr::getCRLList( int nIssuerNum, QList<CRLRec>& crlList )
 {
-    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1" ).arg( nIssuerNum );
+    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 ORDER BY NUM DESC" ).arg( nIssuerNum );
 
     return _getCRLList( strSQL, crlList );
 }
 
 int DBMgr::getCRLList( int nIssuerNum, int nOffset, int nLimit, QList<CRLRec>& crlList )
 {
-    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 LIMIT %2 OFFSET %3" )
+    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 ORDER BY NUM DESC LIMIT %2 OFFSET %3" )
             .arg( nIssuerNum )
             .arg( nLimit )
             .arg( nOffset );
@@ -744,7 +755,8 @@ int DBMgr::getCRLList( int nIssuerNum, int nOffset, int nLimit, QList<CRLRec>& c
 
 int DBMgr::getCRLList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CRLRec>& crlList )
 {
-    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' LIMIT %4 OFFSET %5" )
+    QString strSQL = QString( "SELECT * FROM TB_CRL WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%' "
+                              "ORDER BY NUM DESC LIMIT %4 OFFSET %5" )
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord )

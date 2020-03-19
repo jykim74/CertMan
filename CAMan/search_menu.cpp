@@ -83,7 +83,7 @@ void SearchMenu::updatePageLabel()
     int nOffset = cur_page_ * kListCount;
     int nEnd = nOffset + manApplet->mainWindow()->rightCount();
 
-    QString label = QString( "%1-%2 of %3" ).arg( nOffset ).arg( nEnd ).arg( total_count_ );
+    QString label = QString( "%1-%2 of %3 [%4p]" ).arg( nOffset + 1 ).arg( nEnd ).arg( total_count_ ).arg(cur_page_+1);
     page_label_->setText( label );
 }
 
@@ -139,17 +139,18 @@ void SearchMenu::leftEndPage()
 
 void SearchMenu::rightPage()
 {
-    int end_page = int ( total_count_ / kListCount );
+    int end_page = int ( (total_count_ - 1 ) / kListCount );
 
     cur_page_ = cur_page_ + 1;
-    if( cur_page_ >= end_page ) cur_page_ = (end_page-1);
+    if( cur_page_ >= end_page ) cur_page_ = end_page;
 
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
 void SearchMenu::rightEndPage()
 {
-    cur_page_ = int(total_count_ / kListCount);
+    int end_page = int ( (total_count_ - 1 ) / kListCount );
+    cur_page_ = end_page;
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 

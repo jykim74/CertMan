@@ -876,6 +876,7 @@ void MainWindow::treeMenuClick(QModelIndex index )
     nNum = pItem->getDataNum();
     nType = pItem->getType();
 
+    right_menu_->setCurPage(0);
     right_menu_->setLeftNum( nNum );
     right_menu_->setLeftType( nType );
 
@@ -1076,10 +1077,6 @@ void MainWindow::createRightKeyPairList()
         db_mgr_->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
-
     for( int i = 0; i < keyPairList.size(); i++ )
     {
         KeyPairRec keyPairRec = keyPairList.at(i);
@@ -1093,6 +1090,9 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getParam()));
         right_table_->setItem(i, 6, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 
@@ -1131,9 +1131,6 @@ void MainWindow::createRightRequestList()
         db_mgr_->getReqList( -1, nOffset, nLimit, reqList );
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -1147,6 +1144,9 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
         right_table_->setItem( i, 5, new QTableWidgetItem( reqRec.getDN() ));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 void MainWindow::createRightCertPolicyList()
@@ -1261,9 +1261,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         }
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
     for( int i=0; i < certList.size(); i++ )
     {
         int pos = 0;
@@ -1284,6 +1281,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 void MainWindow::createRightCRLList( int nIssuerNum )
@@ -1320,9 +1320,6 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         db_mgr_->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
     for( int i=0; i < crlList.size(); i++ )
     {
         CRLRec crl = crlList.at(i);
@@ -1333,6 +1330,9 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getCRL() ));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 void MainWindow::createRightRevokeList(int nIssuerNum)
@@ -1370,9 +1370,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         db_mgr_->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
 
     for( int i=0; i < revokeList.size(); i++ )
     {
@@ -1388,6 +1385,9 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg(revoke.getReason())));
         right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 void MainWindow::createRightUserList()
@@ -1425,9 +1425,6 @@ void MainWindow::createRightUserList()
         db_mgr_->getUserList( nOffset, nLimit, userList );
     }
 
-    right_menu_->setTotalCount( nTotalCount );
-    right_menu_->updatePageLabel();
-
     db_mgr_->getUserList( userList );
 
     for( int i = 0; i < userList.size(); i++ )
@@ -1443,6 +1440,9 @@ void MainWindow::createRightUserList()
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
         right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
     }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
 }
 
 void MainWindow::createRightSignerList(int nType)
