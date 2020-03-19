@@ -305,7 +305,8 @@ void MakeCertPolicyDlg::initUI()
     mAIATypeCombo->addItem( "URI" );
     mSANCombo->addItems(kTypeList);
     mIANCombo->addItems(kTypeList);
-    mNCTypeCombo->addItems(kTypeList);
+//    mNCTypeCombo->addItems(kTypeList);
+    mNCTypeCombo->addItem( "URI" );
     mNCSubCombo->addItems(kNCSubList);
     mBCCombo->addItems(kBCTypeList);
     mHashCombo->addItems(kHashList);
@@ -987,7 +988,7 @@ void MakeCertPolicyDlg::savePMUse(int nPolicyNum )
 
     QString strVal;
 
-    for( int i=0; mPMTable->rowCount(); i++ )
+    for( int i=0; i < mPMTable->rowCount(); i++ )
     {
         QString strIDP;
         QString strSDP;
