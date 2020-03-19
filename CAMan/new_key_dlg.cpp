@@ -45,6 +45,7 @@ void NewKeyDlg::initUI()
 {
     mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(sRSAOptionList);
+    mOptionCombo->setCurrentIndex(1);
 
     if( manApplet->settingsMgr()->PKCS11Use() )
     {

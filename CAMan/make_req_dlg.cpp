@@ -31,6 +31,7 @@ MakeReqDlg::~MakeReqDlg()
 void MakeReqDlg::initialize()
 {
     mHashCombo->addItems(sHashList);
+    mHashCombo->setCurrentIndex(2);
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -174,6 +175,10 @@ void MakeReqDlg::keyNameChanged(int index)
     else {
         mOptionLabel->setText( "NamedCurve" );
     }
+
+    QString strTitle = keyRec.getName();
+    strTitle += "(REQ)";
+    mNameText->setText( strTitle );
 }
 
 void MakeReqDlg::initUI()

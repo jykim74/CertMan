@@ -131,6 +131,14 @@ void MakeCRLPolicyDlg::defaultPolicy()
     mIANUseCheck->setChecked(false);
     mIANCriticalCheck->setChecked(false);
     mIANText->setText("");
+
+    mVersionCombo->setCurrentIndex(1);
+    mHashCombo->setCurrentIndex(2);
+
+    mUseFromNowCheck->setChecked(true);
+    clickUseFromNow();
+
+    mValidDaysText->setText( "10" );
 }
 
 void MakeCRLPolicyDlg::accept()
@@ -202,13 +210,15 @@ void MakeCRLPolicyDlg::accept()
 void MakeCRLPolicyDlg::initUI()
 {
     mHashCombo->addItems(sHashList);
-    mIDPCombo->addItems(sTypeList);
+//    mIDPCombo->addItems(sTypeList);
+    mIDPCombo->addItem( "URI" );
     mIANCombo->addItems(sTypeList);
     mVersionCombo->addItems(sVersionList);
 }
 
 void MakeCRLPolicyDlg::connectExtends()
 {
+    connect( mUseFromNowCheck, SIGNAL(clicked()), this, SLOT(clickUserFromNow()));
     connect( mCRLNumUseCheck, SIGNAL(clicked()), this, SLOT(clickCRLNum()));
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
     connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
@@ -239,6 +249,15 @@ void MakeCRLPolicyDlg::setTableMenus()
     mIANTable->horizontalHeader()->setStretchLastSection(true);
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
     mIANTable->verticalHeader()->setVisible(false);
+}
+
+void MakeCRLPolicyDlg::clickUseFromNow()
+{
+    bool bStatus = mUseFromNowCheck->isChecked();
+
+    mValidDaysText->setEnabled( bStatus );
+    mLastUpdateDateTime->setEnabled( !bStatus );
+    mNextUpdateDateTime->setEnabled( !bStatus );
 }
 
 void MakeCRLPolicyDlg::clickCRLNum()

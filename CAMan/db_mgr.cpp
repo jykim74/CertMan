@@ -1212,7 +1212,7 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_REVOKED "
                       "( SEQ, CERTNUM, ISSUERNUM, SERIAL, REVOKEDDATE, REASON, CRLDP ) "
-                      "VALUES( null, ?, ?, ?, ?, ?);" );
+                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( 0, revokeRec.getCertNum() );
     sqlQuery.bindValue( 1, revokeRec.getIssuerNum() );

@@ -39,8 +39,6 @@ void MakeCertPolicyDlg::setPolicyNum(int policy_num)
 void MakeCertPolicyDlg::showEvent(QShowEvent *event)
 {
     initialize();
-
-
 }
 
 void MakeCertPolicyDlg::initialize()
@@ -73,6 +71,7 @@ void MakeCertPolicyDlg::loadPolicy()
     {
         mUseDaysCheck->setChecked(true);
         mDaysText->setText( QString("%1").arg(certPolicy.getNotAfter()));
+        clickUseDays();
     }
     else {
         notBefore.setTime_t( certPolicy.getNotBefore() );
@@ -80,6 +79,12 @@ void MakeCertPolicyDlg::loadPolicy()
 
         mNotBeforeDateTime->setDateTime( notBefore );
         mNotAfterDateTime->setDateTime( notAfter );
+    }
+
+    if( certPolicy.getDNTemplate() == "#CSR" )
+    {
+        mUseCSRCheck->setChecked(true);
+        clickUseCSR();
     }
 
 
@@ -199,6 +204,14 @@ void MakeCertPolicyDlg::defaultPolicy()
         mSANTable->removeRow(0);
     mSANUseCheck->setChecked(false);
     mSANCriticalCheck->setChecked(false);
+
+    mUseCSRCheck->setChecked(true);
+    clickUseCSR();
+
+    mUseDaysCheck->setChecked(true);
+    clickUseDays();
+
+    mDaysText->setText( "365" );
 }
 
 void MakeCertPolicyDlg::accept()
@@ -288,7 +301,8 @@ void MakeCertPolicyDlg::initUI()
 //    mCRLDPCombo->addItems(kTypeList);
     mCRLDPCombo->addItem( "URI" );
     mAIATargetCombo->addItems( kAIATargetList );
-    mAIATypeCombo->addItems(kTypeList);
+//    mAIATypeCombo->addItems(kTypeList);
+    mAIATypeCombo->addItem( "URI" );
     mSANCombo->addItems(kTypeList);
     mIANCombo->addItems(kTypeList);
     mNCTypeCombo->addItems(kTypeList);
@@ -1017,7 +1031,7 @@ void MakeCertPolicyDlg::saveSANUse(int nPolicyNum)
     policyExt.setCritical( mSANCriticalCheck->isChecked() );
 
     QString strVal = "";
-    for( int i=0; mSANTable->rowCount(); i++ )
+    for( int i=0; i < mSANTable->rowCount(); i++ )
     {
         QString strType;
         QString strData;

@@ -107,6 +107,7 @@ void MakeCertDlg::accept()
     BIN binPub = {0,0};
 
     char sKeyID[128];
+    char *pHexCRLDP = NULL;
     char *pCRLDP = NULL;
 
     memset( sKeyID, 0x00, sizeof(sKeyID));
@@ -221,13 +222,6 @@ void MakeCertDlg::accept()
 
     JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-if( g_iVerbose )
-{
-    BIN binPub = {0,0};
-    JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
-    JS_BIN_fileWrite( &binPub, "/Users/jykim/tmp/pub.der" );
-}
-
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         policyRec.getVersion(),
                         strSerial.toStdString().c_str(),
@@ -334,7 +328,8 @@ if( g_iVerbose )
         goto end;
     }
 
-    JS_PKI_getExtensionValue( pMadeExtInfoList, JS_PKI_ExtNameCRLDP, &pCRLDP );
+    JS_PKI_getExtensionValue( pMadeExtInfoList, JS_PKI_ExtNameCRLDP, &pHexCRLDP );
+    if( pHexCRLDP ) JS_PKI_getExtensionStringValue( pHexCRLDP, JS_PKI_ExtNameCRLDP, &pCRLDP );
 
     JS_BIN_encodeHex( &binCert, &pHexCert );
 
@@ -371,6 +366,7 @@ end :
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );
     JS_PKI_resetReqInfo( &sReqInfo );
+    if( pHexCRLDP ) JS_free( pHexCRLDP );
     if( pCRLDP ) JS_free( pCRLDP );
 
     if( ret == 0 )

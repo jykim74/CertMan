@@ -455,6 +455,7 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
         QString strType = "";
         QString strMethod = "";
         QString strName = "";
+        int nType = -1;
 
         JExtAuthorityInfoAccess sAIA;
 
@@ -467,9 +468,16 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
         strType = subList.at(1);
         strName = subList.at(2);
 
+        if( strType == "URI" )
+            nType = JS_PKI_NAME_TYPE_URI;
+        else if( strType == "DNS" )
+            nType = JS_PKI_NAME_TYPE_DNS;
+        else if( strType == "email" )
+            nType = JS_PKI_NAME_TYPE_EMAIL;
+
         JS_PKI_setExtAuthorityInfoAccess( &sAIA,
                                           strMethod.toStdString().c_str(),
-                                          strType.toInt(),
+                                          nType,
                                           strName.toStdString().c_str() );
 
         if( pAIAList == NULL )
@@ -498,9 +506,18 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
+        QString strType;
+
+        if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_DNS )
+            strType = "DNS";
+        else if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_URI )
+            strType = "URI";
+        else if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_EMAIL )
+            strType = "Email";
+
         strVal += QString( "Method$%1#Type$%2#Name$%3")
                 .arg( pCurList->sAuthorityInfoAccess.pMethod )
-                .arg( pCurList->sAuthorityInfoAccess.nType )
+                .arg( strType )
                 .arg( pCurList->sAuthorityInfoAccess.pName );
 
         strVal += "%%";
@@ -627,7 +644,15 @@ static int _getAltName( const BIN *pBinExt, int nNid, QString& strVal )
 
     while( pCurList )
     {
-        strVal += QString( "#%1$%2").arg( pCurList->sNumVal.nNum ).arg(pCurList->sNumVal.pValue);
+        QString strType;
+        if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_DNS )
+            strType = "DNS";
+        else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_URI )
+            strType = "URI";
+        else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_EMAIL )
+            strType = "Email";
+
+        strVal += QString( "#%1$%2").arg( strType ).arg(pCurList->sNumVal.pValue);
         pCurList = pCurList->pNext;
     }
 

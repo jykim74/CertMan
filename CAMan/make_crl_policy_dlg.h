@@ -27,6 +27,7 @@ private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
 
+    void clickUseFromNow();
     void clickCRLNum();
     void clickAKI();
     void clickIDP();
