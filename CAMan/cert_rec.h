@@ -8,6 +8,7 @@ class CertRec
 {
 private:
     int         m_nNum;
+    int         m_nRegTime;
     int         m_nKeyNum;
     int         m_nUserNum;
     QString     m_strSignAlg;
@@ -26,6 +27,7 @@ public:
     CertRec();
 
     int getNum() { return m_nNum; };
+    int getRegTime() { return m_nRegTime; };
     int getKeyNum() { return m_nKeyNum; };
     int getUserNum() { return m_nUserNum; };
     QString getSignAlg() { return m_strSignAlg; };
@@ -41,6 +43,7 @@ public:
     QString getCRLDP() { return m_strCRLDP; };
 
     void setNum( int nNum );
+    void setRegTime( int nRegTime );
     void setKeyNum( int nKeyNum );
     void setUserNum( int nUserNum );
     void setSignAlg( QString strSignAlg );

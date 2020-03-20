@@ -32,6 +32,7 @@ void UserDlg::accept()
 {
     BIN binRef = {0,0};
     char *pHexRef = NULL;
+    time_t now_t = time(NULL);
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -48,6 +49,7 @@ void UserDlg::accept()
     JS_BIN_set( &binRef, (unsigned char *)strRefNum.toStdString().c_str(), strRefNum.length() );
     JS_BIN_encodeHex( &binRef, &pHexRef );
 
+    user.setRegTime( now_t );
     user.setName( strName );
     user.setSSN( strSSN );
     user.setEmail( strEmail );

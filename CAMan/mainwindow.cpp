@@ -1,6 +1,8 @@
 #include <QFileDialog>
 #include <QtWidgets>
 
+#include "js_util.h"
+
 #include "commons.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -1238,8 +1240,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
-//    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
-    QStringList headerList = { "Num", "KeyNum", "SignAlg", "IssuerNum", "SubjectDN" };
+    QStringList headerList = { "Num", "RegTime", "KeyNum", "SignAlg", "IssuerNum", "SubjectDN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1281,6 +1282,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     {
         int pos = 0;
         CertRec cert = certList.at(i);
+        char    sRegTime[64];
 
         QString strDNInfo;
         if( cert.isSelf() ) strDNInfo += "[Self]";
@@ -1288,8 +1290,11 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         strDNInfo += QString( "[%1] " ).arg( cert.getStatus() );
         strDNInfo += cert.getSubjectDN();
 
+        JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
+
         right_table_->insertRow(i);
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
@@ -1310,11 +1315,12 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     int nLimit = kListCount;
     int nPage = right_menu_->curPage();
     int nOffset = nPage * nLimit;
+    char sRegTime[64];
 
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Num", "IssuerNum", "SignAlg", "CRL" };
+    QStringList headerList = { "Num", "RegTime", "IssuerNum", "SignAlg", "CRL" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
@@ -1339,11 +1345,14 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     {
         CRLRec crl = crlList.at(i);
 
+        JS_UTIL_getDateTime( crl.getRegTime(), sRegTime );
+
         right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crl.getNum() )));
-        right_table_->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
-        right_table_->setItem( i, 2, new QTableWidgetItem( crl.getSignAlg() ));
-        right_table_->setItem( i, 3, new QTableWidgetItem( crl.getCRL() ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime )));
+        right_table_->setItem( i, 2, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRL() ));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -1418,7 +1427,7 @@ void MainWindow::createRightUserList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "Name", "SSN", "Email", "Status", "RefNum", "AuthCode" };
+    QStringList headerList = {"Num", "RegTime", "Name", "SSN", "Email", "Status", "RefNum", "AuthCode" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1440,20 +1449,23 @@ void MainWindow::createRightUserList()
         db_mgr_->getUserList( nOffset, nLimit, userList );
     }
 
-    db_mgr_->getUserList( userList );
 
     for( int i = 0; i < userList.size(); i++ )
     {
+        char sRegTime[64];
         UserRec user = userList.at(i);
         right_table_->insertRow(i);
 
+        JS_UTIL_getDateTime( user.getRegTime(), sRegTime );
+
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( user.getNum() )));
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( user.getName())));
-        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
-        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( user.getName())));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
+        right_table_->setItem(i,7, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -1568,6 +1580,7 @@ void MainWindow::showRightCertificate( int seq )
 
     QString strMsg;
     QString strPart;
+    char    sRegDate[64];
 
     CertRec certRec;
     db_mgr_->getCertRec( seq, certRec );
@@ -1575,6 +1588,10 @@ void MainWindow::showRightCertificate( int seq )
     strMsg = "[ Ceritificate information ]\n";
 
     strPart = QString("Num: %1\n").arg( certRec.getNum() );
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
+    strPart = QString("RegDate: %1\n").arg( sRegDate );
     strMsg += strPart;
 
     strPart = QString( "KeyNum: %1\n").arg( certRec.getKeyNum() );
@@ -1679,12 +1696,17 @@ void MainWindow::showRightCRL( int seq )
     QString strPart;
 
     CRLRec crlRec;
+    char    sRegTime[64];
 
     db_mgr_->getCRLRec( seq, crlRec );
 
     strMsg = "[ CRL information ]\n";
 
     strPart = QString( "Num: %1\n" ).arg( crlRec.getNum() );
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n" ).arg( sRegTime );
     strMsg += strPart;
 
     strPart = QString( "IssuerNum: %1\n").arg( crlRec.getIssuerNum() );
@@ -1799,6 +1821,7 @@ void MainWindow::showRightUser( int seq )
 
     QString strMsg;
     QString strPart;
+    char sRegTime[64];
 
     UserRec userRec;
     db_mgr_->getUserRec( seq, userRec );
@@ -1806,6 +1829,10 @@ void MainWindow::showRightUser( int seq )
     strMsg = "[ User information ]\n";
 
     strPart = QString( "Num: %1\n").arg( userRec.getNum());
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( userRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n").arg( sRegTime );
     strMsg += strPart;
 
     strPart = QString( "Name: %1\n").arg( userRec.getName() );

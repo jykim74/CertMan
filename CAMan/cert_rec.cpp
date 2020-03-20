@@ -3,6 +3,7 @@
 CertRec::CertRec()
 {
     m_nNum = -1;
+    m_nRegTime = 0;
     m_nKeyNum = -1;
     m_nUserNum = -1;
     m_strCert = "";
@@ -19,6 +20,11 @@ CertRec::CertRec()
 void CertRec::setNum( int nNum )
 {
     m_nNum = nNum;
+}
+
+void CertRec::setRegTime(int nRegTime)
+{
+    m_nRegTime = nRegTime;
 }
 
 void CertRec::setKeyNum( int nKeyNum )

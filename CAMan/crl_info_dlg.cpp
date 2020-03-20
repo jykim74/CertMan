@@ -4,6 +4,7 @@
 #include "crl_info_dlg.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "js_util.h"
 #include "commons.h"
 
 CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
@@ -44,7 +45,8 @@ void CRLInfoDlg::initialize()
     int i = 0;
 
     BIN binCRL = {0,0};
-//    JSCRLInfo  sCRLInfo;
+    char    sLastUpdate[64];
+    char    sNextUpdate[64];
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -88,14 +90,17 @@ void CRLInfoDlg::initialize()
         i++;
     }
 
+
+    JS_UTIL_getDateTime( crl_info_.uLastUpdate, sLastUpdate );
     mCRLListTable->insertRow(i);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("LastUpdate")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.uLastUpdate)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sLastUpdate)));
     i++;
 
+    JS_UTIL_getDateTime( crl_info_.uNextUpdate, sNextUpdate );
     mCRLListTable->insertRow(i);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("NextUpdate")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.uNextUpdate)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNextUpdate)));
     i++;
 
     if( crl_info_.pSignAlgorithm )

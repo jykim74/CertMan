@@ -43,6 +43,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     QSqlQuery SQL( strQuery );
 
     int nPosNum = SQL.record().indexOf( "Num" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime" );
     int nPosKeyNum = SQL.record().indexOf( "KeyNum" );
     int nPosUserNum = SQL.record().indexOf( "UserNum" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
@@ -62,6 +63,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
         CertRec certRec;
 
         certRec.setNum( SQL.value(nPosNum).toInt() );
+        certRec.setRegTime( SQL.value(nPosRegTime).toInt());
         certRec.setKeyNum( SQL.value(nPosKeyNum).toInt());
         certRec.setUserNum( SQL.value( nPosUserNum ).toInt());
         certRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
@@ -772,6 +774,7 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
     QSqlQuery SQL( strQuery );
 
     int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime" );
     int nPosIssuerNum = SQL.record().indexOf( "IssuerNum" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
     int nPosCRL = SQL.record().indexOf( "CRL" );
@@ -781,6 +784,7 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
         CRLRec crlRec;
 
         crlRec.setNum( SQL.value(nPosNum).toInt() );
+        crlRec.setRegTime( SQL.value(nPosRegTime).toInt());
         crlRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt() );
         crlRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
         crlRec.setCRL( SQL.value(nPosCRL).toString() );
@@ -909,10 +913,10 @@ int DBMgr::_getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& polic
 
 int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
 {
-    int     iCount = 0;
     QSqlQuery   SQL( strQuery );
 
     int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime" );
     int nPosName = SQL.record().indexOf( "Name" );
     int nPosSSN = SQL.record().indexOf( "SSN" );
     int nPosEmail = SQL.record().indexOf( "Email" );
@@ -925,6 +929,7 @@ int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
         UserRec     user;
 
         user.setNum( SQL.value(nPosNum).toInt() );
+        user.setRegTime( SQL.value(nPosRegTime).toInt());
         user.setName( SQL.value(nPosName).toString() );
         user.setSSN( SQL.value(nPosSSN).toString() );
         user.setEmail( SQL.value(nPosEmail).toString());
@@ -993,24 +998,26 @@ int DBMgr::getSeq( QString strTable )
 
 int DBMgr::addCertRec( CertRec& certRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, REGTIME, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, certRec.getKeyNum() );
-    sqlQuery.bindValue( 1, certRec.getUserNum() );
-    sqlQuery.bindValue( 2, certRec.getSignAlg() );
-    sqlQuery.bindValue( 3, certRec.getCert() );
-    sqlQuery.bindValue( 4, certRec.isSelf() );
-    sqlQuery.bindValue( 5, certRec.isCA() );
-    sqlQuery.bindValue( 6, certRec.getIssuerNum() );
-    sqlQuery.bindValue( 7, certRec.getSubjectDN() );
-    sqlQuery.bindValue( 8, certRec.getStatus() );
-    sqlQuery.bindValue( 9, certRec.getSerial() );
-    sqlQuery.bindValue( 10, certRec.getDNHash() );
-    sqlQuery.bindValue( 11, certRec.getKeyHash() );
-    sqlQuery.bindValue( 12, certRec.getCRLDP() );
+    sqlQuery.bindValue( i++, certRec.getRegTime() );
+    sqlQuery.bindValue( i++, certRec.getKeyNum() );
+    sqlQuery.bindValue( i++, certRec.getUserNum() );
+    sqlQuery.bindValue( i++, certRec.getSignAlg() );
+    sqlQuery.bindValue( i++, certRec.getCert() );
+    sqlQuery.bindValue( i++, certRec.isSelf() );
+    sqlQuery.bindValue( i++, certRec.isCA() );
+    sqlQuery.bindValue( i++, certRec.getIssuerNum() );
+    sqlQuery.bindValue( i++, certRec.getSubjectDN() );
+    sqlQuery.bindValue( i++, certRec.getStatus() );
+    sqlQuery.bindValue( i++, certRec.getSerial() );
+    sqlQuery.bindValue( i++, certRec.getDNHash() );
+    sqlQuery.bindValue( i++, certRec.getKeyHash() );
+    sqlQuery.bindValue( i++, certRec.getCRLDP() );
 
     sqlQuery.exec();
     return 0;
@@ -1099,14 +1106,16 @@ int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
 
 int DBMgr::addCRLRec( CRLRec& crlRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CRL "
-                      "( NUM, ISSUERNUM, SIGNALG, CRL ) "
-                      "VALUES( null, ?, ?, ? );" );
+                      "( NUM, REGTIME, ISSUERNUM, SIGNALG, CRL ) "
+                      "VALUES( null,?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, crlRec.getIssuerNum() );
-    sqlQuery.bindValue( 1, crlRec.getSignAlg() );
-    sqlQuery.bindValue( 2, crlRec.getCRL() );
+    sqlQuery.bindValue( i++, crlRec.getRegTime() );
+    sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
+    sqlQuery.bindValue( i++, crlRec.getSignAlg() );
+    sqlQuery.bindValue( i++, crlRec.getCRL() );
 
     sqlQuery.exec();
     return 0;
@@ -1239,17 +1248,19 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
 
 int DBMgr::addUserRec(UserRec &userRec)
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_USER "
-                      "( NUM, NAME, SSN, EMAIL, STATUS, REFNUM, AUTHCODE ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, REGTIME, NAME, SSN, EMAIL, STATUS, REFNUM, AUTHCODE ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, userRec.getName() );
-    sqlQuery.bindValue( 1, userRec.getSSN() );
-    sqlQuery.bindValue( 2, userRec.getEmail() );
-    sqlQuery.bindValue( 3, userRec.getStatus() );
-    sqlQuery.bindValue( 4, userRec.getRefNum() );
-    sqlQuery.bindValue( 5, userRec.getAuthCode() );
+    sqlQuery.bindValue( i++, userRec.getRegTime() );
+    sqlQuery.bindValue( i++, userRec.getName() );
+    sqlQuery.bindValue( i++, userRec.getSSN() );
+    sqlQuery.bindValue( i++, userRec.getEmail() );
+    sqlQuery.bindValue( i++, userRec.getStatus() );
+    sqlQuery.bindValue( i++, userRec.getRefNum() );
+    sqlQuery.bindValue( i++, userRec.getAuthCode() );
 
     sqlQuery.exec();
     return 0;

@@ -341,6 +341,7 @@ void MakeCertDlg::accept()
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 
+    madeCertRec.setRegTime( now_t );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( bCA );

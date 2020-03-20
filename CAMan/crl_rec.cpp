@@ -5,6 +5,7 @@
 CRLRec::CRLRec()
 {
     m_nNum = -1;
+    m_nRegTime = 0;
     m_nIssuerNum = -1;
     m_strCRL = "";
 }
@@ -12,6 +13,11 @@ CRLRec::CRLRec()
 void CRLRec::setNum( int nNum )
 {
     m_nNum = nNum;
+}
+
+void CRLRec::setRegTime(int nRegTime)
+{
+    m_nRegTime = nRegTime;
 }
 
 void CRLRec::setIssuerNum( int nIssuerNum )

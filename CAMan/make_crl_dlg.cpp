@@ -96,6 +96,8 @@ void MakeCRLDlg::accept()
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
     JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
+    time_t now_t = time(NULL);
+
     if( policy.getLastUpdate() <= 0 )
     {
         long uValidSecs = policy.getNextUpdate() * 60 * 60 * 24;
@@ -105,7 +107,6 @@ void MakeCRLDlg::accept()
     }
     else
     {
-        time_t now_t = time(NULL);
         uLastUpdate = policy.getLastUpdate() - now_t;
         uNextUpdate = policy.getNextUpdate() - now_t;
     }
@@ -242,6 +243,7 @@ void MakeCRLDlg::accept()
 
     JS_BIN_encodeHex( &binCRL, &pHexCRL );
 
+    madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
     madeCRLRec.setCRL( pHexCRL );

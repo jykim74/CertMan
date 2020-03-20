@@ -4,6 +4,7 @@
 #include "cert_info_dlg.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "js_util.h"
 #include "commons.h"
 
 
@@ -39,6 +40,8 @@ void CertInfoDlg::initialize()
     BIN binCert = {0,0};
     JCertInfo  sCertInfo;
     JExtensionInfoList *pExtInfoList = NULL;
+    char    sNotBefore[64];
+    char    sNotAfter[64];
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -80,14 +83,16 @@ void CertInfoDlg::initialize()
         i++;
     }
 
+    JS_UTIL_getDateTime( sCertInfo.uNotBefore, sNotBefore );
     mFieldTable->insertRow(i);
     mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotBefore")));
-    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotBefore)));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNotBefore)));
     i++;
 
+    JS_UTIL_getDateTime( sCertInfo.uNotAfter, sNotAfter );
     mFieldTable->insertRow(i);
     mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotAfter")));
-    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.uNotAfter)));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNotAfter)));
     i++;
 
     if( sCertInfo.pSubjectName )
