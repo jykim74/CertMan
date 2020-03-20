@@ -243,7 +243,7 @@ void MakeCRLDlg::accept()
     JS_BIN_encodeHex( &binCRL, &pHexCRL );
 
     madeCRLRec.setIssuerNum( caCert.getNum() );
-    madeCRLRec.setSignAlg( caCert.getSignAlg() );
+    madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
     madeCRLRec.setCRL( pHexCRL );
 
     dbMgr->addCRLRec( madeCRLRec );
