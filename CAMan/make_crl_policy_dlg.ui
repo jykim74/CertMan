@@ -30,95 +30,61 @@
    <item>
     <widget class="QTabWidget" name="mCRLTab">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>CRL Type</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>CRL period</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Valid days</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="mVersionCombo"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Last Update</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1" colspan="4">
         <widget class="QLineEdit" name="mNameText"/>
        </item>
-       <item row="4" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <widget class="QCheckBox" name="mUseFromNowCheck">
          <property name="text">
           <string>Use from now</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="3" column="4">
+        <widget class="QComboBox" name="mHashCombo"/>
+       </item>
+       <item row="6" column="3" colspan="2">
+        <widget class="QLineEdit" name="mValidDaysText"/>
+       </item>
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Name</string>
+          <string>Hash</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
+        <widget class="QDateTimeEdit" name="mNextUpdateDateTime"/>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Version</string>
+          <string>CRL Type</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="4">
-        <widget class="QDateTimeEdit" name="mNextUpdateDateTime"/>
-       </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Next Update</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QComboBox" name="mHashCombo"/>
-       </item>
-       <item row="5" column="1">
-        <widget class="QDateTimeEdit" name="mLastUpdateDateTime"/>
-       </item>
-       <item row="4" column="3" colspan="2">
-        <widget class="QLineEdit" name="mValidDaysText"/>
-       </item>
-       <item row="6" column="1">
+       <item row="8" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -131,6 +97,54 @@
          </property>
         </spacer>
        </item>
+       <item row="6" column="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Valid days</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Version</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Last Update</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="mVersionCombo"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QDateTimeEdit" name="mLastUpdateDateTime"/>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Next Update</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="5">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -138,45 +152,10 @@
        <string>Extend</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="mIDPUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QCheckBox" name="mAKICertSerialCheck">
-         <property name="text">
-          <string>Certificate serial</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="3">
-        <widget class="QPushButton" name="mIANAddBtn">
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="mCRLNumCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
+       <item row="7" column="1">
         <widget class="QCheckBox" name="mIDPCriticalCheck">
          <property name="text">
           <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>CRL number</string>
          </property>
         </widget>
        </item>
@@ -187,80 +166,86 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QComboBox" name="mIDPCombo"/>
-       </item>
-       <item row="4" column="0" colspan="3">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Issuing Distribution Point</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="4">
-        <widget class="QLineEdit" name="mIANText"/>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLineEdit" name="mCRLNumText"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="mAKIUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QPushButton" name="mIDPAddBtn">
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QCheckBox" name="mIANUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="3">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Issuer alternative name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="4">
-        <widget class="QTableWidget" name="mIANTable"/>
-       </item>
-       <item row="7" column="0" colspan="4">
-        <widget class="QTableWidget" name="mIDPTable"/>
-       </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QCheckBox" name="mAKICriticalCheck">
          <property name="text">
           <string>Critical</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+       <item row="7" column="2">
+        <widget class="QComboBox" name="mIDPCombo"/>
        </item>
-       <item row="9" column="1">
+       <item row="13" column="2">
+        <widget class="QComboBox" name="mIANCombo"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QCheckBox" name="mIDPUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
         <widget class="QCheckBox" name="mIANCriticalCheck">
          <property name="text">
           <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QCheckBox" name="mIANUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QCheckBox" name="mAKICertSerialCheck">
+         <property name="text">
+          <string>Certificate serial</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>CRL number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="3">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Issuer alternative name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="mAKIUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="mCRLNumCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QCheckBox" name="mAKICertIssuerCheck">
+         <property name="text">
+          <string>Certificate issuer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="3">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Issuing Distribution Point</string>
          </property>
         </widget>
        </item>
@@ -271,29 +256,100 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>Authority key identifier</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QCheckBox" name="mAKICertIssuerCheck">
+       <item row="1" column="4">
+        <widget class="QLineEdit" name="mCRLNumText"/>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Certificate issuer</string>
+          <string>number</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="4">
+       <item row="2" column="0" colspan="5">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="5">
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
+        <widget class="QPushButton" name="mIDPAddBtn">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="5">
         <widget class="QLineEdit" name="mIDPText"/>
        </item>
-       <item row="9" column="2">
-        <widget class="QComboBox" name="mIANCombo"/>
+       <item row="9" column="0" colspan="5">
+        <widget class="QTableWidget" name="mIDPTable"/>
+       </item>
+       <item row="10" column="4">
+        <widget class="QPushButton" name="mIDPClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="5">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="4">
+        <widget class="QPushButton" name="mIANAddBtn">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="4">
+        <widget class="QPushButton" name="mIANClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0" colspan="5">
+        <widget class="QLineEdit" name="mIANText"/>
+       </item>
+       <item row="15" column="0" colspan="5">
+        <widget class="QTableWidget" name="mIANTable"/>
        </item>
       </layout>
      </widget>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

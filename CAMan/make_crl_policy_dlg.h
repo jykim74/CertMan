@@ -35,6 +35,8 @@ private slots:
 
     void addIDP();
     void addIAN();
+    void clearIDP();
+    void clearIAN();
 
 
 private:

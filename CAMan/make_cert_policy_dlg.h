@@ -54,6 +54,16 @@ private slots:
     void addPM();
     void addNC();
 
+    void clearKeyUsage();
+    void clearPolicy();
+    void clearEKU();
+    void clearCRLDP();
+    void clearAIA();
+    void clearSAN();
+    void clearIAN();
+    void clearPM();
+    void clearNC();
+
 
 private:
     void initUI();

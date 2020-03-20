@@ -226,6 +226,9 @@ void MakeCRLPolicyDlg::connectExtends()
 
     connect( mIDPAddBtn, SIGNAL(clicked()), this, SLOT(addIDP()));
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
+
+    connect( mIDPClearBtn, SIGNAL(clicked()), this, SLOT(clearIDP()));
+    connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
 }
 
 void MakeCRLPolicyDlg::setExtends()
@@ -322,6 +325,22 @@ void MakeCRLPolicyDlg::addIAN()
 
     mIANTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+}
+
+void MakeCRLPolicyDlg::clearIDP()
+{
+    int nCnt = mIDPTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mIDPTable->removeRow(0);
+}
+
+void MakeCRLPolicyDlg::clearIAN()
+{
+    int nCnt = mIANTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mIANTable->removeRow(0);
 }
 
 void MakeCRLPolicyDlg::saveCRLNumUse( int nPolicyNum )

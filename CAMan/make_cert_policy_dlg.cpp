@@ -385,6 +385,16 @@ void MakeCertPolicyDlg::connectExtends()
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
     connect( mPMAddBtn, SIGNAL(clicked()), this, SLOT(addPM()));
     connect( mNCAddBtn, SIGNAL(clicked()), this, SLOT(addNC()));
+
+    connect( mKeyUsageClearBtn, SIGNAL(clicked()), this, SLOT(clearKeyUsage()));
+    connect( mPolicyClearBtn, SIGNAL(clicked()), this, SLOT(clearPolicy()));
+    connect( mEKUClearBtn, SIGNAL(clicked()), this, SLOT(clearEKU()));
+    connect( mCRLDPClearBtn, SIGNAL(clicked()), this, SLOT(clearCRLDP()));
+    connect( mAIAClearBtn, SIGNAL(clicked()), this, SLOT(clearAIA()));
+    connect( mSANClearBtn, SIGNAL(clicked()), this, SLOT(clearSAN()));
+    connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
+    connect( mPMClearBtn, SIGNAL(clicked()), this, SLOT(clearPM()));
+    connect( mNCClearBtn, SIGNAL(clicked()), this, SLOT(clearNC()));
 }
 
 void MakeCertPolicyDlg::clickUseCSR()
@@ -677,6 +687,72 @@ void MakeCertPolicyDlg::addNC()
     mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
     mNCTable->setItem( row, 3, new QTableWidgetItem(strMax));
     mNCTable->setItem( row, 4, new QTableWidgetItem(strMin));
+}
+
+void MakeCertPolicyDlg::clearKeyUsage()
+{
+    mKeyUsageList->clear();
+}
+
+void MakeCertPolicyDlg::clearPolicy()
+{
+    int nCnt = mPolicyTable->rowCount();
+
+    for( int i=0; i < nCnt; i++ )
+        mPolicyTable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearEKU()
+{
+    mEKUList->clear();
+}
+
+void MakeCertPolicyDlg::clearCRLDP()
+{
+    int nCnt = mCRLDPTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mCRLDPTable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearAIA()
+{
+    int nCnt = mAIATable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mAIATable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearSAN()
+{
+    int nCnt = mSANTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mSANTable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearIAN()
+{
+    int nCnt = mIANTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mIANTable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearPM()
+{
+    int nCnt = mPMTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mPMTable->removeRow(0);
+}
+
+void MakeCertPolicyDlg::clearNC()
+{
+    int nCnt = mNCTable->rowCount();
+
+    for( int i=0; i < nCnt; i++)
+        mNCTable->removeRow(0);
 }
 
 void MakeCertPolicyDlg::saveAIAUse(int nPolicyNum )
