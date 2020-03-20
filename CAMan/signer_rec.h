@@ -12,6 +12,7 @@ class SignerRec
 {
 private:
     int         m_nNum;
+    int         m_nRegTime;
     int         m_nType;
     QString     m_strDN;
     QString     m_strDNHash;
@@ -23,6 +24,7 @@ public:
     SignerRec();
 
     int getNum() { return m_nNum; };
+    int getRegTime() { return m_nRegTime; };
     int getType() { return m_nType; };
     QString getDN() { return m_strDN; };
     QString getDNHash() { return m_strDNHash; };
@@ -31,6 +33,7 @@ public:
     QString getDesc() { return m_strDesc; };
 
     void setNum( int nNum );
+    void setRegTime( int nRegTime );
     void setType( int nType );
     void setDN( QString strDN );
     void setDNHash( QString strDNHash );

@@ -1477,7 +1477,7 @@ void MainWindow::createRightSignerList(int nType)
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
-    QStringList headerList = { "Num", "Type", "DN", "Status", "Cert" };
+    QStringList headerList = { "Num", "RegTime", "Type", "DN", "Status", "Cert" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1491,14 +1491,17 @@ void MainWindow::createRightSignerList(int nType)
 
     for( int i = 0; i < signerList.size(); i++ )
     {
+        char sRegTime[64];
         SignerRec signer = signerList.at(i);
         right_table_->insertRow(i);
 
+        JS_UTIL_getDateTime( signer.getRegTime(), sRegTime );
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( signer.getNum() )));
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( signer.getType() )));
-        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( signer.getDN() )));
-        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( signer.getStatus() )));
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( signer.getCert() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( signer.getType() )));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( signer.getDN() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( signer.getStatus() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( signer.getCert() )));
     }
 }
 
@@ -1862,6 +1865,7 @@ void MainWindow::showRightSigner(int seq)
 
     QString strMsg;
     QString strPart;
+    char    sRegTime[64];
 
     SignerRec signerRec;
     db_mgr_->getSignerRec( seq, signerRec );
@@ -1869,6 +1873,10 @@ void MainWindow::showRightSigner(int seq)
     strMsg = "[ Signer information ]\n";
 
     strPart = QString( "Num: %1\n").arg( signerRec.getNum());
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( signerRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n").arg( sRegTime );
     strMsg += strPart;
 
     strPart = QString( "Type: %1\n").arg( signerRec.getType() );

@@ -61,7 +61,9 @@ void SignerDlg::accept()
     JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
 
     int nType = mTypeCombo->currentIndex();
+    time_t now_t = time(NULL);
 
+    signer.setRegTime( now_t );
     signer.setType( nType );
     signer.setDN( sCertInfo.pSubjectName );
     signer.setDNHash( sCertInfo.pDNHash );

@@ -950,6 +950,7 @@ int DBMgr::_getSignerList( QString strQuery, QList<SignerRec>& signerList )
     QSqlQuery   SQL(strQuery);
 
     int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime");
     int nPosType = SQL.record().indexOf( "TYPE" );
     int nPosDN = SQL.record().indexOf( "DN" );
     int nPosDNHash = SQL.record().indexOf( "DNHash" );
@@ -962,6 +963,7 @@ int DBMgr::_getSignerList( QString strQuery, QList<SignerRec>& signerList )
         SignerRec signer;
 
         signer.setNum( SQL.value(nPosNum).toInt());
+        signer.setRegTime( SQL.value(nPosRegTime).toInt());
         signer.setType( SQL.value(nPosType).toInt());
         signer.setDN( SQL.value(nPosDN).toString());
         signer.setDNHash( SQL.value(nPosDNHash).toString());
@@ -1268,17 +1270,19 @@ int DBMgr::addUserRec(UserRec &userRec)
 
 int DBMgr::addSignerRec( SignerRec& signerRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_SIGNER "
-                      "( NUM, TYPE, DN, DNHASH, STATUS, CERT, DESC ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, REGTIME, TYPE, DN, DNHASH, STATUS, CERT, DESC ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, signerRec.getType() );
-    sqlQuery.bindValue( 1, signerRec.getDN() );
-    sqlQuery.bindValue( 2, signerRec.getDNHash() );
-    sqlQuery.bindValue( 3, signerRec.getStatus() );
-    sqlQuery.bindValue( 4, signerRec.getCert() );
-    sqlQuery.bindValue( 5, signerRec.getDesc() );
+    sqlQuery.bindValue( i++, signerRec.getRegTime() );
+    sqlQuery.bindValue( i++, signerRec.getType() );
+    sqlQuery.bindValue( i++, signerRec.getDN() );
+    sqlQuery.bindValue( i++, signerRec.getDNHash() );
+    sqlQuery.bindValue( i++, signerRec.getStatus() );
+    sqlQuery.bindValue( i++, signerRec.getCert() );
+    sqlQuery.bindValue( i++, signerRec.getDesc() );
 
     sqlQuery.exec();
     return 0;
