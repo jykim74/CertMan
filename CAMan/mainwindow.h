@@ -127,6 +127,7 @@ public slots:
     void serverStatus();
 
     void treeMenuClick( QModelIndex index );
+    void treeMenuDoubleClick( QModelIndex index );
     void tableClick( QModelIndex index );
 
 private slots:

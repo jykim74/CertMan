@@ -795,7 +795,7 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
 
 int DBMgr::getCRLPolicyList(QList<CRLPolicyRec>& crlPolicyList)
 {
-    QString strSQL = "SELECT * FROM TB_CRL_POLICY";
+    QString strSQL = "SELECT * FROM TB_CRL_POLICY ORDER BY NUM DESC";
 
     return _getCRLPolicyList( strSQL, crlPolicyList );
 }

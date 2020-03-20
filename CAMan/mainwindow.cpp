@@ -130,6 +130,7 @@ void MainWindow::initialize()
     setCentralWidget(hsplitter_);
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
+    connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
     connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -883,6 +884,21 @@ void MainWindow::treeMenuClick(QModelIndex index )
     createRightList( nType, nNum );
 }
 
+void MainWindow::treeMenuDoubleClick(QModelIndex index)
+{
+    ManTreeItem *pItem = (ManTreeItem *)left_model_->itemFromIndex(index);
+
+    if( pItem == NULL ) return;
+
+    if( pItem->getType() == CM_ITEM_TYPE_SUBCA )
+    {
+        if( pItem->hasChildren() == false )
+            expandItem( pItem );
+    }
+
+    left_tree_->expand(index);
+}
+
 void MainWindow::tableClick(QModelIndex index )
 {
     int row = index.row();
@@ -1223,7 +1239,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_type_ = RightType::TYPE_CERTIFICATE;
 
 //    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IsSelf", "IsCA", "IssuerNum", "SubjectDN", "Status" };
-    QStringList headerList = { "Num", "KeyNum", "SignAlg", "Cert", "IssuerNum", "SubjectDN", "CRLDP" };
+    QStringList headerList = { "Num", "KeyNum", "SignAlg", "IssuerNum", "SubjectDN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1276,10 +1292,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getCert() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
+//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
     }
 
     right_menu_->setTotalCount( nTotalCount );
