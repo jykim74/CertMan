@@ -8,6 +8,7 @@ CRLRec::CRLRec()
     m_nRegTime = 0;
     m_nIssuerNum = -1;
     m_strCRL = "";
+    m_strCRLDP = "";
 }
 
 void CRLRec::setNum( int nNum )
@@ -33,4 +34,9 @@ void CRLRec::setSignAlg( QString strSignAlg )
 void CRLRec::setCRL( QString strCRL )
 {
     m_strCRL = strCRL;
+}
+
+void CRLRec::setCRLDP(QString strCRLDP)
+{
+    m_strCRLDP = strCRLDP;
 }

@@ -1,5 +1,6 @@
 #include <QSqlQuery>
 #include <QtSql>
+#include <iostream>
 
 #include "db_mgr.h"
 #include "cert_rec.h"
@@ -348,6 +349,19 @@ int DBMgr::getCertList( int nIssuerNum, QString strTarget, QString strWord, int 
     return _getCertList( strSQL, certList );
 }
 
+int DBMgr::getCertList( int nIssuerNum, QString strCRLDP, QList<CertRec>& certList )
+{
+    QString strSQL;
+    strSQL = QString( "SELECT * FROM TB_CERT "
+                      "WHERE ISSUERNUM = %1 AND CRLDP = '%2'" )
+            .arg( nIssuerNum )
+            .arg( strCRLDP );
+
+    printf( "SQL : %s\n", strSQL.toStdString().c_str() );
+
+    return _getCertList( strSQL, certList );
+}
+
 int DBMgr::getKeyPairList( int nStatus, QList<KeyPairRec>& keyPairList )
 {
     QString strSQL = "";
@@ -480,6 +494,15 @@ int DBMgr::getRevokeList( int nIssuerNum, QString strTarget, QString strWord, in
             .arg( strWord )
             .arg( nLimit )
             .arg( nOffset );
+
+    return _getRevokeList( strQuery, revokeList );
+}
+
+int DBMgr::getRevokeList( int nIssuerNum, QString strCRLDP, QList<RevokeRec>& revokeList )
+{
+    QString strQuery = QString( "SELECT * FROM TB_REVOKED WHERE ISSUERNUM = %1 AND CRLDP = '%2'")
+            .arg( nIssuerNum )
+            .arg( strCRLDP );
 
     return _getRevokeList( strQuery, revokeList );
 }
@@ -622,6 +645,28 @@ int DBMgr::_getReqList( QString strQuery, QList<ReqRec>& reqList )
     return 0;
 }
 
+int DBMgr::getCRLDPListFromCert( int nIssuerNum, QList<QString>& crldpList )
+{
+    QString strQuery = QString( "SELECT DISTINCT(CRLDP) FROM TB_CERT WHERE ISSUERNUM = %1").arg( nIssuerNum );
+
+    QSqlQuery SQL(strQuery);
+
+    int nPosCRLDP = SQL.record().indexOf( "CRLDP" );
+
+    while( SQL.next() )
+    {
+        QString strCRLDP;
+
+        strCRLDP = SQL.value( nPosCRLDP ).toString();
+
+        crldpList.append( strCRLDP );
+    }
+
+    SQL.finish();
+
+    return 0;
+}
+
 int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
 {
     QSqlQuery query;
@@ -717,6 +762,7 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
     int nPosNotAfter = SQL.record().indexOf( "NotAfter" );
     int nPosHash = SQL.record().indexOf( "HASH" );
     int nPosDNTemplate = SQL.record().indexOf( "DNTemplate" );
+    int nPosDivideNum = SQL.record().indexOf( "DivideNum" );
 
     while( SQL.next() )
     {
@@ -729,6 +775,7 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
         certPolicy.setNotAfter( SQL.value(nPosNotAfter).toInt() );
         certPolicy.setHash( SQL.value(nPosHash).toString() );
         certPolicy.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
+        certPolicy.setDivideNum( SQL.value(nPosDivideNum).toInt());
 
         certPolicyList.append( certPolicy );
         iCount++;
@@ -777,6 +824,7 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
     int nPosRegTime = SQL.record().indexOf( "RegTime" );
     int nPosIssuerNum = SQL.record().indexOf( "IssuerNum" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
+    int nPosCRLDP = SQL.record().indexOf( "CRLDP" );
     int nPosCRL = SQL.record().indexOf( "CRL" );
 
     while( SQL.next() )
@@ -787,6 +835,7 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
         crlRec.setRegTime( SQL.value(nPosRegTime).toInt());
         crlRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt() );
         crlRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
+        crlRec.setCRLDP( SQL.value(nPosCRLDP).toString());
         crlRec.setCRL( SQL.value(nPosCRL).toString() );
 
         crlList.append( crlRec );
@@ -1062,6 +1111,7 @@ int DBMgr::modCertStatus( int nNum, int nStatus )
 
 int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "UPDATE TB_CERT_POLICY SET "
                       "NAME = ?, "
@@ -1069,16 +1119,18 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
                       "NOTBEFORE = ?, "
                       "NOTAFTER = ?, "
                       "HASH = ?, "
-                      "DNTemplate = ? "
+                      "DNTemplate = ?, "
+                      "DivideNum = ? "
                       "WHERE NUM = ?;" );
 
-    sqlQuery.bindValue( 0, policyRec.getName() );
-    sqlQuery.bindValue( 1, policyRec.getVersion() );
-    sqlQuery.bindValue( 2, (int)policyRec.getNotBefore() );
-    sqlQuery.bindValue( 3, (int)policyRec.getNotAfter() );
-    sqlQuery.bindValue( 4, policyRec.getHash() );
-    sqlQuery.bindValue( 5, policyRec.getDNTemplate() );
-    sqlQuery.bindValue( 6, nPolicyNum );
+    sqlQuery.bindValue( i++, policyRec.getName() );
+    sqlQuery.bindValue( i++, policyRec.getVersion() );
+    sqlQuery.bindValue( i++, (int)policyRec.getNotBefore() );
+    sqlQuery.bindValue( i++, (int)policyRec.getNotAfter() );
+    sqlQuery.bindValue( i++, policyRec.getHash() );
+    sqlQuery.bindValue( i++, policyRec.getDNTemplate() );
+    sqlQuery.bindValue( i++, policyRec.getDivideNum() );
+    sqlQuery.bindValue( i++, nPolicyNum );
 
     sqlQuery.exec();
     return 0;
@@ -1086,6 +1138,7 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
 
 int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "UPDATE TB_CRL_POLICY SET "
                       "NAME = ?, "
@@ -1095,12 +1148,12 @@ int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
                       "HASH = ? "
                       "WHERE NUM = ?;" );
 
-    sqlQuery.bindValue( 0, policyRec.getName() );
-    sqlQuery.bindValue( 1, policyRec.getVersion() );
-    sqlQuery.bindValue( 2, (int)policyRec.getLastUpdate() );
-    sqlQuery.bindValue( 3, (int)policyRec.getNextUpdate() );
-    sqlQuery.bindValue( 4, policyRec.getHash() );
-    sqlQuery.bindValue( 5, nPolicyNum );
+    sqlQuery.bindValue( i++, policyRec.getName() );
+    sqlQuery.bindValue( i++, policyRec.getVersion() );
+    sqlQuery.bindValue( i++, (int)policyRec.getLastUpdate() );
+    sqlQuery.bindValue( i++, (int)policyRec.getNextUpdate() );
+    sqlQuery.bindValue( i++, policyRec.getHash() );
+    sqlQuery.bindValue( i++, nPolicyNum );
 
     sqlQuery.exec();
     return 0;
@@ -1111,12 +1164,13 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CRL "
-                      "( NUM, REGTIME, ISSUERNUM, SIGNALG, CRL ) "
-                      "VALUES( null,?, ?, ?, ? );" );
+                      "( NUM, REGTIME, ISSUERNUM, SIGNALG, CRLDP, CRL ) "
+                      "VALUES( null,?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, crlRec.getRegTime() );
     sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
     sqlQuery.bindValue( i++, crlRec.getSignAlg() );
+    sqlQuery.bindValue( i++, crlRec.getCRLDP() );
     sqlQuery.bindValue( i++, crlRec.getCRL() );
 
     sqlQuery.exec();
@@ -1125,18 +1179,20 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
 
 int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT_POLICY "
-                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE ) "
-                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE, DIVIDENUM ) "
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, certPolicyRec.getNum() );
-    sqlQuery.bindValue( 1, certPolicyRec.getName() );
-    sqlQuery.bindValue( 2, certPolicyRec.getVersion() );
-    sqlQuery.bindValue( 3, QString( "%1" ).arg( certPolicyRec.getNotBefore() ) );
-    sqlQuery.bindValue( 4, QString( "%1").arg( certPolicyRec.getNotAfter() ) );
-    sqlQuery.bindValue( 5, certPolicyRec.getHash() );
-    sqlQuery.bindValue( 6, certPolicyRec.getDNTemplate() );
+    sqlQuery.bindValue( i++, certPolicyRec.getNum() );
+    sqlQuery.bindValue( i++, certPolicyRec.getName() );
+    sqlQuery.bindValue( i++, certPolicyRec.getVersion() );
+    sqlQuery.bindValue( i++, QString( "%1" ).arg( certPolicyRec.getNotBefore() ) );
+    sqlQuery.bindValue( i++, QString( "%1").arg( certPolicyRec.getNotAfter() ) );
+    sqlQuery.bindValue( i++, certPolicyRec.getHash() );
+    sqlQuery.bindValue( i++, certPolicyRec.getDNTemplate() );
+    sqlQuery.bindValue( i++, certPolicyRec.getDivideNum() );
 
     sqlQuery.exec();
     return 0;
@@ -1144,18 +1200,19 @@ int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
 
 int DBMgr::addCRLPolicyRec( CRLPolicyRec& crlPolicyRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
 
     sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY "
                       "( NUM, NAME, VERSION, LASTUPDATE, NEXTUPDATE, HASH ) "
-                      "VALUES( ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, crlPolicyRec.getNum() );
-    sqlQuery.bindValue( 1, crlPolicyRec.getName() );
-    sqlQuery.bindValue( 2, crlPolicyRec.getVersion() );
-    sqlQuery.bindValue( 3, QString("%1").arg(crlPolicyRec.getLastUpdate()));
-    sqlQuery.bindValue( 4, QString("%1").arg(crlPolicyRec.getNextUpdate()));
-    sqlQuery.bindValue( 5, crlPolicyRec.getHash());
+    sqlQuery.bindValue( i++, crlPolicyRec.getNum() );
+    sqlQuery.bindValue( i++, crlPolicyRec.getName() );
+    sqlQuery.bindValue( i++, crlPolicyRec.getVersion() );
+    sqlQuery.bindValue( i++, QString("%1").arg(crlPolicyRec.getLastUpdate()));
+    sqlQuery.bindValue( i++, QString("%1").arg(crlPolicyRec.getNextUpdate()));
+    sqlQuery.bindValue( i++, crlPolicyRec.getHash());
 
     sqlQuery.exec();
     return 0;

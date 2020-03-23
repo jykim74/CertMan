@@ -66,6 +66,7 @@ void MakeCertPolicyDlg::loadPolicy()
     mVersionCombo->setCurrentIndex( certPolicy.getVersion() );
     mHashCombo->setCurrentText( certPolicy.getHash() );
     mSubjectDNText->setText( certPolicy.getDNTemplate() );
+    mDivideNumText->setText( QString("%1").arg( certPolicy.getDivideNum()));
 
     if( certPolicy.getNotBefore() == 0 )
     {
@@ -243,6 +244,7 @@ void MakeCertPolicyDlg::accept()
     certPolicyRec.setVersion( mVersionCombo->currentIndex() );
     certPolicyRec.setName( strName );
     certPolicyRec.setDNTemplate( strSubjectDN );
+    certPolicyRec.setDivideNum( mDivideNumText->text().toInt());
 
     if( mUseDaysCheck->isChecked() )
     {

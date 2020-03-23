@@ -40,3 +40,4 @@ void CRLPolicyRec::setNextUpdate( time_t tNextUpdate )
 {
     m_tNextUpdate = tNextUpdate;
 }
+

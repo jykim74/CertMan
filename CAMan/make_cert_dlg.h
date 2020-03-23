@@ -28,6 +28,7 @@ private slots:
     virtual void accept();
     void reqChanged( int index );
     void issuerChanged( int index );
+    void policyChanged( int index );
     void clickSelfSign();
 
 private:
@@ -36,6 +37,8 @@ private:
     QList<CertPolicyRec>    cert_policy_list_;
 
     void initialize();
+    void setSubjectDN();
+    QString getRealSubjectDN();
 };
 
 #endif // MAKE_CERT_DLG_H

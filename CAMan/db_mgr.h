@@ -49,6 +49,7 @@ public:
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
     int getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>& certList );
     int getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList );
+    int getCertList( int nIssuerNum, QString strCRLDP, QList<CertRec>& certList );
     int getCACertList( QList<CertRec>& certList );
     int getCACertList( int nIssuerNum, QList<CertRec>& certList );
     int getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList );
@@ -79,6 +80,7 @@ public:
     int getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList );
     int getRevokeList( int nIssuerNum, int nOffset, int nLimit, QList<RevokeRec>& revokeList );
     int getRevokeList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<RevokeRec>& revokeList );
+    int getRevokeList( int nIssuerNum, QString strCRLDP, QList<RevokeRec>& revokeList );
 
     int getUserList( QList<UserRec>& userList );
     int getUserList( int nOffset, int nLimit, QList<UserRec>& userList );
@@ -87,6 +89,8 @@ public:
     int getUserRec( int nSeq, UserRec& userRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );
+
+    int getCRLDPListFromCert( int nIssuerNum, QList<QString>& crldpList );
 
     int addKeyPairRec( KeyPairRec& keyPair );
     int addReqRec( ReqRec& reqRec );

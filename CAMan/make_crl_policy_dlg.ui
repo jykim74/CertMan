@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>593</width>
-    <height>613</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,38 +37,22 @@
        <string>Base</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>CRL period</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="4">
-        <widget class="QLineEdit" name="mNameText"/>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QCheckBox" name="mUseFromNowCheck">
-         <property name="text">
-          <string>Use from now</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="4">
-        <widget class="QComboBox" name="mHashCombo"/>
-       </item>
        <item row="6" column="3" colspan="2">
         <widget class="QLineEdit" name="mValidDaysText"/>
        </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="label_6">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Hash</string>
+          <string>CRL Type</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="4">
-        <widget class="QDateTimeEdit" name="mNextUpdateDateTime"/>
+       <item row="6" column="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Valid days</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0" colspan="5">
         <widget class="Line" name="line">
@@ -77,10 +61,20 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="0" column="1" colspan="4">
+        <widget class="QLineEdit" name="mNameText"/>
+       </item>
+       <item row="4" column="0" colspan="5">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QCheckBox" name="mUseFromNowCheck">
          <property name="text">
-          <string>CRL Type</string>
+          <string>Use from now</string>
          </property>
         </widget>
        </item>
@@ -97,10 +91,37 @@
          </property>
         </spacer>
        </item>
-       <item row="6" column="2">
-        <widget class="QLabel" name="label_7">
+       <item row="7" column="4">
+        <widget class="QDateTimeEdit" name="mNextUpdateDateTime"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>Valid days</string>
+          <string>CRL period</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Next Update</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="mVersionCombo"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Last Update</string>
          </property>
         </widget>
        </item>
@@ -111,39 +132,18 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Last Update</string>
-         </property>
-        </widget>
+       <item row="3" column="4">
+        <widget class="QComboBox" name="mHashCombo"/>
        </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="mVersionCombo"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Name</string>
+          <string>Hash</string>
          </property>
         </widget>
        </item>
        <item row="7" column="1">
         <widget class="QDateTimeEdit" name="mLastUpdateDateTime"/>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Next Update</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="5">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

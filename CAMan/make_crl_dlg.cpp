@@ -11,14 +11,10 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
+#include "js_util.h"
 #include "commons.h"
 #include "settings_mgr.h"
 
-static QStringList	sRevokeReasonList = {
-    "unused", "keyCompromise", "CACompromise",
-    "affiliationChanged", "superseded", "cessationOfOperation",
-    "certificateHold", "privilegeWithdrawn", "AACompromise"
-};
 
 MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     QDialog(parent)
@@ -26,14 +22,13 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     setupUi(this);
 
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
-    connect( mRevokeAddBtn, SIGNAL(clicked()), this, SLOT(clickRevokeAdd()));
-
-    mRevokeReasonCombo->addItems(sRevokeReasonList);
+    connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
 
     QStringList sRevokeLabels = { "Serial", "Reason", "Date" };
     mRevokeTable->setColumnCount(3);
     mRevokeTable->horizontalHeader()->setStretchLastSection(true);
     mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
+    mRevokeTable->verticalHeader()->setVisible(false);
 
     initialize();
 }
@@ -170,8 +165,11 @@ void MakeCRLDlg::accept()
             JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
     }
 
-    int nRevokeCnt = mRevokeTable->rowCount();
-    for( int i = 0; i < nRevokeCnt; i++ )
+    QList<RevokeRec> revokeList;
+    QString strCRLDP = mCRLDPCombo->currentText();
+    dbMgr->getRevokeList( caCert.getNum(), strCRLDP, revokeList );
+
+    for( int i = 0; i < revokeList.size(); i++ )
     {
         JRevokeInfo sRevokeInfo;
         const char *pSerial = NULL;
@@ -180,12 +178,14 @@ void MakeCRLDlg::accept()
         JExtensionInfo sExtReason;
         PolicyExtRec policyReason;
 
+        RevokeRec revoke = revokeList.at(i);
+
         memset( &sRevokeInfo, 0x00, sizeof(sRevokeInfo) );
         memset( &sExtReason, 0x00, sizeof(sExtReason) );
 
-        pSerial = mRevokeTable->takeItem(i, 0)->text().toStdString().c_str();
-        nReason = mRevokeTable->takeItem(i, 1)->text().toInt();
-        uRevokeDate = mRevokeTable->takeItem(i,2)->data(0).toInt();
+        pSerial = revoke.getSerial().toStdString().c_str();
+        nReason = revoke.getReason();
+        uRevokeDate = revoke.getRevokeDate();
 
         policyReason.setSN( kExtNameCRLReason );
         policyReason.setCritical( true );
@@ -246,6 +246,7 @@ void MakeCRLDlg::accept()
     madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
+    madeCRLRec.setCRLDP( strCRLDP );
     madeCRLRec.setCRL( pHexCRL );
 
     dbMgr->addCRLRec( madeCRLRec );
@@ -283,39 +284,20 @@ void MakeCRLDlg::issuerChanged(int index)
     mAlgorithmText->setText( issuerKeyPair.getAlg() );
     mOptionText->setText( issuerKeyPair.getParam() );
 
-    QList<CertRec> certList;
-    dbMgr->getCertList( nNum, certList );
+    QList<QString> crldpList;
+    dbMgr->getCRLDPListFromCert( nNum, crldpList );
 
-    mCertCombo->clear();
+    mCRLDPCombo->clear();
 
-    for( int i=0; i < certList.size(); i++ )
-    {
-        CertRec cert = certList.at(i);
-        QVariant objVal = QVariant( cert.getNum() );
-        mCertCombo->addItem( cert.getSubjectDN(), objVal );
-    }
+    for( int i = 0; i < crldpList.size(); i++ )
+        mCRLDPCombo->addItem( crldpList.at(i) );
 
     setRevokeList();
 }
 
-void MakeCRLDlg::clickRevokeAdd()
+void MakeCRLDlg::crldpChanged(int index )
 {
-   QVariant objVal = mCertCombo->currentData();
-   QString strSerail = objVal.toString();
-   QString strReason = mRevokeReasonCombo->currentText();
-   QString strDate = mRevokeDateTime->dateTime().toString();
-   QVariant objDate = QVariant( mRevokeDateTime->dateTime().toTime_t() );
-
-   int row = mRevokeTable->rowCount();
-   mRevokeTable->setRowCount( row + 1 );
-
-   QTableWidgetItem *dateItem = new QTableWidgetItem( strDate );
-   dateItem->setData( 0, objDate );
-
-   mRevokeTable->setItem( row, 0, new QTableWidgetItem( strSerail ));
-   mRevokeTable->setItem( row, 1, new QTableWidgetItem( strReason ));
-//   mRevokeTable->setItem( row, 2, new QTableWidgetItem( strDate ) );
-   mRevokeTable->setItem( row, 2, dateItem );
+    setRevokeList();
 }
 
 void MakeCRLDlg::initialize()
@@ -342,9 +324,6 @@ void MakeCRLDlg::initialize()
         mPolicyNameCombo->addItem( policyRec.getName() );
     }
 
-    QDateTime dateTime = QDateTime::currentDateTime();
-    mRevokeDateTime->setDateTime( dateTime );
-
     setRevokeList();
 }
 
@@ -359,24 +338,22 @@ void MakeCRLDlg::setRevokeList()
 
     QList<RevokeRec> revokeList;
     CertRec issuer = ca_cert_list_.at( mIssuerNameCombo->currentIndex() );
-    dbMgr->getRevokeList( issuer.getNum(), revokeList );
+    QString strCRLDP= mCRLDPCombo->currentText();
+
+    dbMgr->getRevokeList( issuer.getNum(), strCRLDP, revokeList );
 
     for( int i=0; i < revokeList.size(); i++ )
     {
         RevokeRec revoke = revokeList.at(i);
-        QVariant objDate = revoke.getRevokeDate();
+        char sDateTime[64];
 
-        QDateTime dateTime;
-        dateTime.fromTime_t( revoke.getRevokeDate() );
-        QString strDate = dateTime.toString();
-
-        QTableWidgetItem *dateItem = new QTableWidgetItem( strDate );
-        dateItem->setData(0, objDate);
+        JS_UTIL_getDateTime( revoke.getRevokeDate(), sDateTime );
+        QString strDate = sDateTime;
+        QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         mRevokeTable->insertRow(i);
         mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
-        mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(revoke.getReason()) ));
- //       mRevokeTable->setItem( i, 2, new QTableWidgetItem( revoke.getRevokeDate() ));
-        mRevokeTable->setItem( i, 2, dateItem );
+        mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strReason ) ));
+        mRevokeTable->setItem( i, 2, new QTableWidgetItem( sDateTime ));
     }
 }

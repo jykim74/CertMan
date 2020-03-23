@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "req_rec.h"
 #include "cert_rec.h"
+#include "user_rec.h"
 #include "cert_policy_rec.h"
 #include "key_pair_rec.h"
 #include "db_mgr.h"
@@ -38,6 +39,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
 
     connect( mReqNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(reqChanged(int)));
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
+    connect( mPolicyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(policyChanged(int)));
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
 
     initialize();
@@ -80,6 +82,56 @@ void MakeCertDlg::initialize()
         CertPolicyRec certPolicyRec = cert_policy_list_.at(i);
         mPolicyNameCombo->addItem( certPolicyRec.getName() );
     }
+
+    setSubjectDN();
+}
+
+void MakeCertDlg::setSubjectDN()
+{
+    CertPolicyRec   policy = cert_policy_list_.at(mPolicyNameCombo->currentIndex());
+
+    if( policy.getDNTemplate() == "#CSR" )
+    {
+        ReqRec req = req_list_.at( mReqNameCombo->currentIndex() );
+
+        mSubjectDNText->setText( req.getDN() );
+    }
+    else
+    {
+        mSubjectDNText->setText( policy.getDNTemplate() );
+    }
+}
+
+QString MakeCertDlg::getRealSubjectDN()
+{
+    char        *pDN = NULL;
+    QString     strDN;
+
+    QString strUserName = mUserNameText->text();
+    QString strSSN = mSSNText->text();
+    QString strEmail = mEmailText->text();
+
+    JNameValList    *pNameValList = NULL;
+
+    JS_UTIL_createNameValList2( ":name:", strUserName.toStdString().c_str(), &pNameValList );
+    JS_UTIL_appendNameValList2( pNameValList, ":ssn:", strSSN.toStdString().c_str() );
+    JS_UTIL_appendNameValList2( pNameValList, ":email:", strEmail.toStdString().c_str() );
+
+    JS_PKI_getReplacedDN( mSubjectDNText->text().toStdString().c_str(), pNameValList, &pDN );
+
+    if( pDN )
+    {
+        strDN = pDN;
+        JS_free( pDN );
+    }
+    else
+    {
+        strDN = mSubjectDNText->text();
+    }
+
+    if( pNameValList ) JS_UTIL_resetNameValList( &pNameValList );
+
+    return strDN;
 }
 
 void MakeCertDlg::setFixIssuer(QString strIssuerName)
@@ -108,6 +160,7 @@ void MakeCertDlg::accept()
 
     char sKeyID[128];
     char *pHexCRLDP = NULL;
+    char *pTemplateDP = NULL;
     char *pCRLDP = NULL;
 
     memset( sKeyID, 0x00, sizeof(sKeyID));
@@ -119,6 +172,7 @@ void MakeCertDlg::accept()
     QTextCodec *codec = QTextCodec::codecForName("UTF-16");
     QByteArray ba;
 
+    UserRec userRec;
 
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
@@ -197,11 +251,8 @@ void MakeCertDlg::accept()
         nKeyType = JS_PKI_KEY_TYPE_ECC;
 
 
-    QString strDN;
-    if( policyRec.getDNTemplate() == "#CSR" )
-        strDN = reqRec.getDN();
-    else
-        strDN = policyRec.getDNTemplate();
+//    QString strDN = mSubjectDNText->text();
+    QString strDN = getRealSubjectDN();
 
     time_t now_t = time(NULL);
     long notBefore = -1;
@@ -329,7 +380,13 @@ void MakeCertDlg::accept()
     }
 
     JS_PKI_getExtensionValue( pMadeExtInfoList, JS_PKI_ExtNameCRLDP, &pHexCRLDP );
-    if( pHexCRLDP ) JS_PKI_getExtensionStringValue( pHexCRLDP, JS_PKI_ExtNameCRLDP, &pCRLDP );
+    if( pHexCRLDP ) JS_PKI_getExtensionStringValue( pHexCRLDP, JS_PKI_ExtNameCRLDP, &pTemplateDP );
+
+    if( pTemplateDP )
+    {
+        JS_PKI_getDP( pTemplateDP, nSeq, policyRec.getDivideNum(), &pCRLDP );
+        if( pCRLDP == NULL ) pCRLDP = JS_strdup( pTemplateDP );
+    }
 
     JS_BIN_encodeHex( &binCert, &pHexCert );
 
@@ -355,6 +412,13 @@ void MakeCertDlg::accept()
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
 
+
+    userRec.setName( mUserNameText->text() );
+    userRec.setSSN( mSSNText->text() );
+    userRec.setEmail( mEmailText->text() );
+    userRec.setRegTime( time(NULL));
+    dbMgr->addUserRec( userRec );
+
 end :
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binSignPri );
@@ -368,6 +432,7 @@ end :
     JS_BIN_reset( &binPub );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pHexCRLDP ) JS_free( pHexCRLDP );
+    if( pTemplateDP ) JS_free( pTemplateDP );
     if( pCRLDP ) JS_free( pCRLDP );
 
     if( ret == 0 )
@@ -402,6 +467,11 @@ void MakeCertDlg::issuerChanged( int index )
 
     mIssuerAlgorithmText->setText( keyPair.getAlg() );
     mIssuerOptionText->setText( keyPair.getParam() );
+}
+
+void MakeCertDlg::policyChanged(int index )
+{
+    setSubjectDN();
 }
 
 void MakeCertDlg::clickSelfSign()

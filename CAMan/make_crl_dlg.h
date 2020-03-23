@@ -23,7 +23,7 @@ public:
 private slots:
     virtual void accept();
     void issuerChanged(int index);
-    void clickRevokeAdd();
+    void crldpChanged(int index);
 
 
 private:
