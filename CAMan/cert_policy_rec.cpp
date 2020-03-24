@@ -45,8 +45,3 @@ void CertPolicyRec::setNotAfter( long uNotAfter )
 {
     m_uNotAfter = uNotAfter;
 }
-
-void CertPolicyRec::setDivideNum(int nDivideNum)
-{
-    m_nDivideNum = nDivideNum;
-}

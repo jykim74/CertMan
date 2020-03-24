@@ -762,7 +762,6 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
     int nPosNotAfter = SQL.record().indexOf( "NotAfter" );
     int nPosHash = SQL.record().indexOf( "HASH" );
     int nPosDNTemplate = SQL.record().indexOf( "DNTemplate" );
-    int nPosDivideNum = SQL.record().indexOf( "DivideNum" );
 
     while( SQL.next() )
     {
@@ -775,7 +774,6 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
         certPolicy.setNotAfter( SQL.value(nPosNotAfter).toInt() );
         certPolicy.setHash( SQL.value(nPosHash).toString() );
         certPolicy.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
-        certPolicy.setDivideNum( SQL.value(nPosDivideNum).toInt());
 
         certPolicyList.append( certPolicy );
         iCount++;
@@ -1119,8 +1117,7 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
                       "NOTBEFORE = ?, "
                       "NOTAFTER = ?, "
                       "HASH = ?, "
-                      "DNTemplate = ?, "
-                      "DivideNum = ? "
+                      "DNTemplate = ? "
                       "WHERE NUM = ?;" );
 
     sqlQuery.bindValue( i++, policyRec.getName() );
@@ -1129,7 +1126,6 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
     sqlQuery.bindValue( i++, (int)policyRec.getNotAfter() );
     sqlQuery.bindValue( i++, policyRec.getHash() );
     sqlQuery.bindValue( i++, policyRec.getDNTemplate() );
-    sqlQuery.bindValue( i++, policyRec.getDivideNum() );
     sqlQuery.bindValue( i++, nPolicyNum );
 
     sqlQuery.exec();
@@ -1182,8 +1178,8 @@ int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
     int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT_POLICY "
-                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE, DIVIDENUM ) "
-                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE ) "
+                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, certPolicyRec.getNum() );
     sqlQuery.bindValue( i++, certPolicyRec.getName() );
@@ -1192,7 +1188,6 @@ int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
     sqlQuery.bindValue( i++, QString( "%1").arg( certPolicyRec.getNotAfter() ) );
     sqlQuery.bindValue( i++, certPolicyRec.getHash() );
     sqlQuery.bindValue( i++, certPolicyRec.getDNTemplate() );
-    sqlQuery.bindValue( i++, certPolicyRec.getDivideNum() );
 
     sqlQuery.exec();
     return 0;

@@ -24,44 +24,7 @@
        <string>Base</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Certificate type</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Hash</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLineEdit" name="mDivideNumText"/>
-       </item>
-       <item row="10" column="0">
-        <widget class="QCheckBox" name="mUseCSRCheck">
-         <property name="text">
-          <string>Use CSR</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3">
-        <widget class="QDateTimeEdit" name="mNotAfterDateTime"/>
-       </item>
-       <item row="4" column="0" colspan="4">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="3">
-        <widget class="QComboBox" name="mHashCombo"/>
-       </item>
-       <item row="13" column="1">
+       <item row="11" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -74,54 +37,20 @@
          </property>
         </spacer>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_34">
-         <property name="text">
-          <string>DivideNum</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="mVersionCombo"/>
-       </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="mUseDaysCheck">
-         <property name="text">
-          <string>Use days</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Not After</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Version</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="3">
-        <widget class="QLineEdit" name="mNameText"/>
-       </item>
        <item row="6" column="3">
         <widget class="QLineEdit" name="mDaysText"/>
        </item>
-       <item row="1" column="0" colspan="4">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Subject DN</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QLabel" name="label_8">
+       <item row="3" column="2">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Days</string>
+          <string>Hash</string>
          </property>
         </widget>
        </item>
@@ -132,11 +61,49 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
-       </item>
        <item row="10" column="1" colspan="3">
         <widget class="QLineEdit" name="mSubjectDNText"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="mUseDaysCheck">
+         <property name="text">
+          <string>Use days</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Days</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Not After</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="3">
+        <widget class="QDateTimeEdit" name="mNotAfterDateTime"/>
+       </item>
+       <item row="0" column="1" colspan="3">
+        <widget class="QLineEdit" name="mNameText"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Version</string>
+         </property>
+        </widget>
        </item>
        <item row="8" column="0" colspan="4">
         <widget class="Line" name="line_2">
@@ -152,26 +119,42 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Subject DN</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="4">
-        <widget class="Line" name="line_13">
+       <item row="1" column="0" colspan="4">
+        <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0" colspan="4">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QComboBox" name="mHashCombo"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Certificate type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
+       </item>
+       <item row="10" column="0">
+        <widget class="QCheckBox" name="mUseCSRCheck">
+         <property name="text">
+          <string>Use CSR</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="mVersionCombo"/>
        </item>
       </layout>
      </widget>

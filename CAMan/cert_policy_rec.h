@@ -13,7 +13,7 @@ private:
     QString         m_strDNTemplate;
     long            m_uNotBefore;
     long            m_uNotAfter;
-    int             m_nDivideNum;
+
 
 public:
     CertPolicyRec();
@@ -25,7 +25,7 @@ public:
     QString getDNTemplate() { return m_strDNTemplate; };
     long getNotBefore() { return m_uNotBefore; };
     long getNotAfter() { return m_uNotAfter; };
-    int getDivideNum() { return m_nDivideNum; };
+
 
     void setNum( int nNum );
     void setName( QString strName );
@@ -34,7 +34,7 @@ public:
     void setDNTemplate( QString strDNTemplate );
     void setNotBefore( long uNotBefore );
     void setNotAfter( long uNotAfter );
-    void setDivideNum( int nDivideNum );
+
 };
 
 #endif // CERT_POLICY_REC_H

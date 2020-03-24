@@ -113,9 +113,9 @@ QString MakeCertDlg::getRealSubjectDN()
 
     JNameValList    *pNameValList = NULL;
 
-    JS_UTIL_createNameValList2( ":name:", strUserName.toStdString().c_str(), &pNameValList );
-    JS_UTIL_appendNameValList2( pNameValList, ":ssn:", strSSN.toStdString().c_str() );
-    JS_UTIL_appendNameValList2( pNameValList, ":email:", strEmail.toStdString().c_str() );
+    JS_UTIL_createNameValList2( JS_PKI_TEMPLATE_NAME, strUserName.toStdString().c_str(), &pNameValList );
+    JS_UTIL_appendNameValList2( pNameValList, JS_PKI_TEMPLATE_SSN, strSSN.toStdString().c_str() );
+    JS_UTIL_appendNameValList2( pNameValList, JS_PKI_TEMPLATE_EMAIL, strEmail.toStdString().c_str() );
 
     JS_PKI_getReplacedDN( mSubjectDNText->text().toStdString().c_str(), pNameValList, &pDN );
 
@@ -384,7 +384,7 @@ void MakeCertDlg::accept()
 
     if( pTemplateDP )
     {
-        JS_PKI_getDP( pTemplateDP, nSeq, policyRec.getDivideNum(), &pCRLDP );
+        JS_PKI_getDP( pTemplateDP, nSeq, &pCRLDP );
         if( pCRLDP == NULL ) pCRLDP = JS_strdup( pTemplateDP );
     }
 
