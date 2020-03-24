@@ -144,7 +144,7 @@ void CertInfoDlg::initialize()
         while( pCurList )
         {
             PolicyExtRec policyRec;
-            getExtInfoFromDB( &pCurList->sExtensionInfo, policyRec );
+            transExtInfoToDBRec( &pCurList->sExtensionInfo, policyRec );
 
             mFieldTable->insertRow(i);
             mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyRec.getSN())));

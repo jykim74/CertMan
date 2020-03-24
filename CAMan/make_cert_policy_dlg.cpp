@@ -71,7 +71,6 @@ void MakeCertPolicyDlg::loadPolicy()
     {
         mUseDaysCheck->setChecked(true);
         mDaysText->setText( QString("%1").arg(certPolicy.getNotAfter()));
-        clickUseDays();
     }
     else {
         notBefore.setTime_t( certPolicy.getNotBefore() );
@@ -80,6 +79,8 @@ void MakeCertPolicyDlg::loadPolicy()
         mNotBeforeDateTime->setDateTime( notBefore );
         mNotAfterDateTime->setDateTime( notAfter );
     }
+
+    clickUseDays();
 
     if( certPolicy.getDNTemplate() == "#CSR" )
     {

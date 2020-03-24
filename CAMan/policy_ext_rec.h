@@ -15,11 +15,11 @@ private:
 public:
     PolicyExtRec();
 
-    int getSeq() { return m_nSeq; };
-    int getPolicyNum() { return m_nPolicyNum; };
-    bool isCritical() { return m_bCritical; };
-    QString getSN() { return m_strSN; };
-    QString getValue() { return m_strValue; };
+    const int getSeq() { return m_nSeq; };
+    const int getPolicyNum() { return m_nPolicyNum; };
+    const bool isCritical() { return m_bCritical; };
+    const QString getSN() { return m_strSN; };
+    const QString getValue() { return m_strValue; };
 
     void setSeq( int nSeq );
     void setPolicyNum( int nPolicyNum );

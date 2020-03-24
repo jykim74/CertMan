@@ -55,31 +55,58 @@ static int _getKeyUsage( const BIN *pBinExt, QString& strVal )
     ret = JS_PKI_getKeyUsageValue( pBinExt, &nKeyUsage );
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_DIGITAL_SIGNATURE )
-        strVal += "Digital Signature,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "Digital Signature";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_NON_REPUDIATION )
-        strVal += "NonRepudiation,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "NonRepudiation";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_KEY_ENCIPHERMENT )
-        strVal += "KeyEncipherment,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "KeyEncipherment";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_DATA_ENCIPHERMENT )
-        strVal += "DataEncipherment,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "DataEncipherment";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_KEY_AGREEMENT )
-        strVal += "KeyAgreement,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "KeyAgreement";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_CERT_SIGN )
-        strVal += "keyCertSign,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "keyCertSign";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_CRL_SIGN )
-        strVal += "cRLSign,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "cRLSign";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_ENCIPHER_ONLY )
-        strVal += "EncipherOnly,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "EncipherOnly";
+    }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_DECIPHER_ONLY )
-        strVal += "DecipherOnly,";
+    {
+        if( strVal.length() > 0 ) strVal += ",";
+        strVal += "DecipherOnly";
+    }
 
     return 0;
 }
@@ -169,12 +196,12 @@ static int _getCertPolicy( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
+        if( strVal.length() > 0 ) strVal += "%%";
+
         strVal += QString("#CPS$%1#OID$%2#UserNotice$%3")
                 .arg( pCurList->sPolicy.pCPS )
                 .arg( pCurList->sPolicy.pOID )
                 .arg( pCurList->sPolicy.pUserNotice );
-
-        strVal += "%%";
 
         pCurList = pCurList->pNext;
     }
@@ -291,8 +318,9 @@ static int _getEKU( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
+        if( strVal.length() > 0 ) strVal += ",";
+
         strVal += QString( pCurList->pStr );
-        strVal += ",";
 
         pCurList = pCurList->pNext;
     }
@@ -345,10 +373,11 @@ static int _getCRLDP( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
+        if( strVal.length() > 0 ) strVal += "#";
+
         strVal += QString( "%1$%2")
                 .arg( pCurList->sNameVal.pName )
                 .arg( pCurList->sNameVal.pValue );
-        strVal += "#";
 
         pCurList = pCurList->pNext;
     }
@@ -508,6 +537,8 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
     {
         QString strType;
 
+        if( strVal.length() > 0 ) strVal += "%%";
+
         if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_DNS )
             strType = "DNS";
         else if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_URI )
@@ -519,8 +550,6 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
                 .arg( pCurList->sAuthorityInfoAccess.pMethod )
                 .arg( strType )
                 .arg( pCurList->sAuthorityInfoAccess.pName );
-
-        strVal += "%%";
 
         pCurList = pCurList->pNext;
     }
@@ -714,11 +743,11 @@ static int _getPM( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
+        if( strVal.length() > 0 ) strVal += "%%";
+
         strVal += QString( "IDP$%1#SDP$%2")
                 .arg( pCurList->sPolicyMappings.pIssuerDomainPolicy )
                 .arg( pCurList->sPolicyMappings.pSubjectDomainPolicy );
-
-        strVal += "%%";
 
         pCurList = pCurList->pNext;
     }
@@ -829,7 +858,7 @@ static int _getCRLReason( const BIN *pBinExt, QString& strVal )
     return 0;
 }
 
-int setExtInfoToDB( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
+int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
 {
     int ret = 0;
     BIN binExt = {0,0};
@@ -923,7 +952,7 @@ int setExtInfoToDB( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
     return ret;
 }
 
-int getExtInfoFromDB( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
+int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
 {
     int ret = 0;
     QString strVal = "";

@@ -1320,7 +1320,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Num", "RegTime", "IssuerNum", "SignAlg", "CRL" };
+    QStringList headerList = { "Num", "RegTime", "IssuerNum", "SignAlg", "CRLDP" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
 
@@ -1352,7 +1352,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime )));
         right_table_->setItem( i, 2, new QTableWidgetItem(QString("%1").arg(crl.getIssuerNum() )));
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
-        right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRL() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRLDP() ));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -1716,6 +1716,9 @@ void MainWindow::showRightCRL( int seq )
     strMsg += strPart;
 
     strPart = QString( "SignAlgorithm: %1\n").arg(crlRec.getSignAlg());
+    strMsg += strPart;
+
+    strPart = QString( "CRLDP: %1\n").arg(crlRec.getCRLDP());
     strMsg += strPart;
 
     strPart = QString( "CRL: %1\n").arg( crlRec.getCRL());

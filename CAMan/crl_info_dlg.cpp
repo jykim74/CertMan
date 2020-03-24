@@ -126,7 +126,7 @@ void CRLInfoDlg::initialize()
         while( pCurList )
         {
             PolicyExtRec policyExt;
-            getExtInfoFromDB( &pCurList->sExtensionInfo, policyExt );
+            transExtInfoToDBRec( &pCurList->sExtensionInfo, policyExt );
             mCRLListTable->insertRow(i);
             mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyExt.getSN())));
             mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
@@ -234,7 +234,7 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
 
     PolicyExtRec policyExt;
 
-    getExtInfoFromDB( &pRevInfoList->sRevokeInfo.sExtReason, policyExt );
+    transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, policyExt );
 
     mRevokeDetailTable->insertRow(0);
     mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")

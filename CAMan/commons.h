@@ -57,8 +57,8 @@ const QStringList kRevokeReasonList = {
     "keyTime","CAKeyTime"
 };
 
-int setExtInfoToDB( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
-int getExtInfoFromDB( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
+int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
+int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
 
 #endif // COMMONS_H
