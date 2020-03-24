@@ -160,7 +160,6 @@ void MakeCertDlg::accept()
 
     char sKeyID[128];
     char *pHexCRLDP = NULL;
-    char *pTemplateDP = NULL;
     char *pCRLDP = NULL;
 
     memset( sKeyID, 0x00, sizeof(sKeyID));
@@ -305,6 +304,13 @@ void MakeCertDlg::accept()
         {
             policyExt.setValue( sKeyID );
         }
+        else if( policyExt.getSN() == kExtNameCRLDP )
+        {
+            char *pDN = NULL;
+            JS_PKI_getDP( policyExt.getValue().toStdString().c_str(), nSeq, &pDN );
+            policyExt.setValue( pDN );
+            if( pDN ) JS_free( pDN );
+        }
         else if( policyExt.getSN() == kExtNameAKI )
         {
             if( bSelf == false )
@@ -380,13 +386,7 @@ void MakeCertDlg::accept()
     }
 
     JS_PKI_getExtensionValue( pMadeExtInfoList, JS_PKI_ExtNameCRLDP, &pHexCRLDP );
-    if( pHexCRLDP ) JS_PKI_getExtensionStringValue( pHexCRLDP, JS_PKI_ExtNameCRLDP, &pTemplateDP );
-
-    if( pTemplateDP )
-    {
-        JS_PKI_getDP( pTemplateDP, nSeq, &pCRLDP );
-        if( pCRLDP == NULL ) pCRLDP = JS_strdup( pTemplateDP );
-    }
+    if( pHexCRLDP ) JS_PKI_getExtensionStringValue( pHexCRLDP, JS_PKI_ExtNameCRLDP, &pCRLDP );
 
     JS_BIN_encodeHex( &binCert, &pHexCert );
 
@@ -432,7 +432,6 @@ end :
     JS_BIN_reset( &binPub );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pHexCRLDP ) JS_free( pHexCRLDP );
-    if( pTemplateDP ) JS_free( pTemplateDP );
     if( pCRLDP ) JS_free( pCRLDP );
 
     if( ret == 0 )

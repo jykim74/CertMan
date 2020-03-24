@@ -1201,6 +1201,8 @@ void MakeCertPolicyDlg::setCRLDPUse( PolicyExtRec& policyRec )
         QString info = valList.at(i);
         QStringList typeData = info.split("$");
 
+        if( typeData.size() < 2 ) continue;
+
         QString strType = typeData.at(0);
         QString strData = typeData.at(1);
 
