@@ -311,6 +311,11 @@ void MakeCertPolicyDlg::initUI()
     mNCSubCombo->addItems(kNCSubList);
     mBCCombo->addItems(kBCTypeList);
     mHashCombo->addItems(kHashList);
+
+    QDateTime nowDateTime;
+    nowDateTime.setTime_t(time(NULL));
+    mNotBeforeDateTime->setDateTime(nowDateTime);
+    mNotAfterDateTime->setDateTime(nowDateTime);
 }
 
 void MakeCertPolicyDlg::setTableMenus()

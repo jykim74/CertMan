@@ -86,6 +86,8 @@ void MakeCRLPolicyDlg::loadPolicy()
         mNextUpdateDateTime->setDateTime(nextUpdate );
     }
 
+    clickUseFromNow();
+
     QList<PolicyExtRec> extPolicyList;
     dbMgr->getCRLPolicyExtensionList( policy_num_, extPolicyList );
 
@@ -214,6 +216,11 @@ void MakeCRLPolicyDlg::initUI()
     mIDPCombo->addItem( "URI" );
     mIANCombo->addItems(sTypeList);
     mVersionCombo->addItems(sVersionList);
+
+    QDateTime   now;
+    now.setTime_t( time(NULL) );
+    mLastUpdateDateTime->setDateTime( now );
+    mNextUpdateDateTime->setDateTime( now );
 }
 
 void MakeCRLPolicyDlg::connectExtends()
