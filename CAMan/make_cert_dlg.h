@@ -39,6 +39,7 @@ private:
     void initialize();
     void setSubjectDN();
     QString getRealSubjectDN();
+    QString getReplacedValue( QString &strVal );
 };
 
 #endif // MAKE_CERT_DLG_H

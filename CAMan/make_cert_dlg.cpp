@@ -104,8 +104,15 @@ void MakeCertDlg::setSubjectDN()
 
 QString MakeCertDlg::getRealSubjectDN()
 {
-    char        *pDN = NULL;
-    QString     strDN;
+    QString strDN = mSubjectDNText->text();
+
+    return getReplacedValue( strDN );
+}
+
+QString MakeCertDlg::getReplacedValue( QString &strVal )
+{
+    char        *pReplace = NULL;
+    QString     strReplace;
 
     QString strUserName = mUserNameText->text();
     QString strSSN = mSSNText->text();
@@ -117,21 +124,21 @@ QString MakeCertDlg::getRealSubjectDN()
     JS_UTIL_appendNameValList2( pNameValList, JS_PKI_TEMPLATE_SSN, strSSN.toStdString().c_str() );
     JS_UTIL_appendNameValList2( pNameValList, JS_PKI_TEMPLATE_EMAIL, strEmail.toStdString().c_str() );
 
-    JS_PKI_getReplacedDN( mSubjectDNText->text().toStdString().c_str(), pNameValList, &pDN );
+    JS_PKI_getReplacedDN( strVal.toStdString().c_str(), pNameValList, &pReplace );
 
-    if( pDN )
+    if( pReplace )
     {
-        strDN = pDN;
-        JS_free( pDN );
+        strReplace = pReplace;
+        JS_free( pReplace );
     }
     else
     {
-        strDN = mSubjectDNText->text();
+        strReplace = strVal;
     }
 
     if( pNameValList ) JS_UTIL_resetNameValList( &pNameValList );
 
-    return strDN;
+    return strReplace;
 }
 
 void MakeCertDlg::setFixIssuer(QString strIssuerName)
@@ -310,6 +317,12 @@ void MakeCertDlg::accept()
             JS_PKI_getDP( policyExt.getValue().toStdString().c_str(), nSeq, &pDN );
             policyExt.setValue( pDN );
             if( pDN ) JS_free( pDN );
+        }
+        else if( policyExt.getSN() == kExtNameSAN )
+        {
+            QString strAltName = policyExt.getValue();
+            QString strReplace = getReplacedValue( strAltName );
+            policyExt.setValue( strAltName );
         }
         else if( policyExt.getSN() == kExtNameAKI )
         {
