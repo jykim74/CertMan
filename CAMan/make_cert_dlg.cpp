@@ -430,7 +430,7 @@ void MakeCertDlg::accept()
     userRec.setSSN( mSSNText->text() );
     userRec.setEmail( mEmailText->text() );
     userRec.setRegTime( time(NULL));
-    dbMgr->addUserRec( userRec );
+    if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
 
 end :
     JS_BIN_reset( &binCSR );

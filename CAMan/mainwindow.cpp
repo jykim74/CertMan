@@ -267,6 +267,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
         menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
         menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+        menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -1014,6 +1015,52 @@ void MainWindow::checkCertificate()
     CheckCertDlg checkCertDlg;
     checkCertDlg.setCertNum(num);
     checkCertDlg.exec();
+}
+
+void MainWindow::certStatus()
+{
+    QString strStatus;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+
+    CertRec certRec;
+    RevokeRec   revokeRec;
+    char        sRevokedDate[64];
+    const char  *pReason = NULL;
+
+    db_mgr_->getCertRec( num, certRec );
+
+    if( certRec.getNum() <= 0 )
+    {
+        manApplet->warningBox( tr("fail to get certificate information"), this );
+        return;
+    }
+
+    if( certRec.getStatus() > 0 )
+    {
+        db_mgr_->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
+        if( revokeRec.getSeq() <= 0 )
+        {
+            manApplet->warningBox( tr("fail to get revoke information"), this );
+            return;
+        }
+    }
+
+    if( certRec.getStatus() == 0 )
+    {
+        strStatus = "Good";
+    }
+    else
+    {
+        JS_UTIL_getDateTime( revokeRec.getRevokeDate(), sRevokedDate );
+        pReason = JS_PKI_getRevokeReasonName( revokeRec.getReason() );
+        strStatus = QString( "Revoked Reason:%1 RevokedDate: %2" ).arg( pReason ).arg( sRevokedDate );
+    }
+
+    manApplet->messageBox( strStatus, this );
 }
 
 void MainWindow::createRightList( int nType, int nNum )

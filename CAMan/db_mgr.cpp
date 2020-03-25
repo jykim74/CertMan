@@ -468,6 +468,18 @@ int DBMgr::getRevokeRec( int nSeq, RevokeRec& revokeRec )
     return 0;
 }
 
+int DBMgr::getRevokeRecByCertNum( int nCertNum, RevokeRec& revokeRec )
+{
+    QList<RevokeRec> revokeList;
+    QString strQuery = QString( "SELECT * FROM TB_REVOKED WHERE CERTNUM = %1").arg(nCertNum);
+
+    _getRevokeList( strQuery, revokeList );
+    if( revokeList.size() <= 0 ) return -1;
+
+    revokeRec = revokeList.at(0);
+    return 0;
+}
+
 int DBMgr::getRevokeList( int nIssuerNum, QList<RevokeRec>& revokeList )
 {
     QString strQuery = QString("SELECT * FROM TB_REVOKED WHERE IssuerNum = %1 ORDER BY SEQ DESC").arg(nIssuerNum);

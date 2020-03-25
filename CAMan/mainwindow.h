@@ -121,6 +121,7 @@ public slots:
     void expandMenu();
     void expandItem( ManTreeItem *item );
     void checkCertificate();
+    void certStatus();
 
     void about();
     void settings();
