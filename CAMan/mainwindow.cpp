@@ -1124,6 +1124,8 @@ void MainWindow::createRightKeyPairList()
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1178,6 +1180,8 @@ void MainWindow::createRightRequestList()
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(6);
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1223,6 +1227,8 @@ void MainWindow::createRightCertPolicyList()
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1254,6 +1260,8 @@ void MainWindow::createRightCRLPolicyList()
     QStringList headerList = { "Num", "Name", "Version", "LastUpdate", "NextUpdate", "Hash" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(6);
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1291,6 +1299,8 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1370,6 +1380,8 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QStringList headerList = { "Num", "RegTime", "IssuerNum", "SignAlg", "CRLDP" };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -1423,6 +1435,8 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -1478,6 +1492,8 @@ void MainWindow::createRightUserList()
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -1528,6 +1544,8 @@ void MainWindow::createRightSignerList(int nType)
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(5);
     right_table_->setHorizontalHeaderLabels(headerList);

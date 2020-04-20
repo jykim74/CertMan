@@ -186,8 +186,9 @@ mac {
 
 win32 {
     INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
-    LIBS += -L"../../build-PKILib-Desktop_Qt_5_12_2_MinGW_32_bit-Debug/debug" -lPKILib
-    LIBS += -L"../../PKILib/lib/win32/cmpossl-mingw32/lib" -lcrypto
-    LIBS += -L"../../PKILib/lib/win32/ltdl/lib" -lltdl
+    INCLUDEPATH += "C:\msys64\mingw32\include"
+    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
+    LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto
+    LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
     LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle
 }
