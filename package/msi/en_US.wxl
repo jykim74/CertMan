@@ -6,8 +6,8 @@
   <String Id="PackageComments">CAMan Installer</String>
   <String Id="Manufacturer">JSSoft</String>
   <String Id="DowngradeErrorMessage">A more up-to-date version of BerViewer is detected on your machine. The installer will now quit</String>
-  <String Id="UninstallBerViewer">Uninstall CAMan</String>
-  <String Id="StartBerViewer">Start CAMan</String>
+  <String Id="UninstallCAMan">Uninstall CAMan</String>
+  <String Id="StartCAMan">Start CAMan</String>
   <String Id="AutoStartText">Start CAMan on startup</String>
 
 </WixLocalization>

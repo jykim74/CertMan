@@ -2,7 +2,7 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 	<?include Includes.wxi?>
 	<Product Id="$(var.ProductGuid)"
-			Name='!(loc.AppName) $(var.CurrentBerViewerVersion)'
+			Name='!(loc.AppName) $(var.CurrentCAManVersion)'
 			Language='1033'
 			Version='$(var.CurrentCAManVersion)'
 			Manufacturer='!(loc.Manufacturer)'
@@ -75,7 +75,7 @@
 
 				<!-- shortcut to 'start caman' -->
 				<Shortcut Id="ApplicationStartMenuShortCut" Directory="CAManStartMenuFolder"
-							Name="!(loc.StartCAMan)" Target="[#caman.exe]"
+							Name="!(loc.AppName)" Target="[#caman.exe]"
 							Hotkey="0" IconIndex="0" Show="normal"
 							WorkingDirectory="bin" />
 
@@ -91,14 +91,17 @@
 		<UI>
 			<UIRef Id='WixUI_InstallDir_NoLicense' />
 			<UIRef Id='WixUI_ErrorProgressText' />
+		<!--
 			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
-				<!-- Launch CAMan after setup. -->
 				(NOT Installed) AND (NOT SUPPRESS_LAUNCH_BERVIEWER_AFTER_INSTALL_FINISH)
 			</Publish>
+-->
 		</UI>
 
+<!--
 		<Property Id="WixShellExecTarget" Value="[#caman.exe]" />
 		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+-->
 
 		<Feature Id='Main' Level='1'>
 			<ComponentRef Id='CAMan_StartMenuShortCut' />

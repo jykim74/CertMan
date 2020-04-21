@@ -1,37 +1,37 @@
 CULTURE = ko-kr
 LANG_FILE = ko_KR.wxl
-TARGET = caman-ko.msi
+TARGET = CAMan-ko.msi
 
 ifeq (${MAKECMDGOALS}, en)
 	CULTURE = en-us
 	LANG_FILE = en_US.wxl
-	TARGET = caman-en.msi
+	TARGET = CAMan-en.msi
 endif
 ifeq (${MAKECMDGOALS}, ko)
 	CULTURE = ko-kr
 	LANG_FILE = ko_KR.wxl
-	TARGET = caman-ko.msi
+	TARGET = CAMan-ko.msi
 endif
 
 all: $(TARGET)
 en: all
 ko: all
 
-CC=/home/jykim/bin/wix/candle.exe
-LD=/home/jykim/bin/wix/light.exe
-PARAFFIN=/home/jykim/bin/Paraffin.exe
+CC=/c/bin/wix/candle.exe
+LD=/c/bin/wix/light.exe
+PARAFFIN=/c/bin/Paraffin.exe
 
 CFLAGS = -ext WixUIExtension -ext WixUtilExtension
 LDFLAGS = -spdb -ext WixUIExtension -ext WixUtilExtension \
 		-loc ${LANG_FILE} -cultures:${CULTURE} -sice:ICE80
 
-sources = WixUI_InstallDir_NoLicense.wxs MyInstallDirDlg.wxs fragment.wxs BerViewer.wxs
+sources = WixUI_InstallDir_NoLicense.wxs MyInstallDirDlg.wxs fragment.wxs CAMan.wxs
 
 OBJECTS = ${sources:%.wxs=%.wixobj}
 
 fragment.wxs:
-	$(PARAFFIN) -dir ./HsmMan -gn group_bin -alias bin fragment.wxs
-	cp -rf ./HsmMan/* ./bin
+	$(PARAFFIN) -dir ./CAMan -gn group_bin -alias bin fragment.wxs
+	cp -rf ./CAMan/* ./bin
 
 %.wixobj : %.wxs
 	$(CC) $(CFLAGS) $< -o $@

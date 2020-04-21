@@ -5,13 +5,14 @@
   <WARNING>Manual changes to this file may cause incorrect behavior.</WARNING>
   <ParaffinFileVersion>2</ParaffinFileVersion>
   <GroupName>group_bin</GroupName>
-  <Directory>./BerViewer\</Directory>
+  <Directory>./CAMan\</Directory>
   <DirAlias>bin\</DirAlias>
   <Win64></Win64>
   <Norecurse>false</Norecurse>
   <NoRootDirectory>false</NoRootDirectory>
   <DiskId>1</DiskId>
   <Permanent>false</Permanent>
+  <WiX4>false</WiX4>
   <ExtensionExcludes />
   <DirExcludes />
   <IncludeFiles />
@@ -19,215 +20,255 @@
 </CommandLineOptions>-->
   <Fragment>
     <ComponentGroup Id="group_bin">
-      <ComponentRef Id="comp_917416CFCE214131B4CBC56384D36893" />
-      <ComponentRef Id="comp_B232A67A31B44924800A9B24492A404C" />
-      <ComponentRef Id="comp_4303F68E46AF46A4B47F06C09747D6B8" />
-      <ComponentRef Id="comp_62BBFFFC199A4CA4920740528DD3C9BE" />
-      <ComponentRef Id="comp_779A3AB3AAE3467D8FF5E83C865335C7" />
-      <ComponentRef Id="comp_FC7353EBA1A443EEB432CA25D67BAFD4" />
-      <ComponentRef Id="comp_491F8CADD1394111A4C834C792278F98" />
-      <ComponentRef Id="comp_916A830A6432495287394CE36DBEBE67" />
-      <ComponentRef Id="comp_FF87BE60BDFA40A4ACB9D27361A5BD9F" />
-      <ComponentRef Id="comp_835B536E87F640FE8FF6C9A2545DDE2A" />
-      <ComponentRef Id="comp_0597627806F64E19A2D1ECD73B6594C9" />
-      <ComponentRef Id="comp_EB671BE4FB7E4F3E82721F8A3FE27C76" />
-      <ComponentRef Id="comp_A28E6B7B0AB841658959136EDF40C39E" />
-      <ComponentRef Id="comp_34E776A820C6430ABE602A69F9F70CD2" />
-      <ComponentRef Id="comp_24CB80D75979466AB5F77C2A2FFC02AE" />
-      <ComponentRef Id="comp_01D58DDEBE8B4B99B5AB6011A328323A" />
-      <ComponentRef Id="comp_D00934090B5648A68A9A4449E4E8BEA6" />
-      <ComponentRef Id="comp_D6B236DDA14C4E0BBFA235AC7F9C0A62" />
-      <ComponentRef Id="comp_35729DF58F39438889588F959225A758" />
-      <ComponentRef Id="comp_AB2D550E42FA4E8CA89ED240EAC53DC3" />
-      <ComponentRef Id="comp_CE9184F476154BFA8C0924FE576A3525" />
-      <ComponentRef Id="comp_75122F0AA9C04DFF81B003DE17A438D5" />
-      <ComponentRef Id="comp_1A5523ACBFAB443EB717625972F7DA1A" />
-      <ComponentRef Id="comp_C5BC372A869B40C98FAD73EE4479A95A" />
-      <ComponentRef Id="comp_EBEA2240207F4D12B5E84E87043E3CC1" />
-      <ComponentRef Id="comp_5A9DBE4A44DF4B59832B5F6CE00114D1" />
-      <ComponentRef Id="comp_F0FD473177E547D8A313A4E597BC2E11" />
-      <ComponentRef Id="comp_A94B45E93AC14F2EAC9F6CDCF9943459" />
-      <ComponentRef Id="comp_DDB68247CDDC44159B10CE26D670FA06" />
-      <ComponentRef Id="comp_35172F368CF7443AA9CA4DC7B050CA66" />
-      <ComponentRef Id="comp_AF2EA496F1A647518340D9E493ABC8E9" />
-      <ComponentRef Id="comp_3BE0F91EF694488CB612591E378F802B" />
-      <ComponentRef Id="comp_72E416B2CE8E4ED18200A6268292EBD0" />
-      <ComponentRef Id="comp_DD89AE2AE1494918A27C771B1B56071D" />
-      <ComponentRef Id="comp_8BE5478E743643009AEF8E8E05D02620" />
-      <ComponentRef Id="comp_D1D7BBFB06CA4989B39C3EE6F9829E25" />
-      <ComponentRef Id="comp_775D1AE67BD44539A2E06E4EB24A8A43" />
-      <ComponentRef Id="comp_837D2B7A2E80415998A82E6F2396E729" />
-      <ComponentRef Id="comp_64E16461F4F941A888286B45B6D1DA21" />
-      <ComponentRef Id="comp_8D46B1A6C0484E58BB2DEAC84523107C" />
-      <ComponentRef Id="comp_69273FB77CC747CCB2CBDA3DA997761A" />
-      <ComponentRef Id="comp_86A411A173474C3B81214519DC37E460" />
-      <ComponentRef Id="comp_6841C353446B48258F63C3392BD1BD9A" />
-      <ComponentRef Id="comp_382AB1CB178C4A63AC539AD36ADDECC2" />
-      <ComponentRef Id="comp_6D6EB19F16D942C9A07C54143B4E5178" />
-      <ComponentRef Id="comp_EE37739A9B08412CBACF9C21FE55648A" />
-      <ComponentRef Id="comp_5EEBCE20D3814EBABC8FBBF5B87B2267" />
-      <ComponentRef Id="comp_F535DF8ABC0647D285B24CEF6CD3AEBD" />
-      <ComponentRef Id="comp_3EF2708FC0684769B7943089685A966C" />
+      <ComponentRef Id="comp_902453DFFA5247BC953D48BA1D2E99D9" />
+      <ComponentRef Id="comp_A65435017A994D82B2CAA5F89CA68AD3" />
+      <ComponentRef Id="comp_0C119FA6258440A280FC9260069C8D93" />
+      <ComponentRef Id="comp_2D3C366D80324A29BD521891DB8D4409" />
+      <ComponentRef Id="comp_511A9907E21E41C9A50CBB9D4F85B026" />
+      <ComponentRef Id="comp_001AF2B9842542B1B6BF533AFD19C245" />
+      <ComponentRef Id="comp_D87CEB50C20140CB92A28D486EA79D4E" />
+      <ComponentRef Id="comp_FCF9BE93A2D34E13864BC0C3F97AA7F4" />
+      <ComponentRef Id="comp_4007310A73BA4A50873A31DC2B3F20C9" />
+      <ComponentRef Id="comp_AA16E25228E74338AADC094E48E5B20C" />
+      <ComponentRef Id="comp_887C7689778347F78E0CFC9AAA9ACF04" />
+      <ComponentRef Id="comp_1F638AAF09944E5EA9D42CDE18EE8BD8" />
+      <ComponentRef Id="comp_D2B315A6F6E54342A1FB4F47C8911E48" />
+      <ComponentRef Id="comp_EDBC4F28008044D69765B6C0D2756282" />
+      <ComponentRef Id="comp_6B4ADECD16724FE1BD8A799B4CF27FB6" />
+      <ComponentRef Id="comp_78C2C01F260D4764AB5BE55DC8681A45" />
+      <ComponentRef Id="comp_CE208956B60E42FFA2DF9787BF98E693" />
+      <ComponentRef Id="comp_B9AD43FA166C466BA30CFA9D9457C404" />
+      <ComponentRef Id="comp_925BF6C866B844CB84FB311122E9BB9D" />
+      <ComponentRef Id="comp_AE05739276C2426DAC5C4547C3AA2DC9" />
+      <ComponentRef Id="comp_14E9EA6AE5314E9C8677438098C8A8D3" />
+      <ComponentRef Id="comp_0F798328BAF249CABD9B3E9983FCCA4D" />
+      <ComponentRef Id="comp_C4E3559FA91B4481B8E59336DD4CD61D" />
+      <ComponentRef Id="comp_16CC5AAC6D974840BFE9C76A84A7F9AF" />
+      <ComponentRef Id="comp_2CACDE408A154E93B97CBEE383E6177D" />
+      <ComponentRef Id="comp_36B16155B1EF4D97A10F794744BF9B7E" />
+      <ComponentRef Id="comp_4AB61941541C47B09A842EEA1B015348" />
+      <ComponentRef Id="comp_4F8C2188D60B4FCDA4B671B7F509EC0C" />
+      <ComponentRef Id="comp_4CF683FD4A2740EC8C55E82559BBA7FC" />
+      <ComponentRef Id="comp_15FB0DB507694D2EA94FF8C41751F592" />
+      <ComponentRef Id="comp_60C3138E5FE14C1784C914926F6E7B13" />
+      <ComponentRef Id="comp_A045F0A82E0C4B5EB9B49DD9C3D193ED" />
+      <ComponentRef Id="comp_DD8CB81FA1E64AAFA5971DED80D3FB52" />
+      <ComponentRef Id="comp_F9AC837FC2664C2084BD786E113C0324" />
+      <ComponentRef Id="comp_72B3749E1BF94513A9F6F8D7A0CA02A0" />
+      <ComponentRef Id="comp_811F9A85589941B7B3720F9037F3301B" />
+      <ComponentRef Id="comp_F117B1B9482945D2873E0DB760BFB3FC" />
+      <ComponentRef Id="comp_BCB9761F0CF64443BD6A4942CB6FEBC6" />
+      <ComponentRef Id="comp_7DDF10AB8ADE4E26A05CE688256F524E" />
+      <ComponentRef Id="comp_874C39A7544C4721B072FFF284FE6A72" />
+      <ComponentRef Id="comp_BFF183D9F38749CCA4C4EB54B9CD4F80" />
+      <ComponentRef Id="comp_6763BC1F55EF4B1FB9180259D9E2FF3D" />
+      <ComponentRef Id="comp_C3565FC046524DFE8F52C058F641A1D6" />
+      <ComponentRef Id="comp_1FAA3C07BEE3419392F05D334E6D837C" />
+      <ComponentRef Id="comp_174FCD7F1D7A4042A106E1555AC68660" />
+      <ComponentRef Id="comp_32B76ED3E5FB437C9C40267E78A7435A" />
+      <ComponentRef Id="comp_65B88D0598E84E57BB14A5151DBB1737" />
+      <ComponentRef Id="comp_DABFB26EA10845BBBCBC7F092C2DE91D" />
+      <ComponentRef Id="comp_E37D9B7EBC864902B3F36D0277BDE2CD" />
+      <ComponentRef Id="comp_9975A62BD34440F1B7E9B908A2AD7E2C" />
+      <ComponentRef Id="comp_05457EC01A9C4316A06FDBBE4B6A041F" />
+      <ComponentRef Id="comp_161EE662222643E89833FD752D897A58" />
+      <ComponentRef Id="comp_0B7AFAB2A8164AA4A0A4030C3C2D63D9" />
+      <ComponentRef Id="comp_EA315B30908441499178D3DAB2F396D0" />
+      <ComponentRef Id="comp_3125167399024FFFA630F933102B380F" />
+      <ComponentRef Id="comp_29644BC88269400C9FE224F5AE349E97" />
+      <ComponentRef Id="comp_F0056CE0EB3E442FA4E79AFFC41F0F5B" />
+      <ComponentRef Id="comp_11BE32E80FCA452EA7BD0BD5F680E304" />
+      <ComponentRef Id="comp_1E846004100046C39AF47E7E09ECB1C2" />
     </ComponentGroup>
     <DirectoryRef Id="INSTALLDIR">
-      <Directory Id="dir_E80ABD65C4A143C1B37A154DAFE3ECF1" Name="BerViewer">
-        <Component Id="comp_917416CFCE214131B4CBC56384D36893" Guid="AD03A9D7-D4E4-4CB0-8F9E-2E8BB26828FC">
-          <File Id="hsmman.exe" Checksum="yes" KeyPath="yes" Source="bin\BerViewer.exe" />
+      <Directory Id="dir_E4759C30A3824EE4B009A67671700649" Name="CAMan">
+        <Component Id="comp_902453DFFA5247BC953D48BA1D2E99D9" Guid="AE66051D-FB4F-46DF-8DC1-346EB1713CBB">
+          <File Id="caman.exe" Checksum="yes" KeyPath="yes" Source="bin\CAMan.exe" />
         </Component>
-        <Component Id="comp_B232A67A31B44924800A9B24492A404C" Guid="D4762479-AF9C-4C71-A1A9-E4989BE14FAC">
-          <File Id="file_8B11A68801874973A96F1B647CF56F5A" Checksum="yes" KeyPath="yes" Source="bin\D3Dcompiler_47.dll" />
+        <Component Id="comp_A65435017A994D82B2CAA5F89CA68AD3" Guid="C7D15D7B-78A5-42DB-8DAD-8F410DC2BD2D">
+          <File Id="file_B7136177C88A4C8BBE8D7E0712670C8D" Checksum="yes" KeyPath="yes" Source="bin\D3Dcompiler_47.dll" />
         </Component>
-        <Component Id="comp_4303F68E46AF46A4B47F06C09747D6B8" Guid="04D517AB-A7A4-4C8E-AC06-C987346E3814">
-          <File Id="file_C5833A35183A46C39E9D3336FD7BFFB2" Checksum="yes" KeyPath="yes" Source="bin\libcrypto-3.dll" />
+        <Component Id="comp_0C119FA6258440A280FC9260069C8D93" Guid="44378456-997E-4224-9610-9A759F885F1B">
+          <File Id="file_493743B857FA480E9611FA11F6255B2A" Checksum="yes" KeyPath="yes" Source="bin\libcrypto-1_1.dll" />
         </Component>
-        <Component Id="comp_62BBFFFC199A4CA4920740528DD3C9BE" Guid="ADA2281B-FBC9-4F54-9983-A7A667E032DB">
-          <File Id="file_296EBB18D2B9476FA733207584EDB033" Checksum="yes" KeyPath="yes" Source="bin\libEGL.dll" />
+        <Component Id="comp_2D3C366D80324A29BD521891DB8D4409" Guid="FF440752-EDA9-4A45-84BA-8661B28179D9">
+          <File Id="file_A8F49CFC2BD84FA49B3671DA4C1E2F7F" Checksum="yes" KeyPath="yes" Source="bin\libcrypto-3.dll" />
         </Component>
-        <Component Id="comp_779A3AB3AAE3467D8FF5E83C865335C7" Guid="481CCBCD-BF9B-4215-B72A-FCB234A64DCA">
-          <File Id="file_20C0E9D794124AB1A63011321F6B50A5" Checksum="yes" KeyPath="yes" Source="bin\libgcc_s_dw2-1.dll" />
+        <Component Id="comp_511A9907E21E41C9A50CBB9D4F85B026" Guid="174D874F-F0AF-402A-90B7-ECBA3C8D9039">
+          <File Id="file_40E93B67B3854C2D98EA734C1E68FBCA" Checksum="yes" KeyPath="yes" Source="bin\libEGL.dll" />
         </Component>
-        <Component Id="comp_FC7353EBA1A443EEB432CA25D67BAFD4" Guid="FB2EA717-98E2-4BAC-A8E2-850C63CD238F">
-          <File Id="file_BB98F16DE1E247F6B0CE800A26D6201F" Checksum="yes" KeyPath="yes" Source="bin\libGLESV2.dll" />
+        <Component Id="comp_001AF2B9842542B1B6BF533AFD19C245" Guid="C2C92160-3A3E-4724-9329-9A27B5917102">
+          <File Id="file_A624A9AC838B4F5984C574EE939E8CCC" Checksum="yes" KeyPath="yes" Source="bin\libgcc_s_dw2-1.dll" />
         </Component>
-        <Component Id="comp_491F8CADD1394111A4C834C792278F98" Guid="20156AFE-26F2-4E7D-925A-D3387664B962">
-          <File Id="file_9660B43BCA5B460A9DD66A60F8668422" Checksum="yes" KeyPath="yes" Source="bin\libstdc++-6.dll" />
+        <Component Id="comp_D87CEB50C20140CB92A28D486EA79D4E" Guid="263835FA-D37F-4097-A50E-750A4FEDA9D6">
+          <File Id="file_714A0CCD5816459D9634F5CF445DD227" Checksum="yes" KeyPath="yes" Source="bin\libGLESV2.dll" />
         </Component>
-        <Component Id="comp_916A830A6432495287394CE36DBEBE67" Guid="C1E180F3-7363-4A42-9561-B5FE1654DC61">
-          <File Id="file_491920A5F5B04754B3BFF4FA08B6457C" Checksum="yes" KeyPath="yes" Source="bin\libwinpthread-1.dll" />
+        <Component Id="comp_FCF9BE93A2D34E13864BC0C3F97AA7F4" Guid="8D2B0676-B061-4557-BAAA-2A87FEF046DC">
+          <File Id="file_A6D10095E8584E91A4B72AD3C222DD1B" Checksum="yes" KeyPath="yes" Source="bin\liblber.dll" />
         </Component>
-        <Component Id="comp_FF87BE60BDFA40A4ACB9D27361A5BD9F" Guid="8CA00503-B47A-4762-9F60-F15DA4697224">
-          <File Id="file_8DD522002100491B9E9649D2522B390C" Checksum="yes" KeyPath="yes" Source="bin\opengl32sw.dll" />
+        <Component Id="comp_4007310A73BA4A50873A31DC2B3F20C9" Guid="A55D4A97-B7D6-43D9-878F-AE254A24D9DF">
+          <File Id="file_466E0D61CFD245358F2D044CB370CB8B" Checksum="yes" KeyPath="yes" Source="bin\libldap.dll" />
         </Component>
-        <Component Id="comp_835B536E87F640FE8FF6C9A2545DDE2A" Guid="1A3440F8-FAA4-437E-89A1-0257C75BFFA9">
-          <File Id="file_CFB6C2CAA0724F0A8B31F15BC6133345" Checksum="yes" KeyPath="yes" Source="bin\Qt5Core.dll" />
+        <Component Id="comp_AA16E25228E74338AADC094E48E5B20C" Guid="B0EE1801-F25F-4409-923F-7E27F1CDDBDA">
+          <File Id="file_909DDC224B664FC4927275A4288B6F34" Checksum="yes" KeyPath="yes" Source="bin\libltdl-7.dll" />
         </Component>
-        <Component Id="comp_0597627806F64E19A2D1ECD73B6594C9" Guid="B95BD4D6-CF4B-4716-96C3-065E494571AE">
-          <File Id="file_6523EDB9A41A434E98DAE43054FADA9E" Checksum="yes" KeyPath="yes" Source="bin\Qt5Gui.dll" />
+        <Component Id="comp_887C7689778347F78E0CFC9AAA9ACF04" Guid="7EB796D9-8E2B-4091-A5BE-245EEE45D8E5">
+          <File Id="file_AD10DDEA5FB84CCAAC153EEA9EBFE7F5" Checksum="yes" KeyPath="yes" Source="bin\libsasl2-3.dll" />
         </Component>
-        <Component Id="comp_EB671BE4FB7E4F3E82721F8A3FE27C76" Guid="AB4204BC-1139-4468-9EC5-6D58BAF3F3F6">
-          <File Id="file_E74126FDC1CD4066B4C2DE5E55CEB1CD" Checksum="yes" KeyPath="yes" Source="bin\Qt5PrintSupport.dll" />
+        <Component Id="comp_1F638AAF09944E5EA9D42CDE18EE8BD8" Guid="2C39CA5A-C561-49CA-A1AE-57F1E5532CAE">
+          <File Id="file_08C89BFE4A72499FB34BB91C8E081AAA" Checksum="yes" KeyPath="yes" Source="bin\libssl-1_1.dll" />
         </Component>
-        <Component Id="comp_A28E6B7B0AB841658959136EDF40C39E" Guid="10B5048D-0B6F-445B-AAEA-E4FC34057784">
-          <File Id="file_9CBB37E08D404E36BBBC97C0F33A3B82" Checksum="yes" KeyPath="yes" Source="bin\Qt5Svg.dll" />
+        <Component Id="comp_D2B315A6F6E54342A1FB4F47C8911E48" Guid="41C0FBE1-1F46-418F-BA26-14769E19381F">
+          <File Id="file_6B3599F8AC0D49E9BFFF55CF5C9B50D4" Checksum="yes" KeyPath="yes" Source="bin\libssl-3.dll" />
         </Component>
-        <Component Id="comp_34E776A820C6430ABE602A69F9F70CD2" Guid="BD6EA2EC-F557-4A50-A9D2-E5F6E08E9541">
-          <File Id="file_2432A4F524824C42ABB55002DE1B931B" Checksum="yes" KeyPath="yes" Source="bin\Qt5Widgets.dll" />
+        <Component Id="comp_EDBC4F28008044D69765B6C0D2756282" Guid="291D5910-66F4-4E7D-8C20-772A936A8842">
+          <File Id="file_D69743B94EA8487B8E44835D964CFAC5" Checksum="yes" KeyPath="yes" Source="bin\libstdc++-6.dll" />
         </Component>
-        <Component Id="comp_24CB80D75979466AB5F77C2A2FFC02AE" Guid="E549C604-D0C3-4B0F-834D-24CAA9710177">
-          <File Id="file_A8161232437D46B2B16BC2677F8113BE" Checksum="yes" KeyPath="yes" Source="bin\WinSparkle.dll" />
+        <Component Id="comp_6B4ADECD16724FE1BD8A799B4CF27FB6" Guid="BD18D259-CD90-4BB3-A85E-871D610AE095">
+          <File Id="file_47A5DFE7575142B0A4FE9B688BA61EB0" Checksum="yes" KeyPath="yes" Source="bin\libwinpthread-1.dll" />
         </Component>
-        <Directory Id="dir_E80EC562AF244C358D729CAD74171C7C" Name="iconengines">
-          <Component Id="comp_01D58DDEBE8B4B99B5AB6011A328323A" Guid="23BEFF3B-4080-4EDF-A722-E7DA3CC0B307">
-            <File Id="file_2A0CFA5A46AA43B3BD7022D95D1935E7" Checksum="yes" KeyPath="yes" Source="bin\iconengines\qsvgicon.dll" />
+        <Component Id="comp_78C2C01F260D4764AB5BE55DC8681A45" Guid="78D87A32-C827-43A7-A272-E680639D8F62">
+          <File Id="file_9820EF422FB244C7A9877F70F0C5802B" Checksum="yes" KeyPath="yes" Source="bin\opengl32sw.dll" />
+        </Component>
+        <Component Id="comp_CE208956B60E42FFA2DF9787BF98E693" Guid="A520F700-9D1C-4428-BD87-6AE1157649BB">
+          <File Id="file_AB49E2A4B2B44D94A9728142F6C96713" Checksum="yes" KeyPath="yes" Source="bin\Qt5Core.dll" />
+        </Component>
+        <Component Id="comp_B9AD43FA166C466BA30CFA9D9457C404" Guid="543CB824-1AB1-49A2-8E78-9F298AF65140">
+          <File Id="file_47F85636EA8047A4843503354C6E02E2" Checksum="yes" KeyPath="yes" Source="bin\Qt5Gui.dll" />
+        </Component>
+        <Component Id="comp_925BF6C866B844CB84FB311122E9BB9D" Guid="50EC72CF-8DEC-44C7-BA18-E822B92F162D">
+          <File Id="file_B27BAB6A09164258A92B110A72006C18" Checksum="yes" KeyPath="yes" Source="bin\Qt5Sql.dll" />
+        </Component>
+        <Component Id="comp_AE05739276C2426DAC5C4547C3AA2DC9" Guid="42C2B50F-AEBF-4F38-BACE-D16F4F0B2176">
+          <File Id="file_E72963F271144EDD830CC69065F0760E" Checksum="yes" KeyPath="yes" Source="bin\Qt5Svg.dll" />
+        </Component>
+        <Component Id="comp_14E9EA6AE5314E9C8677438098C8A8D3" Guid="37400273-D8E6-457C-97CF-6BA44A98C224">
+          <File Id="file_DAD5E8FB035149DE85DAE2D4C7541444" Checksum="yes" KeyPath="yes" Source="bin\Qt5Widgets.dll" />
+        </Component>
+        <Component Id="comp_0F798328BAF249CABD9B3E9983FCCA4D" Guid="62F43879-EBDB-43D4-A5AD-B7AAACDC6AC0">
+          <File Id="file_3640FA7601D54FC1B0BFA4B624003951" Checksum="yes" KeyPath="yes" Source="bin\WinSparkle.dll" />
+        </Component>
+        <Directory Id="dir_E01341B57E8B4F9BAC896B3C27A04316" Name="iconengines">
+          <Component Id="comp_C4E3559FA91B4481B8E59336DD4CD61D" Guid="5E96F848-B546-4BC8-8847-492027A25564">
+            <File Id="file_7FCE9BAAA1B84AB983748FD09AB129BD" Checksum="yes" KeyPath="yes" Source="bin\iconengines\qsvgicon.dll" />
           </Component>
         </Directory>
-        <Directory Id="dir_A3DAEDB5D3CD46FFA0B040C7DE63C3E4" Name="imageformats">
-          <Component Id="comp_D00934090B5648A68A9A4449E4E8BEA6" Guid="2208A494-E933-4934-8400-2D53FC167B06">
-            <File Id="file_B3E4DA93349C4797882EA49F89E913A8" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qgif.dll" />
+        <Directory Id="dir_C1FC10A5EEE94928B1A780B558001DD3" Name="imageformats">
+          <Component Id="comp_16CC5AAC6D974840BFE9C76A84A7F9AF" Guid="33E45192-FB31-4FF2-A0C6-B320D6E11378">
+            <File Id="file_9310EAF21F12424491A525AAC8123DD4" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qgif.dll" />
           </Component>
-          <Component Id="comp_D6B236DDA14C4E0BBFA235AC7F9C0A62" Guid="3B6E01F9-4C83-46A5-972E-5D6DA65669F7">
-            <File Id="file_B8E16DEA8B3045A8A01E581E7C958067" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qicns.dll" />
+          <Component Id="comp_2CACDE408A154E93B97CBEE383E6177D" Guid="1AF22642-7CD7-4B5A-88CC-D3AC45AB7AB6">
+            <File Id="file_492136FB9B45428E9A6D5DE264C24DE6" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qicns.dll" />
           </Component>
-          <Component Id="comp_35729DF58F39438889588F959225A758" Guid="EE70167A-C891-43FB-8BD5-A993C2D8F1A9">
-            <File Id="file_01715468321C4F79ACC9BED8B35F19BE" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qico.dll" />
+          <Component Id="comp_36B16155B1EF4D97A10F794744BF9B7E" Guid="1FC9449C-3B21-4B8D-9994-3785E214EB51">
+            <File Id="file_7342B0825F1346D48AD39DA2B51B047C" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qico.dll" />
           </Component>
-          <Component Id="comp_AB2D550E42FA4E8CA89ED240EAC53DC3" Guid="97E3C6AA-D7C3-4886-BF73-972B341F1252">
-            <File Id="file_F3879AAF3A204D058A0340D5B0AFD400" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qjpeg.dll" />
+          <Component Id="comp_4AB61941541C47B09A842EEA1B015348" Guid="E5FBA4E5-65C7-4241-8AFB-824EA5AFE3FB">
+            <File Id="file_3DE3E48AF7E148A8AE94AFC95447F00C" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qjpeg.dll" />
           </Component>
-          <Component Id="comp_CE9184F476154BFA8C0924FE576A3525" Guid="06C66A3F-83AC-4C28-BCE6-4AB5A0F2B06C">
-            <File Id="file_6DC4CF66EE7744358D70B8057B52D94C" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qsvg.dll" />
+          <Component Id="comp_4F8C2188D60B4FCDA4B671B7F509EC0C" Guid="08081312-C7DD-4624-8DF9-B5D48715D398">
+            <File Id="file_85E4116A2CF24E4CA48FFD5F94FA77B8" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qsvg.dll" />
           </Component>
-          <Component Id="comp_75122F0AA9C04DFF81B003DE17A438D5" Guid="76448BBC-6233-4F32-B126-ECB7D5F774CF">
-            <File Id="file_CCCE3DB3E1844E3FA68D7E0D431B3208" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qtga.dll" />
+          <Component Id="comp_4CF683FD4A2740EC8C55E82559BBA7FC" Guid="332936CD-52BF-4BE5-A184-2FDCC340EEC9">
+            <File Id="file_CF0C7641A7FD4674BFA5170AB499AAF0" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qtga.dll" />
           </Component>
-          <Component Id="comp_1A5523ACBFAB443EB717625972F7DA1A" Guid="9B340E3B-9050-472F-8C9F-AD06F5CEFD03">
-            <File Id="file_E227D85A086A4FCF9D162991088B6431" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qtiff.dll" />
+          <Component Id="comp_15FB0DB507694D2EA94FF8C41751F592" Guid="F0588729-C15D-42E7-AC40-D523CB0B4DA0">
+            <File Id="file_12190075F2D9408696F38672A1A09B3F" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qtiff.dll" />
           </Component>
-          <Component Id="comp_C5BC372A869B40C98FAD73EE4479A95A" Guid="0ED8ECA4-3528-4F02-AE2E-1D9BFC9104B6">
-            <File Id="file_CFFDD71A5DFF44F3A79A02AD64ECD740" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qwbmp.dll" />
+          <Component Id="comp_60C3138E5FE14C1784C914926F6E7B13" Guid="D54E6F0C-7BE9-4382-BF1D-03AB44871802">
+            <File Id="file_BA86399A3D80486FB8A3D913104167DB" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qwbmp.dll" />
           </Component>
-          <Component Id="comp_EBEA2240207F4D12B5E84E87043E3CC1" Guid="4FF2449D-97F0-4A30-AC4D-107A9A244650">
-            <File Id="file_16C89BF9A6A748F48B6293C3D96FAB20" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qwebp.dll" />
-          </Component>
-        </Directory>
-        <Directory Id="dir_7E7D080E236446B2B0C180F2D8B532A3" Name="platforms">
-          <Component Id="comp_5A9DBE4A44DF4B59832B5F6CE00114D1" Guid="A7B77184-0950-4D49-8754-89066B0D8A6A">
-            <File Id="file_BBB0D2FCB2D0442C8FBACAF678A39438" Checksum="yes" KeyPath="yes" Source="bin\platforms\qwindows.dll" />
+          <Component Id="comp_A045F0A82E0C4B5EB9B49DD9C3D193ED" Guid="0DB85AE2-2221-4AFE-8747-68D9B1EBD51E">
+            <File Id="file_9EBAE8D13B194D42AEF618CEF7754858" Checksum="yes" KeyPath="yes" Source="bin\imageformats\qwebp.dll" />
           </Component>
         </Directory>
-        <Directory Id="dir_73C806611FA34FBDB23853630451F7EE" Name="printsupport">
-          <Component Id="comp_F0FD473177E547D8A313A4E597BC2E11" Guid="6E7C326D-1C73-45F6-8A53-283CE1BF96D1">
-            <File Id="file_C20B4EE2E10C49B3B2C6993C8B5C3AE2" Checksum="yes" KeyPath="yes" Source="bin\printsupport\windowsprintersupport.dll" />
+        <Directory Id="dir_866DC91B04BF423582CE569C6F9ADE59" Name="platforms">
+          <Component Id="comp_DD8CB81FA1E64AAFA5971DED80D3FB52" Guid="5246060E-144B-42A6-BB46-F2B483A7439B">
+            <File Id="file_FC66137918614BC390C149871C26B792" Checksum="yes" KeyPath="yes" Source="bin\platforms\qwindows.dll" />
           </Component>
         </Directory>
-        <Directory Id="dir_BAB56336D41D47A9B25F5C4FBA481E71" Name="styles">
-          <Component Id="comp_A94B45E93AC14F2EAC9F6CDCF9943459" Guid="A0BFCE2E-BD6F-496E-959A-EBD4ACCEDBBB">
-            <File Id="file_426607A8F4014015BCA26D5C0FBA4B4E" Checksum="yes" KeyPath="yes" Source="bin\styles\qwindowsvistastyle.dll" />
+        <Directory Id="dir_3AB7C48AD52D483A84ACC1BB0406D548" Name="sqldrivers">
+          <Component Id="comp_F9AC837FC2664C2084BD786E113C0324" Guid="813EFF24-0DBB-45D6-893D-467F38616F54">
+            <File Id="file_A4B29586F665438D9E4DD2B986F2F968" Checksum="yes" KeyPath="yes" Source="bin\sqldrivers\qsqlite.dll" />
+          </Component>
+          <Component Id="comp_72B3749E1BF94513A9F6F8D7A0CA02A0" Guid="EC1E93E8-52EE-4480-B91B-D38FBEFCEA9A">
+            <File Id="file_27B0D0B88BF648CBB8BA8663F7F98284" Checksum="yes" KeyPath="yes" Source="bin\sqldrivers\qsqlodbc.dll" />
+          </Component>
+          <Component Id="comp_811F9A85589941B7B3720F9037F3301B" Guid="D8418818-331C-4C90-86DC-F4344289A0DB">
+            <File Id="file_92CD5B033D914D8EA63D418095FFE3BC" Checksum="yes" KeyPath="yes" Source="bin\sqldrivers\qsqlpsql.dll" />
           </Component>
         </Directory>
-        <Directory Id="dir_545004A19AAF4B668A1AA01FB9C3FE7C" Name="translations">
-          <Component Id="comp_DDB68247CDDC44159B10CE26D670FA06" Guid="7D22210C-B1E3-4E64-8C24-3F865F670D9E">
-            <File Id="file_C9571EC253C340D48BA60903C7CEC5CD" KeyPath="yes" Source="bin\translations\qt_ar.qm" />
+        <Directory Id="dir_62816C9F26D44B2E9FEB20099601C8EB" Name="styles">
+          <Component Id="comp_F117B1B9482945D2873E0DB760BFB3FC" Guid="22129D3A-5E94-4A59-AE2D-34E8CE84FF9A">
+            <File Id="file_45E14C8750F041FB9C2E305952841BD5" Checksum="yes" KeyPath="yes" Source="bin\styles\qwindowsvistastyle.dll" />
           </Component>
-          <Component Id="comp_35172F368CF7443AA9CA4DC7B050CA66" Guid="45AE4171-504A-49EF-92CA-E2DF5802BDD9">
-            <File Id="file_FB1A5E526AB7466280EF4D75AD6CC254" KeyPath="yes" Source="bin\translations\qt_bg.qm" />
+        </Directory>
+        <Directory Id="dir_63EB0ABFED2342DFA67C2475F6219FC4" Name="translations">
+          <Component Id="comp_BCB9761F0CF64443BD6A4942CB6FEBC6" Guid="78B791C9-E133-4D50-A9C3-A42F12EBB275">
+            <File Id="file_C06F10142E114EF3A918B779B522017A" KeyPath="yes" Source="bin\translations\qt_ar.qm" />
           </Component>
-          <Component Id="comp_AF2EA496F1A647518340D9E493ABC8E9" Guid="A122367D-C59E-4C64-A84B-6EAB9E9E385E">
-            <File Id="file_8D5649019E19480E944BDF1CAACCE795" KeyPath="yes" Source="bin\translations\qt_ca.qm" />
+          <Component Id="comp_7DDF10AB8ADE4E26A05CE688256F524E" Guid="047C7B4E-FB51-4F68-A3DF-53DE4DAF39C9">
+            <File Id="file_46A5C8F471794CF681DA6DC30B235B0D" KeyPath="yes" Source="bin\translations\qt_bg.qm" />
           </Component>
-          <Component Id="comp_3BE0F91EF694488CB612591E378F802B" Guid="BD55AEED-E2C6-4ABD-87A3-0233C0AE421C">
-            <File Id="file_F7B2FFE663494CC3BC50E95414067FDE" KeyPath="yes" Source="bin\translations\qt_cs.qm" />
+          <Component Id="comp_874C39A7544C4721B072FFF284FE6A72" Guid="587FFA74-4EB3-4A56-976C-47CDEAAB3809">
+            <File Id="file_2F7B8D6EE76D49C7ABB3534750BA9717" KeyPath="yes" Source="bin\translations\qt_ca.qm" />
           </Component>
-          <Component Id="comp_72E416B2CE8E4ED18200A6268292EBD0" Guid="8BBF44F5-4FF5-461A-AF2B-37A5FE3864EF">
-            <File Id="file_0CAE22EFA4C5474FA98DAA3C325C1699" KeyPath="yes" Source="bin\translations\qt_da.qm" />
+          <Component Id="comp_BFF183D9F38749CCA4C4EB54B9CD4F80" Guid="834A5A8C-D8A5-4BE7-BA1D-9BA1139E6983">
+            <File Id="file_24A3F65D8A5042259DED3C07CDE03779" KeyPath="yes" Source="bin\translations\qt_cs.qm" />
           </Component>
-          <Component Id="comp_DD89AE2AE1494918A27C771B1B56071D" Guid="B762F786-DECC-425F-990A-6305A45368DA">
-            <File Id="file_26D4A44C79524D728F3448ADDA56DC9F" KeyPath="yes" Source="bin\translations\qt_de.qm" />
+          <Component Id="comp_6763BC1F55EF4B1FB9180259D9E2FF3D" Guid="CEDB4E78-04B6-4EE8-AAFC-F153FAFCCC91">
+            <File Id="file_BBE669308CB941DC956051808EE10C41" KeyPath="yes" Source="bin\translations\qt_da.qm" />
           </Component>
-          <Component Id="comp_8BE5478E743643009AEF8E8E05D02620" Guid="2D1FF4EA-B665-45AD-BAC3-C08632D7AE0D">
-            <File Id="file_BC00D25276894EDCB8AC9AE4F8578C7F" KeyPath="yes" Source="bin\translations\qt_en.qm" />
+          <Component Id="comp_C3565FC046524DFE8F52C058F641A1D6" Guid="F13B85D3-C36C-470B-BC13-2D06A2152D9D">
+            <File Id="file_880BC816F3494D3CB5E64D61EA9FD7A1" KeyPath="yes" Source="bin\translations\qt_de.qm" />
           </Component>
-          <Component Id="comp_D1D7BBFB06CA4989B39C3EE6F9829E25" Guid="B80CC291-BA8F-450E-8E4A-E216DFB560A7">
-            <File Id="file_BF2A2CCB2DE544ABBE0B72DAB1FAF3FE" KeyPath="yes" Source="bin\translations\qt_es.qm" />
+          <Component Id="comp_1FAA3C07BEE3419392F05D334E6D837C" Guid="0F6C9AB8-82F2-431C-9D89-939B790A3C16">
+            <File Id="file_8EC3B636BDEF4425B8B94DBAB62D87CC" KeyPath="yes" Source="bin\translations\qt_en.qm" />
           </Component>
-          <Component Id="comp_775D1AE67BD44539A2E06E4EB24A8A43" Guid="D0E2BE39-F55D-45F1-A074-E77001EBA7D3">
-            <File Id="file_0F4B4016D5AC4AFC80FD70BFACE9E578" KeyPath="yes" Source="bin\translations\qt_fi.qm" />
+          <Component Id="comp_174FCD7F1D7A4042A106E1555AC68660" Guid="7DD9B902-4A06-49B1-8154-2700B8F9BED2">
+            <File Id="file_2272540575884134875E3FDD3A661863" KeyPath="yes" Source="bin\translations\qt_es.qm" />
           </Component>
-          <Component Id="comp_837D2B7A2E80415998A82E6F2396E729" Guid="658375D2-6FAB-4682-9F89-4F8D26402EA7">
-            <File Id="file_D006FA4B243F4D38936DD4E9ED899779" KeyPath="yes" Source="bin\translations\qt_fr.qm" />
+          <Component Id="comp_32B76ED3E5FB437C9C40267E78A7435A" Guid="67642359-CB09-4976-99B9-580898670800">
+            <File Id="file_A7B64C7F8158445198721CCFBA7B81AE" KeyPath="yes" Source="bin\translations\qt_fi.qm" />
           </Component>
-          <Component Id="comp_64E16461F4F941A888286B45B6D1DA21" Guid="06542F67-37DD-4895-A9D3-8A29DEED56F5">
-            <File Id="file_56324A22FBF24362B046D6D10A26DC5A" KeyPath="yes" Source="bin\translations\qt_gd.qm" />
+          <Component Id="comp_65B88D0598E84E57BB14A5151DBB1737" Guid="4F76E067-0B21-4E79-9EB8-C32A3F536051">
+            <File Id="file_CE921C62176149BB9834F485DB76CF4D" KeyPath="yes" Source="bin\translations\qt_fr.qm" />
           </Component>
-          <Component Id="comp_8D46B1A6C0484E58BB2DEAC84523107C" Guid="D286EA80-E064-4673-9FE6-73658CA39AD7">
-            <File Id="file_7106BE9BBFF040E89F2F366470F707D8" KeyPath="yes" Source="bin\translations\qt_he.qm" />
+          <Component Id="comp_DABFB26EA10845BBBCBC7F092C2DE91D" Guid="2B97C85F-D227-4AB5-B8B4-B58A40C47374">
+            <File Id="file_E08FF47A6ACF4163AFBD2182FA73A5DB" KeyPath="yes" Source="bin\translations\qt_gd.qm" />
           </Component>
-          <Component Id="comp_69273FB77CC747CCB2CBDA3DA997761A" Guid="3354D622-F1FB-40E5-91A2-957310587FCA">
-            <File Id="file_AF6CB3C865114EAA9A81B053BCFD8B75" KeyPath="yes" Source="bin\translations\qt_hu.qm" />
+          <Component Id="comp_E37D9B7EBC864902B3F36D0277BDE2CD" Guid="C9ED51DA-02B2-48FB-BD09-62F02377B9D8">
+            <File Id="file_ED1D9C0ED3694745A4D96121F9F533BE" KeyPath="yes" Source="bin\translations\qt_he.qm" />
           </Component>
-          <Component Id="comp_86A411A173474C3B81214519DC37E460" Guid="E02B6FCC-7CD9-496B-8520-F639F90912AF">
-            <File Id="file_C08699AEE1004E01B996CECF86810C35" KeyPath="yes" Source="bin\translations\qt_it.qm" />
+          <Component Id="comp_9975A62BD34440F1B7E9B908A2AD7E2C" Guid="4E595D4B-4C94-4628-9198-24839B45B63C">
+            <File Id="file_81A0B1487A4C49138DD02353563C35AB" KeyPath="yes" Source="bin\translations\qt_hu.qm" />
           </Component>
-          <Component Id="comp_6841C353446B48258F63C3392BD1BD9A" Guid="32A6DF07-6427-4F61-B523-FA5BC74D2124">
-            <File Id="file_0D502866A7094900B4AD9EBF0BFC74F2" KeyPath="yes" Source="bin\translations\qt_ja.qm" />
+          <Component Id="comp_05457EC01A9C4316A06FDBBE4B6A041F" Guid="EBB84601-C94C-4511-8B68-C3231FFD7CA6">
+            <File Id="file_1FE5A30682A8442E8AC6699A046EA4E3" KeyPath="yes" Source="bin\translations\qt_it.qm" />
           </Component>
-          <Component Id="comp_382AB1CB178C4A63AC539AD36ADDECC2" Guid="8EE43EC8-1431-44E9-8900-57095C721EF4">
-            <File Id="file_643C3ABAE42F44D1AC8C5B87FB5947A5" KeyPath="yes" Source="bin\translations\qt_ko.qm" />
+          <Component Id="comp_161EE662222643E89833FD752D897A58" Guid="3170F23F-A803-4F48-8B30-4DE7A086DB22">
+            <File Id="file_727227975E474E018F662227C0569E5E" KeyPath="yes" Source="bin\translations\qt_ja.qm" />
           </Component>
-          <Component Id="comp_6D6EB19F16D942C9A07C54143B4E5178" Guid="B633C112-A766-421E-BF13-651740EB60E4">
-            <File Id="file_69C2B08A62C8451C843AB9852547F04D" KeyPath="yes" Source="bin\translations\qt_lv.qm" />
+          <Component Id="comp_0B7AFAB2A8164AA4A0A4030C3C2D63D9" Guid="4075004B-B7EF-442D-A690-699674F30CA6">
+            <File Id="file_1BDAF5ED43354E06930BC81B7EC2D5F2" KeyPath="yes" Source="bin\translations\qt_ko.qm" />
           </Component>
-          <Component Id="comp_EE37739A9B08412CBACF9C21FE55648A" Guid="B61F5E72-4A5C-451D-BCB5-6C9EB7DCE576">
-            <File Id="file_F939BCFE66F044B1A216AFDF0E81CC79" KeyPath="yes" Source="bin\translations\qt_pl.qm" />
+          <Component Id="comp_EA315B30908441499178D3DAB2F396D0" Guid="35E5553C-AC17-48C8-B8A6-773B20E854DE">
+            <File Id="file_7CEC9783FD3A40D29DE29E6024CA8099" KeyPath="yes" Source="bin\translations\qt_lv.qm" />
           </Component>
-          <Component Id="comp_5EEBCE20D3814EBABC8FBBF5B87B2267" Guid="E27575D3-3E66-4D4C-BAFA-F6B26ADCBB67">
-            <File Id="file_8ED2F9FB268349D2B9429AF0498BC368" KeyPath="yes" Source="bin\translations\qt_ru.qm" />
+          <Component Id="comp_3125167399024FFFA630F933102B380F" Guid="A042F111-39E1-4094-BF2B-78E7694FDDC5">
+            <File Id="file_BD70F27890F64EEBA54B23FE212EC754" KeyPath="yes" Source="bin\translations\qt_pl.qm" />
           </Component>
-          <Component Id="comp_F535DF8ABC0647D285B24CEF6CD3AEBD" Guid="99B8FB3A-70EC-472F-8F2E-18744C1BDC36">
-            <File Id="file_D402990E4205445EAB7129CE15F32FA0" KeyPath="yes" Source="bin\translations\qt_sk.qm" />
+          <Component Id="comp_29644BC88269400C9FE224F5AE349E97" Guid="419E09BB-C1D8-403C-A8E5-3E7BB459C8C9">
+            <File Id="file_F6CE8C592F324B9EA3BC9D99724080CE" KeyPath="yes" Source="bin\translations\qt_ru.qm" />
           </Component>
-          <Component Id="comp_3EF2708FC0684769B7943089685A966C" Guid="EF3E8A09-3CB8-484A-8596-05CBD4C16DA9">
-            <File Id="file_E30F9606980A42D78892EA202F8CD158" KeyPath="yes" Source="bin\translations\qt_uk.qm" />
+          <Component Id="comp_F0056CE0EB3E442FA4E79AFFC41F0F5B" Guid="B28D885E-70A1-4166-9D43-8AC55C7469E3">
+            <File Id="file_CE6F070C9876491CB2B16227C4520B5B" KeyPath="yes" Source="bin\translations\qt_sk.qm" />
+          </Component>
+          <Component Id="comp_11BE32E80FCA452EA7BD0BD5F680E304" Guid="A920D6CF-DCF2-48CE-99D9-6300F8A9498D">
+            <File Id="file_416B89FA55184C36B96DA2C624E7384F" KeyPath="yes" Source="bin\translations\qt_uk.qm" />
+          </Component>
+          <Component Id="comp_1E846004100046C39AF47E7E09ECB1C2" Guid="9A956449-EE41-4967-8DDC-5F88D67E89BF">
+            <File Id="file_0BB2577627D947808B1E600A51E65F9A" KeyPath="yes" Source="bin\translations\qt_zh_TW.qm" />
           </Component>
         </Directory>
       </Directory>

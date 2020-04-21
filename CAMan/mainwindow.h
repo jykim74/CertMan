@@ -98,6 +98,8 @@ public slots:
     void viewCRL();
 
     void importData();
+    void importCert();
+    void importCRL();
     void exportPriKey();
     void exportEncPriKey();
     void exportPubKey();

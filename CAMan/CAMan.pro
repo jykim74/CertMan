@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CAMan
 TEMPLATE = app
-PROJECT_VERSION = "0.9.1"
+PROJECT_VERSION = "0.9.2"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -188,7 +188,8 @@ win32 {
     RC_ICONS = caman.ico
     INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
     INCLUDEPATH += "C:\msys64\mingw32\include"
-    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
+#    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
+    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
     LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto
     LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
     LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle

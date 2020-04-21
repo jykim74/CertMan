@@ -626,6 +626,20 @@ void MainWindow::importData()
     importDlg.exec();
 }
 
+void MainWindow::importCert()
+{
+    ImportDlg importDlg;
+    importDlg.setType(3);
+    importDlg.exec();
+}
+
+void MainWindow::importCRL()
+{
+    ImportDlg importDlg;
+    importDlg.setType(4);
+    importDlg.exec();
+}
+
 void MainWindow::exportPriKey()
 {
     int row = right_table_->currentRow();

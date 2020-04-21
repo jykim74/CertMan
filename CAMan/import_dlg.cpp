@@ -25,6 +25,11 @@ ImportDlg::~ImportDlg()
 
 }
 
+void ImportDlg::setType(int index)
+{
+    mDataTypeCombo->setCurrentIndex(index);
+}
+
 void ImportDlg::accept()
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();

@@ -17,6 +17,7 @@ class ImportDlg : public QDialog, public Ui::ImportDlg
 public:
     explicit ImportDlg(QWidget *parent = nullptr);
     ~ImportDlg();
+    void setType( int index );
 
 private slots:
     virtual void accept();
