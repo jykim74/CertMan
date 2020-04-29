@@ -158,12 +158,12 @@ RESOURCES += \
 
 TRANSLATIONS += i18n/caman_ko_KR.ts
 
-DEFINES += _AUTO_UPDATE
 DEFINES += _PRO
 
 INCLUDEPATH += "../../PKILib"
 
 mac {
+    DEFINES += _AUTO_UPDATE
     ICON = images/caman.icns
 
     QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks
@@ -185,6 +185,7 @@ mac {
 }
 
 win32 {
+    DEFINES += _AUTO_UPDATE
     RC_ICONS = caman.ico
     INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
     INCLUDEPATH += "C:\msys64\mingw32\include"
@@ -193,4 +194,10 @@ win32 {
     LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto
     LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
     LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle
+}
+
+linux {
+    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
+    LIBS += -L"../../PKILib/lib/linux/debug/cmpossl/lib" -lcrypto
+    LIBS += -lltdl -lldap -llber
 }
