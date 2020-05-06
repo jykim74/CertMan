@@ -164,6 +164,7 @@ void MakeCertDlg::accept()
     char *pHexCert = NULL;
     bool bCA = false;
     BIN binPub = {0,0};
+    BIN binPubVal = {0,0};
 
     char sKeyID[128];
     char *pHexCRLDP = NULL;
@@ -230,7 +231,8 @@ void MakeCertDlg::accept()
     }
 
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
-    JS_PKI_getKeyIdentifier( &binPub, sKeyID );
+    JS_PKI_getPublicKeyValue( &binPub, &binPubVal );
+    JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
 
     if( bSelf )
         nSignKeyNum = reqRec.getKeyNum();
@@ -443,6 +445,7 @@ end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binPubVal );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pHexCRLDP ) JS_free( pHexCRLDP );
     if( pCRLDP ) JS_free( pCRLDP );
