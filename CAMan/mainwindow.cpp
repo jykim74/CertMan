@@ -87,8 +87,15 @@ void MainWindow::dropEvent(QDropEvent *event)
         QString fileName = url.toLocalFile();
         qDebug() << "Dropped file:" << fileName;
         openDB(fileName);
+        setTitle( fileName );
         return;
     }
+}
+
+void MainWindow::setTitle(const QString strName)
+{
+    QString strWinTitle = QString( "%1 - %2").arg( manApplet->getBrand() ).arg( strName );
+    setWindowTitle(strWinTitle);
 }
 
 ManTreeItem* MainWindow::currentItem()
@@ -171,8 +178,13 @@ void MainWindow::createActions()
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
 
-    QAction *newKeyAct = toolsMenu->addAction(tr("&NewKey"), this, &MainWindow::newKey);
-    newKeyAct->setStatusTip(tr( "Generate new key pair"));
+    const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key.jpeg"));
+    QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
+    newKeyAct->setStatusTip(tr("Generate new key pair"));
+    connect( newKeyAct, &QAction::triggered, this, &MainWindow::newKey );
+    toolsMenu->addAction( newKeyAct );
+    toolsToolBar->addAction( newKeyAct );
+
 
     QAction *makeReqAct = toolsMenu->addAction(tr("&MakeRequest"), this, &MainWindow::makeRequest);
     makeReqAct->setStatusTip(tr( "Make Request"));
@@ -396,11 +408,15 @@ void MainWindow::newFile()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName( this,
-                                                     tr("New DB Files"),
+                                                     tr("New CA DB Files"),
                                                      QDir::currentPath(),
                                                      tr("DB Files (*.db);;All Files (*)"),
                                                      &selectedFilter,
                                                      options );
+    if( fileName.length() < 1 )
+    {
+        return;
+    }
 
     JS_BIN_set( &binDB, (unsigned char *)data.data(), data.size() );
     JS_BIN_fileWrite( &binDB, fileName.toStdString().c_str() );
@@ -456,11 +472,16 @@ void MainWindow::open()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Open CAMan db file"),
+                                                     tr("Open CA DB file"),
                                                      strPath,
                                                      tr("DB Files (*.db);;All Files (*)"),
                                                      &selectedFilter,
                                                      options );
+
+    if( fileName.length() < 1 )
+    {
+        return;
+    }
 
     int ret = openDB( fileName );
 
@@ -473,6 +494,8 @@ void MainWindow::open()
         settings.beginGroup("mainwindow");
         settings.setValue( "dbPath", strDir );
         settings.endGroup();
+
+        setTitle( fileName );
     }
 }
 

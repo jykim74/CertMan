@@ -29,6 +29,9 @@ int DBMgr::open(const QString dbPath)
         return -1;
     }
 
+    if( db_.isOpen() == false )
+        return -1;
+
     return 0;
 }
 

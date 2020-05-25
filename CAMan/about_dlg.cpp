@@ -22,17 +22,17 @@ AboutDlg::AboutDlg(QWidget *parent) :
     }
 #endif
 
-    QString strAbout = tr("This is freeware tool to decode ASN.1 and BER "
+    QString strAbout = tr("This is freeware tool to make certificate, CRL and CSR "
             "If you do not use this for commercial purposes, "
             "you can use it freely "
-            "If you have any opinions on this tool, please send me a mail\r\n" );
+            "If you have any opinions on this tool, please send me a mail" );
 
     QString strLibVersion = JS_GEN_getBuildInfo();
 
-    strAbout += "\r\nLibrary: ";
+    strAbout += "\r\n\r\nLibrary: ";
     strAbout += strLibVersion;
 
-    strAbout += "\r\nBuild Date: ";
+    strAbout += "\r\n";
     strAbout += getBuild();
     strAbout += "\r\n";
 

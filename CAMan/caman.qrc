@@ -32,5 +32,7 @@
         <file>images/ca.png</file>
         <file>images/crl.png</file>
         <file>images/revoke.png</file>
+        <file>images/new_key.png</file>
+        <file>i18n/caman_ko_KR.qm</file>
     </qresource>
 </RCC>

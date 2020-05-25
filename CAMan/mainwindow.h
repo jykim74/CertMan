@@ -140,6 +140,9 @@ private slots:
     virtual void dropEvent( QDropEvent *event );
 
 private:
+    void setTitle( const QString strName );
+
+private:
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
 
