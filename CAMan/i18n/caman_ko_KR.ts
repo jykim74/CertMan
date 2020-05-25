@@ -583,444 +583,444 @@ mailto : jykim74@gmail.com</source>
     <name>MakeCRLDlg</name>
     <message>
         <source>Make CRL</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 만들기</translation>
     </message>
     <message>
         <source>Policy name</source>
-        <translation type="unfinished"></translation>
+        <translation>정책 이름</translation>
     </message>
     <message>
         <source>CRL policy</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 정책</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Revoke list</source>
-        <translation type="unfinished"></translation>
+        <translation>폐기 목록</translation>
     </message>
     <message>
         <source>Issuer information</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 정보</translation>
     </message>
     <message>
         <source>Key Algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>키 알고리즘</translation>
     </message>
     <message>
         <source>CRLDP</source>
-        <translation type="unfinished"></translation>
+        <translation>CRLDP</translation>
     </message>
     <message>
         <source>Key Param</source>
-        <translation type="unfinished"></translation>
+        <translation>키 파라미터</translation>
     </message>
     <message>
         <source>Revoked List</source>
-        <translation type="unfinished"></translation>
+        <translation>폐기 목록</translation>
     </message>
     <message>
         <source>fail to make CRL(%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL(%1) 만들기 실패</translation>
     </message>
     <message>
         <source>fail to get CRL information(%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 정보 가져오기 실패(%1)</translation>
     </message>
 </context>
 <context>
     <name>MakeCRLPolicyDlg</name>
     <message>
         <source>Make CRL policy</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 정책 만들기</translation>
     </message>
     <message>
         <source>Base</source>
-        <translation type="unfinished"></translation>
+        <translation>기본</translation>
     </message>
     <message>
         <source>CRL Type</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 타입</translation>
     </message>
     <message>
         <source>Valid days</source>
-        <translation type="unfinished"></translation>
+        <translation>유효 기간</translation>
     </message>
     <message>
         <source>Use from now</source>
-        <translation type="unfinished"></translation>
+        <translation>지금 부터 사용</translation>
     </message>
     <message>
         <source>CRL period</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 기간</translation>
     </message>
     <message>
         <source>Next Update</source>
-        <translation type="unfinished"></translation>
+        <translation>다음 갱신</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Last Update</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막 갱신</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>버전</translation>
     </message>
     <message>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>해쉬</translation>
     </message>
     <message>
         <source>Extend</source>
-        <translation type="unfinished"></translation>
+        <translation>확장</translation>
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>필수</translation>
     </message>
     <message>
         <source>Auto number</source>
-        <translation type="unfinished"></translation>
+        <translation>자동 번호</translation>
     </message>
     <message>
         <source>Use</source>
-        <translation type="unfinished"></translation>
+        <translation>사용</translation>
     </message>
     <message>
         <source>Certificate serial</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 시리얼</translation>
     </message>
     <message>
         <source>CRL number</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 번호</translation>
     </message>
     <message>
         <source>Issuer alternative name</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 대체 이름</translation>
     </message>
     <message>
         <source>Certificate issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 발급자</translation>
     </message>
     <message>
         <source>Issuing Distribution Point</source>
-        <translation type="unfinished"></translation>
+        <translation>발급 배포 지점</translation>
     </message>
     <message>
         <source>Authority key identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>기관 키 식별자</translation>
     </message>
     <message>
         <source>number</source>
-        <translation type="unfinished"></translation>
+        <translation>숫자</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>지우기</translation>
     </message>
     <message>
         <source>You have to insert name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름을 입력하세요.</translation>
     </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
     <message>
         <source>Make certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 만들기</translation>
     </message>
     <message>
         <source>Policy name</source>
-        <translation type="unfinished"></translation>
+        <translation>정책 이름</translation>
     </message>
     <message>
         <source>Issuer Name</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 이름</translation>
     </message>
     <message>
         <source>SelfSign</source>
-        <translation type="unfinished"></translation>
+        <translation>자신 서명</translation>
     </message>
     <message>
         <source>Algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>알고리즘</translation>
     </message>
     <message>
         <source>Key Param</source>
-        <translation type="unfinished"></translation>
+        <translation>키 파라미터</translation>
     </message>
     <message>
         <source>UserName</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 이름</translation>
     </message>
     <message>
         <source>SubjectDN</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 DN</translation>
     </message>
     <message>
         <source>Certificate policy</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정책</translation>
     </message>
     <message>
         <source>SSN</source>
-        <translation type="unfinished"></translation>
+        <translation>SSN</translation>
     </message>
     <message>
         <source>Issuer Param</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 파라미터</translation>
     </message>
     <message>
         <source>Issuer information</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 정보</translation>
     </message>
     <message>
         <source>Request Information</source>
-        <translation type="unfinished"></translation>
+        <translation>요청 정보</translation>
     </message>
     <message>
         <source>Request Name</source>
-        <translation type="unfinished"></translation>
+        <translation>요청자 이름</translation>
     </message>
     <message>
         <source>Issuer Algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 알고리즘</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>이메일</translation>
     </message>
     <message>
         <source>There is no request</source>
-        <translation type="unfinished"></translation>
+        <translation>요청서가 없습니다.</translation>
     </message>
     <message>
         <source>There is no certificate policy</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정책이 없습니다.</translation>
     </message>
     <message>
         <source>There is no CA certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>CA 인증서가 없습니다.</translation>
     </message>
     <message>
         <source>Request is not verified</source>
-        <translation type="unfinished"></translation>
+        <translation>요청서 검증에 실패 하였습니다.</translation>
     </message>
     <message>
         <source>fail to make certificate(%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서(%1) 만들기 실패</translation>
     </message>
     <message>
         <source>fail to get certificate information(%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정보(%1) 가져오기 실패</translation>
     </message>
 </context>
 <context>
     <name>MakeCertPolicyDlg</name>
     <message>
         <source>Make certificate policy</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정채 만들기</translation>
     </message>
     <message>
         <source>Base</source>
-        <translation type="unfinished"></translation>
+        <translation>기본</translation>
     </message>
     <message>
         <source>Subject DN</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 DN</translation>
     </message>
     <message>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>해쉬</translation>
     </message>
     <message>
         <source>Valid days</source>
-        <translation type="unfinished"></translation>
+        <translation>유효 기간</translation>
     </message>
     <message>
         <source>Use days</source>
-        <translation type="unfinished"></translation>
+        <translation>일자 사용</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>일</translation>
     </message>
     <message>
         <source>Not After</source>
-        <translation type="unfinished"></translation>
+        <translation>이후 안됨</translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>버전</translation>
     </message>
     <message>
         <source>Not Before</source>
-        <translation type="unfinished"></translation>
+        <translation>이전 안됨</translation>
     </message>
     <message>
         <source>Certificate type</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 타입</translation>
     </message>
     <message>
         <source>Use CSR</source>
-        <translation type="unfinished"></translation>
+        <translation>CSR 사용</translation>
     </message>
     <message>
         <source>Extend1</source>
-        <translation type="unfinished"></translation>
+        <translation>확장1</translation>
     </message>
     <message>
         <source>Authority Key Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>기관키 식별자</translation>
     </message>
     <message>
         <source>Use</source>
-        <translation type="unfinished"></translation>
+        <translation>사용</translation>
     </message>
     <message>
         <source>Certificate Issuer</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 발급자</translation>
     </message>
     <message>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation>필수</translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>지우기</translation>
     </message>
     <message>
         <source>User Notice</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 공지</translation>
     </message>
     <message>
         <source>Key usage</source>
-        <translation type="unfinished"></translation>
+        <translation>키 용도</translation>
     </message>
     <message>
         <source>Policy</source>
-        <translation type="unfinished"></translation>
+        <translation>정책</translation>
     </message>
     <message>
         <source>Ceritificate serial</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 시리얼</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>추가</translation>
     </message>
     <message>
         <source>Subject Key Identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>주체키 식별자</translation>
     </message>
     <message>
         <source>CPS</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정책 문</translation>
     </message>
     <message>
         <source>Policy OID</source>
-        <translation type="unfinished"></translation>
+        <translation>정책 OID</translation>
     </message>
     <message>
         <source>Extend2</source>
-        <translation type="unfinished"></translation>
+        <translation>확장2</translation>
     </message>
     <message>
         <source>Authority Info Access</source>
-        <translation type="unfinished"></translation>
+        <translation>기관 접근 정보</translation>
     </message>
     <message>
         <source>Extended Key Usage</source>
-        <translation type="unfinished"></translation>
+        <translation>확장 키 용도</translation>
     </message>
     <message>
         <source>CRLDP</source>
-        <translation type="unfinished"></translation>
+        <translation>CRLDP</translation>
     </message>
     <message>
         <source>Extend3</source>
-        <translation type="unfinished"></translation>
+        <translation>확장3</translation>
     </message>
     <message>
         <source>Issuer Alternative Name</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 대체 이름</translation>
     </message>
     <message>
         <source>Policy Constraints</source>
-        <translation type="unfinished"></translation>
+        <translation>정책 제한</translation>
     </message>
     <message>
         <source>Inhibit</source>
-        <translation type="unfinished"></translation>
+        <translation>금지</translation>
     </message>
     <message>
         <source>Subject Alternative Name</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 대체 이름</translation>
     </message>
     <message>
         <source>Path Len</source>
-        <translation type="unfinished"></translation>
+        <translation>경로 길이</translation>
     </message>
     <message>
         <source>Basic Constraints</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 제한</translation>
     </message>
     <message>
         <source>Explicit</source>
-        <translation type="unfinished"></translation>
+        <translation>외부</translation>
     </message>
     <message>
         <source>Extend4</source>
-        <translation type="unfinished"></translation>
+        <translation>확장4</translation>
     </message>
     <message>
         <source>Policy Mappings</source>
-        <translation type="unfinished"></translation>
+        <translation>정책 맵핑</translation>
     </message>
     <message>
         <source>Max</source>
-        <translation type="unfinished"></translation>
+        <translation>최대</translation>
     </message>
     <message>
         <source>issuerDomainPolicy</source>
-        <translation type="unfinished"></translation>
+        <translation>발급자 도메인 정책</translation>
     </message>
     <message>
         <source>Name Constraints</source>
-        <translation type="unfinished"></translation>
+        <translation>이름 제한</translation>
     </message>
     <message>
         <source>Min</source>
-        <translation type="unfinished"></translation>
+        <translation>최소</translation>
     </message>
     <message>
         <source>subjectDomainPolicy</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 도메인 정책</translation>
     </message>
     <message>
         <source>Basic Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>기본 거리</translation>
     </message>
     <message>
         <source>You have to insert name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름을 입력하세요.</translation>
     </message>
     <message>
         <source>You have to set subjec dn</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 DN 을 설정 하세요.</translation>
     </message>
 </context>
 <context>
