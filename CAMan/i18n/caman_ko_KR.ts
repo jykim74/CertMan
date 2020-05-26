@@ -1027,453 +1027,453 @@ mailto : jykim74@gmail.com</source>
     <name>MakeReqDlg</name>
     <message>
         <source>Make requester</source>
-        <translation type="unfinished"></translation>
+        <translation>요청서 만들기</translation>
     </message>
     <message>
         <source>Key Name</source>
-        <translation type="unfinished"></translation>
+        <translation>키 이름</translation>
     </message>
     <message>
         <source>DN</source>
-        <translation type="unfinished"></translation>
+        <translation>DN</translation>
     </message>
     <message>
         <source>Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>해쉬</translation>
     </message>
     <message>
         <source>Key size</source>
-        <translation type="unfinished"></translation>
+        <translation>키 길이</translation>
     </message>
     <message>
         <source>Algorithm</source>
-        <translation type="unfinished"></translation>
+        <translation>알고리즘</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Key information</source>
-        <translation type="unfinished"></translation>
+        <translation>키 정보</translation>
     </message>
     <message>
         <source>You have to insert name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름을 입력하세요.</translation>
     </message>
     <message>
         <source>You have to insert DN</source>
-        <translation type="unfinished"></translation>
+        <translation>DN을 입력하세요</translation>
     </message>
     <message>
         <source>fail to make request</source>
-        <translation type="unfinished"></translation>
+        <translation>요청서 만들기 실패</translation>
     </message>
 </context>
 <context>
     <name>ManApplet</name>
     <message>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>확인</translation>
     </message>
     <message>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>예</translation>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>아니오</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>취소</translation>
     </message>
 </context>
 <context>
     <name>ManTrayIcon</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>끝내기</translation>
     </message>
 </context>
 <context>
     <name>ManTreeView</name>
     <message>
         <source>New Key</source>
-        <translation type="unfinished"></translation>
+        <translation>새 키쌍</translation>
     </message>
     <message>
         <source>Make Request</source>
-        <translation type="unfinished"></translation>
+        <translation>요청서 만들기</translation>
     </message>
     <message>
         <source>Make Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 만들기</translation>
     </message>
     <message>
         <source>Make Cert Policy</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정책 만들기</translation>
     </message>
     <message>
         <source>Make CRL Policy</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 정책 만들기</translation>
     </message>
     <message>
         <source>Import Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 가져오기</translation>
     </message>
     <message>
         <source>Import CRL</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 가져오기</translation>
     </message>
     <message>
         <source>Expand Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>메뉴 확장</translation>
     </message>
     <message>
         <source>Make CRL</source>
-        <translation type="unfinished"></translation>
+        <translation>CRL 만들기</translation>
     </message>
     <message>
         <source>Register User</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자 등록</translation>
     </message>
     <message>
         <source>Regiter Signer</source>
-        <translation type="unfinished"></translation>
+        <translation>서명자 등록</translation>
     </message>
     <message>
         <source>Register Signer</source>
-        <translation type="unfinished"></translation>
+        <translation>서명자 등록</translation>
     </message>
 </context>
 <context>
     <name>NewKeyDlg</name>
     <message>
         <source>New Key</source>
-        <translation type="unfinished"></translation>
+        <translation>새 키쌍</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>Mechanism</source>
-        <translation type="unfinished"></translation>
+        <translation>알고리즘</translation>
     </message>
     <message>
         <source>Exponent</source>
-        <translation type="unfinished"></translation>
+        <translation>Exponent</translation>
     </message>
     <message>
         <source>Key Information</source>
-        <translation type="unfinished"></translation>
+        <translation>키 정보</translation>
     </message>
     <message>
         <source>Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>파라미터</translation>
     </message>
     <message>
         <source>Key Length</source>
-        <translation type="unfinished"></translation>
+        <translation>키 길이</translation>
     </message>
     <message>
         <source>You have to write name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름을 입력하세요</translation>
     </message>
     <message>
         <source>fail to generate key pairs</source>
-        <translation type="unfinished"></translation>
+        <translation>키 쌍 생성 실패</translation>
     </message>
 </context>
 <context>
     <name>NewPasswdDlg</name>
     <message>
         <source>New password</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 암호</translation>
     </message>
 </context>
 <context>
     <name>PasswdDlg</name>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>암호</translation>
     </message>
 </context>
 <context>
     <name>PinDlg</name>
     <message>
         <source>PIN</source>
-        <translation type="unfinished"></translation>
+        <translation>핀</translation>
     </message>
     <message>
         <source>Insert pin value</source>
-        <translation type="unfinished"></translation>
+        <translation>핀 값을 입력하세요</translation>
     </message>
 </context>
 <context>
     <name>PubLDAPDlg</name>
     <message>
         <source>Publish ldap</source>
-        <translation type="unfinished"></translation>
+        <translation>LDAP 게시하기</translation>
     </message>
     <message>
         <source>LDAP Host</source>
-        <translation type="unfinished"></translation>
+        <translation>LDAP 서버</translation>
     </message>
     <message>
         <source>Publish DN</source>
-        <translation type="unfinished"></translation>
+        <translation>게시 DN</translation>
     </message>
     <message>
         <source>Bind DN</source>
-        <translation type="unfinished"></translation>
+        <translation>바인드 DN</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>타입</translation>
     </message>
     <message>
         <source>Attribute</source>
-        <translation type="unfinished"></translation>
+        <translation>속성</translation>
     </message>
     <message>
         <source>LDAP Port</source>
-        <translation type="unfinished"></translation>
+        <translation>LDAP 포트</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>암호</translation>
     </message>
     <message>
         <source>Data information</source>
-        <translation type="unfinished"></translation>
+        <translation>데이타 정보</translation>
     </message>
     <message>
         <source>Source information</source>
-        <translation type="unfinished"></translation>
+        <translation>소스 정보</translation>
     </message>
     <message>
         <source>Account information</source>
-        <translation type="unfinished"></translation>
+        <translation>계정 정보</translation>
     </message>
     <message>
         <source>Host information</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 정보</translation>
     </message>
     <message>
         <source>Invalid data type</source>
-        <translation type="unfinished"></translation>
+        <translation>잘못 된 데이타 타입</translation>
     </message>
 </context>
 <context>
     <name>RevokeCertDlg</name>
     <message>
         <source>Revoke certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 폐기</translation>
     </message>
     <message>
         <source>DateTime</source>
-        <translation type="unfinished"></translation>
+        <translation>날짜 시간</translation>
     </message>
     <message>
         <source>Reason</source>
-        <translation type="unfinished"></translation>
+        <translation>이유</translation>
     </message>
     <message>
         <source>Subject DN</source>
-        <translation type="unfinished"></translation>
+        <translation>주체자 DN</translation>
     </message>
     <message>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>시리얼</translation>
     </message>
     <message>
         <source>Certificate information</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 정보</translation>
     </message>
     <message>
         <source>Revoke information</source>
-        <translation type="unfinished"></translation>
+        <translation>폐기 정보</translation>
     </message>
 </context>
 <context>
     <name>SearchMenu</name>
     <message>
         <source>0-0 of 0</source>
-        <translation type="unfinished"></translation>
+        <translation>0-0 중 0</translation>
     </message>
     <message>
         <source>&lt;&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt;</translation>
     </message>
     <message>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
         <source>&gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>검색</translation>
     </message>
 </context>
 <context>
     <name>ServerStatusDlg</name>
     <message>
         <source>Server status</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 상태</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>닫기</translation>
     </message>
     <message>
         <source>connected</source>
-        <translation type="unfinished"></translation>
+        <translation>연결됨</translation>
     </message>
     <message>
         <source>disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>끊김</translation>
     </message>
 </context>
 <context>
     <name>SettingsDlg</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>설정</translation>
     </message>
     <message>
         <source>Base</source>
-        <translation type="unfinished"></translation>
+        <translation>기본</translation>
     </message>
     <message>
         <source>Check for updates automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>자동 업데이트 체크</translation>
     </message>
     <message>
         <source>BaseDN</source>
-        <translation type="unfinished"></translation>
+        <translation>BaseDN</translation>
     </message>
     <message>
         <source>Save db path</source>
-        <translation type="unfinished"></translation>
+        <translation>데이타 베이스 폴더 저장</translation>
     </message>
     <message>
         <source>ListCount</source>
-        <translation type="unfinished"></translation>
+        <translation>리스트 개수</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>고급</translation>
     </message>
     <message>
         <source>Language(need restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>언어(재시작 필요)</translation>
     </message>
     <message>
         <source>PKCS11</source>
-        <translation type="unfinished"></translation>
+        <translation>PKCS11</translation>
     </message>
     <message>
         <source>Library Path</source>
-        <translation type="unfinished"></translation>
+        <translation>라이브러리 경로</translation>
     </message>
     <message>
         <source>Slot ID</source>
-        <translation type="unfinished"></translation>
+        <translation>슬롯 ID</translation>
     </message>
     <message>
         <source>Use PKCS11</source>
-        <translation type="unfinished"></translation>
+        <translation>PKCS11 사용</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>찾기</translation>
     </message>
     <message>
         <source>You have changed language. Restart to apply it?</source>
-        <translation type="unfinished"></translation>
+        <translation>언어를 바꾸었습니다. 다시 시작 할까요?</translation>
     </message>
     <message>
         <source>Open cryptoki library file</source>
-        <translation type="unfinished"></translation>
+        <translation>cryptoki 라이브러리 열기</translation>
     </message>
     <message>
         <source>SO Files (*.so);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>SignerDlg</name>
     <message>
         <source>Signer</source>
-        <translation type="unfinished"></translation>
+        <translation>서명자</translation>
     </message>
     <message>
         <source>Cert Path</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 경로</translation>
     </message>
     <message>
         <source>Find</source>
-        <translation type="unfinished"></translation>
+        <translation>찾기</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>상태</translation>
     </message>
     <message>
         <source>Signer Type</source>
-        <translation type="unfinished"></translation>
+        <translation>서명자 타입</translation>
     </message>
     <message>
         <source>Certificate files</source>
-        <translation type="unfinished"></translation>
+        <translation>인증서 파일</translation>
     </message>
     <message>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>UserDlg</name>
     <message>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자</translation>
     </message>
     <message>
         <source>Email</source>
-        <translation type="unfinished"></translation>
+        <translation>이메일</translation>
     </message>
     <message>
         <source>AuthCode</source>
-        <translation type="unfinished"></translation>
+        <translation>인증 코드</translation>
     </message>
     <message>
         <source>SSN</source>
-        <translation type="unfinished"></translation>
+        <translation>SSN</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <source>RefNum</source>
-        <translation type="unfinished"></translation>
+        <translation>참조 번호</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>상태</translation>
     </message>
 </context>
 </TS>
