@@ -17,7 +17,7 @@
         <file>images/cert.png</file>
         <file>images/key.jpeg</file>
         <file>images/csr.jpg</file>
-        <file>images/policy.png</file>
+        <file>images/crl_policy.png</file>
         <file>images/man.png</file>
         <file>images/im_cert.png</file>
         <file>images/im_crl.png</file>
@@ -34,5 +34,7 @@
         <file>images/revoke.png</file>
         <file>images/new_key.png</file>
         <file>i18n/caman_ko_KR.qm</file>
+        <file>images/cert_policy.png</file>
+        <file>images/disk.png</file>
     </qresource>
 </RCC>

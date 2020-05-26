@@ -30,6 +30,7 @@ public:
 
     int open( const QString dbPath );
     void close();
+    bool isOpen();
 
     int getCertCount( int nIssuerNum );
     int getCRLCount( int nIssuerNum );

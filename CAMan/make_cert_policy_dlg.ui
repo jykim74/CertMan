@@ -19,7 +19,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
@@ -158,7 +158,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="mExtend1Tab">
       <attribute name="title">
        <string>Extend1</string>
       </attribute>
@@ -351,7 +351,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="mExtend2Tab">
       <attribute name="title">
        <string>Extend2</string>
       </attribute>
@@ -504,16 +504,82 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="mExtend3Tab">
       <attribute name="title">
        <string>Extend3</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="1" column="4">
-        <widget class="QLineEdit" name="mBCPathLenText"/>
+       <item row="10" column="2">
+        <widget class="QComboBox" name="mIANCombo"/>
+       </item>
+       <item row="7" column="5">
+        <widget class="QPushButton" name="mSANClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Subject Alternative Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QCheckBox" name="mIANCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="mSANCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QComboBox" name="mSANCombo"/>
+       </item>
+       <item row="2" column="0" colspan="6">
+        <widget class="Line" name="line_10">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="mBCCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="6">
+        <widget class="QTableWidget" name="mSANTable"/>
+       </item>
+       <item row="10" column="5">
+        <widget class="QPushButton" name="mIANAddBtn">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
        </item>
        <item row="4" column="5">
-        <widget class="QLineEdit" name="mPCInhibitText"/>
+        <widget class="QPushButton" name="mSANAddBtn">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="mSANUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
         <widget class="QCheckBox" name="mBCUseCheck">
@@ -522,122 +588,13 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="6">
-        <widget class="Line" name="line_9">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0" colspan="6">
+       <item row="12" column="0" colspan="6">
         <widget class="QTableWidget" name="mIANTable"/>
        </item>
-       <item row="9" column="0" colspan="6">
-        <widget class="QTableWidget" name="mSANTable"/>
-       </item>
-       <item row="7" column="2">
-        <widget class="QComboBox" name="mSANCombo"/>
-       </item>
-       <item row="7" column="5">
-        <widget class="QPushButton" name="mSANAddBtn">
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="6">
-        <widget class="Line" name="line_10">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QComboBox" name="mBCCombo"/>
-       </item>
-       <item row="8" column="0" colspan="6">
-        <widget class="QLineEdit" name="mSANText"/>
-       </item>
-       <item row="12" column="0" colspan="2">
+       <item row="9" column="0" colspan="2">
         <widget class="QLabel" name="label_23">
          <property name="text">
           <string>Issuer Alternative Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="5">
-        <widget class="QPushButton" name="mIANClearBtn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QCheckBox" name="mIANUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="label_21">
-         <property name="text">
-          <string>Policy Constraints</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="mPCCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="2">
-        <widget class="QComboBox" name="mIANCombo"/>
-       </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="mSANUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>Inhibit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="5">
-        <widget class="QPushButton" name="mIANAddBtn">
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0" colspan="6">
-        <widget class="QLineEdit" name="mIANText"/>
-       </item>
-       <item row="13" column="1">
-        <widget class="QCheckBox" name="mIANCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>Subject Alternative Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QCheckBox" name="mSANCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
          </property>
         </widget>
        </item>
@@ -648,23 +605,6 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="5">
-        <widget class="QPushButton" name="mSANClearBtn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="3">
-        <widget class="QLineEdit" name="mPCExplicitText"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="mBCCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label_20">
          <property name="text">
@@ -672,168 +612,228 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="label_25">
+       <item row="13" column="5">
+        <widget class="QPushButton" name="mIANClearBtn">
          <property name="text">
-          <string>Explicit</string>
+          <string>Clear</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="mPCUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="6">
+       <item row="8" column="0" colspan="6">
         <widget class="Line" name="line_11">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_5">
-      <attribute name="title">
-       <string>Extend4</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="8" column="2">
-        <widget class="QComboBox" name="mNCTypeCombo"/>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_27">
-         <property name="text">
-          <string>Policy Mappings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="4">
-        <widget class="QPushButton" name="mNCClearBtn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="5">
-        <widget class="QTableWidget" name="mPMTable"/>
-       </item>
-       <item row="10" column="3">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>Max</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_28">
-         <property name="text">
-          <string>issuerDomainPolicy</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="mPMUseCheck">
-         <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
-        <widget class="QPushButton" name="mPMClearBtn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="2">
-        <widget class="QLineEdit" name="mNCMinText"/>
-       </item>
-       <item row="7" column="0" colspan="2">
-        <widget class="QLabel" name="label_30">
-         <property name="text">
-          <string>Name Constraints</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLabel" name="label_32">
-         <property name="text">
-          <string>Min</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="5">
-        <widget class="QTableWidget" name="mNCTable"/>
-       </item>
-       <item row="9" column="2" colspan="3">
-        <widget class="QLineEdit" name="mNCSubText"/>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QLabel" name="label_29">
-         <property name="text">
-          <string>subjectDomainPolicy</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="mPMCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="4">
-        <widget class="QLineEdit" name="mNCMaxText"/>
-       </item>
-       <item row="2" column="2" colspan="3">
-        <widget class="QLineEdit" name="mPMIssuerDomainPolicyText"/>
-       </item>
        <item row="10" column="0">
-        <widget class="QLabel" name="label_31">
-         <property name="text">
-          <string>Basic Distance</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QCheckBox" name="mNCCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0" colspan="2">
-        <widget class="QComboBox" name="mNCSubCombo"/>
-       </item>
-       <item row="8" column="4">
-        <widget class="QPushButton" name="mNCAddBtn">
-         <property name="text">
-          <string>Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QCheckBox" name="mNCUseCheck">
+        <widget class="QCheckBox" name="mIANUseCheck">
          <property name="text">
           <string>Use</string>
          </property>
         </widget>
        </item>
        <item row="1" column="4">
+        <widget class="QLineEdit" name="mBCPathLenText"/>
+       </item>
+       <item row="5" column="0" colspan="6">
+        <widget class="QLineEdit" name="mSANText"/>
+       </item>
+       <item row="11" column="0" colspan="6">
+        <widget class="QLineEdit" name="mIANText"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QComboBox" name="mBCCombo"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="mExtend4Tab">
+      <attribute name="title">
+       <string>Extend4</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="15" column="5">
+        <widget class="QPushButton" name="mNCClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>issuerDomainPolicy</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="5">
+        <widget class="QPushButton" name="mNCAddBtn">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="5">
+        <widget class="QLineEdit" name="mNCMaxText"/>
+       </item>
+       <item row="13" column="3">
+        <widget class="QLineEdit" name="mNCMinText"/>
+       </item>
+       <item row="14" column="0" colspan="6">
+        <widget class="QTableWidget" name="mNCTable"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QCheckBox" name="mNCCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="5">
         <widget class="QPushButton" name="mPMAddBtn">
          <property name="text">
           <string>Add</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="2" colspan="3">
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>Basic Distance</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLineEdit" name="mPCExplicitText"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_36">
+         <property name="text">
+          <string>Inhibit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>Explicit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QLineEdit" name="mPCInhibitText"/>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>Policy Mappings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QCheckBox" name="mNCUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="3">
+        <widget class="QComboBox" name="mNCTypeCombo"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="mPMUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="mPCUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="QLabel" name="label_30">
+         <property name="text">
+          <string>Name Constraints</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="4">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>Max</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="6">
+        <widget class="QTableWidget" name="mPMTable"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>Policy Constraints</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="5">
+        <widget class="QPushButton" name="mPMClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="mPCCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3" colspan="3">
+        <widget class="QLineEdit" name="mPMIssuerDomainPolicyText"/>
+       </item>
+       <item row="12" column="3" colspan="3">
+        <widget class="QLineEdit" name="mNCSubText"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="mPMCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" colspan="6">
+        <widget class="Line" name="line_12">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>Min</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="2">
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>subjectDomainPolicy</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="2">
+        <widget class="QComboBox" name="mNCSubCombo"/>
+       </item>
+       <item row="6" column="3" colspan="3">
         <widget class="QLineEdit" name="mPMSubjectDomainPolicyText"/>
        </item>
-       <item row="6" column="0" colspan="5">
-        <widget class="Line" name="line_12">
+       <item row="2" column="0" colspan="6">
+        <widget class="Line" name="line_13">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

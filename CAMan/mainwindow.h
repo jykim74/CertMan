@@ -13,6 +13,7 @@ class ManTreeView;
 class ManTreeModel;
 class ManTreeItem;
 class SearchMenu;
+class CertRec;
 class DBMgr;
 
 namespace Ui {
@@ -122,6 +123,7 @@ public slots:
     void getLDAP();
     void expandMenu();
     void expandItem( ManTreeItem *item );
+    void addRootCA( CertRec& certRec );
     void checkCertificate();
     void certStatus();
 
@@ -154,6 +156,7 @@ private:
 
     DBMgr           *db_mgr_;
     int             right_type_;
+    ManTreeItem     *root_ca_;
 
     int             openDB( const QString dbPath );
 };

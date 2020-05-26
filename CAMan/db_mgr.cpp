@@ -40,6 +40,10 @@ void DBMgr::close()
     db_.close();
 }
 
+bool DBMgr::isOpen()
+{
+    return db_.isOpen();
+}
 
 int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 {

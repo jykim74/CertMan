@@ -564,7 +564,7 @@ mailto : jykim74@gmail.com</source>
     </message>
     <message>
         <source>DB file is opened</source>
-        <translation>데이타 베이스 파일 열기 실패</translation>
+        <translation type="unfinished">데이타 베이스 파일을 열었습니다</translation>
     </message>
     <message>
         <source>Open CA DB file</source>

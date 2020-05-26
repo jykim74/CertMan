@@ -434,6 +434,9 @@ void MakeCertDlg::accept()
     userRec.setRegTime( time(NULL));
     if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
 
+    if( madeCertRec.isCA() && madeCertRec.isSelf() )
+        manApplet->mainWindow()->addRootCA( madeCertRec );
+
 end :
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binSignPri );

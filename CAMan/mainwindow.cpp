@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     right_type_ = -1;
+    root_ca_ = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +84,12 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
+    if( db_mgr_->isOpen() )
+    {
+        manApplet->warningBox( tr("Database has already opened"), this );
+        return;
+    }
+
     foreach (const QUrl &url, event->mimeData()->urls()) {
         QString fileName = url.toLocalFile();
         qDebug() << "Dropped file:" << fileName;
@@ -197,10 +204,18 @@ void MainWindow::createActions()
     regSignerAct->setStatusTip(tr("Register Signer"));
 #endif
 
-    QAction *makeCertPolicyAct = toolsMenu->addAction(tr("&MakeCertPolicy"), this, &MainWindow::makeCertPolicy);
+    const QIcon certPolicyIcon = QIcon::fromTheme("cert-policy", QIcon(":/images/cert_policy.png"));
+    QAction *makeCertPolicyAct = new QAction( certPolicyIcon, tr("&MakeCertPolicy"), this );
     makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
+    connect( makeCertPolicyAct, &QAction::triggered, this, &MainWindow::makeCertPolicy );
+    toolsMenu->addAction( makeCertPolicyAct );
+    toolsToolBar->addAction( makeCertPolicyAct );
 
-    QAction *makeCRLPolicyAct = toolsMenu->addAction(tr("&MakeCRLPolicy"), this, &MainWindow::makeCRLPolicy);
+    const QIcon crlPolicyIcon = QIcon::fromTheme("crl-policy", QIcon(":/images/crl_policy.png"));
+    QAction *makeCRLPolicyAct = new QAction( crlPolicyIcon, tr("&MakeCRLPolicy"), this );
+    connect( makeCRLPolicyAct, &QAction::triggered, this, &MainWindow::makeCRLPolicy);
+    toolsMenu->addAction( makeCRLPolicyAct );
+    toolsToolBar->addAction( makeCRLPolicyAct );
     makeCRLPolicyAct->setStatusTip(tr( "Make CRL Policy"));
 
     QAction *makeCertAct = toolsMenu->addAction(tr("&MakeCertificate"), this, &MainWindow::makeCertificate);
@@ -215,7 +230,11 @@ void MainWindow::createActions()
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     QToolBar *dataToolBar = addToolBar(tr("Data"));
 
-    QAction* importDataAct = dataMenu->addAction(tr("&ImportData"), this, &MainWindow::importData);
+    const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
+    QAction* importDataAct = new QAction( diskIcon, tr("&ImportData"), this );
+    connect( importDataAct, &QAction::triggered, this, &MainWindow::importData );
+    dataMenu->addAction( importDataAct );
+    dataToolBar->addAction( importDataAct );
     importDataAct->setStatusTip(tr("Import data"));
 
     QAction* pubLDAPAct = dataMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
@@ -227,7 +246,11 @@ void MainWindow::createActions()
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
 
-    QAction *aboutAct = helpMenu->addAction(tr("About"), this, &MainWindow::about );
+    const QIcon caManIcon = QIcon::fromTheme("caman", QIcon(":/images/caman.png"));
+    QAction *aboutAct = new QAction( caManIcon, tr("About CAMan"), this);
+    connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
+    helpMenu->addAction( aboutAct );
+    helpToolBar->addAction( aboutAct );
     aboutAct->setStatusTip(tr("About CAMan"));
 
 #ifdef _PRO
@@ -362,12 +385,12 @@ void MainWindow::createTreeMenu()
 #endif
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
-    pCertPolicyItem->setIcon(QIcon(":/images/policy.png"));
+    pCertPolicyItem->setIcon(QIcon(":/images/cert_policy.png"));
     pCertPolicyItem->setType( CM_ITEM_TYPE_CERT_POLICY );
     pTopItem->appendRow( pCertPolicyItem );
 
     ManTreeItem *pCRLPolicyItem = new ManTreeItem( QString("CRLPolicy" ) );
-    pCRLPolicyItem->setIcon(QIcon(":/images/policy.png"));
+    pCRLPolicyItem->setIcon(QIcon(":/images/crl_policy.png"));
     pCRLPolicyItem->setType( CM_ITEM_TYPE_CRL_POLICY );
     pTopItem->appendRow( pCRLPolicyItem );
 
@@ -376,6 +399,7 @@ void MainWindow::createTreeMenu()
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
     pRootCAItem->setDataNum(-1);
     pTopItem->appendRow( pRootCAItem );
+    root_ca_ = pRootCAItem;
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
     pImportCertItem->setIcon(QIcon(":/images/im_cert.png"));
@@ -397,6 +421,12 @@ void MainWindow::newFile()
 {
     BIN binDB = {0,0};
     QString strFilter = "";
+
+    if( db_mgr_->isOpen() )
+    {
+        manApplet->warningBox( tr("Database has already openend"), this );
+        return;
+    }
 
     QFile resFile( ":/ca.db" );
     resFile.open(QIODevice::ReadOnly);
@@ -455,6 +485,12 @@ int MainWindow::openDB( const QString dbPath )
 
 void MainWindow::open()
 {
+    if( db_mgr_->isOpen() )
+    {
+        manApplet->warningBox( tr("Database has already opened"), this );
+        return;
+    }
+
     bool bSavePath = manApplet->settingsMgr()->saveDBPath();
     QString strPath = QDir::currentPath();
 
@@ -1042,6 +1078,45 @@ void MainWindow::expandItem( ManTreeItem *item )
     left_tree_->expand( item->index() );
 }
 
+void MainWindow::addRootCA( CertRec& certRec )
+{
+   if( root_ca_ == NULL ) return;
+
+   ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
+   pCAItem->setType( CM_ITEM_TYPE_CA );
+   pCAItem->setDataNum( certRec.getNum() );
+   pCAItem->setIcon( QIcon(":/images/ca.png"));
+   root_ca_->appendRow( pCAItem );
+
+   ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+   pCertItem->setType( CM_ITEM_TYPE_CERT );
+   pCertItem->setDataNum( certRec.getNum() );
+   pCertItem->setIcon(QIcon(":/images/cert.png"));
+   pCAItem->appendRow( pCertItem );
+
+   ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+   pCRLItem->setType( CM_ITEM_TYPE_CRL );
+   pCRLItem->setDataNum( certRec.getNum() );
+   pCRLItem->setIcon(QIcon(":/images/crl.png"));
+   pCAItem->appendRow( pCRLItem );
+
+   ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+   pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
+   pRevokeItem->setDataNum( certRec.getNum() );
+   pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
+   pCAItem->appendRow( pRevokeItem );
+
+   ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
+   pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
+   pSubCAItem->setIcon(QIcon(":/images/ca.png"));
+   pSubCAItem->setDataNum( certRec.getNum() );
+   pCAItem->appendRow( pSubCAItem );
+
+   left_tree_->expand( root_ca_->index() );
+}
+
+
+
 void MainWindow::checkCertificate()
 {
     int row = right_table_->currentRow();
@@ -1525,7 +1600,7 @@ void MainWindow::createRightUserList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "RegTime", "Name", "SSN", "Email", "Status", "RefNum", "AuthCode" };
+    QStringList headerList = {"Num", "RegTime", "Name", "SSN", "Email", "Status" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1564,8 +1639,8 @@ void MainWindow::createRightUserList()
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( user.getStatus() )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
-        right_table_->setItem(i,7, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
+//        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( user.getRefNum() )));
+//        right_table_->setItem(i,7, new QTableWidgetItem(QString("%1").arg( user.getAuthCode() )));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -1618,26 +1693,26 @@ void MainWindow::showRightKeyPair( int seq )
 
     db_mgr_->getKeyPairRec( seq, keyPair );
 
-    strMsg = "[ KeyPair information ]\n";
+    strMsg = "[ KeyPair information ]\n\n";
     strPart = QString( "Num:%1\n\n").arg( keyPair.getNum() );
     strMsg += strPart;
 
-    strPart = QString( "Algorithm: %1\n").arg( keyPair.getAlg());
+    strPart = QString( "Algorithm: %1\n\n").arg( keyPair.getAlg());
     strMsg += strPart;
 
-    strPart = QString( "Name: %1\n").arg( keyPair.getName());
+    strPart = QString( "Name: %1\n\n").arg( keyPair.getName());
     strMsg += strPart;
 
-    strPart = QString( "PublicKey: %1\n").arg( keyPair.getPublicKey());
+    strPart = QString( "PublicKey: %1\n\n").arg( keyPair.getPublicKey());
     strMsg += strPart;
 
-    strPart = QString( "PrivateKey: %1\n").arg( keyPair.getPrivateKey());
+    strPart = QString( "PrivateKey: %1\n\n").arg( keyPair.getPrivateKey());
     strMsg += strPart;
 
-    strPart = QString( "Param: %1\n").arg( keyPair.getParam());
+    strPart = QString( "Param: %1\n\n").arg( keyPair.getParam());
     strMsg += strPart;
 
-    strPart = QString( "Status: %1\n").arg( keyPair.getStatus());
+    strPart = QString( "Status: %1\n\n").arg( keyPair.getStatus());
     strMsg += strPart;
 
     right_text_->setText(strMsg);
@@ -1653,27 +1728,27 @@ void MainWindow::showRightRequest( int seq )
     ReqRec reqRec;
     db_mgr_->getReqRec( seq, reqRec );
 
-    strMsg = "[ Request information ]\n";
+    strMsg = "[ Request information ]\n\n";
 
-    strPart = QString( "SEQ: %1\n").arg(reqRec.getSeq());
+    strPart = QString( "SEQ: %1\n\n").arg(reqRec.getSeq());
     strMsg += strPart;
 
-    strPart = QString( "KeyNum: %1\n").arg(reqRec.getKeyNum());
+    strPart = QString( "KeyNum: %1\n\n").arg(reqRec.getKeyNum());
     strMsg += strPart;
 
-    strPart = QString( "Name: %1\n").arg( reqRec.getName() );
+    strPart = QString( "Name: %1\n\n").arg( reqRec.getName() );
     strMsg += strPart;
 
-    strPart = QString( "DN: %1\n").arg( reqRec.getDN());
+    strPart = QString( "DN: %1\n\n").arg( reqRec.getDN());
     strMsg += strPart;
 
-    strPart = QString( "Request: %1\n").arg( reqRec.getCSR() );
+    strPart = QString( "Request: %1\n\n").arg( reqRec.getCSR() );
     strMsg += strPart;
 
-    strPart = QString( "Hash: %1\n").arg( reqRec.getHash());
+    strPart = QString( "Hash: %1\n\n").arg( reqRec.getHash());
     strMsg += strPart;
 
-    strPart = QString( "Status: %1").arg( reqRec.getStatus());
+    strPart = QString( "Status: %1\n\n").arg( reqRec.getStatus());
     strMsg += strPart;
 
     right_text_->setText(strMsg);
@@ -1690,49 +1765,49 @@ void MainWindow::showRightCertificate( int seq )
     CertRec certRec;
     db_mgr_->getCertRec( seq, certRec );
 
-    strMsg = "[ Ceritificate information ]\n";
+    strMsg = "[ Ceritificate information ]\n\n";
 
-    strPart = QString("Num: %1\n").arg( certRec.getNum() );
+    strPart = QString("Num: %1\n\n").arg( certRec.getNum() );
     strMsg += strPart;
 
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
-    strPart = QString("RegDate: %1\n").arg( sRegDate );
+    strPart = QString("RegDate: %1\n\n").arg( sRegDate );
     strMsg += strPart;
 
-    strPart = QString( "KeyNum: %1\n").arg( certRec.getKeyNum() );
+    strPart = QString( "KeyNum: %1\n\n").arg( certRec.getKeyNum() );
     strMsg += strPart;
 
-    strPart = QString( "SignAlgorithm: %1\n").arg( certRec.getSignAlg() );
+    strPart = QString( "SignAlgorithm: %1\n\n").arg( certRec.getSignAlg() );
     strMsg += strPart;
 
-    strPart = QString( "Certificate: %1\n").arg( certRec.getCert() );
+    strPart = QString( "Certificate: %1\n\n").arg( certRec.getCert() );
     strMsg += strPart;
 
-    strPart = QString( "IsCA: %1\n").arg( certRec.isCA() );
+    strPart = QString( "IsCA: %1\n\n").arg( certRec.isCA() );
     strMsg += strPart;
 
-    strPart = QString( "IsSelf: %1\n").arg( certRec.isSelf() );
+    strPart = QString( "IsSelf: %1\n\n").arg( certRec.isSelf() );
     strMsg += strPart;
 
-    strPart = QString( "SubjectDN: %1\n").arg( certRec.getSubjectDN() );
+    strPart = QString( "SubjectDN: %1\n\n").arg( certRec.getSubjectDN() );
     strMsg += strPart;
 
-    strPart = QString( "IssuerNum: %1\n").arg( certRec.getIssuerNum() );
+    strPart = QString( "IssuerNum: %1\n\n").arg( certRec.getIssuerNum() );
     strMsg += strPart;
 
-    strPart = QString( "Status: %1\n").arg( certRec.getStatus() );
+    strPart = QString( "Status: %1\n\n").arg( certRec.getStatus() );
     strMsg += strPart;
 
-    strPart = QString( "Serial: %1\n").arg( certRec.getSerial() );
+    strPart = QString( "Serial: %1\n\n").arg( certRec.getSerial() );
     strMsg += strPart;
 
-    strPart = QString( "DNHash: %1\n").arg( certRec.getDNHash() );
+    strPart = QString( "DNHash: %1\n\n").arg( certRec.getDNHash() );
     strMsg += strPart;
 
-    strPart = QString( "KeyHash: %1\n").arg( certRec.getKeyHash() );
+    strPart = QString( "KeyHash: %1\n\n").arg( certRec.getKeyHash() );
     strMsg += strPart;
 
-    strPart = QString( "CRLDP: %1\n").arg( certRec.getCRLDP() );
+    strPart = QString( "CRLDP: %1\n\n").arg( certRec.getCRLDP() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );
@@ -1749,27 +1824,27 @@ void MainWindow::showRightCertPolicy( int seq )
 
     db_mgr_->getCertPolicyRec( seq, certPolicy );
 
-    strMsg = "[ Certificate policy information ]\n";
+    strMsg = "[ Certificate policy information ]\n\n";
 
-    strPart = QString( "Num: %1\n").arg( certPolicy.getNum());
+    strPart = QString( "Num: %1\n\n").arg( certPolicy.getNum());
     strMsg += strPart;
 
-    strPart = QString( "Name: %1\n").arg( certPolicy.getName());
+    strPart = QString( "Name: %1\n\n").arg( certPolicy.getName());
     strMsg += strPart;
 
-    strPart = QString( "Version: %1\n").arg(certPolicy.getVersion());
+    strPart = QString( "Version: %1\n\n").arg(certPolicy.getVersion());
     strMsg += strPart;
 
-    strPart = QString( "NotBefore: %1\n").arg(certPolicy.getNotBefore());
+    strPart = QString( "NotBefore: %1\n\n").arg(certPolicy.getNotBefore());
     strMsg += strPart;
 
-    strPart = QString( "NotAfter: %1\n").arg( certPolicy.getNotAfter());
+    strPart = QString( "NotAfter: %1\n\n").arg( certPolicy.getNotAfter());
     strMsg += strPart;
 
-    strPart = QString( "Hash: %1\n").arg(certPolicy.getHash());
+    strPart = QString( "Hash: %1\n\n").arg(certPolicy.getHash());
     strMsg += strPart;
 
-    strPart = QString( "DNTemplate: %1\n").arg( certPolicy.getDNTemplate() );
+    strPart = QString( "DNTemplate: %1\n\n").arg( certPolicy.getDNTemplate() );
     strMsg += strPart;
 
     strMsg += "========= Extensions information ==========\n";
@@ -1805,25 +1880,25 @@ void MainWindow::showRightCRL( int seq )
 
     db_mgr_->getCRLRec( seq, crlRec );
 
-    strMsg = "[ CRL information ]\n";
+    strMsg = "[ CRL information ]\n\n";
 
-    strPart = QString( "Num: %1\n" ).arg( crlRec.getNum() );
+    strPart = QString( "Num: %1\n\n" ).arg( crlRec.getNum() );
     strMsg += strPart;
 
     JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
-    strPart = QString( "RegTime: %1\n" ).arg( sRegTime );
+    strPart = QString( "RegTime: %1\n\n" ).arg( sRegTime );
     strMsg += strPart;
 
-    strPart = QString( "IssuerNum: %1\n").arg( crlRec.getIssuerNum() );
+    strPart = QString( "IssuerNum: %1\n\n").arg( crlRec.getIssuerNum() );
     strMsg += strPart;
 
-    strPart = QString( "SignAlgorithm: %1\n").arg(crlRec.getSignAlg());
+    strPart = QString( "SignAlgorithm: %1\n\n").arg(crlRec.getSignAlg());
     strMsg += strPart;
 
-    strPart = QString( "CRLDP: %1\n").arg(crlRec.getCRLDP());
+    strPart = QString( "CRLDP: %1\n\n").arg(crlRec.getCRLDP());
     strMsg += strPart;
 
-    strPart = QString( "CRL: %1\n").arg( crlRec.getCRL());
+    strPart = QString( "CRL: %1\n\n").arg( crlRec.getCRL());
     strMsg += strPart;
 
     /* need for revoked list information */
@@ -1846,24 +1921,24 @@ void MainWindow::showRightCRLPolicy( int seq )
 
     db_mgr_->getCRLPolicyRec( seq, crlPolicy );
 
-    strMsg = "[ CRL information ]\n";
+    strMsg = "[ CRL information ]\n\n";
 
-    strPart = QString( "Num: %1\n").arg(crlPolicy.getNum());
+    strPart = QString( "Num: %1\n\n").arg(crlPolicy.getNum());
     strMsg += strPart;
 
-    strPart = QString( "Name: %1\n").arg( crlPolicy.getName());
+    strPart = QString( "Name: %1\n\n").arg( crlPolicy.getName());
     strMsg += strPart;
 
-    strPart = QString( "Version: %1\n").arg( crlPolicy.getVersion());
+    strPart = QString( "Version: %1\n\n").arg( crlPolicy.getVersion());
     strMsg += strPart;
 
-    strPart = QString( "LastUpdate : %1\n").arg(crlPolicy.getLastUpdate());
+    strPart = QString( "LastUpdate : %1\n\n").arg(crlPolicy.getLastUpdate());
     strMsg += strPart;
 
-    strPart = QString("NextUpdate: %1\n").arg(crlPolicy.getNextUpdate());
+    strPart = QString("NextUpdate: %1\n\n").arg(crlPolicy.getNextUpdate());
     strMsg += strPart;
 
-    strPart = QString("Hash: %1\n").arg(crlPolicy.getHash());
+    strPart = QString("Hash: %1\n\n").arg(crlPolicy.getHash());
     strMsg += strPart;
 
     strMsg += "========= Extensions information ==========\n";
@@ -1897,27 +1972,27 @@ void MainWindow::showRightRevoke( int seq )
     RevokeRec revokeRec;
     db_mgr_->getRevokeRec( seq, revokeRec );
 
-    strMsg = "[ Revoke information ]\n";
+    strMsg = "[ Revoke information ]\n\n";
 
-    strPart = QString( "Seq: %1\n").arg( revokeRec.getSeq());
+    strPart = QString( "Seq: %1\n\n").arg( revokeRec.getSeq());
     strMsg += strPart;
 
-    strPart = QString( "CertNum: %1\n").arg( revokeRec.getCertNum() );
+    strPart = QString( "CertNum: %1\n\n").arg( revokeRec.getCertNum() );
     strMsg += strPart;
 
-    strPart = QString( "IssuerNum: %1\n").arg( revokeRec.getIssuerNum() );
+    strPart = QString( "IssuerNum: %1\n\n").arg( revokeRec.getIssuerNum() );
     strMsg += strPart;
 
-    strPart = QString( "Serial: %1\n").arg( revokeRec.getSerial() );
+    strPart = QString( "Serial: %1\n\n").arg( revokeRec.getSerial() );
     strMsg += strPart;
 
-    strPart = QString( "RevokeDate: %1\n").arg( revokeRec.getRevokeDate());
+    strPart = QString( "RevokeDate: %1\n\n").arg( revokeRec.getRevokeDate());
     strMsg += strPart;
 
-    strPart = QString( "Reason: %1\n").arg( revokeRec.getReason() );
+    strPart = QString( "Reason: %1\n\n").arg( revokeRec.getReason() );
     strMsg += strPart;
 
-    strPart = QString( "CRLDP: %1\n").arg( revokeRec.getCRLDP() );
+    strPart = QString( "CRLDP: %1\n\n").arg( revokeRec.getCRLDP() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );
@@ -1934,31 +2009,31 @@ void MainWindow::showRightUser( int seq )
     UserRec userRec;
     db_mgr_->getUserRec( seq, userRec );
 
-    strMsg = "[ User information ]\n";
+    strMsg = "[ User information ]\n\n";
 
     strPart = QString( "Num: %1\n").arg( userRec.getNum());
     strMsg += strPart;
 
     JS_UTIL_getDateTime( userRec.getRegTime(), sRegTime );
-    strPart = QString( "RegTime: %1\n").arg( sRegTime );
+    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
     strMsg += strPart;
 
-    strPart = QString( "Name: %1\n").arg( userRec.getName() );
+    strPart = QString( "Name: %1\n\n").arg( userRec.getName() );
     strMsg += strPart;
 
-    strPart = QString( "SSN: %1\n").arg( userRec.getSSN() );
+    strPart = QString( "SSN: %1\n\n").arg( userRec.getSSN() );
     strMsg += strPart;
 
-    strPart = QString( "Email: %1\n").arg( userRec.getEmail() );
+    strPart = QString( "Email: %1\n\n").arg( userRec.getEmail() );
     strMsg += strPart;
 
-    strPart = QString( "Status: %1\n").arg( userRec.getStatus() );
+    strPart = QString( "Status: %1\n\n").arg( userRec.getStatus() );
     strMsg += strPart;
 
-    strPart = QString( "RefNum: %1\n").arg( userRec.getRefNum() );
+    strPart = QString( "RefNum: %1\n\n").arg( userRec.getRefNum() );
     strMsg += strPart;
 
-    strPart = QString( "AuthCode: %1\n").arg( userRec.getAuthCode() );
+    strPart = QString( "AuthCode: %1\n\n").arg( userRec.getAuthCode() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );
@@ -1975,31 +2050,31 @@ void MainWindow::showRightSigner(int seq)
     SignerRec signerRec;
     db_mgr_->getSignerRec( seq, signerRec );
 
-    strMsg = "[ Signer information ]\n";
+    strMsg = "[ Signer information ]\n\n";
 
-    strPart = QString( "Num: %1\n").arg( signerRec.getNum());
+    strPart = QString( "Num: %1\n\n").arg( signerRec.getNum());
     strMsg += strPart;
 
     JS_UTIL_getDateTime( signerRec.getRegTime(), sRegTime );
-    strPart = QString( "RegTime: %1\n").arg( sRegTime );
+    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
     strMsg += strPart;
 
-    strPart = QString( "Type: %1\n").arg( signerRec.getType() );
+    strPart = QString( "Type: %1\n\n").arg( signerRec.getType() );
     strMsg += strPart;
 
-    strPart = QString( "DN: %1\n").arg( signerRec.getDN() );
+    strPart = QString( "DN: %1\n\n").arg( signerRec.getDN() );
     strMsg += strPart;
 
-    strPart = QString( "DNHash: %1\n").arg( signerRec.getDNHash() );
+    strPart = QString( "DNHash: %1\n\n").arg( signerRec.getDNHash() );
     strMsg += strPart;
 
-    strPart = QString( "Cert: %1\n").arg( signerRec.getCert() );
+    strPart = QString( "Cert: %1\n\n").arg( signerRec.getCert() );
     strMsg += strPart;
 
-    strPart = QString( "Status: %1\n").arg( signerRec.getStatus() );
+    strPart = QString( "Status: %1\n\n").arg( signerRec.getStatus() );
     strMsg += strPart;
 
-    strPart = QString( "Desc: %1\n").arg( signerRec.getDesc());
+    strPart = QString( "Desc: %1\n\n").arg( signerRec.getDesc());
     strMsg += strPart;
 
     right_text_->setText( strMsg );
