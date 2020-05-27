@@ -461,6 +461,7 @@ void MainWindow::newFile()
         return;
     }
 
+    setTitle( fileName );
     createTreeMenu();
 }
 
