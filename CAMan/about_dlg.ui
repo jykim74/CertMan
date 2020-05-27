@@ -14,14 +14,30 @@
    <string>About CAMan</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QPushButton" name="mCheckUpdateBtn">
-     <property name="text">
-      <string>Check For Update</string>
+   <item row="2" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="0" column="1">
+    <widget class="QLabel" name="mVersionLabel">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Current Version</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -34,14 +50,7 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="mVersionLabel">
-     <property name="text">
-      <string>Current Version</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
+   <item row="0" column="0">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -57,13 +66,10 @@
    <item row="1" column="0" colspan="3">
     <widget class="QTextBrowser" name="mAboutText"/>
    </item>
-   <item row="2" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="mCheckUpdateBtn">
+     <property name="text">
+      <string>Check For Update</string>
      </property>
     </widget>
    </item>
