@@ -13,6 +13,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain( "jssoft.com" );
     QCoreApplication::setApplicationName( "CAMan" );
 
+    QFile qss(":/caman.qss");
+    qss.open( QFile::ReadOnly );
+    app.setStyleSheet(qss.readAll());
+
     QCommandLineParser parser;
     parser.setApplicationDescription( QCoreApplication::applicationName() );
     parser.addHelpOption();

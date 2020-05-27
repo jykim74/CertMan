@@ -36,5 +36,11 @@
         <file>i18n/caman_ko_KR.qm</file>
         <file>images/cert_policy.png</file>
         <file>images/disk.png</file>
+        <file>images/branch-closed.png</file>
+        <file>images/branch-end.png</file>
+        <file>images/branch-more.png</file>
+        <file>images/branch-open.png</file>
+        <file>images/vline.png</file>
+        <file>caman.qss</file>
     </qresource>
 </RCC>

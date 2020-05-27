@@ -432,7 +432,7 @@ mailto : jykim74@gmail.com</source>
     </message>
     <message>
         <source>About</source>
-        <translation>에 대해서</translation>
+        <translation type="vanished">에 대해서</translation>
     </message>
     <message>
         <source>About CAMan</source>
@@ -564,7 +564,7 @@ mailto : jykim74@gmail.com</source>
     </message>
     <message>
         <source>DB file is opened</source>
-        <translation type="unfinished">데이타 베이스 파일을 열었습니다</translation>
+        <translation>데이타 베이스 파일을 열었습니다</translation>
     </message>
     <message>
         <source>Open CA DB file</source>
@@ -577,6 +577,14 @@ mailto : jykim74@gmail.com</source>
     <message>
         <source>fail to get revoke information</source>
         <translation>폐기 정보 가져오기에 실패</translation>
+    </message>
+    <message>
+        <source>Database has already opened</source>
+        <translation>데이타 베이스 파일이 이미 열었습니다</translation>
+    </message>
+    <message>
+        <source>Database has already openend</source>
+        <translation>데이타 베이스 파일이 이미 열었습니다</translation>
     </message>
 </context>
 <context>
