@@ -1196,6 +1196,7 @@ void MainWindow::certStatus()
 
 void MainWindow::createRightList( int nType, int nNum )
 {
+    /*
     if( nType == CM_ITEM_TYPE_CRL_POLICY ||
             nType == CM_ITEM_TYPE_CERT_POLICY ||
             nType == CM_ITEM_TYPE_OCSP_SIGNER ||
@@ -1205,6 +1206,7 @@ void MainWindow::createRightList( int nType, int nNum )
     }
     else
         right_menu_->show();
+        */
 
     if( nType == CM_ITEM_TYPE_KEYPAIR )
         createRightKeyPairList();
@@ -1240,6 +1242,8 @@ void MainWindow::createRightList( int nType, int nNum )
 
 void MainWindow::createRightKeyPairList()
 {
+    right_menu_->show();
+
     removeAllRight();
     right_type_ = RightType::TYPE_KEYPAIR;
 
@@ -1296,6 +1300,8 @@ void MainWindow::createRightKeyPairList()
 
 void MainWindow::createRightRequestList()
 {
+    right_menu_->show();
+
     removeAllRight();
     right_type_ = RightType::TYPE_REQUEST;
 
@@ -1351,6 +1357,8 @@ void MainWindow::createRightRequestList()
 
 void MainWindow::createRightCertPolicyList()
 {
+    right_menu_->hide();
+
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_POLICY;
 
@@ -1385,6 +1393,8 @@ void MainWindow::createRightCertPolicyList()
 
 void MainWindow::createRightCRLPolicyList()
 {
+    right_menu_->hide();
+
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_POLICY;
 
@@ -1418,6 +1428,7 @@ void MainWindow::createRightCRLPolicyList()
 
 void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
+    right_menu_->show();
     removeAllRight();
     int nTotalCount = 0;
     int nLimit = kListCount;
@@ -1496,6 +1507,8 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
 void MainWindow::createRightCRLList( int nIssuerNum )
 {
+    right_menu_->show();
+
     removeAllRight();
     right_type_ = RightType::TYPE_CRL;
 
@@ -1551,6 +1564,8 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 
 void MainWindow::createRightRevokeList(int nIssuerNum)
 {
+    right_menu_->show();
+
     removeAllRight();
     right_type_ = RightType::TYPE_REVOKE;
 
@@ -1608,6 +1623,8 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 
 void MainWindow::createRightUserList()
 {
+    right_menu_->show();
+
     removeAllRight();
     right_type_ = RightType::TYPE_USER;
 
@@ -1668,6 +1685,7 @@ void MainWindow::createRightUserList()
 
 void MainWindow::createRightSignerList(int nType)
 {
+    right_menu_->hide();
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
