@@ -436,10 +436,12 @@ void MainWindow::newFile()
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 
+    QString strPath = getPath();
+
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName( this,
                                                      tr("New CA DB Files"),
-                                                     QDir::currentPath(),
+                                                     strPath,
                                                      tr("DB Files (*.db);;All Files (*)"),
                                                      &selectedFilter,
                                                      options );
@@ -461,6 +463,7 @@ void MainWindow::newFile()
         return;
     }
 
+    setPath( fileName );
     setTitle( fileName );
     createTreeMenu();
 }
@@ -484,14 +487,8 @@ int MainWindow::openDB( const QString dbPath )
     return ret;
 }
 
-void MainWindow::open()
+QString MainWindow::getPath()
 {
-    if( db_mgr_->isOpen() )
-    {
-        manApplet->warningBox( tr("Database has already opened"), this );
-        return;
-    }
-
     bool bSavePath = manApplet->settingsMgr()->saveDBPath();
     QString strPath = QDir::currentPath();
 
@@ -503,6 +500,34 @@ void MainWindow::open()
         settings.endGroup();
     }
 
+    return strPath;
+}
+
+void MainWindow::setPath( const QString strFilePath )
+{
+    bool bSavePath = manApplet->settingsMgr()->saveDBPath();
+
+    if( bSavePath == 0 )
+    {
+        QFileInfo fileInfo( strFilePath );
+        QString strDir = fileInfo.dir().path();
+
+        QSettings settings;
+        settings.beginGroup("mainwindow");
+        settings.setValue( "dbPath", strDir );
+        settings.endGroup();
+    }
+}
+
+void MainWindow::open()
+{
+    if( db_mgr_->isOpen() )
+    {
+        manApplet->warningBox( tr("Database has already opened"), this );
+        return;
+    }
+
+    QString strPath = getPath();
 
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
@@ -522,16 +547,9 @@ void MainWindow::open()
 
     int ret = openDB( fileName );
 
-    if( bSavePath && ret == 0 )
+    if( ret == 0 )
     {
-        QFileInfo fileInfo( fileName );
-        QString strDir = fileInfo.dir().path();
-
-        QSettings settings;
-        settings.beginGroup("mainwindow");
-        settings.setValue( "dbPath", strDir );
-        settings.endGroup();
-
+        setPath( fileName );
         setTitle( fileName );
     }
 }

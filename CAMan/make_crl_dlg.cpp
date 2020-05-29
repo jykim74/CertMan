@@ -309,6 +309,12 @@ void MakeCRLDlg::initialize()
     mIssuerNameCombo->clear();
 
     dbMgr->getCACertList( ca_cert_list_ );
+    if( ca_cert_list_.size() <= 0 )
+    {
+        manApplet->warningBox( tr("There is no CA certficate"), this );
+        return;
+    }
+
     for( int i=0; i < ca_cert_list_.size(); i++ )
     {
         CertRec certRec = ca_cert_list_.at(i);
@@ -318,6 +324,12 @@ void MakeCRLDlg::initialize()
     crl_policy_list_.clear();
 
     dbMgr->getCRLPolicyList( crl_policy_list_ );
+    if( crl_policy_list_.size() <= 0 )
+    {
+        manApplet->warningBox(tr("There is no CRL Policy"), this );
+        return;
+    }
+
     for( int i = 0; i < crl_policy_list_.size(); i++ )
     {
         CRLPolicyRec policyRec = crl_policy_list_.at(i);

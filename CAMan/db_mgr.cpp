@@ -23,6 +23,8 @@ int DBMgr::open(const QString dbPath)
 {
     db_ = QSqlDatabase::addDatabase( "QSQLITE" );
     db_.setDatabaseName( dbPath );
+//    db_.setUserName( "username" );
+//    db_.setPassword( "password" );
 
     if( !db_.open() )
     {
@@ -1219,7 +1221,7 @@ int DBMgr::addCRLPolicyRec( CRLPolicyRec& crlPolicyRec )
 
     sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY "
                       "( NUM, NAME, VERSION, LASTUPDATE, NEXTUPDATE, HASH ) "
-                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, crlPolicyRec.getNum() );
     sqlQuery.bindValue( i++, crlPolicyRec.getName() );

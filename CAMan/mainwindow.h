@@ -143,6 +143,8 @@ private slots:
 
 private:
     void setTitle( const QString strName );
+    QString getPath();
+    void setPath( const QString strFilePath );
 
 private:
     QSplitter       *hsplitter_;
