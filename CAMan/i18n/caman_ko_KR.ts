@@ -28,8 +28,8 @@
         <translation>이 툴은 인증서, CRL 및 CSR을 만드는 프리웨어 툴입니다. 상업적 목적이 아니면 자유롭게 이용 할 수 있습니다. 요청 이나 문의 사항은 메일로 연락 주세요.</translation>
     </message>
     <message>
-        <source><byte value="xd"/>
-Copyright (C) 2019 ~ 2020 JongYeob Kim<byte value="xd"/>
+        <source>
+Copyright (C) 2019 ~ 2020 JongYeob Kim
 mailto : jykim74@gmail.com</source>
         <translation></translation>
     </message>
@@ -636,6 +636,14 @@ mailto : jykim74@gmail.com</source>
     <message>
         <source>fail to get CRL information(%1)</source>
         <translation>CRL 정보 가져오기 실패(%1)</translation>
+    </message>
+    <message>
+        <source>There is no CA certficate</source>
+        <translation>CA 인증서가 없습니다</translation>
+    </message>
+    <message>
+        <source>There is no CRL Policy</source>
+        <translation>CRL 정책이 없습니다</translation>
     </message>
 </context>
 <context>
