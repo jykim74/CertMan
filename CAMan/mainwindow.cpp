@@ -399,6 +399,7 @@ void MainWindow::createTreeMenu()
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
     pRootCAItem->setDataNum(-1);
     pTopItem->appendRow( pRootCAItem );
+    expandItem( pRootCAItem );
     root_ca_ = pRootCAItem;
 
     ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
@@ -414,7 +415,7 @@ void MainWindow::createTreeMenu()
     QModelIndex ri = left_model_->index(0,0);
     left_tree_->expand(ri);
 
-    expandItem( pRootCAItem );
+//    expandItem( pRootCAItem );
 }
 
 void MainWindow::newFile()
