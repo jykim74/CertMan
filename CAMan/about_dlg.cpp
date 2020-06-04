@@ -34,12 +34,10 @@ AboutDlg::AboutDlg(QWidget *parent) :
 
     strAbout += "\r\n";
     strAbout += getBuild();
+    strAbout += "\r\n\r\n";
+    strAbout += "Copyright (C) 2019 ~ 2020 JongYeob Kim";
     strAbout += "\r\n";
-
-    QString strAppend = tr( "\r\nCopyright (C) 2019 ~ 2020 JongYeob Kim\r\n"
-            "mailto : jykim74@gmail.com");
-
-    strAbout += strAppend;
+    strAbout += tr("mail: jykim74@gmail.com" );
 
     mAboutText->setText( strAbout );
 }
