@@ -12,7 +12,6 @@ CheckCertDlg::CheckCertDlg(QWidget *parent) :
     cert_num_ = -1;
     setupUi(this);
     initUI();
-    initialize();
 }
 
 CheckCertDlg::~CheckCertDlg()
@@ -25,6 +24,10 @@ void CheckCertDlg::setCertNum( int cert_num )
     cert_num_ = cert_num;
 }
 
+void CheckCertDlg::showEvent(QShowEvent *event)
+{
+    initialize();
+}
 
 void CheckCertDlg::clickClose()
 {
@@ -104,7 +107,9 @@ void CheckCertDlg::initialize()
     }
 
     mCertPathTree->clear();
+    mCertPathTree->header()->setVisible(false);
     mCertPathTree->setColumnCount(1);
+
     QList<QTreeWidgetItem *> items;
     QTreeWidgetItem* pPrevItem = NULL;
 
