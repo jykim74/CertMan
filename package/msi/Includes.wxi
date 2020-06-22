@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include Id="CAManInclude">
-  <?define CurrentCAManVersion="0.9.4" ?>
+  <?define CurrentCAManVersion="0.9.5" ?>
 
   <!-- BerViewer Product Guid  -->
-  <?define ProductGuid="cec7b8bc-624c-4253-9b7b-b6b957e9b665" ?> <!-- Version 0.9.4-->
+  <?define ProductGuid="70810570-a053-4719-a6b4-2f216f45a641" ?> <!-- Version 0.9.5-->
+  <!-- ?define ProductGuid="cec7b8bc-624c-4253-9b7b-b6b957e9b665" ?> Version 0.9.4-->
   <!-- ?define ProductGuid="2d14c6c6-b881-4173-ba3f-ff74e23abb0c" ?> Version 0.9.3-->
   <!-- ?define ProductGuid="6d174582-6c05-471f-ab2d-d1ccb4e23211" ?> Version 0.9.2-->
   <!-- ?define ProductGuid="1c729857-9f7b-48ab-abeb-74967ec583d4" ?> Version 0.9.1 -->

@@ -262,9 +262,6 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
         memset( sHexOID, 0x00, sizeof(sHexOID));
 
         JS_PKI_getHexOIDFromSN( mOptionCombo->currentText().toStdString().c_str(), sHexOID );
-
-        QString strGroup;
-        strGroup.sprintf( "06%02x%s", strlen(sHexOID) / 2, sHexOID );
         JS_BIN_decodeHex( sHexOID, &binGroup );
 
         sPubTemplate[uPubCount].type = CKA_EC_PARAMS;

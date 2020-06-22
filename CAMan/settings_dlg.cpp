@@ -78,7 +78,7 @@ void SettingsDlg::findP11Path()
     QString fileName = QFileDialog::getOpenFileName( this,
                                                      tr("Open cryptoki library file"),
                                                      strPath,
-                                                     tr("SO Files (*.so);;All Files (*)"),
+                                                     tr("DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)"),
                                                      &selectedFilter,
                                                      options );
 

@@ -210,6 +210,7 @@ void MakeCRLDlg::accept()
     if( caKeyPair.getAlg() == "PKCS11_RSA" || caKeyPair.getAlg() == "PKCS11_ECC" )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        BIN binID = {0,0};
         int nSlotID = manApplet->settingsMgr()->slotID();
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
 
@@ -218,10 +219,13 @@ void MakeCRLDlg::accept()
             goto end;
         }
 
-        ret = JS_PKI_makeCRLByP11( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binSignCert, pP11CTX, hSession, &binCRL );
+        JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binID );
+
+        ret = JS_PKI_makeCRLByP11( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binID, &binSignCert, pP11CTX, hSession, &binCRL );
 
         JS_PKCS11_Logout( pP11CTX, hSession );
         JS_PKCS11_CloseSession( pP11CTX, hSession );
+        JS_BIN_reset( &binID );
     }
     else
     {

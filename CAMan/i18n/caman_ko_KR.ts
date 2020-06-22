@@ -1424,8 +1424,8 @@
         <translation>cryptoki 라이브러리 열기</translation>
     </message>
     <message>
-        <source>SO Files (*.so);;All Files (*)</source>
-        <translation></translation>
+        <source>DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)</source>
+        <translation>DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
     </message>
 </context>
 <context>

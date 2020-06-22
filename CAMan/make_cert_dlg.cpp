@@ -369,6 +369,7 @@ void MakeCertDlg::accept()
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotID();
+        BIN binID = {0,0};
 
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
         if( hSession < 0 )
@@ -376,10 +377,13 @@ void MakeCertDlg::accept()
             goto end;
         }
 
-        ret = JS_PKI_makeCertificateByP11( bSelf, &sIssueCertInfo, pExtInfoList, &binSignCert, pP11CTX, hSession, &binCert );
+        JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binID  );
+
+        ret = JS_PKI_makeCertificateByP11( bSelf, &sIssueCertInfo, pExtInfoList, &binID, &binSignCert, pP11CTX, hSession, &binCert );
 
         JS_PKCS11_Logout( pP11CTX, hSession );
         JS_PKCS11_CloseSession( pP11CTX, hSession );
+        JS_BIN_reset( &binID );
     }
     else
     {

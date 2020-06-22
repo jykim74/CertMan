@@ -197,6 +197,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
     JS_BIN_encodeHex( pCert, &pHexCert );
 
     cert.setCert( pHexCert );
+    cert.setRegTime( time(NULL) );
     cert.setSubjectDN( sCertInfo.pSubjectName );
     cert.setIssuerNum( -2 );
     cert.setSignAlg( sCertInfo.pSignAlgorithm );
@@ -230,6 +231,7 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     JS_BIN_encodeHex( pCRL, &pHexCRL );
 
     crl.setCRL( pHexCRL );
+    crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
     crl.setIssuerNum( -2 );
 

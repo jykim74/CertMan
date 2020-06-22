@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CAMan
 TEMPLATE = app
-PROJECT_VERSION = "0.9.4"
+PROJECT_VERSION = "0.9.5"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings

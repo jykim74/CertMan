@@ -53,6 +53,7 @@ void MakeReqDlg::accept()
     int ret = 0;
     BIN binPri = {0,0};
     BIN binCSR = {0,0};
+    BIN binPubKey = {0,0};
     char *pHexCSR = NULL;
     KeyPairRec keyRec;
     ReqRec reqRec;
@@ -87,7 +88,7 @@ void MakeReqDlg::accept()
     {
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotID();
-        BIN binPubKey = {0,0};
+        BIN binID = {0,0};
 
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
         if( hSession < 0 )
@@ -100,18 +101,20 @@ void MakeReqDlg::accept()
         else
             nAlg = JS_PKI_KEY_TYPE_ECC;
 
+        JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
         JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
 
         ret = JS_PKI_makeCSRByP11( nAlg,
                                    strHash.toStdString().c_str(),
                                    strDN.toStdString().c_str(),
+                                   &binID,
                                    &binPubKey,
                                    NULL,
                                    pP11CTX,
                                    hSession,
                                    &binCSR );
 
-        JS_BIN_reset( &binPubKey );
+        JS_BIN_reset( &binID );
 
         JS_PKCS11_Logout( pP11CTX, hSession );
         JS_PKCS11_CloseSession( pP11CTX, hSession );
@@ -155,6 +158,7 @@ void MakeReqDlg::accept()
 end :
     JS_BIN_reset( &binPri );
     JS_BIN_reset( &binCSR );
+    JS_BIN_reset( &binPubKey );
     if( pHexCSR ) JS_free( pHexCSR );
 
     if( ret == 0 )
@@ -171,7 +175,7 @@ void MakeReqDlg::keyNameChanged(int index)
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
-    if( keyRec.getAlg() == "RSA" )
+    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == "PKCS11_RSA" )
         mOptionLabel->setText( "Key Size" );
     else {
         mOptionLabel->setText( "NamedCurve" );
