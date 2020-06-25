@@ -47,6 +47,8 @@
 #include "server_status_dlg.h"
 #include "man_tray_icon.h"
 
+const int kMaxRecentFiles = 10;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -174,6 +176,24 @@ void MainWindow::createActions()
     connect( openAct, &QAction::triggered, this, &MainWindow::open);
     fileMenu->addAction(openAct);
     fileToolBar->addAction(openAct);
+
+    QAction* recentFileAct = NULL;
+    for( auto i = 0; i < kMaxRecentFiles; ++i )
+    {
+        recentFileAct = new QAction(this);
+        recentFileAct->setVisible(false);
+
+        QObject::connect( recentFileAct, &QAction::triggered, this, &MainWindow::openRecent );
+        recent_file_list_.append( recentFileAct );
+    }
+
+    QMenu* recentMenu = fileMenu->addMenu( tr("Recent Files" ) );
+    for( int i = 0; i < kMaxRecentFiles; i++ )
+    {
+        recentMenu->addAction( recent_file_list_.at(i) );
+    }
+
+    updateRecentActionList();
 
     fileMenu->addSeparator();
 
@@ -485,6 +505,13 @@ int MainWindow::openDB( const QString dbPath )
     if( manApplet->trayIcon()->supportsMessages() )
         manApplet->trayIcon()->showMessage( "CAMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
 
+    if( ret == 0 )
+    {
+        setPath( dbPath );
+        setTitle( dbPath );
+        adjustForCurrentFile( dbPath );
+    }
+
     return ret;
 }
 
@@ -520,6 +547,47 @@ void MainWindow::setPath( const QString strFilePath )
     }
 }
 
+void MainWindow::adjustForCurrentFile( const QString& filePath )
+{
+    QSettings settings;
+    QStringList recentFilePaths = settings.value( "recentFiles" ).toStringList();
+
+    recentFilePaths.removeAll( filePath );
+    recentFilePaths.prepend( filePath );
+
+    while( recentFilePaths.size() > kMaxRecentFiles )
+        recentFilePaths.removeLast();
+
+    settings.setValue( "recentFiles", recentFilePaths );
+
+    updateRecentActionList();
+}
+
+void MainWindow::updateRecentActionList()
+{
+    QSettings settings;
+    QStringList recentFilePaths = settings.value( "recentFiles" ).toStringList();
+
+    auto itEnd = 0u;
+
+    if( recentFilePaths.size() <= kMaxRecentFiles )
+        itEnd = recentFilePaths.size();
+    else
+        itEnd = kMaxRecentFiles;
+
+    for( auto i = 0u; i < itEnd; ++i )
+    {
+        QString strippedName = QFileInfo(recentFilePaths.at(i)).fileName();
+        recent_file_list_.at(i)->setText(strippedName);
+        recent_file_list_.at(i)->setData( recentFilePaths.at(i));
+        recent_file_list_.at(i)->setVisible(true);
+    }
+
+    for( auto i = itEnd; i < kMaxRecentFiles; ++i )
+        recent_file_list_.at(i)->setVisible(false);
+}
+
+
 void MainWindow::open()
 {
     if( db_mgr_->isOpen() )
@@ -547,13 +615,15 @@ void MainWindow::open()
     }
 
     int ret = openDB( fileName );
-
-    if( ret == 0 )
-    {
-        setPath( fileName );
-        setTitle( fileName );
-    }
 }
+
+void MainWindow::openRecent()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if( action )
+        openDB( action->data().toString() );
+}
+
 
 void MainWindow::quit()
 {

@@ -81,6 +81,7 @@ public:
 public slots:
     void newFile();
     void open();
+    void openRecent();
     void quit();
 
     void newKey();
@@ -146,7 +147,11 @@ private:
     QString getPath();
     void setPath( const QString strFilePath );
 
-private:
+    void adjustForCurrentFile( const QString& filePath );
+    void updateRecentActionList();
+
+    QList<QAction *>  recent_file_list_;
+
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
 
