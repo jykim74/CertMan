@@ -171,7 +171,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
     CK_SLOT_ID  sSlotList[10];
 
     CK_LONG nFlags = CKF_SERIAL_SESSION | CKF_RW_SESSION;
-    CK_SESSION_HANDLE uSession = -1;
+
     CK_USER_TYPE nType = CKU_USER;
 
     CK_ATTRIBUTE sPubTemplate[20];
@@ -353,14 +353,14 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
     if( uSlotCnt < nSlotID )
         goto end;
 
-    rv = JS_PKCS11_OpenSession( pP11CTX, sSlotList[nSlotID], nFlags, (CK_SESSION_HANDLE_PTR)&uSession );
+    rv = JS_PKCS11_OpenSession( pP11CTX, sSlotList[nSlotID], nFlags );
     if( rv != 0 ) goto end;
 
 
-    rv = JS_PKCS11_Login( pP11CTX, uSession, nType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
+    rv = JS_PKCS11_Login( pP11CTX, nType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
     if( rv != 0 ) goto end;
 
-    rv = JS_PKCS11_GenerateKeyPair( pP11CTX, uSession, &sMech, sPubTemplate, uPubCount, sPriTemplate, uPriCount, &uPubObj, &uPriObj );
+    rv = JS_PKCS11_GenerateKeyPair( pP11CTX, &sMech, sPubTemplate, uPubCount, sPriTemplate, uPriCount, &uPubObj, &uPriObj );
     if( rv != 0 ) goto end;
 
     if( keyType == CKK_RSA )
@@ -368,7 +368,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
         char *pN = NULL;
         char *pE = NULL;
 
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uSession, uPubObj, CKA_MODULUS, &binVal );
+        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_MODULUS, &binVal );
         if( rv != 0 ) goto end;
 
         JRSAKeyVal  rsaKey;
@@ -386,7 +386,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
     }
     else if( keyType == CKK_ECDSA )
     {
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uSession, uPubObj, CKA_EC_POINT, &binVal );
+        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
         if( rv != 0 ) goto end;
 
         char *pECPoint = NULL;
@@ -413,17 +413,17 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
     JS_PKI_genHash( "SHA1", pPub, &binHash );
     JS_BIN_copy( pPri, &binHash );
 
-    rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uSession, uPriObj, CKA_ID, &binHash );
+    rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uPriObj, CKA_ID, &binHash );
     if( rv != 0 ) goto end;
 
-    rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uSession, uPubObj, CKA_ID, &binHash );
+    rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uPubObj, CKA_ID, &binHash );
     if( rv != 0 ) goto end;
 
 end :
-    if( uSession >= 0 )
+    if( pP11CTX->hSession >= 0 )
     {
-        JS_PKCS11_Logout( pP11CTX, uSession );
-        JS_PKCS11_CloseSession( pP11CTX, uSession );
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
     }
 
     return rv;

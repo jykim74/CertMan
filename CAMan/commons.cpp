@@ -1039,7 +1039,7 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
 {
     PinDlg pinDlg;
     QString strPin;
-    CK_SESSION_HANDLE   hSession = -1;
+
     JP11_CTX    *pCTX = (JP11_CTX *)pP11CTX;
 
     int nFlags = 0;
@@ -1077,19 +1077,19 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
         return -1;
     }
 
-    ret = JS_PKCS11_OpenSession( pCTX, sSlotList[nSlotID], nFlags, &hSession );
+    ret = JS_PKCS11_OpenSession( pCTX, sSlotList[nSlotID], nFlags );
     if( ret != CKR_OK )
     {
         fprintf( stderr, "fail to run opensession(%s:%x)\n", JS_PKCS11_GetErrorMsg(ret), ret );
         return -1;
     }
 
-    ret = JS_PKCS11_Login( pCTX, hSession, nUserType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
+    ret = JS_PKCS11_Login( pCTX, nUserType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
     if( ret != 0 )
     {
         fprintf( stderr, "fail to run login hsm(%d)\n", ret );
         return -1;
     }
 
-    return hSession;
+    return pCTX->hSession;
 }

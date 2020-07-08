@@ -379,10 +379,10 @@ void MakeCertDlg::accept()
 
         JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binID  );
 
-        ret = JS_PKI_makeCertificateByP11( bSelf, &sIssueCertInfo, pExtInfoList, &binID, &binSignCert, pP11CTX, hSession, &binCert );
+        ret = JS_PKI_makeCertificateByP11( bSelf, &sIssueCertInfo, pExtInfoList, &binID, &binSignCert, pP11CTX, &binCert );
 
-        JS_PKCS11_Logout( pP11CTX, hSession );
-        JS_PKCS11_CloseSession( pP11CTX, hSession );
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
     else

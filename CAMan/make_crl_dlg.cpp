@@ -221,10 +221,10 @@ void MakeCRLDlg::accept()
 
         JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binID );
 
-        ret = JS_PKI_makeCRLByP11( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binID, &binSignCert, pP11CTX, hSession, &binCRL );
+        ret = JS_PKI_makeCRLByP11( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binID, &binSignCert, pP11CTX, &binCRL );
 
-        JS_PKCS11_Logout( pP11CTX, hSession );
-        JS_PKCS11_CloseSession( pP11CTX, hSession );
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
     else

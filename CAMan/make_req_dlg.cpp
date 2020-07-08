@@ -111,13 +111,12 @@ void MakeReqDlg::accept()
                                    &binPubKey,
                                    NULL,
                                    pP11CTX,
-                                   hSession,
                                    &binCSR );
 
         JS_BIN_reset( &binID );
 
-        JS_PKCS11_Logout( pP11CTX, hSession );
-        JS_PKCS11_CloseSession( pP11CTX, hSession );
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
     }
     else
     {
