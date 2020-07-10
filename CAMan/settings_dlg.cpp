@@ -17,6 +17,11 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     connect( mUseP11Check, SIGNAL(clicked()), this, SLOT(checkP11Use()));
     connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
+    connect( mUseKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIPUse()));
+
+    connect( mKMIPCACertFindBtn, SIGNAL(clicked()), this, SLOT(findCACert()));
+    connect( mKMIPCertFindBtn, SIGNAL(clicked()), this, SLOT(findCert()));
+    connect( mKMIPPrivateKeyFindBtn, SIGNAL(clicked()), this, SLOT(findPrivateKey()));
 
     initialize();
 }
@@ -55,16 +60,78 @@ void SettingsDlg::updateSettings()
 
     if( language_changed && manApplet->yesOrNoBox(tr("You have changed language. Restart to apply it?"), this, true))
         manApplet->restartApp();
+
+    mgr->setKMIPUse( mUseKMIPCheck->checkState() == Qt::Checked );
+    mgr->setKMIPHost( mKMIPHostText->text() );
+    mgr->setKMIPPort( mKMIPPortText->text() );
+    mgr->setKMIPCACertPath( mKMIPCACertPathText->text() );
+    mgr->setKMIPCertPath( mKMIPCertPathText->text() );
+    mgr->setKMIPPrivateKeyPath( mKMIPPrivateKeyPathText->text() );
+    mgr->setKMIPUserName( mKMIPUserNameText->text() );
+    mgr->setKMIPPasswd( mKMIPPasswdText->text() );
 }
 
 void SettingsDlg::checkP11Use()
 {
-    bool bVal = mUseP11Check->isChecked();
-
     bool val = mUseP11Check->isChecked();
     mSlotIDText->setEnabled(val);
     mLibraryP11PathText->setEnabled(val);
     mP11FindBtn->setEnabled(val);
+}
+
+void SettingsDlg::checkKMIPUse()
+{
+    bool bVal = mUseKMIPCheck->isChecked();
+
+    mKMIPGroup->setEnabled( bVal );
+}
+
+void SettingsDlg::findCACert()
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     tr("CA Certificate File"),
+                                                     QDir::currentPath(),
+                                                     tr("Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    mKMIPCACertPathText->setText( fileName );
+}
+
+void SettingsDlg::findCert()
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     tr("Certificate File"),
+                                                     QDir::currentPath(),
+                                                     tr("Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    mKMIPCertPathText->setText( fileName );
+}
+
+void SettingsDlg::findPrivateKey()
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getOpenFileName( this,
+                                                     tr("Private Key File"),
+                                                     QDir::currentPath(),
+                                                     tr("PrivateKey Files (*.key);;DER Files (*.der);;All Files (*.*)"),
+                                                     &selectedFilter,
+                                                     options );
+
+    mKMIPPrivateKeyPathText->setText( fileName );
 }
 
 void SettingsDlg::findP11Path()
@@ -105,6 +172,7 @@ void SettingsDlg::initialize()
 
     checkP11Use();
 
+
     QString strSlotID = QString( "%1" ).arg( mgr->slotID() );
     mSlotIDText->setText( strSlotID );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
@@ -119,4 +187,18 @@ void SettingsDlg::initialize()
 #endif
 
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
+
+    state = mgr->KMIPUse() ? Qt::Checked : Qt::Unchecked;
+    mUseKMIPCheck->setCheckState( state );
+
+    mKMIPHostText->setText( mgr->KMIPHost() );
+    mKMIPPortText->setText( mgr->KMIPPort() );
+    mKMIPCACertPathText->setText( mgr->KMIPCACertPath() );
+    mKMIPCertPathText->setText( mgr->KMIPCertPath() );
+    mKMIPPrivateKeyPathText->setText( mgr->KMIPPrivateKeyPath() );
+    mKMIPUserNameText->setText( mgr->KMIPUserName() );
+    mKMIPPasswdText->setText( mgr->KMIPPasswd() );
+
+    checkKMIPUse();
+    mTabWidget->setCurrentIndex(0);
 }

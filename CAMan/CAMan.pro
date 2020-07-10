@@ -46,6 +46,7 @@ SOURCES += \
         i18n_helper.cpp \
         import_dlg.cpp \
         key_pair_rec.cpp \
+        kms_rec.cpp \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
@@ -94,6 +95,7 @@ HEADERS += \
         i18n_helper.h \
         import_dlg.h \
         key_pair_rec.h \
+        kms_rec.h \
         mainwindow.h \
         make_cert_dlg.h \
         make_cert_policy_dlg.h \
@@ -200,14 +202,14 @@ win32 {
 
     Debug {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
-        LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto
+        LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto -lssl
     } else {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
-        LIBS += -L"../../PKILib/lib/win32/cmpossl/lib" -lcrypto
+        LIBS += -L"../../PKILib/lib/win32/cmpossl/lib" -lcrypto -lssl
     }
 
     LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
-    LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle
+    LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle -lws2_32
 }
 
 linux {

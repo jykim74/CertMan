@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>327</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,9 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -153,6 +153,133 @@
          <property name="text">
           <string>Find</string>
          </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>KMIP</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="mUseKMIPCheck">
+         <property name="text">
+          <string>Use KMIP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QGroupBox" name="mKMIPGroup">
+         <property name="title">
+          <string>KMIP Information</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="7" column="1">
+           <spacer name="verticalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Private Key</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>UserName</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Port</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Certificate</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>CA cert</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="mKMIPHostText"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Host</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="mKMIPUserNameText"/>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLineEdit" name="mKMIPPortText"/>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="mKMIPCACertFindBtn">
+            <property name="text">
+             <string>Find</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QPushButton" name="mKMIPCertFindBtn">
+            <property name="text">
+             <string>Find</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QPushButton" name="mKMIPPrivateKeyFindBtn">
+            <property name="text">
+             <string>Find</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QLineEdit" name="mKMIPPasswdText"/>
+          </item>
+          <item row="2" column="1" colspan="2">
+           <widget class="QLineEdit" name="mKMIPCACertPathText"/>
+          </item>
+          <item row="3" column="1" colspan="2">
+           <widget class="QLineEdit" name="mKMIPCertPathText"/>
+          </item>
+          <item row="4" column="1" colspan="2">
+           <widget class="QLineEdit" name="mKMIPPrivateKeyPathText"/>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

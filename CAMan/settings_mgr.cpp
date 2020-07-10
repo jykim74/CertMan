@@ -10,6 +10,14 @@ namespace  {
     const char *kP11LibPath = "PKCS11LibPath";
     const char *kBaseDN = "BaseDN";
     const char *kListCount = "ListCount";
+    const char *kKMIPUse = "KMIPUse";
+    const char *kKMIPHost = "KMIPHost";
+    const char *kKMIPPort = "KMIPPort";
+    const char *kKMIPCACertPath = "KMIPCACertPath";
+    const char *kKMIPCertPath = "KMIPCertPath";
+    const char *kKMIPPrivateKeyPath = "KMIPPrivateKeyPath";
+    const char *kKMIPUserName = "KMIPUserName";
+    const char *kKMIPPasswd = "KMIPPasswd";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -152,4 +160,173 @@ int SettingsMgr::listCount()
     settings.endGroup();
 
     return nCount;
+}
+
+void SettingsMgr::setKMIPUse( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::KMIPUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kKMIPUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setKMIPHost( QString strHost )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPHost, strHost );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPHost()
+{
+    QString strHost;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strHost = settings.value( kKMIPHost, "").toString();
+    settings.endGroup();
+
+    return strHost;
+}
+
+void SettingsMgr::setKMIPPort( QString strPort )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPPort, strPort );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPPort()
+{
+    QString strPort;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPort = settings.value( kKMIPPort, "").toString();
+    settings.endGroup();
+
+    return strPort;
+}
+
+void SettingsMgr::setKMIPCACertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPCACertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPCACertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kKMIPCACertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setKMIPCertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPCertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPCertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kKMIPCertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setKMIPPrivateKeyPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPPrivateKeyPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPPrivateKeyPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kKMIPPrivateKeyPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setKMIPUserName( QString strName )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPUserName, strName );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPUserName()
+{
+    QString strName;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strName = settings.value( kKMIPUserName, "").toString();
+    settings.endGroup();
+
+    return strName;
+}
+
+void SettingsMgr::setKMIPPasswd( QString strPasswd )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kKMIPPasswd, strPasswd );
+    settings.endGroup();
+}
+
+QString SettingsMgr::KMIPPasswd()
+{
+    QString strPasswd;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPasswd = settings.value( kKMIPPasswd, "").toString();
+    settings.endGroup();
+
+    return strPasswd;
 }

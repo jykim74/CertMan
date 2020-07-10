@@ -13,6 +13,7 @@
 #include "revoke_rec.h"
 #include "user_rec.h"
 #include "signer_rec.h"
+#include "kms_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -188,6 +189,22 @@ int DBMgr::getUserCount()
     int nCount = -1;
 
     QString strSQL = QString( "SELECT COUNT(*) FROM TB_USER" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getKMSCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_KMS" );
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
@@ -541,6 +558,19 @@ int DBMgr::getUserRec( int nSeq, UserRec& userRec )
     return 0;
 }
 
+int DBMgr::getKMSRec( int nSeq, KMSRec& kmsRec )
+{
+    QList<KMSRec> kmsList;
+    QString strQuery = QString( "SELECT * FROM TB_KMS WHERE SEQ = %1").arg(nSeq);
+
+    _getKMSList( strQuery, kmsList );
+    if( kmsList.size() <= 0 ) return -1;
+
+    kmsRec = kmsList.at(0);
+
+    return 0;
+}
+
 int DBMgr::getUserList( QList<UserRec>& userList )
 {
     QString strQuery = QString("SELECT * FROM TB_USER ORDER BY NUM DESC" );
@@ -564,6 +594,31 @@ int DBMgr::getUserList( QString strTarget, QString strWord, int nOffset, int nLi
             .arg( nOffset );
 
     return _getUserList( strQuery, userList );
+}
+
+int DBMgr::getKMSList( QList<KMSRec>& kmsList )
+{
+    QString strQuery = QString("SELECT * FROM TB_KMS ORDER BY SEQ DESC" );
+
+    return _getKMSList( strQuery, kmsList );
+}
+
+int DBMgr::getKMSList( int nOffset, int nLimit, QList<KMSRec>& kmsList )
+{
+    QString strQuery = QString("SELECT * FROM TB_KMS ORDER BY SEQ DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+
+    return _getKMSList( strQuery, kmsList );
+}
+
+int DBMgr::getKMSList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<KMSRec>& kmsList )
+{
+    QString strQuery = QString("SELECT * FROM TB_KMS WHERE %1 LIKE '%%2%' ORDER BY SEQ DESC LIMIT %3 OFFSET %4" )
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getKMSList( strQuery, kmsList );
 }
 
 int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
@@ -1046,6 +1101,36 @@ int DBMgr::_getSignerList( QString strQuery, QList<SignerRec>& signerList )
     return 0;
 }
 
+int DBMgr::_getKMSList( QString strQuery, QList<KMSRec>& kmsList )
+{
+    int         iCount = 0;
+    QSqlQuery   SQL(strQuery);
+
+    int nPosSeq = SQL.record().indexOf( "SEQ" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime");
+    int nPosStatus = SQL.record().indexOf( "STATUS" );
+    int nPosType = SQL.record().indexOf( "TYPE" );
+    int nPosID = SQL.record().indexOf( "ID" );
+    int nPosInfo = SQL.record().indexOf( "INFO" );
+
+    while( SQL.next() )
+    {
+        KMSRec kms;
+
+        kms.setSeq( SQL.value(nPosSeq).toInt());
+        kms.setRegTime( SQL.value(nPosRegTime).toInt());
+        kms.setStatus( SQL.value(nPosStatus).toInt());
+        kms.setType( SQL.value(nPosType).toInt());
+        kms.setID( SQL.value(nPosID).toString());
+        kms.setInfo( SQL.value(nPosInfo).toString());
+
+        kmsList.append( kms );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
 int DBMgr::getSeq( QString strTable )
 {
     int nSeq = -1;
@@ -1361,6 +1446,24 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
     return 0;
 }
 
+int DBMgr::addKMSRec( KMSRec& kmsRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_KMS "
+                      "( SEQ, REGTIME, STATUS, TYPE, ID, INFO ) "
+                      "VALUES( null, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( i++, kmsRec.getRegTime() );
+    sqlQuery.bindValue( i++, kmsRec.getStatus() );
+    sqlQuery.bindValue( i++, kmsRec.getType() );
+    sqlQuery.bindValue( i++, kmsRec.getID() );
+    sqlQuery.bindValue( i++, kmsRec.getInfo() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::delCertPolicy( int nNum )
 {
     QSqlQuery sqlQuery;
@@ -1467,6 +1570,17 @@ int DBMgr::delSignerRec(int nNum)
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "DELETE FROM TB_SIGNER WHERE NUM = ?" );
     sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delKMSRec( int nSeq )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_KMS WHERE SEQ = ?" );
+    sqlQuery.bindValue( 0, nSeq );
 
     sqlQuery.exec();
 

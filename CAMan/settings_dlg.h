@@ -24,6 +24,11 @@ private slots:
 
     void checkP11Use();
     void findP11Path();
+    void checkKMIPUse();
+
+    void findCACert();
+    void findCert();
+    void findPrivateKey();
 
 private:
     Q_DISABLE_COPY(SettingsDlg)

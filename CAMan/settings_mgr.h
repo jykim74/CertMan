@@ -28,6 +28,30 @@ public:
     void setListCount( int nCount );
     int listCount();
 
+    void setKMIPUse( bool val );
+    bool KMIPUse();
+
+    void setKMIPHost( QString strHost );
+    QString KMIPHost();
+
+    void setKMIPPort( QString strPort );
+    QString KMIPPort();
+
+    void setKMIPCACertPath( QString strPath );
+    QString KMIPCACertPath();
+
+    void setKMIPCertPath( QString strPath );
+    QString KMIPCertPath();
+
+    void setKMIPPrivateKeyPath( QString strPath );
+    QString KMIPPrivateKeyPath();
+
+    void setKMIPUserName( QString strName );
+    QString KMIPUserName();
+
+    void setKMIPPasswd( QString strPasswd );
+    QString KMIPPasswd();
+
     void loadSettings();
 
 private:

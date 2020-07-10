@@ -22,6 +22,7 @@ class PolicyExtRec;
 class RevokeRec;
 class UserRec;
 class SignerRec;
+class KMSRec;
 
 class DBMgr
 {
@@ -38,6 +39,7 @@ public:
     int getReqCount( int nStatus );
     int getRevokeCount( int nIssuerNum );
     int getUserCount();
+    int getKMSCount();
 
     int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord );
@@ -88,7 +90,12 @@ public:
     int getUserList( int nOffset, int nLimit, QList<UserRec>& userList );
     int getUserList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<UserRec>& userList );
 
+    int getKMSList( QList<KMSRec>& kmsList );
+    int getKMSList( int nOffset, int nLimit, QList<KMSRec>& kmsList );
+    int getKMSList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<KMSRec>& kmsList );
+
     int getUserRec( int nSeq, UserRec& userRec );
+    int getKMSRec( int nSeq, KMSRec& kmsRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );
 
@@ -105,6 +112,7 @@ public:
     int addRevokeRec( RevokeRec& revokeRec );
     int addUserRec( UserRec& userRec );
     int addSignerRec( SignerRec& signerRec );
+    int addKMSRec( KMSRec& kmsRec );
 
     int modKeyPairStatus( int nNum, int nStatus );
     int modReqStatus( int nSeq, int nStatus );
@@ -126,6 +134,7 @@ public:
     int delReqRec( int nNum );
     int delUserRec( int nNum );
     int delSignerRec( int nNum );
+    int delKMSRec( int nSeq );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
@@ -138,6 +147,7 @@ private:
     int _getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList );
     int _getUserList( QString strQuery, QList<UserRec>& userList );
     int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
+    int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );
 
 private:
     QSqlDatabase   db_;
