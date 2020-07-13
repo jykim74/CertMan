@@ -227,6 +227,34 @@ void MakeCRLDlg::accept()
         JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
+    else if( caKeyPair.getAlg() == "KMIP_RSA" || caKeyPair.getAlg() == "KMIP_ECC" )
+    {
+        if( manApplet->settingsMgr()->KMIPUse() == 0 )
+            goto end;
+
+        SSL_CTX *pCTX = NULL;
+        SSL *pSSL = NULL;
+        Authentication  *pAuth = NULL;
+        BIN binID = {0,0};
+
+        JS_BIN_set( &binID, (unsigned char *)caKeyPair.getPrivateKey().toStdString().c_str(), caKeyPair.getPrivateKey().length() );
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+
+        if( ret == 0 )
+        {
+            ret = JS_PKI_makeCRLByKMIP( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binID, &binSignCert, pSSL, pAuth, &binCRL );
+        }
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth )
+        {
+            JS_KMS_resetAuthentication( pAuth );
+            JS_free( pAuth );
+        }
+        JS_BIN_reset( &binID );
+    }
     else
     {
         ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, nKeyType, &binSignPri, &binSignCert, &binCRL );

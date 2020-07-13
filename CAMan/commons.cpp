@@ -1093,3 +1093,64 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
 
     return pCTX->hSession;
 }
+
+int getKMIPConnection( SettingsMgr* settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth )
+{
+    int ret = 0;
+    BIN binCACert = {0,0};
+    BIN binCert = {0,0};
+    BIN binPriKey = {0,0};
+
+    SSL_CTX *pCTX = NULL;
+    SSL     *pSSL = NULL;
+    Authentication *pAuth = NULL;
+
+    if( settingMgr == NULL ) return -1;
+
+    bool bVal = settingMgr->KMIPUse();
+
+    if( bVal == false ) return -1;
+
+
+    QString strHost = settingMgr->KMIPHost();
+    QString strPort = settingMgr->KMIPPort();
+    QString strCACertPath = settingMgr->KMIPCACertPath();
+    QString strCertPath = settingMgr->KMIPCertPath();
+    QString strPriKeyPath = settingMgr->KMIPPrivateKeyPath();
+    QString strUserName = settingMgr->KMIPUserName();
+    QString strPasswd = settingMgr->KMIPPasswd();
+
+    if( strUserName.length() > 0 )
+    {
+        pAuth = (Authentication *)JS_calloc(1, sizeof(Authentication));
+
+        JS_KMS_makeAuthentication( strUserName.toStdString().c_str(), strPasswd.toStdString().c_str(), pAuth );
+    }
+
+    JS_BIN_fileRead( strCACertPath.toStdString().c_str(), &binCACert );
+    JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binCert );
+    JS_BIN_fileRead( strPriKeyPath.toStdString().c_str(), &binPriKey );
+
+
+    JS_SSL_initClient( &pCTX );
+    JS_SSL_setClientCACert( pCTX, &binCACert );
+    JS_SSL_setCertAndPriKey( pCTX, &binPriKey, &binCert );
+
+    JS_SSL_connect( pCTX, strHost.toStdString().c_str(), strPort.toInt(), &pSSL );
+    if( pSSL == NULL )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    *ppCTX = pCTX;
+    *ppSSL = pSSL;
+    *ppAuth = pAuth;
+
+end :
+    JS_BIN_reset( &binCACert );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binPriKey );
+
+    return ret;
+}

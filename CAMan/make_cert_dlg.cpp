@@ -15,6 +15,8 @@
 #include "commons.h"
 #include "settings_mgr.h"
 
+#include "js_kms.h"
+
 static int g_iVerbose = 1;
 
 QString getSignAlg( const QString strAlg, const QString strHash )
@@ -383,6 +385,34 @@ void MakeCertDlg::accept()
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
+        JS_BIN_reset( &binID );
+    }
+    else if( signKeyPair.getAlg() == "KMIP_RSA" || signKeyPair.getAlg() == "KMIP_ECC" )
+    {
+        if( manApplet->settingsMgr()->KMIPUse() == 0 )
+            goto end;
+
+        SSL_CTX *pCTX = NULL;
+        SSL *pSSL = NULL;
+        Authentication  *pAuth = NULL;
+        BIN binID = {0,0};
+
+        JS_BIN_set( &binID, (unsigned char *)signKeyPair.getPrivateKey().toStdString().c_str(), signKeyPair.getPrivateKey().length() );
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+
+        if( ret == 0 )
+        {
+            ret = JS_PKI_makeCertificateByKMIP( bSelf, &sIssueCertInfo, pExtInfoList, &binID, &binSignCert, (void *)pSSL, pAuth, &binCert );
+        }
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth )
+        {
+            JS_KMS_resetAuthentication( pAuth );
+            JS_free( pAuth );
+        }
         JS_BIN_reset( &binID );
     }
     else

@@ -9,6 +9,8 @@
 #include "settings_mgr.h"
 #include "pin_dlg.h"
 #include "js_pkcs11.h"
+#include "js_kms.h"
+#include "commons.h"
 
 static QStringList sMechList = { "RSA", "EC" };
 static QStringList sRSAOptionList = { "1024", "2048", "3072", "4096" };
@@ -51,6 +53,12 @@ void NewKeyDlg::initUI()
     {
         mMechCombo->addItem( "PKCS11_RSA" );
         mMechCombo->addItem( "PKCS11_ECC" );
+    }
+
+    if( manApplet->settingsMgr()->KMIPUse() )
+    {
+        mMechCombo->addItem( "KMIP_RSA" );
+        mMechCombo->addItem( "KMIP_ECC" );
     }
 
     mExponentText->setText( QString( "65537" ) );
@@ -105,6 +113,10 @@ void NewKeyDlg::accept()
         {
             ret = -1;
         }
+    }
+    else if( mMechCombo->currentIndex() == 4 || mMechCombo->currentIndex() == 5 )
+    {
+        ret = genKeyPairWithKMIP( &binPri, &binPub, &binPub2 );
     }
 
     if( ret != 0 )
@@ -427,4 +439,112 @@ end :
     }
 
     return rv;
+}
+
+int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
+{
+    int ret = 0;
+    Authentication *pAuth = NULL;
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+    SSL_CTX *pCTX = NULL;
+    SSL *pSSL = NULL;
+    BIN binData = {0,0};
+
+
+    int nAlg = JS_PKI_KEY_TYPE_RSA;
+    int nParam = mOptionCombo->currentText().toInt();
+
+    if( mMechCombo->currentText() == "KMIP_RSA" )
+    {
+        nAlg = JS_PKI_KEY_TYPE_RSA;
+        nParam = mOptionCombo->currentText().toInt();
+    }
+    else if( mMechCombo->currentText() == "KMIP_ECC" )
+    {
+        nAlg = JS_PKI_KEY_TYPE_ECC;
+        nParam = KMIP_CURVE_P_256;
+    }
+    else
+    {
+        fprintf( stderr, "Invalid mechanism\n" );
+        return -1;
+    }
+
+    char *pPriUUID = NULL;
+    char *pPubUUID = NULL;
+
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    JS_KMS_encodeCreateKeyPairReq( pAuth, nAlg, nParam, &binReq );
+    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_decodeCreateKeyPairRsp( &binRsp, &pPubUUID, &pPriUUID );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
+    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_decodeGetRsp( &binRsp, &binData );
+
+    if( nAlg == JS_PKI_KEY_TYPE_RSA )
+    {
+        JRSAKeyVal sRSAKey;
+
+        memset( &sRSAKey, 0x00, sizeof(sRSAKey));
+        JS_PKI_getRSAKeyVal( &binData, &sRSAKey );
+        JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub, pPub2 );
+
+        JS_PKI_resetRSAKeyVal( &sRSAKey );
+    }
+    else if( nAlg == JS_PKI_KEY_TYPE_ECC )
+    {
+        BIN binGroup = {0,0};
+        char *pECPoint = NULL;
+        char *pGroup = NULL;
+
+        JECKeyVal   ecKey;
+        memset( &ecKey, 0x00, sizeof(ecKey));
+
+        char    sHexOID[128];
+        memset( sHexOID, 0x00, sizeof(sHexOID));
+
+        JS_PKI_getHexOIDFromSN( "prime256v1", sHexOID );
+        JS_BIN_decodeHex( sHexOID, &binGroup );
+
+        BIN binKey = {0,0};
+        JS_BIN_set( &binKey, binData.pVal + 2, binData.nLen - 2 );
+
+        JS_BIN_encodeHex( &binKey, &pECPoint );
+        JS_BIN_encodeHex( &binGroup, &pGroup );
+
+        JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
+        JS_PKI_encodeECPublicKey( &ecKey, pPub, pPub2 );
+
+        if( pECPoint ) JS_free( pECPoint );
+        if( pGroup ) JS_free( pGroup );
+        JS_BIN_reset( &binKey );
+        JS_BIN_reset( &binGroup );
+        JS_PKI_resetECKeyVal( &ecKey );
+    }
+
+
+ end :
+    if( pPubUUID ) JS_free( pPubUUID );
+    if( pPriUUID ) JS_free( pPriUUID );
+
+    if( pSSL ) JS_SSL_clear( pSSL );
+    if( pCTX ) JS_SSL_finish( &pCTX );
+    if( pAuth )
+    {
+        JS_KMS_resetAuthentication( pAuth );
+        JS_free( pAuth );
+    }
+
+    return ret;
 }

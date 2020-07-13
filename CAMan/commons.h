@@ -8,6 +8,8 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pkcs11.h"
+#include "js_kms.h"
+#include "settings_mgr.h"
 
 const int   kListCount = 15;
 
@@ -60,5 +62,7 @@ const QStringList kRevokeReasonList = {
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
 int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
+
+int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );
 
 #endif // COMMONS_H

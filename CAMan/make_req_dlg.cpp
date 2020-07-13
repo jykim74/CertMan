@@ -118,6 +118,42 @@ void MakeReqDlg::accept()
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
+    else if( strAlg == "KMIP_RSA" || strAlg == "KMIP_ECC" )
+    {
+        if( manApplet->settingsMgr()->KMIPUse() == 0 )
+            goto end;
+
+        SSL_CTX *pCTX = NULL;
+        SSL *pSSL = NULL;
+        Authentication  *pAuth = NULL;
+        BIN binID = {0,0};
+
+        JS_BIN_set( &binID, (unsigned char *)keyRec.getPrivateKey().toStdString().c_str(), keyRec.getPrivateKey().length() );
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+
+        if( ret == 0 )
+        {
+            ret = JS_PKI_makeCSRByKMIP( nAlg,
+                                        strHash.toStdString().c_str(),
+                                        strDN.toStdString().c_str(),
+                                        &binID,
+                                        &binPubKey,
+                                        NULL,
+                                        pSSL,
+                                        pAuth,
+                                        &binCSR );
+        }
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth )
+        {
+            JS_KMS_resetAuthentication( pAuth );
+            JS_free( pAuth );
+        }
+        JS_BIN_reset( &binID );
+    }
     else
     {
         if( mAlgorithmText->text() == "RSA" )

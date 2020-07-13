@@ -26,6 +26,7 @@ private:
     void initUI();
     void initialize();
     int genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPub2 );
+    int genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 );
 
 };
 
