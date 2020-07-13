@@ -34,6 +34,7 @@
 #include "cert_rec.h"
 #include "key_pair_rec.h"
 #include "req_rec.h"
+#include "kms_rec.h"
 #include "cert_policy_rec.h"
 #include "crl_policy_rec.h"
 #include "crl_rec.h"
@@ -431,6 +432,11 @@ void MainWindow::createTreeMenu()
     pImportCRLItem->setIcon(QIcon(":/images/im_crl.png"));
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
+
+    ManTreeItem *pKMSItem = new ManTreeItem( QString( "KMS" ));
+    pKMSItem->setIcon(QIcon(":/images/kms.png"));
+    pKMSItem->setType( CM_ITEM_TYPE_KMS );
+    pTopItem->appendRow( pKMSItem );
 
     QModelIndex ri = left_model_->index(0,0);
     left_tree_->expand(ri);
@@ -1115,6 +1121,10 @@ void MainWindow::tableClick(QModelIndex index )
     {
         showRightSigner( nSeq );
     }
+    else if( right_type_ == RightType::TYPE_KMS )
+    {
+        showRightKMS( nSeq );
+    }
 }
 
 void MainWindow::expandMenu()
@@ -1309,6 +1319,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightSignerList( SIGNER_TYPE_REG );
     else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
         createRightSignerList( SIGNER_TYPE_OCSP );
+    else if( nType == CM_ITEM_TYPE_KMS )
+        createRightKMSList();
 }
 
 void MainWindow::createRightKeyPairList()
@@ -1754,6 +1766,66 @@ void MainWindow::createRightUserList()
     right_menu_->updatePageLabel();
 }
 
+void MainWindow::createRightKMSList()
+{
+    right_menu_->show();
+
+    removeAllRight();
+    right_type_ = RightType::TYPE_KMS;
+
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
+    QStringList headerList = {"Seq", "RegTime", "Status", "Type", "ID", "Info" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<KMSRec> kmsList;
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getKMSSearchCount( strTarget, strWord );
+        db_mgr_->getKMSList( strTarget, strWord, nOffset, nLimit, kmsList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getKMSCount();
+        db_mgr_->getKMSList( nOffset, nLimit, kmsList );
+    }
+
+
+    for( int i = 0; i < kmsList.size(); i++ )
+    {
+        char sRegTime[64];
+        KMSRec kms = kmsList.at(i);
+        right_table_->insertRow(i);
+
+        JS_UTIL_getDateTime( kms.getRegTime(), sRegTime );
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( kms.getSeq() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( kms.getStatus())));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( kms.getType() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( kms.getID() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( kms.getInfo() )));
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
+}
+
 void MainWindow::createRightSignerList(int nType)
 {
     right_menu_->hide();
@@ -2142,6 +2214,41 @@ void MainWindow::showRightUser( int seq )
     strMsg += strPart;
 
     strPart = QString( "AuthCode: %1\n\n").arg( userRec.getAuthCode() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightKMS( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+    char sRegTime[64];
+
+    KMSRec kmsRec;
+    db_mgr_->getKMSRec( seq, kmsRec );
+
+    strMsg = "[ KMS information ]\n\n";
+
+    strPart = QString( "Seq: %1\n").arg( kmsRec.getSeq());
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( kmsRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1\n\n").arg( kmsRec.getStatus() );
+    strMsg += strPart;
+
+    strPart = QString( "Type: %1\n\n").arg( kmsRec.getType() );
+    strMsg += strPart;
+
+    strPart = QString( "ID: %1\n\n").arg( kmsRec.getID() );
+    strMsg += strPart;
+
+    strPart = QString( "Info: %1\n\n").arg( kmsRec.getInfo() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

@@ -47,6 +47,7 @@ public:
     int getReqSearchCount( int nStatus, QString strTarget, QString strWord);
     int getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getUserSearchCount( QString strTarget, QString strWord);
+    int getKMSSearchCount( QString strTarget, QString strWord);
 
     int getCertRec( int nNum, CertRec& cert );
     int getCertList( int nIssuerNum, QList<CertRec>& certList );

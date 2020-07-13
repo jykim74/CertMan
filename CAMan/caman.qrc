@@ -42,5 +42,6 @@
         <file>images/branch-open.png</file>
         <file>images/vline.png</file>
         <file>caman.qss</file>
+        <file>images/kms.png</file>
     </qresource>
 </RCC>

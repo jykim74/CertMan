@@ -265,6 +265,14 @@ int DBMgr::getKeyPairSearchCount( int nStatus, QString strTarget, QString strWor
 
     if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
 
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
     return -1;
 }
 
@@ -277,6 +285,14 @@ int DBMgr::getReqSearchCount( int nStatus, QString strTarget, QString strWord)
 
     if( nStatus >= 0 ) strSQL += QString( " AND STATUS = %1" ).arg( nStatus );
 
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
     return -1;
 }
 
@@ -287,6 +303,14 @@ int DBMgr::getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strW
             .arg( strTarget )
             .arg( strWord );
 
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
     return -1;
 }
 
@@ -296,6 +320,32 @@ int DBMgr::getUserSearchCount( QString strTarget, QString strWord)
     QString strSQL = QString("SELECT COUNT(*) FROM TB_USER WHERE %1 LIKE '%%2%'")
             .arg( strTarget )
             .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getKMSSearchCount( QString strTarget, QString strWord)
+{
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_KMS WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
 
     return -1;
 }

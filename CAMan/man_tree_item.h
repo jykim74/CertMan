@@ -18,6 +18,7 @@
 #define CM_ITEM_TYPE_USER           13
 #define CM_ITEM_TYPE_REG_SIGNER     14
 #define CM_ITEM_TYPE_OCSP_SIGNER    15
+#define CM_ITEM_TYPE_KMS            16
 
 class ManTreeItem : public QStandardItem
 {

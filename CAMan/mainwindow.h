@@ -29,7 +29,8 @@ enum RightType {
     TYPE_CRL,
     TYPE_REVOKE,
     TYPE_USER,
-    TYPE_SIGNER
+    TYPE_SIGNER,
+    TYPE_KMS
 };
 
 class MainWindow : public QMainWindow
@@ -57,6 +58,7 @@ public:
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
     void createRightUserList();
+    void createRightKMSList();
     void createRightSignerList(int nType);
 
     void removeAllRight();
@@ -69,6 +71,7 @@ public:
     void showRightCRLPolicy( int seq );
     void showRightRevoke( int seq );
     void showRightUser( int seq );
+    void showRightKMS( int seq );
     void showRightSigner( int seq );
 
     int rightType() { return right_type_; };
