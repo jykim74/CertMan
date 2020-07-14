@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -75,6 +75,7 @@ SOURCES += \
         settings_mgr.cpp \
         signer_dlg.cpp \
         signer_rec.cpp \
+        statistics_form.cpp \
         user_dlg.cpp \
         user_rec.cpp
 
@@ -124,6 +125,7 @@ HEADERS += \
         signer_dlg.h \
         signer_rec.h \
         singleton.h \
+        statistics_form.h \
         user_dlg.h \
         user_rec.h
 
@@ -150,6 +152,7 @@ FORMS += \
         server_status_dlg.ui \
         settings_dlg.ui \
         signer_dlg.ui \
+        statistics_form.ui \
         user_dlg.ui
 
 # Default rules for deployment.

@@ -7,6 +7,8 @@
 #include <QTableWidget>
 #include <QTextEdit>
 #include <QtSql>
+#include <QStackedLayout>
+
 
 
 class ManTreeView;
@@ -15,6 +17,7 @@ class ManTreeItem;
 class SearchMenu;
 class CertRec;
 class DBMgr;
+class StatisticsForm;
 
 namespace Ui {
 class MainWindow;
@@ -30,7 +33,8 @@ enum RightType {
     TYPE_REVOKE,
     TYPE_USER,
     TYPE_SIGNER,
-    TYPE_KMS
+    TYPE_KMS,
+    TYPE_STATISTICS
 };
 
 class MainWindow : public QMainWindow
@@ -60,6 +64,7 @@ public:
     void createRightUserList();
     void createRightKMSList();
     void createRightSignerList(int nType);
+    void createRightStatistics();
 
     void removeAllRight();
 
@@ -73,6 +78,7 @@ public:
     void showRightUser( int seq );
     void showRightKMS( int seq );
     void showRightSigner( int seq );
+    void showRightStatistics();
 
     int rightType() { return right_type_; };
     int rightCount();
@@ -167,6 +173,8 @@ private:
     DBMgr           *db_mgr_;
     int             right_type_;
     ManTreeItem     *root_ca_;
+    QStackedLayout  *stack_;
+    StatisticsForm  *statistics_;
 
     int             openDB( const QString dbPath );
 };

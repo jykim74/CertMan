@@ -43,5 +43,6 @@
         <file>images/vline.png</file>
         <file>caman.qss</file>
         <file>images/kms.png</file>
+        <file>images/statistics.png</file>
     </qresource>
 </RCC>

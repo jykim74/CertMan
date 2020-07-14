@@ -19,6 +19,8 @@
 #define CM_ITEM_TYPE_REG_SIGNER     14
 #define CM_ITEM_TYPE_OCSP_SIGNER    15
 #define CM_ITEM_TYPE_KMS            16
+#define CM_ITEM_TYPE_STATISTICS     17
+
 
 class ManTreeItem : public QStandardItem
 {

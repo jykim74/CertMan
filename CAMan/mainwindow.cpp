@@ -47,6 +47,7 @@
 #include "signer_rec.h"
 #include "server_status_dlg.h"
 #include "man_tray_icon.h"
+#include "statistics_form.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -130,12 +131,24 @@ void MainWindow::initialize()
 
     left_tree_->setModel(left_model_);
 
+    QWidget *rightWidget = new QWidget;
+    stack_ = new QStackedLayout();
+    statistics_ = new StatisticsForm;
+
 
     hsplitter_->addWidget(left_tree_);
-    hsplitter_->addWidget(vsplitter_);
+    hsplitter_->addWidget( rightWidget );
+
     vsplitter_->addWidget(right_table_);
     vsplitter_->addWidget(right_menu_);
     vsplitter_->addWidget(right_text_);
+
+    stack_->addWidget( vsplitter_ );
+    stack_->addWidget( statistics_ );
+
+    rightWidget->setLayout(stack_);
+
+
 
     QList <int> vsizes;
     vsizes << 1200 << 10 << 500;
@@ -438,6 +451,12 @@ void MainWindow::createTreeMenu()
     pKMSItem->setType( CM_ITEM_TYPE_KMS );
     pTopItem->appendRow( pKMSItem );
 
+    ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
+    pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
+    pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
+    pTopItem->appendRow( pStatisticsItem );
+
+
     QModelIndex ri = left_model_->index(0,0);
     left_tree_->expand(ri);
 
@@ -541,7 +560,7 @@ void MainWindow::setPath( const QString strFilePath )
 {
     bool bSavePath = manApplet->settingsMgr()->saveDBPath();
 
-    if( bSavePath == 0 )
+    if( bSavePath )
     {
         QFileInfo fileInfo( strFilePath );
         QString strDir = fileInfo.dir().path();
@@ -611,7 +630,7 @@ void MainWindow::open()
     QString fileName = QFileDialog::getOpenFileName( this,
                                                      tr("Open CA DB file"),
                                                      strPath,
-                                                     tr("DB Files (*.db);;All Files (*)"),
+                                                     tr("DB Files (*.db);;All Files (*.*)"),
                                                      &selectedFilter,
                                                      options );
 
@@ -1125,6 +1144,10 @@ void MainWindow::tableClick(QModelIndex index )
     {
         showRightKMS( nSeq );
     }
+    else if( right_type_ == RightType::TYPE_STATISTICS )
+    {
+        showRightStatistics();
+    }
 }
 
 void MainWindow::expandMenu()
@@ -1288,6 +1311,7 @@ void MainWindow::createRightList( int nType, int nNum )
     else
         right_menu_->show();
         */
+    stack_->setCurrentIndex(0);
 
     if( nType == CM_ITEM_TYPE_KEYPAIR )
         createRightKeyPairList();
@@ -1321,6 +1345,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightSignerList( SIGNER_TYPE_OCSP );
     else if( nType == CM_ITEM_TYPE_KMS )
         createRightKMSList();
+    else if( nType == CM_ITEM_TYPE_STATISTICS )
+        createRightStatistics();
 }
 
 void MainWindow::createRightKeyPairList()
@@ -1862,6 +1888,13 @@ void MainWindow::createRightSignerList(int nType)
     }
 }
 
+void MainWindow::createRightStatistics()
+{
+    printf( "Set Statistics\n" );
+    //stack_->addWidget( statistics_ );
+    stack_->setCurrentIndex(1);
+}
+
 void MainWindow::showRightKeyPair( int seq )
 {
     if( db_mgr_ == NULL ) return;
@@ -2293,6 +2326,11 @@ void MainWindow::showRightSigner(int seq)
     strMsg += strPart;
 
     right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightStatistics()
+{
+//    stack_->addWidget( statistics_ );
 }
 
 int MainWindow::rightCount()
