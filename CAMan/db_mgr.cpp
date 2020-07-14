@@ -14,6 +14,7 @@
 #include "user_rec.h"
 #include "signer_rec.h"
 #include "kms_rec.h"
+#include "audit_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -216,6 +217,22 @@ int DBMgr::getKMSCount()
     return -1;
 }
 
+int DBMgr::getAuditCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_AUDIT" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord )
 {
     int nCount = -1;
@@ -336,6 +353,24 @@ int DBMgr::getKMSSearchCount( QString strTarget, QString strWord)
 {
     int nCount = -1;
     QString strSQL = QString("SELECT COUNT(*) FROM TB_KMS WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getAuditSearchCount( QString strTarget, QString strWord)
+{
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_AUDIT WHERE %1 LIKE '%%2%'")
             .arg( strTarget )
             .arg( strWord );
 
@@ -621,6 +656,20 @@ int DBMgr::getKMSRec( int nSeq, KMSRec& kmsRec )
     return 0;
 }
 
+int DBMgr::getAuditRec( int nSeq, AuditRec& auditRec )
+{
+    QList<AuditRec> auditList;
+    QString strQuery = QString( "SELECT * FROM TB_AUDIT WHERE SEQ = %1").arg(nSeq);
+
+    _getAuditList( strQuery, auditList );
+
+    if( auditList.size() <= 0 ) return -1;
+
+    auditRec = auditList.at(0);
+
+    return 0;
+}
+
 int DBMgr::getUserList( QList<UserRec>& userList )
 {
     QString strQuery = QString("SELECT * FROM TB_USER ORDER BY NUM DESC" );
@@ -669,6 +718,31 @@ int DBMgr::getKMSList( QString strTarget, QString strWord, int nOffset, int nLim
             .arg( nOffset );
 
     return _getKMSList( strQuery, kmsList );
+}
+
+int DBMgr::getAuditList( QList<AuditRec>& auditList )
+{
+    QString strQuery = QString("SELECT * FROM TB_AUDIT ORDER BY SEQ DESC" );
+
+    return _getAuditList( strQuery, auditList );
+}
+
+int DBMgr::getAuditList( int nOffset, int nLimit, QList<AuditRec>& auditList )
+{
+    QString strQuery = QString("SELECT * FROM TB_AUDIT ORDER BY SEQ DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+
+    return _getAuditList( strQuery, auditList );
+}
+
+int DBMgr::getAuditList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<AuditRec>& auditList )
+{
+    QString strQuery = QString("SELECT * FROM TB_AUDIT WHERE %1 LIKE '%%2%' ORDER BY SEQ DESC LIMIT %3 OFFSET %4" )
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getAuditList( strQuery, auditList );
 }
 
 int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
@@ -1181,6 +1255,38 @@ int DBMgr::_getKMSList( QString strQuery, QList<KMSRec>& kmsList )
     return 0;
 }
 
+int DBMgr::_getAuditList( QString strQuery, QList<AuditRec>& auditList )
+{
+    int         iCount = 0;
+    QSqlQuery   SQL(strQuery);
+
+    int nPosSeq = SQL.record().indexOf( "SEQ" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime");
+    int nPosKind = SQL.record().indexOf( "KIND" );
+    int nPosOperation = SQL.record().indexOf( "OPERATION" );
+    int nPosUserName = SQL.record().indexOf( "USERNAME" );
+    int nPosInfo = SQL.record().indexOf( "INFO" );
+    int nPosMAC = SQL.record().indexOf( "MAC" );
+
+    while( SQL.next() )
+    {
+        AuditRec audit;
+
+        audit.setSeq( SQL.value(nPosSeq).toInt());
+        audit.setRegTime( SQL.value(nPosRegTime).toInt());
+        audit.setKind( SQL.value(nPosKind).toInt());
+        audit.setOperation( SQL.value(nPosOperation).toInt());
+        audit.setUserName( SQL.value(nPosUserName).toString());
+        audit.setInfo( SQL.value(nPosInfo).toString());
+        audit.setMAC( SQL.value(nPosMAC).toString());
+
+        auditList.append( audit );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
 int DBMgr::getSeq( QString strTable )
 {
     int nSeq = -1;
@@ -1509,6 +1615,25 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
     sqlQuery.bindValue( i++, kmsRec.getType() );
     sqlQuery.bindValue( i++, kmsRec.getID() );
     sqlQuery.bindValue( i++, kmsRec.getInfo() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::addAuditRec( AuditRec& auditRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_AUDIT "
+                      "( SEQ, REGTIME, KIND, OPERATION, USERNAME, INFO, MAC ) "
+                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( i++, auditRec.getRegTime() );
+    sqlQuery.bindValue( i++, auditRec.getKind() );
+    sqlQuery.bindValue( i++, auditRec.getOperation() );
+    sqlQuery.bindValue( i++, auditRec.getUserName() );
+    sqlQuery.bindValue( i++, auditRec.getInfo() );
+    sqlQuery.bindValue( i++, auditRec.getMAC() );
 
     sqlQuery.exec();
     return 0;

@@ -34,7 +34,8 @@ enum RightType {
     TYPE_USER,
     TYPE_SIGNER,
     TYPE_KMS,
-    TYPE_STATISTICS
+    TYPE_STATISTICS,
+    TYPE_AUDIT
 };
 
 class MainWindow : public QMainWindow
@@ -65,6 +66,7 @@ public:
     void createRightKMSList();
     void createRightSignerList(int nType);
     void createRightStatistics();
+    void createRightAuditList();
 
     void removeAllRight();
 
@@ -77,6 +79,7 @@ public:
     void showRightRevoke( int seq );
     void showRightUser( int seq );
     void showRightKMS( int seq );
+    void showRightAudit( int seq );
     void showRightSigner( int seq );
     void showRightStatistics();
 

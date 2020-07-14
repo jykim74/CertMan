@@ -44,5 +44,6 @@
         <file>caman.qss</file>
         <file>images/kms.png</file>
         <file>images/statistics.png</file>
+        <file>images/audit.png</file>
     </qresource>
 </RCC>

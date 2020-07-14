@@ -2,6 +2,7 @@
 #include <QtWidgets>
 
 #include "js_util.h"
+#include "js_gen.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -48,6 +49,7 @@
 #include "server_status_dlg.h"
 #include "man_tray_icon.h"
 #include "statistics_form.h"
+#include "audit_rec.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -456,6 +458,11 @@ void MainWindow::createTreeMenu()
     pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
     pTopItem->appendRow( pStatisticsItem );
 
+    ManTreeItem *pAuditItem = new ManTreeItem( QString( "Audit") );
+    pAuditItem->setIcon( QIcon(":/images/audit.png"));
+    pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
+    pTopItem->appendRow( pAuditItem );
+
 
     QModelIndex ri = left_model_->index(0,0);
     left_tree_->expand(ri);
@@ -535,6 +542,7 @@ int MainWindow::openDB( const QString dbPath )
         setPath( dbPath );
         setTitle( dbPath );
         adjustForCurrentFile( dbPath );
+        addAudit( db_mgr_, JS_GEN_KIND_CAMAN, JS_GEN_OP_OPENDB, "" );
     }
 
     return ret;
@@ -1148,6 +1156,10 @@ void MainWindow::tableClick(QModelIndex index )
     {
         showRightStatistics();
     }
+    else if( right_type_ == RightType::TYPE_AUDIT )
+    {
+        showRightAudit( nSeq );
+    }
 }
 
 void MainWindow::expandMenu()
@@ -1347,6 +1359,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightKMSList();
     else if( nType == CM_ITEM_TYPE_STATISTICS )
         createRightStatistics();
+    else if( nType == CM_ITEM_TYPE_AUDIT )
+        createRightAuditList();
 }
 
 void MainWindow::createRightKeyPairList()
@@ -1888,6 +1902,67 @@ void MainWindow::createRightSignerList(int nType)
     }
 }
 
+void MainWindow::createRightAuditList()
+{
+    right_menu_->show();
+
+    removeAllRight();
+    right_type_ = RightType::TYPE_AUDIT;
+
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
+    QStringList headerList = {"Seq", "RegTime", "Kind", "Operation", "UserName", "Info", "MAC" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<AuditRec> auditList;
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getAuditSearchCount( strTarget, strWord );
+        db_mgr_->getAuditList( strTarget, strWord, nOffset, nLimit, auditList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getKMSCount();
+        db_mgr_->getAuditList( nOffset, nLimit, auditList );
+    }
+
+
+    for( int i = 0; i < auditList.size(); i++ )
+    {
+        char sRegTime[64];
+        AuditRec audit = auditList.at(i);
+        right_table_->insertRow(i);
+
+        JS_UTIL_getDateTime( audit.getRegTime(), sRegTime );
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( audit.getSeq() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( audit.getKind())));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( audit.getOperation() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( audit.getUserName() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( audit.getInfo() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( audit.getMAC() )));
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
+}
+
 void MainWindow::createRightStatistics()
 {
     printf( "Set Statistics\n" );
@@ -2282,6 +2357,44 @@ void MainWindow::showRightKMS( int seq )
     strMsg += strPart;
 
     strPart = QString( "Info: %1\n\n").arg( kmsRec.getInfo() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightAudit( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+    char sRegTime[64];
+
+    AuditRec auditRec;
+    db_mgr_->getAuditRec( seq, auditRec );
+
+    strMsg = "[ Audit information ]\n\n";
+
+    strPart = QString( "Seq: %1\n").arg( auditRec.getSeq());
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( auditRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
+    strMsg += strPart;
+
+    strPart = QString( "Kind: %1\n\n").arg( auditRec.getKind() );
+    strMsg += strPart;
+
+    strPart = QString( "Operation: %1\n\n").arg( auditRec.getOperation() );
+    strMsg += strPart;
+
+    strPart = QString( "UserName: %1\n\n").arg( auditRec.getUserName() );
+    strMsg += strPart;
+
+    strPart = QString( "Info: %1\n\n").arg( auditRec.getInfo() );
+    strMsg += strPart;
+
+    strPart = QString( "MAC: %1\n\n").arg( auditRec.getMAC() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

@@ -23,6 +23,7 @@ class RevokeRec;
 class UserRec;
 class SignerRec;
 class KMSRec;
+class AuditRec;
 
 class DBMgr
 {
@@ -40,6 +41,7 @@ public:
     int getRevokeCount( int nIssuerNum );
     int getUserCount();
     int getKMSCount();
+    int getAuditCount();
 
     int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord );
@@ -48,6 +50,7 @@ public:
     int getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getUserSearchCount( QString strTarget, QString strWord);
     int getKMSSearchCount( QString strTarget, QString strWord);
+    int getAuditSearchCount( QString strTarget, QString strWord);
 
     int getCertRec( int nNum, CertRec& cert );
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
@@ -95,8 +98,13 @@ public:
     int getKMSList( int nOffset, int nLimit, QList<KMSRec>& kmsList );
     int getKMSList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<KMSRec>& kmsList );
 
+    int getAuditList( QList<AuditRec>& auditList );
+    int getAuditList( int nOffset, int nLimit, QList<AuditRec>& auditList );
+    int getAuditList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<AuditRec>& auditList );
+
     int getUserRec( int nSeq, UserRec& userRec );
     int getKMSRec( int nSeq, KMSRec& kmsRec );
+    int getAuditRec( int nSeq, AuditRec& auditRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );
 
@@ -114,6 +122,7 @@ public:
     int addUserRec( UserRec& userRec );
     int addSignerRec( SignerRec& signerRec );
     int addKMSRec( KMSRec& kmsRec );
+    int addAuditRec( AuditRec& auditRec );
 
     int modKeyPairStatus( int nNum, int nStatus );
     int modReqStatus( int nSeq, int nStatus );
@@ -149,6 +158,7 @@ private:
     int _getUserList( QString strQuery, QList<UserRec>& userList );
     int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
     int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );
+    int _getAuditList( QString strQuery, QList<AuditRec>& auditList );
 
 private:
     QSqlDatabase   db_;

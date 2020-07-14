@@ -9,6 +9,8 @@
 #include "js_pki_ext.h"
 #include "js_util.h"
 #include "pin_dlg.h"
+#include "audit_rec.h"
+#include "js_gen.h"
 
 
 static int _setKeyUsage( BIN *pBinExt, const QString strVal )
@@ -1153,4 +1155,53 @@ end :
     JS_BIN_reset( &binPriKey );
 
     return ret;
+}
+
+int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
+{
+    AuditRec auditRec;
+    BIN binSrc = {0,0};
+    BIN binKey = {0,0};
+    BIN binHMAC = {0,0};
+
+    char *pHex = NULL;
+
+    if( dbMgr == NULL ) return -1;
+
+    int nSeq = dbMgr->getSeq( "TB_AUDIT" );
+
+    auditRec.setSeq( nSeq );
+    auditRec.setKind( nKind );
+    auditRec.setOperation( nOP );
+    auditRec.setInfo( strInfo );
+    auditRec.setRegTime( time(NULL) );
+    auditRec.setUserName( "admin" );
+
+    binKey.pVal = (unsigned char *)JS_GEN_HMAC_KEY;
+    binKey.nLen = strlen( JS_GEN_HMAC_KEY );
+
+    QString strSrc = QString( "%1_%2_%3_%4_%5_%6" )
+            .arg( nSeq)
+            .arg( nKind )
+            .arg( nOP )
+            .arg( strInfo )
+            .arg( auditRec.getRegTime() )
+            .arg( auditRec.getUserName() );
+
+    binSrc.pVal = (unsigned char *)strSrc.toStdString().c_str();
+    binSrc.nLen = strSrc.length();
+
+    JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
+
+    JS_BIN_encodeHex( &binHMAC, &pHex );
+    if( pHex )
+    {
+        auditRec.setMAC( pHex );
+        dbMgr->addAuditRec( auditRec );
+        JS_free( pHex );
+    }
+
+    JS_BIN_reset( &binHMAC );
+
+    return 0;
 }

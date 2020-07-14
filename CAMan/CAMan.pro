@@ -31,6 +31,7 @@ CONFIG += c++11
 
 SOURCES += \
         about_dlg.cpp \
+        audit_rec.cpp \
         auto_update_service.cpp \
         cert_info_dlg.cpp \
         cert_policy_rec.cpp \
@@ -81,6 +82,7 @@ SOURCES += \
 
 HEADERS += \
         about_dlg.h \
+        audit_rec.h \
         auto_update_service.h \
         cert_info_dlg.h \
         cert_policy_rec.h \

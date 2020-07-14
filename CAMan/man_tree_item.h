@@ -20,6 +20,7 @@
 #define CM_ITEM_TYPE_OCSP_SIGNER    15
 #define CM_ITEM_TYPE_KMS            16
 #define CM_ITEM_TYPE_STATISTICS     17
+#define CM_ITEM_TYPE_AUDIT          18
 
 
 class ManTreeItem : public QStandardItem
