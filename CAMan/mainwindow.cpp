@@ -49,6 +49,7 @@
 #include "server_status_dlg.h"
 #include "man_tray_icon.h"
 #include "statistics_form.h"
+#include "stat_form.h"
 #include "audit_rec.h"
 
 const int kMaxRecentFiles = 10;
@@ -134,8 +135,11 @@ void MainWindow::initialize()
     left_tree_->setModel(left_model_);
 
     QWidget *rightWidget = new QWidget;
+    // QScrollArea *rightWidget = new QScrollArea;
+
     stack_ = new QStackedLayout();
     statistics_ = new StatisticsForm;
+    stat_ = new StatForm;
 
 
     hsplitter_->addWidget(left_tree_);
@@ -146,10 +150,11 @@ void MainWindow::initialize()
     vsplitter_->addWidget(right_text_);
 
     stack_->addWidget( vsplitter_ );
-    stack_->addWidget( statistics_ );
+//    stack_->addWidget( statistics_ );
+    stack_->addWidget( stat_ );
+
 
     rightWidget->setLayout(stack_);
-
 
 
     QList <int> vsizes;

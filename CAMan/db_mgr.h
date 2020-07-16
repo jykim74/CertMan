@@ -42,6 +42,7 @@ public:
     int getUserCount();
     int getKMSCount();
     int getAuditCount();
+    int getStatisticsCount( int nStartTime, int nEndTime, QString strTable );
 
     int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
     int getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord );

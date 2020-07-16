@@ -38,6 +38,9 @@ public:
 private Q_SLOTS:
     void updateUI();
 
+private slots:
+    void showEvent(QShowEvent *event);
+
 private:
     DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
     void populateThemeBox();
@@ -50,6 +53,9 @@ private:
     QChart *createLineChart() const;
     QChart *createSplineChart() const;
     QChart *createScatterChart() const;
+    QChart *createSimpleBarChart() const;
+
+    void makeChart();
 
 private:
     int m_listCount;

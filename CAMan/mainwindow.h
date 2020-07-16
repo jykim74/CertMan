@@ -18,6 +18,7 @@ class SearchMenu;
 class CertRec;
 class DBMgr;
 class StatisticsForm;
+class StatForm;
 
 namespace Ui {
 class MainWindow;
@@ -178,6 +179,7 @@ private:
     ManTreeItem     *root_ca_;
     QStackedLayout  *stack_;
     StatisticsForm  *statistics_;
+    StatForm        *stat_;
 
     int             openDB( const QString dbPath );
 };

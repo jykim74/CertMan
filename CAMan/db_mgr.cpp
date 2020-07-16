@@ -233,6 +233,35 @@ int DBMgr::getAuditCount()
     return -1;
 }
 
+int DBMgr::getStatisticsCount( int nStartTime, int nEndTime, QString strTable )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM %1" ).arg( strTable );
+
+    if( nStartTime >= 0 || nEndTime >= 0 )
+    {
+        strSQL += " WHERE ";
+
+        if( nStartTime >= 0  && nEndTime >= 0 )
+            strSQL += QString( "REGTIME >= %1 AND REGTIME <= %2" ).arg( nStartTime ).arg( nEndTime );
+        else if( nStartTime >= 0 )
+            strSQL += QString( "REGTIME >= %1" ).arg( nStartTime );
+        else if( nEndTime >= 0 )
+            strSQL += QString( "REGTIME <= %1" ).arg( nEndTime );
+    }
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord )
 {
     int nCount = -1;

@@ -76,6 +76,7 @@ SOURCES += \
         settings_mgr.cpp \
         signer_dlg.cpp \
         signer_rec.cpp \
+        stat_form.cpp \
         statistics_form.cpp \
         user_dlg.cpp \
         user_rec.cpp
@@ -127,6 +128,7 @@ HEADERS += \
         signer_dlg.h \
         signer_rec.h \
         singleton.h \
+        stat_form.h \
         statistics_form.h \
         user_dlg.h \
         user_rec.h
@@ -154,6 +156,7 @@ FORMS += \
         server_status_dlg.ui \
         settings_dlg.ui \
         signer_dlg.ui \
+        stat_form.ui \
         statistics_form.ui \
         user_dlg.ui
 
