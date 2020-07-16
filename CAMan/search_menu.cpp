@@ -135,6 +135,7 @@ void SearchMenu::leftPage()
 void SearchMenu::leftEndPage()
 {
     cur_page_ = 0;
+
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
@@ -154,6 +155,7 @@ void SearchMenu::rightEndPage()
     int nListCnt = manApplet->settingsMgr()->listCount();
     int end_page = int ( (total_count_ - 1 ) / nListCnt );
     cur_page_ = end_page;
+
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 

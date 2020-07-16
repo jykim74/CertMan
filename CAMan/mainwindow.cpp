@@ -1942,7 +1942,7 @@ void MainWindow::createRightAuditList()
     }
     else
     {
-        nTotalCount = db_mgr_->getKMSCount();
+        nTotalCount = db_mgr_->getAuditCount();
         db_mgr_->getAuditList( nOffset, nLimit, auditList );
     }
 
