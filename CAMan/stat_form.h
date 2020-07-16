@@ -40,7 +40,11 @@ private:
     DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
 
 private slots:
+    void showEvent(QShowEvent *event);
     void updateStat();
+    void clickDay();
+    void clickMonth();
+    void clickYear();
 
 private:
     QList<qreal> cert_val_list_;
@@ -48,6 +52,9 @@ private:
     QList<qreal> user_val_list_;
     QList<qreal> keypair_val_list_;
     QList<qreal> req_val_list_;
+
+    QStringList unit_list_;
+    QList<QChartView *> charts_;
 
 };
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>551</width>
+    <width>798</width>
     <height>522</height>
    </rect>
   </property>
@@ -14,47 +14,48 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="7">
+   <item row="0" column="1">
+    <widget class="QRadioButton" name="mDayRadio">
+     <property name="text">
+      <string>Day</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>End</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Start</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="9">
     <widget class="QPushButton" name="mUpdateBtn">
      <property name="text">
       <string>Update</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>End Day</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="5">
-    <widget class="QComboBox" name="mUnitCombo"/>
-   </item>
-   <item row="0" column="3">
-    <widget class="QDateEdit" name="mEndDate"/>
-   </item>
-   <item row="0" column="4">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Unit</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Start Day</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QDateEdit" name="mStartDate"/>
-   </item>
-   <item row="1" column="0" colspan="8">
+   <item row="1" column="0" colspan="10">
     <layout class="QGridLayout" name="mGridLayout"/>
    </item>
-   <item row="0" column="6">
+   <item row="0" column="2">
+    <widget class="QRadioButton" name="mMonthRadio">
+     <property name="text">
+      <string>Month</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="8">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -66,6 +67,19 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="5">
+    <widget class="QDateEdit" name="mStartDate"/>
+   </item>
+   <item row="0" column="3">
+    <widget class="QRadioButton" name="mYearRadio">
+     <property name="text">
+      <string>Year</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="7">
+    <widget class="QDateEdit" name="mEndDate"/>
    </item>
   </layout>
  </widget>

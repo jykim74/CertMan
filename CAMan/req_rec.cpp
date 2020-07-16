@@ -3,6 +3,7 @@
 ReqRec::ReqRec()
 {
     m_nSeq = -1;
+    m_nRegTime = 0;
     m_nKeyNum = -1;
     m_strName = "";
     m_strDN = "";
@@ -14,6 +15,11 @@ ReqRec::ReqRec()
 void ReqRec::setSeq( int nSeq )
 {
     m_nSeq = nSeq;
+}
+
+void ReqRec::setRegTime( int nRegTime )
+{
+    m_nRegTime = nRegTime;
 }
 
 void ReqRec::setKeyNum( int nKeyNum )

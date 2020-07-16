@@ -7,6 +7,7 @@ class KeyPairRec
 {
 private:
     int             m_nNum;
+    int             m_nRegTime;
     QString         m_strAlg;
     QString         m_strName;
     QString         m_strPublicKey;
@@ -18,6 +19,7 @@ public:
     KeyPairRec();
 
     int getNum() { return m_nNum; };
+    int getRegTime() { return m_nRegTime; };
     QString getAlg() { return m_strAlg; };
     QString getName() { return m_strName; };
     QString getPublicKey() { return m_strPublicKey; };
@@ -26,6 +28,7 @@ public:
     int getStatus() { return m_nStatus; };
 
     void setNum( int nNum );
+    void setRegTime( int nRegTime );
     void setAlg( QString strAlg );
     void setName( QString strName );
     void setPublicKey( QString strPublicKey );

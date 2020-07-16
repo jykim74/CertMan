@@ -3,6 +3,7 @@
 KeyPairRec::KeyPairRec()
 {
     m_nNum = -1;
+    m_nRegTime = 0;
     m_strAlg = "";
     m_strName = "";
     m_strPublicKey = "";
@@ -14,6 +15,11 @@ KeyPairRec::KeyPairRec()
 void KeyPairRec::setNum( int nNum )
 {
     m_nNum = nNum;
+}
+
+void KeyPairRec::setRegTime( int nRegTime )
+{
+    m_nRegTime = nRegTime;
 }
 
 void KeyPairRec::setAlg( QString strAlg )

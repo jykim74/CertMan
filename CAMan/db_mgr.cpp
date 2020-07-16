@@ -237,18 +237,22 @@ int DBMgr::getStatisticsCount( int nStartTime, int nEndTime, QString strTable )
 {
     int nCount = -1;
 
+    QString strTime = "REGTIME";
     QString strSQL = QString( "SELECT COUNT(*) FROM %1" ).arg( strTable );
+
+    if( strTable == "TB_REVOKED" )
+        strTime = "REVOKEDDATE";
 
     if( nStartTime >= 0 || nEndTime >= 0 )
     {
         strSQL += " WHERE ";
 
         if( nStartTime >= 0  && nEndTime >= 0 )
-            strSQL += QString( "REGTIME >= %1 AND REGTIME <= %2" ).arg( nStartTime ).arg( nEndTime );
+            strSQL += QString( "%1 >= %2 AND %3 <= %4" ).arg(strTime).arg( nStartTime ).arg(strTime).arg( nEndTime );
         else if( nStartTime >= 0 )
-            strSQL += QString( "REGTIME >= %1" ).arg( nStartTime );
+            strSQL += QString( "%1 >= %2" ).arg(strTime).arg( nStartTime );
         else if( nEndTime >= 0 )
-            strSQL += QString( "REGTIME <= %1" ).arg( nEndTime );
+            strSQL += QString( "%1 <= %2" ).arg(strTime).arg( nEndTime );
     }
 
     QSqlQuery SQL(strSQL);
@@ -557,6 +561,7 @@ int DBMgr::_getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList )
     QSqlQuery   SQL( strQuery );
 
     int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosRegTime = SQL.record().indexOf( "REGTIME" );
     int nPosAlg = SQL.record().indexOf( "ALGORITHM" );
     int nPosName = SQL.record().indexOf( "NAME" );
     int nPosPublic = SQL.record().indexOf( "PUBLIC" );
@@ -569,6 +574,7 @@ int DBMgr::_getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList )
         KeyPairRec keyPairRec;
 
         keyPairRec.setNum( SQL.value(nPosNum).toInt() );
+        keyPairRec.setRegTime( SQL.value(nPosRegTime).toInt());
         keyPairRec.setAlg( SQL.value(nPosAlg).toString() );
         keyPairRec.setName( SQL.value(nPosName).toString() );
         keyPairRec.setPublicKey( SQL.value(nPosPublic).toString() );
@@ -848,6 +854,7 @@ int DBMgr::_getReqList( QString strQuery, QList<ReqRec>& reqList )
     QSqlQuery SQL( strQuery );
 
     int nPosSeq = SQL.record().indexOf( "SEQ" );
+    int nPosRegTime = SQL.record().indexOf( "REGTIME" );
     int nPosKeyNum = SQL.record().indexOf( "KEY_NUM" );
     int nPosName = SQL.record().indexOf( "NAME" );
     int nPosDN = SQL.record().indexOf( "DN" );
@@ -859,6 +866,7 @@ int DBMgr::_getReqList( QString strQuery, QList<ReqRec>& reqList )
         ReqRec reqRec;
 
         reqRec.setSeq( SQL.value(nPosSeq).toInt() );
+        reqRec.setRegTime( SQL.value(nPosRegTime).toInt());
         reqRec.setKeyNum( SQL.value(nPosKeyNum).toInt() );
         reqRec.setName( SQL.value(nPosName).toString() );
         reqRec.setDN( SQL.value(nPosDN).toString() );
@@ -898,18 +906,20 @@ int DBMgr::getCRLDPListFromCert( int nIssuerNum, QList<QString>& crldpList )
 
 int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
 {
+    int i = 0;
     QSqlQuery query;
 
     query.prepare( "INSERT INTO TB_KEY_PAIR "
                    "(NUM, ALGORITHM, NAME, PUBLIC, PRIVATE, PARAM, STATUS ) "
-                   "VALUES ( null, ?, ?, ?, ?, ?, ? )" );
+                   "VALUES ( null, ?, ?, ?, ?, ?, ?, ? )" );
 
-    query.bindValue(0, keyPair.getAlg() );
-    query.bindValue(1, keyPair.getName() );
-    query.bindValue(2, keyPair.getPublicKey() );
-    query.bindValue(3, keyPair.getPrivateKey() );
-    query.bindValue(4, keyPair.getParam() );
-    query.bindValue(5, keyPair.getStatus() );
+    query.bindValue(i++, keyPair.getRegTime());
+    query.bindValue(i++, keyPair.getAlg() );
+    query.bindValue(i++, keyPair.getName() );
+    query.bindValue(i++, keyPair.getPublicKey() );
+    query.bindValue(i++, keyPair.getPrivateKey() );
+    query.bindValue(i++, keyPair.getParam() );
+    query.bindValue(i++, keyPair.getStatus() );
 
     bool res = query.exec();
 
@@ -924,18 +934,20 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
 
 int DBMgr::addReqRec( ReqRec& reqRec )
 {
+    int i = 0;
     QSqlQuery query;
 
     query.prepare( "INSERT INTO TB_REQ "
-                   "(SEQ, KEY_NUM, NAME, DN, CSR, HASH, STATUS ) "
-                   "VALUES( null, ?, ?, ?, ?, ?, ? )" );
+                   "(SEQ, REGTIME, KEY_NUM, NAME, DN, CSR, HASH, STATUS ) "
+                   "VALUES( null, ?, ?, ?, ?, ?, ?, ? )" );
 
-    query.bindValue( 0, reqRec.getKeyNum() );
-    query.bindValue( 1, reqRec.getName() );
-    query.bindValue( 2, reqRec.getDN() );
-    query.bindValue( 3, reqRec.getCSR() );
-    query.bindValue( 4, reqRec.getHash() );
-    query.bindValue( 5, reqRec.getStatus() );
+    query.bindValue( i++, reqRec.getRegTime() );
+    query.bindValue( i++, reqRec.getKeyNum() );
+    query.bindValue( i++, reqRec.getName() );
+    query.bindValue( i++, reqRec.getDN() );
+    query.bindValue( i++, reqRec.getCSR() );
+    query.bindValue( i++, reqRec.getHash() );
+    query.bindValue( i++, reqRec.getStatus() );
 
     query.exec();
     return 0;

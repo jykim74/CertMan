@@ -27,28 +27,23 @@
 #include <QtCharts/QValueAxis>
 
 
+#include "commons.h"
+#include "man_applet.h"
+#include "db_mgr.h"
+#include "mainwindow.h"
 #include "stat_form.h"
 
-const QStringList kUnitList = { "Day", "Week", "Month", "Year" };
 
 StatForm::StatForm(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    initialize();
 
     connect( mUpdateBtn, SIGNAL(clicked()), this, SLOT(updateStat()));
 
-    QChartView *simpleView;
-
-    simpleView = new QChartView(createSimpleBarChart());
-    mGridLayout->addWidget( simpleView, 1, 0, 1, 2 );
-
-    QChartView *barView = new QChartView(createBarChart());
-    mGridLayout->addWidget( barView, 2, 0 );
-
-    QTableWidget *table = createSimpleBarTable();
-    mGridLayout->addWidget( table, 2, 1 );
+    connect( mDayRadio, SIGNAL(clicked()), this, SLOT(clickDay()));
+    connect( mMonthRadio, SIGNAL(clicked()), this, SLOT(clickMonth()));
+    connect( mYearRadio, SIGNAL(clicked()), this, SLOT(clickYear()));
 }
 
 StatForm::~StatForm()
@@ -58,11 +53,21 @@ StatForm::~StatForm()
 
 void StatForm::initialize()
 {
+    clickDay();
+    updateStat();
+}
+
+void StatForm::showEvent(QShowEvent *event)
+{
+    initialize();
+}
+
+void StatForm::clickDay()
+{
     time_t now_t = time(NULL);
-    mUnitCombo->addItems( kUnitList );
 
     QDateTime startTime;
-    startTime.setTime_t( now_t - 86400 * 7 );
+    startTime.setTime_t( now_t - 86400 * 6 );
 
     QDateTime endTime;
     endTime.setTime_t( now_t );
@@ -70,20 +75,199 @@ void StatForm::initialize()
     mStartDate->setDate( startTime.date() );
     mEndDate->setDate( endTime.date() );
 
-    getData();
+    QString strFormat = "yyyy-MM-dd";
+
+    mStartDate->setDisplayFormat( strFormat );
+    mEndDate->setDisplayFormat( strFormat );
+}
+
+void StatForm::clickMonth()
+{
+    int nYear = 0;
+    int nMonth = 0;
+    int nDay = 1;
+
+    time_t now_t = time(NULL);
+
+    QDateTime dateTime;
+    dateTime.setTime_t( now_t );
+
+    QDate endDate = dateTime.date();
+    nYear = endDate.year();
+    nMonth = endDate.month();
+
+    QDate startDate = endDate.addMonths(-1);
+
+    mStartDate->setDate( startDate );
+    mEndDate->setDate( endDate );
+
+    QString strFormat = "yyyy-MM";
+
+    mStartDate->setDisplayFormat( strFormat );
+    mEndDate->setDisplayFormat( strFormat );
+}
+
+void StatForm::clickYear()
+{
+    int nYear = 0;
+    int nMonth = 1;
+    int nDay = 1;
+
+    time_t now_t = time(NULL);
+
+    QDateTime dateTime;
+    dateTime.setTime_t( now_t );
+
+    QDate date = dateTime.date();
+    nYear = date.year();
+
+    QDate endDate;
+    endDate.setDate( nYear, nMonth, nDay );
+
+    QDate startDate = endDate.addYears(-1);
+
+    mStartDate->setDate( startDate );
+    mEndDate->setDate( endDate );
+
+    QString strFormat = "yyyy";
+
+    mStartDate->setDisplayFormat( strFormat );
+    mEndDate->setDisplayFormat( strFormat );
 }
 
 void StatForm::getData()
 {
-    cert_val_list_ << 1 << 2 << 3 << 4 << 5 << 6;
-    revoke_val_list_ << 5 << 0 << 0 << 4 << 0 << 7;
-    user_val_list_ << 3 << 5 << 8 << 13 << 8 << 5;
-    keypair_val_list_ << 5 << 6 << 7 << 3 << 4 << 5;
-    req_val_list_ << 9 << 7 << 5 << 3 << 1 << 2;
+    int nCount = 0;
+    QList<int> startList;
+    QList<int> endList;
+
+    time_t end_t = mEndDate->dateTime().toTime_t();
+    time_t start_t = mStartDate->dateTime().toTime_t();
+    time_t diff_t = end_t - start_t;
+
+
+    unit_list_.clear();
+    cert_val_list_.clear();
+    revoke_val_list_.clear();
+    user_val_list_.clear();
+    keypair_val_list_.clear();
+    req_val_list_.clear();
+    charts_.clear();
+
+    if( mDayRadio->isChecked() )
+    {
+        nCount = (int)(diff_t / 86400) + 1;
+        qDebug( "Count: %d EndDate: %s StartDate: %s",
+                nCount,
+                mEndDate->dateTime().toString().toStdString().c_str(),
+                mStartDate->dateTime().toString().toStdString().c_str() );
+
+        time_t pos_t = start_t;
+
+        for( int i = 0; i < nCount; i++ )
+        {
+            QDateTime dateTime;
+            dateTime.setTime_t( pos_t );
+            QString strDate = dateTime.toString( "MM-dd" );
+
+            unit_list_ << strDate;
+            startList << pos_t;
+            endList << pos_t + 86400 - 1;
+
+            pos_t += 86400;
+        }
+    }
+    else if( mMonthRadio->isChecked() )
+    {
+        QDate startDate = mStartDate->date();
+        QDate endDate = mEndDate->date();
+        QDate posDate = startDate;
+
+        for( ; posDate <= endDate; )
+        {
+            nCount++;
+            QDateTime dateTime;
+            dateTime.setDate( posDate );
+
+            unit_list_ << dateTime.toString( "yy-MM" );
+
+            startList << dateTime.toTime_t();
+
+            QDate tmpDate = posDate.addMonths(1);
+            dateTime.setDate( tmpDate );
+            endList << dateTime.toTime_t() - 1;
+        }
+    }
+    else if( mYearRadio->isChecked() )
+    {
+        QDate startDate = mStartDate->date();
+        QDate endDate = mEndDate->date();
+        QDate posDate = startDate;
+
+        for( ; posDate <= endDate; )
+        {
+            nCount++;
+            QDateTime dateTime;
+            dateTime.setDate( posDate );
+
+            unit_list_ << dateTime.toString( "yyyy" );
+
+            startList << dateTime.toTime_t();
+
+            QDate tmpDate = posDate.addYears(1);
+            dateTime.setDate( tmpDate );
+            endList << dateTime.toTime_t() - 1;
+        }
+    }
+
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+
+    for( int i = 0; i < nCount; i++ )
+    {
+        int nStart = startList.at(i);
+        int nEnd = endList.at(i);
+
+        int nCertCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_CERT" );
+        cert_val_list_.append(nCertCnt);
+
+        int nRevokeCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_REVOKED" );
+        revoke_val_list_.append( nRevokeCnt );
+
+        int nUserCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_USER" );
+        user_val_list_.append(nUserCnt);
+
+        int nKeyPairCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_KEY_PAIR" );
+        keypair_val_list_.append( nKeyPairCnt );
+
+        int nReqCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_REQ" );
+        req_val_list_.append(nReqCnt);
+    }
+/*
+    cert_val_list_ << 1 << 2 << 3 << 4 << 5 << 6 << 7;
+    revoke_val_list_ << 5 << 0 << 0 << 4 << 0 << 7 << 7;
+    user_val_list_ << 3 << 5 << 8 << 13 << 8 << 5 << 7;
+    keypair_val_list_ << 5 << 6 << 7 << 3 << 4 << 5 << 7;
+    req_val_list_ << 9 << 7 << 5 << 3 << 1 << 2 << 7;
+
+    unit_list_ << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun" << "Jul";
+    */
 }
 void StatForm::updateStat()
 {
+    getData();
 
+    QChartView *simpleView;
+
+    simpleView = new QChartView(createSimpleBarChart());
+    mGridLayout->addWidget( simpleView, 1, 0, 1, 2 );
+    charts_ << simpleView;
+
+    QTableWidget *table = createSimpleBarTable();
+    mGridLayout->addWidget( table, 2, 0 );
+
+    QChartView *barView = new QChartView(createBarChart());
+    mGridLayout->addWidget( barView, 2, 1 );
+    charts_ << barView;
 }
 
 QChart *StatForm::createSimpleBarChart() const
@@ -120,10 +304,9 @@ QChart *StatForm::createSimpleBarChart() const
     //![3]
 
     //![4]
-    QStringList categories;
-    categories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun";
+
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
+    axisX->append( unit_list_ );
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
@@ -166,7 +349,7 @@ DataTable StatForm::generateRandomData(int listCount, int valueMax, int valueCou
 QChart *StatForm::createBarChart() const
 {
     QChart *chart = new QChart();
-    chart->setTitle("CA Manager Cert and Revoke");
+    chart->setTitle("Certificate and Revoke");
 
     int nValueMax = cert_val_list_.size();
     QStackedBarSeries *series = new QStackedBarSeries(chart);
@@ -189,17 +372,14 @@ QChart *StatForm::createBarChart() const
 
     chart->addSeries(series);
 
-    QStringList categories = {
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"
-    };
 
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(categories);
-    axisX->setTitleText("Month");
+    axisX->append( unit_list_ );
+//    axisX->setTitleText("Month");
     chart->addAxis(axisX, Qt::AlignBottom);
     QValueAxis *axisY = new QValueAxis();
     axisY->setRange( -15, 15 );
-    axisY->setTitleText("Count");
+//    axisY->setTitleText("Count");
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisX);
     series->attachAxis(axisY);
@@ -209,71 +389,85 @@ QChart *StatForm::createBarChart() const
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
 
-    /*
-    chart->createDefaultAxes();
-    chart->axes(Qt::Vertical).first()->setRange(0, nValueMax * 2);
-    // Add space to label to add space between labels and axis
-    QValueAxis *axisY = qobject_cast<QValueAxis*>(chart->axes(Qt::Vertical).first());
-    Q_ASSERT(axisY);
-    axisY->setLabelFormat("%.1f  ");
-    */
-
     return chart;
 }
 
 
 QTableWidget *StatForm::createSimpleBarTable() const
 {
+    int i = 0;
+    int sum = 0;
     QTableWidget *tableWidget = new QTableWidget;
-    QStringList headerList = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sum" };
+    QStringList unitList = unit_list_;
+    unitList << "Sum";
     QStringList nameList = { "Cert", "Revoke", "User", "KeyPair", "Request" };
 
     tableWidget->horizontalHeader()->setStretchLastSection(true);
 
+    QString style = "QHeaderView::section {background-color:#808080;color:#FFFFFF;}";
+    tableWidget->horizontalHeader()->setStyleSheet( style );
+    tableWidget->verticalHeader()->setStyleSheet( style );
 
-    tableWidget->setColumnCount( headerList.size() );
-    tableWidget->setHorizontalHeaderLabels( headerList );
-    tableWidget->setVerticalHeaderLabels( nameList );
 
-    for( int i = 0; i < headerList.size(); i++ )
+    tableWidget->setColumnCount( nameList.size() );
+    tableWidget->setHorizontalHeaderLabels( nameList );
+ //   tableWidget->setVerticalHeaderLabels( nameList );
+    tableWidget->setMinimumHeight(240);
+
+    for( i = 0; i < nameList.size(); i++ )
     {
-        tableWidget->setColumnWidth( i, 20 );
+        tableWidget->setColumnWidth( i, 50 );
     }
 
-    tableWidget->insertRow(0);
-
-    for( int i = 0; i < cert_val_list_.size(); i++ )
+    for( i = 0; i < cert_val_list_.size(); i++ )
     {
-        tableWidget->setItem( 0, i, new QTableWidgetItem(QString("%1").arg(cert_val_list_.at(i))));
+        tableWidget->insertRow(i);
+        int num = cert_val_list_.at(i);
+        sum += num;
+
+        tableWidget->setItem( i, 0, new QTableWidgetItem(QString("%1").arg(num)));
     }
+    tableWidget->insertRow(i);
+    tableWidget->setItem( i, 0, new QTableWidgetItem(QString("%1").arg( sum )));
 
-    tableWidget->insertRow(1);
-
-    for( int i = 0; i < revoke_val_list_.size(); i++ )
+    sum = 0;
+    for( i = 0; i < revoke_val_list_.size(); i++ )
     {
-        tableWidget->setItem( 1, i, new QTableWidgetItem(QString("%1").arg(revoke_val_list_.at(i))));
+        int num = revoke_val_list_.at(i);
+        sum += num;
+        tableWidget->setItem( i, 1, new QTableWidgetItem(QString("%1").arg( num )));
     }
+    tableWidget->setItem( i, 1, new QTableWidgetItem(QString("%1").arg( sum )));
 
-    tableWidget->insertRow(2);
-
-    for( int i = 0; i < user_val_list_.size(); i++ )
+    sum = 0;
+    for( i = 0; i < user_val_list_.size(); i++ )
     {
-        tableWidget->setItem( 2, i, new QTableWidgetItem(QString("%1").arg(user_val_list_.at(i))));
+        int num = user_val_list_.at(i);
+        sum += num;
+        tableWidget->setItem( i, 2, new QTableWidgetItem(QString("%1").arg( num )));
     }
+    tableWidget->setItem( i, 2, new QTableWidgetItem(QString("%1").arg( sum )));
 
-    tableWidget->insertRow(3);
 
-    for( int i = 0; i < keypair_val_list_.size(); i++ )
+    sum = 0;
+    for( i = 0; i < keypair_val_list_.size(); i++ )
     {
-        tableWidget->setItem( 3, i, new QTableWidgetItem(QString("%1").arg(keypair_val_list_.at(i))));
+        int num = keypair_val_list_.at(i);
+        sum += num;
+        tableWidget->setItem( i, 3, new QTableWidgetItem(QString("%1").arg(num)));
     }
+    tableWidget->setItem( i, 3, new QTableWidgetItem(QString("%1").arg( sum )));
 
-    tableWidget->insertRow(4);
-
-    for( int i = 0; i < req_val_list_.size(); i++ )
+    sum = 0;
+    for( i = 0; i < req_val_list_.size(); i++ )
     {
-        tableWidget->setItem( 4, i, new QTableWidgetItem(QString("%1").arg(req_val_list_.at(i))));
+        int num = req_val_list_.at(i);
+        sum += num;
+        tableWidget->setItem( i, 4, new QTableWidgetItem(QString("%1").arg(num)));
     }
+    tableWidget->setItem( i, 4, new QTableWidgetItem(QString("%1").arg( sum )));
 
+
+    tableWidget->setVerticalHeaderLabels( unitList );
     return tableWidget;
 }
