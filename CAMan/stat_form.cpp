@@ -38,6 +38,9 @@ StatForm::StatForm(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+    stat_table_ = NULL;
+    simple_view_ = NULL;
+    bar_view_ = NULL;
 
     connect( mUpdateBtn, SIGNAL(clicked()), this, SLOT(updateStat()));
 
@@ -152,7 +155,6 @@ void StatForm::getData()
     user_val_list_.clear();
     keypair_val_list_.clear();
     req_val_list_.clear();
-    charts_.clear();
 
     if( mDayRadio->isChecked() )
     {
@@ -256,18 +258,34 @@ void StatForm::updateStat()
 {
     getData();
 
-    QChartView *simpleView;
+    if( simple_view_ )
+    {
+        mGridLayout->removeWidget( simple_view_ );
+        delete simple_view_;
+    }
 
-    simpleView = new QChartView(createSimpleBarChart());
-    mGridLayout->addWidget( simpleView, 1, 0, 1, 2 );
-    charts_ << simpleView;
+    simple_view_ = new QChartView(createSimpleBarChart());
+    mGridLayout->addWidget( simple_view_, 1, 0, 1, 2 );
 
-    QTableWidget *table = createSimpleBarTable();
-    mGridLayout->addWidget( table, 2, 0 );
 
-    QChartView *barView = new QChartView(createBarChart());
-    mGridLayout->addWidget( barView, 2, 1 );
-    charts_ << barView;
+    if( stat_table_ )
+    {
+        mGridLayout->removeWidget( stat_table_ );
+        delete stat_table_;
+    }
+
+    stat_table_ = createSimpleBarTable();
+    mGridLayout->addWidget( stat_table_, 2, 0 );
+
+    if( bar_view_ )
+    {
+        mGridLayout->removeWidget( bar_view_ );
+        delete bar_view_;
+    }
+
+    bar_view_ = new QChartView(createBarChart());
+    mGridLayout->addWidget( bar_view_, 2, 1 );
+
 }
 
 QChart *StatForm::createSimpleBarChart() const
@@ -389,6 +407,7 @@ QChart *StatForm::createBarChart() const
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
 
+
     return chart;
 }
 
@@ -412,7 +431,7 @@ QTableWidget *StatForm::createSimpleBarTable() const
     tableWidget->setColumnCount( nameList.size() );
     tableWidget->setHorizontalHeaderLabels( nameList );
  //   tableWidget->setVerticalHeaderLabels( nameList );
-    tableWidget->setMinimumHeight(240);
+    tableWidget->setMinimumHeight(270);
 
     for( i = 0; i < nameList.size(); i++ )
     {

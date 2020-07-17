@@ -141,6 +141,10 @@ void MainWindow::initialize()
     statistics_ = new StatisticsForm;
     stat_ = new StatForm;
 
+    stack_->addWidget( vsplitter_ );
+//    stack_->addWidget( statistics_ );
+    stack_->addWidget( stat_ );
+    rightWidget->setLayout(stack_);
 
     hsplitter_->addWidget(left_tree_);
     hsplitter_->addWidget( rightWidget );
@@ -149,12 +153,7 @@ void MainWindow::initialize()
     vsplitter_->addWidget(right_menu_);
     vsplitter_->addWidget(right_text_);
 
-    stack_->addWidget( vsplitter_ );
-//    stack_->addWidget( statistics_ );
-    stack_->addWidget( stat_ );
 
-
-    rightWidget->setLayout(stack_);
 
 
     QList <int> vsizes;

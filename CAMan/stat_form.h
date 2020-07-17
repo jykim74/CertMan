@@ -34,9 +34,9 @@ public:
 private:
     void initialize();
     void getData();
-    QChart *createSimpleBarChart() const;
-    QChart *createBarChart() const;
-    QTableWidget *createSimpleBarTable() const;
+    QChart* createSimpleBarChart() const;
+    QChart* createBarChart() const;
+    QTableWidget* createSimpleBarTable() const;
     DataTable generateRandomData(int listCount, int valueMax, int valueCount) const;
 
 private slots:
@@ -54,7 +54,10 @@ private:
     QList<qreal> req_val_list_;
 
     QStringList unit_list_;
-    QList<QChartView *> charts_;
+
+    QTableWidget    *stat_table_;
+    QChartView          *simple_view_;
+    QChartView          *bar_view_;
 
 };
 
