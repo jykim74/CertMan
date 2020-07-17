@@ -7,7 +7,7 @@
 #include "db_mgr.h"
 #include "crl_rec.h"
 
-
+#include "js_gen.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
@@ -282,6 +282,7 @@ void MakeCRLDlg::accept()
     madeCRLRec.setCRL( pHexCRL );
 
     dbMgr->addCRLRec( madeCRLRec );
+    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
 
 end :
     JS_PKI_resetIssueCRLInfo( &sIssueCRLInfo );

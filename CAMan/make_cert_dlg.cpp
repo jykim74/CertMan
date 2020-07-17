@@ -15,6 +15,7 @@
 #include "commons.h"
 #include "settings_mgr.h"
 
+#include "js_gen.h"
 #include "js_kms.h"
 
 static int g_iVerbose = 1;
@@ -470,6 +471,8 @@ void MakeCertDlg::accept()
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );
+
+    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
 
 end :
     JS_BIN_reset( &binCSR );

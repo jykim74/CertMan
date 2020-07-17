@@ -10,6 +10,7 @@
 #include "pin_dlg.h"
 #include "js_pkcs11.h"
 #include "js_kms.h"
+#include "js_gen.h"
 #include "commons.h"
 
 static QStringList sMechList = { "RSA", "EC" };
@@ -136,6 +137,7 @@ void NewKeyDlg::accept()
     keyPairRec.setStatus(0);
 
     dbMgr->addKeyPairRec( keyPairRec );
+    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
     JS_BIN_reset(&binPri);

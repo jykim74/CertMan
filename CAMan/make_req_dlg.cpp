@@ -5,6 +5,7 @@
 #include "key_pair_rec.h"
 #include "req_rec.h"
 #include "db_mgr.h"
+#include "js_gen.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "settings_mgr.h"
@@ -189,6 +190,7 @@ void MakeReqDlg::accept()
 
     dbMgr->addReqRec( reqRec );
     dbMgr->modKeyPairStatus( keyRec.getNum(), 1 );
+    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CSR, strDN );
 
 end :
     JS_BIN_reset( &binPri );
