@@ -1382,7 +1382,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Number", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
+    QStringList headerList = { "Number", "RegTime", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1408,16 +1408,20 @@ void MainWindow::createRightKeyPairList()
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
+        char sRegTime[64];
         KeyPairRec keyPairRec = keyPairList.at(i);
+
+        JS_UTIL_getDateTime( keyPairRec.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() )));
-        right_table_->setItem( i, 1, new QTableWidgetItem( keyPairRec.getAlg()));
-        right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getName()));
-        right_table_->setItem(i, 3, new QTableWidgetItem( keyPairRec.getPublicKey()));
-        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPrivateKey()));
-        right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getParam()));
-        right_table_->setItem(i, 6, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
+        right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
+        right_table_->setItem( i, 3, new QTableWidgetItem( keyPairRec.getName()));
+        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPublicKey()));
+        right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getPrivateKey()));
+        right_table_->setItem(i, 7, new QTableWidgetItem( keyPairRec.getParam()));
+        right_table_->setItem(i, 7, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -1440,7 +1444,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Seq", "KeyNum", "Name", "Hash", "Status", "DN" };
+    QStringList headerList = { "Seq", "RegTime", "KeyNum", "Name", "Hash", "Status", "DN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1467,15 +1471,18 @@ void MainWindow::createRightRequestList()
 
     for( int i=0; i < reqList.size(); i++ )
     {
+        char sRegTime[64];
         ReqRec reqRec = reqList.at(i);
+        JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( reqRec.getKeyNum() ) ));
-        right_table_->setItem( i, 2, new QTableWidgetItem( reqRec.getName() ));
-        right_table_->setItem( i, 3, new QTableWidgetItem( reqRec.getHash() ));
-        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
-        right_table_->setItem( i, 5, new QTableWidgetItem( reqRec.getDN() ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( reqRec.getKeyNum() ) ));
+        right_table_->setItem( i, 3, new QTableWidgetItem( reqRec.getName() ));
+        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getHash() ));
+        right_table_->setItem( i, 5, new QTableWidgetItem( QString("%1").arg( reqRec.getStatus() )));
+        right_table_->setItem( i, 6, new QTableWidgetItem( reqRec.getDN() ));
     }
 
     right_menu_->setTotalCount( nTotalCount );

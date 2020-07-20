@@ -130,6 +130,7 @@ void NewKeyDlg::accept()
     JS_BIN_encodeHex( &binPub2, &pPubHex );
 
     keyPairRec.setAlg( mMechCombo->currentText() );
+    keyPairRec.setRegTime( time(NULL) );
     keyPairRec.setName( strName );
     keyPairRec.setParam( mOptionCombo->currentText() );
     keyPairRec.setPublicKey( pPubHex );
@@ -158,13 +159,13 @@ void NewKeyDlg::mechChanged(int index )
 {
     mOptionCombo->clear();
 
-    if( index == 0 || index == 2 )
+    if( index == 0 || index == 2 || index == 4 )
     {
         mOptionCombo->addItems(sRSAOptionList);
         mExponentText->setEnabled(true);
         mOptionLabel->setText( "Key size");
     }
-    else if( index == 1 || index == 3 )
+    else if( index == 1 || index == 3 || index == 5 )
     {
         mOptionCombo->addItems(sECCOptionList);
         mExponentText->setEnabled(false);

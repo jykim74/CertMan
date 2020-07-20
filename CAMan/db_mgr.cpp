@@ -910,7 +910,7 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     QSqlQuery query;
 
     query.prepare( "INSERT INTO TB_KEY_PAIR "
-                   "(NUM, ALGORITHM, NAME, PUBLIC, PRIVATE, PARAM, STATUS ) "
+                   "(NUM, REGTIME, ALGORITHM, NAME, PUBLIC, PRIVATE, PARAM, STATUS ) "
                    "VALUES ( null, ?, ?, ?, ?, ?, ?, ? )" );
 
     query.bindValue(i++, keyPair.getRegTime());
