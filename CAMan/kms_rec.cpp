@@ -6,6 +6,7 @@ KMSRec::KMSRec()
     m_nRegTime = -1;
     m_nStatus = -1;
     m_nType = -1;
+    m_nAlgorithm = -1;
 
     m_strID = "";
     m_strInfo = "";
@@ -30,6 +31,11 @@ void KMSRec::setStatus( int nStatus )
 void KMSRec::setType( int nType )
 {
     m_nType = nType;
+}
+
+void KMSRec::setAlgorithm(int nAlgorithm)
+{
+    m_nAlgorithm = nAlgorithm;
 }
 
 void KMSRec::setID( QString strID )

@@ -1832,7 +1832,7 @@ void MainWindow::createRightKMSList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = {"Seq", "RegTime", "Status", "Type", "ID", "Info" };
+    QStringList headerList = {"Seq", "RegTime", "Status", "Type", "Algorithm", "ID", "Info" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1869,8 +1869,9 @@ void MainWindow::createRightKMSList()
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( kms.getStatus())));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( kms.getType() )));
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( kms.getID() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( kms.getInfo() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( kms.getAlgorithm() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( kms.getID() )));
+        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( kms.getInfo() )));
     }
 
     right_menu_->setTotalCount( nTotalCount );
@@ -2364,8 +2365,12 @@ void MainWindow::showRightKMS( int seq )
     strPart = QString( "Type: %1\n\n").arg( kmsRec.getType() );
     strMsg += strPart;
 
+    strPart = QString( "Algorithm: %1\n\n").arg( kmsRec.getAlgorithm() );
+    strMsg += strPart;
+
     strPart = QString( "ID: %1\n\n").arg( kmsRec.getID() );
     strMsg += strPart;
+
 
     strPart = QString( "Info: %1\n\n").arg( kmsRec.getInfo() );
     strMsg += strPart;
