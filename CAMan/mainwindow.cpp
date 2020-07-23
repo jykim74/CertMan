@@ -1420,7 +1420,7 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 3, new QTableWidgetItem( keyPairRec.getName()));
         right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPublicKey()));
         right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getPrivateKey()));
-        right_table_->setItem(i, 7, new QTableWidgetItem( keyPairRec.getParam()));
+        right_table_->setItem(i, 6, new QTableWidgetItem( keyPairRec.getParam()));
         right_table_->setItem(i, 7, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
     }
 

@@ -207,7 +207,7 @@ void MakeCRLDlg::accept()
 
     /* need to support extensions */
 
-    if( caKeyPair.getAlg() == "PKCS11_RSA" || caKeyPair.getAlg() == "PKCS11_ECC" )
+    if( caKeyPair.getAlg() == kMechPKCS11_RSA || caKeyPair.getAlg() == kMechPKCS11_EC )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         BIN binID = {0,0};
@@ -227,7 +227,7 @@ void MakeCRLDlg::accept()
         JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
-    else if( caKeyPair.getAlg() == "KMIP_RSA" || caKeyPair.getAlg() == "KMIP_ECC" )
+    else if( caKeyPair.getAlg() == kMechKMIP_RSA || caKeyPair.getAlg() == kMechKMIP_EC )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;

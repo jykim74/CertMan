@@ -13,7 +13,7 @@
 #include "js_gen.h"
 #include "commons.h"
 
-static QStringList sMechList = { "RSA", "EC" };
+static QStringList sMechList = { kMechRSA, kMechEC };
 static QStringList sRSAOptionList = { "1024", "2048", "3072", "4096" };
 static QStringList sECCOptionList = {
     "secp112r1", "secp112r2", "secp128r1", "secp128r2", "secp160k1",
@@ -52,14 +52,14 @@ void NewKeyDlg::initUI()
 
     if( manApplet->settingsMgr()->PKCS11Use() )
     {
-        mMechCombo->addItem( "PKCS11_RSA" );
-        mMechCombo->addItem( "PKCS11_ECC" );
+        mMechCombo->addItem( kMechPKCS11_RSA );
+        mMechCombo->addItem( kMechPKCS11_EC );
     }
 
     if( manApplet->settingsMgr()->KMIPUse() )
     {
-        mMechCombo->addItem( "KMIP_RSA" );
-        mMechCombo->addItem( "KMIP_ECC" );
+        mMechCombo->addItem( kMechKMIP_RSA );
+        mMechCombo->addItem( kMechKMIP_EC );
     }
 
     mExponentText->setText( QString( "65537" ) );
@@ -457,13 +457,14 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
 
     int nAlg = JS_PKI_KEY_TYPE_RSA;
     int nParam = mOptionCombo->currentText().toInt();
+    int nType = -1;
 
-    if( mMechCombo->currentText() == "KMIP_RSA" )
+    if( mMechCombo->currentText() == kMechKMIP_RSA )
     {
         nAlg = JS_PKI_KEY_TYPE_RSA;
         nParam = mOptionCombo->currentText().toInt();
     }
-    else if( mMechCombo->currentText() == "KMIP_ECC" )
+    else if( mMechCombo->currentText() == kMechKMIP_EC )
     {
         nAlg = JS_PKI_KEY_TYPE_ECC;
         nParam = KMIP_CURVE_P_256;
@@ -484,25 +485,39 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
         goto end;
     }
 
-    JS_KMS_encodeCreateKeyPairReq( pAuth, nAlg, nParam, &binReq );
-    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-    JS_KMS_decodeCreateKeyPairRsp( &binRsp, &pPubUUID, &pPriUUID );
+    ret = JS_KMS_encodeCreateKeyPairReq( pAuth, nAlg, nParam, &binReq );
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_decodeCreateKeyPairRsp( &binRsp, &pPubUUID, &pPriUUID );
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    JS_SSL_clear( pSSL );
+    pSSL = NULL;
 
-    JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
-    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-    JS_KMS_decodeGetRsp( &binRsp, &binData );
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    ret = JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_decodeGetRsp( &binRsp, &nType, &binData );
 
     if( nAlg == JS_PKI_KEY_TYPE_RSA )
     {
         JRSAKeyVal sRSAKey;
+        char *pN = NULL;
+        char *pE = NULL;
 
         memset( &sRSAKey, 0x00, sizeof(sRSAKey));
-        JS_PKI_getRSAKeyVal( &binData, &sRSAKey );
+        JS_PKI_getRSAPublicKeyVal( &binData, &pE, &pN );
+        JS_PKI_setRSAKeyVal( &sRSAKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
         JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub, pPub2 );
 
+        if( pN ) JS_free( pN );
+        if( pE ) JS_free( pE );
         JS_PKI_resetRSAKeyVal( &sRSAKey );
     }
     else if( nAlg == JS_PKI_KEY_TYPE_ECC )
@@ -536,6 +551,7 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
         JS_PKI_resetECKeyVal( &ecKey );
     }
 
+    JS_BIN_set( pPri, (unsigned char *)pPriUUID, strlen( pPriUUID ) );
 
  end :
     if( pPubUUID ) JS_free( pPubUUID );

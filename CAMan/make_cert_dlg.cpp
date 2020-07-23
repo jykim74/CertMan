@@ -256,9 +256,9 @@ void MakeCertDlg::accept()
 
     strSerial = QString("%1").arg(nSeq);
     QString strSignAlg = getSignAlg( signKeyPair.getAlg(), policyRec.getHash() );
-    if( signKeyPair.getAlg() == "RSA" || signKeyPair.getAlg() == "PKCS11_RSA" )
+    if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( signKeyPair.getAlg() == "EC" || signKeyPair.getAlg() == "PKCS11_ECC" )
+    else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
 
 
@@ -368,7 +368,7 @@ void MakeCertDlg::accept()
     }
     /* need to support extensions end */
 
-    if( signKeyPair.getAlg() == "PKCS11_RSA" || signKeyPair.getAlg() == "PKCS11_ECC" )
+    if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotID();
@@ -388,7 +388,7 @@ void MakeCertDlg::accept()
         JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
-    else if( signKeyPair.getAlg() == "KMIP_RSA" || signKeyPair.getAlg() == "KMIP_ECC" )
+    else if( signKeyPair.getAlg() == kMechKMIP_RSA || signKeyPair.getAlg() == kMechKMIP_EC )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;

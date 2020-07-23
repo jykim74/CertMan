@@ -13,6 +13,13 @@
 
 const int   kListCount = 15;
 
+const QString kMechRSA = "RSA";
+const QString kMechEC = "EC";
+const QString kMechPKCS11_RSA = "PKCS11_RSA";
+const QString kMechPKCS11_EC = "PKCS11_EC";
+const QString kMechKMIP_RSA = "KMIP_RSA";
+const QString kMechKMIP_EC = "KMIP_EC";
+
 const QString kExtNameAIA = "authorityInfoAccess";
 const QString kExtNameAKI = "authorityKeyIdentifier";
 const QString kExtNameBC = "basicConstraints";

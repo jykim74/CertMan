@@ -85,7 +85,7 @@ void MakeReqDlg::accept()
     QString strAlg = mAlgorithmText->text();
     QString strHash = mHashCombo->currentText();
 
-    if( strAlg == "PKCS11_RSA" || strAlg == "PKCS11_ECC" )
+    if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
     {
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotID();
@@ -97,7 +97,7 @@ void MakeReqDlg::accept()
             goto end;
         }
 
-        if( strAlg == "PKCS11_RSA" )
+        if( strAlg == kMechPKCS11_RSA )
             nAlg = JS_PKI_KEY_TYPE_RSA;
         else
             nAlg = JS_PKI_KEY_TYPE_ECC;
@@ -119,7 +119,7 @@ void MakeReqDlg::accept()
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
-    else if( strAlg == "KMIP_RSA" || strAlg == "KMIP_ECC" )
+    else if( strAlg == kMechKMIP_RSA || strAlg == kMechKMIP_EC )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;
@@ -157,7 +157,7 @@ void MakeReqDlg::accept()
     }
     else
     {
-        if( mAlgorithmText->text() == "RSA" )
+        if( mAlgorithmText->text() == kMechRSA )
             nAlg = JS_PKI_KEY_TYPE_RSA;
         else {
             nAlg = JS_PKI_KEY_TYPE_ECC;
@@ -182,6 +182,7 @@ void MakeReqDlg::accept()
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
     reqRec.setName( strName );
+    reqRec.setRegTime( time(NULL) );
     reqRec.setCSR( QString(pHexCSR) );
     reqRec.setDN( strDN );
     reqRec.setHash( mHashCombo->currentText() );
