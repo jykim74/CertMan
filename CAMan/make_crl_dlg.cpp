@@ -237,7 +237,7 @@ void MakeCRLDlg::accept()
         Authentication  *pAuth = NULL;
         BIN binID = {0,0};
 
-        JS_BIN_set( &binID, (unsigned char *)caKeyPair.getPrivateKey().toStdString().c_str(), caKeyPair.getPrivateKey().length() );
+        JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binID );
 
         ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
 

@@ -129,7 +129,13 @@ void MakeReqDlg::accept()
         Authentication  *pAuth = NULL;
         BIN binID = {0,0};
 
-        JS_BIN_set( &binID, (unsigned char *)keyRec.getPrivateKey().toStdString().c_str(), keyRec.getPrivateKey().length() );
+        if( strAlg == kMechKMIP_RSA )
+            nAlg = JS_PKI_KEY_TYPE_RSA;
+        else
+            nAlg = JS_PKI_KEY_TYPE_ECC;
+
+        JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
+        JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
 
         ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
 

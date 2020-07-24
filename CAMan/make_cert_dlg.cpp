@@ -238,7 +238,10 @@ void MakeCertDlg::accept()
     JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
 
     if( bSelf )
+    {
         nSignKeyNum = reqRec.getKeyNum();
+        JS_BIN_decodeHex( sReqInfo.pPublicKey, &binSignCert );
+    }
     else {
         CertRec issuerCert = ca_cert_list_.at( issuerIdx );
         nSignKeyNum = issuerCert.getKeyNum();
@@ -256,9 +259,9 @@ void MakeCertDlg::accept()
 
     strSerial = QString("%1").arg(nSeq);
     QString strSignAlg = getSignAlg( signKeyPair.getAlg(), policyRec.getHash() );
-    if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA )
+    if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC )
+    else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
 
 
@@ -398,7 +401,7 @@ void MakeCertDlg::accept()
         Authentication  *pAuth = NULL;
         BIN binID = {0,0};
 
-        JS_BIN_set( &binID, (unsigned char *)signKeyPair.getPrivateKey().toStdString().c_str(), signKeyPair.getPrivateKey().length() );
+        JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binID  );
 
         ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
 
