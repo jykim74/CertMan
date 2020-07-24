@@ -22,6 +22,7 @@ public:
 
 private slots:
     virtual void accept();
+    void showEvent(QShowEvent *event);
     void issuerChanged(int index);
     void crldpChanged(int index);
 
@@ -32,7 +33,6 @@ private:
 
     QList<CertRec> ca_cert_list_;
     QList<CRLPolicyRec> crl_policy_list_;
-;
 };
 
 #endif // MAKE_CRL_DLG_H

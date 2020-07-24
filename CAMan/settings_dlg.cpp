@@ -23,6 +23,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     connect( mKMIPCertFindBtn, SIGNAL(clicked()), this, SLOT(findCert()));
     connect( mKMIPPrivateKeyFindBtn, SIGNAL(clicked()), this, SLOT(findPrivateKey()));
 
+    mKMIPPasswdText->setEchoMode(QLineEdit::Password);
+
     initialize();
 }
 

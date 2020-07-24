@@ -29,13 +29,16 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     mRevokeTable->horizontalHeader()->setStretchLastSection(true);
     mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
     mRevokeTable->verticalHeader()->setVisible(false);
-
-    initialize();
 }
 
 MakeCRLDlg::~MakeCRLDlg()
 {
 
+}
+
+void MakeCRLDlg::showEvent(QShowEvent *event)
+{
+    initialize();
 }
 
 void MakeCRLDlg::setFixIssuer(QString strIssuerName)
@@ -360,6 +363,7 @@ void MakeCRLDlg::initialize()
     if( crl_policy_list_.size() <= 0 )
     {
         manApplet->warningBox(tr("There is no CRL Policy"), this );
+        close();
         return;
     }
 

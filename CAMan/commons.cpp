@@ -1169,6 +1169,7 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
     if( dbMgr == NULL ) return -1;
 
     int nSeq = dbMgr->getSeq( "TB_AUDIT" );
+    nSeq++;
 
     auditRec.setSeq( nSeq );
     auditRec.setKind( nKind );
