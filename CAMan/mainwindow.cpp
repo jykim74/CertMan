@@ -382,6 +382,11 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Delete Signer"), this, &MainWindow::deleteSigner );
     }
+    else if( right_type_ == RightType::TYPE_KMS )
+    {
+        menu.addAction(tr("Activate Key"), this, &MainWindow::activateKey );
+        menu.addAction(tr("Delete Key"), this, &MainWindow::deleteKey );
+    }
 
     menu.exec(QCursor::pos());
 }
@@ -1163,6 +1168,107 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_AUDIT )
     {
         showRightAudit( nSeq );
+    }
+}
+
+void MainWindow::activateKey()
+{
+    int ret = 0;
+    SSL_CTX     *pCTX = NULL;
+    SSL         *pSSL = NULL;
+    Authentication  *pAuth = NULL;
+
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+    char sUUID[64];
+    char *pUUID = NULL;
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    sprintf( sUUID, "%d", num );
+
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    JS_KMS_encodeActivateReq( pAuth, sUUID, &binReq );
+    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_decodeActivateRsp( &binRsp, &pUUID );
+
+end :
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    if( pUUID ) JS_free( pUUID );
+
+    if( pSSL ) JS_SSL_clear( pSSL );
+    if( pCTX ) JS_SSL_finish( &pCTX );
+    if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+
+    if( ret != 0 )
+        manApplet->warningBox( tr("Fail to activate key" ), this );
+    else
+    {
+        manApplet->messageBox( tr( "success to activate key" ), this );
+        createRightKMSList();
+    }
+
+}
+
+void MainWindow::registerKey()
+{
+
+}
+
+void MainWindow::deleteKey()
+{
+    int ret = 0;
+    SSL_CTX     *pCTX = NULL;
+    SSL         *pSSL = NULL;
+    Authentication  *pAuth = NULL;
+
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+    char sUUID[64];
+
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    sprintf( sUUID, "%d", num );
+
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    JS_KMS_encodeDestroyReq( pAuth, sUUID, &binReq );
+    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_decodeDestroyRsp( &binRsp );
+
+end :
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    if( pSSL ) JS_SSL_clear( pSSL );
+    if( pCTX ) JS_SSL_finish( &pCTX );
+    if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+
+    if( ret != 0 )
+        manApplet->warningBox( tr("Fail to delete key" ), this );
+    else
+    {
+        manApplet->messageBox( tr( "success to delete key" ), this );
+        createRightKMSList();
     }
 }
 

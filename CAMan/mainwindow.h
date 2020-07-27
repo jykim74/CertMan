@@ -149,6 +149,10 @@ public slots:
     void treeMenuDoubleClick( QModelIndex index );
     void tableClick( QModelIndex index );
 
+    void activateKey();
+    void registerKey();
+    void deleteKey();
+
 private slots:
     void showRightMenu( QPoint point );
 
