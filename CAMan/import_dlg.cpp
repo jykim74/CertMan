@@ -7,6 +7,7 @@
 #include "js_pki.h"
 #include "js_pki_tools.h"
 #include "js_pki_x509.h"
+#include "commons.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -78,6 +79,12 @@ void ImportDlg::accept()
     }
     else if( nSelType == 2 )
     {
+        if( mImportKMSCheck->isChecked() )
+        {
+            manApplet->warningBox( tr( "KMS can not import CSR" ), this );
+            return;
+        }
+
         ImportRequest( &binSrc );
     }
     else if( nSelType == 3 )
@@ -86,6 +93,12 @@ void ImportDlg::accept()
     }
     else if( nSelType == 4 )
     {
+        if( mImportKMSCheck->isChecked() )
+        {
+            manApplet->warningBox( tr( "KMS can not import CRL" ), this );
+            return;
+        }
+
         ImportCRL( &binSrc );
     }
     else if( nSelType == 5 )
@@ -145,7 +158,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return -1;
 
-    KeyPairRec keyPair;
+
     char *pHexPri = NULL;
     char *pHexPub = NULL;
 
@@ -163,14 +176,64 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JS_BIN_encodeHex( pPriKey, &pHexPri );
     JS_BIN_encodeHex( &binPub, &pHexPub );
 
-    keyPair.setAlg( strAlg );
-    keyPair.setName( mNameText->text() );
-    keyPair.setPublicKey( pHexPub );
-    keyPair.setPublicKey( pHexPri );
-    keyPair.setParam( "Imported" );
+    if( mImportKMSCheck->isChecked() )
+    {
+        SSL_CTX     *pCTX = NULL;
+        SSL         *pSSL = NULL;
+        Authentication  *pAuth = NULL;
+        BIN         binReq = {0,0};
+        BIN         binRsp = {0,0};
 
-    ret = dbMgr->addKeyPairRec( keyPair );
+        int nAlg = -1;
+        int nParam = -1;
+        int nType = JS_KMS_OBJECT_TYPE_PRIKEY;
 
+        char *pUUID = NULL;
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+        if( ret != 0 )
+        {
+            goto end;
+        }
+
+        JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pPriKey, &binReq );
+        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+
+        nType = JS_KMS_OBJECT_TYPE_PUBKEY;
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+        if( ret != 0 )
+        {
+            goto end;
+        }
+
+        JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, &binPub, &binReq );
+        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+        if( pUUID ) JS_free( pUUID );
+
+        JS_BIN_reset( &binReq );
+        JS_BIN_reset( &binRsp );
+    }
+    else
+    {
+        KeyPairRec keyPair;
+        keyPair.setAlg( strAlg );
+        keyPair.setName( mNameText->text() );
+        keyPair.setPublicKey( pHexPub );
+        keyPair.setPublicKey( pHexPri );
+        keyPair.setParam( "Imported" );
+
+        ret = dbMgr->addKeyPairRec( keyPair );
+    }
+
+ end :
     if( pHexPri ) JS_free( pHexPri );
     if( pHexPub ) JS_free( pHexPub );
     JS_BIN_reset( &binPub );
@@ -186,7 +249,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
 
     char *pHexCert = NULL;
     JCertInfo sCertInfo;
-    CertRec     cert;
+
     JExtensionInfoList *pExtInfoList = NULL;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
@@ -196,19 +259,57 @@ int ImportDlg::ImportCert( const BIN *pCert )
 
     JS_BIN_encodeHex( pCert, &pHexCert );
 
-    cert.setCert( pHexCert );
-    cert.setRegTime( time(NULL) );
-    cert.setSubjectDN( sCertInfo.pSubjectName );
-    cert.setIssuerNum( -2 );
-    cert.setSignAlg( sCertInfo.pSignAlgorithm );
+    if( mImportKMSCheck->isChecked() )
+    {
+        SSL_CTX     *pCTX = NULL;
+        SSL         *pSSL = NULL;
+        Authentication  *pAuth = NULL;
+        BIN         binReq = {0,0};
+        BIN         binRsp = {0,0};
 
-    dbMgr->addCertRec( cert );
+        int nAlg = -1;
+        int nParam = -1;
+        int nType = JS_KMS_OBJECT_TYPE_CERT;
+
+        char *pUUID = NULL;
+
+        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+        if( ret != 0 )
+        {
+            goto end;
+        }
+
+        JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pCert, &binReq );
+        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+        if( pUUID ) JS_free( pUUID );
+
+        JS_BIN_reset( &binReq );
+        JS_BIN_reset( &binRsp );
+    }
+    else
+    {
+        CertRec     cert;
+        cert.setCert( pHexCert );
+        cert.setRegTime( time(NULL) );
+        cert.setSubjectDN( sCertInfo.pSubjectName );
+        cert.setIssuerNum( -2 );
+        cert.setSignAlg( sCertInfo.pSignAlgorithm );
+
+        dbMgr->addCertRec( cert );
+    }
+
+end :
 
     if( pHexCert ) JS_free( pHexCert );
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
-    return 0;
+    return ret;
 }
 
 int ImportDlg::ImportCRL( const BIN *pCRL )
