@@ -1222,7 +1222,10 @@ end :
 
 void MainWindow::registerKey()
 {
-
+    ImportDlg importDlg;
+    importDlg.setType(0);
+    importDlg.setKMIPCheck();
+    importDlg.exec();
 }
 
 void MainWindow::deleteKey()

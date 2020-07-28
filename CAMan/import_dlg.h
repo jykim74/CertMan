@@ -25,6 +25,9 @@ private slots:
     void clickFind();
     void dataTypeChanged( int index );
 
+public slots:
+    void setKMIPCheck();
+
 private:
     void initUI();
     void initialize();

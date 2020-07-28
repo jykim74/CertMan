@@ -152,6 +152,8 @@ void ImportDlg::dataTypeChanged( int index )
 int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 {
     int ret = 0;
+    int nAlg = 0;
+    int nParam = -1;
     BIN binPub = {0,0};
     QString strAlg;
 
@@ -164,11 +166,21 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 
     ret = JS_PKI_getPubKeyFromPriKey( JS_PKI_KEY_TYPE_RSA, pPriKey, &binPub );
     if( ret == 0 )
-        strAlg = "RSA";
+    {
+        strAlg = kMechRSA;
+        nAlg = JS_PKI_KEY_TYPE_RSA;
+        nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_RSA, pPriKey );
+    }
     else
     {
         ret = JS_PKI_getPubKeyFromPriKey( JS_PKI_KEY_TYPE_ECC, pPriKey, &binPub );
-        if( ret == 0 ) strAlg = "EC";
+        if( ret == 0 )
+        {
+            strAlg = kMechEC;
+            nAlg = JS_PKI_KEY_TYPE_ECC;
+            nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
+
+        }
     }
 
     if( ret != 0  ) return -1;
@@ -184,11 +196,19 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         BIN         binReq = {0,0};
         BIN         binRsp = {0,0};
 
-        int nAlg = -1;
-        int nParam = -1;
         int nType = JS_KMS_OBJECT_TYPE_PRIKEY;
 
         char *pUUID = NULL;
+
+        if( nAlg == JS_PKI_KEY_TYPE_ECC )
+        {
+            if( nParam != NID_X9_62_prime256v1 )
+            {
+                goto end;
+            }
+
+            nParam = KMIP_CURVE_P_256;
+        }
 
         ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
         if( ret != 0 )
@@ -199,6 +219,14 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pPriKey, &binReq );
         JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
         JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+
+        if( pSSL ) JS_SSL_clear( pSSL );
+        if( pCTX ) JS_SSL_finish( &pCTX );
+        if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+
+        pSSL = NULL;
+        pCTX = NULL;
+        pAuth = NULL;
 
         nType = JS_KMS_OBJECT_TYPE_PUBKEY;
 
@@ -239,6 +267,11 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JS_BIN_reset( &binPub );
 
     return ret;
+}
+
+void ImportDlg::setKMIPCheck()
+{
+    mImportKMSCheck->setChecked(true);
 }
 
 int ImportDlg::ImportCert( const BIN *pCert )
