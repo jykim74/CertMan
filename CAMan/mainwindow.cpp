@@ -1085,6 +1085,9 @@ void MainWindow::treeMenuClick(QModelIndex index )
     nNum = pItem->getDataNum();
     nType = pItem->getType();
 
+    printf( "Num: %d, Type : %d\n", nNum, nType );
+    fflush( stdout );
+
     right_menu_->setCurPage(0);
     right_menu_->setLeftNum( nNum );
     right_menu_->setLeftType( nType );
@@ -1453,7 +1456,7 @@ void MainWindow::createRightList( int nType, int nNum )
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
         createRightCRLList( -2 );
     else if( nType == CM_ITEM_TYPE_CA )
-        createRightCertList( nNum, true );
+        createRightCertList( nNum );
     else if( nType == CM_ITEM_TYPE_CERT )
         createRightCertList( nNum );
     else if( nType == CM_ITEM_TYPE_CRL )

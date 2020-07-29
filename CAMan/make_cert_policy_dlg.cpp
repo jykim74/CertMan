@@ -20,10 +20,6 @@ MakeCertPolicyDlg::MakeCertPolicyDlg(QWidget *parent) :
     is_edit_ = false;
     policy_num_ = -1;
     mCertTab->setCurrentIndex(0);
-
-#ifndef _PATCH_CMPOSSL
-    mCertTab->removeTab(4);
-#endif
 }
 
 MakeCertPolicyDlg::~MakeCertPolicyDlg()

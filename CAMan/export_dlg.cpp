@@ -167,11 +167,42 @@ void ExportDlg::clickFind()
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 
+    QString strFilter;
+
+    if( export_type_ == EXPORT_TYPE_PRIKEY )
+    {
+        strFilter = tr("DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
+    {
+        strFilter = tr("Key Files (*.key);;DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_PUBKEY )
+    {
+        strFilter = tr("DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_REQUEST )
+    {
+        strFilter = tr("CSR Files (*.csr);;DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_CRL )
+    {
+        strFilter = tr("CRL Files (*.crl);;DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_PFX )
+    {
+        strFilter = tr("PFX Files (*.pfx);;DER Files (*.der);;All Files (*.*)");
+    }
+    else if( export_type_ == EXPORT_TYPE_CERTIFICATE )
+    {
+        strFilter = tr("Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)");
+    }
+
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName( this,
                                                      tr("Export Files"),
                                                      QDir::currentPath(),
-                                                     tr("Cert Files (*.crt);;Key Files (*.key);;All Files (*)"),
+                                                     strFilter,
                                                      &selectedFilter,
                                                      options );
 
