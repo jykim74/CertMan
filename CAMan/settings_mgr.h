@@ -52,6 +52,23 @@ public:
     void setKMIPPasswd( QString strPasswd );
     QString KMIPPasswd();
 
+    void setOCSPUse( bool val );
+    bool OCSPUse();
+
+    void setOCSPURI( QString strURI );
+    QString OCSPURI();
+    void setOCSPSrvCertPath( QString strPath );
+    QString OCSPSrvCertPath();
+
+    void setOCSPAttachSign( bool val );
+    bool OCSPAttachSign();
+
+    void setOCSPSignerPriPath( QString strPath );
+    QString OCSPSignerPriPath();
+
+    void setOCSPSignerCertPath( QString strPath );
+    QString OCSPSignerCertPath();
+
     void loadSettings();
 
 private:

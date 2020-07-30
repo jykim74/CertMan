@@ -140,6 +140,7 @@ public slots:
     void addRootCA( CertRec& certRec );
     void checkCertificate();
     void certStatus();
+    void checkOCSP();
 
     void about();
     void settings();

@@ -30,6 +30,12 @@ private slots:
     void findCert();
     void findPrivateKey();
 
+    void checkOCSPUse();
+    void findOCSPSrvCert();
+    void checkOCSPAttachSign();
+    void findOCSPPri();
+    void findOCSPCert();
+
 private:
     Q_DISABLE_COPY(SettingsDlg)
 };

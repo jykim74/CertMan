@@ -71,6 +71,8 @@ int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
 
 int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );
+
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo );
+QString findPath(int bPri, QWidget *parent );
 
 #endif // COMMONS_H

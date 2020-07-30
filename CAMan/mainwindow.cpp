@@ -3,6 +3,8 @@
 
 #include "js_util.h"
 #include "js_gen.h"
+#include "js_ocsp.h"
+#include "js_http.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -343,6 +345,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
         menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
         menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
+        menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -1426,19 +1429,99 @@ void MainWindow::certStatus()
     manApplet->messageBox( strStatus, this );
 }
 
+void MainWindow::checkOCSP()
+{
+    int ret = 0;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    bool bVal = manApplet->settingsMgr()->OCSPUse();
+    if( bVal == false )
+    {
+        manApplet->warningBox( tr( "OCSP settinsg is not set" ), this );
+        return;
+    }
+
+    int nStatus = 0;
+
+    BIN binCA = {0,0};
+    BIN binCert = {0,0};
+    BIN binSignCert = {0,0};
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+
+
+    CertRec caRec;
+    CertRec certRec;
+
+    JCertIDInfo sIDInfo;
+    JCertStatusInfo sStatusInfo;
+
+    QString strURL;
+    QString strOCSPSrvCert;
+    QString strStatus;
+
+    memset( &sIDInfo, 0x00, sizeof(sIDInfo));
+    memset( &sStatusInfo, 0x00, sizeof(sStatusInfo));
+
+    db_mgr_->getCertRec( num, certRec );
+    db_mgr_->getCertRec( certRec.getIssuerNum(), caRec );
+
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+    JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
+
+    ret = JS_OCSP_encodeRequest( &binCert, &binCA, "SHA1", NULL, NULL, &binReq );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to encode request" ), this );
+        goto end;
+    }
+
+    strURL = manApplet->settingsMgr()->OCSPURI();
+    strOCSPSrvCert = manApplet->settingsMgr()->OCSPSrvCertPath();
+
+    JS_BIN_fileRead( strOCSPSrvCert.toStdString().c_str(), &binSignCert );
+
+    ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), &binReq, "application/ocsp-request", &nStatus, &binRsp );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to request"), this );
+        goto end;
+    }
+
+
+    ret = JS_OCSP_decodeResponse( &binRsp, &binSignCert, &sIDInfo, &sStatusInfo );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to decode respose" ), this );
+        goto end;
+    }
+
+    if( sStatusInfo.nStatus == JS_OCSP_STATUS_GOOD )
+        strStatus = "GOOD";
+    else if( sStatusInfo.nStatus == JS_OCSP_STATUS_UNKNOWN )
+        strStatus = "UNKNOWN";
+    else if( sStatusInfo.nStatus == JS_OCSP_STATUS_REVOKED )
+        strStatus = QString( "Revoked[ Reason : %1, RevokedTime : %2]" ).arg( sStatusInfo.nReason ).arg( sStatusInfo.nRevokedTime );
+
+    manApplet->messageBox( strStatus, this );
+
+ end :
+
+    JS_BIN_reset( &binCA );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binSignCert );
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    JS_OCSP_resetCertIDInfo( &sIDInfo );
+    JS_OCSP_resetCertStatusInfo( &sStatusInfo );
+}
+
 void MainWindow::createRightList( int nType, int nNum )
 {
-    /*
-    if( nType == CM_ITEM_TYPE_CRL_POLICY ||
-            nType == CM_ITEM_TYPE_CERT_POLICY ||
-            nType == CM_ITEM_TYPE_OCSP_SIGNER ||
-            nType == CM_ITEM_TYPE_REG_SIGNER )
-    {
-        right_menu_->hide();
-    }
-    else
-        right_menu_->show();
-        */
     stack_->setCurrentIndex(0);
 
     if( nType == CM_ITEM_TYPE_KEYPAIR )

@@ -18,6 +18,12 @@ namespace  {
     const char *kKMIPPrivateKeyPath = "KMIPPrivateKeyPath";
     const char *kKMIPUserName = "KMIPUserName";
     const char *kKMIPPasswd = "KMIPPasswd";
+    const char *kOCSPUse = "OCSPUse";
+    const char *kOCSPURI = "OCSPURI";
+    const char *kOCSPSrvCertPath = "OCSPSrvCertPath";
+    const char *kOCSPAttachSign = "OCSPAttachSign";
+    const char *kOCSPSignerPriPath = "OCSPSignerPriPath";
+    const char *kOCSPSignerCertPath = "OCSPSignerCertPath";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -329,4 +335,132 @@ QString SettingsMgr::KMIPPasswd()
     settings.endGroup();
 
     return strPasswd;
+}
+
+void SettingsMgr::setOCSPUse( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::OCSPUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kOCSPUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setOCSPURI( QString strURI )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPURI, strURI );
+    settings.endGroup();
+}
+
+QString SettingsMgr::OCSPURI()
+{
+    QString strURI;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strURI = settings.value( kOCSPURI, "").toString();
+    settings.endGroup();
+
+    return strURI;
+}
+
+void SettingsMgr::setOCSPSrvCertPath(QString strPath)
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPSrvCertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::OCSPSrvCertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kOCSPSrvCertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setOCSPAttachSign( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPAttachSign, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::OCSPAttachSign()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kOCSPAttachSign, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setOCSPSignerPriPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPSignerPriPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::OCSPSignerPriPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kOCSPSignerPriPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setOCSPSignerCertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kOCSPSignerCertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::OCSPSignerCertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kOCSPSignerCertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
 }

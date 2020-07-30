@@ -7,6 +7,7 @@
 #include "man_applet.h"
 #include "auto_update_service.h"
 #include "settings_mgr.h"
+#include "commons.h"
 
 SettingsDlg::SettingsDlg(QWidget *parent) :
     QDialog(parent)
@@ -22,6 +23,12 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     connect( mKMIPCACertFindBtn, SIGNAL(clicked()), this, SLOT(findCACert()));
     connect( mKMIPCertFindBtn, SIGNAL(clicked()), this, SLOT(findCert()));
     connect( mKMIPPrivateKeyFindBtn, SIGNAL(clicked()), this, SLOT(findPrivateKey()));
+
+    connect( mUseOCSPCheck, SIGNAL(clicked()), this, SLOT(checkOCSPUse()));
+    connect( mOCSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPSrvCert()));
+    connect( mOCSPAttachSignCheck, SIGNAL(clicked()), this, SLOT(checkOCSPAttachSign()));
+    connect( mOCSPSignerPriFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPPri()));
+    connect( mOCSPSignerCertFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPCert()));
 
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
@@ -71,6 +78,13 @@ void SettingsDlg::updateSettings()
     mgr->setKMIPPrivateKeyPath( mKMIPPrivateKeyPathText->text() );
     mgr->setKMIPUserName( mKMIPUserNameText->text() );
     mgr->setKMIPPasswd( mKMIPPasswdText->text() );
+
+    mgr->setOCSPUse( mUseOCSPCheck->checkState() == Qt::Checked );
+    mgr->setOCSPURI( mOCSPURIText->text() );
+    mgr->setOCSPSrvCertPath( mOCSPSrvCertPathText->text() );
+    mgr->setOCSPAttachSign( mOCSPAttachSignCheck->checkState() == Qt::Checked );
+    mgr->setOCSPSignerPriPath( mOCSPSignerPriPathText->text() );
+    mgr->setOCSPSignerCertPath( mOCSPSignerCertPathText->text() );
 }
 
 void SettingsDlg::checkP11Use()
@@ -154,6 +168,41 @@ void SettingsDlg::findP11Path()
     mLibraryP11PathText->setText( fileName );
 }
 
+void SettingsDlg::checkOCSPUse()
+{
+    bool bVal = mUseOCSPCheck->isChecked();
+
+    mOCSPGroup->setEnabled( bVal );
+}
+
+void SettingsDlg::checkOCSPAttachSign()
+{
+    bool bVal = mOCSPAttachSignCheck->isChecked();
+
+    mOCSPSignerPriPathText->setEnabled(bVal);
+    mOCSPSignerPriFindBtn->setEnabled(bVal);
+    mOCSPSignerCertPathText->setEnabled(bVal);
+    mOCSPSignerCertFindBtn->setEnabled(bVal);
+}
+
+void SettingsDlg::findOCSPSrvCert()
+{
+    QString fileName = findPath( 0, this );
+    mOCSPSrvCertPathText->setText( fileName );
+}
+
+void SettingsDlg::findOCSPPri()
+{
+    QString fileName = findPath( 1, this );
+    mOCSPSignerPriPathText->setText( fileName );
+}
+
+void SettingsDlg::findOCSPCert()
+{
+    QString fileName = findPath( 0, this );
+    mOCSPSignerCertPathText->setText( fileName );
+}
+
 void SettingsDlg::accept()
 {
     updateSettings();
@@ -202,5 +251,22 @@ void SettingsDlg::initialize()
     mKMIPPasswdText->setText( mgr->KMIPPasswd() );
 
     checkKMIPUse();
+
+    state = mgr->OCSPUse() ? Qt::Checked : Qt::Unchecked;
+
+    mUseOCSPCheck->setCheckState(state);
+
+    mOCSPURIText->setText( mgr->OCSPURI() );
+    mOCSPSrvCertPathText->setText( mgr->OCSPSrvCertPath() );
+
+    state = mgr->OCSPAttachSign() ? Qt::Checked : Qt::Unchecked;
+    mOCSPAttachSignCheck->setCheckState(state);
+
+    mOCSPSignerPriPathText->setText( mgr->OCSPSignerPriPath() );
+    mOCSPSignerCertPathText->setText( mgr->OCSPSignerCertPath() );
+
+    checkOCSPUse();
+    checkOCSPAttachSign();
+
     mTabWidget->setCurrentIndex(0);
 }

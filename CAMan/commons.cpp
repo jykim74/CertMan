@@ -1,5 +1,8 @@
+#include <QObject>
 #include <QString>
 #include <QtCore>
+#include <QFileDialog>
+
 
 #include "commons.h"
 #include "db_mgr.h"
@@ -1205,4 +1208,30 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
     JS_BIN_reset( &binHMAC );
 
     return 0;
+}
+
+QString findPath(int bPri, QWidget *parent )
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+
+    QString strPath = QDir::currentPath();
+
+    QString strType;
+    QString selectedFilter;
+
+    if( bPri )
+        strType = QObject::tr( "Key Files (*.key);;DER Files (*.der);;All Files(*.*)");
+    else
+        strType = QObject::tr("Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)");
+
+    QString fileName = QFileDialog::getOpenFileName( parent,
+                                                     QObject::tr( "Open File" ),
+                                                     strPath,
+                                                     strType,
+                                                     &selectedFilter,
+                                                     options );
+
+    return fileName;
 }
