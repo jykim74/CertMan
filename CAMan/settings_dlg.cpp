@@ -30,6 +30,10 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     connect( mOCSPSignerPriFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPPri()));
     connect( mOCSPSignerCertFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPCert()));
 
+    connect( mUseREGCheck, SIGNAL(clicked()), this, SLOT(checkREGUse()));
+    connect( mUseCMPCheck, SIGNAL(clicked()), this, SLOT(checkCMPUse()));
+    connect( mUseTSPCheck, SIGNAL(clicked()), this, SLOT(checkTSPUse()));
+
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
     initialize();
@@ -85,6 +89,15 @@ void SettingsDlg::updateSettings()
     mgr->setOCSPAttachSign( mOCSPAttachSignCheck->checkState() == Qt::Checked );
     mgr->setOCSPSignerPriPath( mOCSPSignerPriPathText->text() );
     mgr->setOCSPSignerCertPath( mOCSPSignerCertPathText->text() );
+
+    mgr->setREGUse( mUseREGCheck->checkState() == Qt::Checked );
+    mgr->setREGURI( mREGURIText->text() );
+
+    mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
+    mgr->setCMPURI( mCMPURIText->text() );
+
+    mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
+    mgr->setTSPURI( mTSPURIText->text() );
 }
 
 void SettingsDlg::checkP11Use()
@@ -203,6 +216,25 @@ void SettingsDlg::findOCSPCert()
     mOCSPSignerCertPathText->setText( fileName );
 }
 
+void SettingsDlg::checkREGUse()
+{
+    bool bVal = mUseREGCheck->isChecked();
+
+    mREGGroup->setEnabled( bVal );
+}
+
+void SettingsDlg::checkCMPUse()
+{
+    bool bVal = mUseCMPCheck->isChecked();
+    mCMPGroup->setEnabled( bVal );
+}
+
+void SettingsDlg::checkTSPUse()
+{
+    bool bVal = mUseTSPCheck->isChecked();
+    mTSPGroup->setEnabled( bVal );
+}
+
 void SettingsDlg::accept()
 {
     updateSettings();
@@ -267,6 +299,25 @@ void SettingsDlg::initialize()
 
     checkOCSPUse();
     checkOCSPAttachSign();
+
+    state = mgr->REGUse() ? Qt::Checked : Qt::Unchecked;
+    mUseREGCheck->setCheckState( state );
+
+    mREGURIText->setText( mgr->REGURI() );
+
+    checkREGUse();
+
+    state = mgr->CMPUse() ? Qt::Checked : Qt::Unchecked;
+    mUseCMPCheck->setCheckState( state );
+    mCMPURIText->setText( mgr->CMPURI() );
+
+    checkCMPUse();
+
+    state = mgr->TSPUse() ? Qt::Checked : Qt::Unchecked;
+    mUseTSPCheck->setCheckState( state );
+    mTSPURIText->setText( mgr->TSPURI() );
+
+    checkTSPUse();
 
     mTabWidget->setCurrentIndex(0);
 }

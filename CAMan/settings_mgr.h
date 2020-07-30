@@ -69,6 +69,25 @@ public:
     void setOCSPSignerCertPath( QString strPath );
     QString OCSPSignerCertPath();
 
+    void setREGUse( bool val );
+    bool REGUse();
+
+    void setREGURI( QString strURI );
+    QString REGURI();
+
+    void setCMPUse( bool val );
+    bool CMPUse();
+
+    void setCMPURI( QString strURI );
+    QString CMPURI();
+
+    void setTSPUse( bool val );
+    bool TSPUse();
+
+    void setTSPURI( QString strURI );
+    QString TSPURI();
+
+
     void loadSettings();
 
 private:

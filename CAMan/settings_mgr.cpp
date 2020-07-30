@@ -24,6 +24,12 @@ namespace  {
     const char *kOCSPAttachSign = "OCSPAttachSign";
     const char *kOCSPSignerPriPath = "OCSPSignerPriPath";
     const char *kOCSPSignerCertPath = "OCSPSignerCertPath";
+    const char *kREGUse = "REGUse";
+    const char *kREGURI = "REGURI";
+    const char *kCMPUse = "CMPUse";
+    const char *kCMPURI = "CMPURI";
+    const char *kTSPUse = "TSPUse";
+    const char *kTSPURI = "TSPURI";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -463,4 +469,133 @@ QString SettingsMgr::OCSPSignerCertPath()
     settings.endGroup();
 
     return strPath;
+}
+
+void SettingsMgr::setREGUse( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kREGUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::REGUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kREGUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setREGURI( QString strURI )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kREGURI, strURI );
+    settings.endGroup();
+}
+
+QString SettingsMgr::REGURI()
+{
+    QString strURI;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strURI = settings.value( kREGURI, "").toString();
+    settings.endGroup();
+
+    return strURI;
+}
+
+void SettingsMgr::setCMPUse( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kCMPUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::CMPUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kCMPUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setCMPURI( QString strURI )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kCMPURI, strURI );
+    settings.endGroup();
+}
+
+QString SettingsMgr::CMPURI()
+{
+    QString strURI;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strURI = settings.value( kCMPURI, "").toString();
+    settings.endGroup();
+
+    return strURI;
+}
+
+void SettingsMgr::setTSPUse( bool val )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kTSPUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::TSPUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kTSPUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setTSPURI( QString strURI )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kTSPURI, strURI );
+    settings.endGroup();
+}
+
+QString SettingsMgr::TSPURI()
+{
+    QString strURI;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strURI = settings.value( kTSPURI, "").toString();
+    settings.endGroup();
+
+    return strURI;
 }

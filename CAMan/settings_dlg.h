@@ -36,6 +36,10 @@ private slots:
     void findOCSPPri();
     void findOCSPCert();
 
+    void checkREGUse();
+    void checkCMPUse();
+    void checkTSPUse();
+
 private:
     Q_DISABLE_COPY(SettingsDlg)
 };
