@@ -38,6 +38,8 @@ private slots:
 
     void checkREGUse();
     void checkCMPUse();
+    void findCMPRootCACert();
+    void findCMPCACert();
     void checkTSPUse();
     void findTSPSrvCert();
 

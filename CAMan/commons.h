@@ -74,5 +74,6 @@ int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Au
 
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo );
 QString findPath(int bPri, QWidget *parent );
+void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList );
 
 #endif // COMMONS_H

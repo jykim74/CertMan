@@ -81,6 +81,11 @@ public:
     void setCMPURI( QString strURI );
     QString CMPURI();
 
+    void setCMPRootCACertPath( QString strPath );
+    QString CMPRootCACertPath();
+    void setCMPCACertPath( QString strPath );
+    QString CMPCACertPath();
+
     void setTSPUse( bool val );
     bool TSPUse();
 

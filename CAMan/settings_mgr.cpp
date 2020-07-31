@@ -28,6 +28,8 @@ namespace  {
     const char *kREGURI = "REGURI";
     const char *kCMPUse = "CMPUse";
     const char *kCMPURI = "CMPURI";
+    const char *kCMPRootCACertPath = "CMPRootCACertPath";
+    const char *kCMPCACertPath = "CMPCACertPath";
     const char *kTSPUse = "TSPUse";
     const char *kTSPURI = "TSPURI";
     const char *kTSPSrvCertPath = "TSPSrvCertPath";
@@ -556,6 +558,48 @@ QString SettingsMgr::CMPURI()
     settings.endGroup();
 
     return strURI;
+}
+
+void SettingsMgr::setCMPRootCACertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kCMPRootCACertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::CMPRootCACertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kCMPRootCACertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setCMPCACertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kCMPCACertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::CMPCACertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kCMPCACertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
 }
 
 void SettingsMgr::setTSPUse( bool val )

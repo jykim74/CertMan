@@ -32,6 +32,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     connect( mUseREGCheck, SIGNAL(clicked()), this, SLOT(checkREGUse()));
     connect( mUseCMPCheck, SIGNAL(clicked()), this, SLOT(checkCMPUse()));
+    connect( mCMPRootCACertBtn, SIGNAL(clicked()), this, SLOT(findCMPRootCACert()));
+    connect( mCMPCACertBtn, SIGNAL(clicked()), this, SLOT(findCMPCACert()));
     connect( mUseTSPCheck, SIGNAL(clicked()), this, SLOT(checkTSPUse()));
 
     connect( mTSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findTSPSrvCert()));
@@ -97,6 +99,8 @@ void SettingsDlg::updateSettings()
 
     mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
     mgr->setCMPURI( mCMPURIText->text() );
+    mgr->setCMPRootCACertPath( mCMPRootCACertPathText->text() );
+    mgr->setCMPCACertPath( mCMPCACertPathText->text() );
 
     mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
     mgr->setTSPURI( mTSPURIText->text() );
@@ -232,6 +236,18 @@ void SettingsDlg::checkCMPUse()
     mCMPGroup->setEnabled( bVal );
 }
 
+void SettingsDlg::findCMPRootCACert()
+{
+    QString fileName = findPath( 0, this );
+    mCMPRootCACertPathText->setText( fileName );
+}
+
+void SettingsDlg::findCMPCACert()
+{
+    QString fileName = findPath( 0, this );
+    mCMPCACertPathText->setText( fileName );
+}
+
 void SettingsDlg::checkTSPUse()
 {
     bool bVal = mUseTSPCheck->isChecked();
@@ -320,6 +336,8 @@ void SettingsDlg::initialize()
     state = mgr->CMPUse() ? Qt::Checked : Qt::Unchecked;
     mUseCMPCheck->setCheckState( state );
     mCMPURIText->setText( mgr->CMPURI() );
+    mCMPRootCACertPathText->setText( mgr->CMPRootCACertPath() );
+    mCMPCACertPathText->setText( mgr->CMPCACertPath() );
 
     checkCMPUse();
 

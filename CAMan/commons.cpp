@@ -1235,3 +1235,25 @@ QString findPath(int bPri, QWidget *parent )
 
     return fileName;
 }
+
+void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList )
+{
+    BINList     *pBinList = NULL;
+
+    BIN binRootCA = {0,0};
+    BIN binCA = {0,0};
+
+    QString strRootCAPath = settingMgr->CMPRootCACertPath();
+    QString strCAPath = settingMgr->CMPCACertPath();
+
+    JS_BIN_fileRead( strRootCAPath.toStdString().c_str(), &binRootCA );
+    JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCA );
+
+    JS_BIN_createList( &binRootCA, &pBinList );
+    JS_BIN_appendList( pBinList, &binCA );
+
+    JS_BIN_reset( &binRootCA );
+    JS_BIN_reset( &binCA );
+
+    *ppTrustList = pBinList;
+}

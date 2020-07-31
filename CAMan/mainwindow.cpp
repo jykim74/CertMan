@@ -5,6 +5,7 @@
 #include "js_gen.h"
 #include "js_ocsp.h"
 #include "js_http.h"
+#include "js_cmp.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -384,6 +385,7 @@ void MainWindow::showRightMenu(QPoint point)
     else if( right_type_ == RightType::TYPE_USER )
     {
         menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
+        menu.addAction(tr("Issue CMP"), this, &MainWindow::issueCMP );
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
     {
@@ -1283,6 +1285,66 @@ end :
         manApplet->messageBox( tr( "success to delete key" ), this );
         createRightKMSList();
     }
+}
+
+void MainWindow::issueCMP()
+{
+    int ret = 0;
+    BINList *pTrustList = NULL;
+    BIN binRef = {0,0};
+    BIN binSecret = {0,0};
+    BIN binPri = {0,0};
+    BIN binPub = {0,0};
+    BIN binPub2 = {0,0};
+    BIN binCert = {0,0};
+    JNameValList    *pInfoList = NULL;
+
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+   if( manApplet->settingsMgr()->CMPUse() == false )
+   {
+       manApplet->warningBox( tr( "CMPServer is not set" ), this );
+       return;
+   }
+
+   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+   UserRec userRec;
+   db_mgr_->getUserRec( num, userRec );
+
+   JS_BIN_set( &binRef, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
+   JS_BIN_set( &binSecret, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
+
+   QString strURL = manApplet->settingsMgr()->CMPURI();
+   QString strDN = "CN=";
+   strDN += userRec.getName();
+   strDN += manApplet->settingsMgr()->baseDN();
+
+   ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRef, &binSecret, &pInfoList );
+
+   ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binPri );
+
+   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRef, &binSecret, &binPri, &binCert );
+   if( ret == 0 )
+   {
+       manApplet->messageBox( tr("CMP Issue OK" ), this );
+   }
+   else
+   {
+       manApplet->warningBox( tr( "CMP Issue Fail" ), this );
+   }
+
+   JS_BIN_reset( &binRef );
+   JS_BIN_reset( &binSecret );
+   JS_BIN_reset( &binPri );
+   JS_BIN_reset( &binPub );
+   JS_BIN_reset( &binPub2 );
+   JS_BIN_reset( &binCert );
+   if( pTrustList ) JS_BIN_resetList( &pTrustList );
+   if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
 }
 
 void MainWindow::expandMenu()

@@ -155,6 +155,8 @@ public slots:
     void registerKey();
     void deleteKey();
 
+    void issueCMP();
+
 private slots:
     void showRightMenu( QPoint point );
 

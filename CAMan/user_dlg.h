@@ -22,6 +22,7 @@ private slots:
 
     void getRefNum();
     void getAuthCode();
+    void regServer();
 private:
     void initUI();
     void initialize();

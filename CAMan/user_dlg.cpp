@@ -4,9 +4,14 @@
 
 #include "js_bin.h"
 #include "js_pki.h"
+#include "js_json.h"
+#include "js_http.h"
 
 #include "user_dlg.h"
 #include "user_rec.h"
+#include "man_applet.h"
+#include "mainwindow.h"
+#include "settings_mgr.h"
 
 UserDlg::UserDlg(QWidget *parent) :
     QDialog(parent)
@@ -94,9 +99,72 @@ void UserDlg::initUI()
 {
     connect( mRefNumBtn, SIGNAL(clicked()), this, SLOT(getRefNum()));
     connect( mAuthCodeBtn, SIGNAL(clicked()), this, SLOT(getAuthCode()));
+    connect( mRegServerBtn, SIGNAL(clicked()), this, SLOT(regServer()));
 }
 
 void UserDlg::initialize()
 {
 
+}
+
+void UserDlg::regServer()
+{
+    int ret = 0;
+    JRegUserReq     sUserReq;
+    JRegUserRsp     sUserRsp;
+    char *pReq = NULL;
+    char *pRsp = NULL;
+    int nStatus = -1;
+
+    memset( &sUserReq, 0x00, sizeof(sUserReq));
+    memset( &sUserRsp, 0x00, sizeof(sUserRsp));
+
+    QString strName = mNameText->text();
+    QString strSSN = mSSNText->text();
+    QString strEmail = mEmailText->text();
+
+    SettingsMgr *mgr = manApplet->settingsMgr();
+    QString strURL;
+
+    if( mgr->REGUse() == false )
+    {
+        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        return;
+    }
+
+    strURL = mgr->REGURI();
+    strURL += "/user";
+
+    JS_JSON_setRegUserReq( &sUserReq,
+                           strName.toStdString().c_str(),
+                           strSSN.toStdString().c_str(),
+                           strEmail.toStdString().c_str() );
+
+    JS_JSON_encodeRegUserReq( &sUserReq, &pReq );
+
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+
+    JS_JSON_decodeRegUserRsp( pRsp, &sUserRsp );
+
+    if( strcasecmp( sUserRsp.pResCode, "0000" ) == 0 )
+    {
+        manApplet->mainWindow()->createRightUserList();
+        ret = 0;
+    }
+    else
+    {
+        manApplet->warningBox( "fail to regiser user by REGServer" );
+        ret = -1;
+    }
+
+    if( pReq ) JS_free( pReq );
+    if( pRsp ) JS_free( pRsp );
+    JS_JSON_resetRegUserReq( &sUserReq );
+    JS_JSON_resetRegUserRsp( &sUserRsp );
+
+    if( ret == 0 )
+    {
+        QDialog::accept();
+        close();
+    }
 }

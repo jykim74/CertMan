@@ -91,16 +91,6 @@
    <item row="6" column="1" colspan="2">
     <widget class="QLineEdit" name="mAuthCodeText"/>
    </item>
-   <item row="8" column="2" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
@@ -110,6 +100,23 @@
    </item>
    <item row="3" column="1">
     <widget class="QLineEdit" name="mStatusText"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QPushButton" name="mRegServerBtn">
+     <property name="text">
+      <string>RegServer</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
