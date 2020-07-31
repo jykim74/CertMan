@@ -30,6 +30,7 @@ namespace  {
     const char *kCMPURI = "CMPURI";
     const char *kTSPUse = "TSPUse";
     const char *kTSPURI = "TSPURI";
+    const char *kTSPSrvCertPath = "TSPSrvCertPath";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -598,4 +599,25 @@ QString SettingsMgr::TSPURI()
     settings.endGroup();
 
     return strURI;
+}
+
+void SettingsMgr::setTSPSrvCertPath(QString strPath)
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kTSPSrvCertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::TSPSrvCertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kTSPSrvCertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
 }

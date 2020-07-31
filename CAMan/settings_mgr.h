@@ -87,6 +87,9 @@ public:
     void setTSPURI( QString strURI );
     QString TSPURI();
 
+    void setTSPSrvCertPath( QString strPath );
+    QString TSPSrvCertPath();
+
 
     void loadSettings();
 

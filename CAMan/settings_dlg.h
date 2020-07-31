@@ -39,6 +39,7 @@ private slots:
     void checkREGUse();
     void checkCMPUse();
     void checkTSPUse();
+    void findTSPSrvCert();
 
 private:
     Q_DISABLE_COPY(SettingsDlg)

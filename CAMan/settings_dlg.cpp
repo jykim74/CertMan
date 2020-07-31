@@ -34,6 +34,8 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     connect( mUseCMPCheck, SIGNAL(clicked()), this, SLOT(checkCMPUse()));
     connect( mUseTSPCheck, SIGNAL(clicked()), this, SLOT(checkTSPUse()));
 
+    connect( mTSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findTSPSrvCert()));
+
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
     initialize();
@@ -98,6 +100,7 @@ void SettingsDlg::updateSettings()
 
     mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
     mgr->setTSPURI( mTSPURIText->text() );
+    mgr->setTSPSrvCertPath( mTSPSrvCertPathText->text() );
 }
 
 void SettingsDlg::checkP11Use()
@@ -235,6 +238,13 @@ void SettingsDlg::checkTSPUse()
     mTSPGroup->setEnabled( bVal );
 }
 
+void SettingsDlg::findTSPSrvCert()
+{
+    QString fileName = findPath( 0, this );
+    mTSPSrvCertPathText->setText( fileName );
+}
+
+
 void SettingsDlg::accept()
 {
     updateSettings();
@@ -316,6 +326,7 @@ void SettingsDlg::initialize()
     state = mgr->TSPUse() ? Qt::Checked : Qt::Unchecked;
     mUseTSPCheck->setCheckState( state );
     mTSPURIText->setText( mgr->TSPURI() );
+    mTSPSrvCertPathText->setText( mgr->TSPSrvCertPath() );
 
     checkTSPUse();
 

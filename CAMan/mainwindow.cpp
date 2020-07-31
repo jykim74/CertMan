@@ -53,6 +53,7 @@
 #include "statistics_form.h"
 #include "stat_form.h"
 #include "audit_rec.h"
+#include "tsp_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -284,6 +285,9 @@ void MainWindow::createActions()
 
     QAction* getLDAPAct = dataMenu->addAction(tr("GetLDAP"), this, &MainWindow::getLDAP);
     getLDAPAct->setStatusTip(tr("Get LDAP"));
+
+    QAction* tspAct = dataMenu->addAction(tr("TSP"), this, &MainWindow::tsp );
+    tspAct->setStatusTip(tr("TimeStampProtocol Service"));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
@@ -1518,6 +1522,12 @@ void MainWindow::checkOCSP()
 
     JS_OCSP_resetCertIDInfo( &sIDInfo );
     JS_OCSP_resetCertStatusInfo( &sStatusInfo );
+}
+
+void MainWindow::tsp()
+{
+    TSPDlg tspDlg;
+    tspDlg.exec();
 }
 
 void MainWindow::createRightList( int nType, int nNum )

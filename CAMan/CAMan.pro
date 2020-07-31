@@ -78,6 +78,7 @@ SOURCES += \
         signer_rec.cpp \
         stat_form.cpp \
         statistics_form.cpp \
+        tsp_dlg.cpp \
         user_dlg.cpp \
         user_rec.cpp
 
@@ -130,6 +131,7 @@ HEADERS += \
         singleton.h \
         stat_form.h \
         statistics_form.h \
+        tsp_dlg.h \
         user_dlg.h \
         user_rec.h
 
@@ -158,6 +160,7 @@ FORMS += \
         signer_dlg.ui \
         stat_form.ui \
         statistics_form.ui \
+        tsp_dlg.ui \
         user_dlg.ui
 
 # Default rules for deployment.

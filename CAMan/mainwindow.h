@@ -141,6 +141,7 @@ public slots:
     void checkCertificate();
     void certStatus();
     void checkOCSP();
+    void tsp();
 
     void about();
     void settings();
