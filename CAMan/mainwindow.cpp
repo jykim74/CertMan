@@ -351,6 +351,8 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
         menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
         menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
+        menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
+        menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -1291,8 +1293,8 @@ void MainWindow::issueCMP()
 {
     int ret = 0;
     BINList *pTrustList = NULL;
-    BIN binRef = {0,0};
-    BIN binSecret = {0,0};
+    BIN binRefNum = {0,0};
+    BIN binAuthCode = {0,0};
     BIN binPri = {0,0};
     BIN binPub = {0,0};
     BIN binPub2 = {0,0};
@@ -1315,19 +1317,19 @@ void MainWindow::issueCMP()
    UserRec userRec;
    db_mgr_->getUserRec( num, userRec );
 
-   JS_BIN_set( &binRef, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
-   JS_BIN_set( &binSecret, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
+   JS_BIN_set( &binRefNum, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
+   JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
 
    QString strURL = manApplet->settingsMgr()->CMPURI();
    QString strDN = "CN=";
    strDN += userRec.getName();
    strDN += manApplet->settingsMgr()->baseDN();
 
-   ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRef, &binSecret, &pInfoList );
+   ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
 
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binPri );
 
-   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRef, &binSecret, &binPri, &binCert );
+   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
    if( ret == 0 )
    {
        manApplet->messageBox( tr("CMP Issue OK" ), this );
@@ -1337,14 +1339,133 @@ void MainWindow::issueCMP()
        manApplet->warningBox( tr( "CMP Issue Fail" ), this );
    }
 
-   JS_BIN_reset( &binRef );
-   JS_BIN_reset( &binSecret );
+   JS_BIN_reset( &binRefNum );
+   JS_BIN_reset( &binAuthCode );
    JS_BIN_reset( &binPri );
    JS_BIN_reset( &binPub );
    JS_BIN_reset( &binPub2 );
    JS_BIN_reset( &binCert );
    if( pTrustList ) JS_BIN_resetList( &pTrustList );
    if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
+}
+
+void MainWindow::updateCMP()
+{
+    int ret = 0;
+    BINList *pTrustList = NULL;
+    JNameValList    *pInfoList = NULL;
+
+    BIN binCert = {0,0};
+    BIN binPri = {0,0};
+    BIN binPub = {0,0};
+    BIN binPub2 = {0,0};
+    BIN binNewCert = {0,0};
+    BIN binNewPri = {0,0};
+    BIN binCACert = {0,0};
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+   if( manApplet->settingsMgr()->CMPUse() == false )
+   {
+       manApplet->warningBox( tr( "CMPServer is not set" ), this );
+       return;
+   }
+
+   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+   CertRec certRec;
+   db_mgr_->getCertRec( num, certRec );
+   KeyPairRec keyPair;
+   db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+   JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+   JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+   QString strURL = manApplet->settingsMgr()->CMPURI();
+   QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
+
+   JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
+
+   ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
+
+   ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binNewPri );
+
+   ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
+
+   if( ret == 0 )
+   {
+       manApplet->messageBox( tr("CMP Update OK" ), this );
+   }
+   else
+   {
+       manApplet->warningBox( tr( "CMP Update Fail" ), this );
+   }
+
+   JS_BIN_reset( &binPri );
+   JS_BIN_reset( &binCert );
+   JS_BIN_reset( &binPub );
+   JS_BIN_reset( &binPub2 );
+   JS_BIN_reset( &binCACert );
+   JS_BIN_reset( &binNewPri );
+   JS_BIN_reset( &binNewCert );
+   if( pTrustList ) JS_BIN_resetList( &pTrustList );
+   if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
+}
+
+void MainWindow::revokeCMP()
+{
+    int ret = 0;
+    BINList *pTrustList = NULL;
+    BIN binCert = {0,0};
+    BIN binPri = {0,0};
+    BIN binCACert = {0,0};
+    BIN binResCert = {0,0};
+    int nReason = 0;
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+   if( manApplet->settingsMgr()->CMPUse() == false )
+   {
+       manApplet->warningBox( tr( "CMPServer is not set" ), this );
+       return;
+   }
+
+   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+   CertRec certRec;
+   db_mgr_->getCertRec( num, certRec );
+   KeyPairRec keyPair;
+   db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+   JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+   JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+   QString strURL = manApplet->settingsMgr()->CMPURI();
+   QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
+
+   JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
+
+   ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason, &binResCert );
+
+   if( ret == 0 )
+   {
+       manApplet->messageBox( tr("CMP Revoke OK" ), this );
+   }
+   else
+   {
+       manApplet->warningBox( tr( "CMP Revoke Fail" ), this );
+   }
+
+   JS_BIN_reset( &binPri );
+   JS_BIN_reset( &binCert );
+   JS_BIN_reset( &binResCert );
+   JS_BIN_reset( &binCACert );
+
+   if( pTrustList ) JS_BIN_resetList( &pTrustList );
 }
 
 void MainWindow::expandMenu()
@@ -1838,7 +1959,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
-    QStringList headerList = { "Num", "RegTime", "KeyNum", "SignAlg", "IssuerNum", "SubjectDN" };
+    QStringList headerList = { "Num", "RegTime", "KeyNum", "UserNum", "SignAlg", "IssuerNum", "SubjectDN" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -1896,6 +2017,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getKeyNum() )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getUserNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getIssuerNum() )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
@@ -2342,6 +2464,9 @@ void MainWindow::showRightCertificate( int seq )
     strMsg += strPart;
 
     strPart = QString( "KeyNum: %1\n\n").arg( certRec.getKeyNum() );
+    strMsg += strPart;
+
+    strPart = QString( "UserNum: %1\n\n").arg( certRec.getUserNum() );
     strMsg += strPart;
 
     strPart = QString( "SignAlgorithm: %1\n\n").arg( certRec.getSignAlg() );
