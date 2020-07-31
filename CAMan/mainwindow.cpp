@@ -1330,6 +1330,9 @@ void MainWindow::issueCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binPri );
 
    ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
+
+   ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri );
+
    if( ret == 0 )
    {
        manApplet->messageBox( tr("CMP Issue OK" ), this );
@@ -1393,6 +1396,8 @@ void MainWindow::updateCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binNewPri );
 
    ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
+
+   ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
 
    if( ret == 0 )
    {
