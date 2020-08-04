@@ -1329,12 +1329,20 @@ void MainWindow::issueCMP()
    strDN += manApplet->settingsMgr()->baseDN();
 
    ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
+   if( ret != 0 ) goto end;
 
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binPri );
+   if( ret != 0 ) goto end;
 
    ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
+   if( ret != 0 ) goto end;
+
+   JS_BIN_fileWrite( &binCert, "D:/cmp/issue_cert.der" );
 
    ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri );
+   if( ret != 0 ) goto end;
+
+end:
 
    if( ret == 0 )
    {
@@ -1395,13 +1403,20 @@ void MainWindow::updateCMP()
    JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
 
    ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
+   if( ret != 0 ) goto end;
 
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPub2, &binNewPri );
+   if( ret != 0 ) goto end;
 
    ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
+   if( ret != 0 ) goto end;
+
+   JS_BIN_fileWrite( &binNewCert, "D:/cmp/update_cert.der" );
 
    ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
+   if( ret != 0 ) goto end;
 
+end :
    if( ret == 0 )
    {
        manApplet->messageBox( tr("CMP Update OK" ), this );
