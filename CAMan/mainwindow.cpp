@@ -6,6 +6,7 @@
 #include "js_ocsp.h"
 #include "js_http.h"
 #include "js_cmp.h"
+#include "js_json.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -353,6 +354,8 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
         menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
         menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
+        menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
+        menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -1716,6 +1719,124 @@ void MainWindow::tsp()
 {
     TSPDlg tspDlg;
     tspDlg.exec();
+}
+
+void MainWindow::statusByReg()
+{
+    int ret = 0;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    JRegCertStatusReq sStatusReq;
+    JRegCertStatusRsp sStatusRsp;
+
+    char *pReq = NULL;
+    char *pRsp = NULL;
+    int nStatus = -1;
+
+    memset( &sStatusReq, 0x00, sizeof(sStatusReq));
+    memset( &sStatusRsp, 0x00, sizeof(sStatusRsp));
+
+    CertRec cert;
+    db_mgr_->getCertRec( num, cert );
+
+    JS_JSON_setRegCertStatusReq( &sStatusReq, "name", cert.getSubjectDN().toStdString().c_str() );
+
+    SettingsMgr *mgr = manApplet->settingsMgr();
+    QString strURL;
+
+    if( mgr->REGUse() == false )
+    {
+        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        return;
+    }
+
+    strURL = mgr->REGURI();
+    strURL += "/certstatus";
+
+    JS_JSON_encodeRegCertStatusReq( &sStatusReq, &pReq );
+
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+
+    JS_JSON_decodeRegCertStatusRsp( pRsp, &sStatusRsp );
+
+    if( strcasecmp( sStatusRsp.pResCode, "0000" ) == 0 )
+    {
+        QString strStatus = sStatusRsp.pStatus;
+        manApplet->messageBox( strStatus, this );
+        ret = 0;
+    }
+    else
+    {
+        manApplet->warningBox( "fail to get certificate status by REGServer" );
+        ret = -1;
+    }
+
+    if( pReq ) JS_free( pReq );
+    if( pRsp ) JS_free( pRsp );
+    JS_JSON_resetRegCertStatusReq( &sStatusReq );
+    JS_JSON_resetRegCertStatusRsp( &sStatusRsp );
+}
+
+void MainWindow::revokeByReg()
+{
+    int ret = 0;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    JRegCertRevokeReq     sRevokeReq;
+    JRegCertRevokeRsp     sRevokeRsp;
+
+    char *pReq = NULL;
+    char *pRsp = NULL;
+    int nStatus = -1;
+
+    memset( &sRevokeReq, 0x00, sizeof(sRevokeReq));
+    memset( &sRevokeRsp, 0x00, sizeof(sRevokeRsp));
+
+    SettingsMgr *mgr = manApplet->settingsMgr();
+    QString strURL;
+
+    if( mgr->REGUse() == false )
+    {
+        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        return;
+    }
+
+    CertRec cert;
+    db_mgr_->getCertRec( num, cert );
+
+    strURL = mgr->REGURI();
+    strURL += "/certrevoke";
+
+    JS_JSON_setRegCertRevokeReq( &sRevokeReq, "name", cert.getSubjectDN().toStdString().c_str(), "1" );
+
+    JS_JSON_encodeRegCertRevokeReq( &sRevokeReq, &pReq );
+
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+
+    JS_JSON_decodeRegRsp( pRsp, &sRevokeRsp );
+
+    if( strcasecmp( sRevokeRsp.pResCode, "0000" ) == 0 )
+    {
+        manApplet->messageBox( tr("Revoke is success"), this );
+        ret = 0;
+    }
+    else
+    {
+        manApplet->warningBox( "fail to revoke certificate by REGServer" );
+        ret = -1;
+    }
+
+    if( pReq ) JS_free( pReq );
+    if( pRsp ) JS_free( pRsp );
+
+    JS_JSON_resetRegCertRevokeReq( &sRevokeReq );
+    JS_JSON_resetRegRsp( &sRevokeRsp );
 }
 
 void MainWindow::createRightList( int nType, int nNum )
