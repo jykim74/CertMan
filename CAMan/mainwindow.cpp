@@ -1427,6 +1427,7 @@ end :
    if( ret == 0 )
    {
        manApplet->messageBox( tr("CMP Update OK" ), this );
+       manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
    }
    else
    {
@@ -1491,6 +1492,7 @@ void MainWindow::revokeCMP()
    if( ret == 0 )
    {
        manApplet->messageBox( tr("CMP Revoke OK" ), this );
+       manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
    }
    else
    {
