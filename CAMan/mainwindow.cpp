@@ -1391,6 +1391,13 @@ void MainWindow::updateCMP()
    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
    CertRec certRec;
    db_mgr_->getCertRec( num, certRec );
+
+   if( certRec.getKeyNum() <= 0 )
+   {
+       manApplet->warningBox( tr("KeyPair information is not set"), this );
+       return;
+   }
+
    KeyPairRec keyPair;
    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
@@ -1462,6 +1469,13 @@ void MainWindow::revokeCMP()
    CertRec certRec;
    db_mgr_->getCertRec( num, certRec );
    KeyPairRec keyPair;
+
+   if( certRec.getKeyNum() <= 0 )
+   {
+       manApplet->warningBox(tr("KeyPair information is not set"), this );
+       return;
+   }
+
    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
