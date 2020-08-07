@@ -1339,7 +1339,7 @@ void MainWindow::issueCMP()
 
    JS_BIN_fileWrite( &binCert, "D:/cmp/issue_cert.der" );
 
-   ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri );
+   ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode );
    if( ret != 0 ) goto end;
 
 end:
@@ -1420,7 +1420,7 @@ void MainWindow::updateCMP()
 
    JS_BIN_fileWrite( &binNewCert, "D:/cmp/update_cert.der" );
 
-   ret = JS_CMP_clientCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
+   ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
    if( ret != 0 ) goto end;
 
 end :
