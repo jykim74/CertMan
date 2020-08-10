@@ -220,6 +220,7 @@ void MakeCertDlg::accept()
     int nSignKeyNum = -1;
     int nKeyType = -1;
     int nIssuerNum = -1;
+    int nCertNum = -1;
 
     CertPolicyRec policyRec = cert_policy_list_.at( policyIdx );
     ReqRec reqRec = req_list_.at( reqIdx );
@@ -450,6 +451,10 @@ void MakeCertDlg::accept()
 
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
+
+    nCertNum = dbMgr->getSeq( "TB_CERT" );
+    nCertNum++;
+    madeCertRec.setNum( nCertNum );
 
     madeCertRec.setRegTime( now_t );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
