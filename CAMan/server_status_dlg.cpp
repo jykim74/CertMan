@@ -20,11 +20,22 @@ ServerStatusDlg::~ServerStatusDlg()
 void ServerStatusDlg::refreshStatus()
 {
     mServerList->clear();
+    QHash<QString, ServerStatus> statuses = ServerStatusService::instance()->statuses();
+    QList<QString> keys = statuses.keys();
 
-    foreach (const ServerStatus& status, ServerStatusService::instance()->statuses())
+    for( int i = 0; i < keys.size(); i++ )
     {
+        QString strName = keys.at(i);
+        ServerStatus status = statuses[strName];
+
         QListWidgetItem *item = new QListWidgetItem( mServerList );
-        item->setData(Qt::DisplayRole, status.url.toString());
+
+        QString strLabel = strName;
+        strLabel += " [ ";
+        strLabel += status.url.toString();
+        strLabel += " ] ";
+
+        item->setData( Qt::DisplayRole, strLabel );
 
         if( status.connected )
         {

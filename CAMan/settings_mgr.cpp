@@ -5,6 +5,7 @@
 namespace  {
     const char *kBehaviorGroup = "CAMan";
     const char *kSaveDBPath = "saveDBPath";
+    const char *kServerStatus = "serverStatus";
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotID = "SlotID";
     const char *kP11LibPath = "PKCS11LibPath";
@@ -65,6 +66,28 @@ bool SettingsMgr::saveDBPath()
 
     settings.beginGroup(kBehaviorGroup);
     val = settings.value( kSaveDBPath, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setServerStatus( bool val )
+{
+    QSettings settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kServerStatus, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::serverStatus()
+{
+    QSettings settings;
+
+    bool val;
+
+    settings.beginGroup(kBehaviorGroup);
+    val = settings.value( kServerStatus, false ).toBool();
     settings.endGroup();
 
     return val;

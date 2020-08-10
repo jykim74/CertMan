@@ -13,6 +13,9 @@ public:
     void setSaveDBPath( bool val );
     bool saveDBPath();
 
+    void setServerStatus( bool val );
+    bool serverStatus();
+
     void setPKCS11Use( bool val );
     bool PKCS11Use();
 

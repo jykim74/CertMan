@@ -10,7 +10,7 @@ class ManTrayIcon : public QSystemTrayIcon
     Q_OBJECT
 
 public:
-    ManTrayIcon();
+    ManTrayIcon( QObject *parent = 0);
 
     void start();
 
@@ -20,9 +20,12 @@ private:
 private slots :
     void quit();
     void settings();
+    void serverStatus();
+    void refreshTrayIcon();
 
 private:
     QMenu   *context_menu_;
+    QTimer  *refresh_timer_;
 };
 
 #endif // MAN_TRAN_ICON_H

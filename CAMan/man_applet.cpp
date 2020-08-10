@@ -49,6 +49,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 #endif
 
     loadPKCS11();
+    ServerStatusService::instance()->start(settings_mgr_);
 }
 
 ManApplet::~ManApplet()
@@ -82,7 +83,7 @@ void ManApplet::start()
     main_win_->show();
     tray_icon_->show();
 
-    ServerStatusService::instance()->start();
+//    ServerStatusService::instance()->start();
 }
 
 

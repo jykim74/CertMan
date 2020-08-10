@@ -56,6 +56,7 @@
 #include "stat_form.h"
 #include "audit_rec.h"
 #include "tsp_dlg.h"
+#include "server_status_service.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -178,6 +179,8 @@ void MainWindow::initialize()
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
     connect( right_table_, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showRightMenu(QPoint)));
+
+
 }
 
 
