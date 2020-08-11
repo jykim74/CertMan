@@ -9,6 +9,7 @@ ServerStatusDlg::ServerStatusDlg(QWidget *parent) :
 
     refreshStatus();
 
+    connect( mRefreshBtn, SIGNAL(clicked()), this, SLOT(refresh()));
 //    connect( ServerStatusService::instance(), SIGNAL(serverStatusChanged()), this, SLOT(refreshStatus()));
 }
 
@@ -50,4 +51,10 @@ void ServerStatusDlg::refreshStatus()
 
         mServerList->addItem(item);
     }
+}
+
+void ServerStatusDlg::refresh()
+{
+    ServerStatusService::instance()->refresh();
+    refreshStatus();
 }

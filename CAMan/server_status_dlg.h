@@ -18,6 +18,7 @@ public:
 
 private slots:
     void refreshStatus();
+    void refresh();
 
 private:
     Q_DISABLE_COPY(ServerStatusDlg)

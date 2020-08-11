@@ -56,6 +56,7 @@ void TSPDlg::clickSend()
     QString strHash = mHashCombo->currentText();
 
     strURL = mgr->TSPURI();
+    strURL += "/TSP";
 
     JS_BIN_fileRead( mgr->TSPSrvCertPath().toStdString().c_str(), &binTSPCert );
 

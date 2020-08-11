@@ -1327,6 +1327,8 @@ void MainWindow::issueCMP()
    JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
 
    QString strURL = manApplet->settingsMgr()->CMPURI();
+   strURL += "/CMP";
+
    QString strDN = "CN=";
    strDN += userRec.getName();
    strDN += manApplet->settingsMgr()->baseDN();
@@ -1408,6 +1410,7 @@ void MainWindow::updateCMP()
    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
    QString strURL = manApplet->settingsMgr()->CMPURI();
+   strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
    JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
@@ -1486,6 +1489,7 @@ void MainWindow::revokeCMP()
    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
    QString strURL = manApplet->settingsMgr()->CMPURI();
+   strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
    JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
@@ -1709,6 +1713,7 @@ void MainWindow::checkOCSP()
     }
 
     strURL = manApplet->settingsMgr()->OCSPURI();
+    strURL += "/OCSP";
     strOCSPSrvCert = manApplet->settingsMgr()->OCSPSrvCertPath();
 
     JS_BIN_fileRead( strOCSPSrvCert.toStdString().c_str(), &binSignCert );

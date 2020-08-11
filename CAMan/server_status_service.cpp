@@ -108,6 +108,7 @@ void ServerStatusService::pingServer(const QString key )
     int ret = 0;
     bool res = true;
     QString strURL = statuses_[key].url.toString();
+    strURL += "/PING";
 
     if( key == "KMS" )
     {
