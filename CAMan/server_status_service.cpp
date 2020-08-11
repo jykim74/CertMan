@@ -3,6 +3,7 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "js_http.h"
+#include "js_net.h"
 
 
 SINGLETON_IMPL(ServerStatusService)
@@ -108,14 +109,28 @@ void ServerStatusService::pingServer(const QString key )
     int ret = 0;
     bool res = true;
     QString strURL = statuses_[key].url.toString();
-    strURL += "/PING";
 
     if( key == "KMS" )
     {
+        QUrl url( strURL );
+        QString strHost = url.host();
+        int nPort = url.port();
+
+        ret = JS_NET_connect( strHost.toStdString().c_str(), nPort );
+        if( ret > 0 )
+        {
+            JS_NET_close( ret );
+            ret = 0;
+        }
+        else
+        {
+            ret = -1;
+        }
 
     }
     else
     {
+        strURL += "/PING";
         ret = JS_HTTP_ping( strURL.toStdString().c_str() );
     }
 
