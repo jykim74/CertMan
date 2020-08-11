@@ -24,6 +24,14 @@ void ServerStatusDlg::refreshStatus()
     QHash<QString, ServerStatus> statuses = ServerStatusService::instance()->statuses();
     QList<QString> keys = statuses.keys();
 
+    if( keys.size() == 0 )
+    {
+        QString strLabel = tr("There is no list or ServerStatus is not set in settings" );
+        QListWidgetItem *item = new QListWidgetItem( mServerList );
+        item->setData( Qt::DisplayRole, strLabel );
+        return;
+    }
+
     for( int i = 0; i < keys.size(); i++ )
     {
         QString strName = keys.at(i);

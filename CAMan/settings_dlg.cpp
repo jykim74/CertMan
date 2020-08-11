@@ -53,6 +53,7 @@ void SettingsDlg::updateSettings()
     SettingsMgr *mgr = manApplet->settingsMgr();
 
     mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
+    mgr->setServerStatus( mServerStatusCheck->checkState() == Qt::Checked );
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -275,6 +276,9 @@ void SettingsDlg::initialize()
 
     state = mgr->saveDBPath() ? Qt::Checked : Qt::Unchecked;
     mSaveDBPathCheck->setCheckState(state);
+
+    state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;
+    mServerStatusCheck->setCheckState( state );
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
     mUseP11Check->setCheckState( state );

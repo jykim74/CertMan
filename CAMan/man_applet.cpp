@@ -49,7 +49,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 #endif
 
     loadPKCS11();
-    ServerStatusService::instance()->start(settings_mgr_);
+    if( settings_mgr_->serverStatus() )
+        ServerStatusService::instance()->start(settings_mgr_);
 }
 
 ManApplet::~ManApplet()
