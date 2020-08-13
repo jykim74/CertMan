@@ -2438,14 +2438,14 @@ void MainWindow::createRightSignerList(int nType)
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
-    QStringList headerList = { "Num", "RegTime", "Type", "DN", "Status", "Cert" };
+    QStringList headerList = { "Num", "RegTime", "Type", "DN", "Status", "DNHash" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
     right_table_->horizontalHeader()->setStyleSheet( style );
 
-    right_table_->setColumnCount(5);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
     right_table_->verticalHeader()->setVisible(false);
 
@@ -2464,7 +2464,7 @@ void MainWindow::createRightSignerList(int nType)
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( signer.getType() )));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( signer.getDN() )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( signer.getStatus() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( signer.getCert() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( signer.getDNHash() )));
     }
 }
 
