@@ -1210,6 +1210,42 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
     return 0;
 }
 
+int verifyAuditRec( AuditRec audit )
+{
+    int ret = 0;
+    BIN binSrc = {0,0};
+    BIN binKey = {0,0};
+    BIN binHMAC = {0,0};
+    BIN binRecHMAC = {0,0};
+
+    char *pHex = NULL;
+    binKey.pVal = (unsigned char *)JS_GEN_HMAC_KEY;
+    binKey.nLen = strlen( JS_GEN_HMAC_KEY );
+
+    QString strSrc = QString( "%1_%2_%3_%4_%5_%6" )
+            .arg( audit.getSeq() )
+            .arg( audit.getKind() )
+            .arg( audit.getOperation() )
+            .arg( audit.getInfo() )
+            .arg( audit.getRegTime() )
+            .arg( audit.getUserName() );
+
+    binSrc.pVal = (unsigned char *)strSrc.toStdString().c_str();
+    binSrc.nLen = strSrc.length();
+
+    ret = JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
+    if( ret != 0 ) return -1;
+
+    JS_BIN_decodeHex( audit.getMAC().toStdString().c_str(), &binRecHMAC );
+
+    ret = JS_BIN_cmp( &binHMAC, &binRecHMAC );
+
+    JS_BIN_reset( &binHMAC );
+    JS_BIN_reset( &binRecHMAC );
+
+    return ret;
+}
+
 QString findPath(int bPri, QWidget *parent )
 {
     QFileDialog::Options options;

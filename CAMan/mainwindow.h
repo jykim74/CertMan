@@ -107,7 +107,8 @@ public slots:
     void makeCRL();
     void revokeCertificate();
     void registerUser();
-    void registerSigner();
+    void registerREGSigner();
+    void registerOCSPSigner();
 
     void viewCertificate();
     void viewCRL();
@@ -160,6 +161,8 @@ public slots:
     void issueCMP();
     void updateCMP();
     void revokeCMP();
+
+    void verifyAudit();
 
 private slots:
     void showRightMenu( QPoint point );

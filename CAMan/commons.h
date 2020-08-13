@@ -73,6 +73,8 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
 int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );
 
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo );
+int verifyAuditRec( AuditRec audit );
+
 QString findPath(int bPri, QWidget *parent );
 void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList );
 

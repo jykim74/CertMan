@@ -70,11 +70,11 @@ void ManTreeView::showContextMenu(QPoint point)
     }
     else if( item->getType() == CM_ITEM_TYPE_REG_SIGNER )
     {
-        menu.addAction(tr("Regiter Signer"), manApplet->mainWindow(), &MainWindow::registerSigner);
+        menu.addAction(tr("Regiter Signer"), manApplet->mainWindow(), &MainWindow::registerREGSigner);
     }
     else if( item->getType() == CM_ITEM_TYPE_OCSP_SIGNER )
     {
-        menu.addAction(tr("Register Signer"), manApplet->mainWindow(), &MainWindow::registerSigner);
+        menu.addAction(tr("Register Signer"), manApplet->mainWindow(), &MainWindow::registerOCSPSigner);
     }
     else if( item->getType() == CM_ITEM_TYPE_KMS )
     {

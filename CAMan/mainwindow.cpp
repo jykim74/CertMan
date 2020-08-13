@@ -248,7 +248,7 @@ void MainWindow::createActions()
     QAction *regUserAct = toolsMenu->addAction(tr("&RegisterUser"), this, &MainWindow::registerUser );
     regUserAct->setStatusTip(tr("Register User"));
 
-    QAction *regSignerAct = toolsMenu->addAction(tr("&RegisterSigner"), this, &MainWindow::registerSigner);
+    QAction *regSignerAct = toolsMenu->addAction(tr("&RegisterSigner"), this, &MainWindow::registerREGSigner);
     regSignerAct->setStatusTip(tr("Register Signer"));
 #endif
 
@@ -403,6 +403,10 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Activate Key"), this, &MainWindow::activateKey );
         menu.addAction(tr("Delete Key"), this, &MainWindow::deleteKey );
+    }
+    else if( right_type_ == RightType::TYPE_AUDIT )
+    {
+        menu.addAction(tr("Verify Audit"), this, &MainWindow::verifyAudit );
     }
 
     menu.exec(QCursor::pos());
@@ -796,9 +800,17 @@ void MainWindow::registerUser()
     userDlg.exec();
 }
 
-void MainWindow::registerSigner()
+void MainWindow::registerREGSigner()
 {
     SignerDlg signerDlg;
+    signerDlg.setType( SIGNER_TYPE_REG );
+    signerDlg.exec();
+}
+
+void MainWindow::registerOCSPSigner()
+{
+    SignerDlg signerDlg;
+    signerDlg.setType( SIGNER_TYPE_OCSP );
     signerDlg.exec();
 }
 
@@ -1512,6 +1524,25 @@ void MainWindow::revokeCMP()
    JS_BIN_reset( &binCACert );
 
    if( pTrustList ) JS_BIN_resetList( &pTrustList );
+}
+
+void MainWindow::verifyAudit()
+{
+    int ret = 0;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    AuditRec audit;
+
+    dbMgr()->getAuditRec( num, audit );
+
+    ret = verifyAuditRec( audit );
+    if( ret == 0 )
+        manApplet->messageBox( tr( "MAC Verify OK" ), this );
+    else
+        manApplet->warningBox( tr( "MAC is not valid" ), this );
 }
 
 void MainWindow::expandMenu()

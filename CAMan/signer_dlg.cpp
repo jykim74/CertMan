@@ -24,6 +24,11 @@ SignerDlg::~SignerDlg()
 
 }
 
+void SignerDlg::setType(int nType)
+{
+    mTypeCombo->setCurrentIndex( nType );
+}
+
 void SignerDlg::findCert()
 {
     QFileDialog::Options options;
