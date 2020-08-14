@@ -26,7 +26,6 @@
         <file>images/reg_signer.png</file>
         <file>images/done.png</file>
         <file>images/red_cross.png</file>
-        <file>ca_db.sql</file>
         <file>ca.db</file>
         <file>images/caman.png</file>
         <file>images/ca.png</file>
@@ -45,5 +44,6 @@
         <file>images/kms.png</file>
         <file>images/statistics.png</file>
         <file>images/audit.png</file>
+        <file>images/timestamp.png</file>
     </qresource>
 </RCC>

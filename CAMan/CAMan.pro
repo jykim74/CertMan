@@ -79,6 +79,8 @@ SOURCES += \
         stat_form.cpp \
         statistics_form.cpp \
         tsp_dlg.cpp \
+        tsp_rec.cpp \
+        tst_info_dlg.cpp \
         user_dlg.cpp \
         user_rec.cpp
 
@@ -132,6 +134,8 @@ HEADERS += \
         stat_form.h \
         statistics_form.h \
         tsp_dlg.h \
+        tsp_rec.h \
+        tst_info_dlg.h \
         user_dlg.h \
         user_rec.h
 
@@ -161,6 +165,7 @@ FORMS += \
         stat_form.ui \
         statistics_form.ui \
         tsp_dlg.ui \
+        tst_info_dlg.ui \
         user_dlg.ui
 
 # Default rules for deployment.

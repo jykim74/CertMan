@@ -15,6 +15,7 @@
 #include "signer_rec.h"
 #include "kms_rec.h"
 #include "audit_rec.h"
+#include "tsp_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -233,6 +234,22 @@ int DBMgr::getAuditCount()
     return -1;
 }
 
+int DBMgr::getTSPCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_TSP" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getStatisticsCount( int nStartTime, int nEndTime, QString strTable )
 {
     int nCount = -1;
@@ -404,6 +421,24 @@ int DBMgr::getAuditSearchCount( QString strTarget, QString strWord)
 {
     int nCount = -1;
     QString strSQL = QString("SELECT COUNT(*) FROM TB_AUDIT WHERE %1 LIKE '%%2%'")
+            .arg( strTarget )
+            .arg( strWord );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getTSPSearchCount( QString strTarget, QString strWord)
+{
+    int nCount = -1;
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_TSP WHERE %1 LIKE '%%2%'")
             .arg( strTarget )
             .arg( strWord );
 
@@ -780,6 +815,31 @@ int DBMgr::getAuditList( QString strTarget, QString strWord, int nOffset, int nL
     return _getAuditList( strQuery, auditList );
 }
 
+int DBMgr::getTSPList( QList<TSPRec>& tspList )
+{
+    QString strQuery = QString("SELECT * FROM TB_TSP ORDER BY SEQ DESC" );
+
+    return _getTSPList( strQuery, tspList );
+}
+
+int DBMgr::getTSPList( int nOffset, int nLimit, QList<TSPRec>& tspList )
+{
+    QString strQuery = QString("SELECT * FROM TB_TSP ORDER BY SEQ DESC LIMIT %1 OFFSET %2" ).arg( nLimit ).arg( nOffset );
+
+    return _getTSPList( strQuery, tspList );
+}
+
+int DBMgr::getTSPList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<TSPRec>& tspList )
+{
+    QString strQuery = QString("SELECT * FROM TB_TSP WHERE %1 LIKE '%%2%' ORDER BY SEQ DESC LIMIT %3 OFFSET %4" )
+            .arg( strTarget )
+            .arg( strWord )
+            .arg( nLimit )
+            .arg( nOffset );
+
+    return _getTSPList( strQuery, tspList );
+}
+
 int DBMgr::getSignerList( int nType, QList<SignerRec>& signerList )
 {
     QString strQuery = QString("SELECT * FROM TB_SIGNER WHERE TYPE = %1 ORDER BY NUM DESC").arg( nType );
@@ -796,6 +856,19 @@ int DBMgr::getSignerRec( int nNum, SignerRec& signerRec )
     if( signerList.size() <= 0 ) return -1;
 
     signerRec = signerList.at(0);
+
+    return 0;
+}
+
+int DBMgr::getTSPRec( int nSeq, TSPRec& tspRec )
+{
+    QList<TSPRec> tspList;
+    QString strQuery = QString( "SELECT * FROM TB_TSP WHERE SEQ = %1").arg( nSeq );
+
+    _getTSPList( strQuery, tspList );
+    if( tspList.size() <= 0 ) return -1;
+
+    tspRec = tspList.at(0);
 
     return 0;
 }
@@ -1324,6 +1397,38 @@ int DBMgr::_getAuditList( QString strQuery, QList<AuditRec>& auditList )
         audit.setMAC( SQL.value(nPosMAC).toString());
 
         auditList.append( audit );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
+int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
+{
+    int         iCount = 0;
+    QSqlQuery   SQL(strQuery);
+
+    int nPosSeq = SQL.record().indexOf( "SEQ" );
+    int nPosRegTime = SQL.record().indexOf( "RegTime");
+    int nPosSerial = SQL.record().indexOf( "Serial" );
+    int nPosSrcHash = SQL.record().indexOf( "SrcHash" );
+    int nPosPolicy = SQL.record().indexOf( "Policy" );
+    int nPosTSTInfo = SQL.record().indexOf( "TSTInfo" );
+    int nPosData = SQL.record().indexOf( "Data" );
+
+    while( SQL.next() )
+    {
+        TSPRec tsp;
+
+        tsp.setSeq( SQL.value(nPosSeq).toInt());
+        tsp.setRegTime( SQL.value(nPosRegTime).toInt());
+        tsp.setSerial( SQL.value(nPosSerial).toInt());
+        tsp.setSrcHash( SQL.value(nPosSrcHash).toString());
+        tsp.setPolicy( SQL.value(nPosPolicy).toString());
+        tsp.setTSTInfo( SQL.value(nPosTSTInfo).toString());
+        tsp.setData( SQL.value(nPosData).toString());
+
+        tspList.append( tsp );
     }
 
     SQL.finish();

@@ -56,7 +56,9 @@
 #include "stat_form.h"
 #include "audit_rec.h"
 #include "tsp_dlg.h"
+#include "tsp_rec.h"
 #include "server_status_service.h"
+#include "tst_info_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -408,6 +410,10 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Verify Audit"), this, &MainWindow::verifyAudit );
     }
+    else if( right_type_ == RightType::TYPE_TSP )
+    {
+        menu.addAction(tr("View TSTInfo"), this, &MainWindow::viewTSTInfo );
+    }
 
     menu.exec(QCursor::pos());
 }
@@ -482,6 +488,11 @@ void MainWindow::createTreeMenu()
     pKMSItem->setIcon(QIcon(":/images/kms.png"));
     pKMSItem->setType( CM_ITEM_TYPE_KMS );
     pTopItem->appendRow( pKMSItem );
+
+    ManTreeItem *pTSPItem = new ManTreeItem( QString( "TSP" ));
+    pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
+    pTSPItem->setType( CM_ITEM_TYPE_TSP );
+    pTopItem->appendRow( pTSPItem );
 
     ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
     pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
@@ -1201,6 +1212,10 @@ void MainWindow::tableClick(QModelIndex index )
     {
         showRightAudit( nSeq );
     }
+    else if( right_type_ == RightType::TYPE_TSP )
+    {
+        showRightTSP( nSeq );
+    }
 }
 
 void MainWindow::activateKey()
@@ -1543,6 +1558,18 @@ void MainWindow::verifyAudit()
         manApplet->messageBox( tr( "MAC Verify OK" ), this );
     else
         manApplet->warningBox( tr( "MAC is not valid" ), this );
+}
+
+void MainWindow::viewTSTInfo()
+{
+    int ret = 0;
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+    TSTInfoDlg tstInfoDlg;
+    tstInfoDlg.setSeq( num );
+    tstInfoDlg.exec();
 }
 
 void MainWindow::expandMenu()
@@ -1949,6 +1976,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightStatistics();
     else if( nType == CM_ITEM_TYPE_AUDIT )
         createRightAuditList();
+    else if( nType == CM_ITEM_TYPE_TSP )
+        createRightTSPList();
 }
 
 void MainWindow::createRightKeyPairList()
@@ -2560,6 +2589,65 @@ void MainWindow::createRightAuditList()
     right_menu_->updatePageLabel();
 }
 
+void MainWindow::createRightTSPList()
+{
+    right_menu_->show();
+
+    removeAllRight();
+    right_type_ = RightType::TYPE_TSP;
+
+    int nTotalCount = 0;
+    int nLimit = kListCount;
+    int nPage = right_menu_->curPage();
+    int nOffset = nPage * nLimit;
+
+    QString strTarget = right_menu_->getCondName();
+    QString strWord = right_menu_->getInputWord();
+
+    QStringList headerList = {"Seq", "RegTime", "Serial", "SrcHash", "Policy" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<TSPRec> tspList;
+
+    if( strWord.length() > 0 )
+    {
+        nTotalCount = db_mgr_->getTSPSearchCount( strTarget, strWord );
+        db_mgr_->getTSPList( strTarget, strWord, nOffset, nLimit, tspList );
+    }
+    else
+    {
+        nTotalCount = db_mgr_->getAuditCount();
+        db_mgr_->getTSPList( nOffset, nLimit, tspList );
+    }
+
+
+    for( int i = 0; i < tspList.size(); i++ )
+    {
+        char sRegTime[64];
+        TSPRec tsp = tspList.at(i);
+        right_table_->insertRow(i);
+
+        JS_UTIL_getDateTime( tsp.getRegTime(), sRegTime );
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( tsp.getSeq() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( tsp.getSerial())));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( tsp.getSrcHash() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( tsp.getPolicy() )));
+    }
+
+    right_menu_->setTotalCount( nTotalCount );
+    right_menu_->updatePageLabel();
+}
+
 void MainWindow::createRightStatistics()
 {
     printf( "Set Statistics\n" );
@@ -2999,6 +3087,44 @@ void MainWindow::showRightAudit( int seq )
     strMsg += strPart;
 
     strPart = QString( "MAC: %1\n\n").arg( auditRec.getMAC() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightTSP( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+    char sRegTime[64];
+
+    TSPRec tspRec;
+    db_mgr_->getTSPRec( seq, tspRec );
+
+    strMsg = "[ TSP information ]\n\n";
+
+    strPart = QString( "Seq: %1\n").arg( tspRec.getSeq());
+    strMsg += strPart;
+
+    JS_UTIL_getDateTime( tspRec.getRegTime(), sRegTime );
+    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
+    strMsg += strPart;
+
+    strPart = QString( "Serial: %1\n\n").arg( tspRec.getSerial() );
+    strMsg += strPart;
+
+    strPart = QString( "SrcHash: %1\n\n").arg( tspRec.getSrcHash() );
+    strMsg += strPart;
+
+    strPart = QString( "Policy: %1\n\n").arg( tspRec.getPolicy() );
+    strMsg += strPart;
+
+    strPart = QString( "TSTInfo: %1\n\n").arg( tspRec.getTSTInfo() );
+    strMsg += strPart;
+
+    strPart = QString( "Data: %1\n\n").arg( tspRec.getData() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

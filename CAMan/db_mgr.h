@@ -24,6 +24,7 @@ class UserRec;
 class SignerRec;
 class KMSRec;
 class AuditRec;
+class TSPRec;
 
 class DBMgr
 {
@@ -42,6 +43,7 @@ public:
     int getUserCount();
     int getKMSCount();
     int getAuditCount();
+    int getTSPCount();
     int getStatisticsCount( int nStartTime, int nEndTime, QString strTable );
 
     int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
@@ -52,6 +54,7 @@ public:
     int getUserSearchCount( QString strTarget, QString strWord);
     int getKMSSearchCount( QString strTarget, QString strWord);
     int getAuditSearchCount( QString strTarget, QString strWord);
+    int getTSPSearchCount( QString strTarget, QString strWord);
 
     int getCertRec( int nNum, CertRec& cert );
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
@@ -103,11 +106,16 @@ public:
     int getAuditList( int nOffset, int nLimit, QList<AuditRec>& auditList );
     int getAuditList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<AuditRec>& auditList );
 
+    int getTSPList( QList<TSPRec>& tspList );
+    int getTSPList( int nOffset, int nLimit, QList<TSPRec>& tspList );
+    int getTSPList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<TSPRec>& tspList );
+
     int getUserRec( int nSeq, UserRec& userRec );
     int getKMSRec( int nSeq, KMSRec& kmsRec );
     int getAuditRec( int nSeq, AuditRec& auditRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );
+    int getTSPRec( int nSeq, TSPRec& tspRec );
 
     int getCRLDPListFromCert( int nIssuerNum, QList<QString>& crldpList );
 
@@ -160,6 +168,7 @@ private:
     int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
     int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );
     int _getAuditList( QString strQuery, QList<AuditRec>& auditList );
+    int _getTSPList( QString strQuery, QList<TSPRec>& tspList );
 
 private:
     QSqlDatabase   db_;

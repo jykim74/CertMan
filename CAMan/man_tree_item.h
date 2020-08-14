@@ -21,6 +21,8 @@
 #define CM_ITEM_TYPE_KMS            16
 #define CM_ITEM_TYPE_STATISTICS     17
 #define CM_ITEM_TYPE_AUDIT          18
+#define CM_ITEM_TYPE_TSP            19
+
 
 
 class ManTreeItem : public QStandardItem
