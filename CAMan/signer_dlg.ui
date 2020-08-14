@@ -14,8 +14,21 @@
    <string>Signer</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QComboBox" name="mTypeCombo"/>
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="mStatusText"/>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
@@ -24,12 +37,8 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QPushButton" name="mFindCertBtn">
-     <property name="text">
-      <string>Find</string>
-     </property>
-    </widget>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="mTypeCombo"/>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="label_3">
@@ -45,13 +54,17 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="mCertPathText"/>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="mFindCertBtn">
+     <property name="text">
+      <string>Find</string>
+     </property>
+    </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="mStatusText"/>
+   <item row="3" column="0" colspan="4">
+    <widget class="QPlainTextEdit" name="mDescText"/>
    </item>
-   <item row="5" column="1" colspan="2">
+   <item row="4" column="2" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -61,8 +74,8 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="QPlainTextEdit" name="mDescText"/>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="mCertPathText"/>
    </item>
   </layout>
  </widget>
