@@ -7,6 +7,7 @@
 #include "js_http.h"
 #include "js_cmp.h"
 #include "js_json.h"
+#include "js_pkcs7.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -413,6 +414,7 @@ void MainWindow::showRightMenu(QPoint point)
     else if( right_type_ == RightType::TYPE_TSP )
     {
         menu.addAction(tr("View TSTInfo"), this, &MainWindow::viewTSTInfo );
+        menu.addAction(tr("VerifyTSMessage"), this, &MainWindow::verifyTSMessage );
     }
 
     menu.exec(QCursor::pos());
@@ -1570,6 +1572,42 @@ void MainWindow::viewTSTInfo()
     TSTInfoDlg tstInfoDlg;
     tstInfoDlg.setSeq( num );
     tstInfoDlg.exec();
+}
+
+void MainWindow::verifyTSMessage()
+{
+    int ret = 0;
+    BIN binTS = {0,0};
+    BIN binCert = {0,0};
+    BIN binData = {0,0};
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    TSPRec tspRec;
+    db_mgr_->getTSPRec( num, tspRec );
+    JS_BIN_decodeHex( tspRec.getData().toStdString().c_str(), &binTS );
+
+
+    SettingsMgr *smgr = manApplet->settingsMgr();
+    if( smgr )
+    {
+        if( smgr->TSPUse() )
+        {
+            JS_BIN_fileRead( smgr->TSPSrvCertPath().toStdString().c_str(), &binCert );
+        }
+    }
+
+    ret = JS_PKCS7_verifySigneData( &binTS, &binCert, &binData );
+    QString strVerify = QString( "Verify val:%1" ).arg( ret );
+
+    manApplet->messageBox( strVerify );
+
+    JS_BIN_reset( &binTS );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binData );
 }
 
 void MainWindow::expandMenu()
