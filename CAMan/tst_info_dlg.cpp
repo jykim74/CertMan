@@ -98,6 +98,14 @@ void TSTInfoDlg::initialize()
         i++;
     }
 
+    if( sTSTInfo.pGenTime )
+    {
+        mInfoTable->insertRow(i);
+        mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("GenTime")));
+        mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.pGenTime)));
+        i++;
+    }
+
     if( sTSTInfo.pNonce )
     {
         mInfoTable->insertRow(i);
