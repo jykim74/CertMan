@@ -77,7 +77,6 @@ SOURCES += \
         signer_dlg.cpp \
         signer_rec.cpp \
         stat_form.cpp \
-        statistics_form.cpp \
         tsp_dlg.cpp \
         tsp_rec.cpp \
         tst_info_dlg.cpp \
@@ -132,7 +131,6 @@ HEADERS += \
         signer_rec.h \
         singleton.h \
         stat_form.h \
-        statistics_form.h \
         tsp_dlg.h \
         tsp_rec.h \
         tst_info_dlg.h \

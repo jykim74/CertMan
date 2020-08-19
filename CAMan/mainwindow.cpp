@@ -53,7 +53,6 @@
 #include "signer_rec.h"
 #include "server_status_dlg.h"
 #include "man_tray_icon.h"
-#include "statistics_form.h"
 #include "stat_form.h"
 #include "audit_rec.h"
 #include "tsp_dlg.h"
@@ -147,7 +146,6 @@ void MainWindow::initialize()
     // QScrollArea *rightWidget = new QScrollArea;
 
     stack_ = new QStackedLayout();
-    statistics_ = new StatisticsForm;
     stat_ = new StatForm;
 
     stack_->addWidget( vsplitter_ );
@@ -2033,7 +2031,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = right_menu_->getCondName();
     QString strWord = right_menu_->getInputWord();
 
-    QStringList headerList = { "Number", "RegTime", "Algorithm", "Name", "PublicKey", "PrivateKey", "Param", "Status" };
+    QStringList headerList = { "Num", "RegTime", "Algorithm", "Name", "Param", "Status" };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2057,6 +2055,9 @@ void MainWindow::createRightKeyPairList()
         db_mgr_->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
 
+    right_table_->setColumnWidth( 0, 40 ); // Number
+    right_table_->setColumnWidth( 1, 140 ); // RegTime
+
     for( int i = 0; i < keyPairList.size(); i++ )
     {
         char sRegTime[64];
@@ -2069,10 +2070,10 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
         right_table_->setItem( i, 3, new QTableWidgetItem( keyPairRec.getName()));
-        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPublicKey()));
-        right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getPrivateKey()));
-        right_table_->setItem(i, 6, new QTableWidgetItem( keyPairRec.getParam()));
-        right_table_->setItem(i, 7, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
+  //      right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getPublicKey()));
+  //      right_table_->setItem(i, 5, new QTableWidgetItem( keyPairRec.getPrivateKey()));
+        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getParam()));
+        right_table_->setItem(i, 5, new QTableWidgetItem( QString("%1").arg(keyPairRec.getStatus())));
     }
 
     right_menu_->setTotalCount( nTotalCount );

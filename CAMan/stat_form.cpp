@@ -198,6 +198,7 @@ void StatForm::getData()
             QDate tmpDate = posDate.addMonths(1);
             dateTime.setDate( tmpDate );
             endList << dateTime.toTime_t() - 1;
+            posDate = tmpDate;
         }
     }
     else if( mYearRadio->isChecked() )
@@ -219,6 +220,7 @@ void StatForm::getData()
             QDate tmpDate = posDate.addYears(1);
             dateTime.setDate( tmpDate );
             endList << dateTime.toTime_t() - 1;
+            posDate = tmpDate;
         }
     }
 
