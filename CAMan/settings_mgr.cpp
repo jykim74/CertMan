@@ -9,6 +9,8 @@ namespace  {
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotID = "SlotID";
     const char *kP11LibPath = "PKCS11LibPath";
+    const char *kLDAPHost = "LDAPHost";
+    const char *kLDAPPort = "LDAPPort";
     const char *kBaseDN = "BaseDN";
     const char *kListCount = "ListCount";
     const char *kKMIPUse = "KMIPUse";
@@ -177,6 +179,48 @@ QString SettingsMgr::baseDN()
     settings.endGroup();
 
     return strBaseDN;
+}
+
+void SettingsMgr::setLDAPHost( QString strHost )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kLDAPHost, strHost );
+    settings.endGroup();
+}
+
+QString SettingsMgr::LDAPHost()
+{
+    QString strHost;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strHost = settings.value( kLDAPHost, "localhost").toString();
+    settings.endGroup();
+
+    return strHost;
+}
+
+void SettingsMgr::setLDAPPort( int nPort )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kLDAPPort, nPort );
+    settings.endGroup();
+}
+
+int SettingsMgr::LDAPPort()
+{
+    int nPort = 0;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    nPort = settings.value( kLDAPPort, 389 ).toInt();
+    settings.endGroup();
+
+    return nPort;
 }
 
 void SettingsMgr::setListCount( int nCount )

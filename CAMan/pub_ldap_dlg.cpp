@@ -5,6 +5,7 @@
 #include "js_pki.h"
 #include "js_ldap.h"
 #include "js_pki_tools.h"
+#include "settings_mgr.h"
 
 static QStringList sTypeList = { "Certificate", "CRL" };
 
@@ -82,8 +83,12 @@ void PubLDAPDlg::initUI()
     mTypeCombo->addItems(sTypeList);
     mAttributeCombo->addItems(sCertAttributeList);
 
-    mLDAPHostText->setText( "localhost" );
-    mLDAPPortText->setText( "389" );
+    QString strHost = manApplet->settingsMgr()->LDAPHost();
+    QString strPort = QString("%1").arg( manApplet->settingsMgr()->LDAPPort() );
+
+
+    mLDAPHostText->setText( strHost );
+    mLDAPPortText->setText( strPort );
     mBindDNText->setText( "cn=Manager,c=kr" );
     mPasswordText->setText( "secret" );
 

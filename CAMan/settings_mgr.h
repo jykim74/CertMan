@@ -28,6 +28,12 @@ public:
     void setBaseDN( QString strBaseDN );
     QString baseDN();
 
+    void setLDAPHost( QString strHost );
+    QString LDAPHost();
+
+    void setLDAPPort( int nPort );
+    int LDAPPort();
+
     void setListCount( int nCount );
     int listCount();
 

@@ -65,6 +65,8 @@ void SettingsDlg::updateSettings()
     mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
     mgr->setSlotID( mSlotIDText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
+    mgr->setLDAPHost( mLDAPHostText->text() );
+    mgr->setLDAPPort( mLDAPPortText->text().toInt() );
     mgr->setBaseDN( mBaseDNText->text() );
     mgr->setListCount( mListCountText->text().toInt() );
 
@@ -290,6 +292,8 @@ void SettingsDlg::initialize()
     mSlotIDText->setText( strSlotID );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
     mListCountText->setText( QString("%1").arg( mgr->listCount() ));
+    mLDAPHostText->setText( mgr->LDAPHost() );
+    mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
     mBaseDNText->setText( mgr->baseDN() );
 
 #ifdef _AUTO_UPDATE
