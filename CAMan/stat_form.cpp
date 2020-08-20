@@ -41,6 +41,7 @@ StatForm::StatForm(QWidget *parent) :
     stat_table_ = NULL;
     simple_view_ = NULL;
     bar_view_ = NULL;
+    max_num_ = 0;
 
     connect( mUpdateBtn, SIGNAL(clicked()), this, SLOT(updateStat()));
 
@@ -233,18 +234,23 @@ void StatForm::getData()
 
         int nCertCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_CERT" );
         cert_val_list_.append(nCertCnt);
+        if( nCertCnt > max_num_ ) max_num_ = nCertCnt;
 
         int nRevokeCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_REVOKED" );
         revoke_val_list_.append( nRevokeCnt );
+        if( nRevokeCnt > max_num_ ) max_num_ = nRevokeCnt;
 
         int nUserCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_USER" );
         user_val_list_.append(nUserCnt);
+        if( nUserCnt > max_num_ ) max_num_ = nUserCnt;
 
         int nKeyPairCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_KEY_PAIR" );
         keypair_val_list_.append( nKeyPairCnt );
+        if( nKeyPairCnt > max_num_ ) max_num_ = nKeyPairCnt;
 
         int nReqCnt = dbMgr->getStatisticsCount( nStart, nEnd, "TB_REQ" );
         req_val_list_.append(nReqCnt);
+        if( nReqCnt > max_num_ ) max_num_ = nReqCnt;
     }
 /*
     cert_val_list_ << 1 << 2 << 3 << 4 << 5 << 6 << 7;
@@ -331,7 +337,7 @@ QChart *StatForm::createSimpleBarChart() const
     series->attachAxis(axisX);
 
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0,15);
+    axisY->setRange(0, max_num_ );
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
     //![4]
@@ -392,13 +398,12 @@ QChart *StatForm::createBarChart() const
 
     chart->addSeries(series);
 
-
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
     axisX->append( unit_list_ );
 //    axisX->setTitleText("Month");
     chart->addAxis(axisX, Qt::AlignBottom);
     QValueAxis *axisY = new QValueAxis();
-    axisY->setRange( -15, 15 );
+    axisY->setRange( -max_num_, max_num_ );
 //    axisY->setTitleText("Count");
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisX);

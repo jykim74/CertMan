@@ -58,7 +58,7 @@ private:
     QTableWidget    *stat_table_;
     QChartView          *simple_view_;
     QChartView          *bar_view_;
-
+    qreal       max_num_;
 };
 
 #endif // STAT_FORM_H
