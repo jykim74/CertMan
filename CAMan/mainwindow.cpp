@@ -59,6 +59,7 @@
 #include "tsp_rec.h"
 #include "server_status_service.h"
 #include "tst_info_dlg.h"
+#include "admin_rec.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -439,7 +440,11 @@ void MainWindow::createTreeMenu()
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
-#ifdef _PRO
+    ManTreeItem *pAdminItem = new ManTreeItem( QString("Admin") );
+    pAdminItem->setIcon(QIcon(":/images/admin.png"));
+    pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
+    pTopItem->appendRow( pAdminItem );
+
     ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
     pUserItem->setIcon(QIcon(":/images/user.jpg"));
     pUserItem->setType( CM_ITEM_TYPE_USER );
@@ -454,7 +459,7 @@ void MainWindow::createTreeMenu()
     pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
     pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
     pTopItem->appendRow( pOCSPSignerItem );
-#endif
+
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
     pCertPolicyItem->setIcon(QIcon(":/images/cert_policy.png"));
@@ -1195,6 +1200,10 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_USER )
     {
         showRightUser( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_ADMIN )
+    {
+        showRightAdmin( nSeq );
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
     {
@@ -2002,6 +2011,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightRevokeList( nNum );
     else if( nType == CM_ITEM_TYPE_USER )
         createRightUserList();
+    else if( nType == CM_ITEM_TYPE_ADMIN )
+        createRightAdminList();
     else if( nType == CM_ITEM_TYPE_REG_SIGNER )
         createRightSignerList( SIGNER_TYPE_REG );
     else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
@@ -2567,6 +2578,41 @@ void MainWindow::createRightSignerList(int nType)
     }
 }
 
+void MainWindow::createRightAdminList()
+{
+    right_menu_->hide();
+    removeAllRight();
+    right_type_ = RightType::TYPE_ADMIN;
+
+    QStringList headerList = { "Seq", "Status", "Type", "Name", "Password", "Email" };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<AdminRec> adminList;
+    db_mgr_->getAdminList( adminList );
+
+    for( int i = 0; i < adminList.size(); i++ )
+    {
+        AdminRec admin = adminList.at(i);
+        right_table_->insertRow(i);
+
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( admin.getSeq() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( admin.getStatus() )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( admin.getType() )));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( admin.getName() )));
+        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( admin.getPassword() )));
+        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( admin.getEmail() )));
+    }
+}
+
+
 void MainWindow::createRightAuditList()
 {
     right_menu_->show();
@@ -3049,6 +3095,39 @@ void MainWindow::showRightUser( int seq )
     strMsg += strPart;
 
     strPart = QString( "AuthCode: %1\n\n").arg( userRec.getAuthCode() );
+    strMsg += strPart;
+
+    right_text_->setText( strMsg );
+}
+
+void MainWindow::showRightAdmin( int seq )
+{
+    if( db_mgr_ == NULL ) return;
+
+    QString strMsg;
+    QString strPart;
+
+    AdminRec adminRec;
+    db_mgr_->getAdminRec( seq, adminRec );
+
+    strMsg = "[ Admin information ]\n\n";
+
+    strPart = QString( "Seq: %1\n").arg( adminRec.getSeq());
+    strMsg += strPart;
+
+    strPart = QString( "Status: %1\n\n").arg( adminRec.getStatus() );
+    strMsg += strPart;
+
+    strPart = QString( "Type: %1\n\n").arg( adminRec.getType() );
+    strMsg += strPart;
+
+    strPart = QString( "Name: %1\n\n").arg( adminRec.getName() );
+    strMsg += strPart;
+
+    strPart = QString( "Password: %1\n\n").arg( adminRec.getPassword() );
+    strMsg += strPart;
+
+    strPart = QString( "Email: %1\n\n").arg( adminRec.getEmail() );
     strMsg += strPart;
 
     right_text_->setText( strMsg );

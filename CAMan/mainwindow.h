@@ -32,6 +32,7 @@ enum RightType {
     TYPE_CRL,
     TYPE_REVOKE,
     TYPE_USER,
+    TYPE_ADMIN,
     TYPE_SIGNER,
     TYPE_KMS,
     TYPE_STATISTICS,
@@ -63,6 +64,7 @@ public:
     void createRightCertList( int nIssuerNum, bool bIsCA = false );
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
+    void createRightAdminList();
     void createRightUserList();
     void createRightKMSList();
     void createRightSignerList(int nType);
@@ -80,6 +82,7 @@ public:
     void showRightCRLPolicy( int seq );
     void showRightRevoke( int seq );
     void showRightUser( int seq );
+    void showRightAdmin( int seq );
     void showRightKMS( int seq );
     void showRightAudit( int seq );
     void showRightTSP( int seq );

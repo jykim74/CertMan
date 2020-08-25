@@ -45,5 +45,6 @@
         <file>images/statistics.png</file>
         <file>images/audit.png</file>
         <file>images/timestamp.png</file>
+        <file>images/admin.png</file>
     </qresource>
 </RCC>

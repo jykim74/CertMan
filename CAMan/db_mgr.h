@@ -25,6 +25,7 @@ class SignerRec;
 class KMSRec;
 class AuditRec;
 class TSPRec;
+class AdminRec;
 
 class DBMgr
 {
@@ -80,6 +81,9 @@ public:
     int getReqList( int nStatus, int nOffset, int nLimit, QList<ReqRec>& reqList );
     int getReqList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<ReqRec>& reqList );
 
+    int getAdminRec( int nSeq, AdminRec& adminRec );
+    int getAdminList( QList<AdminRec>& adminList );
+
     int getCertPolicyRec( int nNum, CertPolicyRec& certPolicy );
     int getCertPolicyList( QList<CertPolicyRec>& certPolicyList );
     int getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy );
@@ -132,12 +136,14 @@ public:
     int addSignerRec( SignerRec& signerRec );
     int addKMSRec( KMSRec& kmsRec );
     int addAuditRec( AuditRec& auditRec );
+    int addAdminRec( AdminRec& adminRec );
 
     int modKeyPairStatus( int nNum, int nStatus );
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
     int modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec );
     int modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec );
+    int modAdminRec( int nSeq, AdminRec adminRec );
 
     int getSeq( QString strTable );
     int getCertPolicyNextNum();
@@ -154,6 +160,7 @@ public:
     int delUserRec( int nNum );
     int delSignerRec( int nNum );
     int delKMSRec( int nSeq );
+    int delAdminRec( int nSeq );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
@@ -169,6 +176,7 @@ private:
     int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );
     int _getAuditList( QString strQuery, QList<AuditRec>& auditList );
     int _getTSPList( QString strQuery, QList<TSPRec>& tspList );
+    int _getAdminList( QString strQuery, QList<AdminRec>& adminList );
 
 private:
     QSqlDatabase   db_;

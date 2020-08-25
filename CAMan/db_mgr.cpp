@@ -16,6 +16,7 @@
 #include "kms_rec.h"
 #include "audit_rec.h"
 #include "tsp_rec.h"
+#include "admin_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -623,6 +624,28 @@ int DBMgr::_getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList )
 
     SQL.finish();
     return 0;
+}
+
+int DBMgr::getAdminRec( int nSeq, AdminRec& adminRec )
+{
+    QList<AdminRec> adminList;
+    QString strQuery = QString( "SELECT * FROM TB_ADMIN WHERE SEQ = %1" ).arg(nSeq);
+
+    _getAdminList( strQuery, adminList );
+    if( adminList.size() <= 0 ) return -1;
+
+    adminRec = adminList.at(0);
+    return 0;
+}
+
+int DBMgr::getAdminList( QList<AdminRec>& adminList )
+{
+    QString strSQL;
+
+    strSQL.sprintf( "SELECT * FROM TB_ADMIN " );
+    strSQL += "ORDER BY SEQ DESC";
+
+    return _getAdminList( strSQL, adminList );
 }
 
 int DBMgr::getReqRec( int nNum, ReqRec& reqRec )
@@ -1405,7 +1428,6 @@ int DBMgr::_getAuditList( QString strQuery, QList<AuditRec>& auditList )
 
 int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
 {
-    int         iCount = 0;
     QSqlQuery   SQL(strQuery);
 
     int nPosSeq = SQL.record().indexOf( "SEQ" );
@@ -1429,6 +1451,35 @@ int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
         tsp.setData( SQL.value(nPosData).toString());
 
         tspList.append( tsp );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
+int DBMgr::_getAdminList( QString strQuery, QList<AdminRec>& adminList )
+{
+    QSqlQuery   SQL(strQuery);
+
+    int nPosSeq = SQL.record().indexOf( "SEQ" );
+    int nPosStatus = SQL.record().indexOf( "Status");
+    int nPosType = SQL.record().indexOf( "Type" );
+    int nPosName = SQL.record().indexOf( "Name" );
+    int nPosPassword = SQL.record().indexOf( "Password" );
+    int nPosEmail = SQL.record().indexOf( "Email" );
+
+    while( SQL.next() )
+    {
+        AdminRec admin;
+
+        admin.setSeq( SQL.value(nPosSeq).toInt());
+        admin.setStatus( SQL.value(nPosStatus).toInt());
+        admin.setType( SQL.value(nPosType).toInt());
+        admin.setName( SQL.value(nPosName).toString());
+        admin.setPassword( SQL.value(nPosPassword).toString());
+        admin.setEmail( SQL.value(nPosEmail).toString());
+
+        adminList.append( admin );
     }
 
     SQL.finish();
@@ -1560,6 +1611,29 @@ int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
     sqlQuery.bindValue( i++, (int)policyRec.getNextUpdate() );
     sqlQuery.bindValue( i++, policyRec.getHash() );
     sqlQuery.bindValue( i++, nPolicyNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::modAdminRec( int nSeq, AdminRec adminRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_ADMIN SET "
+                      "STATUS = ?, "
+                      "TYPE = ?, "
+                      "NAME = ?, "
+                      "PASSWORD = ?, "
+                      "EMAIL = ? "
+                      "WHERE SEQ = ?;" );
+
+    sqlQuery.bindValue( i++, adminRec.getStatus() );
+    sqlQuery.bindValue( i++, adminRec.getType() );
+    sqlQuery.bindValue( i++, adminRec.getName() );
+    sqlQuery.bindValue( i++, adminRec.getPassword() );
+    sqlQuery.bindValue( i++, adminRec.getEmail() );
+    sqlQuery.bindValue( i++, nSeq );
 
     sqlQuery.exec();
     return 0;
@@ -1788,6 +1862,24 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
     return 0;
 }
 
+int DBMgr::addAdminRec( AdminRec& adminRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_ADMIN "
+                      "( SEQ, STATUS, TYPE, NAME, PASSWORD, EMAIL ) "
+                      "VALUES( null, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( i++, adminRec.getStatus() );
+    sqlQuery.bindValue( i++, adminRec.getType() );
+    sqlQuery.bindValue( i++, adminRec.getName() );
+    sqlQuery.bindValue( i++, adminRec.getPassword() );
+    sqlQuery.bindValue( i++, adminRec.getEmail() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
 int DBMgr::delCertPolicy( int nNum )
 {
     QSqlQuery sqlQuery;
@@ -1904,6 +1996,17 @@ int DBMgr::delKMSRec( int nSeq )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "DELETE FROM TB_KMS WHERE SEQ = ?" );
+    sqlQuery.bindValue( 0, nSeq );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
+int DBMgr::delAdminRec( int nSeq )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_ADMIN WHERE SEQ = ?" );
     sqlQuery.bindValue( 0, nSeq );
 
     sqlQuery.exec();

@@ -31,6 +31,8 @@ CONFIG += c++11
 
 SOURCES += \
         about_dlg.cpp \
+        admin_dlg.cpp \
+        admin_rec.cpp \
         audit_rec.cpp \
         auto_update_service.cpp \
         cert_info_dlg.cpp \
@@ -85,6 +87,8 @@ SOURCES += \
 
 HEADERS += \
         about_dlg.h \
+        admin_dlg.h \
+        admin_rec.h \
         audit_rec.h \
         auto_update_service.h \
         cert_info_dlg.h \
@@ -139,6 +143,7 @@ HEADERS += \
 
 FORMS += \
         about_dlg.ui \
+        admin_dlg.ui \
         cert_info_dlg.ui \
         check_cert_dlg.ui \
         crl_info_dlg.ui \
