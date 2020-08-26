@@ -139,6 +139,9 @@ public slots:
     void deleteUser();
     void deleteSigner();
 
+    void registerAdmin();
+    void editAdmin();
+
     void publishLDAP();
     void getLDAP();
     void expandMenu();

@@ -60,6 +60,7 @@
 #include "server_status_service.h"
 #include "tst_info_dlg.h"
 #include "admin_rec.h"
+#include "admin_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -391,6 +392,10 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Delete CRLPolicy"), this, &MainWindow::deleteCRLPolicy );
         menu.addAction(tr("Edit CRLPolicy"), this, &MainWindow::editCRLPolicy );
+    }
+    else if( right_type_ == RightType::TYPE_ADMIN )
+    {
+        menu.addAction(tr("Edit Admin"), this, &MainWindow::editAdmin );
     }
     else if( right_type_ == RightType::TYPE_USER )
     {
@@ -1108,6 +1113,25 @@ void MainWindow::deleteSigner()
     dbMgr()->getSignerRec( num, signer );
     dbMgr()->delSignerRec( num );
     createRightSignerList( signer.getType() );
+}
+
+void MainWindow::registerAdmin()
+{
+    AdminDlg adminDlg;
+    adminDlg.exec();
+}
+
+void MainWindow::editAdmin()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    AdminDlg adminDlg;
+    adminDlg.setEditMode(true);
+    adminDlg.setSeq( num );
+    adminDlg.exec();
 }
 
 void MainWindow::showWindow()

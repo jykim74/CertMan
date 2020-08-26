@@ -15,9 +15,19 @@ class AdminDlg : public QDialog, public Ui::AdminDlg
 public:
     explicit AdminDlg(QWidget *parent = nullptr);
     ~AdminDlg();
+    void setEditMode( bool bVal );
+    void setSeq( int nSeq );
+    void showEvent(QShowEvent *event);
+
+private slots:
+    void clickClose();
+    void clickRegister();
+    void clickDelete();
+    void clickModify();
 
 private:
-
+    bool    edit_mode_;
+    int    seq_;
 };
 
 #endif // ADMIN_DLG_H
