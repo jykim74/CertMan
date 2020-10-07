@@ -33,6 +33,7 @@ void ImportDlg::setType(int index)
 
 void ImportDlg::accept()
 {
+    int ret = 0;
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -49,9 +50,12 @@ void ImportDlg::accept()
 
     if( nSelType == 1 || nSelType == 5 )
     {
-        manApplet->warningBox( tr("insert password"), this );
-        mPasswordText->setFocus();
-        return;
+        if( strPass.length() < 1 )
+        {
+            manApplet->warningBox( tr("insert password"), this );
+            mPasswordText->setFocus();
+            return;
+        }
     }
 
     BIN binSrc = {0,0};
@@ -61,7 +65,6 @@ void ImportDlg::accept()
     {
         if( nSelType == 1 )
         {
-            int ret = 0;
             BIN binInfo = {0,0};
             BIN binPri = {0,0};
 
@@ -69,13 +72,21 @@ void ImportDlg::accept()
             if( ret != 0 )
                 ret = JS_PKI_decryptECPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
 
-            if( ret == 0 ) ImportKeyPair( &binPri );
+            if( ret == 0 )
+            {
+                ret = ImportKeyPair( &binPri );
+            }
 
             JS_BIN_reset( &binInfo );
             JS_BIN_reset( &binPri );
         }
         else
-            ImportKeyPair( &binSrc );
+            ret = ImportKeyPair( &binSrc );
+
+        if( ret == 0 )
+        {
+            manApplet->mainWindow()->createRightKeyPairList();
+        }
     }
     else if( nSelType == 2 )
     {
@@ -85,11 +96,19 @@ void ImportDlg::accept()
             return;
         }
 
-        ImportRequest( &binSrc );
+        ret = ImportRequest( &binSrc );
+        if( ret == 0 )
+        {
+            manApplet->mainWindow()->createRightRequestList();
+        }
     }
     else if( nSelType == 3 )
     {
-        ImportCert( &binSrc );
+        ret = ImportCert( &binSrc );
+        if( ret == 0 )
+        {
+            manApplet->mainWindow()->createRightCertList( -2 );
+        }
     }
     else if( nSelType == 4 )
     {
@@ -99,11 +118,19 @@ void ImportDlg::accept()
             return;
         }
 
-        ImportCRL( &binSrc );
+        ret = ImportCRL( &binSrc );
+        if( ret == 0 )
+        {
+            manApplet->mainWindow()->createRightCRLList(-2);
+        }
     }
     else if( nSelType == 5 )
     {
-        ImportPFX( &binSrc );
+        ret = ImportPFX( &binSrc );
+        if( ret == 0 )
+        {
+            manApplet->mainWindow()->createRightCertList(-2);
+        }
     }
 
     JS_BIN_reset( &binSrc );
@@ -129,11 +156,28 @@ void ImportDlg::clickFind()
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 
+    QString strFilter = "";
+
+    if( mDataTypeCombo->currentIndex() == 0 )
+        strFilter = "BER Files (*.ber)";
+    else if( mDataTypeCombo->currentIndex() == 1 )
+        strFilter = "Private Key Files (*.key)";
+    else if( mDataTypeCombo->currentIndex() == 2 )
+        strFilter = "CSF Files (*.csr)";
+    else if( mDataTypeCombo->currentIndex() == 3 )
+        strFilter = "Cert Files (*.crt)";
+    else if( mDataTypeCombo->currentIndex() == 4 )
+        strFilter = "CRL Files (*.crl)";
+    else if( mDataTypeCombo->currentIndex() == 5 )
+        strFilter = "PFX Files (*.pfx);;P12 Files (*.p12)";
+
+    strFilter += ";;DER Files (*.der);;All Files (*.*)";
+
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
                                                      tr("Import files"),
                                                      QDir::currentPath(),
-                                                     tr("Cert Files (*.crt);;Key Files (*.key);;All Files (*)"),
+                                                     strFilter,
                                                      &selectedFilter,
                                                      options );
 
@@ -255,8 +299,8 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         keyPair.setAlg( strAlg );
         keyPair.setName( mNameText->text() );
         keyPair.setPublicKey( pHexPub );
-        keyPair.setPublicKey( pHexPri );
-        keyPair.setParam( "Imported" );
+        keyPair.setPrivateKey( pHexPri );
+        keyPair.setParam( QString("Imported %1").arg(nParam) );
 
         ret = dbMgr->addKeyPairRec( keyPair );
     }
@@ -418,13 +462,17 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     BIN binCert = {0,0};
     BIN binPri = {0,0};
 
-    const char *pPasswd = mPasswordText->text().toStdString().c_str();
+    QString strPasswd = mPasswordText->text().toStdString().c_str();
+//    const char *pPasswd = "26c521a0c94b61580c780a46436f065ce658b73c";
 
-    ret = JS_PKI_decodePFX( pPFX, pPasswd, &binPri, &binCert );
+    ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
     if( ret != 0 ) return ret;
 
-    ImportCert( &binCert );
-    ImportKeyPair( &binPri );
+    ret = ImportCert( &binCert );
+    if( ret != 0 ) return ret;
+
+    ret = ImportKeyPair( &binPri );
+    if( ret != 0 ) return ret;
 
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPri );
