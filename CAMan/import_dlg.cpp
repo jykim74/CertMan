@@ -297,6 +297,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     {
         KeyPairRec keyPair;
         keyPair.setAlg( strAlg );
+        keyPair.setRegTime( time(NULL) );
         keyPair.setName( mNameText->text() );
         keyPair.setPublicKey( pHexPub );
         keyPair.setPrivateKey( pHexPri );
