@@ -63,6 +63,7 @@ void MakeReqDlg::accept()
     if( dbMgr == NULL ) return;
 
     QString strName = mNameText->text();
+    QString strChallenge = mChallengePassText->text();
 
     if( strName.isEmpty() )
     {
@@ -108,6 +109,7 @@ void MakeReqDlg::accept()
         ret = JS_PKI_makeCSRByP11( nAlg,
                                    strHash.toStdString().c_str(),
                                    strDN.toStdString().c_str(),
+                                   strChallenge.toStdString().c_str(),
                                    &binID,
                                    &binPubKey,
                                    NULL,
@@ -144,6 +146,7 @@ void MakeReqDlg::accept()
             ret = JS_PKI_makeCSRByKMIP( nAlg,
                                         strHash.toStdString().c_str(),
                                         strDN.toStdString().c_str(),
+                                        strChallenge.toStdString().c_str(),
                                         &binID,
                                         &binPubKey,
                                         NULL,
@@ -171,11 +174,13 @@ void MakeReqDlg::accept()
 
 
         JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
-        ret = JS_PKI_makeCSR( nAlg, mHashCombo->currentText().toStdString().c_str(),
-                        strDN.toStdString().c_str(),
-                        &binPri,
-                        NULL,
-                        &binCSR );
+        ret = JS_PKI_makeCSR( nAlg,
+                              mHashCombo->currentText().toStdString().c_str(),
+                              strDN.toStdString().c_str(),
+                              strChallenge.toStdString().c_str(),
+                              &binPri,
+                              NULL,
+                              &binCSR );
     }
 
 

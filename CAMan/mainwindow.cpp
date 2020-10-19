@@ -1631,7 +1631,7 @@ void MainWindow::verifyTSMessage()
         }
     }
 
-    ret = JS_PKCS7_verifySigneData( &binTS, &binCert, &binData );
+    ret = JS_PKCS7_verifySignedData( &binTS, &binCert, &binData );
     QString strVerify = QString( "Verify val:%1" ).arg( ret );
 
     manApplet->messageBox( strVerify );
