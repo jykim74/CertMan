@@ -105,6 +105,17 @@ public:
     QString TSPSrvCertPath();
 
 
+    void setSCEPUse( bool val );
+    bool SCEPUse();
+    void setSCEPURI( QString strURI );
+    QString SCEPURI();
+    void setSCEPMutualAuth( bool val );
+    bool SCEPMutualAuth();
+    void setSCEPPriKeyPath( QString strPath );
+    QString SCEPPriKeyPath();
+    void setSCEPCertPath( QString strPath );
+    QString SCEPCertPath();
+
     void loadSettings();
 
 private:

@@ -174,6 +174,8 @@ public slots:
     void viewTSTInfo();
     void verifyTSMessage();
 
+    void issueSCEP();
+
 private slots:
     void showRightMenu( QPoint point );
 

@@ -36,6 +36,11 @@ namespace  {
     const char *kTSPUse = "TSPUse";
     const char *kTSPURI = "TSPURI";
     const char *kTSPSrvCertPath = "TSPSrvCertPath";
+    const char *kSCEPUse = "SCEPUse";
+    const char *kSCEPURI = "SCEPURI";
+    const char *kSCEPMutualAuth = "SCEPMutualAuth";
+    const char *kSCEPPriPath = "SCEPPriPath";
+    const char *kSCEPCertPath = "SCEPCertPath";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -728,6 +733,112 @@ QString SettingsMgr::TSPSrvCertPath()
     QSettings   settings;
     settings.beginGroup( kBehaviorGroup );
     strPath = settings.value( kTSPSrvCertPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+
+void SettingsMgr::setSCEPUse( bool val )
+{
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSCEPUse, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::SCEPUse()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kSCEPUse, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setSCEPURI( QString strURI )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSCEPURI, strURI );
+    settings.endGroup();
+}
+
+QString SettingsMgr::SCEPURI()
+{
+    QString strURI;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strURI = settings.value( kSCEPURI, "").toString();
+    settings.endGroup();
+
+    return strURI;
+}
+
+void SettingsMgr::setSCEPMutualAuth( bool val )
+{
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSCEPMutualAuth, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::SCEPMutualAuth()
+{
+    QSettings   settings;
+
+    bool val;
+
+    settings.beginGroup( kBehaviorGroup );
+    val = settings.value( kSCEPMutualAuth, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setSCEPPriKeyPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSCEPPriPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::SCEPPriKeyPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kSCEPPriPath, "").toString();
+    settings.endGroup();
+
+    return strPath;
+}
+
+void SettingsMgr::setSCEPCertPath( QString strPath )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSCEPCertPath, strPath );
+    settings.endGroup();
+}
+
+QString SettingsMgr::SCEPCertPath()
+{
+    QString strPath;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPath = settings.value( kSCEPCertPath, "").toString();
     settings.endGroup();
 
     return strPath;

@@ -8,6 +8,7 @@
 #include "js_cmp.h"
 #include "js_json.h"
 #include "js_pkcs7.h"
+#include "js_scep.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -382,6 +383,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest );
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
         menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
+        menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
     }
     else if( right_type_ == RightType::TYPE_CERT_POLICY )
     {
@@ -1639,6 +1641,128 @@ void MainWindow::verifyTSMessage()
     JS_BIN_reset( &binTS );
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binData );
+}
+
+void MainWindow::issueSCEP()
+{
+    int nRet = 0;
+    int nStatus = 0;
+    BIN binSSLPri = {0,0};
+    BIN binSSLCert = {0,0};
+    BIN binCACert = {0,0};
+    BIN binCSR = {0,0};
+    BIN binPri = {0,0};
+    BIN binSenderNonce = {0,0};
+    char *pTransID = NULL;
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+    BIN binSignedData = {0,0};
+    BIN binNewCert = {0,0};
+    char *pHex = NULL;
+
+    SettingsMgr *smgr = manApplet->settingsMgr();
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    ReqRec req;
+    db_mgr_->getReqRec( num, req );
+    KeyPairRec keyPair;
+    db_mgr_->getKeyPairRec( req.getKeyNum(), keyPair );
+
+    CertRec certRec;
+    JCertInfo sCertInfo;
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    if( smgr->SCEPURI() == false ) return;
+
+    QString strSCEPURL = smgr->SCEPURI();
+    QString strURL;
+
+    if( smgr->SCEPMutualAuth() )
+    {
+        QString strCertPath = smgr->SCEPCertPath();
+        QString strPriPath = smgr->SCEPPriKeyPath();
+
+        JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileRead( strPriPath.toStdString().c_str(), &binSSLPri );
+    }
+
+    JS_PKI_genRandom( 16, &binSenderNonce );
+    JS_SCEP_makeTransID( &binCSR, &pTransID );
+
+    strURL = QString( "%1?operation=GetCACert" ).arg( strSCEPURL );
+
+    nRet = JS_HTTP_requestGetBin2(
+                strURL.toStdString().c_str(),
+                &binSSLPri,
+                &binSSLCert,
+                &nStatus,
+                &binCACert );
+
+    JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
+    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    nRet = JS_SCEP_makePKIReq(
+                &binCSR,
+                &binPri,
+                &binCACert,
+                &binSenderNonce,
+                pTransID,
+                &binReq );
+
+    strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
+
+    nRet = JS_HTTP_requestPostBin2(
+                strURL.toStdString().c_str(),
+                &binSSLPri,
+                &binSSLCert,
+                &binReq,
+                "application/x-pki-message",
+                &nStatus,
+                &binRsp );
+
+    nRet = JS_SCEP_parseCertRsp(
+                &binRsp,
+                &binCACert,
+                &binPri,
+                &binSenderNonce,
+                pTransID,
+                &binSignedData );
+
+    nRet = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNewCert );
+
+    nRet = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
+
+    JS_BIN_encodeHex( &binNewCert, &pHex );
+
+    certRec.setCert( pHex );
+    certRec.setRegTime( time(NULL));
+    certRec.setSubjectDN( sCertInfo.pSubjectName );
+    certRec.setIssuerNum( -2 );
+    certRec.setSignAlg( sCertInfo.pSignAlgorithm );
+    db_mgr_->addCertRec( certRec );
+
+    manApplet->mainWindow()->createRightCertList(-2);
+
+end :
+    JS_BIN_reset( &binSSLPri );
+    JS_BIN_reset( &binSSLCert );
+    JS_BIN_reset( &binCACert );
+    JS_BIN_reset( &binCSR );
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binSenderNonce );
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binSignedData );
+    JS_BIN_reset( &binNewCert );
+
+    if( pTransID ) JS_free( pTransID );
+    JS_PKI_resetCertInfo( &sCertInfo );
+    if( pHex ) JS_free( pHex );
 }
 
 void MainWindow::expandMenu()

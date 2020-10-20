@@ -43,6 +43,11 @@ private slots:
     void checkTSPUse();
     void findTSPSrvCert();
 
+    void checkSCEPUse();
+    void checkSCEPMutualAuth();
+    void findSCEPPriKey();
+    void findSCEPCert();
+
 private:
     Q_DISABLE_COPY(SettingsDlg)
 };

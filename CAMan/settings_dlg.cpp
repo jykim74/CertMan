@@ -38,6 +38,11 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     connect( mTSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findTSPSrvCert()));
 
+    connect( mUseSCEPCheck, SIGNAL(clicked()), this, SLOT(checkSCEPUse()));
+    connect( mSCEPMutualAuthCheck, SIGNAL(clicked()), this, SLOT(checkSCEPMutualAuth()));
+    connect( mSCEPPriKeyFindBtn, SIGNAL(clicked()), this, SLOT(findSCEPPriKey()));
+    connect( mSCEPCertFindBtn, SIGNAL(clicked()), this, SLOT(findSCEPCert()));
+
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
     initialize();
@@ -108,6 +113,12 @@ void SettingsDlg::updateSettings()
     mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
     mgr->setTSPURI( mTSPURIText->text() );
     mgr->setTSPSrvCertPath( mTSPSrvCertPathText->text() );
+
+    mgr->setSCEPUse( mUseSCEPCheck->checkState() == Qt::Checked );
+    mgr->setSCEPURI( mSCEPURIText->text() );
+    mgr->setSCEPMutualAuth( mSCEPMutualAuthCheck->checkState() == Qt::Checked );
+    mgr->setSCEPPriKeyPath( mSCEPPriKeyPathText->text() );
+    mgr->setSCEPCertPath( mSCEPCertPathText->text() );
 }
 
 void SettingsDlg::checkP11Use()
@@ -263,6 +274,33 @@ void SettingsDlg::findTSPSrvCert()
     mTSPSrvCertPathText->setText( fileName );
 }
 
+void SettingsDlg::checkSCEPUse()
+{
+    bool bVal = mUseSCEPCheck->isChecked();
+    mSCEPGroup->setEnabled( bVal );
+}
+
+void SettingsDlg::checkSCEPMutualAuth()
+{
+    bool bVal = mSCEPMutualAuthCheck->isChecked();
+
+    mSCEPPriKeyPathText->setEnabled( bVal );
+    mSCEPPriKeyFindBtn->setEnabled( bVal );
+    mSCEPCertPathText->setEnabled( bVal );
+    mSCEPCertFindBtn->setEnabled( bVal );
+}
+
+void SettingsDlg::findSCEPPriKey()
+{
+    QString fileName = findPath( 1, this );
+    mSCEPPriKeyPathText->setText( fileName );
+}
+
+void SettingsDlg::findSCEPCert()
+{
+    QString fileName = findPath( 0, this );
+    mSCEPCertPathText->setText( fileName );
+}
 
 void SettingsDlg::accept()
 {
@@ -355,6 +393,15 @@ void SettingsDlg::initialize()
     mTSPSrvCertPathText->setText( mgr->TSPSrvCertPath() );
 
     checkTSPUse();
+
+    checkSCEPUse();
+    state = mgr->SCEPUse() ? Qt::Checked : Qt::Unchecked;
+    mUseSCEPCheck->setCheckState( state );
+    mSCEPURIText->setText( mgr->SCEPURI() );
+    state = mgr->SCEPMutualAuth() ? Qt::Checked : Qt::Unchecked;
+    mSCEPMutualAuthCheck->setCheckState( state );
+    mSCEPPriKeyPathText->setText( mgr->SCEPPriKeyPath() );
+    mSCEPCertPathText->setText( mgr->SCEPCertPath() );
 
     mTabWidget->setCurrentIndex(0);
 }
