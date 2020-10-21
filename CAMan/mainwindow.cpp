@@ -352,6 +352,7 @@ void MainWindow::showRightMenu(QPoint point)
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+        menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
@@ -1703,6 +1704,13 @@ void MainWindow::issueSCEP()
                 &nStatus,
                 &binCACert );
 
+    if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
+    {
+        fprintf( stderr, "fail to request Get [%d:%d]\n", nRet, nStatus );
+        manApplet->warningBox( "fail to request Get", this );
+        goto end;
+    }
+
     JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
     JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
@@ -1714,16 +1722,30 @@ void MainWindow::issueSCEP()
                 pTransID,
                 &binReq );
 
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to make PKIReq : %d\n", nRet );
+        manApplet->warningBox( "fail to make PKIReq", this );
+        goto end;
+    }
+
     strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
 
     nRet = JS_HTTP_requestPostBin2(
                 strURL.toStdString().c_str(),
                 &binSSLPri,
                 &binSSLCert,
-                &binReq,
                 "application/x-pki-message",
+                &binReq,               
                 &nStatus,
                 &binRsp );
+
+    if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
+    {
+        fprintf( stderr, "fail to request Post [%d:%d]\n", nRet, nStatus );
+        manApplet->warningBox( "fail to request Post", this );
+        goto end;
+    }
 
     nRet = JS_SCEP_parseCertRsp(
                 &binRsp,
@@ -1733,14 +1755,34 @@ void MainWindow::issueSCEP()
                 pTransID,
                 &binSignedData );
 
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to parse CertRsp : %d\n", nRet );
+        manApplet->warningBox( "fail to parse CertRsp", this );
+        goto end;
+    }
+
     nRet = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNewCert );
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to get sign certificate in reply: %d\n", nRet );
+        manApplet->warningBox( "fail to get sign certificate in reply", this );
+        goto end;
+    }
 
     nRet = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to parse certificate : %d\n", nRet );
+        manApplet->warningBox( "fail to parse certificate", this );
+        goto end;
+    }
 
     JS_BIN_encodeHex( &binNewCert, &pHex );
 
     certRec.setCert( pHex );
     certRec.setRegTime( time(NULL));
+    certRec.setKeyNum( req.getKeyNum() );
     certRec.setSubjectDN( sCertInfo.pSubjectName );
     certRec.setIssuerNum( -2 );
     certRec.setSignAlg( sCertInfo.pSignAlgorithm );
@@ -1969,7 +2011,7 @@ void MainWindow::checkOCSP()
 
     JS_BIN_fileRead( strOCSPSrvCert.toStdString().c_str(), &binSignCert );
 
-    ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), &binReq, "application/ocsp-request", &nStatus, &binRsp );
+    ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/ocsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )
     {
         manApplet->warningBox( tr( "fail to request"), this );

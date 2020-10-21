@@ -68,7 +68,7 @@ void TSPDlg::clickSend()
         JS_BIN_decodeBase64( strSrc.toStdString().c_str(), &binSrc );
 
     ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), pPolicy, &binReq );
-    ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), &binReq, "application/tsp-request", &nStatus, &binRsp );
+    ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/tsp-request", &binReq, &nStatus, &binRsp );
     ret = JS_TSP_decodeResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
 
     JS_BIN_encodeHex( &binData, &pHex );

@@ -278,6 +278,8 @@ void SettingsDlg::checkSCEPUse()
 {
     bool bVal = mUseSCEPCheck->isChecked();
     mSCEPGroup->setEnabled( bVal );
+
+    checkSCEPMutualAuth();
 }
 
 void SettingsDlg::checkSCEPMutualAuth()
@@ -394,7 +396,6 @@ void SettingsDlg::initialize()
 
     checkTSPUse();
 
-    checkSCEPUse();
     state = mgr->SCEPUse() ? Qt::Checked : Qt::Unchecked;
     mUseSCEPCheck->setCheckState( state );
     mSCEPURIText->setText( mgr->SCEPURI() );
@@ -402,6 +403,8 @@ void SettingsDlg::initialize()
     mSCEPMutualAuthCheck->setCheckState( state );
     mSCEPPriKeyPathText->setText( mgr->SCEPPriKeyPath() );
     mSCEPCertPathText->setText( mgr->SCEPCertPath() );
+
+    checkSCEPUse();
 
     mTabWidget->setCurrentIndex(0);
 }
