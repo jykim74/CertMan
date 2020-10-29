@@ -238,45 +238,45 @@ void MainWindow::createActions()
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key.jpeg"));
-    QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
+    QAction *newKeyAct = new QAction( newKeyIcon, tr("New&Key"), this );
     newKeyAct->setStatusTip(tr("Generate new key pair"));
     connect( newKeyAct, &QAction::triggered, this, &MainWindow::newKey );
     toolsMenu->addAction( newKeyAct );
     toolsToolBar->addAction( newKeyAct );
 
 
-    QAction *makeReqAct = toolsMenu->addAction(tr("&MakeRequest"), this, &MainWindow::makeRequest);
+    QAction *makeReqAct = toolsMenu->addAction(tr("Make&Request"), this, &MainWindow::makeRequest);
     makeReqAct->setStatusTip(tr( "Make Request"));
 
 #ifdef _PRO
-    QAction *regUserAct = toolsMenu->addAction(tr("&RegisterUser"), this, &MainWindow::registerUser );
+    QAction *regUserAct = toolsMenu->addAction(tr("Register&User"), this, &MainWindow::registerUser );
     regUserAct->setStatusTip(tr("Register User"));
 
-    QAction *regSignerAct = toolsMenu->addAction(tr("&RegisterSigner"), this, &MainWindow::registerREGSigner);
+    QAction *regSignerAct = toolsMenu->addAction(tr("Register&Signer"), this, &MainWindow::registerREGSigner);
     regSignerAct->setStatusTip(tr("Register Signer"));
 #endif
 
     const QIcon certPolicyIcon = QIcon::fromTheme("cert-policy", QIcon(":/images/cert_policy.png"));
-    QAction *makeCertPolicyAct = new QAction( certPolicyIcon, tr("&MakeCertPolicy"), this );
+    QAction *makeCertPolicyAct = new QAction( certPolicyIcon, tr("MakeCert&Policy"), this );
     makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
     connect( makeCertPolicyAct, &QAction::triggered, this, &MainWindow::makeCertPolicy );
     toolsMenu->addAction( makeCertPolicyAct );
     toolsToolBar->addAction( makeCertPolicyAct );
 
     const QIcon crlPolicyIcon = QIcon::fromTheme("crl-policy", QIcon(":/images/crl_policy.png"));
-    QAction *makeCRLPolicyAct = new QAction( crlPolicyIcon, tr("&MakeCRLPolicy"), this );
+    QAction *makeCRLPolicyAct = new QAction( crlPolicyIcon, tr("MakeC&RLPolicy"), this );
     connect( makeCRLPolicyAct, &QAction::triggered, this, &MainWindow::makeCRLPolicy);
     toolsMenu->addAction( makeCRLPolicyAct );
     toolsToolBar->addAction( makeCRLPolicyAct );
     makeCRLPolicyAct->setStatusTip(tr( "Make CRL Policy"));
 
-    QAction *makeCertAct = toolsMenu->addAction(tr("&MakeCertificate"), this, &MainWindow::makeCertificate);
+    QAction *makeCertAct = toolsMenu->addAction(tr("Make&Certificate"), this, &MainWindow::makeCertificate);
     makeCertAct->setStatusTip(tr( "Make certificate"));
 
-    QAction *makeCRLAct = toolsMenu->addAction(tr("&MakeCRL"), this, &MainWindow::makeCRL );
+    QAction *makeCRLAct = toolsMenu->addAction(tr("MakeCR&L"), this, &MainWindow::makeCRL );
     makeCRLAct->setStatusTip(tr( "Make CRL"));
 
-    QAction *revokeCertAct = toolsMenu->addAction(tr("&RevokeCert"), this, &MainWindow::revokeCertificate);
+    QAction *revokeCertAct = toolsMenu->addAction(tr("Revo&keCert"), this, &MainWindow::revokeCertificate);
     revokeCertAct->setStatusTip(tr( "Revoke certificate"));
 
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
@@ -289,31 +289,31 @@ void MainWindow::createActions()
     dataToolBar->addAction( importDataAct );
     importDataAct->setStatusTip(tr("Import data"));
 
-    QAction* pubLDAPAct = dataMenu->addAction(tr("PublishLDAP"), this, &MainWindow::publishLDAP);
+    QAction* pubLDAPAct = dataMenu->addAction(tr("&PublishLDAP"), this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish LDAP"));
 
-    QAction* getLDAPAct = dataMenu->addAction(tr("GetLDAP"), this, &MainWindow::getLDAP);
+    QAction* getLDAPAct = dataMenu->addAction(tr("&GetLDAP"), this, &MainWindow::getLDAP);
     getLDAPAct->setStatusTip(tr("Get LDAP"));
 
-    QAction* tspAct = dataMenu->addAction(tr("TSP"), this, &MainWindow::tsp );
+    QAction* tspAct = dataMenu->addAction(tr("&TSP"), this, &MainWindow::tsp );
     tspAct->setStatusTip(tr("TimeStampProtocol Service"));
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
 
     const QIcon caManIcon = QIcon::fromTheme("caman", QIcon(":/images/caman.png"));
-    QAction *aboutAct = new QAction( caManIcon, tr("About CAMan"), this);
+    QAction *aboutAct = new QAction( caManIcon, tr("&About CAMan"), this);
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
     helpMenu->addAction( aboutAct );
     helpToolBar->addAction( aboutAct );
     aboutAct->setStatusTip(tr("About CAMan"));
 
 #ifdef _PRO
-    QAction *srvStatusAct = helpMenu->addAction(tr("ServerStatus"), this, &MainWindow::serverStatus );
+    QAction *srvStatusAct = helpMenu->addAction(tr("ServerS&tatus"), this, &MainWindow::serverStatus );
     srvStatusAct->setStatusTip(tr("Server Status Information"));
 #endif
 
-    QAction *settingsAct = helpMenu->addAction(tr("Settings"), this, &MainWindow::settings );
+    QAction *settingsAct = helpMenu->addAction(tr("&Settings"), this, &MainWindow::settings );
     settingsAct->setStatusTip(tr("Settings CAMan"));
 }
 
@@ -364,6 +364,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
         menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
         menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
+        menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -692,7 +693,7 @@ void MainWindow::open()
     QString fileName = QFileDialog::getOpenFileName( this,
                                                      tr("Open CA DB file"),
                                                      strPath,
-                                                     tr("DB Files (*.db);;All Files (*.*)"),
+                                                     tr("DB Files (*.db *.db3);;All Files (*.*)"),
                                                      &selectedFilter,
                                                      options );
 
@@ -1717,6 +1718,7 @@ void MainWindow::issueSCEP()
     nRet = JS_SCEP_makePKIReq(
                 &binCSR,
                 &binPri,
+                NULL,
                 &binCACert,
                 &binSenderNonce,
                 pTransID,
@@ -1805,6 +1807,11 @@ end :
     if( pTransID ) JS_free( pTransID );
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pHex ) JS_free( pHex );
+}
+
+void MainWindow::renewSCEP()
+{
+    manApplet->warningBox( tr( "Not implimented"), this );
 }
 
 void MainWindow::expandMenu()

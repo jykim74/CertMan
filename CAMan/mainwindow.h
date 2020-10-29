@@ -175,6 +175,7 @@ public slots:
     void verifyTSMessage();
 
     void issueSCEP();
+    void renewSCEP();
 
 private slots:
     void showRightMenu( QPoint point );

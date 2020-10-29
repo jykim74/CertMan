@@ -33,6 +33,65 @@
     </message>
 </context>
 <context>
+    <name>AdminDlg</name>
+    <message>
+        <source>Admin Dialog</source>
+        <translation>관리자 대화창</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>상태</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>타입</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>삭제</translation>
+    </message>
+    <message>
+        <source>Register</source>
+        <translation>등록</translation>
+    </message>
+    <message>
+        <source>Modify</source>
+        <translation>변경</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation>이메일</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>You have to set name</source>
+        <translation>이름을 설정 하세요</translation>
+    </message>
+    <message>
+        <source>You have to set password</source>
+        <translation>암호를 설정 하세요</translation>
+    </message>
+    <message>
+        <source>You have to set email</source>
+        <translation>이메일을 설정 하세요</translation>
+    </message>
+    <message>
+        <source>Admin is not selected</source>
+        <translation>관리자가 선택 되지 않았습니다</translation>
+    </message>
+</context>
+<context>
     <name>CRLInfoDlg</name>
     <message>
         <source>CRL information</source>
@@ -168,12 +227,32 @@
         <translation>내보낼 파일</translation>
     </message>
     <message>
-        <source>Cert Files (*.crt);;Key Files (*.key);;All Files (*)</source>
+        <source>There is no data to be selected</source>
+        <translation>선택 된 데이타가 없습니다.</translation>
+    </message>
+    <message>
+        <source>DER Files (*.der);;All Files (*.*)</source>
+        <translation>DER 파일들(*.der);;모든 파일들 (*.*)</translation>
+    </message>
+    <message>
+        <source>Key Files (*.key);;DER Files (*.der);;All Files (*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <source>There is no data to be selected</source>
-        <translation>선택 된 데이타가 없습니다.</translation>
+        <source>CSR Files (*.csr);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>CRL Files (*.crl);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>PFX Files (*.pfx);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -266,8 +345,16 @@
         <translation>가져올 파일</translation>
     </message>
     <message>
-        <source>Cert Files (*.crt);;Key Files (*.key);;All Files (*)</source>
-        <translation></translation>
+        <source>Import to KMS</source>
+        <translation>KMS 에 주입하기</translation>
+    </message>
+    <message>
+        <source>KMS can not import CSR</source>
+        <translation>KMS은 CSR 을 주입 할 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>KMS can not import CRL</source>
+        <translation>KMS는 CRL을 주입 할 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -286,7 +373,7 @@
     </message>
     <message>
         <source>&amp;New</source>
-        <translation>새 파일(&amp;New)</translation>
+        <translation>새 파일(&amp;N)</translation>
     </message>
     <message>
         <source>Create a new file</source>
@@ -318,7 +405,7 @@
     </message>
     <message>
         <source>&amp;NewKey</source>
-        <translation>새 키(&amp;N)</translation>
+        <translation type="vanished">새 키(&amp;N)</translation>
     </message>
     <message>
         <source>Generate new key pair</source>
@@ -326,7 +413,7 @@
     </message>
     <message>
         <source>&amp;MakeRequest</source>
-        <translation>요청서 만들기(&amp;M)</translation>
+        <translation type="vanished">요청서 만들기(&amp;M)</translation>
     </message>
     <message>
         <source>Make Request</source>
@@ -334,7 +421,7 @@
     </message>
     <message>
         <source>&amp;RegisterUser</source>
-        <translation>사용자 등록(&amp;R)</translation>
+        <translation type="vanished">사용자 등록(&amp;R)</translation>
     </message>
     <message>
         <source>Register User</source>
@@ -342,7 +429,7 @@
     </message>
     <message>
         <source>&amp;RegisterSigner</source>
-        <translation>서명자 등록(&amp;R)</translation>
+        <translation type="vanished">서명자 등록(&amp;R)</translation>
     </message>
     <message>
         <source>Register Signer</source>
@@ -350,7 +437,7 @@
     </message>
     <message>
         <source>&amp;MakeCertPolicy</source>
-        <translation>인증서 정책 만들기(&amp;M)</translation>
+        <translation type="vanished">인증서 정책 만들기(&amp;M)</translation>
     </message>
     <message>
         <source>Make certificate policy</source>
@@ -358,7 +445,7 @@
     </message>
     <message>
         <source>&amp;MakeCRLPolicy</source>
-        <translation>CRL 정책 만들기(&amp;M)</translation>
+        <translation type="vanished">CRL 정책 만들기(&amp;M)</translation>
     </message>
     <message>
         <source>Make CRL Policy</source>
@@ -366,7 +453,7 @@
     </message>
     <message>
         <source>&amp;MakeCertificate</source>
-        <translation>인증서 만들기(&amp;M)</translation>
+        <translation type="vanished">인증서 만들기(&amp;M)</translation>
     </message>
     <message>
         <source>Make certificate</source>
@@ -374,7 +461,7 @@
     </message>
     <message>
         <source>&amp;MakeCRL</source>
-        <translation>CRL 만들기(&amp;M)</translation>
+        <translation type="vanished">CRL 만들기(&amp;M)</translation>
     </message>
     <message>
         <source>Make CRL</source>
@@ -382,7 +469,7 @@
     </message>
     <message>
         <source>&amp;RevokeCert</source>
-        <translation>인증서 폐기(&amp;R)</translation>
+        <translation type="vanished">인증서 폐기(&amp;R)</translation>
     </message>
     <message>
         <source>Revoke certificate</source>
@@ -406,7 +493,7 @@
     </message>
     <message>
         <source>PublishLDAP</source>
-        <translation>LDAP 게시하기</translation>
+        <translation type="vanished">LDAP 게시하기</translation>
     </message>
     <message>
         <source>Publish LDAP</source>
@@ -414,7 +501,7 @@
     </message>
     <message>
         <source>GetLDAP</source>
-        <translation>LDAP 에서 가져오기</translation>
+        <translation type="vanished">LDAP 에서 가져오기</translation>
     </message>
     <message>
         <source>Get LDAP</source>
@@ -438,7 +525,7 @@
     </message>
     <message>
         <source>ServerStatus</source>
-        <translation>서버 상태</translation>
+        <translation type="vanished">서버 상태</translation>
     </message>
     <message>
         <source>Server Status Information</source>
@@ -446,7 +533,7 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation>설정</translation>
+        <translation type="vanished">설정</translation>
     </message>
     <message>
         <source>Settings CAMan</source>
@@ -583,6 +670,226 @@
     <message>
         <source>Database has already openend</source>
         <translation>데이타 베이스 파일이 이미 열었습니다</translation>
+    </message>
+    <message>
+        <source>Recent Files</source>
+        <translation>최근 파일 들</translation>
+    </message>
+    <message>
+        <source>New&amp;Key</source>
+        <translation>새로운 키 (&amp;K)</translation>
+    </message>
+    <message>
+        <source>Make&amp;Request</source>
+        <translation>요청서 만들기(&amp;R)</translation>
+    </message>
+    <message>
+        <source>Register&amp;User</source>
+        <translation>사용자 등록(&amp;U)</translation>
+    </message>
+    <message>
+        <source>Register&amp;Signer</source>
+        <translation>서명자 등록(&amp;S)</translation>
+    </message>
+    <message>
+        <source>MakeCert&amp;Policy</source>
+        <translation>인증서 정책 만들기(&amp;P)</translation>
+    </message>
+    <message>
+        <source>&amp;MakeC&amp;RLPolicy</source>
+        <translation type="vanished">CRL 정책 만들기(&amp;R)</translation>
+    </message>
+    <message>
+        <source>Make&amp;Certificate</source>
+        <translation>인증서 만들기(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Revo&amp;keCert</source>
+        <translation>인증서 폐기(&amp;K)</translation>
+    </message>
+    <message>
+        <source>&amp;PublishLDAP</source>
+        <translation>LDAP 게시 (&amp;P)</translation>
+    </message>
+    <message>
+        <source>&amp;GetLDAP</source>
+        <translation>LDAP 가져오기 (&amp;G)</translation>
+    </message>
+    <message>
+        <source>&amp;TSP</source>
+        <translation>타임스탬프(&amp;T)</translation>
+    </message>
+    <message>
+        <source>TimeStampProtocol Service</source>
+        <translation>타임스탬프 서비스</translation>
+    </message>
+    <message>
+        <source>&amp;About CAMan</source>
+        <translation>CAMan에 대해 (&amp;A)</translation>
+    </message>
+    <message>
+        <source>ServerS&amp;tatus</source>
+        <translation>서버 상태 (&amp;T)</translation>
+    </message>
+    <message>
+        <source>&amp;Settings</source>
+        <translation>설정(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Export PFX</source>
+        <translation>PFX 내보내기</translation>
+    </message>
+    <message>
+        <source>Check OCSP</source>
+        <translation>OCSP 체크</translation>
+    </message>
+    <message>
+        <source>UpdateCMP</source>
+        <translation>CMP 갱신</translation>
+    </message>
+    <message>
+        <source>RevokeCMP</source>
+        <translation>CMP 폐기</translation>
+    </message>
+    <message>
+        <source>StatusByReg</source>
+        <translation>REG에게 상태 얻기</translation>
+    </message>
+    <message>
+        <source>RevokeByReg</source>
+        <translation>REG에게 폐기 요청</translation>
+    </message>
+    <message>
+        <source>RenewSCEP</source>
+        <translation>SCEP 갱신</translation>
+    </message>
+    <message>
+        <source>Issue SCEP</source>
+        <translation>SCEP 발급</translation>
+    </message>
+    <message>
+        <source>Edit Admin</source>
+        <translation>관리자 수정</translation>
+    </message>
+    <message>
+        <source>Issue CMP</source>
+        <translation>CMP 발급</translation>
+    </message>
+    <message>
+        <source>Activate Key</source>
+        <translation>키 활성화</translation>
+    </message>
+    <message>
+        <source>Delete Key</source>
+        <translation>키 삭제</translation>
+    </message>
+    <message>
+        <source>Verify Audit</source>
+        <translation>감사로그 검증</translation>
+    </message>
+    <message>
+        <source>View TSTInfo</source>
+        <translation>TST 정보 보기</translation>
+    </message>
+    <message>
+        <source>VerifyTSMessage</source>
+        <translation>타임스탬프 메세지 검증</translation>
+    </message>
+    <message>
+        <source>DB Files (*.db *.db3);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Fail to activate key</source>
+        <translation>키 활성 화 실패</translation>
+    </message>
+    <message>
+        <source>success to activate key</source>
+        <translation>키 활성화 성공</translation>
+    </message>
+    <message>
+        <source>Fail to delete key</source>
+        <translation>키 삭제 실패</translation>
+    </message>
+    <message>
+        <source>success to delete key</source>
+        <translation>키 삭제 성공</translation>
+    </message>
+    <message>
+        <source>CMPServer is not set</source>
+        <translation>CMP 서버가 설정이 안되었습니다</translation>
+    </message>
+    <message>
+        <source>CMP Issue OK</source>
+        <translation>CMP 발급 성공</translation>
+    </message>
+    <message>
+        <source>CMP Issue Fail</source>
+        <translation>CMP 발급 실패</translation>
+    </message>
+    <message>
+        <source>KeyPair information is not set</source>
+        <translation>키 쌍 정보가 설정 되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>CMP Update OK</source>
+        <translation>CMP 갱신 성공</translation>
+    </message>
+    <message>
+        <source>CMP Update Fail</source>
+        <translation>CMP 갱신 실패</translation>
+    </message>
+    <message>
+        <source>CMP Revoke OK</source>
+        <translation>CMP 폐기 성공</translation>
+    </message>
+    <message>
+        <source>CMP Revoke Fail</source>
+        <translation>CMP 폐기 실패</translation>
+    </message>
+    <message>
+        <source>MAC Verify OK</source>
+        <translation>MAC 검증 성공</translation>
+    </message>
+    <message>
+        <source>MAC is not valid</source>
+        <translation>MAC 값이 잘못 되었습니다</translation>
+    </message>
+    <message>
+        <source>Not implimented</source>
+        <translation>구현 되지 않았습니다.</translation>
+    </message>
+    <message>
+        <source>OCSP settinsg is not set</source>
+        <translation>OCSP 가 설정 되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>fail to encode request</source>
+        <translation>요청서 만들기 실패 하였습니다.</translation>
+    </message>
+    <message>
+        <source>fail to request</source>
+        <translation>요청 하기 실패</translation>
+    </message>
+    <message>
+        <source>fail to decode respose</source>
+        <translation>응답을 열기 실패 하였습니다.</translation>
+    </message>
+    <message>
+        <source>REGServer is not set</source>
+        <translation>REG 서버가 설정 되지 않았습니다.</translation>
+    </message>
+    <message>
+        <source>Revoke is success</source>
+        <translation>폐기에 성공 하였습니다.</translation>
+    </message>
+    <message>
+        <source>MakeCR&amp;L</source>
+        <translation>CRL 만들기 (&amp;L)</translation>
+    </message>
+    <message>
+        <source>MakeC&amp;RLPolicy</source>
+        <translation>CRL 정책 만들기 (&amp;R)</translation>
     </message>
 </context>
 <context>
@@ -1083,6 +1390,10 @@
         <source>fail to make request</source>
         <translation>요청서 만들기 실패</translation>
     </message>
+    <message>
+        <source>ChallengePass</source>
+        <translation>도전 암호</translation>
+    </message>
 </context>
 <context>
     <name>ManApplet</name>
@@ -1112,6 +1423,14 @@
     <message>
         <source>Quit</source>
         <translation>끝내기</translation>
+    </message>
+    <message>
+        <source>ServerStatus</source>
+        <translation>서버 상태</translation>
+    </message>
+    <message>
+        <source>Some servers are not connected</source>
+        <translation>특정 서버가 연결 되지 않았습니다.</translation>
     </message>
 </context>
 <context>
@@ -1163,6 +1482,14 @@
     <message>
         <source>Register Signer</source>
         <translation>서명자 등록</translation>
+    </message>
+    <message>
+        <source>Register Admin</source>
+        <translation>관리자 등록</translation>
+    </message>
+    <message>
+        <source>Register Key</source>
+        <translation>키 등록</translation>
     </message>
 </context>
 <context>
@@ -1285,6 +1612,21 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <source>Key Files (*.key);;DER Files (*.der);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Open File</source>
+        <translation>파일 열기</translation>
+    </message>
+</context>
+<context>
     <name>RevokeCertDlg</name>
     <message>
         <source>Revoke certificate</source>
@@ -1360,6 +1702,14 @@
         <source>disconnected</source>
         <translation>끊김</translation>
     </message>
+    <message>
+        <source>Refresh</source>
+        <translation>다시 읽기</translation>
+    </message>
+    <message>
+        <source>There is no list or ServerStatus is not set in settings</source>
+        <translation>서버에 목록이 없거나 설정이 되지 않았습니다.</translation>
+    </message>
 </context>
 <context>
     <name>SettingsDlg</name>
@@ -1427,6 +1777,198 @@
         <source>DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)</source>
         <translation>DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
     </message>
+    <message>
+        <source>Sever status check</source>
+        <translation>서버 상태 체크</translation>
+    </message>
+    <message>
+        <source>LDAP Host</source>
+        <translation>LDAP 서버</translation>
+    </message>
+    <message>
+        <source>LDAP Port</source>
+        <translation>LDAP 포트</translation>
+    </message>
+    <message>
+        <source>KMIP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use KMIP</source>
+        <translation>KMIP 사용</translation>
+    </message>
+    <message>
+        <source>KMIP Information</source>
+        <translation>KMIP 정보</translation>
+    </message>
+    <message>
+        <source>Private Key</source>
+        <translation>개인키</translation>
+    </message>
+    <message>
+        <source>UserName</source>
+        <translation>사용자 이름</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>포트</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>인증서</translation>
+    </message>
+    <message>
+        <source>CA cert</source>
+        <translation>CA 인증서</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>호스트</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>OCSP</source>
+        <translation>OCSP</translation>
+    </message>
+    <message>
+        <source>Use OCSP</source>
+        <translation>OCSP 사용</translation>
+    </message>
+    <message>
+        <source>OCSP Information</source>
+        <translation>OCSP 정보</translation>
+    </message>
+    <message>
+        <source>Attatch Signature</source>
+        <translation>서명 추가하기</translation>
+    </message>
+    <message>
+        <source>Signer PriKey</source>
+        <translation>서명자 개인키</translation>
+    </message>
+    <message>
+        <source>OCSP SrvCert</source>
+        <translation>OCSP 서버 인증서</translation>
+    </message>
+    <message>
+        <source>OCSP URI</source>
+        <translation>OCSP 주소(URI)</translation>
+    </message>
+    <message>
+        <source>Signer Cert</source>
+        <translation>서명자 인증서</translation>
+    </message>
+    <message>
+        <source>CMP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use CMP</source>
+        <translation>CMP 사용</translation>
+    </message>
+    <message>
+        <source>CMP Server Information</source>
+        <translation>CMP 서버 정보</translation>
+    </message>
+    <message>
+        <source>CMP URI</source>
+        <translation>CMP 주소(URI)</translation>
+    </message>
+    <message>
+        <source>CA Cert</source>
+        <translation>CA 인증서</translation>
+    </message>
+    <message>
+        <source>RootCA Cert</source>
+        <translation>루트 CA 인증서</translation>
+    </message>
+    <message>
+        <source>REG</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use REG</source>
+        <translation>REG 사용</translation>
+    </message>
+    <message>
+        <source>RegServer Information</source>
+        <translation>REG 서버 정보</translation>
+    </message>
+    <message>
+        <source>RegServer URI</source>
+        <translation>REG 주소(URI)</translation>
+    </message>
+    <message>
+        <source>TSP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use TSP</source>
+        <translation>TSP 사용</translation>
+    </message>
+    <message>
+        <source>TSP Information</source>
+        <translation>TSP 정보</translation>
+    </message>
+    <message>
+        <source>TSP URI</source>
+        <translation>TSP 주소(URI)</translation>
+    </message>
+    <message>
+        <source>TSP SrvCert</source>
+        <translation>TSP 서버 인증서</translation>
+    </message>
+    <message>
+        <source>SCEP</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Use SCEP</source>
+        <translation>SCEP 사용</translation>
+    </message>
+    <message>
+        <source>SCEP Information</source>
+        <translation>SCEP 정보</translation>
+    </message>
+    <message>
+        <source>SSL PrivateKey</source>
+        <translation>SSL 개인키</translation>
+    </message>
+    <message>
+        <source>SSL Certificate</source>
+        <translation>SSL 인증서</translation>
+    </message>
+    <message>
+        <source>SCEP URI</source>
+        <translation>SCEP 주소(URI)</translation>
+    </message>
+    <message>
+        <source>SSL Mutual Auth</source>
+        <translation>SSL 상호 인증</translation>
+    </message>
+    <message>
+        <source>CA Certificate File</source>
+        <translation>CA 인증서 파일</translation>
+    </message>
+    <message>
+        <source>Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Certificate File</source>
+        <translation>인증서 파일</translation>
+    </message>
+    <message>
+        <source>Private Key File</source>
+        <translation>개인키 파일</translation>
+    </message>
+    <message>
+        <source>PrivateKey Files (*.key);;DER Files (*.der);;All Files (*.*)</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>SignerDlg</name>
@@ -1460,6 +2002,118 @@
     </message>
 </context>
 <context>
+    <name>StatForm</name>
+    <message>
+        <source>Form</source>
+        <translation>형식</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation>일</translation>
+    </message>
+    <message>
+        <source>End</source>
+        <translation>끝</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>시작</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>갱신</translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation>월</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation>년</translation>
+    </message>
+</context>
+<context>
+    <name>StatisticsForm</name>
+    <message>
+        <source>Theme:</source>
+        <translation>테마</translation>
+    </message>
+    <message>
+        <source>Animation:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Legend:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Anti-aliasing</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>TSPDlg</name>
+    <message>
+        <source>TSP Service</source>
+        <translation>TSP 대화창</translation>
+    </message>
+    <message>
+        <source>String</source>
+        <translation>문자열</translation>
+    </message>
+    <message>
+        <source>Hash</source>
+        <translation>해쉬</translation>
+    </message>
+    <message>
+        <source>Send</source>
+        <translation>보내기</translation>
+    </message>
+    <message>
+        <source>Source Data</source>
+        <translation>소스 데이타</translation>
+    </message>
+    <message>
+        <source>Hex</source>
+        <translation>16진수</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Base64</source>
+        <translation>베이스64</translation>
+    </message>
+    <message>
+        <source>TSP service is not set</source>
+        <translation>TSP 서비스가 설정 되지 않았습니다</translation>
+    </message>
+</context>
+<context>
+    <name>TSTInfoDlg</name>
+    <message>
+        <source>TST Information</source>
+        <translation>TST 정보</translation>
+    </message>
+    <message>
+        <source>You have to set TST sequece</source>
+        <translation>TST 시퀀스를 설정 해야합니다.</translation>
+    </message>
+    <message>
+        <source>Fail to decode TST message</source>
+        <translation>TST 메세지 디코딩 실패</translation>
+    </message>
+    <message>
+        <source>Field</source>
+        <translation>필드</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
+</context>
+<context>
     <name>UserDlg</name>
     <message>
         <source>User</source>
@@ -1488,6 +2142,14 @@
     <message>
         <source>Status</source>
         <translation>상태</translation>
+    </message>
+    <message>
+        <source>RegServer</source>
+        <translation>REG 서버</translation>
+    </message>
+    <message>
+        <source>REGServer is not set</source>
+        <translation>REG 서버가 설정 되지 않았습니다</translation>
     </message>
 </context>
 </TS>
