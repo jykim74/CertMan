@@ -60,7 +60,7 @@ void SignerDlg::accept()
 
     QString strCertPath = mCertPathText->text();
 
-    JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binCert );
+    JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binCert );
     JS_BIN_encodeHex( &binCert, &pCert );
 
     JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );

@@ -559,7 +559,7 @@ void MainWindow::newFile()
     }
 
     JS_BIN_set( &binDB, (unsigned char *)data.data(), data.size() );
-    JS_BIN_fileWrite( &binDB, fileName.toStdString().c_str() );
+    JS_BIN_fileWrite( &binDB, fileName.toLocal8Bit().toStdString().c_str() );
     JS_BIN_reset(&binDB);
 
     db_mgr_->close();
@@ -1476,7 +1476,7 @@ void MainWindow::updateCMP()
    strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
-   JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
+   JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
    ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
    if( ret != 0 ) goto end;
@@ -1554,7 +1554,7 @@ void MainWindow::revokeCMP()
    strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
-   JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCACert );
+   JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
    ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason, &binResCert );
 
@@ -1682,8 +1682,8 @@ void MainWindow::issueSCEP()
         QString strCertPath = smgr->SCEPCertPath();
         QString strPriPath = smgr->SCEPPriKeyPath();
 
-        JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binSSLCert );
-        JS_BIN_fileRead( strPriPath.toStdString().c_str(), &binSSLPri );
+        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
     }
 
     JS_PKI_genRandom( 16, &binSenderNonce );
@@ -1854,8 +1854,8 @@ void MainWindow::renewSCEP()
         QString strCertPath = smgr->SCEPCertPath();
         QString strPriPath = smgr->SCEPPriKeyPath();
 
-        JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binSSLCert );
-        JS_BIN_fileRead( strPriPath.toStdString().c_str(), &binSSLPri );
+        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
     }
 
     JS_PKI_genRandom( 16, &binSenderNonce );
@@ -2160,7 +2160,7 @@ void MainWindow::checkOCSP()
     strURL += "/OCSP";
     strOCSPSrvCert = manApplet->settingsMgr()->OCSPSrvCertPath();
 
-    JS_BIN_fileRead( strOCSPSrvCert.toStdString().c_str(), &binSignCert );
+    JS_BIN_fileRead( strOCSPSrvCert.toLocal8Bit().toStdString().c_str(), &binSignCert );
 
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/ocsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )

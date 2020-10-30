@@ -1132,9 +1132,9 @@ int getKMIPConnection( SettingsMgr* settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Au
         JS_KMS_makeAuthentication( strUserName.toStdString().c_str(), strPasswd.toStdString().c_str(), pAuth );
     }
 
-    JS_BIN_fileRead( strCACertPath.toStdString().c_str(), &binCACert );
-    JS_BIN_fileRead( strCertPath.toStdString().c_str(), &binCert );
-    JS_BIN_fileRead( strPriKeyPath.toStdString().c_str(), &binPriKey );
+    JS_BIN_fileRead( strCACertPath.toLocal8Bit().toStdString().c_str(), &binCACert );
+    JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binCert );
+    JS_BIN_fileRead( strPriKeyPath.toLocal8Bit().toStdString().c_str(), &binPriKey );
 
 
     JS_SSL_initClient( &pCTX );
@@ -1328,8 +1328,8 @@ void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList )
     QString strRootCAPath = settingMgr->CMPRootCACertPath();
     QString strCAPath = settingMgr->CMPCACertPath();
 
-    JS_BIN_fileRead( strRootCAPath.toStdString().c_str(), &binRootCA );
-    JS_BIN_fileRead( strCAPath.toStdString().c_str(), &binCA );
+    JS_BIN_fileRead( strRootCAPath.toLocal8Bit().toStdString().c_str(), &binRootCA );
+    JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCA );
 
     JS_BIN_createList( &binRootCA, &pBinList );
     JS_BIN_appendList( pBinList, &binCA );

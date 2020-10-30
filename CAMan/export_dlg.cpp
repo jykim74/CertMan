@@ -156,7 +156,7 @@ void ExportDlg::accept()
     if( mPEMSaveCheck->isChecked() )
         JS_BIN_writePEM( &binData, nPEMType, strPath.toStdString().c_str() );
     else
-        JS_BIN_fileWrite( &binData, strPath.toStdString().c_str() );
+        JS_BIN_fileWrite( &binData, strPath.toLocal8Bit().toStdString().c_str() );
 
     JS_BIN_reset( &binData );
     QDialog::accept();
