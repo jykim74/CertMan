@@ -1246,6 +1246,52 @@ int verifyAuditRec( AuditRec audit )
     return ret;
 }
 
+int writeCertDB( DBMgr *dbMgr, const BIN *pCert )
+{
+    int nRet = 0;
+    JCertInfo   sCertInfo;
+    char *pHex = NULL;
+    CertRec certRec;
+
+    if( pCert == NULL || dbMgr == NULL ) return -1;
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    nRet = JS_PKI_getCertInfo( pCert, &sCertInfo, NULL );
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to parse certificate : %d\n", nRet );
+        nRet = -1;
+        goto end;
+    }
+
+    JS_BIN_encodeHex( pCert, &pHex );
+
+    certRec.setCert( pHex );
+    certRec.setRegTime( time(NULL));
+    certRec.setKeyNum( -1 );
+    certRec.setSubjectDN( sCertInfo.pSubjectName );
+    certRec.setIssuerNum( -2 );
+    certRec.setSignAlg( sCertInfo.pSignAlgorithm );
+    dbMgr->addCertRec( certRec );
+
+end :
+    JS_PKI_resetCertInfo( &sCertInfo );
+    if( pHex ) JS_free( pHex );
+
+    return nRet;
+}
+
+int writeCSRDB( DBMgr *dbMgr, const BIN *pCSR )
+{
+    return 0;
+}
+
+int writeKeyPairDB( DBMgr *dbMgr, const BIN *pPub, const BIN *pPri )
+{
+    return 0;
+}
+
 QString findPath(int bPri, QWidget *parent )
 {
     QFileDialog::Options options;

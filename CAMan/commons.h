@@ -75,6 +75,10 @@ int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Au
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo );
 int verifyAuditRec( AuditRec audit );
 
+int writeCertDB( DBMgr *dbMgr, const BIN *pCert );
+int writeCSRDB( DBMgr *dbMgr, const BIN *pCSR );
+int writeKeyPairDB( DBMgr *dbMgr, const BIN *pPub, const BIN *pPri );
+
 QString findPath(int bPri, QWidget *parent );
 void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList );
 

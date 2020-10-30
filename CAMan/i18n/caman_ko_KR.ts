@@ -405,7 +405,7 @@
     </message>
     <message>
         <source>&amp;NewKey</source>
-        <translation type="vanished">새 키(&amp;N)</translation>
+        <translation>새 키(&amp;N)</translation>
     </message>
     <message>
         <source>Generate new key pair</source>
@@ -677,7 +677,7 @@
     </message>
     <message>
         <source>New&amp;Key</source>
-        <translation>새로운 키 (&amp;K)</translation>
+        <translation type="vanished">새로운 키 (&amp;K)</translation>
     </message>
     <message>
         <source>Make&amp;Request</source>
@@ -857,7 +857,7 @@
     </message>
     <message>
         <source>Not implimented</source>
-        <translation>구현 되지 않았습니다.</translation>
+        <translation type="vanished">구현 되지 않았습니다.</translation>
     </message>
     <message>
         <source>OCSP settinsg is not set</source>

@@ -83,7 +83,7 @@ void NewKeyDlg::accept()
 
     BIN binPri = {0,0};
     BIN binPub = {0,0};
-    BIN binPub2 = {0,0};
+
     char *pPriHex = NULL;
     char *pPubHex = NULL;
 
@@ -92,12 +92,12 @@ void NewKeyDlg::accept()
         int nKeySize = mOptionCombo->currentText().toInt();
         int nExponent = mExponentText->text().toInt();
 
-        ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPub2, &binPri );
+        ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
     else if( mMechCombo->currentIndex() == 1 )
     {
         int nGroupID = JS_PKI_getNidFromSN( mOptionCombo->currentText().toStdString().c_str() );
-        ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPub2, &binPri );
+        ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
     }
     else if( mMechCombo->currentIndex() == 2 || mMechCombo->currentIndex() == 3 )
     {
@@ -108,7 +108,7 @@ void NewKeyDlg::accept()
         if( ret == QDialog::Accepted )
         {
             strPin = pinDlg.getPinText();
-            ret = genKeyPairWithP11( strPin, &binPri, &binPub, &binPub2 );
+            ret = genKeyPairWithP11( strPin, &binPri, &binPub );
         }
         else
         {
@@ -117,7 +117,7 @@ void NewKeyDlg::accept()
     }
     else if( mMechCombo->currentIndex() == 4 || mMechCombo->currentIndex() == 5 )
     {
-        ret = genKeyPairWithKMIP( &binPri, &binPub, &binPub2 );
+        ret = genKeyPairWithKMIP( &binPri, &binPub );
     }
 
     if( ret != 0 )
@@ -127,7 +127,7 @@ void NewKeyDlg::accept()
     }
 
     JS_BIN_encodeHex( &binPri, &pPriHex );
-    JS_BIN_encodeHex( &binPub2, &pPubHex );
+    JS_BIN_encodeHex( &binPub, &pPubHex );
 
     keyPairRec.setAlg( mMechCombo->currentText() );
     keyPairRec.setRegTime( time(NULL) );
@@ -143,7 +143,6 @@ void NewKeyDlg::accept()
 end:
     JS_BIN_reset(&binPri);
     JS_BIN_reset(&binPub);
-    JS_BIN_reset(&binPub2);
     if( pPriHex ) JS_free( pPriHex );
     if( pPubHex ) JS_free( pPubHex );
 
@@ -173,7 +172,7 @@ void NewKeyDlg::mechChanged(int index )
     }
 }
 
-int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPub2 )
+int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub )
 {
     JP11_CTX   *pP11CTX = NULL;
 
@@ -393,7 +392,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
         JS_BIN_encodeHex( &binPubExponent, &pE );
 
         JS_PKI_setRSAKeyVal( &rsaKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
-        JS_PKI_encodeRSAPublicKey( &rsaKey, pPub, pPub2 );
+        JS_PKI_encodeRSAPublicKey( &rsaKey, pPub );
 
         if( pN ) JS_free( pN );
         if( pE ) JS_free( pE );
@@ -417,7 +416,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub, BIN *pPu
         JS_BIN_encodeHex( &binGroup, &pGroup );
 
         JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
-        JS_PKI_encodeECPublicKey( &ecKey, pPub, pPub2 );
+        JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
         if( pECPoint ) JS_free( pECPoint );
         if( pGroup ) JS_free( pGroup );
@@ -444,7 +443,7 @@ end :
     return rv;
 }
 
-int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
+int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub )
 {
     int ret = 0;
     Authentication *pAuth = NULL;
@@ -514,7 +513,7 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
         memset( &sRSAKey, 0x00, sizeof(sRSAKey));
         JS_PKI_getRSAPublicKeyVal( &binData, &pE, &pN );
         JS_PKI_setRSAKeyVal( &sRSAKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
-        JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub, pPub2 );
+        JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub );
 
         if( pN ) JS_free( pN );
         if( pE ) JS_free( pE );
@@ -542,7 +541,7 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub, BIN *pPub2 )
         JS_BIN_encodeHex( &binGroup, &pGroup );
 
         JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
-        JS_PKI_encodeECPublicKey( &ecKey, pPub, pPub2 );
+        JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
         if( pECPoint ) JS_free( pECPoint );
         if( pGroup ) JS_free( pGroup );
