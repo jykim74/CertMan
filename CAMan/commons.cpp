@@ -1282,14 +1282,84 @@ end :
     return nRet;
 }
 
-int writeCSRDB( DBMgr *dbMgr, const BIN *pCSR )
+int writeCSRDB( DBMgr *dbMgr, int nKeyNum, const char *pName, const char *pDN, const char *pHash, const BIN *pCSR )
 {
-    return 0;
+    int seq = 0;
+    ReqRec  req;
+    char *pHexCSR = NULL;
+
+    seq = dbMgr->getSeq( "TB_REQ" );
+    seq++;
+
+    JS_BIN_encodeHex( pCSR, &pHexCSR );
+
+    req.setSeq( seq );
+    req.setRegTime( time(NULL) );
+    req.setKeyNum( nKeyNum );
+    req.setName( pName );
+    req.setDN( pDN );
+    req.setHash( pHash );
+    req.setCSR( pHexCSR );
+    req.setStatus( 0 );
+
+    dbMgr->addReqRec( req );
+    if( pHexCSR ) JS_free( pHexCSR );
+
+    return seq;
 }
 
-int writeKeyPairDB( DBMgr *dbMgr, const BIN *pPub, const BIN *pPri )
+int writeKeyPairDB( DBMgr *dbMgr, const char *pName, const BIN *pPub, const BIN *pPri )
 {
-    return 0;
+    int ret = 0;
+    int seq = -1;
+    int nType = -1;
+    int nOption = -1;
+    QString strAlg;
+    QString strParam;
+    char *pPubHex = NULL;
+    char *pPriHex = NULL;
+
+    KeyPairRec  keyPair;
+
+    seq = dbMgr->getSeq( "TB_KEY_PAIR" );
+    seq++;
+
+    ret = JS_PKI_getPubKeyInfo( pPub, &nType, &nOption );
+    if( ret != 0 ) return -1;
+
+    if( nType == JS_PKI_KEY_TYPE_RSA )
+    {
+        strAlg = "RSA";
+        strParam = QString( "%1" ).arg( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ECC )
+    {
+        strAlg = "ECC";
+        strParam = JS_PKI_getSNFromNid( nOption );
+    }
+    else {
+        return -1;
+    }
+
+    JS_BIN_encodeHex( pPub, &pPubHex );
+    JS_BIN_encodeHex( pPri, &pPriHex );
+
+    keyPair.setNum( seq );
+    keyPair.setAlg( strAlg );
+    keyPair.setParam( strParam );
+    keyPair.setName( pName );
+    keyPair.setRegTime( time(NULL) );
+    keyPair.setStatus( 0 );
+
+    keyPair.setPublicKey( pPubHex );
+    keyPair.setPrivateKey( pPriHex );
+
+    dbMgr->addKeyPairRec( keyPair );
+
+    if( pPubHex ) JS_free( pPubHex );
+    if( pPriHex ) JS_free( pPriHex );
+
+    return seq;
 }
 
 QString findPath(int bPri, QWidget *parent )

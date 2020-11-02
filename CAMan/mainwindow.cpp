@@ -1403,10 +1403,12 @@ void MainWindow::issueCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPri );
    if( ret != 0 ) goto end;
 
+   writeKeyPairDB( db_mgr_, userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+
    ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
    if( ret != 0 ) goto end;
 
-   JS_BIN_fileWrite( &binCert, "D:/cmp/issue_cert.der" );
+   writeCertDB( db_mgr_, &binCert );
 
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode );
    if( ret != 0 ) goto end;
@@ -1484,10 +1486,12 @@ void MainWindow::updateCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binNewPri );
    if( ret != 0 ) goto end;
 
+   writeKeyPairDB( db_mgr_, certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
+
    ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
    if( ret != 0 ) goto end;
 
-   JS_BIN_fileWrite( &binNewCert, "D:/cmp/update_cert.der" );
+   writeCertDB( db_mgr_, &binNewCert );
 
    ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
    if( ret != 0 ) goto end;
@@ -1788,6 +1792,7 @@ end :
 void MainWindow::renewSCEP()
 {
     int ret = 0;
+    int nKeyNum = -1;
     int nKeyType = -1;
     int nOption = -1;
     BIN binCert = {0,0};
@@ -1845,9 +1850,11 @@ void MainWindow::renewSCEP()
     else if( nKeyType == JS_PKI_KEY_TYPE_RSA )
         JS_PKI_ECCGenKeyPair( nOption, &binNPub, &binNPri );
 
+    nKeyNum = writeKeyPairDB( db_mgr_, sCertInfo.pSubjectName, &binNPub, &binNPri );
+
     ret = JS_PKI_makeCSR( nKeyType, "SHA256", sCertInfo.pSubjectName, pChallengePass, &binNPri, NULL, &binCSR );
 
-
+    writeCSRDB( db_mgr_, nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
 
     if( smgr->SCEPMutualAuth() )
     {
@@ -2455,7 +2462,7 @@ void MainWindow::createRightRequestList()
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
     right_table_->horizontalHeader()->setStyleSheet( style );
 
-    right_table_->setColumnCount(6);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
