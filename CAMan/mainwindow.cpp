@@ -1795,6 +1795,7 @@ void MainWindow::renewSCEP()
     int nKeyType = -1;
     int nOption = -1;
     BIN binCert = {0,0};
+    BIN binPri = {0,0};
     BIN binPub = {0,0};
 
     BIN binNPub = {0,0};
@@ -1814,7 +1815,7 @@ void MainWindow::renewSCEP()
 
     JCertInfo   sCertInfo;
 
-    const char *pChallengePass = NULL;
+    const char *pChallengePass = "1111";
 
     SettingsMgr *smgr = manApplet->settingsMgr();
 
@@ -1829,9 +1830,20 @@ void MainWindow::renewSCEP()
     QString strURL;
 
     CertRec certRec;
+    KeyPairRec keyPair;
+
     db_mgr_->getCertRec( num, certRec );
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    if( certRec.getKeyNum() < 0 )
+    {
+        manApplet->warningBox( tr( "The certificate has not keypair in this tool"), this );
+        goto end;
+    }
+
+    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
@@ -1886,7 +1898,7 @@ void MainWindow::renewSCEP()
 
     ret = JS_SCEP_makePKIReq(
                 &binCSR,
-                &binNPri,
+                &binPri,
                 &binCert,
                 &binCACert,
                 &binSenderNonce,
@@ -1921,7 +1933,7 @@ void MainWindow::renewSCEP()
     ret = JS_SCEP_parseCertRsp(
                 &binRsp,
                 &binCACert,
-                &binNPri,
+                &binPri,
                 &binSenderNonce,
                 pTransID,
                 &binSignedData );
@@ -1948,6 +1960,7 @@ void MainWindow::renewSCEP()
 end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binPri );
     JS_BIN_reset( &binNPri );
     JS_BIN_reset( &binNPub );
     JS_BIN_reset( &binCSR );
