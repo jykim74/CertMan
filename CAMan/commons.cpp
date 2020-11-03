@@ -1282,6 +1282,45 @@ end :
     return nRet;
 }
 
+int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL )
+{
+    int nRet = 0;
+    int nSeq = 0;
+    JCRLInfo sCRLInfo;
+    CRLRec crlRec;
+    char *pHex = NULL;
+
+    if( pCRL == NULL ) return -1;
+
+    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
+
+    nRet = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, NULL, NULL );
+    if( nRet != 0 )
+    {
+        fprintf( stderr, "fail to parse crl data : %d\n", nRet);
+        goto end;
+    }
+
+    nSeq = dbMgr->getSeq( "TB_CRL" );
+    nSeq++;
+
+    JS_BIN_encodeHex( pCRL, &pHex );
+
+    crlRec.setNum( nSeq );
+    crlRec.setRegTime( time(NULL));
+    crlRec.setIssuerNum( -2 );
+    crlRec.setSignAlg( sCRLInfo.pSignAlgorithm );
+    crlRec.setCRL( pHex );
+
+    dbMgr->addCRLRec( crlRec );
+
+end:
+    JS_PKI_resetCRLInfo( &sCRLInfo );
+    if( pHex ) JS_free( pHex );
+
+    return nRet;
+}
+
 int writeCSRDB( DBMgr *dbMgr, int nKeyNum, const char *pName, const char *pDN, const char *pHash, const BIN *pCSR )
 {
     int seq = 0;

@@ -176,6 +176,7 @@ public slots:
 
     void issueSCEP();
     void renewSCEP();
+    void getCRLSCEP();
 
 private slots:
     void showRightMenu( QPoint point );

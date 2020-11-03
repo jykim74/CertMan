@@ -362,6 +362,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
         menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
         menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
+        menu.addAction( tr( "getCRLSCEP"), this, &MainWindow::getCRLSCEP );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -1857,13 +1858,24 @@ void MainWindow::renewSCEP()
     JS_PKI_getPubKeyInfo( &binPub, &nKeyType, &nOption );
 
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
-        JS_PKI_RSAGenKeyPair( nOption, 63357, &binNPub, &binNPri );
+        ret = JS_PKI_RSAGenKeyPair( nOption, 63357, &binNPub, &binNPri );
     else if( nKeyType == JS_PKI_KEY_TYPE_RSA )
-        JS_PKI_ECCGenKeyPair( nOption, &binNPub, &binNPri );
+        ret = JS_PKI_ECCGenKeyPair( nOption, &binNPub, &binNPri );
+
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to generate keypair"), this );
+        goto end;
+    }
 
     nKeyNum = writeKeyPairDB( db_mgr_, sCertInfo.pSubjectName, &binNPub, &binNPri );
 
     ret = JS_PKI_makeCSR( nKeyType, "SHA256", sCertInfo.pSubjectName, pChallengePass, &binNPri, NULL, &binCSR );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to make csr"), this );
+        goto end;
+    }
 
     writeCSRDB( db_mgr_, nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
 
@@ -1973,6 +1985,158 @@ end :
     if( pTransID ) JS_free( pTransID );
     JS_BIN_reset( &binSignedData );
     JS_BIN_reset( &binNCert );
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+}
+
+void MainWindow::getCRLSCEP()
+{
+    int ret = 0;
+    int nKeyNum = -1;
+    int nKeyType = -1;
+    int nOption = -1;
+    BIN binCert = {0,0};
+    BIN binPri = {0,0};
+    BIN binPub = {0,0};
+
+    BIN binSSLCert = {0,0};
+    BIN binSSLPri = {0,0};
+    BIN binSenderNonce = {0,0};
+
+    int nStatus = 0;
+    BIN binCACert = {0,0};
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+    BIN binSignedData = {0,0};
+    BIN binCRL = {0,0};
+
+
+    const char *pTransID = "1111";
+
+    SettingsMgr *smgr = manApplet->settingsMgr();
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    if( smgr->SCEPURI() == false ) return;
+
+    QString strSCEPURL = smgr->SCEPURI();
+    QString strURL;
+
+    CertRec certRec;
+    KeyPairRec keyPair;
+
+    db_mgr_->getCertRec( num, certRec );
+
+    if( certRec.getKeyNum() < 0 )
+    {
+        manApplet->warningBox( tr( "The certificate has not keypair in this tool"), this );
+        goto end;
+    }
+
+    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+
+    if( smgr->SCEPMutualAuth() )
+    {
+        QString strCertPath = smgr->SCEPCertPath();
+        QString strPriPath = smgr->SCEPPriKeyPath();
+
+        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
+    }
+
+    JS_PKI_genRandom( 16, &binSenderNonce );
+
+
+    strURL = QString( "%1?operation=GetCACert" ).arg( strSCEPURL );
+
+    ret = JS_HTTP_requestGetBin2(
+                strURL.toStdString().c_str(),
+                &binSSLPri,
+                &binSSLCert,
+                &nStatus,
+                &binCACert );
+
+    if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
+    {
+        fprintf( stderr, "fail to request Get [%d:%d]\n", ret, nStatus );
+        manApplet->warningBox( "fail to request Get", this );
+        goto end;
+    }
+
+    ret = JS_SCEP_makeGetCRL( &binCert, &binPri, &binCert, &binCACert, &binSenderNonce, pTransID, &binReq );
+
+
+    if( ret != 0 )
+    {
+        fprintf( stderr, "fail to make getCRL : %d\n", ret );
+        manApplet->warningBox( "fail to make PKIReq", this );
+        goto end;
+    }
+
+    strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
+
+    ret = JS_HTTP_requestPostBin2(
+                strURL.toStdString().c_str(),
+                &binSSLPri,
+                &binSSLCert,
+                "application/x-pki-message",
+                &binReq,
+                &nStatus,
+                &binRsp );
+
+    if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
+    {
+        fprintf( stderr, "fail to request Post [%d:%d]\n", ret, nStatus );
+        manApplet->warningBox( "fail to request Post", this );
+        goto end;
+    }
+
+    ret = JS_SCEP_parseCertRsp(
+                &binRsp,
+                &binCACert,
+                &binPri,
+                &binSenderNonce,
+                pTransID,
+                &binSignedData );
+
+    if( ret != 0 )
+    {
+        fprintf( stderr, "fail to parse CertRsp : %d\n", ret );
+        manApplet->warningBox( "fail to parse CertRsp", this );
+        goto end;
+    }
+
+    ret = JS_SCEP_getCRL( &binSignedData, &binCRL );
+    if( ret != 0 )
+    {
+        fprintf( stderr, "fail to get crl in reply: %d\n", ret );
+        manApplet->warningBox( "fail to get crl in reply", this );
+        goto end;
+    }
+
+    writeCRLDB( db_mgr_, &binCRL );
+
+    manApplet->mainWindow()->createRightCRLList(-2);
+
+end :
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binPri );
+
+
+    JS_BIN_reset( &binSSLCert );
+    JS_BIN_reset( &binSSLPri );
+    JS_BIN_reset( &binSenderNonce );
+    JS_BIN_reset( &binCACert );
+    JS_BIN_reset( &binCRL );
+    JS_BIN_reset( &binSignedData );
+
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
 }

@@ -891,6 +891,26 @@
         <source>MakeC&amp;RLPolicy</source>
         <translation>CRL 정책 만들기 (&amp;R)</translation>
     </message>
+    <message>
+        <source>getCRLSCEP</source>
+        <translation>SCEP CRL 가져오기</translation>
+    </message>
+    <message>
+        <source>The certificate has not keypair in this tool</source>
+        <translation>키 쌍이 저장 되어 있어야 합니다.</translation>
+    </message>
+    <message>
+        <source>fail to decode certificate</source>
+        <translation>인증서 디코딩에 실패하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to generate keypair</source>
+        <translation>키 쌍 생성에 실패 하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to make csr</source>
+        <translation>CSR 만들기에 실패 하였습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>

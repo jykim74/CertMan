@@ -76,8 +76,10 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo );
 int verifyAuditRec( AuditRec audit );
 
 int writeCertDB( DBMgr *dbMgr, const BIN *pCert );
+int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL );
 int writeCSRDB( DBMgr *dbMgr, int nKeyNum, const char *pName, const char *pDN, const char *pHash, const BIN *pCSR );
 int writeKeyPairDB( DBMgr *dbMgr, const char *pName, const BIN *pPub, const BIN *pPri );
+
 
 QString findPath(int bPri, QWidget *parent );
 void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList );
