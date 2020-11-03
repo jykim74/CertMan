@@ -163,9 +163,6 @@ void MainWindow::initialize()
     vsplitter_->addWidget(right_menu_);
     vsplitter_->addWidget(right_text_);
 
-
-
-
     QList <int> vsizes;
     vsizes << 1200 << 10 << 500;
     vsplitter_->setSizes(vsizes);
@@ -183,8 +180,6 @@ void MainWindow::initialize()
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
     connect( right_table_, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showRightMenu(QPoint)));
-
-
 }
 
 
@@ -295,8 +290,10 @@ void MainWindow::createActions()
     QAction* getLDAPAct = dataMenu->addAction(tr("&GetLDAP"), this, &MainWindow::getLDAP);
     getLDAPAct->setStatusTip(tr("Get LDAP"));
 
+
     QAction* tspAct = dataMenu->addAction(tr("&TSP"), this, &MainWindow::tsp );
     tspAct->setStatusTip(tr("TimeStampProtocol Service"));
+
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
@@ -1760,6 +1757,8 @@ void MainWindow::issueSCEP()
         manApplet->warningBox( "fail to parse CertRsp", this );
         goto end;
     }
+
+//    JS_BIN_fileWrite( &binSignedData, "D:/jsca/res_signeddata.ber" );
 
     nRet = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNewCert );
     if( nRet != 0 )
