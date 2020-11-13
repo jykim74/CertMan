@@ -138,66 +138,41 @@ void SettingsDlg::checkKMIPUse()
 
 void SettingsDlg::findCACert()
 {
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("CA Certificate File"),
-                                                     QDir::currentPath(),
-                                                     tr("Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
 
     mKMIPCACertPathText->setText( fileName );
 }
 
 void SettingsDlg::findCert()
 {
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Certificate File"),
-                                                     QDir::currentPath(),
-                                                     tr("Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
 
     mKMIPCertPathText->setText( fileName );
 }
 
 void SettingsDlg::findPrivateKey()
 {
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Private Key File"),
-                                                     QDir::currentPath(),
-                                                     tr("PrivateKey Files (*.key);;DER Files (*.der);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
+    if( fileName.length() < 1 ) return;
 
     mKMIPPrivateKeyPathText->setText( fileName );
 }
 
 void SettingsDlg::findP11Path()
 {
+#ifdef Q_OS_MAC
     QString strPath = "/usr/local/lib";
+#else
+    QString strPath = manApplet->getSetPath();
+#endif
 
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Open cryptoki library file"),
-                                                     strPath,
-                                                     tr("DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
+    QString fileName = findFile( this, JS_FILE_TYPE_DLL, strPath );
+    if( fileName.length() < 1 ) return;
 
     mLibraryP11PathText->setText( fileName );
 }
@@ -221,19 +196,28 @@ void SettingsDlg::checkOCSPAttachSign()
 
 void SettingsDlg::findOCSPSrvCert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mOCSPSrvCertPathText->setText( fileName );
 }
 
 void SettingsDlg::findOCSPPri()
 {
-    QString fileName = findPath( 1, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
+    if( fileName.length() < 1 ) return;
+
     mOCSPSignerPriPathText->setText( fileName );
 }
 
 void SettingsDlg::findOCSPCert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mOCSPSignerCertPathText->setText( fileName );
 }
 
@@ -252,13 +236,19 @@ void SettingsDlg::checkCMPUse()
 
 void SettingsDlg::findCMPRootCACert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mCMPRootCACertPathText->setText( fileName );
 }
 
 void SettingsDlg::findCMPCACert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mCMPCACertPathText->setText( fileName );
 }
 
@@ -270,7 +260,10 @@ void SettingsDlg::checkTSPUse()
 
 void SettingsDlg::findTSPSrvCert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mTSPSrvCertPathText->setText( fileName );
 }
 
@@ -294,13 +287,19 @@ void SettingsDlg::checkSCEPMutualAuth()
 
 void SettingsDlg::findSCEPPriKey()
 {
-    QString fileName = findPath( 1, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
+    if( fileName.length() < 1 ) return;
+
     mSCEPPriKeyPathText->setText( fileName );
 }
 
 void SettingsDlg::findSCEPCert()
 {
-    QString fileName = findPath( 0, this );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
+
     mSCEPCertPathText->setText( fileName );
 }
 

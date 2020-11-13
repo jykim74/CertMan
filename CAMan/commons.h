@@ -66,6 +66,10 @@ const QStringList kRevokeReasonList = {
     "keyTime","CAKeyTime"
 };
 
+enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BER, JS_FILE_TYPE_DB, JS_FILE_TYPE_DLL };
+
+QString findFile( QWidget *parent, int nType, const QString strPath );
+
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec );
 int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec );
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );

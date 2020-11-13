@@ -539,18 +539,10 @@ void MainWindow::newFile()
     QByteArray data = resFile.readAll();
     resFile.close();
 
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
 
-    QString strPath = getPath();
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_DB, strPath );
 
-    QString selectedFilter;
-    QString fileName = QFileDialog::getSaveFileName( this,
-                                                     tr("New CA DB Files"),
-                                                     strPath,
-                                                     tr("DB Files (*.db);;All Files (*)"),
-                                                     &selectedFilter,
-                                                     options );
     if( fileName.length() < 1 )
     {
         return;
@@ -601,21 +593,6 @@ int MainWindow::openDB( const QString dbPath )
     return ret;
 }
 
-QString MainWindow::getPath()
-{
-    bool bSavePath = manApplet->settingsMgr()->saveDBPath();
-    QString strPath = QDir::currentPath();
-
-    if( bSavePath )
-    {
-        QSettings settings;
-        settings.beginGroup("mainwindow");
-        strPath = settings.value( "dbPath", "" ).toString();
-        settings.endGroup();
-    }
-
-    return strPath;
-}
 
 void MainWindow::setPath( const QString strFilePath )
 {
@@ -682,23 +659,9 @@ void MainWindow::open()
         return;
     }
 
-    QString strPath = getPath();
-
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Open CA DB file"),
-                                                     strPath,
-                                                     tr("DB Files (*.db *.db3);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
-
-    if( fileName.length() < 1 )
-    {
-        return;
-    }
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_DB, strPath );
+    if( fileName.length() < 1 ) return;
 
     int ret = openDB( fileName );
 }

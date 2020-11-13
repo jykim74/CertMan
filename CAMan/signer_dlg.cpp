@@ -5,6 +5,7 @@
 #include "db_mgr.h"
 #include "signer_dlg.h"
 #include "signer_rec.h"
+#include "commons.h"
 
 #include "js_bin.h"
 #include "js_pki_x509.h"
@@ -31,16 +32,9 @@ void SignerDlg::setType(int nType)
 
 void SignerDlg::findCert()
 {
-    QFileDialog::Options options;
-    options |= QFileDialog::DontUseNativeDialog;
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Certificate files"),
-                                                     QDir::currentPath(),
-                                                     tr("Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)"),
-                                                     &selectedFilter,
-                                                     options );
+    QString strPath = manApplet->getSetPath();
+    QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
+    if( fileName.length() < 1 ) return;
 
     mCertPathText->setText(fileName);
 }

@@ -37,6 +37,7 @@ public:
 
     QString getBrand();
     void restartApp();
+    QString getSetPath();
 
 private:
     int loadPKCS11();

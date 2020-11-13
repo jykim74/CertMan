@@ -152,7 +152,7 @@ void ImportDlg::initialize()
 
 
 void ImportDlg::clickFind()
-{
+{   
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 

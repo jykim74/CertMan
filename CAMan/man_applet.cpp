@@ -109,6 +109,22 @@ QString ManApplet::getBrand()
     return QString::fromUtf8( "CAMan" );
 }
 
+QString ManApplet::getSetPath()
+{
+    bool bSavePath = settings_mgr_->saveDBPath();
+    QString strPath = QDir::currentPath();
+
+    if( bSavePath )
+    {
+        QSettings settings;
+        settings.beginGroup("mainwindow");
+        strPath = settings.value( "dbPath", "" ).toString();
+        settings.endGroup();
+    }
+
+    return strPath;
+}
+
 void ManApplet::warningBox(const QString& msg, QWidget *parent)
 {
     QMessageBox box(parent ? parent : main_win_);
