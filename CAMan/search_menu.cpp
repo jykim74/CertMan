@@ -55,6 +55,8 @@ void SearchMenu::setupModel()
     layout->addWidget( input_text_, 0, 6 );
     layout->addWidget( search_btn_, 0, 7 );
 
+    layout->setMargin(0);
+
     setLayout( layout );
 }
 void SearchMenu::setTotalCount( int nCount )
