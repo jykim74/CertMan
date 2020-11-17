@@ -29,6 +29,9 @@ private:
 
     int ImportCRL( const BIN *pCRL );
     int ImportCert( const BIN *pCert );
+
+    QStringList getUsedURI();
+    void saveUsedURI( const QString &strURL );
 };
 
 #endif // GET_LDAP_DLG_H

@@ -6,6 +6,9 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 
+const char *kUsedURI = "UsedURI";
+const char *kLDAP = "LDAP";
+
 static QStringList sDataAttributeList = {
     "caCertificate", "signCertificate", "userCertificate", "certificateRevocationList", "authorityRevocationList"
 };
@@ -49,13 +52,17 @@ void GetLDAPDlg::accept()
         char sFilter[256];
         char sAttribute[256];
 
-        ret = JS_LDAP_parseURI( mURIText->text().toStdString().c_str(), sHost, &nPort, sDN, &nScope, sFilter, sAttribute );
+        QString strURI = mURICombo->currentText();
+
+        ret = JS_LDAP_parseURI( strURI.toStdString().c_str(), sHost, &nPort, sDN, &nScope, sFilter, sAttribute );
         nType = JS_LDAP_getType( sAttribute );
 
         pLD = JS_LDAP_init( sHost, nPort );
 
         ret = JS_LDAP_bind( pLD, NULL, NULL );
         ret = JS_LDAP_getData( pLD, sDN, sFilter, nType, nScope, &binData );
+
+        saveUsedURI( strURI );
     }
     else
     {
@@ -98,6 +105,30 @@ void GetLDAPDlg::initialize()
 
 }
 
+QStringList GetLDAPDlg::getUsedURI()
+{
+    QSettings settings;
+    QStringList retList;
+
+    settings.beginGroup( kUsedURI );
+    retList = settings.value( kLDAP ).toStringList();
+    settings.endGroup();
+
+    return retList;
+}
+
+void GetLDAPDlg::saveUsedURI( const QString &strURL )
+{
+
+    QSettings settings;
+    settings.beginGroup( kUsedURI );
+    QStringList list = settings.value( kLDAP ).toStringList();
+    list.removeAll( strURL );
+    list.insert( 0, strURL );
+    settings.setValue( kLDAP, list );
+    settings.endGroup();
+}
+
 void GetLDAPDlg::clickUseURI()
 {
     if( mUseURICheck->isChecked() )
@@ -108,7 +139,10 @@ void GetLDAPDlg::clickUseURI()
         mFilterText->setEnabled(false);
         mSearchCombo->setEnabled(false);
         mFilterCombo->setEnabled(false);
-        mURIText->setEnabled(true);
+        mURICombo->setEnabled(true);
+        mURICombo->setEditable(true);
+        mURICombo->addItems(getUsedURI());
+        mURICombo->clearEditText();
     }
     else
     {
@@ -118,7 +152,8 @@ void GetLDAPDlg::clickUseURI()
         mFilterText->setEnabled(true);
         mSearchCombo->setEnabled(true);
         mFilterCombo->setEnabled(true);
-        mURIText->setEnabled(false);
+        mURICombo->setEnabled(false);
+        mURICombo->setEditable(false);
     }
 
 }
