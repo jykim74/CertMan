@@ -14,6 +14,7 @@
 #include "user_rec.h"
 #include "signer_rec.h"
 #include "kms_rec.h"
+#include "kms_attrib_rec.h"
 #include "audit_rec.h"
 #include "tsp_rec.h"
 #include "admin_rec.h"
@@ -813,6 +814,14 @@ int DBMgr::getKMSList( QString strTarget, QString strWord, int nOffset, int nLim
     return _getKMSList( strQuery, kmsList );
 }
 
+int DBMgr::getKMSAttribList( int nNum, QList<KMSAttribRec>& kmsAttribList )
+{
+    QString strQuery = QString("SELECT * FROM TB_KMS_ATTRIB WHERE NUM = %1" )
+            .arg( nNum );
+
+    return _getKMSAttribList( strQuery, kmsAttribList );
+}
+
 int DBMgr::getAuditList( QList<AuditRec>& auditList )
 {
     QString strQuery = QString("SELECT * FROM TB_AUDIT ORDER BY SEQ DESC" );
@@ -1369,7 +1378,7 @@ int DBMgr::_getKMSList( QString strQuery, QList<KMSRec>& kmsList )
 
     int nPosSeq = SQL.record().indexOf( "SEQ" );
     int nPosRegTime = SQL.record().indexOf( "RegTime");
-    int nPosStatus = SQL.record().indexOf( "STATUS" );
+    int nPosState = SQL.record().indexOf( "STATE" );
     int nPosType = SQL.record().indexOf( "TYPE" );
     int nPosAlgorithm = SQL.record().indexOf( "ALGORITHM" );
     int nPosID = SQL.record().indexOf( "ID" );
@@ -1381,13 +1390,37 @@ int DBMgr::_getKMSList( QString strQuery, QList<KMSRec>& kmsList )
 
         kms.setSeq( SQL.value(nPosSeq).toInt());
         kms.setRegTime( SQL.value(nPosRegTime).toInt());
-        kms.setStatus( SQL.value(nPosStatus).toInt());
+        kms.setState( SQL.value(nPosState).toInt());
         kms.setType( SQL.value(nPosType).toInt());
         kms.setAlgorithm( SQL.value(nPosAlgorithm).toInt());
         kms.setID( SQL.value(nPosID).toString());
         kms.setInfo( SQL.value(nPosInfo).toString());
 
         kmsList.append( kms );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
+int DBMgr::_getKMSAttribList( QString strQuery, QList<KMSAttribRec>& kmsAttribList )
+{
+    int         iCount = 0;
+    QSqlQuery   SQL(strQuery);
+
+    int nPosNum = SQL.record().indexOf( "NUM" );
+    int nPosType = SQL.record().indexOf( "TYPE" );
+    int nPosValue = SQL.record().indexOf( "VALUE" );
+
+    while( SQL.next() )
+    {
+        KMSAttribRec kmsAttrib;
+
+        kmsAttrib.setNum( SQL.value(nPosNum).toInt());
+        kmsAttrib.setType( SQL.value(nPosType).toInt());
+        kmsAttrib.setValue( SQL.value(nPosValue).toString());
+
+        kmsAttribList.append( kmsAttrib );
     }
 
     SQL.finish();
@@ -1829,11 +1862,11 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
     int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_KMS "
-                      "( SEQ, REGTIME, STATUS, TYPE, ALGORITHM, ID, INFO ) "
+                      "( SEQ, REGTIME, STATE, TYPE, ALGORITHM, ID, INFO ) "
                       "VALUES( null, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, kmsRec.getRegTime() );
-    sqlQuery.bindValue( i++, kmsRec.getStatus() );
+    sqlQuery.bindValue( i++, kmsRec.getState() );
     sqlQuery.bindValue( i++, kmsRec.getType() );
     sqlQuery.bindValue( i++, kmsRec.getAlgorithm());
     sqlQuery.bindValue( i++, kmsRec.getID() );

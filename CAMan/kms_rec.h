@@ -8,7 +8,7 @@ class KMSRec
 private:
     int             m_nSeq;
     int             m_nRegTime;
-    int             m_nStatus;
+    int             m_nState;
     int             m_nType;
     int             m_nAlgorithm;
     QString         m_strID;
@@ -19,7 +19,7 @@ public:
 
     int getSeq() { return m_nSeq; };
     int getRegTime() { return m_nRegTime; };
-    int getStatus() { return m_nStatus; };
+    int getState() { return m_nState; };
     int getType() { return m_nType; };
     int getAlgorithm() { return m_nAlgorithm; };
     QString getID() { return m_strID; };
@@ -28,7 +28,7 @@ public:
 
     void setSeq( int nSeq );
     void setRegTime( int nRegTime );
-    void setStatus( int nStatus );
+    void setState( int nState );
     void setType( int nType );
     void setAlgorithm( int nAlgorithm );
     void setID( QString strID );

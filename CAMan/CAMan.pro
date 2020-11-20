@@ -49,6 +49,7 @@ SOURCES += \
         i18n_helper.cpp \
         import_dlg.cpp \
         key_pair_rec.cpp \
+        kms_attrib_rec.cpp \
         kms_rec.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -105,6 +106,7 @@ HEADERS += \
         i18n_helper.h \
         import_dlg.h \
         key_pair_rec.h \
+        kms_attrib_rec.h \
         kms_rec.h \
         mainwindow.h \
         make_cert_dlg.h \

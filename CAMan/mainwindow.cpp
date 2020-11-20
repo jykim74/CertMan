@@ -42,6 +42,7 @@
 #include "key_pair_rec.h"
 #include "req_rec.h"
 #include "kms_rec.h"
+#include "kms_attrib_rec.h"
 #include "cert_policy_rec.h"
 #include "crl_policy_rec.h"
 #include "crl_rec.h"
@@ -3020,7 +3021,7 @@ void MainWindow::createRightKMSList()
 
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( kms.getSeq() )));
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
-        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( kms.getStatus())));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( kms.getState())));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( kms.getType() )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( kms.getAlgorithm() )));
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( kms.getID() )));
@@ -3639,24 +3640,42 @@ void MainWindow::showRightKMS( int seq )
     strMsg += strPart;
 
     JS_UTIL_getDateTime( kmsRec.getRegTime(), sRegTime );
-    strPart = QString( "RegTime: %1\n\n").arg( sRegTime );
+    strPart = QString( "RegTime: %1\n").arg( sRegTime );
     strMsg += strPart;
 
-    strPart = QString( "Status: %1\n\n").arg( kmsRec.getStatus() );
+    strPart = QString( "State: %1\n").arg( kmsRec.getState() );
     strMsg += strPart;
 
-    strPart = QString( "Type: %1\n\n").arg( kmsRec.getType() );
+    strPart = QString( "Type: %1\n").arg( kmsRec.getType() );
     strMsg += strPart;
 
-    strPart = QString( "Algorithm: %1\n\n").arg( kmsRec.getAlgorithm() );
+    strPart = QString( "Algorithm: %1\n").arg( kmsRec.getAlgorithm() );
     strMsg += strPart;
 
-    strPart = QString( "ID: %1\n\n").arg( kmsRec.getID() );
+    strPart = QString( "ID: %1\n").arg( kmsRec.getID() );
     strMsg += strPart;
 
-
-    strPart = QString( "Info: %1\n\n").arg( kmsRec.getInfo() );
+    strPart = QString( "Info: %1\n").arg( kmsRec.getInfo() );
     strMsg += strPart;
+
+    strPart = QString( "============= Attribute ===============\n" );
+    strMsg += strPart;
+
+    QList<KMSAttribRec> kmsAttribList;
+    db_mgr_->getKMSAttribList( seq, kmsAttribList );
+
+    for( int i = 0; i < kmsAttribList.size(); i++ )
+    {
+        KMSAttribRec attribRec = kmsAttribList.at(i);
+
+        strPart = QString( "%1 || %2 || %3\n")
+                .arg(attribRec.getNum())
+                .arg(JS_KMS_attributeName(attribRec.getType()))
+                .arg(attribRec.getValue());
+
+        strMsg += strPart;
+    }
+
 
     right_text_->setText( strMsg );
 }

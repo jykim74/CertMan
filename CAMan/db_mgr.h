@@ -23,6 +23,7 @@ class RevokeRec;
 class UserRec;
 class SignerRec;
 class KMSRec;
+class KMSAttribRec;
 class AuditRec;
 class TSPRec;
 class AdminRec;
@@ -106,6 +107,8 @@ public:
     int getKMSList( int nOffset, int nLimit, QList<KMSRec>& kmsList );
     int getKMSList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<KMSRec>& kmsList );
 
+    int getKMSAttribList( int nNum, QList<KMSAttribRec>& kmsAttribList );
+
     int getAuditList( QList<AuditRec>& auditList );
     int getAuditList( int nOffset, int nLimit, QList<AuditRec>& auditList );
     int getAuditList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<AuditRec>& auditList );
@@ -174,6 +177,7 @@ private:
     int _getUserList( QString strQuery, QList<UserRec>& userList );
     int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
     int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );
+    int _getKMSAttribList( QString strQuery, QList<KMSAttribRec>& kmsAttribList );
     int _getAuditList( QString strQuery, QList<AuditRec>& auditList );
     int _getTSPList( QString strQuery, QList<TSPRec>& tspList );
     int _getAdminList( QString strQuery, QList<AdminRec>& adminList );
