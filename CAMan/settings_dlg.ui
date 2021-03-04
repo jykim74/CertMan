@@ -726,6 +726,60 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mTabWidget</tabstop>
+  <tabstop>mCheckLatestVersionCheck</tabstop>
+  <tabstop>mSaveDBPathCheck</tabstop>
+  <tabstop>mLDAPHostText</tabstop>
+  <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mBaseDNText</tabstop>
+  <tabstop>mListCountText</tabstop>
+  <tabstop>mServerStatusCheck</tabstop>
+  <tabstop>mLangCombo</tabstop>
+  <tabstop>mUseP11Check</tabstop>
+  <tabstop>mSlotIDText</tabstop>
+  <tabstop>mLibraryP11PathText</tabstop>
+  <tabstop>mP11FindBtn</tabstop>
+  <tabstop>mUseKMIPCheck</tabstop>
+  <tabstop>mKMIPHostText</tabstop>
+  <tabstop>mKMIPPortText</tabstop>
+  <tabstop>mKMIPCACertPathText</tabstop>
+  <tabstop>mKMIPCACertFindBtn</tabstop>
+  <tabstop>mKMIPCertPathText</tabstop>
+  <tabstop>mKMIPCertFindBtn</tabstop>
+  <tabstop>mKMIPPrivateKeyPathText</tabstop>
+  <tabstop>mKMIPPrivateKeyFindBtn</tabstop>
+  <tabstop>mKMIPUserNameText</tabstop>
+  <tabstop>mKMIPPasswdText</tabstop>
+  <tabstop>mUseOCSPCheck</tabstop>
+  <tabstop>mOCSPURIText</tabstop>
+  <tabstop>mOCSPSrvCertPathText</tabstop>
+  <tabstop>mOCSPSrvCertFindBtn</tabstop>
+  <tabstop>mOCSPAttachSignCheck</tabstop>
+  <tabstop>mOCSPSignerPriPathText</tabstop>
+  <tabstop>mOCSPSignerPriFindBtn</tabstop>
+  <tabstop>mOCSPSignerCertPathText</tabstop>
+  <tabstop>mOCSPSignerCertFindBtn</tabstop>
+  <tabstop>mUseCMPCheck</tabstop>
+  <tabstop>mCMPURIText</tabstop>
+  <tabstop>mCMPRootCACertPathText</tabstop>
+  <tabstop>mCMPRootCACertBtn</tabstop>
+  <tabstop>mCMPCACertPathText</tabstop>
+  <tabstop>mCMPCACertBtn</tabstop>
+  <tabstop>mUseREGCheck</tabstop>
+  <tabstop>mREGURIText</tabstop>
+  <tabstop>mUseTSPCheck</tabstop>
+  <tabstop>mTSPURIText</tabstop>
+  <tabstop>mTSPSrvCertPathText</tabstop>
+  <tabstop>mTSPSrvCertFindBtn</tabstop>
+  <tabstop>mUseSCEPCheck</tabstop>
+  <tabstop>mSCEPURIText</tabstop>
+  <tabstop>mSCEPMutualAuthCheck</tabstop>
+  <tabstop>mSCEPPriKeyPathText</tabstop>
+  <tabstop>mSCEPPriKeyFindBtn</tabstop>
+  <tabstop>mSCEPCertPathText</tabstop>
+  <tabstop>mSCEPCertFindBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

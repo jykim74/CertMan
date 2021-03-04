@@ -240,16 +240,28 @@ void MainWindow::createActions()
     toolsMenu->addAction( newKeyAct );
     toolsToolBar->addAction( newKeyAct );
 
-
-    QAction *makeReqAct = toolsMenu->addAction(tr("Make&Request"), this, &MainWindow::makeRequest);
+    const QIcon csrIcon = QIcon::fromTheme("certificate-request", QIcon(":/images/csr.png"));
+    QAction *makeReqAct = new QAction( csrIcon, tr("Make&Request"), this );
     makeReqAct->setStatusTip(tr( "Make Request"));
+    connect( makeReqAct, &QAction::triggered, this, &MainWindow::makeRequest );
+    toolsMenu->addAction( makeReqAct );
+    toolsToolBar->addAction( makeReqAct );
 
 #ifdef _PRO
-    QAction *regUserAct = toolsMenu->addAction(tr("Register&User"), this, &MainWindow::registerUser );
-    regUserAct->setStatusTip(tr("Register User"));
+    const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
+    QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
+    regUserAct->setStatusTip(tr( "Register User"));
+    connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
+    toolsMenu->addAction( regUserAct );
+    toolsToolBar->addAction( regUserAct );
 
-    QAction *regSignerAct = toolsMenu->addAction(tr("Register&Signer"), this, &MainWindow::registerREGSigner);
-    regSignerAct->setStatusTip(tr("Register Signer"));
+
+    const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
+    QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
+    regSignerAct->setStatusTip(tr( "Register Signer"));
+    connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
+    toolsMenu->addAction( regSignerAct );
+    toolsToolBar->addAction( regSignerAct );
 #endif
 
     const QIcon certPolicyIcon = QIcon::fromTheme("cert-policy", QIcon(":/images/cert_policy.png"));
@@ -266,14 +278,27 @@ void MainWindow::createActions()
     toolsToolBar->addAction( makeCRLPolicyAct );
     makeCRLPolicyAct->setStatusTip(tr( "Make CRL Policy"));
 
-    QAction *makeCertAct = toolsMenu->addAction(tr("Make&Certificate"), this, &MainWindow::makeCertificate);
-    makeCertAct->setStatusTip(tr( "Make certificate"));
+    const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
+    QAction* makeCertAct = new QAction( certIcon, tr("Make&Certificate"), this );
+    connect( makeCertAct, &QAction::triggered, this, &MainWindow::makeCertificate );
+    toolsMenu->addAction( makeCertAct );
+    toolsToolBar->addAction( makeCertAct );
+    makeCertAct->setStatusTip(tr("Make certificate"));
 
-    QAction *makeCRLAct = toolsMenu->addAction(tr("MakeCR&L"), this, &MainWindow::makeCRL );
-    makeCRLAct->setStatusTip(tr( "Make CRL"));
 
-    QAction *revokeCertAct = toolsMenu->addAction(tr("Revo&keCert"), this, &MainWindow::revokeCertificate);
-    revokeCertAct->setStatusTip(tr( "Revoke certificate"));
+    const QIcon crlIcon = QIcon::fromTheme("make-crl", QIcon(":/images/crl.png"));
+    QAction* makeCRLAct = new QAction( crlIcon, tr("MakeCR&L"), this );
+    connect( makeCRLAct, &QAction::triggered, this, &MainWindow::makeCRL );
+    toolsMenu->addAction( makeCRLAct );
+    toolsToolBar->addAction( makeCRLAct );
+    makeCRLAct->setStatusTip(tr("Make CRL"));
+
+    const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
+    QAction* revokeCertAct = new QAction( revokeIcon, tr("Revo&keCert"), this );
+    connect( revokeCertAct, &QAction::triggered, this, &MainWindow::revokeCertificate );
+    toolsMenu->addAction( revokeCertAct );
+    toolsToolBar->addAction( revokeCertAct );
+    revokeCertAct->setStatusTip(tr("Revoke certificate"));
 
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     QToolBar *dataToolBar = addToolBar(tr("Data"));
@@ -285,19 +310,47 @@ void MainWindow::createActions()
     dataToolBar->addAction( importDataAct );
     importDataAct->setStatusTip(tr("Import data"));
 
-    QAction* pubLDAPAct = dataMenu->addAction(tr("&PublishLDAP"), this, &MainWindow::publishLDAP);
+    const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
+    QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
+    connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish LDAP"));
+    dataMenu->addAction( pubLDAPAct );
+    dataToolBar->addAction( pubLDAPAct );
 
-    QAction* getLDAPAct = dataMenu->addAction(tr("&GetLDAP"), this, &MainWindow::getLDAP);
+    const QIcon getLDAPIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
+    QAction *getLDAPAct = new QAction( getLDAPIcon, tr("&GetLDAP"), this);
+    connect( getLDAPAct, &QAction::triggered, this, &MainWindow::getLDAP);
     getLDAPAct->setStatusTip(tr("Get LDAP"));
+    dataMenu->addAction( getLDAPAct );
+    dataToolBar->addAction( getLDAPAct );
 
 
-    QAction* tspAct = dataMenu->addAction(tr("&TSP"), this, &MainWindow::tsp );
+    const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.jpg"));
+    QAction *tspAct = new QAction( timeIcon, tr("&TSP"), this);
+    connect( tspAct, &QAction::triggered, this, &MainWindow::tsp);
     tspAct->setStatusTip(tr("TimeStampProtocol Service"));
+    dataMenu->addAction( tspAct );
+    dataToolBar->addAction( tspAct );
 
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
+
+#ifdef _PRO
+    const QIcon statusIcon = QIcon::fromTheme("server-status", QIcon(":/images/server_status.png"));
+    QAction *srvStatusAct = new QAction( statusIcon, tr("ServerS&tatus"), this);
+    connect( srvStatusAct, &QAction::triggered, this, &MainWindow::serverStatus);
+    srvStatusAct->setStatusTip(tr("Server Status Information"));
+    helpMenu->addAction( srvStatusAct );
+    helpToolBar->addAction( srvStatusAct );
+#endif
+
+    const QIcon settingIcon = QIcon::fromTheme("setting", QIcon(":/images/setting.png"));
+    QAction *settingsAct = new QAction( settingIcon, tr("&Settings"), this);
+    connect( settingsAct, &QAction::triggered, this, &MainWindow::settings);
+    settingsAct->setStatusTip(tr("Settings CAMan"));
+    helpMenu->addAction( settingsAct );
+    helpToolBar->addAction( settingsAct );
 
     const QIcon caManIcon = QIcon::fromTheme("caman", QIcon(":/images/caman.png"));
     QAction *aboutAct = new QAction( caManIcon, tr("&About CAMan"), this);
@@ -306,13 +359,6 @@ void MainWindow::createActions()
     helpToolBar->addAction( aboutAct );
     aboutAct->setStatusTip(tr("About CAMan"));
 
-#ifdef _PRO
-    QAction *srvStatusAct = helpMenu->addAction(tr("ServerS&tatus"), this, &MainWindow::serverStatus );
-    srvStatusAct->setStatusTip(tr("Server Status Information"));
-#endif
-
-    QAction *settingsAct = helpMenu->addAction(tr("&Settings"), this, &MainWindow::settings );
-    settingsAct->setStatusTip(tr("Settings CAMan"));
 }
 
 void MainWindow::createStatusBar()

@@ -83,6 +83,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mDayRadio</tabstop>
+  <tabstop>mMonthRadio</tabstop>
+  <tabstop>mYearRadio</tabstop>
+  <tabstop>mStartDate</tabstop>
+  <tabstop>mEndDate</tabstop>
+  <tabstop>mUpdateBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

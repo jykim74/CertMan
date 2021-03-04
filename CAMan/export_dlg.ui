@@ -113,6 +113,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mInfoText</tabstop>
+  <tabstop>mPEMSaveCheck</tabstop>
+  <tabstop>mPathText</tabstop>
+  <tabstop>mFindBtn</tabstop>
+  <tabstop>mPasswordText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

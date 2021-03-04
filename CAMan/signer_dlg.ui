@@ -79,6 +79,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mTypeCombo</tabstop>
+  <tabstop>mCertPathText</tabstop>
+  <tabstop>mFindCertBtn</tabstop>
+  <tabstop>mStatusText</tabstop>
+  <tabstop>mDescText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

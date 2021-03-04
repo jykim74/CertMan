@@ -127,6 +127,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mPasswordText</tabstop>
+  <tabstop>mEmailText</tabstop>
+  <tabstop>mStatusText</tabstop>
+  <tabstop>mTypeText</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+  <tabstop>mDeleteBtn</tabstop>
+  <tabstop>mModifyBtn</tabstop>
+  <tabstop>mRegisterBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

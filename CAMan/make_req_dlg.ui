@@ -124,6 +124,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mDNText</tabstop>
+  <tabstop>mChallengePassText</tabstop>
+  <tabstop>mKeyNameCombo</tabstop>
+  <tabstop>mAlgorithmText</tabstop>
+  <tabstop>mOptionText</tabstop>
+  <tabstop>mHashCombo</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

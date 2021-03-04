@@ -120,6 +120,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mIssuerNameCombo</tabstop>
+  <tabstop>mAlgorithmText</tabstop>
+  <tabstop>mOptionText</tabstop>
+  <tabstop>mPolicyNameCombo</tabstop>
+  <tabstop>mCRLDPCombo</tabstop>
+  <tabstop>mRevokeTable</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

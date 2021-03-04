@@ -90,6 +90,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mSrcStringCheck</tabstop>
+  <tabstop>mSrcHexCheck</tabstop>
+  <tabstop>mSrcBase64Check</tabstop>
+  <tabstop>mSrcText</tabstop>
+  <tabstop>mHashCombo</tabstop>
+  <tabstop>mSendBtn</tabstop>
+  <tabstop>mOutputText</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

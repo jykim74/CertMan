@@ -46,5 +46,13 @@
         <file>images/audit.png</file>
         <file>images/timestamp.png</file>
         <file>images/admin.png</file>
+        <file>images/user_reg.png</file>
+        <file>images/signer_reg.png</file>
+        <file>images/csr.png</file>
+        <file>images/setting.png</file>
+        <file>images/server_status.png</file>
+        <file>images/pub_ldap.png</file>
+        <file>images/get_ldap.png</file>
+        <file>images/timestamp.jpg</file>
     </qresource>
 </RCC>

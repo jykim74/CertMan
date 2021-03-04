@@ -93,6 +93,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mSubjectDNText</tabstop>
+  <tabstop>mSerialText</tabstop>
+  <tabstop>mRevokeDateTime</tabstop>
+  <tabstop>mReasonCombo</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -107,6 +107,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mDataTypeCombo</tabstop>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mPathText</tabstop>
+  <tabstop>mFindBtn</tabstop>
+  <tabstop>mPasswordText</tabstop>
+  <tabstop>mImportKMSCheck</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

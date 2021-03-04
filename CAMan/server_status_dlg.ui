@@ -46,6 +46,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mServerList</tabstop>
+  <tabstop>mRefreshBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -120,6 +120,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mSSNText</tabstop>
+  <tabstop>mEmailText</tabstop>
+  <tabstop>mStatusText</tabstop>
+  <tabstop>mRefNumText</tabstop>
+  <tabstop>mRefNumBtn</tabstop>
+  <tabstop>mAuthCodeText</tabstop>
+  <tabstop>mAuthCodeBtn</tabstop>
+  <tabstop>mRegServerBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

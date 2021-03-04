@@ -70,6 +70,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>themeComboBox</tabstop>
+  <tabstop>animatedComboBox</tabstop>
+  <tabstop>legendComboBox</tabstop>
+  <tabstop>antialiasCheckBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -62,6 +62,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mCertPathTree</tabstop>
+  <tabstop>mCertInfoText</tabstop>
+  <tabstop>mViewBtn</tabstop>
+  <tabstop>mCheckBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

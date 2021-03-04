@@ -153,6 +153,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mLDAPHostText</tabstop>
+  <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mBindDNText</tabstop>
+  <tabstop>mPasswordText</tabstop>
+  <tabstop>mInfoText</tabstop>
+  <tabstop>mTypeCombo</tabstop>
+  <tabstop>mAttributeCombo</tabstop>
+  <tabstop>mPublishDNText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
