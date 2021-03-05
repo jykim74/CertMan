@@ -233,7 +233,7 @@ void MainWindow::createActions()
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
 
-    const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key.jpeg"));
+    const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
     newKeyAct->setStatusTip(tr("Generate new key pair"));
     connect( newKeyAct, &QAction::triggered, this, &MainWindow::newKey );
@@ -325,7 +325,7 @@ void MainWindow::createActions()
     dataToolBar->addAction( getLDAPAct );
 
 
-    const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.jpg"));
+    const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.png"));
     QAction *tspAct = new QAction( timeIcon, tr("&TSP"), this);
     connect( tspAct, &QAction::triggered, this, &MainWindow::tsp);
     tspAct->setStatusTip(tr("TimeStampProtocol Service"));
@@ -485,7 +485,7 @@ void MainWindow::createTreeMenu()
     pRootItem->insertRow( 0, pTopItem );
 
     ManTreeItem *pKeyPairItem = new ManTreeItem( QString("KeyPair") );
-    pKeyPairItem->setIcon(QIcon(":/images/key.jpeg"));
+    pKeyPairItem->setIcon(QIcon(":/images/key_reg.png"));
     pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
     pTopItem->appendRow( pKeyPairItem );
 

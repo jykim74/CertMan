@@ -18,6 +18,8 @@ TSPDlg::TSPDlg(QWidget *parent) :
 
     connect( mSendBtn, SIGNAL(clicked()), this, SLOT(clickSend()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+
+    mCloseBtn->setFocus();
 }
 
 TSPDlg::~TSPDlg()

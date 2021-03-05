@@ -15,7 +15,6 @@
         <file>i18n/caman_ko_KR.ts</file>
         <file>images/caman.icns</file>
         <file>images/cert.png</file>
-        <file>images/key.jpeg</file>
         <file>images/csr.jpg</file>
         <file>images/crl_policy.png</file>
         <file>images/man.png</file>
@@ -54,5 +53,7 @@
         <file>images/pub_ldap.png</file>
         <file>images/get_ldap.png</file>
         <file>images/timestamp.jpg</file>
+        <file>images/key_reg.png</file>
+        <file>images/key.png</file>
     </qresource>
 </RCC>
