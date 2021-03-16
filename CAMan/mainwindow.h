@@ -51,6 +51,9 @@ public:
 
     void initialize();
     void showWindow();
+    void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
+    void logClear();
+
     void createActions();
     void createStatusBar();
     void createTableMenu();
@@ -74,20 +77,20 @@ public:
 
     void removeAllRight();
 
-    void showRightKeyPair( int seq );
-    void showRightRequest( int seq );
-    void showRightCertificate( int seq );
-    void showRightCertPolicy( int seq );
-    void showRightCRL( int seq );
-    void showRightCRLPolicy( int seq );
-    void showRightRevoke( int seq );
-    void showRightUser( int seq );
-    void showRightAdmin( int seq );
-    void showRightKMS( int seq );
-    void showRightAudit( int seq );
-    void showRightTSP( int seq );
-    void showRightSigner( int seq );
-    void showRightStatistics();
+    void logKeyPair( int seq );
+    void logRequest( int seq );
+    void logCertificate( int seq );
+    void logCertPolicy( int seq );
+    void logCRL( int seq );
+    void logCRLPolicy( int seq );
+    void logRevoke( int seq );
+    void logUser( int seq );
+    void logAdmin( int seq );
+    void logKMS( int seq );
+    void logAudit( int seq );
+    void logTSP( int seq );
+    void logSigner( int seq );
+    void logStatistics();
 
     int rightType() { return right_type_; };
     int rightCount();
@@ -200,7 +203,7 @@ private:
     ManTreeView     *left_tree_;
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
-    QTextEdit       *right_text_;
+    QTextEdit       *log_text_;
     SearchMenu      *search_menu_;
 
     DBMgr           *db_mgr_;

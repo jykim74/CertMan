@@ -37,6 +37,9 @@ public:
     void close();
     bool isOpen();
 
+    QString getNumName( int nNum, QString strTable, QString strColName );
+    QString getSeqName( int nSeq, QString strTable, QString strColName );
+
     int getCertCount( int nIssuerNum );
     int getCRLCount( int nIssuerNum );
     int getKeyPairCount( int nStatus );

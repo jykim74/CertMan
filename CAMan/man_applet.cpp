@@ -83,8 +83,11 @@ void ManApplet::start()
 {
     main_win_->show();
     tray_icon_->show();
+}
 
-//    ServerStatusService::instance()->start();
+void ManApplet::log( const QString strLog, QColor cr )
+{
+    main_win_->log( strLog, cr );
 }
 
 

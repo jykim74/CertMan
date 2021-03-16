@@ -18,6 +18,7 @@ public:
     ~ManApplet();
 
     void start();
+    void log( const QString strLog, QColor cr = QColor(00,00,00) );
 
     MainWindow* mainWindow() { return main_win_; };
     ManTrayIcon* trayIcon() { return tray_icon_; };

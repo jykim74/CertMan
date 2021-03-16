@@ -4,8 +4,6 @@
 #include <QDialog>
 #include "ui_signer_dlg.h"
 
-#define     SIGNER_TYPE_REG_IDX     0
-#define     SIGNER_TYPE_OCSP_IDX    1
 
 namespace Ui {
 class SignerDlg;

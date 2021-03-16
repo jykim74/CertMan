@@ -52,6 +52,40 @@ bool DBMgr::isOpen()
     return db_.isOpen();
 }
 
+QString DBMgr::getNumName( int nNum, QString strTable, QString strColName )
+{
+    QString strName;
+    if( nNum < 0 ) return "Unknown";
+
+    QString strSQL = QString( "SELECT %1 FROM %2 WHERE NUM = %3").arg( strColName ).arg( strTable ).arg(nNum);
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        strName = SQL.value(0).toString();
+        break;
+    }
+
+    return strName;
+}
+
+QString DBMgr::getSeqName( int nSeq, QString strTable, QString strColName )
+{
+    QString strName;
+    if( nSeq < 0 ) return "Unknown";
+
+    QString strSQL = QString( "SELECT %1 FROM %2 WHERE SEQ = %1").arg( strColName ).arg( strTable ).arg(nSeq);
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        strName = SQL.value(0).toString();
+        break;
+    }
+
+    return strName;
+}
+
 int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 {
     int     iCount = 0;
