@@ -148,6 +148,8 @@ void MainWindow::initialize()
     left_tree_->setModel(left_model_);
 
     log_text_->setFont( QFont("굴림체") );
+    log_text_->setReadOnly(true);
+
     right_table_->setSelectionBehavior(QAbstractItemView::SelectRows);
     right_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -1178,6 +1180,11 @@ void MainWindow::log( const QString strLog, QColor cr )
 void MainWindow::logClear()
 {
     log_text_->clear();
+}
+
+void MainWindow::logCurorTop()
+{
+    log_text_->moveCursor(QTextCursor::Start);
 }
 
 void MainWindow::treeMenuClick(QModelIndex index )
@@ -2589,7 +2596,7 @@ void MainWindow::createRightKeyPairList()
     right_type_ = RightType::TYPE_KEYPAIR;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -2657,7 +2664,7 @@ void MainWindow::createRightRequestList()
     right_type_ = RightType::TYPE_REQUEST;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -2849,7 +2856,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     search_menu_->show();
     removeAllRight();
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -2943,7 +2950,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     right_type_ = RightType::TYPE_CRL;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
     char sRegTime[64];
@@ -3008,7 +3015,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     right_type_ = RightType::TYPE_REVOKE;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -3077,7 +3084,7 @@ void MainWindow::createRightUserList()
     right_type_ = RightType::TYPE_USER;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -3144,7 +3151,7 @@ void MainWindow::createRightKMSList()
     right_type_ = RightType::TYPE_KMS;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -3302,7 +3309,8 @@ void MainWindow::createRightAuditList()
     right_type_ = RightType::TYPE_AUDIT;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+//    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -3372,7 +3380,7 @@ void MainWindow::createRightTSPList()
     right_type_ = RightType::TYPE_TSP;
 
     int nTotalCount = 0;
-    int nLimit = kListCount;
+    int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
@@ -3452,6 +3460,8 @@ void MainWindow::logKeyPair(int seq)
     manApplet->log( QString("PrivateKey : %1\n").arg(keyPair.getPrivateKey()));
     manApplet->log( QString("Param      : %1\n").arg(keyPair.getParam()));
     manApplet->log( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
+
+    logCurorTop();
 }
 
 void MainWindow::logRequest( int seq )
@@ -3474,6 +3484,8 @@ void MainWindow::logRequest( int seq )
     manApplet->log( QString("Request  : %1\n").arg(reqRec.getCSR()));
     manApplet->log( QString("Hash     : %1\n").arg(reqRec.getHash()));
     manApplet->log( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
+
+    logCurorTop();
 }
 
 void MainWindow::logCertificate( int seq )
@@ -3509,6 +3521,8 @@ void MainWindow::logCertificate( int seq )
     manApplet->log( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
     manApplet->log( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
     manApplet->log( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
+
+    logCurorTop();
 }
 
 void MainWindow::logCertPolicy( int seq )
@@ -3568,6 +3582,7 @@ void MainWindow::logCertPolicy( int seq )
                 .arg(extRec.getValue()) );
     }
 
+    logCurorTop();
 }
 
 void MainWindow::logCRL( int seq )
@@ -3591,6 +3606,8 @@ void MainWindow::logCRL( int seq )
     manApplet->log( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
     manApplet->log( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
     manApplet->log( QString("CRL           : %1\n").arg(crlRec.getCRL()));
+
+    logCurorTop();
 }
 
 void MainWindow::logCRLPolicy( int seq )
@@ -3644,6 +3661,7 @@ void MainWindow::logCRLPolicy( int seq )
                 .arg(extRec.getValue()));
     }
 
+    logCurorTop();
 }
 
 void MainWindow::logRevoke( int seq )
@@ -3668,6 +3686,8 @@ void MainWindow::logRevoke( int seq )
     manApplet->log( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
     manApplet->log( QString("Reason       : %1 - %2\n").arg( revokeRec.getReason()).arg(strReason));
     manApplet->log( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
+
+    logCurorTop();
 }
 
 void MainWindow::logUser( int seq )
@@ -3689,6 +3709,8 @@ void MainWindow::logUser( int seq )
     manApplet->log( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
     manApplet->log( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
     manApplet->log( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
+
+    logCurorTop();
 }
 
 void MainWindow::logAdmin( int seq )
@@ -3707,6 +3729,8 @@ void MainWindow::logAdmin( int seq )
     manApplet->log( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
     manApplet->log( QString("Password     : %1\n").arg(adminRec.getPassword()));
     manApplet->log( QString("Email        : %1\n").arg(adminRec.getEmail()));
+
+    logCurorTop();
 }
 
 void MainWindow::logKMS( int seq )
@@ -3744,6 +3768,8 @@ void MainWindow::logKMS( int seq )
                 .arg(JS_KMS_attributeName(attribRec.getType()))
                 .arg(attribRec.getValue()));
     }
+
+    logCurorTop();
 }
 
 void MainWindow::logAudit( int seq )
@@ -3766,6 +3792,8 @@ void MainWindow::logAudit( int seq )
     manApplet->log( QString("UserName     : %1\n").arg(auditRec.getUserName()));
     manApplet->log( QString("Info         : %1\n").arg(auditRec.getInfo()));
     manApplet->log( QString("MAC          : %1\n").arg(auditRec.getMAC()));
+
+    logCurorTop();
 }
 
 void MainWindow::logTSP( int seq )
@@ -3785,6 +3813,8 @@ void MainWindow::logTSP( int seq )
     manApplet->log( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
     manApplet->log( QString("TSTInfo      : %1\n").arg(tspRec.getTSTInfo()));
     manApplet->log( QString("Data         : %1\n").arg(tspRec.getData()));
+
+    logCurorTop();
 }
 
 void MainWindow::logSigner(int seq)
@@ -3806,6 +3836,8 @@ void MainWindow::logSigner(int seq)
     manApplet->log( QString("Cert         : %1\n").arg(signerRec.getCert()));
     manApplet->log( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
     manApplet->log( QString("Desc         : %1\n").arg(signerRec.getDesc()));
+
+    logCurorTop();
 }
 
 void MainWindow::logStatistics()
@@ -3814,6 +3846,8 @@ void MainWindow::logStatistics()
     manApplet->log( "========================================================================\n" );
     manApplet->log( "== Statistics Information\n" );
     manApplet->log( "========================================================================\n" );
+
+    logCurorTop();
 }
 
 int MainWindow::rightCount()

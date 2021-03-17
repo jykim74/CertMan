@@ -53,6 +53,7 @@ public:
     void showWindow();
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void logClear();
+    void logCurorTop();
 
     void createActions();
     void createStatusBar();
