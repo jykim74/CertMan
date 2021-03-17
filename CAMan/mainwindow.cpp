@@ -143,10 +143,13 @@ void MainWindow::initialize()
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
     search_menu_ = new SearchMenu;
+    search_menu_->setMaximumHeight( 20 );
 
     left_tree_->setModel(left_model_);
 
     log_text_->setFont( QFont("굴림체") );
+    right_table_->setSelectionBehavior(QAbstractItemView::SelectRows);
+    right_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QWidget *rightWidget = new QWidget;
 
@@ -154,7 +157,6 @@ void MainWindow::initialize()
     stat_ = new StatForm;
 
     stack_->addWidget( vsplitter_ );
-//    stack_->addWidget( statistics_ );
     stack_->addWidget( stat_ );
     rightWidget->setLayout(stack_);
 
@@ -2633,6 +2635,7 @@ void MainWindow::createRightKeyPairList()
         JS_UTIL_getDateTime( keyPairRec.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() )));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
@@ -2701,6 +2704,7 @@ void MainWindow::createRightRequestList()
         QString strKeyName = db_mgr_->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strKeyName ) ));
@@ -2769,6 +2773,7 @@ void MainWindow::createRightCertPolicyList()
             strDNTemplate = certPolicy.getDNTemplate();
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certPolicy.getNum()) ));
         right_table_->setItem( i, 1, new QTableWidgetItem( certPolicy.getName() ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )));
@@ -2829,6 +2834,7 @@ void MainWindow::createRightCRLPolicyList()
         }
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNum() )) );
         right_table_->setItem( i, 1, new QTableWidgetItem( crlPolicy.getName()) );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )) );
@@ -2914,6 +2920,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         QString strIsserName = db_mgr_->getNumName( cert.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
@@ -2981,6 +2988,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         JS_UTIL_getDateTime( crl.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crl.getNum() )));
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime )));
         right_table_->setItem( i, 2, new QTableWidgetItem(QString("%1").arg( strIssuerName )));
@@ -3047,7 +3055,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         right_table_->insertRow(i);
-
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg(revoke.getSeq() )));
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( strCertName )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( strIsserName )));
@@ -3113,7 +3121,7 @@ void MainWindow::createRightUserList()
         char sRegTime[64];
         UserRec user = userList.at(i);
         right_table_->insertRow(i);
-
+        right_table_->setRowHeight(i, 10 );
         JS_UTIL_getDateTime( user.getRegTime(), sRegTime );
 
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( user.getNum() )));
@@ -3180,6 +3188,7 @@ void MainWindow::createRightKMSList()
         char sRegTime[64];
         KMSRec kms = kmsList.at(i);
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
 
         QString strType = JS_KMS_getObjectTypeName( kms.getType() );
         QString strAlgorithm = JS_PKI_getKeyTypeName( kms.getAlgorithm() );
@@ -3231,6 +3240,7 @@ void MainWindow::createRightSignerList(int nType)
         char sRegTime[64];
         SignerRec signer = signerList.at(i);
         right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
 
         JS_UTIL_getDateTime( signer.getRegTime(), sRegTime );
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( signer.getNum() )));
@@ -3273,7 +3283,7 @@ void MainWindow::createRightAdminList()
     {
         AdminRec admin = adminList.at(i);
         right_table_->insertRow(i);
-
+        right_table_->setRowHeight(i, 10 );
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( admin.getSeq() )));
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( getStatusName( admin.getStatus() ) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getAdminTypeName( admin.getType() ) )));
@@ -3335,7 +3345,7 @@ void MainWindow::createRightAuditList()
         char sRegTime[64];
         AuditRec audit = auditList.at(i);
         right_table_->insertRow(i);
-
+        right_table_->setRowHeight(i, 10 );
         QString strKind = JS_GEN_getKindName( audit.getKind() );
         QString strOperation = JS_GEN_getOperationName( audit.getOperation() );
 
@@ -3403,7 +3413,7 @@ void MainWindow::createRightTSPList()
         char sRegTime[64];
         TSPRec tsp = tspList.at(i);
         right_table_->insertRow(i);
-
+        right_table_->setRowHeight(i, 10 );
         JS_UTIL_getDateTime( tsp.getRegTime(), sRegTime );
 
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( tsp.getSeq() )));
