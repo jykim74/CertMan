@@ -24,7 +24,7 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
 
-    QStringList sRevokeLabels = { "Serial", "Reason", "Date" };
+    QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
     mRevokeTable->setColumnCount(3);
     mRevokeTable->horizontalHeader()->setStretchLastSection(true);
     mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
@@ -48,9 +48,9 @@ void MakeCRLDlg::setFixIssuer(QString strIssuerName )
     qDebug() << "IssuerName: " << strIssuerName;
 
     mIssuerNameCombo->setCurrentText( strIssuerName );
-    mIssuerNameCombo->setDisabled(true);
-    mAlgorithmText->setDisabled(true);
-    mOptionText->setDisabled(true);
+//    mIssuerNameCombo->setDisabled(true);
+//    mAlgorithmText->setDisabled(true);
+//    mOptionText->setDisabled(true);
 }
 
 void MakeCRLDlg::accept()
@@ -385,6 +385,12 @@ void MakeCRLDlg::setRevokeList()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    mRevokeTable->horizontalHeader()->setStyleSheet( style );
+
+    mRevokeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     int rowCnt = mRevokeTable->rowCount();
     for( int i=0; i < rowCnt; i++ )
         mRevokeTable->removeRow(0);
@@ -405,6 +411,7 @@ void MakeCRLDlg::setRevokeList()
         QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         mRevokeTable->insertRow(i);
+        mRevokeTable->setRowHeight( i, 10 );
         mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
         mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strReason ) ));
         mRevokeTable->setItem( i, 2, new QTableWidgetItem( sDateTime ));

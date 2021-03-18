@@ -36,7 +36,7 @@
 #define     JS_CERT_STATUS_REVOKE       2
 #define     JS_CERT_STATUS_HOLD         3
 
-const int   kListCount = 20;
+const int   kListCount = 15;
 
 const QString kMechRSA = "RSA";
 const QString kMechEC = "EC";

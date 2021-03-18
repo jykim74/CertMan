@@ -637,11 +637,7 @@
     </message>
     <message>
         <source>New CA DB Files</source>
-        <translation>새로운 CA DB 파일</translation>
-    </message>
-    <message>
-        <source>DB Files (*.db);;All Files (*)</source>
-        <translation></translation>
+        <translation type="vanished">새로운 CA DB 파일</translation>
     </message>
     <message>
         <source>fail to open database</source>
@@ -653,7 +649,7 @@
     </message>
     <message>
         <source>Open CA DB file</source>
-        <translation>CA 데이타 베이스 파일 열기</translation>
+        <translation type="vanished">CA 데이타 베이스 파일 열기</translation>
     </message>
     <message>
         <source>fail to get certificate information</source>
@@ -796,10 +792,6 @@
         <translation>타임스탬프 메세지 검증</translation>
     </message>
     <message>
-        <source>DB Files (*.db *.db3);;All Files (*.*)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Fail to activate key</source>
         <translation>키 활성 화 실패</translation>
     </message>
@@ -911,6 +903,158 @@
         <source>fail to make csr</source>
         <translation>CSR 만들기에 실패 하였습니다</translation>
     </message>
+    <message>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <source>RegTime</source>
+        <translation>등록시간</translation>
+    </message>
+    <message>
+        <source>Algorithm</source>
+        <translation>알고리즘</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>Param</source>
+        <translation>파라미터</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>상태</translation>
+    </message>
+    <message>
+        <source>Seq</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <source>Key</source>
+        <translation>키</translation>
+    </message>
+    <message>
+        <source>Hash</source>
+        <translation>해쉬</translation>
+    </message>
+    <message>
+        <source>DN</source>
+        <translation>DN</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>버전</translation>
+    </message>
+    <message>
+        <source>NotBerfoer</source>
+        <translation>유효기간(시작)</translation>
+    </message>
+    <message>
+        <source>NotAfter</source>
+        <translation>유효기간(끝)</translation>
+    </message>
+    <message>
+        <source>DNTemplate</source>
+        <translation>DN템플릿</translation>
+    </message>
+    <message>
+        <source>LastUpdate</source>
+        <translation>최근 업데이트</translation>
+    </message>
+    <message>
+        <source>NextUpdate</source>
+        <translation>다음 업데이트</translation>
+    </message>
+    <message>
+        <source>User</source>
+        <translation>사용자</translation>
+    </message>
+    <message>
+        <source>SignAlg</source>
+        <translation>서명알고리즘</translation>
+    </message>
+    <message>
+        <source>Issuer</source>
+        <translation>발급자</translation>
+    </message>
+    <message>
+        <source>SubjectDN</source>
+        <translation>주체자 DN</translation>
+    </message>
+    <message>
+        <source>CRLDP</source>
+        <translation>CRLDP</translation>
+    </message>
+    <message>
+        <source>Cert</source>
+        <translation>인증서</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation>일련번호</translation>
+    </message>
+    <message>
+        <source>RevokeDate</source>
+        <translation>폐기날짜</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>이유</translation>
+    </message>
+    <message>
+        <source>SSN</source>
+        <translation>SSN</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation>이메일</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>타입</translation>
+    </message>
+    <message>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <source>Info</source>
+        <translation>정보</translation>
+    </message>
+    <message>
+        <source>DNHash</source>
+        <translation>DN해쉬</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>Kind</source>
+        <translation>종류</translation>
+    </message>
+    <message>
+        <source>Operation</source>
+        <translation>기능</translation>
+    </message>
+    <message>
+        <source>UserName</source>
+        <translation>사용자 이름</translation>
+    </message>
+    <message>
+        <source>MAC</source>
+        <translation>MAC</translation>
+    </message>
+    <message>
+        <source>SrcHash</source>
+        <translation>소스해쉬</translation>
+    </message>
+    <message>
+        <source>Policy</source>
+        <translation>정책</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -969,6 +1113,18 @@
     <message>
         <source>There is no CRL Policy</source>
         <translation>CRL 정책이 없습니다</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation>일련번호</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>이유</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>날짜</translation>
     </message>
 </context>
 <context>
@@ -1645,6 +1801,30 @@
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
+    <message>
+        <source>Cert Files (*.crt *.der *.pem);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Key Files (*.key *.der *.pem);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>TXT Files (*.txt *.log);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>BER Files (*.ber *.der *.pem);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>DB Files (*.db *db3 *.xdb);;All Files(*.*)</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)</source>
+        <translation>DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
+    </message>
 </context>
 <context>
     <name>RevokeCertDlg</name>
@@ -1791,11 +1971,11 @@
     </message>
     <message>
         <source>Open cryptoki library file</source>
-        <translation>cryptoki 라이브러리 열기</translation>
+        <translation type="vanished">cryptoki 라이브러리 열기</translation>
     </message>
     <message>
         <source>DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)</source>
-        <translation>DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
+        <translation type="vanished">DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
     </message>
     <message>
         <source>Sever status check</source>
@@ -1971,23 +2151,15 @@
     </message>
     <message>
         <source>CA Certificate File</source>
-        <translation>CA 인증서 파일</translation>
-    </message>
-    <message>
-        <source>Certificate Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
-        <translation></translation>
+        <translation type="vanished">CA 인증서 파일</translation>
     </message>
     <message>
         <source>Certificate File</source>
-        <translation>인증서 파일</translation>
+        <translation type="vanished">인증서 파일</translation>
     </message>
     <message>
         <source>Private Key File</source>
-        <translation>개인키 파일</translation>
-    </message>
-    <message>
-        <source>PrivateKey Files (*.key);;DER Files (*.der);;All Files (*.*)</source>
-        <translation></translation>
+        <translation type="vanished">개인키 파일</translation>
     </message>
 </context>
 <context>
@@ -2014,11 +2186,7 @@
     </message>
     <message>
         <source>Certificate files</source>
-        <translation>인증서 파일</translation>
-    </message>
-    <message>
-        <source>Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
-        <translation></translation>
+        <translation type="vanished">인증서 파일</translation>
     </message>
 </context>
 <context>

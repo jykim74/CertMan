@@ -170,7 +170,7 @@ void MainWindow::initialize()
     vsplitter_->addWidget(log_text_);
 
     QList <int> vsizes;
-    vsizes << 1800 << 10 << 600;
+    vsizes << 760 << 10 << 600;
     vsplitter_->setSizes(vsizes);
 
     QList <int> sizes;
@@ -2603,7 +2603,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = { "Num", "RegTime", "Algorithm", "Name", "Param", "Status" };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name"), tr("Param"), tr("Status") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2671,7 +2671,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = { "Seq", "RegTime", "KeyNum", "Name", "Hash", "Status", "DN" };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Key"), tr("Name"), tr("Hash"), tr("Status"), tr("DN") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2732,7 +2732,7 @@ void MainWindow::createRightCertPolicyList()
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_POLICY;
 
-    QStringList headerList = { "Num", "Name", "Version", "NotBerfoer", "NotAfter", "Hash", "DNTemplate" };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBerfoer"), tr("NotAfter"), tr("Hash"), tr("DNTemplate") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2798,7 +2798,7 @@ void MainWindow::createRightCRLPolicyList()
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_POLICY;
 
-    QStringList headerList = { "Num", "Name", "Version", "LastUpdate", "NextUpdate", "Hash" };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("LastUpdate"), tr("NextUpdate"), tr("Hash") };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
@@ -2862,7 +2862,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
-    QStringList headerList = { "Num", "RegTime", "KeyNum", "UserNum", "SignAlg", "IssuerNum", "SubjectDN" };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("User"), tr("SignAlg"), tr("Issuer"), tr("SubjectDN") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2958,7 +2958,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = { "Num", "RegTime", "IssuerNum", "SignAlg", "CRLDP" };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Issuer"), tr("SignAlg"), tr("CRLDP") };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
@@ -3022,7 +3022,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "CertNum", "IssuerNum", "Serial", "RevokeDate", "Reason", "CRLDP" };
+    QStringList headerList = { tr("Num"), tr("Cert"), tr("Issuer"), tr("Serial"), tr("RevokeDate"), tr("Reason"), tr("CRLDP") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3091,7 +3091,7 @@ void MainWindow::createRightUserList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = {"Num", "RegTime", "Name", "SSN", "Email", "Status" };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Name"), tr("SSN"), tr("Email"), tr("Status") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3158,7 +3158,7 @@ void MainWindow::createRightKMSList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = {"Seq", "RegTime", "Status", "Type", "Algorithm", "ID", "Info" };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Status"), tr("Type"), tr("Algorithm"), tr("ID"), tr("Info") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3221,7 +3221,7 @@ void MainWindow::createRightSignerList(int nType)
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
-    QStringList headerList = { "Num", "RegTime", "Type", "DN", "Status", "DNHash" };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Type"), tr("DN"), tr("Status"), tr("DNHash") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3265,7 +3265,7 @@ void MainWindow::createRightAdminList()
     removeAllRight();
     right_type_ = RightType::TYPE_ADMIN;
 
-    QStringList headerList = { "Seq", "Status", "Type", "Name", "Password", "Email" };
+    QStringList headerList = { tr("Seq"), tr("Status"), tr("Type"), tr("Name"), tr("Password"), tr("Email") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3317,7 +3317,7 @@ void MainWindow::createRightAuditList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = {"Seq", "RegTime", "Kind", "Operation", "UserName", "Info", "MAC" };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Kind"), tr("Operation"), tr("UserName"), tr("Info"), tr("MAC") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3387,7 +3387,7 @@ void MainWindow::createRightTSPList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = {"Seq", "RegTime", "Serial", "SrcHash", "Policy" };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Serial"), tr("SrcHash"), tr("Policy") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
