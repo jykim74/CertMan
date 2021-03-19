@@ -151,7 +151,6 @@ public slots:
     void expandMenu();
     void expandItem( ManTreeItem *item );
     void addRootCA( CertRec& certRec );
-    void checkCertificate();
     void certStatus();
     void checkOCSP();
     void tsp();

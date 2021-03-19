@@ -23,7 +23,6 @@
 #include "revoke_cert_dlg.h"
 #include "cert_info_dlg.h"
 #include "crl_info_dlg.h"
-#include "check_cert_dlg.h"
 #include "auto_update_service.h"
 #include "user_dlg.h"
 #include "signer_dlg.h"

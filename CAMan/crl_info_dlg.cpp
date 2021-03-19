@@ -51,6 +51,8 @@ void CRLInfoDlg::initialize()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
+    tabWidget->setCurrentIndex(0);
+
     JS_PKI_resetCRLInfo( &crl_info_ );
 
     if( crl_num_ < 0 )
@@ -78,6 +80,7 @@ void CRLInfoDlg::initialize()
     }
 
     mCRLListTable->insertRow(i);
+    mCRLListTable->setRowHeight(i,10);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.nVersion)));
     i++;
@@ -85,6 +88,7 @@ void CRLInfoDlg::initialize()
     if( crl_info_.pIssuerName )
     {
         mCRLListTable->insertRow(i);
+        mCRLListTable->setRowHeight(i,10);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("IssuerName")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pIssuerName)));
         i++;
@@ -93,12 +97,14 @@ void CRLInfoDlg::initialize()
 
     JS_UTIL_getDateTime( crl_info_.uLastUpdate, sLastUpdate );
     mCRLListTable->insertRow(i);
+    mCRLListTable->setRowHeight(i,10);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("LastUpdate")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sLastUpdate)));
     i++;
 
     JS_UTIL_getDateTime( crl_info_.uNextUpdate, sNextUpdate );
     mCRLListTable->insertRow(i);
+    mCRLListTable->setRowHeight(i,10);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("NextUpdate")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNextUpdate)));
     i++;
@@ -106,6 +112,7 @@ void CRLInfoDlg::initialize()
     if( crl_info_.pSignAlgorithm )
     {
         mCRLListTable->insertRow(i);
+        mCRLListTable->setRowHeight(i,10);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("SignAlgorithm")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignAlgorithm)));
         i++;
@@ -114,6 +121,7 @@ void CRLInfoDlg::initialize()
     if( crl_info_.pSignature )
     {
         mCRLListTable->insertRow(i);
+        mCRLListTable->setRowHeight(i,10);
         mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Signature")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignature)));
         i++;
@@ -128,6 +136,7 @@ void CRLInfoDlg::initialize()
             PolicyExtRec policyExt;
             transExtInfoToDBRec( &pCurList->sExtensionInfo, policyExt );
             mCRLListTable->insertRow(i);
+            mCRLListTable->setRowHeight(i,10);
             mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyExt.getSN())));
             mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
                                                                .arg(policyExt.isCritical())
@@ -147,6 +156,7 @@ void CRLInfoDlg::initialize()
         while( pCurRevList )
         {
             mRevokeListTable->insertRow(k);
+            mCRLListTable->setRowHeight(k,10);
             mRevokeListTable->setItem( k, 0, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.pSerial)));
             mRevokeListTable->setItem( k, 1, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.uRevokeDate)));
 
@@ -167,6 +177,9 @@ void CRLInfoDlg::initUI()
     mCRLListTable->setColumnCount(2);
     mCRLListTable->setHorizontalHeaderLabels( sCRLLabels );
     mCRLListTable->verticalHeader()->setVisible(false);
+    mCRLListTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCRLListTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mCRLListTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QStringList sRevokeLabels = { tr("Serial"), tr("RevokedDate") };
     mRevokeListTable->clear();
@@ -174,12 +187,18 @@ void CRLInfoDlg::initUI()
     mRevokeListTable->setColumnCount(2);
     mRevokeListTable->setHorizontalHeaderLabels( sRevokeLabels );
     mRevokeListTable->verticalHeader()->setVisible(false);
+    mRevokeListTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mRevokeListTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mRevokeListTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     mRevokeDetailTable->clear();
     mRevokeDetailTable->horizontalHeader()->setStretchLastSection(true);
     mRevokeDetailTable->setColumnCount(2);
     mRevokeDetailTable->setHorizontalHeaderLabels(sCRLLabels);
     mRevokeDetailTable->verticalHeader()->setVisible(false);
+    mRevokeDetailTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mRevokeDetailTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mRevokeDetailTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
     connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
@@ -237,6 +256,7 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, policyExt );
 
     mRevokeDetailTable->insertRow(0);
+    mRevokeDetailTable->setColumnWidth(0,10);
     mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
                                                                 .arg(policyExt.getSN())));
     mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")

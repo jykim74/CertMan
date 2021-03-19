@@ -38,7 +38,6 @@ SOURCES += \
         cert_info_dlg.cpp \
         cert_policy_rec.cpp \
         cert_rec.cpp \
-        check_cert_dlg.cpp \
         commons.cpp \
         crl_info_dlg.cpp \
         crl_policy_rec.cpp \
@@ -64,8 +63,6 @@ SOURCES += \
         man_tree_model.cpp \
         man_tree_view.cpp \
         new_key_dlg.cpp \
-        new_passwd_dlg.cpp \
-        passwd_dlg.cpp \
         pin_dlg.cpp \
         policy_ext_rec.cpp \
         pub_ldap_dlg.cpp \
@@ -95,7 +92,6 @@ HEADERS += \
         cert_info_dlg.h \
         cert_policy_rec.h \
         cert_rec.h \
-        check_cert_dlg.h \
         commons.h \
         crl_info_dlg.h \
         crl_policy_rec.h \
@@ -120,8 +116,6 @@ HEADERS += \
         man_tree_model.h \
         man_tree_view.h \
         new_key_dlg.h \
-        new_passwd_dlg.h \
-        passwd_dlg.h \
         pin_dlg.h \
         policy_ext_rec.h \
         pub_ldap_dlg.h \
@@ -147,7 +141,6 @@ FORMS += \
         about_dlg.ui \
         admin_dlg.ui \
         cert_info_dlg.ui \
-        check_cert_dlg.ui \
         crl_info_dlg.ui \
         export_dlg.ui \
         get_ldap_dlg.ui \
@@ -159,8 +152,6 @@ FORMS += \
         make_crl_policy_dlg.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
-        new_passwd_dlg.ui \
-        passwd_dlg.ui \
         pin_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \

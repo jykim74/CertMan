@@ -48,7 +48,6 @@
 #include "crl_rec.h"
 #include "policy_ext_rec.h"
 #include "revoke_rec.h"
-#include "check_cert_dlg.h"
 #include "user_rec.h"
 #include "user_dlg.h"
 #include "signer_dlg.h"
@@ -407,7 +406,6 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
         menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
-        menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
         menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
         menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
 
@@ -2285,19 +2283,6 @@ void MainWindow::addRootCA( CertRec& certRec )
    left_tree_->expand( root_ca_->index() );
 }
 
-
-
-void MainWindow::checkCertificate()
-{
-    int row = right_table_->currentRow();
-    QTableWidgetItem* item = right_table_->item( row, 0 );
-
-    int num = item->text().toInt();
-
-    CheckCertDlg checkCertDlg;
-    checkCertDlg.setCertNum(num);
-    checkCertDlg.exec();
-}
 
 void MainWindow::certStatus()
 {
