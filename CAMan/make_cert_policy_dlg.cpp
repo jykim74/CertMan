@@ -494,6 +494,7 @@ void MakeCertPolicyDlg::clickAIAUse()
     bool bStatus = mAIAUseCheck->isChecked();
 
     mAIACriticalCheck->setEnabled(bStatus);
+    mAIAClearBtn->setEnabled(bStatus);
     mAIAAddBtn->setEnabled(bStatus);
     mAIATypeCombo->setEnabled(bStatus);
     mAIATargetCombo->setEnabled(bStatus);
@@ -525,6 +526,7 @@ void MakeCertPolicyDlg::clickCRLDPUse()
 
     mCRLDPCriticalCheck->setEnabled( bStatus );
     mCRLDPCombo->setEnabled(bStatus);
+    mCRLDPClearBtn->setEnabled(bStatus);
     mCRLDPAddBtn->setEnabled(bStatus);
     mCRLDPText->setEnabled(bStatus);
     mCRLDPTable->setEnabled(bStatus);
@@ -536,6 +538,7 @@ void MakeCertPolicyDlg::clickEKUUse()
 
     mEKUCriticalCheck->setEnabled( bStatus );
     mEKUCombo->setEnabled(bStatus);
+    mEKUClearBtn->setEnabled(bStatus);
     mEKUAddBtn->setEnabled(bStatus);
     mEKUList->setEnabled(bStatus);
 }
@@ -548,6 +551,7 @@ void MakeCertPolicyDlg::clickIANUse()
     mIANCombo->setEnabled(bStatus);
     mIANText->setEnabled(bStatus);
     mIANTable->setEnabled(bStatus);
+    mIANClearBtn->setEnabled(bStatus);
     mIANAddBtn->setEnabled(bStatus);
 }
 
@@ -557,6 +561,7 @@ void MakeCertPolicyDlg::clickKeyUsageUse()
 
     mKeyUsageCriticalCheck->setEnabled( bStatus );
     mKeyUsageCombo->setEnabled( bStatus );
+    mKeyUsageClearBtn->setEnabled( bStatus );
     mKeyUsageAddBtn->setEnabled( bStatus );
     mKeyUsageList->setEnabled( bStatus );
 }
@@ -567,6 +572,7 @@ void MakeCertPolicyDlg::clickNCUse()
 
     mNCCriticalCheck->setEnabled(bStatus);
     mNCSubCombo->setEnabled(bStatus);
+    mNCClearBtn->setEnabled(bStatus);
     mNCAddBtn->setEnabled(bStatus);
     mNCTypeCombo->setEnabled(bStatus);
     mNCSubText->setEnabled(bStatus);
@@ -580,6 +586,7 @@ void MakeCertPolicyDlg::clickPolicyUse()
     bool bStatus = mPolicyUseCheck->isChecked();
 
     mPolicyCriticalCheck->setEnabled( bStatus );
+    mPolicyClearBtn->setEnabled( bStatus );
     mPolicyAddBtn->setEnabled( bStatus );
     mPolicyOIDText->setEnabled( bStatus );
     mPolicyCPSText->setEnabled( bStatus );
@@ -601,6 +608,7 @@ void MakeCertPolicyDlg::clickPMUse()
     bool bStatus = mPMUseCheck->isChecked();
 
     mPMCriticalCheck->setEnabled(bStatus);
+    mPMClearBtn->setEnabled( bStatus );
     mPMAddBtn->setEnabled(bStatus);
     mPMIssuerDomainPolicyText->setEnabled(bStatus);
     mPMSubjectDomainPolicyText->setEnabled(bStatus);
@@ -620,6 +628,7 @@ void MakeCertPolicyDlg::clickSANUse()
 
     mSANCriticalCheck->setEnabled(bStatus);
     mSANCombo->setEnabled(bStatus);
+    mSANClearBtn->setEnabled( bStatus );
     mSANAddBtn->setEnabled(bStatus);
     mSANText->setEnabled(bStatus);
     mSANTable->setEnabled(bStatus);
