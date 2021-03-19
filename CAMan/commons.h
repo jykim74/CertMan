@@ -91,6 +91,8 @@ const QStringList kRevokeReasonList = {
     "keyTime","CAKeyTime"
 };
 
+const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+
 enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BER, JS_FILE_TYPE_DB, JS_FILE_TYPE_DLL };
 
 QString findFile( QWidget *parent, int nType, const QString strPath );

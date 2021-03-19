@@ -23,7 +23,6 @@ public:
     MainWindow* mainWindow() { return main_win_; };
     ManTrayIcon* trayIcon() { return tray_icon_; };
     SettingsMgr* settingsMgr() { return settings_mgr_; };
-    AboutDlg* aboutDlg() { return  about_dlg_; };
 
     void* P11CTX() { return p11_ctx_; };
 
@@ -39,6 +38,7 @@ public:
     QString getBrand();
     void restartApp();
     QString getSetPath();
+    bool isPRO() { return is_pro_; };
 
 private:
     int loadPKCS11();
@@ -53,10 +53,10 @@ private:
     MainWindow* main_win_;
     ManTrayIcon* tray_icon_;
     SettingsMgr* settings_mgr_;
-    AboutDlg* about_dlg_;
 
     void*       p11_ctx_;
 
+    bool is_pro_;
     bool in_exit_;
 };
 

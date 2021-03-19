@@ -252,22 +252,22 @@ void MainWindow::createActions()
     toolsMenu->addAction( makeReqAct );
     toolsToolBar->addAction( makeReqAct );
 
-#ifdef _PRO
-    const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
-    QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
-    regUserAct->setStatusTip(tr( "Register User"));
-    connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
-    toolsMenu->addAction( regUserAct );
-    toolsToolBar->addAction( regUserAct );
+    if( manApplet->isPRO() )
+    {
+        const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
+        QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
+        regUserAct->setStatusTip(tr( "Register User"));
+        connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
+        toolsMenu->addAction( regUserAct );
+        toolsToolBar->addAction( regUserAct );
 
-
-    const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
-    QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
-    regSignerAct->setStatusTip(tr( "Register Signer"));
-    connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
-    toolsMenu->addAction( regSignerAct );
-    toolsToolBar->addAction( regSignerAct );
-#endif
+        const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
+        QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
+        regSignerAct->setStatusTip(tr( "Register Signer"));
+        connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
+        toolsMenu->addAction( regSignerAct );
+        toolsToolBar->addAction( regSignerAct );
+    }
 
     const QIcon certPolicyIcon = QIcon::fromTheme("cert-policy", QIcon(":/images/cert_policy.png"));
     QAction *makeCertPolicyAct = new QAction( certPolicyIcon, tr("MakeCert&Policy"), this );
@@ -341,14 +341,16 @@ void MainWindow::createActions()
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
 
-#ifdef _PRO
-    const QIcon statusIcon = QIcon::fromTheme("server-status", QIcon(":/images/server_status.png"));
-    QAction *srvStatusAct = new QAction( statusIcon, tr("ServerS&tatus"), this);
-    connect( srvStatusAct, &QAction::triggered, this, &MainWindow::serverStatus);
-    srvStatusAct->setStatusTip(tr("Server Status Information"));
-    helpMenu->addAction( srvStatusAct );
-    helpToolBar->addAction( srvStatusAct );
-#endif
+    if( manApplet->isPRO() )
+    {
+        const QIcon statusIcon = QIcon::fromTheme("server-status", QIcon(":/images/server_status.png"));
+        QAction *srvStatusAct = new QAction( statusIcon, tr("ServerS&tatus"), this);
+        connect( srvStatusAct, &QAction::triggered, this, &MainWindow::serverStatus);
+        srvStatusAct->setStatusTip(tr("Server Status Information"));
+        helpMenu->addAction( srvStatusAct );
+        helpToolBar->addAction( srvStatusAct );
+    }
+
 
     const QIcon settingIcon = QIcon::fromTheme("setting", QIcon(":/images/setting.png"));
     QAction *settingsAct = new QAction( settingIcon, tr("&Settings"), this);
@@ -408,13 +410,17 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Check Certificate"), this, &MainWindow::checkCertificate );
         menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
         menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
-        menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
-        menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
-        menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
-        menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
-        menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
-        menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
-        menu.addAction( tr( "getCRLSCEP"), this, &MainWindow::getCRLSCEP );
+
+        if( manApplet->isPRO() )
+        {
+            menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
+            menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
+            menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
+            menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
+            menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
+            menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
+            menu.addAction( tr( "getCRLSCEP"), this, &MainWindow::getCRLSCEP );
+        }
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
@@ -435,7 +441,11 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest );
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
         menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
-        menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
+
+        if( manApplet->isPRO() )
+        {
+            menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
+        }
     }
     else if( right_type_ == RightType::TYPE_CERT_POLICY )
     {
@@ -454,7 +464,11 @@ void MainWindow::showRightMenu(QPoint point)
     else if( right_type_ == RightType::TYPE_USER )
     {
         menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
-        menu.addAction(tr("Issue CMP"), this, &MainWindow::issueCMP );
+
+        if( manApplet->isPRO() )
+        {
+            menu.addAction(tr("Issue CMP"), this, &MainWindow::issueCMP );
+        }
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
     {
@@ -499,25 +513,28 @@ void MainWindow::createTreeMenu()
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
-    ManTreeItem *pAdminItem = new ManTreeItem( QString("Admin") );
-    pAdminItem->setIcon(QIcon(":/images/admin.png"));
-    pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
-    pTopItem->appendRow( pAdminItem );
+    if( manApplet->isPRO() )
+    {
+        ManTreeItem *pAdminItem = new ManTreeItem( QString("Admin") );
+        pAdminItem->setIcon(QIcon(":/images/admin.png"));
+        pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
+        pTopItem->appendRow( pAdminItem );
 
-    ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
-    pUserItem->setIcon(QIcon(":/images/user.jpg"));
-    pUserItem->setType( CM_ITEM_TYPE_USER );
-    pTopItem->appendRow( pUserItem );
+        ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
+        pUserItem->setIcon(QIcon(":/images/user.jpg"));
+        pUserItem->setType( CM_ITEM_TYPE_USER );
+        pTopItem->appendRow( pUserItem );
 
-    ManTreeItem *pRegSignerItem = new ManTreeItem( QString("REGSigner") );
-    pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
-    pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
-    pTopItem->appendRow( pRegSignerItem );
+        ManTreeItem *pRegSignerItem = new ManTreeItem( QString("REGSigner") );
+        pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
+        pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
+        pTopItem->appendRow( pRegSignerItem );
 
-    ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString("OCSPSigner") );
-    pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
-    pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
-    pTopItem->appendRow( pOCSPSignerItem );
+        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString("OCSPSigner") );
+        pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
+        pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
+        pTopItem->appendRow( pOCSPSignerItem );
+    }
 
 
     ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
@@ -548,15 +565,18 @@ void MainWindow::createTreeMenu()
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
 
-    ManTreeItem *pKMSItem = new ManTreeItem( QString( "KMS" ));
-    pKMSItem->setIcon(QIcon(":/images/kms.png"));
-    pKMSItem->setType( CM_ITEM_TYPE_KMS );
-    pTopItem->appendRow( pKMSItem );
+    if( manApplet->isPRO() )
+    {
+        ManTreeItem *pKMSItem = new ManTreeItem( QString( "KMS" ));
+        pKMSItem->setIcon(QIcon(":/images/kms.png"));
+        pKMSItem->setType( CM_ITEM_TYPE_KMS );
+        pTopItem->appendRow( pKMSItem );
 
-    ManTreeItem *pTSPItem = new ManTreeItem( QString( "TSP" ));
-    pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
-    pTSPItem->setType( CM_ITEM_TYPE_TSP );
-    pTopItem->appendRow( pTSPItem );
+        ManTreeItem *pTSPItem = new ManTreeItem( QString( "TSP" ));
+        pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
+        pTSPItem->setType( CM_ITEM_TYPE_TSP );
+        pTopItem->appendRow( pTSPItem );
+    }
 
     ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
     pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
@@ -1023,9 +1043,8 @@ void MainWindow::getLDAP()
 
 void MainWindow::about()
 {
-    manApplet->aboutDlg()->show();
-    manApplet->aboutDlg()->raise();
-    manApplet->aboutDlg()->activateWindow();
+    AboutDlg aboutDlg;
+    aboutDlg.exec();
 }
 
 void MainWindow::settings()

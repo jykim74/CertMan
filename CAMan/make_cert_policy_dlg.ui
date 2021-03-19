@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -163,75 +163,20 @@
        <string>Extend1</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="12" column="0" colspan="5">
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
+       <item row="10" column="0" colspan="5">
+        <widget class="QTableWidget" name="mPolicyTable"/>
        </item>
-       <item row="16" column="0" colspan="2">
-        <widget class="QLabel" name="label_16">
+       <item row="6" column="4">
+        <widget class="QPushButton" name="mPolicyAddBtn">
          <property name="text">
-          <string>Authority Key Identifier</string>
+          <string>Add</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="mPolicyUseCheck">
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Use</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="2">
-        <widget class="QCheckBox" name="mAKICertIssuerCheck">
-         <property name="text">
-          <string>Certificate Issuer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="5">
-        <widget class="Line" name="line_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1" colspan="4">
-        <widget class="QLineEdit" name="mPolicyCPSText"/>
-       </item>
-       <item row="14" column="1">
-        <widget class="QCheckBox" name="mSKICriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QCheckBox" name="mPolicyCriticalCheck">
-         <property name="text">
-          <string>Critical</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QComboBox" name="mKeyUsageCombo"/>
-       </item>
-       <item row="3" column="4">
-        <widget class="QPushButton" name="mKeyUsageClearBtn">
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1" colspan="4">
-        <widget class="QLineEdit" name="mPolicyUserNoticeText"/>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>User Notice</string>
+          <string>CPS</string>
          </property>
         </widget>
        </item>
@@ -242,37 +187,37 @@
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
-        <widget class="QCheckBox" name="mSKIUseCheck">
+       <item row="17" column="2">
+        <widget class="QCheckBox" name="mAKICertIssuerCheck">
          <property name="text">
-          <string>Use</string>
+          <string>Certificate Issuer</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1" colspan="4">
-        <widget class="QLineEdit" name="mPolicyOIDText"/>
-       </item>
-       <item row="11" column="4">
-        <widget class="QPushButton" name="mPolicyClearBtn">
+       <item row="3" column="4">
+        <widget class="QPushButton" name="mKeyUsageClearBtn">
          <property name="text">
           <string>Clear</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QLabel" name="label_11">
+       <item row="2" column="0" colspan="2">
+        <widget class="QComboBox" name="mKeyUsageCombo"/>
+       </item>
+       <item row="8" column="1" colspan="4">
+        <widget class="QLineEdit" name="mPolicyCPSText"/>
+       </item>
+       <item row="13" column="0" colspan="2">
+        <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Policy</string>
+          <string>Subject Key Identifier</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3" rowspan="2" colspan="2">
-        <widget class="QListWidget" name="mKeyUsageList"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="mKeyUsageUseCheck">
-         <property name="text">
-          <string>Use</string>
+       <item row="15" column="0" colspan="5">
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -290,17 +235,51 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="4">
-        <widget class="QPushButton" name="mPolicyAddBtn">
+       <item row="1" column="3" rowspan="2" colspan="2">
+        <widget class="QListWidget" name="mKeyUsageList"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Add</string>
+          <string>Policy OID</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="mKeyUsageCriticalCheck">
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="mKeyUsageUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" colspan="5">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QCheckBox" name="mPolicyCriticalCheck">
          <property name="text">
           <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QCheckBox" name="mSKICriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" colspan="4">
+        <widget class="QLineEdit" name="mPolicyOIDText"/>
+       </item>
+       <item row="17" column="0">
+        <widget class="QCheckBox" name="mAKIUseCheck">
+         <property name="text">
+          <string>Use</string>
          </property>
         </widget>
        </item>
@@ -311,43 +290,64 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="0" colspan="2">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Subject Key Identifier</string>
-         </property>
-        </widget>
+       <item row="9" column="1" colspan="4">
+        <widget class="QLineEdit" name="mPolicyUserNoticeText"/>
        </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>CPS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QCheckBox" name="mAKIUseCheck">
+       <item row="6" column="0">
+        <widget class="QCheckBox" name="mPolicyUseCheck">
          <property name="text">
           <string>Use</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_12">
+       <item row="16" column="0" colspan="2">
+        <widget class="QLabel" name="label_16">
          <property name="text">
-          <string>Policy OID</string>
+          <string>Authority Key Identifier</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="0" colspan="5">
-        <widget class="Line" name="line_6">
+       <item row="4" column="0" colspan="5">
+        <widget class="Line" name="line_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="5">
-        <widget class="QTableWidget" name="mPolicyTable"/>
+       <item row="5" column="0" colspan="2">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Policy</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>User Notice</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="mKeyUsageCriticalCheck">
+         <property name="text">
+          <string>Critical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QCheckBox" name="mSKIUseCheck">
+         <property name="text">
+          <string>Use</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="4">
+        <widget class="QPushButton" name="mPolicyClearBtn">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

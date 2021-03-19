@@ -344,66 +344,78 @@ void SettingsDlg::initialize()
 
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
 
-    state = mgr->KMIPUse() ? Qt::Checked : Qt::Unchecked;
-    mUseKMIPCheck->setCheckState( state );
+    if( manApplet->isPRO() )
+    {
+        state = mgr->KMIPUse() ? Qt::Checked : Qt::Unchecked;
+        mUseKMIPCheck->setCheckState( state );
 
-    mKMIPHostText->setText( mgr->KMIPHost() );
-    mKMIPPortText->setText( mgr->KMIPPort() );
-    mKMIPCACertPathText->setText( mgr->KMIPCACertPath() );
-    mKMIPCertPathText->setText( mgr->KMIPCertPath() );
-    mKMIPPrivateKeyPathText->setText( mgr->KMIPPrivateKeyPath() );
-    mKMIPUserNameText->setText( mgr->KMIPUserName() );
-    mKMIPPasswdText->setText( mgr->KMIPPasswd() );
+        mKMIPHostText->setText( mgr->KMIPHost() );
+        mKMIPPortText->setText( mgr->KMIPPort() );
+        mKMIPCACertPathText->setText( mgr->KMIPCACertPath() );
+        mKMIPCertPathText->setText( mgr->KMIPCertPath() );
+        mKMIPPrivateKeyPathText->setText( mgr->KMIPPrivateKeyPath() );
+        mKMIPUserNameText->setText( mgr->KMIPUserName() );
+        mKMIPPasswdText->setText( mgr->KMIPPasswd() );
 
-    checkKMIPUse();
+        checkKMIPUse();
 
-    state = mgr->OCSPUse() ? Qt::Checked : Qt::Unchecked;
+        state = mgr->OCSPUse() ? Qt::Checked : Qt::Unchecked;
 
-    mUseOCSPCheck->setCheckState(state);
+        mUseOCSPCheck->setCheckState(state);
 
-    mOCSPURIText->setText( mgr->OCSPURI() );
-    mOCSPSrvCertPathText->setText( mgr->OCSPSrvCertPath() );
+        mOCSPURIText->setText( mgr->OCSPURI() );
+        mOCSPSrvCertPathText->setText( mgr->OCSPSrvCertPath() );
 
-    state = mgr->OCSPAttachSign() ? Qt::Checked : Qt::Unchecked;
-    mOCSPAttachSignCheck->setCheckState(state);
+        state = mgr->OCSPAttachSign() ? Qt::Checked : Qt::Unchecked;
+        mOCSPAttachSignCheck->setCheckState(state);
 
-    mOCSPSignerPriPathText->setText( mgr->OCSPSignerPriPath() );
-    mOCSPSignerCertPathText->setText( mgr->OCSPSignerCertPath() );
+        mOCSPSignerPriPathText->setText( mgr->OCSPSignerPriPath() );
+        mOCSPSignerCertPathText->setText( mgr->OCSPSignerCertPath() );
 
-    checkOCSPUse();
-    checkOCSPAttachSign();
+        checkOCSPUse();
+        checkOCSPAttachSign();
 
-    state = mgr->REGUse() ? Qt::Checked : Qt::Unchecked;
-    mUseREGCheck->setCheckState( state );
+        state = mgr->REGUse() ? Qt::Checked : Qt::Unchecked;
+        mUseREGCheck->setCheckState( state );
 
-    mREGURIText->setText( mgr->REGURI() );
+        mREGURIText->setText( mgr->REGURI() );
 
-    checkREGUse();
+        checkREGUse();
 
-    state = mgr->CMPUse() ? Qt::Checked : Qt::Unchecked;
-    mUseCMPCheck->setCheckState( state );
-    mCMPURIText->setText( mgr->CMPURI() );
-    mCMPRootCACertPathText->setText( mgr->CMPRootCACertPath() );
-    mCMPCACertPathText->setText( mgr->CMPCACertPath() );
+        state = mgr->CMPUse() ? Qt::Checked : Qt::Unchecked;
+        mUseCMPCheck->setCheckState( state );
+        mCMPURIText->setText( mgr->CMPURI() );
+        mCMPRootCACertPathText->setText( mgr->CMPRootCACertPath() );
+        mCMPCACertPathText->setText( mgr->CMPCACertPath() );
 
-    checkCMPUse();
+        checkCMPUse();
 
-    state = mgr->TSPUse() ? Qt::Checked : Qt::Unchecked;
-    mUseTSPCheck->setCheckState( state );
-    mTSPURIText->setText( mgr->TSPURI() );
-    mTSPSrvCertPathText->setText( mgr->TSPSrvCertPath() );
+        state = mgr->TSPUse() ? Qt::Checked : Qt::Unchecked;
+        mUseTSPCheck->setCheckState( state );
+        mTSPURIText->setText( mgr->TSPURI() );
+        mTSPSrvCertPathText->setText( mgr->TSPSrvCertPath() );
 
-    checkTSPUse();
+        checkTSPUse();
 
-    state = mgr->SCEPUse() ? Qt::Checked : Qt::Unchecked;
-    mUseSCEPCheck->setCheckState( state );
-    mSCEPURIText->setText( mgr->SCEPURI() );
-    state = mgr->SCEPMutualAuth() ? Qt::Checked : Qt::Unchecked;
-    mSCEPMutualAuthCheck->setCheckState( state );
-    mSCEPPriKeyPathText->setText( mgr->SCEPPriKeyPath() );
-    mSCEPCertPathText->setText( mgr->SCEPCertPath() );
+        state = mgr->SCEPUse() ? Qt::Checked : Qt::Unchecked;
+        mUseSCEPCheck->setCheckState( state );
+        mSCEPURIText->setText( mgr->SCEPURI() );
+        state = mgr->SCEPMutualAuth() ? Qt::Checked : Qt::Unchecked;
+        mSCEPMutualAuthCheck->setCheckState( state );
+        mSCEPPriKeyPathText->setText( mgr->SCEPPriKeyPath() );
+        mSCEPCertPathText->setText( mgr->SCEPCertPath() );
 
-    checkSCEPUse();
+        checkSCEPUse();
+    }
+    else
+    {
+        mTabWidget->removeTab( 8 );
+        mTabWidget->removeTab( 7 );
+        mTabWidget->removeTab( 6 );
+        mTabWidget->removeTab( 5 );
+        mTabWidget->removeTab( 4 );
+        mTabWidget->removeTab( 3 );
+    }
 
     mTabWidget->setCurrentIndex(0);
 }

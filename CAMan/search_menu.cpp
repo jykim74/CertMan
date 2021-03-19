@@ -169,6 +169,8 @@ void SearchMenu::search()
     if( strTarget == "Page" )
     {
         cur_page_ = strWord.toInt();
+        cur_page_--;
+        if( cur_page_ < 0 ) cur_page_ = 0;
         input_text_->clear();
     }
 

@@ -34,11 +34,16 @@ ManApplet *manApplet;
 
 ManApplet::ManApplet(QObject *parent) : QObject(parent)
 {
-    main_win_ = new MainWindow;
+#ifdef JS_PRO
+    is_pro_ = true;
+#else
+    is_pro_ = false;
+#endif
+
+
     tray_icon_ = new ManTrayIcon;
 
     settings_mgr_ = new SettingsMgr;
-    about_dlg_ = new AboutDlg;
 
     in_exit_ = false;
 
@@ -81,6 +86,7 @@ int ManApplet::loadPKCS11()
 
 void ManApplet::start()
 {
+    main_win_ = new MainWindow;
     main_win_->show();
     tray_icon_->show();
 }

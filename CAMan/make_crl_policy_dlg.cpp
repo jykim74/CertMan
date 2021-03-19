@@ -248,17 +248,25 @@ void MakeCRLPolicyDlg::setExtends()
 
 void MakeCRLPolicyDlg::setTableMenus()
 {
-    QStringList sDPNLabels = { "Type", "Value" };
+    QStringList sDPNLabels = { tr("Type"), tr("Value") };
     mIDPTable->setColumnCount(2);
     mIDPTable->horizontalHeader()->setStretchLastSection(true);
     mIDPTable->setHorizontalHeaderLabels(sDPNLabels);
     mIDPTable->verticalHeader()->setVisible(false);
+    mIDPTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIDPTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mIDPTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mIDPTable->setColumnWidth(0, 60);
 
-    QStringList sIANLabels = { "Type", "Value" };
+    QStringList sIANLabels = { tr("Type"), tr("Value") };
     mIANTable->setColumnCount(2);
     mIANTable->horizontalHeader()->setStretchLastSection(true);
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
     mIANTable->verticalHeader()->setVisible(false);
+    mIANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mIANTable->setColumnWidth(0, 60);
 }
 
 void MakeCRLPolicyDlg::clickUseFromNow()
@@ -318,6 +326,7 @@ void MakeCRLPolicyDlg::addIDP()
     int row = mIDPTable->rowCount();
     mIDPTable->setRowCount( row + 1 );
 
+    mIDPTable->setRowHeight( row, 10 );
     mIDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
@@ -330,6 +339,7 @@ void MakeCRLPolicyDlg::addIAN()
     int row = mIANTable->rowCount();
     mIANTable->setRowCount( row + 1 );
 
+    mIANTable->setRowHeight( row, 10 );
     mIANTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
@@ -502,6 +512,7 @@ void MakeCRLPolicyDlg::setIDPUse( PolicyExtRec& policyRec )
         QString strData = infoList.at(1);
 
         mIDPTable->insertRow(i);
+        mIDPTable->setRowHeight( i, 10 );
         mIDPTable->setItem(i, 0, new QTableWidgetItem(strType));
         mIDPTable->setItem(i, 1, new QTableWidgetItem(strData));
     }
@@ -528,6 +539,7 @@ void MakeCRLPolicyDlg::setIANUse( PolicyExtRec& policyRec )
         QString strData = infoList.at(1);
 
         mIANTable->insertRow(i);
+        mIANTable->setRowHeight( i, 10 );
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem( i, 1, new QTableWidgetItem(strData));
     }

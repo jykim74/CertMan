@@ -321,47 +321,89 @@ void MakeCertPolicyDlg::initUI()
 
 void MakeCertPolicyDlg::setTableMenus()
 {
-    QStringList sPolicyLabels = { "OID", "CPS", "UserNotice" };
+    QStringList sPolicyLabels = { tr("OID"), tr("CPS"), tr("UserNotice") };
     mPolicyTable->setColumnCount(3);
     mPolicyTable->horizontalHeader()->setStretchLastSection(true);
     mPolicyTable->setHorizontalHeaderLabels( sPolicyLabels );
     mPolicyTable->verticalHeader()->setVisible(false);
+    mPolicyTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mPolicyTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mPolicyTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mPolicyTable->setColumnWidth(0, 100);
+    mPolicyTable->setColumnWidth(1, 100);
 
-    QStringList sCRLDPLabels = { "Type", "Value" };
+
+    QStringList sCRLDPLabels = { tr("Type"), tr("Value") };
     mCRLDPTable->setColumnCount(2);
     mCRLDPTable->horizontalHeader()->setStretchLastSection(true);
     mCRLDPTable->setHorizontalHeaderLabels(sCRLDPLabels);
     mCRLDPTable->verticalHeader()->setVisible(false);
+    mCRLDPTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCRLDPTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mCRLDPTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mCRLDPTable->setColumnWidth(0,60);
 
-    QStringList sAIALabels = { "Target", "Type", "Value" };
+
+    QStringList sAIALabels = { tr("Target"), tr("Type"), tr("Value") };
     mAIATable->setColumnCount(3);
     mAIATable->horizontalHeader()->setStretchLastSection(true);
     mAIATable->setHorizontalHeaderLabels(sAIALabels);
     mAIATable->verticalHeader()->setVisible(false);
+    mAIATable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mAIATable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mAIATable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mAIATable->setColumnWidth(0,60);
+    mAIATable->setColumnWidth(1,60);
 
-    QStringList sSANLabels = { "Type", "Value" };
+
+    QStringList sSANLabels = { tr("Type"), tr("Value") };
     mSANTable->setColumnCount(2);
     mSANTable->horizontalHeader()->setStretchLastSection(true);
     mSANTable->setHorizontalHeaderLabels(sSANLabels);
     mSANTable->verticalHeader()->setVisible(false);
+    mSANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mSANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mSANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mSANTable->setColumnWidth(0,60);
 
-    QStringList sIANLabels = { "Type", "Value" };
+
+    QStringList sIANLabels = { tr("Type"), tr("Value") };
     mIANTable->setColumnCount(2);
     mIANTable->horizontalHeader()->setStretchLastSection(true);
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
     mIANTable->verticalHeader()->setVisible(false);
+    mIANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mIANTable->setColumnWidth(0,60);
 
-    QStringList sPMLabels = { "Tareg", "Value", "Target", "Value" };
+
+    QStringList sPMLabels = { tr("Target"), tr("Value"), tr("Target"), tr("Value") };
     mPMTable->setColumnCount(4);
     mPMTable->horizontalHeader()->setStretchLastSection(true);
     mPMTable->setHorizontalHeaderLabels(sPMLabels);
     mPMTable->verticalHeader()->setVisible(false);
+    mPMTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mPMTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mPMTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mPMTable->setColumnWidth(0,100);
+    mPMTable->setColumnWidth(1,100);
+    mPMTable->setColumnWidth(2,100);
 
-    QStringList sNCLabels = { "Type", "Target", "Value", "Min", "Max" };
+
+    QStringList sNCLabels = { tr("Type"), tr("Target"), tr("Value"), tr("Min"), tr("Max") };
     mNCTable->setColumnCount(5);
     mNCTable->horizontalHeader()->setStretchLastSection(true);
     mNCTable->setHorizontalHeaderLabels(sNCLabels);
     mNCTable->verticalHeader()->setVisible(false);
+    mNCTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mNCTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mNCTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mNCTable->setColumnWidth(0,60);
+    mNCTable->setColumnWidth(1,120);
+    mNCTable->setColumnWidth(2,200);
+    mNCTable->setColumnWidth(3,60);
+    mNCTable->setColumnWidth(4,60);
 }
 
 void MakeCertPolicyDlg::connectExtends()
@@ -601,6 +643,7 @@ void MakeCertPolicyDlg::addPolicy()
 
     mPolicyTable->setRowCount( row + 1 );
 
+    mPolicyTable->setRowHeight( row, 10 );
     mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
     mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
     mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
@@ -621,6 +664,7 @@ void MakeCertPolicyDlg::addCRLDP()
     int row = mCRLDPTable->rowCount();
     mCRLDPTable->setRowCount( row + 1 );
 
+    mCRLDPTable->setRowHeight( row, 10 );
     mCRLDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mCRLDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
@@ -635,6 +679,7 @@ void MakeCertPolicyDlg::addAIA()
 
     mAIATable->setRowCount( row + 1 );
 
+    mAIATable->setRowHeight( row, 10 );
     mAIATable->setItem( row, 0, new QTableWidgetItem( strTarget ));
     mAIATable->setItem( row, 1, new QTableWidgetItem( strType) );
     mAIATable->setItem( row, 2, new QTableWidgetItem( strVal ));
@@ -648,6 +693,7 @@ void MakeCertPolicyDlg::addSAN()
     int row = mSANTable->rowCount();
     mSANTable->setRowCount( row + 1 );
 
+    mSANTable->setRowHeight( row, 10 );
     mSANTable->setItem( row, 0, new QTableWidgetItem(strType));
     mSANTable->setItem( row, 1, new QTableWidgetItem(strVal));
 }
@@ -660,6 +706,7 @@ void MakeCertPolicyDlg::addIAN()
     int row = mIANTable->rowCount();
     mIANTable->setRowCount( row + 1 );
 
+    mIANTable->setRowHeight( row, 10 );
     mIANTable->setItem( row, 0, new QTableWidgetItem(strType));
     mIANTable->setItem( row, 1, new QTableWidgetItem(strVal));
 }
@@ -672,6 +719,7 @@ void MakeCertPolicyDlg::addPM()
     int row = mPMTable->rowCount();
     mPMTable->setRowCount( row + 1 );
 
+    mPMTable->setRowHeight( row, 10 );
     mPMTable->setItem( row, 0, new QTableWidgetItem( "IssuerDomainPolicy"));
     mPMTable->setItem( row, 1, new QTableWidgetItem( strIDP));
     mPMTable->setItem( row, 2, new QTableWidgetItem( "SubjectDomainPolicy"));
@@ -689,6 +737,7 @@ void MakeCertPolicyDlg::addNC()
     int row = mNCTable->rowCount();
     mNCTable->setRowCount( row + 1 );
 
+    mNCTable->setRowHeight( row, 10 );
     mNCTable->setItem( row, 0, new QTableWidgetItem(strType));
     mNCTable->setItem( row, 1, new QTableWidgetItem(strSubType));
     mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
@@ -1156,6 +1205,7 @@ void MakeCertPolicyDlg::setAIAUse( PolicyExtRec& policyRec )
         strData = infoList.at(2);
 
         mAIATable->insertRow(i);
+        mAIATable->setRowHeight(i,10);
         mAIATable->setItem( i, 0, new QTableWidgetItem(strMethod));
         mAIATable->setItem( i, 1, new QTableWidgetItem(strType));
         mAIATable->setItem( i, 2, new QTableWidgetItem(strData));
@@ -1214,6 +1264,7 @@ void MakeCertPolicyDlg::setCRLDPUse( PolicyExtRec& policyRec )
         QString strData = typeData.at(1);
 
         mCRLDPTable->insertRow(i);
+        mCRLDPTable->setRowHeight( i, 10 );
         mCRLDPTable->setItem( i, 0, new QTableWidgetItem(strType));
         mCRLDPTable->setItem( i, 1, new QTableWidgetItem(strData));
     }
@@ -1252,6 +1303,7 @@ void MakeCertPolicyDlg::setIANUse( PolicyExtRec& policyRec )
         QString strData = infoList.at(1);
 
         mIANTable->insertRow(i);
+        mIANTable->setRowHeight( i, 10 );
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem(i, 1, new QTableWidgetItem(strData));
     }
@@ -1296,6 +1348,7 @@ void MakeCertPolicyDlg::setNCUse( PolicyExtRec& policyRec )
         if( infoList.size() > 4 ) strMax = infoList.at(4);
 
         mNCTable->insertRow(i);
+        mNCTable->setRowHeight( i, 10 );
         mNCTable->setItem(i, 0, new QTableWidgetItem(strType));
         mNCTable->setItem(i, 1, new QTableWidgetItem(strKind));
         mNCTable->setItem(i, 2, new QTableWidgetItem(strData));
@@ -1344,6 +1397,7 @@ void MakeCertPolicyDlg::setPolicyUse( PolicyExtRec& policyRec )
 
         mPolicyTable->setRowCount( row + 1 );
 
+        mPolicyTable->setRowHeight( row, 10 );
         mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
         mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
         mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
@@ -1393,6 +1447,7 @@ void MakeCertPolicyDlg::setPMUse( PolicyExtRec& policyRec )
         QString strSDP = infoList.at(1);
 
         mPMTable->insertRow(i);
+        mPMTable->setRowHeight( i, 10 );
         mPMTable->setItem(i,0,new QTableWidgetItem("issuerDomainPolicy"));
         mPMTable->setItem(i,1,new QTableWidgetItem(strIDP));
         mPMTable->setItem(i,2,new QTableWidgetItem("subjectDomainPolicy"));
@@ -1426,6 +1481,7 @@ void MakeCertPolicyDlg::setSANUse( PolicyExtRec& policyRec )
         QString strData = infoList.at(1);
 
         mSANTable->insertRow(i);
+        mSANTable->setRowHeight( i, 10 );
         mSANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mSANTable->setItem(i, 1, new QTableWidgetItem(strData));
     }

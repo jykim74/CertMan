@@ -18,7 +18,7 @@ PROJECT_VERSION = "0.9.9"
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CAMAN_VERSION=$$PROJECT_VERSION
-
+#DEFINES += JS_PRO
 
 CONFIG += sdk_no_version_check
 
@@ -182,8 +182,6 @@ RESOURCES += \
     caman.qrc
 
 TRANSLATIONS += i18n/caman_ko_KR.ts
-
-DEFINES += _PRO
 
 INCLUDEPATH += "../../PKILib"
 

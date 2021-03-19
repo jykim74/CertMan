@@ -385,9 +385,7 @@ void MakeCRLDlg::setRevokeList()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    mRevokeTable->horizontalHeader()->setStyleSheet( style );
-
+    mRevokeTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mRevokeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 

@@ -11,7 +11,18 @@ AboutDlg::AboutDlg(QWidget *parent) :
     setWindowTitle(tr("About %1").arg(manApplet->getBrand()));
     setWindowFlags( (windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint );
 
-    version_label_ = tr( "About %1 (%2)").arg( "CAMan").arg(STRINGIZE(CAMAN_VERSION));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+
+    if( manApplet->isPRO() )
+    {
+        version_label_ = tr( "About %1 (%2)").arg( "CAMan PRO").arg(STRINGIZE(CAMAN_VERSION));
+    }
+    else
+    {
+        version_label_ = tr( "About %1 (%2)").arg( "CAMan").arg(STRINGIZE(CAMAN_VERSION));
+    }
+
+
     mVersionLabel->setText( version_label_ );
 
 #ifdef _AUTO_UPDATE
@@ -40,6 +51,7 @@ AboutDlg::AboutDlg(QWidget *parent) :
     strAbout += tr("mail: jykim74@gmail.com" );
 
     mAboutText->setText( strAbout );
+    mCloseBtn->setFocus();
 }
 
 AboutDlg::~AboutDlg()

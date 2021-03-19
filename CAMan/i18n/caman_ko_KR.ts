@@ -31,6 +31,10 @@
         <source>mail: jykim74@gmail.com</source>
         <translation>메일: jykim74@gmail.com</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
 </context>
 <context>
     <name>AdminDlg</name>
@@ -1229,6 +1233,14 @@
         <source>You have to insert name</source>
         <translation>이름을 입력하세요.</translation>
     </message>
+    <message>
+        <source>Type</source>
+        <translation>타입</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
@@ -1425,7 +1437,7 @@
     </message>
     <message>
         <source>CPS</source>
-        <translation>인증서 정책 문</translation>
+        <translation>인증서 정책 문장</translation>
     </message>
     <message>
         <source>Policy OID</source>
@@ -1518,6 +1530,26 @@
     <message>
         <source>You have to set subjec dn</source>
         <translation>주체자 DN 을 설정 하세요.</translation>
+    </message>
+    <message>
+        <source>OID</source>
+        <translation>OID</translation>
+    </message>
+    <message>
+        <source>UserNotice</source>
+        <translation>사용자 공지</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>타입</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation>대상</translation>
     </message>
 </context>
 <context>
