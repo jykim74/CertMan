@@ -150,7 +150,6 @@ FORMS += \
         make_cert_policy_dlg.ui \
         make_crl_dlg.ui \
         make_crl_policy_dlg.ui \
-        make_crl_policy_dlg_copy.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
         pin_dlg.ui \

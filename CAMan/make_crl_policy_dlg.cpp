@@ -301,6 +301,7 @@ void MakeCRLPolicyDlg::clickIDP()
     bool bStatus = mIDPUseCheck->isChecked();
 
     mIDPCriticalCheck->setEnabled(bStatus);
+    mIDPClearBtn->setEnabled(bStatus);
     mIDPAddBtn->setEnabled(bStatus);
     mIDPText->setEnabled(bStatus);
     mIDPTable->setEnabled(bStatus);
@@ -315,6 +316,7 @@ void MakeCRLPolicyDlg::clickIAN()
     mIANText->setEnabled(bStatus);
     mIANCombo->setEnabled(bStatus);
     mIANTable->setEnabled(bStatus);
+    mIANClearBtn->setEnabled(bStatus);
     mIANAddBtn->setEnabled(bStatus);
 }
 
