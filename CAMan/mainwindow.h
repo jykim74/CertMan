@@ -27,8 +27,8 @@ enum RightType {
     TYPE_KEYPAIR = 1,
     TYPE_REQUEST,
     TYPE_CERTIFICATE,
-    TYPE_CERT_POLICY,
-    TYPE_CRL_POLICY,
+    TYPE_CERT_PROFILE,
+    TYPE_CRL_PROFILE,
     TYPE_CRL,
     TYPE_REVOKE,
     TYPE_USER,
@@ -63,8 +63,8 @@ public:
     void createRightList( int nType, int nNum );
     void createRightKeyPairList();
     void createRightRequestList();
-    void createRightCertPolicyList();
-    void createRightCRLPolicyList();
+    void createRightCertProfileList();
+    void createRightCRLProfileList();
     void createRightCertList( int nIssuerNum, bool bIsCA = false );
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
@@ -81,9 +81,9 @@ public:
     void logKeyPair( int seq );
     void logRequest( int seq );
     void logCertificate( int seq );
-    void logCertPolicy( int seq );
+    void logCertProfile( int seq );
     void logCRL( int seq );
-    void logCRLPolicy( int seq );
+    void logCRLProfile( int seq );
     void logRevoke( int seq );
     void logUser( int seq );
     void logAdmin( int seq );
@@ -108,10 +108,10 @@ public slots:
 
     void newKey();
     void makeRequest();
-    void makeCertPolicy();
-    void makeCRLPolicy();
-    void editCertPolicy();
-    void editCRLPolicy();
+    void makeCertProfile();
+    void makeCRLProfile();
+    void editCertProfile();
+    void editCRLProfile();
     void makeCertificate();
     void makeCRL();
     void revokeCertificate();
@@ -133,8 +133,8 @@ public slots:
     void exportCRL();
     void exportPFX();
 
-    void deleteCertPolicy();
-    void deleteCRLPolicy();
+    void deleteCertProfile();
+    void deleteCRLProfile();
     void deleteCertificate();
     void deleteCRL();
     void deleteKeyPair();

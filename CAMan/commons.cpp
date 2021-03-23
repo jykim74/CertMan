@@ -904,16 +904,16 @@ QString findFile( QWidget *parent, int nType, const QString strPath )
 };
 
 
-int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
+int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec )
 {
     int ret = 0;
     BIN binExt = {0,0};
     char sOID[1024];
     char *pHexVal = NULL;
 
-    bool bCrit = policyExtRec.isCritical();
-    QString strSN = policyExtRec.getSN();
-    QString strVal = policyExtRec.getValue();
+    bool bCrit = profileExtRec.isCritical();
+    QString strSN = profileExtRec.getSN();
+    QString strVal = profileExtRec.getValue();
 
     memset( sOID, 0x00, sizeof(sOID) );
 
@@ -998,7 +998,7 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, PolicyExtRec policyExtRec )
     return ret;
 }
 
-int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
+int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec )
 {
     int ret = 0;
     QString strVal = "";
@@ -1074,9 +1074,9 @@ int transExtInfoToDBRec( JExtensionInfo *pExtInfo, PolicyExtRec& policyExtRec )
         strVal = pExtInfo->pValue;
     }
 
-    policyExtRec.setSN( strSN );
-    policyExtRec.setCritical( pExtInfo->bCritical );
-    policyExtRec.setValue( strVal );
+    profileExtRec.setSN( strSN );
+    profileExtRec.setCritical( pExtInfo->bCritical );
+    profileExtRec.setValue( strVal );
 
     return 0;
 }

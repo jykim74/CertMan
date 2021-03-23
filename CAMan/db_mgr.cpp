@@ -4,11 +4,11 @@
 
 #include "db_mgr.h"
 #include "cert_rec.h"
-#include "cert_policy_rec.h"
+#include "cert_profile_rec.h"
 #include "crl_rec.h"
-#include "crl_policy_rec.h"
+#include "crl_profile_rec.h"
 #include "key_pair_rec.h"
-#include "policy_ext_rec.h"
+#include "profile_ext_rec.h"
 #include "req_rec.h"
 #include "revoke_rec.h"
 #include "user_rec.h"
@@ -1092,45 +1092,45 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     return 0;
 }
 
-int DBMgr::getCertPolicyList( QList<CertPolicyRec>& certPolicyList )
+int DBMgr::getCertProfileList( QList<CertProfileRec>& certProfileList )
 {
-    QString strSQL = "SELECT * FROM TB_CERT_POLICY ORDER BY NUM DESC";
+    QString strSQL = "SELECT * FROM TB_CERT_PROFILE ORDER BY NUM DESC";
 
-    return _getCertPolicyList( strSQL, certPolicyList );
+    return _getCertProfileList( strSQL, certProfileList );
 }
 
 
-int DBMgr::getCertPolicyRec( int nNum, CertPolicyRec& certPolicy )
+int DBMgr::getCertProfileRec( int nNum, CertProfileRec& certProfile )
 {
     QString strSQL;
-    strSQL.sprintf( "SELECT * FROM TB_CERT_POLICY WHERE NUM = %d", nNum );
+    strSQL.sprintf( "SELECT * FROM TB_CERT_PROFILE WHERE NUM = %d", nNum );
 
-    QList<CertPolicyRec> certPolicyList;
+    QList<CertProfileRec> certProfileList;
 
-    _getCertPolicyList( strSQL, certPolicyList );
-    if( certPolicyList.size() <= 0 ) return -1;
+    _getCertProfileList( strSQL, certProfileList );
+    if( certProfileList.size() <= 0 ) return -1;
 
-    certPolicy = certPolicyList.at(0);
+    certProfile = certProfileList.at(0);
 
     return 0;
 }
 
-int DBMgr::getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy )
+int DBMgr::getCRLProfileRec( int nNum, CRLProfileRec& crlProfile )
 {
     QString strSQL;
-    strSQL.sprintf( "SELECT * FROM TB_CRL_POLICY WHERE NUM = %d", nNum );
+    strSQL.sprintf( "SELECT * FROM TB_CRL_PROFILE WHERE NUM = %d", nNum );
 
-    QList<CRLPolicyRec> crlPolicyList;
+    QList<CRLProfileRec> crlProfileList;
 
-    _getCRLPolicyList( strSQL, crlPolicyList );
-    if( crlPolicyList.size() <= 0 ) return -1;
+    _getCRLProfileList( strSQL, crlProfileList );
+    if( crlProfileList.size() <= 0 ) return -1;
 
-    crlPolicy = crlPolicyList.at(0);
+    crlProfile = crlProfileList.at(0);
 
     return 0;
 }
 
-int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolicyList )
+int DBMgr::_getCertProfileList( QString strQuery, QList<CertProfileRec>& certProfileList )
 {
     int iCount = 0;
     QSqlQuery SQL( strQuery );
@@ -1145,17 +1145,17 @@ int DBMgr::_getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolic
 
     while( SQL.next() )
     {
-        CertPolicyRec certPolicy;
+        CertProfileRec certProfile;
 
-        certPolicy.setNum( SQL.value(nPosNum).toInt() );
-        certPolicy.setName( SQL.value(nPosName).toString() );
-        certPolicy.setVersion( SQL.value(nPosVersion).toInt() );
-        certPolicy.setNotBefore( SQL.value(nPosNotBefore).toInt() );
-        certPolicy.setNotAfter( SQL.value(nPosNotAfter).toInt() );
-        certPolicy.setHash( SQL.value(nPosHash).toString() );
-        certPolicy.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
+        certProfile.setNum( SQL.value(nPosNum).toInt() );
+        certProfile.setName( SQL.value(nPosName).toString() );
+        certProfile.setVersion( SQL.value(nPosVersion).toInt() );
+        certProfile.setNotBefore( SQL.value(nPosNotBefore).toInt() );
+        certProfile.setNotAfter( SQL.value(nPosNotAfter).toInt() );
+        certProfile.setHash( SQL.value(nPosHash).toString() );
+        certProfile.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
 
-        certPolicyList.append( certPolicy );
+        certProfileList.append( certProfile );
         iCount++;
     }
 
@@ -1224,14 +1224,14 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
     return 0;
 }
 
-int DBMgr::getCRLPolicyList(QList<CRLPolicyRec>& crlPolicyList)
+int DBMgr::getCRLProfileList(QList<CRLProfileRec>& crlProfileList)
 {
-    QString strSQL = "SELECT * FROM TB_CRL_POLICY ORDER BY NUM DESC";
+    QString strSQL = "SELECT * FROM TB_CRL_PROFILE ORDER BY NUM DESC";
 
-    return _getCRLPolicyList( strSQL, crlPolicyList );
+    return _getCRLProfileList( strSQL, crlProfileList );
 }
 
-int DBMgr::_getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyList )
+int DBMgr::_getCRLProfileList( QString strQuery, QList<CRLProfileRec>& crlProfileList )
 {
     int iCount = 0;
     QSqlQuery SQL(strQuery);
@@ -1245,16 +1245,16 @@ int DBMgr::_getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyLi
 
     while( SQL.next() )
     {
-        CRLPolicyRec crlPolicy;
+        CRLProfileRec crlProfile;
 
-        crlPolicy.setNum( SQL.value(nPosNum).toInt() );
-        crlPolicy.setName( SQL.value(nPosName).toString() );
-        crlPolicy.setVersion( SQL.value(nPosVersion).toInt() );
-        crlPolicy.setLastUpdate( SQL.value(nPosLastUpdate).toInt() );
-        crlPolicy.setNextUpdate( SQL.value(nPosNextUpdate).toInt() );
-        crlPolicy.setHash( SQL.value(nPosHash).toString() );
+        crlProfile.setNum( SQL.value(nPosNum).toInt() );
+        crlProfile.setName( SQL.value(nPosName).toString() );
+        crlProfile.setVersion( SQL.value(nPosVersion).toInt() );
+        crlProfile.setLastUpdate( SQL.value(nPosLastUpdate).toInt() );
+        crlProfile.setNextUpdate( SQL.value(nPosNextUpdate).toInt() );
+        crlProfile.setHash( SQL.value(nPosHash).toString() );
 
-        crlPolicyList.append( crlPolicy );
+        crlProfileList.append( crlProfile );
         iCount++;
     }
 
@@ -1295,42 +1295,42 @@ int DBMgr::_getRevokeList( QString strQuery, QList<RevokeRec>& revokeList )
     return 0;
 }
 
-int DBMgr::getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList )
+int DBMgr::getCertProfileExtensionList( int nProfileNum, QList<ProfileExtRec>& profileExtList )
 {
-    QString strQuery = QString( "SELECT * FROM TB_CERT_POLICY_EXTENSION WHERE POLICYNUM = %1").arg( nPolicyNum );
+    QString strQuery = QString( "SELECT * FROM TB_CERT_PROFILE_EXTENSION WHERE PROFILENUM = %1").arg( nProfileNum );
 
-    return _getPolicyExtensionList( strQuery, policyExtList );
+    return _getProfileExtensionList( strQuery, profileExtList );
 }
 
-int DBMgr::getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList )
+int DBMgr::getCRLProfileExtensionList( int nProfileNum, QList<ProfileExtRec>& profileExtList )
 {
-    QString strQuery = QString( "SELECT * FROM TB_CRL_POLICY_EXTENSION WHERE POLICYNUM = %1").arg( nPolicyNum );
+    QString strQuery = QString( "SELECT * FROM TB_CRL_PROFILE_EXTENSION WHERE PROFILENUM = %1").arg( nProfileNum );
 
-    return _getPolicyExtensionList( strQuery, policyExtList );
+    return _getProfileExtensionList( strQuery, profileExtList );
 }
 
-int DBMgr::_getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList )
+int DBMgr::_getProfileExtensionList( QString strQuery, QList<ProfileExtRec>& profileExtensionList )
 {
     int iCount = 0;
     QSqlQuery SQL(strQuery);
 
     int nPosSeq = SQL.record().indexOf( "SEQ" );
-    int nPosPolicyNum = SQL.record().indexOf( "POLICYNUM" );
+    int nPosProfileNum = SQL.record().indexOf( "PROFILENUM" );
     int nPosCritical = SQL.record().indexOf( "CRITICAL" );
     int nPosSN = SQL.record().indexOf( "SN" );
     int nPosValue = SQL.record().indexOf( "VALUE" );
 
     while( SQL.next() )
     {
-        PolicyExtRec policyExtension;
+        ProfileExtRec profileExtension;
 
-        policyExtension.setSeq( SQL.value(nPosSeq).toInt() );
-        policyExtension.setPolicyNum( SQL.value(nPosPolicyNum).toInt() );
-        policyExtension.setCritical( SQL.value(nPosCritical).toBool() );
-        policyExtension.setSN( SQL.value(nPosSN).toString() );
-        policyExtension.setValue( SQL.value(nPosValue).toString() );
+        profileExtension.setSeq( SQL.value(nPosSeq).toInt() );
+        profileExtension.setProfileNum( SQL.value(nPosProfileNum).toInt() );
+        profileExtension.setCritical( SQL.value(nPosCritical).toBool() );
+        profileExtension.setSN( SQL.value(nPosSN).toString() );
+        profileExtension.setValue( SQL.value(nPosValue).toString() );
 
-        policyExtensionList.append( policyExtension );
+        profileExtensionList.append( profileExtension );
         iCount++;
     }
 
@@ -1501,7 +1501,7 @@ int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
     int nPosRegTime = SQL.record().indexOf( "RegTime");
     int nPosSerial = SQL.record().indexOf( "Serial" );
     int nPosSrcHash = SQL.record().indexOf( "SrcHash" );
-    int nPosPolicy = SQL.record().indexOf( "Policy" );
+    int nPosPolicy = SQL.record().indexOf( "Profile" );
     int nPosTSTInfo = SQL.record().indexOf( "TSTInfo" );
     int nPosData = SQL.record().indexOf( "Data" );
 
@@ -1635,11 +1635,11 @@ int DBMgr::modCertStatus( int nNum, int nStatus )
     return 0;
 }
 
-int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
+int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "UPDATE TB_CERT_POLICY SET "
+    sqlQuery.prepare( "UPDATE TB_CERT_PROFILE SET "
                       "NAME = ?, "
                       "VERSION = ?, "
                       "NOTBEFORE = ?, "
@@ -1648,23 +1648,23 @@ int DBMgr::modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec )
                       "DNTemplate = ? "
                       "WHERE NUM = ?;" );
 
-    sqlQuery.bindValue( i++, policyRec.getName() );
-    sqlQuery.bindValue( i++, policyRec.getVersion() );
-    sqlQuery.bindValue( i++, (int)policyRec.getNotBefore() );
-    sqlQuery.bindValue( i++, (int)policyRec.getNotAfter() );
-    sqlQuery.bindValue( i++, policyRec.getHash() );
-    sqlQuery.bindValue( i++, policyRec.getDNTemplate() );
-    sqlQuery.bindValue( i++, nPolicyNum );
+    sqlQuery.bindValue( i++, profileRec.getName() );
+    sqlQuery.bindValue( i++, profileRec.getVersion() );
+    sqlQuery.bindValue( i++, (int)profileRec.getNotBefore() );
+    sqlQuery.bindValue( i++, (int)profileRec.getNotAfter() );
+    sqlQuery.bindValue( i++, profileRec.getHash() );
+    sqlQuery.bindValue( i++, profileRec.getDNTemplate() );
+    sqlQuery.bindValue( i++, nProfileNum );
 
     sqlQuery.exec();
     return 0;
 }
 
-int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
+int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "UPDATE TB_CRL_POLICY SET "
+    sqlQuery.prepare( "UPDATE TB_CRL_PROFILE SET "
                       "NAME = ?, "
                       "VERSION = ?, "
                       "LASTUPDATE = ?, "
@@ -1672,12 +1672,12 @@ int DBMgr::modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec )
                       "HASH = ? "
                       "WHERE NUM = ?;" );
 
-    sqlQuery.bindValue( i++, policyRec.getName() );
-    sqlQuery.bindValue( i++, policyRec.getVersion() );
-    sqlQuery.bindValue( i++, (int)policyRec.getLastUpdate() );
-    sqlQuery.bindValue( i++, (int)policyRec.getNextUpdate() );
-    sqlQuery.bindValue( i++, policyRec.getHash() );
-    sqlQuery.bindValue( i++, nPolicyNum );
+    sqlQuery.bindValue( i++, profileRec.getName() );
+    sqlQuery.bindValue( i++, profileRec.getVersion() );
+    sqlQuery.bindValue( i++, (int)profileRec.getLastUpdate() );
+    sqlQuery.bindValue( i++, (int)profileRec.getNextUpdate() );
+    sqlQuery.bindValue( i++, profileRec.getHash() );
+    sqlQuery.bindValue( i++, nProfileNum );
 
     sqlQuery.exec();
     return 0;
@@ -1724,52 +1724,52 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     return 0;
 }
 
-int DBMgr::addCertPolicyRec( CertPolicyRec& certPolicyRec )
+int DBMgr::addCertProfileRec( CertProfileRec& certProfileRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "INSERT INTO TB_CERT_POLICY "
+    sqlQuery.prepare( "INSERT INTO TB_CERT_PROFILE "
                       "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE ) "
                       "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( i++, certPolicyRec.getNum() );
-    sqlQuery.bindValue( i++, certPolicyRec.getName() );
-    sqlQuery.bindValue( i++, certPolicyRec.getVersion() );
-    sqlQuery.bindValue( i++, QString( "%1" ).arg( certPolicyRec.getNotBefore() ) );
-    sqlQuery.bindValue( i++, QString( "%1").arg( certPolicyRec.getNotAfter() ) );
-    sqlQuery.bindValue( i++, certPolicyRec.getHash() );
-    sqlQuery.bindValue( i++, certPolicyRec.getDNTemplate() );
+    sqlQuery.bindValue( i++, certProfileRec.getNum() );
+    sqlQuery.bindValue( i++, certProfileRec.getName() );
+    sqlQuery.bindValue( i++, certProfileRec.getVersion() );
+    sqlQuery.bindValue( i++, QString( "%1" ).arg( certProfileRec.getNotBefore() ) );
+    sqlQuery.bindValue( i++, QString( "%1").arg( certProfileRec.getNotAfter() ) );
+    sqlQuery.bindValue( i++, certProfileRec.getHash() );
+    sqlQuery.bindValue( i++, certProfileRec.getDNTemplate() );
 
     sqlQuery.exec();
     return 0;
 }
 
-int DBMgr::addCRLPolicyRec( CRLPolicyRec& crlPolicyRec )
+int DBMgr::addCRLProfileRec( CRLProfileRec& crlProfileRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
 
-    sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY "
+    sqlQuery.prepare( "INSERT INTO TB_CRL_PROFILE "
                       "( NUM, NAME, VERSION, LASTUPDATE, NEXTUPDATE, HASH ) "
                       "VALUES( ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( i++, crlPolicyRec.getNum() );
-    sqlQuery.bindValue( i++, crlPolicyRec.getName() );
-    sqlQuery.bindValue( i++, crlPolicyRec.getVersion() );
-    sqlQuery.bindValue( i++, QString("%1").arg(crlPolicyRec.getLastUpdate()));
-    sqlQuery.bindValue( i++, QString("%1").arg(crlPolicyRec.getNextUpdate()));
-    sqlQuery.bindValue( i++, crlPolicyRec.getHash());
+    sqlQuery.bindValue( i++, crlProfileRec.getNum() );
+    sqlQuery.bindValue( i++, crlProfileRec.getName() );
+    sqlQuery.bindValue( i++, crlProfileRec.getVersion() );
+    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getLastUpdate()));
+    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getNextUpdate()));
+    sqlQuery.bindValue( i++, crlProfileRec.getHash());
 
     sqlQuery.exec();
     return 0;
 }
 
-int DBMgr::getCertPolicyNextNum()
+int DBMgr::getCertProfileNextNum()
 {
     int nNextNum = -1;
 
     QString strSQL;
-    strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CERT_POLICY" );
+    strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CERT_PROFILE" );
     QSqlQuery query( strSQL );
 
     while( query.next() )
@@ -1782,12 +1782,12 @@ int DBMgr::getCertPolicyNextNum()
     return nNextNum;
 }
 
-int DBMgr::getCRLPolicyNextNum()
+int DBMgr::getCRLProfileNextNum()
 {
     int nNextNum = -1;
 
     QString strSQL;
-    strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CRL_POLICY" );
+    strSQL.sprintf( "SELECT MAX(num)+1 FROM TB_CRL_PROFILE" );
     QSqlQuery query( strSQL );
 
     while( query.next() )
@@ -1800,33 +1800,33 @@ int DBMgr::getCRLPolicyNextNum()
     return nNextNum;
 }
 
-int DBMgr::addCertPolicyExtension( PolicyExtRec& policyExtension )
+int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "INSERT INTO TB_CERT_POLICY_EXTENSION "
-                      "( SEQ, POLICYNUM, CRITICAL, SN, VALUE ) "
+    sqlQuery.prepare( "INSERT INTO TB_CERT_PROFILE_EXTENSION "
+                      "( SEQ, PROFILENUM, CRITICAL, SN, VALUE ) "
                       "VALUES( null, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, policyExtension.getPolicyNum() );
-    sqlQuery.bindValue( 1, policyExtension.isCritical() );
-    sqlQuery.bindValue( 2, policyExtension.getSN() );
-    sqlQuery.bindValue( 3, policyExtension.getValue() );
+    sqlQuery.bindValue( 0, profileExtension.getProfileNum() );
+    sqlQuery.bindValue( 1, profileExtension.isCritical() );
+    sqlQuery.bindValue( 2, profileExtension.getSN() );
+    sqlQuery.bindValue( 3, profileExtension.getValue() );
 
     sqlQuery.exec();
     return 0;
 }
 
-int DBMgr::addCRLPolicyExtension( PolicyExtRec& policyExtension )
+int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "INSERT INTO TB_CRL_POLICY_EXTENSION "
-                      "( SEQ, POLICYNUM, CRITICAL, SN, VALUE ) "
+    sqlQuery.prepare( "INSERT INTO TB_CRL_PROFILE_EXTENSION "
+                      "( SEQ, PROFILENUM, CRITICAL, SN, VALUE ) "
                       "VALUES( null, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, policyExtension.getPolicyNum() );
-    sqlQuery.bindValue( 1, policyExtension.isCritical() );
-    sqlQuery.bindValue( 2, policyExtension.getSN() );
-    sqlQuery.bindValue( 3, policyExtension.getValue() );
+    sqlQuery.bindValue( 0, profileExtension.getProfileNum() );
+    sqlQuery.bindValue( 1, profileExtension.isCritical() );
+    sqlQuery.bindValue( 2, profileExtension.getSN() );
+    sqlQuery.bindValue( 3, profileExtension.getValue() );
 
     sqlQuery.exec();
     return 0;
@@ -1947,10 +1947,10 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
     return 0;
 }
 
-int DBMgr::delCertPolicy( int nNum )
+int DBMgr::delCertProfile( int nNum )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "DELETE FROM TB_CERT_POLICY WHERE NUM = ?");
+    sqlQuery.prepare( "DELETE FROM TB_CERT_PROFILE WHERE NUM = ?");
 
     sqlQuery.bindValue( 0, nNum );
 
@@ -1958,10 +1958,10 @@ int DBMgr::delCertPolicy( int nNum )
     return 0;
 }
 
-int DBMgr::delCRLPolicy( int nNum )
+int DBMgr::delCRLProfile( int nNum )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "DELETE FROM TB_CRL_POLICY WHERE NUM = ?");
+    sqlQuery.prepare( "DELETE FROM TB_CRL_PROFILE WHERE NUM = ?");
 
     sqlQuery.bindValue( 0, nNum );
 
@@ -1970,22 +1970,22 @@ int DBMgr::delCRLPolicy( int nNum )
     return 0;
 }
 
-int DBMgr::delCertPolicyExtensionList( int nPolicyNum )
+int DBMgr::delCertProfileExtensionList( int nProfileNum )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "DELETE FROM TB_CERT_POLICY_EXTENSION WHERE POLICYNUM = ?");
+    sqlQuery.prepare( "DELETE FROM TB_CERT_PROFILE_EXTENSION WHERE PROFILENUM = ?");
 
-    sqlQuery.bindValue( 0, nPolicyNum );
+    sqlQuery.bindValue( 0, nProfileNum );
 
     sqlQuery.exec();
 }
 
-int DBMgr::delCRLPolicyExtensionList( int nPolicyNum )
+int DBMgr::delCRLProfileExtensionList( int nProfileNum )
 {
     QSqlQuery sqlQuery;
-    sqlQuery.prepare( "DELETE FROM TB_CRL_POLICY_EXTENSION WHERE POLICYNUM = ?");
+    sqlQuery.prepare( "DELETE FROM TB_CRL_PROFILE_EXTENSION WHERE PROFILENUM = ?");
 
-    sqlQuery.bindValue( 0, nPolicyNum );
+    sqlQuery.bindValue( 0, nProfileNum );
 
     sqlQuery.exec();
 }

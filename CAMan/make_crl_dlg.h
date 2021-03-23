@@ -5,7 +5,7 @@
 #include "ui_make_crl_dlg.h"
 
 class CertRec;
-class CRLPolicyRec;
+class CRLProfileRec;
 
 namespace Ui {
 class MakeCRLDlg;
@@ -32,7 +32,7 @@ private:
     void setRevokeList();
 
     QList<CertRec> ca_cert_list_;
-    QList<CRLPolicyRec> crl_policy_list_;
+    QList<CRLProfileRec> crl_profile_list_;
 };
 
 #endif // MAKE_CRL_DLG_H

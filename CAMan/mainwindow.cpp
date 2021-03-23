@@ -24,9 +24,9 @@
 #include "get_ldap_dlg.h"
 #include "import_dlg.h"
 #include "make_cert_dlg.h"
-#include "make_cert_policy_dlg.h"
+#include "make_cert_profile_dlg.h"
 #include "make_crl_dlg.h"
-#include "make_crl_policy_dlg.h"
+#include "make_crl_profile_dlg.h"
 #include "make_req_dlg.h"
 #include "new_key_dlg.h"
 #include "pub_ldap_dlg.h"
@@ -43,10 +43,10 @@
 #include "req_rec.h"
 #include "kms_rec.h"
 #include "kms_attrib_rec.h"
-#include "cert_policy_rec.h"
-#include "crl_policy_rec.h"
+#include "cert_profile_rec.h"
+#include "crl_profile_rec.h"
 #include "crl_rec.h"
-#include "policy_ext_rec.h"
+#include "profile_ext_rec.h"
 #include "revoke_rec.h"
 #include "user_rec.h"
 #include "user_dlg.h"
@@ -268,19 +268,19 @@ void MainWindow::createActions()
         toolsToolBar->addAction( regSignerAct );
     }
 
-    const QIcon certPolicyIcon = QIcon::fromTheme("cert-policy", QIcon(":/images/cert_policy.png"));
-    QAction *makeCertPolicyAct = new QAction( certPolicyIcon, tr("MakeCert&Policy"), this );
-    makeCertPolicyAct->setStatusTip(tr( "Make certificate policy"));
-    connect( makeCertPolicyAct, &QAction::triggered, this, &MainWindow::makeCertPolicy );
-    toolsMenu->addAction( makeCertPolicyAct );
-    toolsToolBar->addAction( makeCertPolicyAct );
+    const QIcon certProfileIcon = QIcon::fromTheme("cert-profile", QIcon(":/images/cert_profile.png"));
+    QAction *makeCertProfileAct = new QAction( certProfileIcon, tr("MakeCert&Profile"), this );
+    makeCertProfileAct->setStatusTip(tr( "Make certificate profile"));
+    connect( makeCertProfileAct, &QAction::triggered, this, &MainWindow::makeCertProfile );
+    toolsMenu->addAction( makeCertProfileAct );
+    toolsToolBar->addAction( makeCertProfileAct );
 
-    const QIcon crlPolicyIcon = QIcon::fromTheme("crl-policy", QIcon(":/images/crl_policy.png"));
-    QAction *makeCRLPolicyAct = new QAction( crlPolicyIcon, tr("MakeC&RLPolicy"), this );
-    connect( makeCRLPolicyAct, &QAction::triggered, this, &MainWindow::makeCRLPolicy);
-    toolsMenu->addAction( makeCRLPolicyAct );
-    toolsToolBar->addAction( makeCRLPolicyAct );
-    makeCRLPolicyAct->setStatusTip(tr( "Make CRL Policy"));
+    const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
+    QAction *makeCRLProfileAct = new QAction( crlProfileIcon, tr("MakeC&RLProfile"), this );
+    connect( makeCRLProfileAct, &QAction::triggered, this, &MainWindow::makeCRLProfile);
+    toolsMenu->addAction( makeCRLProfileAct );
+    toolsToolBar->addAction( makeCRLProfileAct );
+    makeCRLProfileAct->setStatusTip(tr( "Make CRL Profile"));
 
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
     QAction* makeCertAct = new QAction( certIcon, tr("Make&Certificate"), this );
@@ -445,15 +445,15 @@ void MainWindow::showRightMenu(QPoint point)
             menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
         }
     }
-    else if( right_type_ == RightType::TYPE_CERT_POLICY )
+    else if( right_type_ == RightType::TYPE_CERT_PROFILE )
     {
-        menu.addAction(tr("Delete CertPolicy"), this, &MainWindow::deleteCertPolicy );
-        menu.addAction(tr("Edit CertPolicy" ), this, &MainWindow::editCertPolicy );
+        menu.addAction(tr("Delete CertProfile"), this, &MainWindow::deleteCertProfile );
+        menu.addAction(tr("Edit CertProfile" ), this, &MainWindow::editCertProfile );
     }
-    else if( right_type_ == RightType::TYPE_CRL_POLICY )
+    else if( right_type_ == RightType::TYPE_CRL_PROFILE )
     {
-        menu.addAction(tr("Delete CRLPolicy"), this, &MainWindow::deleteCRLPolicy );
-        menu.addAction(tr("Edit CRLPolicy"), this, &MainWindow::editCRLPolicy );
+        menu.addAction(tr("Delete CRLProfile"), this, &MainWindow::deleteCRLProfile );
+        menu.addAction(tr("Edit CRLProfile"), this, &MainWindow::editCRLProfile );
     }
     else if( right_type_ == RightType::TYPE_ADMIN )
     {
@@ -535,15 +535,15 @@ void MainWindow::createTreeMenu()
     }
 
 
-    ManTreeItem *pCertPolicyItem = new ManTreeItem( QString("CertPolicy" ) );
-    pCertPolicyItem->setIcon(QIcon(":/images/cert_policy.png"));
-    pCertPolicyItem->setType( CM_ITEM_TYPE_CERT_POLICY );
-    pTopItem->appendRow( pCertPolicyItem );
+    ManTreeItem *pCertProfileItem = new ManTreeItem( QString("CertProfile" ) );
+    pCertProfileItem->setIcon(QIcon(":/images/cert_profile.png"));
+    pCertProfileItem->setType( CM_ITEM_TYPE_CERT_PROFILE );
+    pTopItem->appendRow( pCertProfileItem );
 
-    ManTreeItem *pCRLPolicyItem = new ManTreeItem( QString("CRLPolicy" ) );
-    pCRLPolicyItem->setIcon(QIcon(":/images/crl_policy.png"));
-    pCRLPolicyItem->setType( CM_ITEM_TYPE_CRL_POLICY );
-    pTopItem->appendRow( pCRLPolicyItem );
+    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString("CRLProfile" ) );
+    pCRLProfileItem->setIcon(QIcon(":/images/crl_profile.png"));
+    pCRLProfileItem->setType( CM_ITEM_TYPE_CRL_PROFILE );
+    pTopItem->appendRow( pCRLProfileItem );
 
     ManTreeItem *pRootCAItem = new ManTreeItem( QString("RootCA") );
     pRootCAItem->setIcon( QIcon(":/images/cert.png") );
@@ -764,48 +764,48 @@ void MainWindow::makeRequest()
     makeReqDlg.exec();
 }
 
-void MainWindow::makeCertPolicy()
+void MainWindow::makeCertProfile()
 {
-    MakeCertPolicyDlg makeCertPolicyDlg;
-    makeCertPolicyDlg.setEdit(false);
-    makeCertPolicyDlg.setPolicyNum(-1);
+    MakeCertProfileDlg makeCertProfileDlg;
+    makeCertProfileDlg.setEdit(false);
+    makeCertProfileDlg.setProfileNum(-1);
 
-    makeCertPolicyDlg.exec();
+    makeCertProfileDlg.exec();
 }
 
-void MainWindow::makeCRLPolicy()
+void MainWindow::makeCRLProfile()
 {
-    MakeCRLPolicyDlg makeCRLPolicyDlg;
-    makeCRLPolicyDlg.setEdit(false);
-    makeCRLPolicyDlg.setPolicyNum(-1);
-    makeCRLPolicyDlg.exec();
+    MakeCRLProfileDlg makeCRLProfileDlg;
+    makeCRLProfileDlg.setEdit(false);
+    makeCRLProfileDlg.setProfileNum(-1);
+    makeCRLProfileDlg.exec();
 }
 
-void MainWindow::editCertPolicy()
+void MainWindow::editCertProfile()
 {
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
 
-    MakeCertPolicyDlg makeCertPolicyDlg;
-    makeCertPolicyDlg.setEdit(true);
-    makeCertPolicyDlg.setPolicyNum(num);
+    MakeCertProfileDlg makeCertProfileDlg;
+    makeCertProfileDlg.setEdit(true);
+    makeCertProfileDlg.setProfileNum(num);
 
-    makeCertPolicyDlg.exec();
+    makeCertProfileDlg.exec();
 }
 
-void MainWindow::editCRLPolicy()
+void MainWindow::editCRLProfile()
 {
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
 
-    MakeCRLPolicyDlg makeCRLPolicyDlg;
-    makeCRLPolicyDlg.setEdit(true);
-    makeCRLPolicyDlg.setPolicyNum(num);
-    makeCRLPolicyDlg.exec();
+    MakeCRLProfileDlg makeCRLProfileDlg;
+    makeCRLProfileDlg.setEdit(true);
+    makeCRLProfileDlg.setProfileNum(num);
+    makeCRLProfileDlg.exec();
 }
 
 void MainWindow::makeCertificate()
@@ -1057,28 +1057,28 @@ void MainWindow::serverStatus()
     srvStatusDlg.exec();
 }
 
-void MainWindow::deleteCertPolicy()
+void MainWindow::deleteCertProfile()
 {
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
 
-    db_mgr_->delCertPolicy( num );
-    db_mgr_->delCertPolicyExtensionList( num );
-    createRightCertPolicyList();
+    db_mgr_->delCertProfile( num );
+    db_mgr_->delCertProfileExtensionList( num );
+    createRightCertProfileList();
 }
 
-void MainWindow::deleteCRLPolicy()
+void MainWindow::deleteCRLProfile()
 {
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
 
-    db_mgr_->delCRLPolicy( num );
-    db_mgr_->delCRLPolicyExtensionList( num );
-    createRightCRLPolicyList();
+    db_mgr_->delCRLProfile( num );
+    db_mgr_->delCRLProfileExtensionList( num );
+    createRightCRLProfileList();
 }
 
 void MainWindow::deleteCertificate()
@@ -1269,13 +1269,13 @@ void MainWindow::tableClick(QModelIndex index )
     {
         logRevoke( nSeq );
     }
-    else if( right_type_ == RightType::TYPE_CERT_POLICY )
+    else if( right_type_ == RightType::TYPE_CERT_PROFILE )
     {
-        logCertPolicy( nSeq );
+        logCertProfile( nSeq );
     }
-    else if( right_type_ == RightType::TYPE_CRL_POLICY )
+    else if( right_type_ == RightType::TYPE_CRL_PROFILE )
     {
-        logCRLPolicy( nSeq );
+        logCRLProfile( nSeq );
     }
     else if( right_type_ == RightType::TYPE_USER )
     {
@@ -2554,10 +2554,10 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightKeyPairList();
     else if( nType == CM_ITEM_TYPE_REQUEST )
         createRightRequestList();
-    else if( nType == CM_ITEM_TYPE_CERT_POLICY )
-        createRightCertPolicyList();
-    else if( nType == CM_ITEM_TYPE_CRL_POLICY )
-        createRightCRLPolicyList();
+    else if( nType == CM_ITEM_TYPE_CERT_PROFILE )
+        createRightCertProfileList();
+    else if( nType == CM_ITEM_TYPE_CRL_PROFILE )
+        createRightCRLProfileList();
     else if( nType == CM_ITEM_TYPE_ROOTCA )
         createRightCertList( -1 );
     else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
@@ -2729,12 +2729,12 @@ void MainWindow::createRightRequestList()
     search_menu_->updatePageLabel();
 }
 
-void MainWindow::createRightCertPolicyList()
+void MainWindow::createRightCertProfileList()
 {
     search_menu_->hide();
 
     removeAllRight();
-    right_type_ = RightType::TYPE_CERT_POLICY;
+    right_type_ = RightType::TYPE_CERT_PROFILE;
 
     QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBerfoer"), tr("NotAfter"), tr("Hash"), tr("DNTemplate") };
 
@@ -2747,8 +2747,8 @@ void MainWindow::createRightCertPolicyList()
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
-    QList<CertPolicyRec> certPolicyList;
-    db_mgr_->getCertPolicyList( certPolicyList );
+    QList<CertProfileRec> certProfileList;
+    db_mgr_->getCertProfileList( certProfileList );
 
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 200 );
@@ -2757,50 +2757,50 @@ void MainWindow::createRightCertPolicyList()
     right_table_->setColumnWidth( 4, 100 );
     right_table_->setColumnWidth( 5, 60 );
 
-    for( int i=0; i < certPolicyList.size(); i++ )
+    for( int i=0; i < certProfileList.size(); i++ )
     {
-        CertPolicyRec certPolicy = certPolicyList.at(i);
+        CertProfileRec certProfile = certProfileList.at(i);
         QString strVersion;
         QString strNotBefore;
         QString strNotAfter;
         QString strDNTemplate;
 
-        strVersion = QString( "V%1" ).arg( certPolicy.getVersion() + 1);
+        strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
 
-        if( certPolicy.getNotBefore() == 0 )
+        if( certProfile.getNotBefore() == 0 )
         {
             strNotBefore = "GenTime";
-            strNotAfter = QString( "%1 Days" ).arg( certPolicy.getNotAfter() );
+            strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
         }
         else
         {
-            strNotBefore = getDateTime( certPolicy.getNotBefore() );
-            strNotAfter = getDateTime( certPolicy.getNotAfter() );
+            strNotBefore = getDateTime( certProfile.getNotBefore() );
+            strNotAfter = getDateTime( certProfile.getNotAfter() );
         }
 
-        if( certPolicy.getDNTemplate() == "#CSR" )
+        if( certProfile.getDNTemplate() == "#CSR" )
             strDNTemplate = "Use CSR DN";
         else
-            strDNTemplate = certPolicy.getDNTemplate();
+            strDNTemplate = certProfile.getDNTemplate();
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certPolicy.getNum()) ));
-        right_table_->setItem( i, 1, new QTableWidgetItem( certPolicy.getName() ));
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certProfile.getNum()) ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( certProfile.getName() ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )));
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNotAfter )));
-        right_table_->setItem( i, 5, new QTableWidgetItem( certPolicy.getHash() ));
+        right_table_->setItem( i, 5, new QTableWidgetItem( certProfile.getHash() ));
         right_table_->setItem( i, 6, new QTableWidgetItem( strDNTemplate ));
     }
 }
 
-void MainWindow::createRightCRLPolicyList()
+void MainWindow::createRightCRLProfileList()
 {
     search_menu_->hide();
 
     removeAllRight();
-    right_type_ = RightType::TYPE_CRL_POLICY;
+    right_type_ = RightType::TYPE_CRL_PROFILE;
 
     QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("LastUpdate"), tr("NextUpdate"), tr("Hash") };
     right_table_->clear();
@@ -2813,8 +2813,8 @@ void MainWindow::createRightCRLPolicyList()
     right_table_->verticalHeader()->setVisible(false);
 
 
-    QList<CRLPolicyRec> crlPolicyList;
-    db_mgr_->getCRLPolicyList( crlPolicyList );
+    QList<CRLProfileRec> crlProfileList;
+    db_mgr_->getCRLProfileList( crlProfileList );
 
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 300 );
@@ -2823,35 +2823,35 @@ void MainWindow::createRightCRLPolicyList()
     right_table_->setColumnWidth( 4, 100 );
     right_table_->setColumnWidth( 5, 60 );
 
-    for( int i=0; i < crlPolicyList.size(); i++ )
+    for( int i=0; i < crlProfileList.size(); i++ )
     {
-        CRLPolicyRec crlPolicy = crlPolicyList.at(i);
+        CRLProfileRec crlProfile = crlProfileList.at(i);
 
         QString strVersion;
         QString strLastUpdate;
         QString strNextUpdate;
 
-        strVersion = QString( "V%1" ).arg( crlPolicy.getVersion() + 1);
+        strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
-        if( crlPolicy.getLastUpdate() == 0 )
+        if( crlProfile.getLastUpdate() == 0 )
         {
             strLastUpdate = "GenTime";
-            strNextUpdate = QString( "%1 Days" ).arg( crlPolicy.getNextUpdate() );
+            strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
         }
         else
         {
-            strLastUpdate = getDateTime( crlPolicy.getLastUpdate() );
-            strNextUpdate = getDateTime( crlPolicy.getNextUpdate() );
+            strLastUpdate = getDateTime( crlProfile.getLastUpdate() );
+            strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
         }
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlPolicy.getNum() )) );
-        right_table_->setItem( i, 1, new QTableWidgetItem( crlPolicy.getName()) );
+        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlProfile.getNum() )) );
+        right_table_->setItem( i, 1, new QTableWidgetItem( crlProfile.getName()) );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )) );
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strLastUpdate )) );
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
-        right_table_->setItem( i, 5, new QTableWidgetItem( crlPolicy.getHash()) );
+        right_table_->setItem( i, 5, new QTableWidgetItem( crlProfile.getHash()) );
     }
 }
 
@@ -3529,55 +3529,55 @@ void MainWindow::logCertificate( int seq )
     logCurorTop();
 }
 
-void MainWindow::logCertPolicy( int seq )
+void MainWindow::logCertProfile( int seq )
 {
     if( db_mgr_ == NULL ) return;
 
-    CertPolicyRec certPolicy;
+    CertProfileRec certProfile;
 
-    db_mgr_->getCertPolicyRec( seq, certPolicy );
+    db_mgr_->getCertProfileRec( seq, certProfile );
 
     QString strVersion;
     QString strNotBefore;
     QString strNotAfter;
     QString strDNTemplate;
 
-    strVersion = QString( "V%1" ).arg( certPolicy.getVersion() + 1);
+    strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
 
-    if( certPolicy.getNotBefore() == 0 )
+    if( certProfile.getNotBefore() == 0 )
     {
         strNotBefore = "GenTime";
-        strNotAfter = QString( "%1 Days" ).arg( certPolicy.getNotAfter() );
+        strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
     }
     else
     {
-        strNotBefore = getDateTime( certPolicy.getNotBefore() );
-        strNotAfter = getDateTime( certPolicy.getNotAfter() );
+        strNotBefore = getDateTime( certProfile.getNotBefore() );
+        strNotAfter = getDateTime( certProfile.getNotAfter() );
     }
 
-    if( certPolicy.getDNTemplate() == "#CSR" )
+    if( certProfile.getDNTemplate() == "#CSR" )
         strDNTemplate = "Use CSR DN";
     else
-        strDNTemplate = certPolicy.getDNTemplate();
+        strDNTemplate = certProfile.getDNTemplate();
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Certificate Policy Information\n" );
+    manApplet->log( "== Certificate Profile Information\n" );
     manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num         : %1\n").arg(certPolicy.getNum()));
-    manApplet->log( QString("Name        : %1\n").arg(certPolicy.getName()));
-    manApplet->log( QString("Version     : %1 - %2\n").arg(certPolicy.getVersion()).arg( strVersion ));
-    manApplet->log( QString("NotBefore   : %1 - %2\n").arg(certPolicy.getNotBefore()).arg(strNotBefore));
-    manApplet->log( QString("NotAfter    : %1 - %2\n").arg(certPolicy.getNotAfter()).arg(strNotAfter));
-    manApplet->log( QString("Hash        : %1\n").arg(certPolicy.getHash()));
-    manApplet->log( QString("DNTemplate  : %1 - %2\n").arg(certPolicy.getDNTemplate()).arg(strDNTemplate));
+    manApplet->log( QString("Num         : %1\n").arg(certProfile.getNum()));
+    manApplet->log( QString("Name        : %1\n").arg(certProfile.getName()));
+    manApplet->log( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
+    manApplet->log( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
+    manApplet->log( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
+    manApplet->log( QString("Hash        : %1\n").arg(certProfile.getHash()));
+    manApplet->log( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
     manApplet->log( "======================= Extension Information ==========================\n" );
-    QList<PolicyExtRec> extList;
-    db_mgr_->getCertPolicyExtensionList( seq, extList );
+    QList<ProfileExtRec> extList;
+    db_mgr_->getCertProfileExtensionList( seq, extList );
 
     for( int i = 0; i < extList.size(); i++ )
     {
-        PolicyExtRec extRec = extList.at(i);
+        ProfileExtRec extRec = extList.at(i);
 
         manApplet->log( QString( "%1 || %2 || %3 || %4\n")
                 .arg(extRec.getSeq())
@@ -3614,49 +3614,49 @@ void MainWindow::logCRL( int seq )
     logCurorTop();
 }
 
-void MainWindow::logCRLPolicy( int seq )
+void MainWindow::logCRLProfile( int seq )
 {
     if( db_mgr_ == NULL ) return;
 
-    CRLPolicyRec crlPolicy;
+    CRLProfileRec crlProfile;
 
-    db_mgr_->getCRLPolicyRec( seq, crlPolicy );
+    db_mgr_->getCRLProfileRec( seq, crlProfile );
 
     QString strVersion;
     QString strLastUpdate;
     QString strNextUpdate;
 
-    strVersion = QString( "V%1" ).arg( crlPolicy.getVersion() + 1);
+    strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
-    if( crlPolicy.getLastUpdate() == 0 )
+    if( crlProfile.getLastUpdate() == 0 )
     {
         strLastUpdate = "GenTime";
-        strNextUpdate = QString( "%1 Days" ).arg( crlPolicy.getNextUpdate() );
+        strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
     }
     else
     {
-        strLastUpdate = getDateTime( crlPolicy.getLastUpdate() );
-        strNextUpdate = getDateTime( crlPolicy.getNextUpdate() );
+        strLastUpdate = getDateTime( crlProfile.getLastUpdate() );
+        strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
     }
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
-    manApplet->log( "== CRL Policy Information\n" );
+    manApplet->log( "== CRL Profile Information\n" );
     manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num          : %1\n").arg(crlPolicy.getNum()));
-    manApplet->log( QString("Name         : %1\n").arg(crlPolicy.getName()));
-    manApplet->log( QString("Version      : %1 - %2\n").arg(crlPolicy.getVersion()).arg(strVersion));
-    manApplet->log( QString("LastUpdate   : %1 - %2\n").arg(crlPolicy.getLastUpdate()).arg(strLastUpdate));
-    manApplet->log( QString("NextUpdate   : %1 - %2\n").arg(crlPolicy.getNextUpdate()).arg(strNextUpdate));
-    manApplet->log( QString("Hash         : %1\n").arg(crlPolicy.getHash()));
+    manApplet->log( QString("Num          : %1\n").arg(crlProfile.getNum()));
+    manApplet->log( QString("Name         : %1\n").arg(crlProfile.getName()));
+    manApplet->log( QString("Version      : %1 - %2\n").arg(crlProfile.getVersion()).arg(strVersion));
+    manApplet->log( QString("LastUpdate   : %1 - %2\n").arg(crlProfile.getLastUpdate()).arg(strLastUpdate));
+    manApplet->log( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
+    manApplet->log( QString("Hash         : %1\n").arg(crlProfile.getHash()));
     manApplet->log( "======================= Extension Information ==========================\n" );
 
-    QList<PolicyExtRec> extList;
-    db_mgr_->getCRLPolicyExtensionList( seq, extList );
+    QList<ProfileExtRec> extList;
+    db_mgr_->getCRLProfileExtensionList( seq, extList );
 
     for( int i = 0; i < extList.size(); i++ )
     {
-        PolicyExtRec extRec = extList.at(i);
+        ProfileExtRec extRec = extList.at(i);
 
         manApplet->log( QString( "%1 || %2 || %3 || %4\n")
                 .arg(extRec.getSeq())

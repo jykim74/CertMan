@@ -4,7 +4,7 @@
 #include "req_rec.h"
 #include "cert_rec.h"
 #include "user_rec.h"
-#include "cert_policy_rec.h"
+#include "cert_profile_rec.h"
 #include "key_pair_rec.h"
 #include "db_mgr.h"
 
@@ -42,7 +42,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
 
     connect( mReqNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(reqChanged(int)));
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
-    connect( mPolicyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(policyChanged(int)));
+    connect( mProfileNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(profileChanged(int)));
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
 
     initialize();
@@ -77,13 +77,13 @@ void MakeCertDlg::initialize()
         mIssuerNameCombo->addItem( certRec.getSubjectDN() );
     }
 
-    cert_policy_list_.clear();
+    cert_profile_list_.clear();
 
-    dbMgr->getCertPolicyList( cert_policy_list_ );
-    for( int i=0; i < cert_policy_list_.size(); i++ )
+    dbMgr->getCertProfileList( cert_profile_list_ );
+    for( int i=0; i < cert_profile_list_.size(); i++ )
     {
-        CertPolicyRec certPolicyRec = cert_policy_list_.at(i);
-        mPolicyNameCombo->addItem( certPolicyRec.getName() );
+        CertProfileRec certProfileRec = cert_profile_list_.at(i);
+        mProfileNameCombo->addItem( certProfileRec.getName() );
     }
 
     setSubjectDN();
@@ -91,9 +91,9 @@ void MakeCertDlg::initialize()
 
 void MakeCertDlg::setSubjectDN()
 {
-    CertPolicyRec   policy = cert_policy_list_.at(mPolicyNameCombo->currentIndex());
+    CertProfileRec   profile = cert_profile_list_.at(mProfileNameCombo->currentIndex());
 
-    if( policy.getDNTemplate() == "#CSR" )
+    if( profile.getDNTemplate() == "#CSR" )
     {
         ReqRec req = req_list_.at( mReqNameCombo->currentIndex() );
 
@@ -101,7 +101,7 @@ void MakeCertDlg::setSubjectDN()
     }
     else
     {
-        mSubjectDNText->setText( policy.getDNTemplate() );
+        mSubjectDNText->setText( profile.getDNTemplate() );
     }
 }
 
@@ -198,9 +198,9 @@ void MakeCertDlg::accept()
         return;
     }
 
-    if( cert_policy_list_.size() <= 0 )
+    if( cert_profile_list_.size() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no certificate policy"), this );
+        manApplet->warningBox( tr( "There is no certificate profile"), this );
         return;
     }
 
@@ -214,7 +214,7 @@ void MakeCertDlg::accept()
     }
 
     int reqIdx =  mReqNameCombo->currentIndex();
-    int policyIdx = mPolicyNameCombo->currentIndex();
+    int profileIdx = mProfileNameCombo->currentIndex();
     int issuerIdx = mIssuerNameCombo->currentIndex();
 
     int nSignKeyNum = -1;
@@ -222,7 +222,7 @@ void MakeCertDlg::accept()
     int nIssuerNum = -1;
     int nCertNum = -1;
 
-    CertPolicyRec policyRec = cert_policy_list_.at( policyIdx );
+    CertProfileRec profileRec = cert_profile_list_.at( profileIdx );
     ReqRec reqRec = req_list_.at( reqIdx );
 
     JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
@@ -259,7 +259,7 @@ void MakeCertDlg::accept()
     int nSeq = dbMgr->getSeq( "TB_CERT" );
 
     strSerial = QString("%1").arg(nSeq);
-    QString strSignAlg = getSignAlg( signKeyPair.getAlg(), policyRec.getHash() );
+    QString strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
     if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
@@ -273,25 +273,25 @@ void MakeCertDlg::accept()
     long notBefore = -1;
     long notAfter = -1;
 
-    if( policyRec.getNotBefore() <= 0 )
+    if( profileRec.getNotBefore() <= 0 )
     {
-        long uValidSecs = policyRec.getNotAfter() * 60 * 60 * 24;
+        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
         notBefore = 0;
         notAfter = uValidSecs;
     }
     else
     {
-        notBefore = policyRec.getNotBefore() - now_t;
-        notAfter = policyRec.getNotAfter() - now_t;
+        notBefore = profileRec.getNotBefore() - now_t;
+        notAfter = profileRec.getNotAfter() - now_t;
     }
 
 
     JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
-                        policyRec.getVersion(),
+                        profileRec.getVersion(),
                         strSerial.toStdString().c_str(),
-                        policyRec.getHash().toStdString().c_str(),
+                        profileRec.getHash().toStdString().c_str(),
                         strDN.toStdString().c_str(),
                         notBefore,
                         notAfter,
@@ -299,41 +299,41 @@ void MakeCertDlg::accept()
                         sReqInfo.pPublicKey );
 
     /* need to support extensions start */
-    QList<PolicyExtRec> policyExtList;
-    dbMgr->getCertPolicyExtensionList( policyRec.getNum(), policyExtList );
-    for( int i=0; i < policyExtList.size(); i++ )
+    QList<ProfileExtRec> profileExtList;
+    dbMgr->getCertProfileExtensionList( profileRec.getNum(), profileExtList );
+    for( int i=0; i < profileExtList.size(); i++ )
     {
         JExtensionInfo sExtInfo;
-        PolicyExtRec policyExt = policyExtList.at(i);
+        ProfileExtRec profileExt = profileExtList.at(i);
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( policyExt.getSN() == kExtNameBC )
+        if( profileExt.getSN() == kExtNameBC )
         {
-            QString strVal = policyExt.getValue();
+            QString strVal = profileExt.getValue();
             if( strVal.contains( "CA#" ) == true )
                 bCA = true;
             else
                 bCA = false;
         }
-        else if( policyExt.getSN() == kExtNameSKI )
+        else if( profileExt.getSN() == kExtNameSKI )
         {
-            policyExt.setValue( sKeyID );
+            profileExt.setValue( sKeyID );
         }
-        else if( policyExt.getSN() == kExtNameCRLDP )
+        else if( profileExt.getSN() == kExtNameCRLDP )
         {
             char *pDN = NULL;
-            JS_PKI_getDP( policyExt.getValue().toStdString().c_str(), nSeq, &pDN );
-            policyExt.setValue( pDN );
+            JS_PKI_getDP( profileExt.getValue().toStdString().c_str(), nSeq, &pDN );
+            profileExt.setValue( pDN );
             if( pDN ) JS_free( pDN );
         }
-        else if( policyExt.getSN() == kExtNameSAN )
+        else if( profileExt.getSN() == kExtNameSAN )
         {
-            QString strAltName = policyExt.getValue();
+            QString strAltName = profileExt.getValue();
             QString strReplace = getReplacedValue( strAltName );
-            policyExt.setValue( strAltName );
+            profileExt.setValue( strAltName );
         }
-        else if( policyExt.getSN() == kExtNameAKI )
+        else if( profileExt.getSN() == kExtNameAKI )
         {
             if( bSelf == false )
             {
@@ -352,7 +352,7 @@ void MakeCertDlg::accept()
 
                 JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
                 QString strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( sHexID ).arg( sHexIssuer ).arg( sHexSerial );
-                policyExt.setValue( strVal );
+                profileExt.setValue( strVal );
 
                 JS_BIN_reset( &binCert );
             }
@@ -363,7 +363,7 @@ void MakeCertDlg::accept()
             }
         }
 
-        transExtInfoFromDBRec( &sExtInfo, policyExt );
+        transExtInfoFromDBRec( &sExtInfo, profileExt );
 
         if( pExtInfoList == NULL )
             JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
@@ -532,7 +532,7 @@ void MakeCertDlg::issuerChanged( int index )
     mIssuerOptionText->setText( keyPair.getParam() );
 }
 
-void MakeCertDlg::policyChanged(int index )
+void MakeCertDlg::profileChanged(int index )
 {
     setSubjectDN();
 }

@@ -8,8 +8,8 @@
 
 class ReqRec;
 class CertRec;
-class CertPolicyRec;
-class PolicyExtRec;
+class CertProfileRec;
+class ProfileExtRec;
 
 namespace Ui {
 class MakeCertDlg;
@@ -28,13 +28,13 @@ private slots:
     virtual void accept();
     void reqChanged( int index );
     void issuerChanged( int index );
-    void policyChanged( int index );
+    void profileChanged( int index );
     void clickSelfSign();
 
 private:
     QList<ReqRec>           req_list_;
     QList<CertRec>          ca_cert_list_;
-    QList<CertPolicyRec>    cert_policy_list_;
+    QList<CertProfileRec>    cert_profile_list_;
 
     void initialize();
     void setSubjectDN();

@@ -5,8 +5,8 @@
 
 #define CM_ITEM_TYPE_KEYPAIR        1
 #define CM_ITEM_TYPE_REQUEST        2
-#define CM_ITEM_TYPE_CERT_POLICY    3
-#define CM_ITEM_TYPE_CRL_POLICY     4
+#define CM_ITEM_TYPE_CERT_PROFILE   3
+#define CM_ITEM_TYPE_CRL_PROFILE    4
 #define CM_ITEM_TYPE_ROOTCA         5
 #define CM_ITEM_TYPE_IMPORT_CERT    6
 #define CM_ITEM_TYPE_IMPORT_CRL     7

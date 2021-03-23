@@ -34,13 +34,13 @@ void ManTreeView::showContextMenu(QPoint point)
         menu.addAction(tr("Make Request"), manApplet->mainWindow(), &MainWindow::makeRequest );
         menu.addAction(tr("Make Certificate"), manApplet->mainWindow(), &MainWindow::makeCertificate );
     }
-    else if( item->getType() == CM_ITEM_TYPE_CERT_POLICY )
+    else if( item->getType() == CM_ITEM_TYPE_CERT_PROFILE )
     {
-        menu.addAction(tr("Make Cert Policy"), manApplet->mainWindow(), &MainWindow::makeCertPolicy );
+        menu.addAction(tr("Make Cert Profile"), manApplet->mainWindow(), &MainWindow::makeCertProfile );
     }
-    else if( item->getType() == CM_ITEM_TYPE_CRL_POLICY )
+    else if( item->getType() == CM_ITEM_TYPE_CRL_PROFILE )
     {
-        menu.addAction(tr("Make CRL Policy"), manApplet->mainWindow(), &MainWindow::makeCRLPolicy );
+        menu.addAction(tr("Make CRL Profile"), manApplet->mainWindow(), &MainWindow::makeCRLProfile );
     }
     else if( item->getType() == CM_ITEM_TYPE_IMPORT_CERT )
     {

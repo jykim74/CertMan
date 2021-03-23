@@ -4,21 +4,21 @@
 #include <QtSql/QSqlDatabase>
 
 #include "cert_rec.h"
-#include "cert_policy_rec.h"
+#include "cert_profile_rec.h"
 #include "crl_rec.h"
-#include "crl_policy_rec.h"
+#include "crl_profile_rec.h"
 #include "key_pair_rec.h"
-#include "policy_ext_rec.h"
+#include "profile_ext_rec.h"
 #include "req_rec.h"
 #include "revoke_rec.h"
 
 class CertRec;
 class KeyPairRec;
 class CRLRec;
-class CertPolicyRec;
-class CRLPolicyRec;
+class CertProfileRec;
+class CRLProfileRec;
 class ReqRec;
-class PolicyExtRec;
+class ProfileExtRec;
 class RevokeRec;
 class UserRec;
 class SignerRec;
@@ -88,12 +88,12 @@ public:
     int getAdminRec( int nSeq, AdminRec& adminRec );
     int getAdminList( QList<AdminRec>& adminList );
 
-    int getCertPolicyRec( int nNum, CertPolicyRec& certPolicy );
-    int getCertPolicyList( QList<CertPolicyRec>& certPolicyList );
-    int getCRLPolicyRec( int nNum, CRLPolicyRec& crlPolicy );
-    int getCRLPolicyList( QList<CRLPolicyRec>& crlPolicyList );
-    int getCertPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
-    int getCRLPolicyExtensionList( int nPolicyNum, QList<PolicyExtRec>& policyExtList );
+    int getCertProfileRec( int nNum, CertProfileRec& certProfile );
+    int getCertProfileList( QList<CertProfileRec>& certProfileList );
+    int getCRLProfileRec( int nNum, CRLProfileRec& crlProfile );
+    int getCRLProfileList( QList<CRLProfileRec>& crlProfileList );
+    int getCertProfileExtensionList( int nProfileNum, QList<ProfileExtRec>& profileExtList );
+    int getCRLProfileExtensionList( int nProfileNum, QList<ProfileExtRec>& profileExtList );
     int getRevokeRec( int nSeq, RevokeRec& revokeRec );
     int getRevokeRecByCertNum( int nCertNum, RevokeRec& revokeRec );
 
@@ -133,10 +133,10 @@ public:
     int addReqRec( ReqRec& reqRec );
     int addCertRec( CertRec& certRec );
     int addCRLRec( CRLRec& crlRec );
-    int addCertPolicyRec( CertPolicyRec& certPolicyRec );
-    int addCRLPolicyRec( CRLPolicyRec& crlPolicyRec );
-    int addCertPolicyExtension( PolicyExtRec& policyExtension );
-    int addCRLPolicyExtension( PolicyExtRec& policyExtension );
+    int addCertProfileRec( CertProfileRec& certProfileRec );
+    int addCRLProfileRec( CRLProfileRec& crlProfileRec );
+    int addCertProfileExtension( ProfileExtRec& profileExtension );
+    int addCRLProfileExtension( ProfileExtRec& profileExtension );
     int addRevokeRec( RevokeRec& revokeRec );
     int addUserRec( UserRec& userRec );
     int addSignerRec( SignerRec& signerRec );
@@ -147,18 +147,18 @@ public:
     int modKeyPairStatus( int nNum, int nStatus );
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
-    int modCertPolicyRec( int nPolicyNum, CertPolicyRec policyRec );
-    int modCRLPolicyRec( int nPolicyNum, CRLPolicyRec policyRec );
+    int modCertProfileRec( int nProfileNum, CertProfileRec profileRec );
+    int modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec );
     int modAdminRec( int nSeq, AdminRec adminRec );
 
     int getSeq( QString strTable );
-    int getCertPolicyNextNum();
-    int getCRLPolicyNextNum();
+    int getCertProfileNextNum();
+    int getCRLProfileNextNum();
 
-    int delCertPolicy( int nNum );
-    int delCRLPolicy( int nNum );
-    int delCertPolicyExtensionList( int nPolicyNum );
-    int delCRLPolicyExtensionList( int nPolicyNum );
+    int delCertProfile( int nNum );
+    int delCRLProfile( int nNum );
+    int delCertProfileExtensionList( int nProfileNum );
+    int delCRLProfileExtensionList( int nProfileNum );
     int delCertRec( int nNum );
     int delCRLRec( int nNum );
     int delKeyPairRec( int nNum );
@@ -172,11 +172,11 @@ private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
     int _getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList );
     int _getReqList( QString strQuery, QList<ReqRec>& reqList );
-    int _getCertPolicyList( QString strQuery, QList<CertPolicyRec>& certPolicyList );
+    int _getCertProfileList( QString strQuery, QList<CertProfileRec>& certProfileList );
     int _getCRLList( QString strQuery, QList<CRLRec>& crlList );
-    int _getCRLPolicyList( QString strQuery, QList<CRLPolicyRec>& crlPolicyList );
+    int _getCRLProfileList( QString strQuery, QList<CRLProfileRec>& crlProfileList );
     int _getRevokeList( QString strQuery, QList<RevokeRec>& revokeList );
-    int _getPolicyExtensionList( QString strQuery, QList<PolicyExtRec>& policyExtensionList );
+    int _getProfileExtensionList( QString strQuery, QList<ProfileExtRec>& profileExtensionList );
     int _getUserList( QString strQuery, QList<UserRec>& userList );
     int _getSignerList( QString strQuery, QList<SignerRec>& signerList );
     int _getKMSList( QString strQuery, QList<KMSRec>& kmsList );

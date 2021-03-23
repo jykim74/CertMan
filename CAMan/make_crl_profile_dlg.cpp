@@ -1,8 +1,8 @@
-#include "make_crl_policy_dlg.h"
+#include "make_crl_profile_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
-#include "policy_ext_rec.h"
-#include "crl_policy_rec.h"
+#include "profile_ext_rec.h"
+#include "crl_profile_rec.h"
 #include "db_mgr.h"
 #include "commons.h"
 
@@ -11,7 +11,7 @@ static QStringList sTypeList = { "URI", "email", "DNS" };
 static QStringList sVersionList = { "V1", "V2" };
 
 
-MakeCRLPolicyDlg::MakeCRLPolicyDlg(QWidget *parent) :
+MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
@@ -22,65 +22,65 @@ MakeCRLPolicyDlg::MakeCRLPolicyDlg(QWidget *parent) :
     setTableMenus();
 
     is_edit_ = false;
-    policy_num_ = -1;
+    profile_num_ = -1;
 }
 
-MakeCRLPolicyDlg::~MakeCRLPolicyDlg()
+MakeCRLProfileDlg::~MakeCRLProfileDlg()
 {
 
 }
 
-void MakeCRLPolicyDlg::setEdit(bool is_edit)
+void MakeCRLProfileDlg::setEdit(bool is_edit)
 {
     is_edit_ = is_edit;
 }
 
-void MakeCRLPolicyDlg::setPolicyNum(int policy_num)
+void MakeCRLProfileDlg::setProfileNum(int profile_num)
 {
-    policy_num_ = policy_num;
+    profile_num_ = profile_num;
 }
 
 
-void MakeCRLPolicyDlg::initialize()
+void MakeCRLProfileDlg::initialize()
 {
     mCRLTab->setCurrentIndex(0);
 
     if( is_edit_ )
-        loadPolicy();
+        loadProfile();
     else
-        defaultPolicy();
+        defaultProfile();
 }
 
-void MakeCRLPolicyDlg::showEvent(QShowEvent *event)
+void MakeCRLProfileDlg::showEvent(QShowEvent *event)
 {
     initialize();
 }
 
-void MakeCRLPolicyDlg::loadPolicy()
+void MakeCRLProfileDlg::loadProfile()
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    CRLPolicyRec crlPolicy;
+    CRLProfileRec crlProfile;
 
-    dbMgr->getCRLPolicyRec( policy_num_, crlPolicy );
+    dbMgr->getCRLProfileRec( profile_num_, crlProfile );
 
-    mNameText->setText( crlPolicy.getName() );
-    mVersionCombo->setCurrentIndex( crlPolicy.getVersion() );
-    mHashCombo->setCurrentText( crlPolicy.getHash() );
+    mNameText->setText( crlProfile.getName() );
+    mVersionCombo->setCurrentIndex( crlProfile.getVersion() );
+    mHashCombo->setCurrentText( crlProfile.getHash() );
 
-    if( crlPolicy.getLastUpdate() == 0 )
+    if( crlProfile.getLastUpdate() == 0 )
     {
         mUseFromNowCheck->setChecked(true);
-        mValidDaysText->setText( QString("%1").arg(crlPolicy.getNextUpdate()));
+        mValidDaysText->setText( QString("%1").arg(crlProfile.getNextUpdate()));
     }
     else
     {
         QDateTime lastUpdate;
         QDateTime nextUpdate;
 
-        lastUpdate.setTime_t( crlPolicy.getLastUpdate() );
-        nextUpdate.setTime_t( crlPolicy.getNextUpdate() );
+        lastUpdate.setTime_t( crlProfile.getLastUpdate() );
+        nextUpdate.setTime_t( crlProfile.getNextUpdate() );
 
         mLastUpdateDateTime->setDateTime(lastUpdate);
         mNextUpdateDateTime->setDateTime(nextUpdate );
@@ -88,25 +88,25 @@ void MakeCRLPolicyDlg::loadPolicy()
 
     clickUseFromNow();
 
-    QList<PolicyExtRec> extPolicyList;
-    dbMgr->getCRLPolicyExtensionList( policy_num_, extPolicyList );
+    QList<ProfileExtRec> extProfileList;
+    dbMgr->getCRLProfileExtensionList( profile_num_, extProfileList );
 
-    for( int i=0; i < extPolicyList.size(); i++ )
+    for( int i=0; i < extProfileList.size(); i++ )
     {
-        PolicyExtRec extPolicy = extPolicyList.at(i);
+        ProfileExtRec extProfile = extProfileList.at(i);
 
-        if( extPolicy.getSN() == kExtNameCRLNum )
-            setCRLNumUse( extPolicy );
-        else if( extPolicy.getSN() == kExtNameAKI )
-            setAKIUse( extPolicy );
-        else if( extPolicy.getSN() == kExtNameIDP )
-            setIDPUse( extPolicy );
-        else if( extPolicy.getSN() == kExtNameIAN )
-            setIANUse( extPolicy );
+        if( extProfile.getSN() == kExtNameCRLNum )
+            setCRLNumUse( extProfile );
+        else if( extProfile.getSN() == kExtNameAKI )
+            setAKIUse( extProfile );
+        else if( extProfile.getSN() == kExtNameIDP )
+            setIDPUse( extProfile );
+        else if( extProfile.getSN() == kExtNameIAN )
+            setIANUse( extProfile );
     }
 }
 
-void MakeCRLPolicyDlg::defaultPolicy()
+void MakeCRLProfileDlg::defaultProfile()
 {
     int rowCnt = 0;
     mNameText->setText("");
@@ -143,9 +143,9 @@ void MakeCRLPolicyDlg::defaultPolicy()
     mValidDaysText->setText( "10" );
 }
 
-void MakeCRLPolicyDlg::accept()
+void MakeCRLProfileDlg::accept()
 {
-    CRLPolicyRec crlPolicyRec;
+    CRLProfileRec crlProfileRec;
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
 
     if( dbMgr == NULL ) return;
@@ -160,16 +160,16 @@ void MakeCRLPolicyDlg::accept()
     }
 
 
-    int nPolicyNum = dbMgr->getCRLPolicyNextNum();
+    int nProfileNum = dbMgr->getCRLProfileNextNum();
 
-    crlPolicyRec.setNum( nPolicyNum );
-    crlPolicyRec.setVersion( mVersionCombo->currentIndex() );
-    crlPolicyRec.setName( strName );
+    crlProfileRec.setNum( nProfileNum );
+    crlProfileRec.setVersion( mVersionCombo->currentIndex() );
+    crlProfileRec.setName( strName );
 
     if( mUseFromNowCheck->isChecked() )
     {
-        crlPolicyRec.setLastUpdate(0);
-        crlPolicyRec.setNextUpdate(mValidDaysText->text().toLong());
+        crlProfileRec.setLastUpdate(0);
+        crlProfileRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
         QDateTime lastTime;
@@ -178,38 +178,38 @@ void MakeCRLPolicyDlg::accept()
         lastTime.setDate( mLastUpdateDateTime->date() );
         nextTime.setDate( mNextUpdateDateTime->date() );
 
-        crlPolicyRec.setLastUpdate( lastTime.toTime_t() );
-        crlPolicyRec.setNextUpdate( nextTime.toTime_t() );
+        crlProfileRec.setLastUpdate( lastTime.toTime_t() );
+        crlProfileRec.setNextUpdate( nextTime.toTime_t() );
     }
 
-    crlPolicyRec.setHash( mHashCombo->currentText() );
+    crlProfileRec.setHash( mHashCombo->currentText() );
 
     if( is_edit_ )
     {
-        dbMgr->modCRLPolicyRec( policy_num_, crlPolicyRec );
-        dbMgr->delCRLPolicyExtensionList( policy_num_ );
-        nPolicyNum = policy_num_;
+        dbMgr->modCRLProfileRec( profile_num_, crlProfileRec );
+        dbMgr->delCRLProfileExtensionList( profile_num_ );
+        nProfileNum = profile_num_;
     }
     else
     {
-        dbMgr->addCRLPolicyRec( crlPolicyRec );
+        dbMgr->addCRLProfileRec( crlProfileRec );
     }
 
 
     /* need to set extend fields here */
 
-    if( mCRLNumUseCheck->isChecked() ) saveCRLNumUse( nPolicyNum );
-    if( mIDPUseCheck->isChecked() ) saveIDPUse( nPolicyNum );
-    if( mAKIUseCheck->isChecked() ) saveAKIUse( nPolicyNum );
-    if( mIANUseCheck->isChecked() ) saveIANUse( nPolicyNum );
+    if( mCRLNumUseCheck->isChecked() ) saveCRLNumUse( nProfileNum );
+    if( mIDPUseCheck->isChecked() ) saveIDPUse( nProfileNum );
+    if( mAKIUseCheck->isChecked() ) saveAKIUse( nProfileNum );
+    if( mIANUseCheck->isChecked() ) saveIANUse( nProfileNum );
 
     /* ....... */
 
-    manApplet->mainWindow()->createRightCRLPolicyList();
+    manApplet->mainWindow()->createRightCRLProfileList();
     QDialog::accept();
 }
 
-void MakeCRLPolicyDlg::initUI()
+void MakeCRLProfileDlg::initUI()
 {
     mHashCombo->addItems(sHashList);
 //    mIDPCombo->addItems(sTypeList);
@@ -223,7 +223,7 @@ void MakeCRLPolicyDlg::initUI()
     mNextUpdateDateTime->setDateTime( now );
 }
 
-void MakeCRLPolicyDlg::connectExtends()
+void MakeCRLProfileDlg::connectExtends()
 {
     connect( mUseFromNowCheck, SIGNAL(clicked()), this, SLOT(clickUseFromNow()));
     connect( mCRLNumUseCheck, SIGNAL(clicked()), this, SLOT(clickCRLNum()));
@@ -238,7 +238,7 @@ void MakeCRLPolicyDlg::connectExtends()
     connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
 }
 
-void MakeCRLPolicyDlg::setExtends()
+void MakeCRLProfileDlg::setExtends()
 {
     clickCRLNum();
     clickAKI();
@@ -246,7 +246,7 @@ void MakeCRLPolicyDlg::setExtends()
     clickIAN();
 }
 
-void MakeCRLPolicyDlg::setTableMenus()
+void MakeCRLProfileDlg::setTableMenus()
 {
     QStringList sDPNLabels = { tr("Type"), tr("Value") };
     mIDPTable->setColumnCount(2);
@@ -269,7 +269,7 @@ void MakeCRLPolicyDlg::setTableMenus()
     mIANTable->setColumnWidth(0, 60);
 }
 
-void MakeCRLPolicyDlg::clickUseFromNow()
+void MakeCRLProfileDlg::clickUseFromNow()
 {
     bool bStatus = mUseFromNowCheck->isChecked();
 
@@ -278,7 +278,7 @@ void MakeCRLPolicyDlg::clickUseFromNow()
     mNextUpdateDateTime->setEnabled( !bStatus );
 }
 
-void MakeCRLPolicyDlg::clickCRLNum()
+void MakeCRLProfileDlg::clickCRLNum()
 {
     bool bStatus = mCRLNumUseCheck->isChecked();
 
@@ -287,7 +287,7 @@ void MakeCRLPolicyDlg::clickCRLNum()
     mCRLNumAutoCheck->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::clickAKI()
+void MakeCRLProfileDlg::clickAKI()
 {
     bool bStatus = mAKIUseCheck->isChecked();
 
@@ -296,7 +296,7 @@ void MakeCRLPolicyDlg::clickAKI()
     mAKICertSerialCheck->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::clickIDP()
+void MakeCRLProfileDlg::clickIDP()
 {
     bool bStatus = mIDPUseCheck->isChecked();
 
@@ -308,7 +308,7 @@ void MakeCRLPolicyDlg::clickIDP()
     mIDPCombo->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::clickIAN()
+void MakeCRLProfileDlg::clickIAN()
 {
     bool bStatus = mIANUseCheck->isChecked();
 
@@ -320,7 +320,7 @@ void MakeCRLPolicyDlg::clickIAN()
     mIANAddBtn->setEnabled(bStatus);
 }
 
-void MakeCRLPolicyDlg::addIDP()
+void MakeCRLProfileDlg::addIDP()
 {
     QString strType = mIDPCombo->currentText();
     QString strVal = mIDPText->text();
@@ -333,7 +333,7 @@ void MakeCRLPolicyDlg::addIDP()
     mIDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
 
-void MakeCRLPolicyDlg::addIAN()
+void MakeCRLProfileDlg::addIAN()
 {
     QString strType = mIANCombo->currentText();
     QString strVal = mIANText->text();
@@ -346,7 +346,7 @@ void MakeCRLPolicyDlg::addIAN()
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
 
-void MakeCRLPolicyDlg::clearIDP()
+void MakeCRLProfileDlg::clearIDP()
 {
     int nCnt = mIDPTable->rowCount();
 
@@ -354,7 +354,7 @@ void MakeCRLPolicyDlg::clearIDP()
         mIDPTable->removeRow(0);
 }
 
-void MakeCRLPolicyDlg::clearIAN()
+void MakeCRLProfileDlg::clearIAN()
 {
     int nCnt = mIANTable->rowCount();
 
@@ -362,16 +362,16 @@ void MakeCRLPolicyDlg::clearIAN()
         mIANTable->removeRow(0);
 }
 
-void MakeCRLPolicyDlg::saveCRLNumUse( int nPolicyNum )
+void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    PolicyExtRec policyExt;
+    ProfileExtRec profileExt;
 
-    policyExt.setPolicyNum(nPolicyNum);
-    policyExt.setSN( "crlNumber" );
-    policyExt.setCritical( mCRLNumCriticalCheck->isChecked() );
+    profileExt.setProfileNum(nProfileNum);
+    profileExt.setSN( "crlNumber" );
+    profileExt.setCritical( mCRLNumCriticalCheck->isChecked() );
 
     QString strVal;
 
@@ -381,20 +381,20 @@ void MakeCRLPolicyDlg::saveCRLNumUse( int nPolicyNum )
         strVal = mCRLNumText->text();
     }
 
-    policyExt.setValue( strVal );
-    dbMgr->addCRLPolicyExtension( policyExt );
+    profileExt.setValue( strVal );
+    dbMgr->addCRLProfileExtension( profileExt );
 }
 
-void MakeCRLPolicyDlg::saveAKIUse( int nPolicyNum )
+void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    PolicyExtRec policyExt;
+    ProfileExtRec profileExt;
 
-    policyExt.setPolicyNum(nPolicyNum);
-    policyExt.setSN( "authorityKeyIdentifier" );
-    policyExt.setCritical( mAKICriticalCheck->isChecked() );
+    profileExt.setProfileNum(nProfileNum);
+    profileExt.setSN( "authorityKeyIdentifier" );
+    profileExt.setCritical( mAKICriticalCheck->isChecked() );
 
     QString strVal;
 
@@ -404,20 +404,20 @@ void MakeCRLPolicyDlg::saveAKIUse( int nPolicyNum )
     if( mAKICertSerialCheck->isChecked() )
         strVal += "SERIAL#";
 
-    policyExt.setValue( strVal );
-    dbMgr->addCRLPolicyExtension(policyExt);
+    profileExt.setValue( strVal );
+    dbMgr->addCRLProfileExtension(profileExt);
 }
 
-void MakeCRLPolicyDlg::saveIDPUse( int nPolicyNum )
+void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    PolicyExtRec policyExt;
+    ProfileExtRec profileExt;
 
-    policyExt.setPolicyNum(nPolicyNum);
-    policyExt.setSN( "issuingDistributionPoint" );
-    policyExt.setCritical( mIDPCriticalCheck->isChecked() );
+    profileExt.setProfileNum(nProfileNum);
+    profileExt.setSN( "issuingDistributionPoint" );
+    profileExt.setCritical( mIDPCriticalCheck->isChecked() );
 
     QString strVal;
 
@@ -435,20 +435,20 @@ void MakeCRLPolicyDlg::saveIDPUse( int nPolicyNum )
         strVal += strData;
     }
 
-    policyExt.setValue(strVal);
-    dbMgr->addCRLPolicyExtension(policyExt);
+    profileExt.setValue(strVal);
+    dbMgr->addCRLProfileExtension(profileExt);
 }
 
-void MakeCRLPolicyDlg::saveIANUse( int nPolicyNum )
+void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
 {
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
-    PolicyExtRec policyExt;
+    ProfileExtRec profileExt;
 
-    policyExt.setPolicyNum(nPolicyNum);
-    policyExt.setSN( "issuerAltName" );
-    policyExt.setCritical( mIANCriticalCheck->isChecked() );
+    profileExt.setProfileNum(nProfileNum);
+    profileExt.setSN( "issuerAltName" );
+    profileExt.setCritical( mIANCriticalCheck->isChecked() );
 
     QString strVal = "";
 
@@ -466,17 +466,17 @@ void MakeCRLPolicyDlg::saveIANUse( int nPolicyNum )
         strVal += strData;
     }
 
-    policyExt.setValue( strVal );
-    dbMgr->addCRLPolicyExtension(policyExt);
+    profileExt.setValue( strVal );
+    dbMgr->addCRLProfileExtension(profileExt);
 }
 
-void MakeCRLPolicyDlg::setCRLNumUse( PolicyExtRec& policyRec )
+void MakeCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
     mCRLNumUseCheck->setChecked(true);
-    mCRLNumCriticalCheck->setChecked(policyRec.isCritical());
+    mCRLNumCriticalCheck->setChecked(profileRec.isCritical());
     clickCRLNum();
 
-    QString strVal = policyRec.getValue();
+    QString strVal = profileRec.getValue();
 
     if( strVal == "auto" )
         mCRLNumAutoCheck->setChecked(true);
@@ -484,25 +484,25 @@ void MakeCRLPolicyDlg::setCRLNumUse( PolicyExtRec& policyRec )
         mCRLNumText->setText( strVal );
 }
 
-void MakeCRLPolicyDlg::setAKIUse( PolicyExtRec& policyRec )
+void MakeCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
     mAKIUseCheck->setChecked(true);
-    mAKICriticalCheck->setChecked(policyRec.isCritical());
+    mAKICriticalCheck->setChecked(profileRec.isCritical());
     clickAKI();
 
-    QString strVal = policyRec.getValue();
+    QString strVal = profileRec.getValue();
 
     mAKICertIssuerCheck->setChecked( strVal.contains("ISSUER") );
     mAKICertSerialCheck->setChecked( strVal.contains("SERIAL") );
 }
 
-void MakeCRLPolicyDlg::setIDPUse( PolicyExtRec& policyRec )
+void MakeCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
     mIDPUseCheck->setChecked(true);
-    mIDPCriticalCheck->setChecked(policyRec.isCritical());
+    mIDPCriticalCheck->setChecked(profileRec.isCritical());
     clickIDP();
 
-    QString strVal = policyRec.getValue();
+    QString strVal = profileRec.getValue();
 
     QStringList valList = strVal.split("#");
     for( int i=0; i < valList.size(); i++ )
@@ -520,13 +520,13 @@ void MakeCRLPolicyDlg::setIDPUse( PolicyExtRec& policyRec )
     }
 }
 
-void MakeCRLPolicyDlg::setIANUse( PolicyExtRec& policyRec )
+void MakeCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
     mIANUseCheck->setChecked(true);
-    mIANCriticalCheck->setChecked(policyRec.isCritical());
+    mIANCriticalCheck->setChecked(profileRec.isCritical());
     clickIAN();
 
-    QString strVal = policyRec.getValue();
+    QString strVal = profileRec.getValue();
 
     QStringList valList = strVal.split("#");
 

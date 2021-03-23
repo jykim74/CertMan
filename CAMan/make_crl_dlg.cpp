@@ -2,7 +2,7 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "cert_rec.h"
-#include "crl_policy_rec.h"
+#include "crl_profile_rec.h"
 #include "key_pair_rec.h"
 #include "db_mgr.h"
 #include "crl_rec.h"
@@ -75,14 +75,14 @@ void MakeCRLDlg::accept()
     if( dbMgr == NULL ) return;
 
     int issuerIdx = mIssuerNameCombo->currentIndex();
-    int policyIdx = mPolicyNameCombo->currentIndex();
+    int profileIdx = mProfileNameCombo->currentIndex();
 
     long uLastUpdate = -1;
     long uNextUpdate = -1;
     int nKeyType = -1;
 
     CertRec caCert = ca_cert_list_.at(issuerIdx);
-    CRLPolicyRec policy = crl_policy_list_.at(policyIdx);
+    CRLProfileRec profile = crl_profile_list_.at(profileIdx);
     KeyPairRec caKeyPair;
 
     memset( &sIssueCRLInfo, 0x00, sizeof(sIssueCRLInfo));
@@ -100,37 +100,37 @@ void MakeCRLDlg::accept()
 
     time_t now_t = time(NULL);
 
-    if( policy.getLastUpdate() <= 0 )
+    if( profile.getLastUpdate() <= 0 )
     {
-        long uValidSecs = policy.getNextUpdate() * 60 * 60 * 24;
+        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
         uLastUpdate = 0;
         uNextUpdate = uValidSecs;
     }
     else
     {
-        uLastUpdate = policy.getLastUpdate() - now_t;
-        uNextUpdate = policy.getNextUpdate() - now_t;
+        uLastUpdate = profile.getLastUpdate() - now_t;
+        uNextUpdate = profile.getNextUpdate() - now_t;
     }
 
     JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
-                       policy.getVersion(),
-                       policy.getHash().toStdString().c_str(),
+                       profile.getVersion(),
+                       profile.getHash().toStdString().c_str(),
                        uLastUpdate,
                        uNextUpdate );
 
     /* need to set revoked certificate information */
 
-    QList<PolicyExtRec> policyExtList;
-    dbMgr->getCRLPolicyExtensionList( policy.getNum(), policyExtList );
-    for( int i=0; i < policyExtList.size(); i++ )
+    QList<ProfileExtRec> profileExtList;
+    dbMgr->getCRLProfileExtensionList( profile.getNum(), profileExtList );
+    for( int i=0; i < profileExtList.size(); i++ )
     {
         JExtensionInfo sExtInfo;
-        PolicyExtRec policyExt = policyExtList.at(i);
+        ProfileExtRec profileExt = profileExtList.at(i);
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( policyExt.getSN() == kExtNameAKI )
+        if( profileExt.getSN() == kExtNameAKI )
         {
             BIN binCert = {0,0};
             char sHexID[256];
@@ -147,24 +147,24 @@ void MakeCRLDlg::accept()
 
             JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
             QString strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( sHexID ).arg( sHexIssuer ).arg( sHexSerial );
-            policyExt.setValue( strVal );
+            profileExt.setValue( strVal );
 
             JS_BIN_reset( &binCert );
         }
-        else if( policyExt.getSN() == kExtNameCRLNum )
+        else if( profileExt.getSN() == kExtNameCRLNum )
         {
-            QString strVal = policyExt.getValue();
+            QString strVal = profileExt.getValue();
 
             if( strVal.contains( "auto" ) )
             {
                 int nSeq = dbMgr->getSeq( "TB_CRL" );
                 QString strSeq;
                 strSeq.sprintf( "%04x", nSeq );
-                policyExt.setValue( strSeq );
+                profileExt.setValue( strSeq );
             }
         }
 
-        transExtInfoFromDBRec( &sExtInfo, policyExt );
+        transExtInfoFromDBRec( &sExtInfo, profileExt );
 
         if( pExtInfoList == NULL )
             JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
@@ -183,7 +183,7 @@ void MakeCRLDlg::accept()
         long uRevokeDate = -1;
         int nReason = -1;
         JExtensionInfo sExtReason;
-        PolicyExtRec policyReason;
+        ProfileExtRec profileReason;
 
         RevokeRec revoke = revokeList.at(i);
 
@@ -194,12 +194,12 @@ void MakeCRLDlg::accept()
         nReason = revoke.getReason();
         uRevokeDate = revoke.getRevokeDate();
 
-        policyReason.setSN( kExtNameCRLReason );
-        policyReason.setCritical( true );
-        policyReason.setValue( QString("%1").arg(nReason) );
-        policyReason.setSeq(-1);
+        profileReason.setSN( kExtNameCRLReason );
+        profileReason.setCritical( true );
+        profileReason.setValue( QString("%1").arg(nReason) );
+        profileReason.setSeq(-1);
 
-        transExtInfoFromDBRec( &sExtReason, policyReason );
+        transExtInfoFromDBRec( &sExtReason, profileReason );
 
         JS_PKI_setRevokeInfo( &sRevokeInfo, pSerial, uRevokeDate, &sExtReason );
 
@@ -361,20 +361,20 @@ void MakeCRLDlg::initialize()
         mIssuerNameCombo->addItem( certRec.getSubjectDN() );
     }
 
-    crl_policy_list_.clear();
+    crl_profile_list_.clear();
 
-    dbMgr->getCRLPolicyList( crl_policy_list_ );
-    if( crl_policy_list_.size() <= 0 )
+    dbMgr->getCRLProfileList( crl_profile_list_ );
+    if( crl_profile_list_.size() <= 0 )
     {
-        manApplet->warningBox(tr("There is no CRL Policy"), this );
+        manApplet->warningBox(tr("There is no CRL Profile"), this );
         close();
         return;
     }
 
-    for( int i = 0; i < crl_policy_list_.size(); i++ )
+    for( int i = 0; i < crl_profile_list_.size(); i++ )
     {
-        CRLPolicyRec policyRec = crl_policy_list_.at(i);
-        mPolicyNameCombo->addItem( policyRec.getName() );
+        CRLProfileRec profileRec = crl_profile_list_.at(i);
+        mProfileNameCombo->addItem( profileRec.getName() );
     }
 
     setRevokeList();

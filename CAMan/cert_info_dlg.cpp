@@ -153,15 +153,15 @@ void CertInfoDlg::initialize()
 
         while( pCurList )
         {
-            PolicyExtRec policyRec;
-            transExtInfoToDBRec( &pCurList->sExtensionInfo, policyRec );
+            ProfileExtRec profileRec;
+            transExtInfoToDBRec( &pCurList->sExtensionInfo, profileRec );
 
             mFieldTable->insertRow(i);
             mFieldTable->setRowHeight(i,10);
-            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyRec.getSN())));
+            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileRec.getSN())));
             mFieldTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(policyRec.isCritical())
-                                                               .arg(policyRec.getValue())));
+                                                               .arg(profileRec.isCritical())
+                                                               .arg(profileRec.getValue())));
 
 
             pCurList = pCurList->pNext;

@@ -1,9 +1,9 @@
-#ifndef CRL_POLICY_REC_H
-#define CRL_POLICY_REC_H
+#ifndef CRL_PROFILE_REC_H
+#define CRL_PROFILE_REC_H
 
 #include <QString>
 
-class CRLPolicyRec
+class CRLProfileRec
 {
 private:
     int             m_nNum;
@@ -14,7 +14,7 @@ private:
     time_t          m_tNextUpdate;
 
 public:
-    CRLPolicyRec();
+    CRLProfileRec();
 
     int getNum() { return m_nNum; };
     int getVersion() { return m_nVersion; };
@@ -31,4 +31,4 @@ public:
     void setNextUpdate( time_t tNextUpdate );
 };
 
-#endif // CRL_POLICY_REC_H
+#endif // CRL_PROFILE_REC_H

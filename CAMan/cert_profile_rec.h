@@ -1,9 +1,9 @@
-#ifndef CERT_POLICY_REC_H
-#define CERT_POLICY_REC_H
+#ifndef CERT_PROFILE_REC_H
+#define CERT_PROFILE_REC_H
 
 #include <QString>
 
-class CertPolicyRec
+class CertProfileRec
 {
 private:
     int             m_nNum;
@@ -16,7 +16,7 @@ private:
 
 
 public:
-    CertPolicyRec();
+    CertProfileRec();
 
     int getNum() { return m_nNum; };
     QString getName() { return m_strName; };
@@ -37,4 +37,4 @@ public:
 
 };
 
-#endif // CERT_POLICY_REC_H
+#endif // CERT_PROFILE_REC_H

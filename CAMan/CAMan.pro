@@ -36,11 +36,11 @@ SOURCES += \
         audit_rec.cpp \
         auto_update_service.cpp \
         cert_info_dlg.cpp \
-        cert_policy_rec.cpp \
+        cert_profile_rec.cpp \
         cert_rec.cpp \
         commons.cpp \
         crl_info_dlg.cpp \
-        crl_policy_rec.cpp \
+        crl_profile_rec.cpp \
         crl_rec.cpp \
         db_mgr.cpp \
         export_dlg.cpp \
@@ -53,9 +53,9 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
-        make_cert_policy_dlg.cpp \
+        make_cert_profile_dlg.cpp \
         make_crl_dlg.cpp \
-        make_crl_policy_dlg.cpp \
+        make_crl_profile_dlg.cpp \
         make_req_dlg.cpp \
         man_applet.cpp \
         man_tray_icon.cpp \
@@ -64,7 +64,7 @@ SOURCES += \
         man_tree_view.cpp \
         new_key_dlg.cpp \
         pin_dlg.cpp \
-        policy_ext_rec.cpp \
+        profile_ext_rec.cpp \
         pub_ldap_dlg.cpp \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
@@ -90,11 +90,11 @@ HEADERS += \
         audit_rec.h \
         auto_update_service.h \
         cert_info_dlg.h \
-        cert_policy_rec.h \
+        cert_profile_rec.h \
         cert_rec.h \
         commons.h \
         crl_info_dlg.h \
-        crl_policy_rec.h \
+        crl_profile_rec.h \
         crl_rec.h \
         db_mgr.h \
         export_dlg.h \
@@ -106,9 +106,9 @@ HEADERS += \
         kms_rec.h \
         mainwindow.h \
         make_cert_dlg.h \
-        make_cert_policy_dlg.h \
+        make_cert_profile_dlg.h \
         make_crl_dlg.h \
-        make_crl_policy_dlg.h \
+        make_crl_profile_dlg.h \
         make_req_dlg.h \
         man_applet.h \
         man_tray_icon.h \
@@ -117,7 +117,7 @@ HEADERS += \
         man_tree_view.h \
         new_key_dlg.h \
         pin_dlg.h \
-        policy_ext_rec.h \
+        profile_ext_rec.h \
         pub_ldap_dlg.h \
         req_rec.h \
         revoke_cert_dlg.h \
@@ -147,9 +147,9 @@ FORMS += \
         import_dlg.ui \
         mainwindow.ui \
         make_cert_dlg.ui \
-        make_cert_policy_dlg.ui \
+        make_cert_profile_dlg.ui \
         make_crl_dlg.ui \
-        make_crl_policy_dlg.ui \
+        make_crl_profile_dlg.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
         pin_dlg.ui \

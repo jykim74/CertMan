@@ -17,7 +17,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Policy name</string>
+      <string>Profile name</string>
      </property>
     </widget>
    </item>
@@ -141,7 +141,7 @@
     <widget class="QLineEdit" name="mIssuerAlgorithmText"/>
    </item>
    <item row="4" column="1" colspan="3">
-    <widget class="QComboBox" name="mPolicyNameCombo"/>
+    <widget class="QComboBox" name="mProfileNameCombo"/>
    </item>
    <item row="10" column="2" colspan="2">
     <widget class="QComboBox" name="mIssuerNameCombo"/>
@@ -181,7 +181,7 @@
   <tabstop>mReqNameCombo</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
-  <tabstop>mPolicyNameCombo</tabstop>
+  <tabstop>mProfileNameCombo</tabstop>
   <tabstop>mUserNameText</tabstop>
   <tabstop>mSSNText</tabstop>
   <tabstop>mEmailText</tabstop>

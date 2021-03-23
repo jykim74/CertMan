@@ -1,32 +1,32 @@
-#ifndef POLICY_EXT_REC_H
-#define POLICY_EXT_REC_H
+#ifndef PROFILE_EXT_REC_H
+#define PROFILE_EXT_REC_H
 
 #include <QString>
 
-class PolicyExtRec
+class ProfileExtRec
 {
 private:
     int         m_nSeq;
-    int         m_nPolicyNum;
+    int         m_nProfileNum;
     bool        m_bCritical;
     QString     m_strSN;
     QString     m_strValue;
 
 public:
-    PolicyExtRec();
+    ProfileExtRec();
 
     const int getSeq() { return m_nSeq; };
-    const int getPolicyNum() { return m_nPolicyNum; };
+    const int getProfileNum() { return m_nProfileNum; };
     const bool isCritical() { return m_bCritical; };
     const QString getSN() { return m_strSN; };
     const QString getValue() { return m_strValue; };
 
     void setSeq( int nSeq );
-    void setPolicyNum( int nPolicyNum );
+    void setProfileNum( int nProfileNum );
     void setCritical( bool bCritical );
     void setSN( QString strSN );
     void setValue( QString strValue );
 };
 
 
-#endif // POLICY_EXT_REC_H
+#endif // PROFILE_EXT_REC_H

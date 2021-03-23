@@ -133,14 +133,14 @@ void CRLInfoDlg::initialize()
 
         while( pCurList )
         {
-            PolicyExtRec policyExt;
-            transExtInfoToDBRec( &pCurList->sExtensionInfo, policyExt );
+            ProfileExtRec profileExt;
+            transExtInfoToDBRec( &pCurList->sExtensionInfo, profileExt );
             mCRLListTable->insertRow(i);
             mCRLListTable->setRowHeight(i,10);
-            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(policyExt.getSN())));
+            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileExt.getSN())));
             mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(policyExt.isCritical())
-                                                               .arg(policyExt.getValue())));
+                                                               .arg(profileExt.isCritical())
+                                                               .arg(profileExt.getValue())));
 
 
             pCurList = pCurList->pNext;
@@ -251,15 +251,15 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
         pRevInfoList = pRevInfoList->pNext;
     }
 
-    PolicyExtRec policyExt;
+    ProfileExtRec profileExt;
 
-    transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, policyExt );
+    transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, profileExt );
 
     mRevokeDetailTable->insertRow(0);
     mRevokeDetailTable->setColumnWidth(0,10);
     mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
-                                                                .arg(policyExt.getSN())));
+                                                                .arg(profileExt.getSN())));
     mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")
-                                                           .arg(policyExt.isCritical())
-                                                           .arg(policyExt.getValue())));
+                                                           .arg(profileExt.isCritical())
+                                                           .arg(profileExt.getValue())));
 }
