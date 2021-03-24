@@ -27,6 +27,11 @@ private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
 
+    void slotIANMenuRequested(QPoint pos);
+    void slotIDPMenuRequested(QPoint pos);
+    void deleteIANMenu();
+    void deleteIDPMenu();
+
     void clickUseFromNow();
     void clickCRLNum();
     void clickAKI();

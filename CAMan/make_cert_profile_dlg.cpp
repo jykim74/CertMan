@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "make_cert_profile_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
@@ -444,6 +446,162 @@ void MakeCertProfileDlg::connectExtends()
     connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
     connect( mPMClearBtn, SIGNAL(clicked()), this, SLOT(clearPM()));
     connect( mNCClearBtn, SIGNAL(clicked()), this, SLOT(clearNC()));
+
+    connect( mKeyUsageList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotKeyUsageMenuRequested(QPoint)));
+    connect( mEKUList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotEKUMenuRequested(QPoint)));
+    connect( mPolicyTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotPolicyMenuRequested(QPoint)));
+    connect( mCRLDPTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotCRLDPMenuRequested(QPoint)));
+    connect( mAIATable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotAIAMenuRequested(QPoint)));
+    connect( mSANTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotSANMenuRequested(QPoint)));
+    connect( mIANTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIANMenuRequested(QPoint)));
+    connect( mPMTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotPMMenuRequested(QPoint)));
+    connect( mNCTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotNCMenuRequested(QPoint)));
+}
+
+void MakeCertProfileDlg::slotKeyUsageMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteKeyUsageMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mKeyUsageList->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteKeyUsageMenu()
+{
+    QModelIndex idx = mKeyUsageList->currentIndex();
+    QListWidgetItem *item = mKeyUsageList->takeItem(idx.row());
+    if( item ) delete item;
+}
+
+void MakeCertProfileDlg::slotEKUMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteEKUMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mEKUList->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteEKUMenu()
+{
+    QModelIndex idx = mEKUList->currentIndex();
+    QListWidgetItem *item = mEKUList->takeItem(idx.row());
+    if( item ) delete item;
+}
+
+void MakeCertProfileDlg::slotPolicyMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deletePolicyMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mPolicyTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deletePolicyMenu()
+{
+    QModelIndex idx = mPolicyTable->currentIndex();
+    mPolicyTable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotCRLDPMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteCRLDPMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mCRLDPTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteCRLDPMenu()
+{
+    QModelIndex idx = mCRLDPTable->currentIndex();
+    mCRLDPTable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotAIAMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteAIAMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mAIATable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteAIAMenu()
+{
+    QModelIndex idx = mAIATable->currentIndex();
+    mAIATable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotSANMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteSANMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mSANTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteSANMenu()
+{
+    QModelIndex idx = mSANTable->currentIndex();
+    mSANTable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotIANMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteIANMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mIANTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteIANMenu()
+{
+    QModelIndex idx = mIANTable->currentIndex();
+    mIANTable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotPMMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deletePMMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mPMTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deletePMMenu()
+{
+    QModelIndex idx = mPMTable->currentIndex();
+    mPMTable->removeRow( idx.row() );
+}
+
+void MakeCertProfileDlg::slotNCMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteNCMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mNCTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCertProfileDlg::deleteNCMenu()
+{
+    QModelIndex idx = mNCTable->currentIndex();
+    mNCTable->removeRow( idx.row() );
 }
 
 void MakeCertProfileDlg::clickUseCSR()

@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "make_crl_profile_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
@@ -54,6 +56,40 @@ void MakeCRLProfileDlg::initialize()
 void MakeCRLProfileDlg::showEvent(QShowEvent *event)
 {
     initialize();
+}
+
+void MakeCRLProfileDlg::slotIANMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteIANMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mIANTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCRLProfileDlg::slotIDPMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteIDPMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mIDPTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCRLProfileDlg::deleteIANMenu()
+{
+    QModelIndex idx = mIANTable->currentIndex();
+
+    mIANTable->removeRow( idx.row() );
+}
+
+void MakeCRLProfileDlg::deleteIDPMenu()
+{
+    QModelIndex idx = mIDPTable->currentIndex();
+
+    mIDPTable->removeRow( idx.row() );
 }
 
 void MakeCRLProfileDlg::loadProfile()
@@ -236,6 +272,9 @@ void MakeCRLProfileDlg::connectExtends()
 
     connect( mIDPClearBtn, SIGNAL(clicked()), this, SLOT(clearIDP()));
     connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
+
+    connect( mIANTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIANMenuRequested(QPoint)));
+    connect( mIDPTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIDPMenuRequested(QPoint)));
 }
 
 void MakeCRLProfileDlg::setExtends()

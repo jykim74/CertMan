@@ -27,6 +27,33 @@ private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
 
+    void slotKeyUsageMenuRequested(QPoint pos);
+    void deleteKeyUsageMenu();
+
+    void slotEKUMenuRequested(QPoint pos);
+    void deleteEKUMenu();
+
+    void slotPolicyMenuRequested(QPoint pos);
+    void deletePolicyMenu();
+
+    void slotCRLDPMenuRequested(QPoint pos);
+    void deleteCRLDPMenu();
+
+    void slotAIAMenuRequested(QPoint pos);
+    void deleteAIAMenu();
+
+    void slotSANMenuRequested(QPoint pos);
+    void deleteSANMenu();
+
+    void slotIANMenuRequested(QPoint pos);
+    void deleteIANMenu();
+
+    void slotPMMenuRequested(QPoint pos);
+    void deletePMMenu();
+
+    void slotNCMenuRequested(QPoint pos);
+    void deleteNCMenu();
+
     void clickUseCSR();
     void clickUseDays();
 
