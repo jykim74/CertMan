@@ -15,6 +15,7 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
 
     initUI();
     cert_num_ = -1;
+    tabWidget->setCurrentIndex(0);
 }
 
 CertInfoDlg::~CertInfoDlg()

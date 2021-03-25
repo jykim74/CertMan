@@ -23,6 +23,7 @@ public:
     explicit MakeCertDlg(QWidget *parent = nullptr);
     ~MakeCertDlg();
     void setFixIssuer( QString strIssuerName );
+    void setReqNum( int nReqNum );
 
 private slots:
     virtual void accept();

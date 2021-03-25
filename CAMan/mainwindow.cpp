@@ -821,8 +821,20 @@ void MainWindow::editCRLProfile()
 void MainWindow::makeCertificate()
 {
     ManTreeItem *pItem = currentItem();
-
     MakeCertDlg makeCertDlg;
+
+    if( right_type_ == RightType::TYPE_REQUEST )
+    {
+        int row = right_table_->currentRow();
+        QTableWidgetItem* tableItem = right_table_->item( row, 0 );
+
+        if( tableItem )
+        {
+            int nReqNum = tableItem->text().toInt();
+            makeCertDlg.setReqNum( nReqNum );
+        }
+    }
+
 
     if( pItem )
     {
@@ -2876,7 +2888,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_type_ = RightType::TYPE_CERTIFICATE;
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("User"), tr("SignAlg"), tr("Issuer"), tr("SubjectDN") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("SignAlg"), tr("Issuer"), tr("SubjectDN") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -2896,8 +2908,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
-    right_table_->setColumnWidth( 4, 100 );
-    right_table_->setColumnWidth( 5, 100 );
+
 
     if( bIsCA )
     {
@@ -2956,7 +2967,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strUserName )));
+//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strUserName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strIssuerName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));

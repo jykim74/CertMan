@@ -153,6 +153,18 @@ void MakeCertDlg::setFixIssuer(QString strIssuerName)
 //    mSelfSignCheck->setDisabled(true);
 }
 
+void MakeCertDlg::setReqNum( int nReqNum )
+{
+    if( nReqNum < 0 ) return;
+
+    ReqRec reqRec;
+    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    dbMgr->getReqRec( nReqNum, reqRec );
+
+    if( reqRec.getName().length() > 0 )
+        mReqNameCombo->setCurrentText( reqRec.getName() );
+}
+
 void MakeCertDlg::accept()
 {
     int ret = 0;

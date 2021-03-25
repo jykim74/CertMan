@@ -17,6 +17,7 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     revoke_info_list_ = NULL;
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
+    tabWidget->setCurrentIndex(0);
 }
 
 CRLInfoDlg::~CRLInfoDlg()
