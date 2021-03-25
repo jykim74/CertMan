@@ -55,7 +55,7 @@ bool DBMgr::isOpen()
 QString DBMgr::getNumName( int nNum, QString strTable, QString strColName )
 {
     QString strName;
-    if( nNum < 0 ) return "Unknown";
+    if( nNum < 0 ) return strName;
 
     QString strSQL = QString( "SELECT %1 FROM %2 WHERE NUM = %3").arg( strColName ).arg( strTable ).arg(nNum);
     QSqlQuery SQL(strSQL);

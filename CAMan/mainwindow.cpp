@@ -611,7 +611,17 @@ void MainWindow::newFile()
 
 
     QString strPath = manApplet->getSetPath();
-    QString fileName = findFile( this, JS_FILE_TYPE_DB, strPath );
+    QString strType = QObject::tr("DB Files (*.db *db3 *.xdb);;All Files(*.*)");
+    QString selectedFilter;
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    QString fileName = QFileDialog::getSaveFileName( this,
+                                                     tr("Save As ..."),
+                                                     strPath,
+                                                     strType,
+                                                     &selectedFilter,
+                                                     options );
 
     if( fileName.length() < 1 )
     {
@@ -2927,8 +2937,19 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 
         QString strKeyName = db_mgr_->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
-        QString strUserName = db_mgr_->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
-        QString strIsserName = db_mgr_->getNumName( cert.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        QString strUserName;
+
+        if( cert.getUserNum() > 0 )
+            db_mgr_->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
+        else
+            strUserName = "";
+
+        QString strIssuerName;
+
+        if( cert.isSelf() )
+            strIssuerName = cert.getSubjectDN();
+        else
+            strIssuerName = db_mgr_->getNumName( cert.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -2937,7 +2958,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strUserName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strIsserName )));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strIssuerName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
 //        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
     }
@@ -3502,8 +3523,19 @@ void MainWindow::logCertificate( int seq )
     db_mgr_->getCertRec( seq, certRec );
 
     QString strKeyName = db_mgr_->getNumName( certRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
-    QString strUserName = db_mgr_->getNumName( certRec.getUserNum(), "TB_USER", "NAME" );
-    QString strIsserName = db_mgr_->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    QString strUserName;
+    QString strIssuerName;
+
+    if( certRec.getIssuerNum() > 0 )
+        strIssuerName = db_mgr_->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    else
+        strIssuerName = "Unknown";
+
+
+    if( certRec.getUserNum() > 0 )
+        strUserName = db_mgr_->getNumName( certRec.getUserNum(), "TB_USER", "NAME" );
+    else
+        strUserName = "Unknown";
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3519,7 +3551,7 @@ void MainWindow::logCertificate( int seq )
     manApplet->log( QString("IsCA          : %1\n").arg(certRec.isCA()));
     manApplet->log( QString("IsSelf        : %1\n").arg(certRec.isSelf()));
     manApplet->log( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
-    manApplet->log( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIsserName ));
+    manApplet->log( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIssuerName ));
     manApplet->log( QString("Status        : %1 - %2\n").arg(certRec.getStatus()).arg( getCertStatusName( certRec.getStatus() )));
     manApplet->log( QString("Serial        : %1\n").arg(certRec.getSerial()));
     manApplet->log( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
