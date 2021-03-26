@@ -80,6 +80,7 @@ void MakeCertDlg::initialize()
     cert_profile_list_.clear();
 
     dbMgr->getCertProfileList( cert_profile_list_ );
+
     for( int i=0; i < cert_profile_list_.size(); i++ )
     {
         CertProfileRec certProfileRec = cert_profile_list_.at(i);
@@ -95,9 +96,12 @@ void MakeCertDlg::setSubjectDN()
 
     if( profile.getDNTemplate() == "#CSR" )
     {
-        ReqRec req = req_list_.at( mReqNameCombo->currentIndex() );
+        if( req_list_.size() > 0 )
+        {
+            ReqRec req = req_list_.at( mReqNameCombo->currentIndex() );
 
-        mSubjectDNText->setText( req.getDN() );
+            mSubjectDNText->setText( req.getDN() );
+        }
     }
     else
     {

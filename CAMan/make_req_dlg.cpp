@@ -12,6 +12,7 @@
 #include "commons.h"
 
 static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
+static QStringList sMechList = { kMechRSA, kMechEC };
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
     QDialog(parent)
@@ -20,6 +21,8 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     initUI();
 
     connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
+    connect( mGenKeyPairCheck, SIGNAL(clicked()), this, SLOT(checkGenKeyPair()));
+    connect( mAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(algChanged(int)));
 
     initialize();
 }
@@ -62,6 +65,11 @@ void MakeReqDlg::accept()
     DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( mGenKeyPairCheck->isChecked() )
+    {
+
+    }
+
     QString strName = mNameText->text();
     QString strChallenge = mChallengePassText->text();
 
@@ -83,7 +91,7 @@ void MakeReqDlg::accept()
 
     int keyIdx = mKeyNameCombo->currentIndex();
     keyRec = key_list_.at( keyIdx );
-    QString strAlg = mAlgorithmText->text();
+    QString strAlg = mAlgorithmCombo->currentText();
     QString strHash = mHashCombo->currentText();
 
     if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
@@ -166,7 +174,7 @@ void MakeReqDlg::accept()
     }
     else
     {
-        if( mAlgorithmText->text() == kMechRSA )
+        if( strAlg == kMechRSA )
             nAlg = JS_PKI_KEY_TYPE_RSA;
         else {
             nAlg = JS_PKI_KEY_TYPE_ECC;
@@ -221,10 +229,12 @@ void MakeReqDlg::keyNameChanged(int index)
 {
     KeyPairRec keyRec = key_list_.at(index);
 
-    mAlgorithmText->setText( keyRec.getAlg() );
-    mOptionText->setText( keyRec.getParam() );
+    mAlgorithmCombo->clear();
+    mAlgorithmCombo->addItem( keyRec.getAlg() );
+    mOptionCombo->clear();
+    mOptionCombo->addItem( keyRec.getParam() );
 
-    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == "PKCS11_RSA" )
+    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA )
         mOptionLabel->setText( "Key Size" );
     else {
         mOptionLabel->setText( "NamedCurve" );
@@ -236,6 +246,61 @@ void MakeReqDlg::keyNameChanged(int index)
 
     QString strDN = QString( "CN=%1,%2").arg( keyRec.getName() ).arg( manApplet->settingsMgr()->baseDN() );
     mDNText->setText( strDN );
+}
+
+void MakeReqDlg::algChanged(int index )
+{
+    QString strAlg = mAlgorithmCombo->currentText();
+    mOptionCombo->clear();
+
+    if( strAlg == "RSA" || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+    {
+        mOptionCombo->addItems( kRSAOptionList );
+        mExponentText->setEnabled(true);
+        mExponentLabel->setEnabled(true);
+    }
+    else
+    {
+       mOptionCombo->addItems( kECCOptionList );
+       mExponentText->setEnabled(false);
+       mExponentLabel->setEnabled(false);
+    }
+}
+
+void MakeReqDlg::checkGenKeyPair()
+{
+    bool bVal = mGenKeyPairCheck->isChecked();
+
+    mExponentText->setEnabled( bVal );
+    mExponentLabel->setEnabled( bVal );
+
+    mKeyNameCombo->setEditable( bVal );
+
+    if( bVal )
+    {
+        mExponentText->setText( "65537" );
+        mOptionCombo->clear();
+        mOptionCombo->addItems( kRSAOptionList );
+        mAlgorithmCombo->clear();
+
+        mAlgorithmCombo->addItems( sMechList );
+
+        if( manApplet->settingsMgr()->PKCS11Use() )
+        {
+            mAlgorithmCombo->addItem( kMechPKCS11_RSA );
+            mAlgorithmCombo->addItem( kMechPKCS11_EC );
+        }
+
+        if( manApplet->settingsMgr()->KMIPUse() )
+        {
+            mAlgorithmCombo->addItem( kMechKMIP_RSA );
+            mAlgorithmCombo->addItem( kMechKMIP_EC );
+        }
+    }
+    else
+    {
+        mExponentText->clear();
+    }
 }
 
 void MakeReqDlg::initUI()

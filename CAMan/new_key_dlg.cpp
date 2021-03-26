@@ -14,16 +14,6 @@
 #include "commons.h"
 
 static QStringList sMechList = { kMechRSA, kMechEC };
-static QStringList sRSAOptionList = { "1024", "2048", "3072", "4096" };
-static QStringList sECCOptionList = {
-    "secp112r1", "secp112r2", "secp128r1", "secp128r2", "secp160k1",
-    "secp160r1", "secp160r2", "secp192r1", "secp192k1", "secp224k1",
-    "secp224r1", "prime256v1", "secp256k1", "secp384r1", "secp521r1",
-    "sect113r1", "sect113r2", "sect131r1", "sect131r2", "sect163k1",
-    "sect163r1", "sect163r2", "sect193r1", "sect193r2", "sect233k1",
-    "sect233r1", "sect239k1", "sect283k1", "sect283r1", "sect409k1",
-    "sect409r1", "sect571k1", "sect571r1"
-};
 
 NewKeyDlg::NewKeyDlg(QWidget *parent) :
     QDialog(parent)
@@ -47,7 +37,7 @@ void NewKeyDlg::initialize()
 void NewKeyDlg::initUI()
 {
     mMechCombo->addItems(sMechList);
-    mOptionCombo->addItems(sRSAOptionList);
+    mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentIndex(1);
 
     if( manApplet->settingsMgr()->PKCS11Use() )
@@ -160,13 +150,15 @@ void NewKeyDlg::mechChanged(int index )
 
     if( index == 0 || index == 2 || index == 4 )
     {
-        mOptionCombo->addItems(sRSAOptionList);
+        mOptionCombo->addItems(kRSAOptionList);
+        mExponentLabel->setEnabled(true);
         mExponentText->setEnabled(true);
         mOptionLabel->setText( "Key size");
     }
     else if( index == 1 || index == 3 || index == 5 )
     {
-        mOptionCombo->addItems(sECCOptionList);
+        mOptionCombo->addItems(kECCOptionList);
+        mExponentLabel->setEnabled(false);
         mExponentText->setEnabled(false);
         mOptionLabel->setText("NamedCurve");
     }

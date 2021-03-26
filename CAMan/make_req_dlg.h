@@ -22,6 +22,8 @@ public:
 private slots:
     virtual void accept();
     void keyNameChanged(int index);
+    void algChanged(int index );
+    void checkGenKeyPair();
 
 
 private:
