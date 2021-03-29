@@ -94,7 +94,7 @@ void MakeCRLProfileDlg::deleteIDPMenu()
 
 void MakeCRLProfileDlg::loadProfile()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CRLProfileRec crlProfile;
@@ -182,7 +182,7 @@ void MakeCRLProfileDlg::defaultProfile()
 void MakeCRLProfileDlg::accept()
 {
     CRLProfileRec crlProfileRec;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
 
     if( dbMgr == NULL ) return;
 
@@ -403,7 +403,7 @@ void MakeCRLProfileDlg::clearIAN()
 
 void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -426,7 +426,7 @@ void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
 
 void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -449,7 +449,7 @@ void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
 
 void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -480,7 +480,7 @@ void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
 
 void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;

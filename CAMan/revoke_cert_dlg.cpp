@@ -34,7 +34,7 @@ void RevokeCertDlg::initialize()
     int ret = -1;
     if( cert_num_ < 0 ) return;
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CertRec cert;
@@ -52,7 +52,7 @@ void RevokeCertDlg::accept()
 {
     int ret = -1;
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CertRec cert;

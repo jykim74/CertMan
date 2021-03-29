@@ -68,8 +68,6 @@ const int kMaxRecentFiles = 10;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    db_mgr_ = new DBMgr;
-
     initialize();
 
     createActions();
@@ -102,7 +100,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    if( db_mgr_->isOpen() )
+    if( manApplet->dbMgr()->isOpen() )
     {
         manApplet->warningBox( tr("Database has already opened"), this );
         return;
@@ -598,7 +596,7 @@ void MainWindow::newFile()
     BIN binDB = {0,0};
     QString strFilter = "";
 
-    if( db_mgr_->isOpen() )
+    if( manApplet->dbMgr()->isOpen() )
     {
         manApplet->warningBox( tr("Database has already openend"), this );
         return;
@@ -632,8 +630,8 @@ void MainWindow::newFile()
     JS_BIN_fileWrite( &binDB, fileName.toLocal8Bit().toStdString().c_str() );
     JS_BIN_reset(&binDB);
 
-    db_mgr_->close();
-    int ret = db_mgr_->open(fileName);
+    manApplet->dbMgr()->close();
+    int ret = manApplet->dbMgr()->open(fileName);
 
     if( ret != 0 )
     {
@@ -648,8 +646,8 @@ void MainWindow::newFile()
 
 int MainWindow::openDB( const QString dbPath )
 {
-    db_mgr_->close();
-    int ret = db_mgr_->open(dbPath);
+    manApplet->dbMgr()->close();
+    int ret = manApplet->dbMgr()->open(dbPath);
 
     if( ret != 0 )
     {
@@ -667,7 +665,7 @@ int MainWindow::openDB( const QString dbPath )
         setPath( dbPath );
         setTitle( dbPath );
         adjustForCurrentFile( dbPath );
-        addAudit( db_mgr_, JS_GEN_KIND_CAMAN, JS_GEN_OP_OPENDB, "" );
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CAMAN, JS_GEN_OP_OPENDB, "" );
     }
 
     return ret;
@@ -735,7 +733,7 @@ void MainWindow::updateRecentActionList()
 
 void MainWindow::open()
 {
-    if( db_mgr_->isOpen() )
+    if( manApplet->dbMgr()->isOpen() )
     {
         manApplet->warningBox( tr("Database has already opened"), this );
         return;
@@ -1086,8 +1084,8 @@ void MainWindow::deleteCertProfile()
 
     int num = item->text().toInt();
 
-    db_mgr_->delCertProfile( num );
-    db_mgr_->delCertProfileExtensionList( num );
+    manApplet->dbMgr()->delCertProfile( num );
+    manApplet->dbMgr()->delCertProfileExtensionList( num );
     createRightCertProfileList();
 }
 
@@ -1098,8 +1096,8 @@ void MainWindow::deleteCRLProfile()
 
     int num = item->text().toInt();
 
-    db_mgr_->delCRLProfile( num );
-    db_mgr_->delCRLProfileExtensionList( num );
+    manApplet->dbMgr()->delCRLProfile( num );
+    manApplet->dbMgr()->delCRLProfileExtensionList( num );
     createRightCRLProfileList();
 }
 
@@ -1111,8 +1109,8 @@ void MainWindow::deleteCertificate()
     int num = item->text().toInt();
 
     CertRec cert;
-    db_mgr_->getCertRec( num, cert );
-    db_mgr_->delCertRec( num );
+    manApplet->dbMgr()->getCertRec( num, cert );
+    manApplet->dbMgr()->delCertRec( num );
 
     createRightCertList( cert.getIssuerNum() );
 }
@@ -1126,8 +1124,8 @@ void MainWindow::deleteCRL()
 
     CRLRec crl;
 
-    db_mgr_->getCRLRec( num, crl );
-    db_mgr_->delCRLRec( num );
+    manApplet->dbMgr()->getCRLRec( num, crl );
+    manApplet->dbMgr()->delCRLRec( num );
 
     createRightCRLList( crl.getIssuerNum() );
 }
@@ -1138,7 +1136,7 @@ void MainWindow::deleteKeyPair()
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
-    db_mgr_->delKeyPairRec( num );
+    manApplet->dbMgr()->delKeyPairRec( num );
     createRightKeyPairList();
 }
 
@@ -1148,7 +1146,7 @@ void MainWindow::deleteRequest()
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
-    dbMgr()->delReqRec( num );
+    manApplet->dbMgr()->delReqRec( num );
     createRightRequestList();
 }
 
@@ -1158,7 +1156,7 @@ void MainWindow::deleteUser()
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
-    dbMgr()->delUserRec( num );
+    manApplet->dbMgr()->delUserRec( num );
     createRightUserList();
 }
 
@@ -1170,8 +1168,8 @@ void MainWindow::deleteSigner()
     int num = item->text().toInt();
 
     SignerRec signer;
-    dbMgr()->getSignerRec( num, signer );
-    dbMgr()->delSignerRec( num );
+    manApplet->dbMgr()->getSignerRec( num, signer );
+    manApplet->dbMgr()->delSignerRec( num );
     createRightSignerList( signer.getType() );
 }
 
@@ -1459,7 +1457,7 @@ void MainWindow::issueCMP()
 
    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
    UserRec userRec;
-   db_mgr_->getUserRec( num, userRec );
+   manApplet->dbMgr()->getUserRec( num, userRec );
 
    JS_BIN_set( &binRefNum, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
    JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
@@ -1477,12 +1475,12 @@ void MainWindow::issueCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPri );
    if( ret != 0 ) goto end;
 
-   writeKeyPairDB( db_mgr_, userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+   writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
 
    ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
    if( ret != 0 ) goto end;
 
-   writeCertDB( db_mgr_, &binCert );
+   writeCertDB( manApplet->dbMgr(), &binCert );
 
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode );
    if( ret != 0 ) goto end;
@@ -1534,7 +1532,7 @@ void MainWindow::updateCMP()
 
    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
    CertRec certRec;
-   db_mgr_->getCertRec( num, certRec );
+   manApplet->dbMgr()->getCertRec( num, certRec );
 
    if( certRec.getKeyNum() <= 0 )
    {
@@ -1543,7 +1541,7 @@ void MainWindow::updateCMP()
    }
 
    KeyPairRec keyPair;
-   db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+   manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
@@ -1560,12 +1558,12 @@ void MainWindow::updateCMP()
    ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binNewPri );
    if( ret != 0 ) goto end;
 
-   writeKeyPairDB( db_mgr_, certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
+   writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
 
    ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
    if( ret != 0 ) goto end;
 
-   writeCertDB( db_mgr_, &binNewCert );
+   writeCertDB( manApplet->dbMgr(), &binNewCert );
 
    ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
    if( ret != 0 ) goto end;
@@ -1614,7 +1612,7 @@ void MainWindow::revokeCMP()
 
    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
    CertRec certRec;
-   db_mgr_->getCertRec( num, certRec );
+   manApplet->dbMgr()->getCertRec( num, certRec );
    KeyPairRec keyPair;
 
    if( certRec.getKeyNum() <= 0 )
@@ -1623,7 +1621,7 @@ void MainWindow::revokeCMP()
        return;
    }
 
-   db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+   manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
@@ -1664,7 +1662,7 @@ void MainWindow::verifyAudit()
 
     AuditRec audit;
 
-    dbMgr()->getAuditRec( num, audit );
+    manApplet->dbMgr()->getAuditRec( num, audit );
 
     ret = verifyAuditRec( audit );
     if( ret == 0 )
@@ -1698,7 +1696,7 @@ void MainWindow::verifyTSMessage()
     int num = item->text().toInt();
 
     TSPRec tspRec;
-    db_mgr_->getTSPRec( num, tspRec );
+    manApplet->dbMgr()->getTSPRec( num, tspRec );
     JS_BIN_decodeHex( tspRec.getData().toStdString().c_str(), &binTS );
 
 
@@ -1746,9 +1744,9 @@ void MainWindow::issueSCEP()
     int num = item->text().toInt();
 
     ReqRec req;
-    db_mgr_->getReqRec( num, req );
+    manApplet->dbMgr()->getReqRec( num, req );
     KeyPairRec keyPair;
-    db_mgr_->getKeyPairRec( req.getKeyNum(), keyPair );
+    manApplet->dbMgr()->getKeyPairRec( req.getKeyNum(), keyPair );
 
     if( smgr->SCEPURI() == false ) return;
 
@@ -1845,7 +1843,7 @@ void MainWindow::issueSCEP()
         goto end;
     }
 
-    writeCertDB( db_mgr_, &binNewCert );
+    writeCertDB( manApplet->dbMgr(), &binNewCert );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -1909,7 +1907,7 @@ void MainWindow::renewSCEP()
     CertRec certRec;
     KeyPairRec keyPair;
 
-    db_mgr_->getCertRec( num, certRec );
+    manApplet->dbMgr()->getCertRec( num, certRec );
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
@@ -1919,7 +1917,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
     JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
@@ -1944,7 +1942,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    nKeyNum = writeKeyPairDB( db_mgr_, sCertInfo.pSubjectName, &binNPub, &binNPri );
+    nKeyNum = writeKeyPairDB( manApplet->dbMgr(), sCertInfo.pSubjectName, &binNPub, &binNPri );
 
     ret = JS_PKI_makeCSR( nKeyType, "SHA256", sCertInfo.pSubjectName, pChallengePass, &binNPri, NULL, &binCSR );
     if( ret != 0 )
@@ -1953,7 +1951,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    writeCSRDB( db_mgr_, nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
+    writeCSRDB( manApplet->dbMgr(), nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
 
     if( smgr->SCEPMutualAuth() )
     {
@@ -2041,7 +2039,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    writeCertDB( db_mgr_, &binNCert );
+    writeCertDB( manApplet->dbMgr(), &binNCert );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -2104,7 +2102,7 @@ void MainWindow::getCRLSCEP()
     CertRec certRec;
     KeyPairRec keyPair;
 
-    db_mgr_->getCertRec( num, certRec );
+    manApplet->dbMgr()->getCertRec( num, certRec );
 
     if( certRec.getKeyNum() < 0 )
     {
@@ -2112,7 +2110,7 @@ void MainWindow::getCRLSCEP()
         goto end;
     }
 
-    db_mgr_->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
     JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
@@ -2196,7 +2194,7 @@ void MainWindow::getCRLSCEP()
         goto end;
     }
 
-    writeCRLDB( db_mgr_, &binCRL );
+    writeCRLDB( manApplet->dbMgr(), &binCRL );
 
     manApplet->mainWindow()->createRightCRLList(-2);
 
@@ -2228,7 +2226,7 @@ void MainWindow::expandItem( ManTreeItem *item )
     int nIssuerNum = item->getDataNum();
 
     QList<CertRec> certList;
-    db_mgr_->getCACertList( nIssuerNum, certList );
+    manApplet->dbMgr()->getCACertList( nIssuerNum, certList );
 
     for( int i=0; i < certList.size(); i++ )
     {
@@ -2320,7 +2318,7 @@ void MainWindow::certStatus()
     char        sRevokedDate[64];
     const char  *pReason = NULL;
 
-    db_mgr_->getCertRec( num, certRec );
+    manApplet->dbMgr()->getCertRec( num, certRec );
 
     if( certRec.getNum() <= 0 )
     {
@@ -2330,7 +2328,7 @@ void MainWindow::certStatus()
 
     if( certRec.getStatus() > 0 )
     {
-        db_mgr_->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
+        manApplet->dbMgr()->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
         if( revokeRec.getSeq() <= 0 )
         {
             manApplet->warningBox( tr("fail to get revoke information"), this );
@@ -2389,8 +2387,8 @@ void MainWindow::checkOCSP()
     memset( &sIDInfo, 0x00, sizeof(sIDInfo));
     memset( &sStatusInfo, 0x00, sizeof(sStatusInfo));
 
-    db_mgr_->getCertRec( num, certRec );
-    db_mgr_->getCertRec( certRec.getIssuerNum(), caRec );
+    manApplet->dbMgr()->getCertRec( num, certRec );
+    manApplet->dbMgr()->getCertRec( certRec.getIssuerNum(), caRec );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
@@ -2469,7 +2467,7 @@ void MainWindow::statusByReg()
     memset( &sStatusRsp, 0x00, sizeof(sStatusRsp));
 
     CertRec cert;
-    db_mgr_->getCertRec( num, cert );
+    manApplet->dbMgr()->getCertRec( num, cert );
 
     JS_JSON_setRegCertStatusReq( &sStatusReq, "name", cert.getSubjectDN().toStdString().c_str() );
 
@@ -2537,7 +2535,7 @@ void MainWindow::revokeByReg()
     }
 
     CertRec cert;
-    db_mgr_->getCertRec( num, cert );
+    manApplet->dbMgr()->getCertRec( num, cert );
 
     strURL = mgr->REGURI();
     strURL += "/certrevoke";
@@ -2644,13 +2642,13 @@ void MainWindow::createRightKeyPairList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getKeyPairSearchCount( -1,  strTarget, strWord );
-        db_mgr_->getKeyPairList( -1, strTarget, strWord, nOffset, nLimit, keyPairList );
+        nTotalCount = manApplet->dbMgr()->getKeyPairSearchCount( -1,  strTarget, strWord );
+        manApplet->dbMgr()->getKeyPairList( -1, strTarget, strWord, nOffset, nLimit, keyPairList );
     }
     else
     {
-        nTotalCount = db_mgr_->getKeyPairCount( -1 );
-        db_mgr_->getKeyPairList( -1, nOffset, nLimit, keyPairList );
+        nTotalCount = manApplet->dbMgr()->getKeyPairCount( -1 );
+        manApplet->dbMgr()->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
 
     right_table_->setColumnWidth( 0, 40 ); // Number
@@ -2712,13 +2710,13 @@ void MainWindow::createRightRequestList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getReqSearchCount( -1,  strTarget, strWord );
-        db_mgr_->getReqList( -1, strTarget, strWord, nOffset, nLimit, reqList );
+        nTotalCount = manApplet->dbMgr()->getReqSearchCount( -1,  strTarget, strWord );
+        manApplet->dbMgr()->getReqList( -1, strTarget, strWord, nOffset, nLimit, reqList );
     }
     else
     {
-        nTotalCount = db_mgr_->getReqCount( -1 );
-        db_mgr_->getReqList( -1, nOffset, nLimit, reqList );
+        nTotalCount = manApplet->dbMgr()->getReqCount( -1 );
+        manApplet->dbMgr()->getReqList( -1, nOffset, nLimit, reqList );
     }
 
     right_table_->setColumnWidth( 0, 40 );
@@ -2734,7 +2732,7 @@ void MainWindow::createRightRequestList()
         ReqRec reqRec = reqList.at(i);
         JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
 
-        QString strKeyName = db_mgr_->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+        QString strKeyName = manApplet->dbMgr()->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -2770,7 +2768,7 @@ void MainWindow::createRightCertProfileList()
     right_table_->verticalHeader()->setVisible(false);
 
     QList<CertProfileRec> certProfileList;
-    db_mgr_->getCertProfileList( certProfileList );
+    manApplet->dbMgr()->getCertProfileList( certProfileList );
 
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 200 );
@@ -2836,7 +2834,7 @@ void MainWindow::createRightCRLProfileList()
 
 
     QList<CRLProfileRec> crlProfileList;
-    db_mgr_->getCRLProfileList( crlProfileList );
+    manApplet->dbMgr()->getCRLProfileList( crlProfileList );
 
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 300 );
@@ -2913,9 +2911,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     if( bIsCA )
     {
         if( strWord.length() > 0 )
-            db_mgr_->getCACertList( nIssuerNum, strTarget, strWord, certList );
+            manApplet->dbMgr()->getCACertList( nIssuerNum, strTarget, strWord, certList );
         else
-            db_mgr_->getCACertList( nIssuerNum, certList );
+            manApplet->dbMgr()->getCACertList( nIssuerNum, certList );
 
         nTotalCount = certList.size();
     }
@@ -2923,13 +2921,13 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     {
         if( strWord.length() > 0 )
         {
-            nTotalCount = db_mgr_->getCertSearchCount( nIssuerNum,  strTarget, strWord );
-            db_mgr_->getCertList( nIssuerNum, strTarget, strWord, nOffset, nLimit, certList );
+            nTotalCount = manApplet->dbMgr()->getCertSearchCount( nIssuerNum,  strTarget, strWord );
+            manApplet->dbMgr()->getCertList( nIssuerNum, strTarget, strWord, nOffset, nLimit, certList );
         }
         else
         {
-            nTotalCount = db_mgr_->getCertCount( nIssuerNum );
-            db_mgr_->getCertList( nIssuerNum, nOffset, nLimit, certList );
+            nTotalCount = manApplet->dbMgr()->getCertCount( nIssuerNum );
+            manApplet->dbMgr()->getCertList( nIssuerNum, nOffset, nLimit, certList );
         }
     }
 
@@ -2947,11 +2945,11 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 
-        QString strKeyName = db_mgr_->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+        QString strKeyName = manApplet->dbMgr()->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
         QString strUserName;
 
         if( cert.getUserNum() > 0 )
-            db_mgr_->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
+            manApplet->dbMgr()->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
         else
             strUserName = "";
 
@@ -2960,7 +2958,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         if( cert.isSelf() )
             strIssuerName = cert.getSubjectDN();
         else
-            strIssuerName = db_mgr_->getNumName( cert.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+            strIssuerName = manApplet->dbMgr()->getNumName( cert.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -3014,19 +3012,19 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getCRLSearchCount( nIssuerNum,  strTarget, strWord );
-        db_mgr_->getCRLList( nIssuerNum, strTarget, strWord, nOffset, nLimit, crlList );
+        nTotalCount = manApplet->dbMgr()->getCRLSearchCount( nIssuerNum,  strTarget, strWord );
+        manApplet->dbMgr()->getCRLList( nIssuerNum, strTarget, strWord, nOffset, nLimit, crlList );
     }
     else
     {
-        nTotalCount = db_mgr_->getCRLCount( nIssuerNum );
-        db_mgr_->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
+        nTotalCount = manApplet->dbMgr()->getCRLCount( nIssuerNum );
+        manApplet->dbMgr()->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
     }
 
     for( int i=0; i < crlList.size(); i++ )
     {
         CRLRec crl = crlList.at(i);
-        QString strIssuerName = db_mgr_->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        QString strIssuerName = manApplet->dbMgr()->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
         JS_UTIL_getDateTime( crl.getRegTime(), sRegTime );
 
@@ -3073,13 +3071,13 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getRevokeSearchCount( nIssuerNum,  strTarget, strWord );
-        db_mgr_->getRevokeList( nIssuerNum, strTarget, strWord, nOffset, nLimit, revokeList );
+        nTotalCount = manApplet->dbMgr()->getRevokeSearchCount( nIssuerNum,  strTarget, strWord );
+        manApplet->dbMgr()->getRevokeList( nIssuerNum, strTarget, strWord, nOffset, nLimit, revokeList );
     }
     else
     {
-        nTotalCount = db_mgr_->getRevokeCount( nIssuerNum );
-        db_mgr_->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
+        nTotalCount = manApplet->dbMgr()->getRevokeCount( nIssuerNum );
+        manApplet->dbMgr()->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
     }
 
     right_table_->setColumnWidth( 0, 40 );
@@ -3093,8 +3091,8 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     {
         RevokeRec revoke = revokeList.at(i);
 
-        QString strCertName = db_mgr_->getNumName( revoke.getCertNum(), "TB_CERT", "SUBJECTDN" );
-        QString strIsserName = db_mgr_->getNumName( revoke.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        QString strCertName = manApplet->dbMgr()->getNumName( revoke.getCertNum(), "TB_CERT", "SUBJECTDN" );
+        QString strIsserName = manApplet->dbMgr()->getNumName( revoke.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
         QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         right_table_->insertRow(i);
@@ -3142,13 +3140,13 @@ void MainWindow::createRightUserList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getUserSearchCount( strTarget, strWord );
-        db_mgr_->getUserList( strTarget, strWord, nOffset, nLimit, userList );
+        nTotalCount = manApplet->dbMgr()->getUserSearchCount( strTarget, strWord );
+        manApplet->dbMgr()->getUserList( strTarget, strWord, nOffset, nLimit, userList );
     }
     else
     {
-        nTotalCount = db_mgr_->getUserCount();
-        db_mgr_->getUserList( nOffset, nLimit, userList );
+        nTotalCount = manApplet->dbMgr()->getUserCount();
+        manApplet->dbMgr()->getUserList( nOffset, nLimit, userList );
     }
 
     right_table_->setColumnWidth( 0, 40 );
@@ -3216,13 +3214,13 @@ void MainWindow::createRightKMSList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getKMSSearchCount( strTarget, strWord );
-        db_mgr_->getKMSList( strTarget, strWord, nOffset, nLimit, kmsList );
+        nTotalCount = manApplet->dbMgr()->getKMSSearchCount( strTarget, strWord );
+        manApplet->dbMgr()->getKMSList( strTarget, strWord, nOffset, nLimit, kmsList );
     }
     else
     {
-        nTotalCount = db_mgr_->getKMSCount();
-        db_mgr_->getKMSList( nOffset, nLimit, kmsList );
+        nTotalCount = manApplet->dbMgr()->getKMSCount();
+        manApplet->dbMgr()->getKMSList( nOffset, nLimit, kmsList );
     }
 
 
@@ -3269,7 +3267,7 @@ void MainWindow::createRightSignerList(int nType)
     right_table_->verticalHeader()->setVisible(false);
 
     QList<SignerRec> signerList;
-    db_mgr_->getSignerList( nType, signerList );
+    manApplet->dbMgr()->getSignerList( nType, signerList );
 
 
     right_table_->setColumnWidth( 0, 40 );
@@ -3313,7 +3311,7 @@ void MainWindow::createRightAdminList()
     right_table_->verticalHeader()->setVisible(false);
 
     QList<AdminRec> adminList;
-    db_mgr_->getAdminList( adminList );
+    manApplet->dbMgr()->getAdminList( adminList );
 
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 60 );
@@ -3368,13 +3366,13 @@ void MainWindow::createRightAuditList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getAuditSearchCount( strTarget, strWord );
-        db_mgr_->getAuditList( strTarget, strWord, nOffset, nLimit, auditList );
+        nTotalCount = manApplet->dbMgr()->getAuditSearchCount( strTarget, strWord );
+        manApplet->dbMgr()->getAuditList( strTarget, strWord, nOffset, nLimit, auditList );
     }
     else
     {
-        nTotalCount = db_mgr_->getAuditCount();
-        db_mgr_->getAuditList( nOffset, nLimit, auditList );
+        nTotalCount = manApplet->dbMgr()->getAuditCount();
+        manApplet->dbMgr()->getAuditList( nOffset, nLimit, auditList );
     }
 
     right_table_->setColumnWidth( 0, 40 );
@@ -3438,13 +3436,13 @@ void MainWindow::createRightTSPList()
 
     if( strWord.length() > 0 )
     {
-        nTotalCount = db_mgr_->getTSPSearchCount( strTarget, strWord );
-        db_mgr_->getTSPList( strTarget, strWord, nOffset, nLimit, tspList );
+        nTotalCount = manApplet->dbMgr()->getTSPSearchCount( strTarget, strWord );
+        manApplet->dbMgr()->getTSPList( strTarget, strWord, nOffset, nLimit, tspList );
     }
     else
     {
-        nTotalCount = db_mgr_->getAuditCount();
-        db_mgr_->getTSPList( nOffset, nLimit, tspList );
+        nTotalCount = manApplet->dbMgr()->getAuditCount();
+        manApplet->dbMgr()->getTSPList( nOffset, nLimit, tspList );
     }
 
     right_table_->setColumnWidth( 0, 40 );
@@ -3480,10 +3478,10 @@ void MainWindow::createRightStatistics()
 
 void MainWindow::logKeyPair(int seq)
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
     KeyPairRec keyPair;
 
-    db_mgr_->getKeyPairRec( seq, keyPair );
+    manApplet->dbMgr()->getKeyPairRec( seq, keyPair );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3502,12 +3500,12 @@ void MainWindow::logKeyPair(int seq)
 
 void MainWindow::logRequest( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     ReqRec reqRec;
-    db_mgr_->getReqRec( seq, reqRec );
+    manApplet->dbMgr()->getReqRec( seq, reqRec );
 
-    QString strKeyName = db_mgr_->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+    QString strKeyName = manApplet->dbMgr()->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3526,25 +3524,25 @@ void MainWindow::logRequest( int seq )
 
 void MainWindow::logCertificate( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     char    sRegDate[64];
 
     CertRec certRec;
-    db_mgr_->getCertRec( seq, certRec );
+    manApplet->dbMgr()->getCertRec( seq, certRec );
 
-    QString strKeyName = db_mgr_->getNumName( certRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+    QString strKeyName = manApplet->dbMgr()->getNumName( certRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
     QString strUserName;
     QString strIssuerName;
 
     if( certRec.getIssuerNum() > 0 )
-        strIssuerName = db_mgr_->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        strIssuerName = manApplet->dbMgr()->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
     else
         strIssuerName = "Unknown";
 
 
     if( certRec.getUserNum() > 0 )
-        strUserName = db_mgr_->getNumName( certRec.getUserNum(), "TB_USER", "NAME" );
+        strUserName = manApplet->dbMgr()->getNumName( certRec.getUserNum(), "TB_USER", "NAME" );
     else
         strUserName = "Unknown";
 
@@ -3574,11 +3572,11 @@ void MainWindow::logCertificate( int seq )
 
 void MainWindow::logCertProfile( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     CertProfileRec certProfile;
 
-    db_mgr_->getCertProfileRec( seq, certProfile );
+    manApplet->dbMgr()->getCertProfileRec( seq, certProfile );
 
     QString strVersion;
     QString strNotBefore;
@@ -3616,7 +3614,7 @@ void MainWindow::logCertProfile( int seq )
     manApplet->log( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
     manApplet->log( "======================= Extension Information ==========================\n" );
     QList<ProfileExtRec> extList;
-    db_mgr_->getCertProfileExtensionList( seq, extList );
+    manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -3634,13 +3632,13 @@ void MainWindow::logCertProfile( int seq )
 
 void MainWindow::logCRL( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     CRLRec crlRec;
     char    sRegTime[64];
 
-    db_mgr_->getCRLRec( seq, crlRec );
-    QString strIssuerName = db_mgr_->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    manApplet->dbMgr()->getCRLRec( seq, crlRec );
+    QString strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3659,11 +3657,11 @@ void MainWindow::logCRL( int seq )
 
 void MainWindow::logCRLProfile( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     CRLProfileRec crlProfile;
 
-    db_mgr_->getCRLProfileRec( seq, crlProfile );
+    manApplet->dbMgr()->getCRLProfileRec( seq, crlProfile );
 
     QString strVersion;
     QString strLastUpdate;
@@ -3695,7 +3693,7 @@ void MainWindow::logCRLProfile( int seq )
     manApplet->log( "======================= Extension Information ==========================\n" );
 
     QList<ProfileExtRec> extList;
-    db_mgr_->getCRLProfileExtensionList( seq, extList );
+    manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -3713,13 +3711,13 @@ void MainWindow::logCRLProfile( int seq )
 
 void MainWindow::logRevoke( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     RevokeRec revokeRec;
-    db_mgr_->getRevokeRec( seq, revokeRec );
+    manApplet->dbMgr()->getRevokeRec( seq, revokeRec );
 
-    QString strCertName = db_mgr_->getNumName( revokeRec.getCertNum(), "TB_CERT", "SUBJECTDN" );
-    QString strIsserName = db_mgr_->getNumName( revokeRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    QString strCertName = manApplet->dbMgr()->getNumName( revokeRec.getCertNum(), "TB_CERT", "SUBJECTDN" );
+    QString strIsserName = manApplet->dbMgr()->getNumName( revokeRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
     QString strReason = JS_PKI_getRevokeReasonName( revokeRec.getReason() );
 
     manApplet->mainWindow()->logClear();
@@ -3739,10 +3737,10 @@ void MainWindow::logRevoke( int seq )
 
 void MainWindow::logUser( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     UserRec userRec;
-    db_mgr_->getUserRec( seq, userRec );
+    manApplet->dbMgr()->getUserRec( seq, userRec );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3762,10 +3760,10 @@ void MainWindow::logUser( int seq )
 
 void MainWindow::logAdmin( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     AdminRec adminRec;
-    db_mgr_->getAdminRec( seq, adminRec );
+    manApplet->dbMgr()->getAdminRec( seq, adminRec );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3782,10 +3780,10 @@ void MainWindow::logAdmin( int seq )
 
 void MainWindow::logKMS( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     KMSRec kmsRec;
-    db_mgr_->getKMSRec( seq, kmsRec );
+    manApplet->dbMgr()->getKMSRec( seq, kmsRec );
 
     QString strType = JS_KMS_getObjectTypeName( kmsRec.getType() );
     QString strAlgorithm = JS_PKI_getKeyTypeName( kmsRec.getAlgorithm() );
@@ -3804,7 +3802,7 @@ void MainWindow::logKMS( int seq )
     manApplet->log( "============================ Attribute =================================\n" );
 
     QList<KMSAttribRec> kmsAttribList;
-    db_mgr_->getKMSAttribList( seq, kmsAttribList );
+    manApplet->dbMgr()->getKMSAttribList( seq, kmsAttribList );
 
     for( int i = 0; i < kmsAttribList.size(); i++ )
     {
@@ -3821,10 +3819,10 @@ void MainWindow::logKMS( int seq )
 
 void MainWindow::logAudit( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     AuditRec auditRec;
-    db_mgr_->getAuditRec( seq, auditRec );
+    manApplet->dbMgr()->getAuditRec( seq, auditRec );
 
     QString strKind = JS_GEN_getKindName( auditRec.getKind() );
     QString strOperation = JS_GEN_getOperationName( auditRec.getOperation() );
@@ -3845,10 +3843,10 @@ void MainWindow::logAudit( int seq )
 
 void MainWindow::logTSP( int seq )
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     TSPRec tspRec;
-    db_mgr_->getTSPRec( seq, tspRec );
+    manApplet->dbMgr()->getTSPRec( seq, tspRec );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );
@@ -3866,10 +3864,10 @@ void MainWindow::logTSP( int seq )
 
 void MainWindow::logSigner(int seq)
 {
-    if( db_mgr_ == NULL ) return;
+    if( manApplet->dbMgr() == NULL ) return;
 
     SignerRec signerRec;
-    db_mgr_->getSignerRec( seq, signerRec );
+    manApplet->dbMgr()->getSignerRec( seq, signerRec );
 
     manApplet->mainWindow()->logClear();
     manApplet->log( "========================================================================\n" );

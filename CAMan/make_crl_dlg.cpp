@@ -71,7 +71,7 @@ void MakeCRLDlg::accept()
 
     CRLRec      madeCRLRec;
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     int issuerIdx = mIssuerNameCombo->currentIndex();
@@ -312,7 +312,7 @@ end :
 
 void MakeCRLDlg::issuerChanged(int index)
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CertRec issuerCert = ca_cert_list_.at(index);
@@ -342,7 +342,7 @@ void MakeCRLDlg::crldpChanged(int index )
 
 void MakeCRLDlg::initialize()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ca_cert_list_.clear();
@@ -382,7 +382,7 @@ void MakeCRLDlg::initialize()
 
 void MakeCRLDlg::setRevokeList()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     mRevokeTable->horizontalHeader()->setStyleSheet( kTableStyle );

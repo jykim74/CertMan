@@ -39,7 +39,7 @@ void UserDlg::accept()
     char *pHexRef = NULL;
     time_t now_t = time(NULL);
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     UserRec     user;
@@ -73,7 +73,7 @@ void UserDlg::accept()
 
 void UserDlg::getRefNum()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     int nSeq = dbMgr->getSeq( "TB_USER" );

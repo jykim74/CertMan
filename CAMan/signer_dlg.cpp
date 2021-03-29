@@ -49,7 +49,7 @@ void SignerDlg::accept()
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     QString strCertPath = mCertPathText->text();

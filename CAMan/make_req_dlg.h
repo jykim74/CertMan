@@ -22,13 +22,14 @@ public:
 private slots:
     virtual void accept();
     void keyNameChanged(int index);
-    void algChanged(int index );
+    void newAlgChanged(int index );
     void checkGenKeyPair();
 
 
 private:
     void initUI();
     void initialize();
+    int genKeyPair( KeyPairRec& keyPair );
 
     QList<KeyPairRec> key_list_;
 

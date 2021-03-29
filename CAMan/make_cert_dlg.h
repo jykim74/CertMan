@@ -31,6 +31,8 @@ private slots:
     void issuerChanged( int index );
     void profileChanged( int index );
     void clickSelfSign();
+    void clickUseCSRFile();
+    void findCSRFile();
 
 private:
     QList<ReqRec>           req_list_;

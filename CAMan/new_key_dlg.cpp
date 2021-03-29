@@ -61,7 +61,7 @@ void NewKeyDlg::accept()
     int ret = 0;
     QString strName = mNameText->text();
     KeyPairRec keyPairRec;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     if( strName.isEmpty() )

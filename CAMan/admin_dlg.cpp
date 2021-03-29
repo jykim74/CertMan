@@ -40,7 +40,7 @@ void AdminDlg::showEvent(QShowEvent *event)
 {
     if( edit_mode_ )
     {
-        DBMgr *dbMgr = manApplet->mainWindow()->dbMgr();
+        DBMgr *dbMgr = manApplet->dbMgr();
 
         mRegisterBtn->hide();
         mModifyBtn->show();
@@ -70,7 +70,7 @@ void AdminDlg::clickClose()
 void AdminDlg::clickRegister()
 {
     AdminRec admin;
-    DBMgr *dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr *dbMgr = manApplet->dbMgr();
 
     QString strName = mNameText->text();
     QString strPassword = mPasswordText->text();
@@ -115,7 +115,7 @@ void AdminDlg::clickDelete()
         return;
     }
 
-    DBMgr *dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr *dbMgr = manApplet->dbMgr();
     dbMgr->delAdminRec( seq_ );
     manApplet->mainWindow()->createRightAdminList();
     QDialog::accept();
@@ -130,7 +130,7 @@ void AdminDlg::clickModify()
     }
 
     AdminRec admin;
-    DBMgr *dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr *dbMgr = manApplet->dbMgr();
 
     QString strName = mNameText->text();
     QString strPassword = mPasswordText->text();

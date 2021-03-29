@@ -41,7 +41,7 @@ void ExportDlg::showEvent(QShowEvent *event)
 
 void ExportDlg::accept()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     QString strPass = mPasswordText->text();
@@ -219,7 +219,7 @@ void ExportDlg::initialize()
     QString strMsg;
     QString strPart;
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     if( data_num_ < 0 || export_type_ < 0 )

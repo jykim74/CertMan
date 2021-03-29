@@ -162,7 +162,7 @@ void GetLDAPDlg::clickUseURI()
 int GetLDAPDlg::ImportCert( const BIN *pCert )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     char *pHexCert = NULL;
@@ -201,7 +201,7 @@ int GetLDAPDlg::ImportCert( const BIN *pCert )
 int GetLDAPDlg::ImportCRL( const BIN *pCRL )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     JCRLInfo sCRLInfo;

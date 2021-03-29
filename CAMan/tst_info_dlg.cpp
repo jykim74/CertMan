@@ -42,7 +42,7 @@ void TSTInfoDlg::initialize()
 
     memset( &sTSTInfo, 0x00, sizeof(sTSTInfo));
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     if( seq_ < 0 )

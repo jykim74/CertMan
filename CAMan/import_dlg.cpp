@@ -34,7 +34,7 @@ void ImportDlg::setType(int index)
 void ImportDlg::accept()
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     QString strPath = mPathText->text();
@@ -201,7 +201,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     BIN binPub = {0,0};
     QString strAlg;
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
 
@@ -322,7 +322,7 @@ void ImportDlg::setKMIPCheck()
 int ImportDlg::ImportCert( const BIN *pCert )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     char *pHexCert = NULL;
@@ -393,7 +393,7 @@ end :
 int ImportDlg::ImportCRL( const BIN *pCRL )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     JCRLInfo sCRLInfo;
@@ -427,7 +427,7 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
 int ImportDlg::ImportRequest( const BIN *pCSR )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     ReqRec  req;
@@ -457,7 +457,7 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
 int ImportDlg::ImportPFX( const BIN *pPFX )
 {
     int ret = 0;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
     BIN binCert = {0,0};

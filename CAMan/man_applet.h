@@ -7,6 +7,7 @@
 class MainWindow;
 class ManTrayIcon;
 class SettingsMgr;
+class DBMgr;
 class AboutDlg;
 
 
@@ -23,6 +24,7 @@ public:
     MainWindow* mainWindow() { return main_win_; };
     ManTrayIcon* trayIcon() { return tray_icon_; };
     SettingsMgr* settingsMgr() { return settings_mgr_; };
+    DBMgr* dbMgr() { return db_mgr_; };
 
     void* P11CTX() { return p11_ctx_; };
 
@@ -53,6 +55,7 @@ private:
     MainWindow* main_win_;
     ManTrayIcon* tray_icon_;
     SettingsMgr* settings_mgr_;
+    DBMgr*      db_mgr_;
 
     void*       p11_ctx_;
 

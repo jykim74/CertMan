@@ -16,7 +16,6 @@ class ManTreeModel;
 class ManTreeItem;
 class SearchMenu;
 class CertRec;
-class DBMgr;
 class StatForm;
 
 namespace Ui {
@@ -95,10 +94,6 @@ public:
 
     int rightType() { return right_type_; };
     int rightCount();
-
-    DBMgr* dbMgr() { return db_mgr_; };
-
-
 
 public slots:
     void newFile();
@@ -206,7 +201,6 @@ private:
     QTextEdit       *log_text_;
     SearchMenu      *search_menu_;
 
-    DBMgr           *db_mgr_;
     int             right_type_;
     ManTreeItem     *root_ca_;
     QStackedLayout  *stack_;

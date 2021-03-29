@@ -43,7 +43,7 @@ void PubLDAPDlg::accept()
 {
     int ret = 0;
     int nType = -1;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
 
     BIN binData = {0,0};
     LDAP *pLD = NULL;
@@ -97,7 +97,7 @@ void PubLDAPDlg::initUI()
 
 void PubLDAPDlg::initialize()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     if( data_type_ == RightType::TYPE_CERTIFICATE )

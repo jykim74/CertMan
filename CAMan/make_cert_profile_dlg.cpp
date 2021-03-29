@@ -56,7 +56,7 @@ void MakeCertProfileDlg::initialize()
 
 void MakeCertProfileDlg::loadProfile()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CertProfileRec certProfile;
@@ -221,7 +221,7 @@ void MakeCertProfileDlg::defaultProfile()
 void MakeCertProfileDlg::accept()
 {
     CertProfileRec certProfileRec;
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
 
     if( dbMgr == NULL ) return;
 
@@ -980,7 +980,7 @@ void MakeCertProfileDlg::clearNC()
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1015,7 +1015,7 @@ void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveAKIUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1035,7 +1035,7 @@ void MakeCertProfileDlg::saveAKIUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveBCUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1064,7 +1064,7 @@ void MakeCertProfileDlg::saveBCUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveCRLDPUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1095,7 +1095,7 @@ void MakeCertProfileDlg::saveCRLDPUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1118,7 +1118,7 @@ void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveIANUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1149,7 +1149,7 @@ void MakeCertProfileDlg::saveIANUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1172,7 +1172,7 @@ void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveNCUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1215,7 +1215,7 @@ void MakeCertProfileDlg::saveNCUse(int nProfileNum )
 
 void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1245,7 +1245,7 @@ void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
 
 void MakeCertProfileDlg::savePCUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1276,7 +1276,7 @@ void MakeCertProfileDlg::savePCUse(int nProfileNum )
 
 void MakeCertProfileDlg::savePMUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1307,7 +1307,7 @@ void MakeCertProfileDlg::savePMUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveSKIUse(int nProfileNum )
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;
@@ -1321,7 +1321,7 @@ void MakeCertProfileDlg::saveSKIUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveSANUse(int nProfileNum)
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     ProfileExtRec profileExt;

@@ -225,7 +225,7 @@ void StatForm::getData()
         }
     }
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
 
     for( int i = 0; i < nCount; i++ )
     {

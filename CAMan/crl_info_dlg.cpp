@@ -49,7 +49,7 @@ void CRLInfoDlg::initialize()
     char    sLastUpdate[64];
     char    sNextUpdate[64];
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     tabWidget->setCurrentIndex(0);

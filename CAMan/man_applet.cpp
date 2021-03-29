@@ -9,6 +9,7 @@
 #include "man_tray_icon.h"
 #include "settings_dlg.h"
 #include "settings_mgr.h"
+#include "db_mgr.h"
 #include "about_dlg.h"
 #include "export_dlg.h"
 #include "get_ldap_dlg.h"
@@ -41,8 +42,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 
 
     tray_icon_ = new ManTrayIcon;
-
     settings_mgr_ = new SettingsMgr;
+    db_mgr_ = new DBMgr;
 
     in_exit_ = false;
 

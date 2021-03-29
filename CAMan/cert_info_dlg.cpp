@@ -45,7 +45,7 @@ void CertInfoDlg::initialize()
     char    sNotBefore[64];
     char    sNotAfter[64];
 
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     if( cert_num_ < 0 )
@@ -177,7 +177,7 @@ void CertInfoDlg::initialize()
 
 void CertInfoDlg::pathInit()
 {
-    DBMgr* dbMgr = manApplet->mainWindow()->dbMgr();
+    DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CertRec cert;
