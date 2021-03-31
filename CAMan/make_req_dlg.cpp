@@ -152,7 +152,12 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
 
     ret = manApplet->dbMgr()->addKeyPairRec( keyPair );
-    addAudit( manApplet->dbMgr(), JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+    if( ret == 0 )
+    {
+        int nSeq = manApplet->dbMgr()->getSeq( "TB_KEY_PAIR" );
+        keyPair.setNum( nSeq );
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+    }
 
 end :
     JS_BIN_reset( &binPri );
@@ -176,11 +181,6 @@ void MakeReqDlg::accept()
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
-
-    if( mGenKeyPairCheck->isChecked() )
-    {
-
-    }
 
     QString strName = mNameText->text();
     QString strChallenge = mChallengePassText->text();
