@@ -589,6 +589,16 @@ void MakeCertDlg::clickSelfSign()
 {
     bool bStatus = mSelfSignCheck->isChecked();
 
+    if( bStatus )
+    {
+        if( mUseCSRFileCheck->isChecked() )
+        {
+            manApplet->warningBox( tr("can not check selfsign when use csr file"), this );
+            mSelfSignCheck->setChecked(false);
+            return;
+        }
+    }
+
     mIssuerNameCombo->setEnabled( !bStatus );
     mIssuerAlgorithmText->setEnabled( !bStatus );
     mIssuerOptionText->setEnabled( !bStatus );
@@ -605,6 +615,11 @@ void MakeCertDlg::clickUseCSRFile()
     mAlgorithmLabel->setEnabled(!bVal);
     mOptionLabel->setEnabled(!bVal);
     mOptionText->setEnabled(!bVal);
+
+    if( mSelfSignCheck->isChecked() )
+        mSelfSignCheck->setChecked( false );
+
+    mSelfSignCheck->setDisabled( bVal );
 }
 
 void MakeCertDlg::findCSRFile()
