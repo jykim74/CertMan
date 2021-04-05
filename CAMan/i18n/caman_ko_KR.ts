@@ -146,7 +146,7 @@
     </message>
     <message>
         <source>Detail value</source>
-        <translation>상세 값</translation>
+        <translation type="vanished">상세 값</translation>
     </message>
     <message>
         <source>Close</source>
@@ -154,7 +154,7 @@
     </message>
     <message>
         <source>Field list</source>
-        <translation>필드 목록</translation>
+        <translation type="vanished">필드 목록</translation>
     </message>
     <message>
         <source>Select certificate</source>
@@ -172,24 +172,52 @@
         <source>Value</source>
         <translation>값</translation>
     </message>
-</context>
-<context>
-    <name>CheckCertDlg</name>
     <message>
-        <source>Check certificate</source>
-        <translation>인증서 점검</translation>
+        <source>Information</source>
+        <translation>정보</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation>닫기</translation>
+        <source>Field List</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Detail Value</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Certificate Path</source>
+        <translation>인증서 경로</translation>
+    </message>
+    <message>
+        <source>Certificate Path Tree</source>
+        <translation>인증서 경로 트리</translation>
+    </message>
+    <message>
+        <source>Certificate Status</source>
+        <translation>인증서 상태</translation>
     </message>
     <message>
         <source>Check</source>
         <translation>점검</translation>
     </message>
+</context>
+<context>
+    <name>CheckCertDlg</name>
+    <message>
+        <source>Check certificate</source>
+        <translation type="vanished">인증서 점검</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="vanished">닫기</translation>
+    </message>
+    <message>
+        <source>Check</source>
+        <translation type="vanished">점검</translation>
+    </message>
     <message>
         <source>View</source>
-        <translation>보기</translation>
+        <translation type="vanished">보기</translation>
     </message>
 </context>
 <context>
@@ -445,7 +473,7 @@
     </message>
     <message>
         <source>Make certificate policy</source>
-        <translation>인증서 정책 만들기</translation>
+        <translation type="vanished">인증서 정책 만들기</translation>
     </message>
     <message>
         <source>&amp;MakeCRLPolicy</source>
@@ -453,7 +481,7 @@
     </message>
     <message>
         <source>Make CRL Policy</source>
-        <translation>CRL 정책 만들기</translation>
+        <translation type="vanished">CRL 정책 만들기</translation>
     </message>
     <message>
         <source>&amp;MakeCertificate</source>
@@ -565,7 +593,7 @@
     </message>
     <message>
         <source>Check Certificate</source>
-        <translation>인증서 체크</translation>
+        <translation type="vanished">인증서 체크</translation>
     </message>
     <message>
         <source>Publish Certificate</source>
@@ -617,19 +645,19 @@
     </message>
     <message>
         <source>Delete CertPolicy</source>
-        <translation>인증서 정책 삭제하기</translation>
+        <translation type="vanished">인증서 정책 삭제하기</translation>
     </message>
     <message>
         <source>Edit CertPolicy</source>
-        <translation>인증서 정책 편집하기</translation>
+        <translation type="vanished">인증서 정책 편집하기</translation>
     </message>
     <message>
         <source>Delete CRLPolicy</source>
-        <translation>CRL 정책 삭제하기</translation>
+        <translation type="vanished">CRL 정책 삭제하기</translation>
     </message>
     <message>
         <source>Edit CRLPolicy</source>
-        <translation>CRL 정책 편집하기</translation>
+        <translation type="vanished">CRL 정책 편집하기</translation>
     </message>
     <message>
         <source>Delete User</source>
@@ -693,7 +721,7 @@
     </message>
     <message>
         <source>MakeCert&amp;Policy</source>
-        <translation>인증서 정책 만들기(&amp;P)</translation>
+        <translation type="vanished">인증서 정책 만들기(&amp;P)</translation>
     </message>
     <message>
         <source>&amp;MakeC&amp;RLPolicy</source>
@@ -885,7 +913,7 @@
     </message>
     <message>
         <source>MakeC&amp;RLPolicy</source>
-        <translation>CRL 정책 만들기 (&amp;R)</translation>
+        <translation type="vanished">CRL 정책 만들기 (&amp;R)</translation>
     </message>
     <message>
         <source>getCRLSCEP</source>
@@ -973,7 +1001,7 @@
     </message>
     <message>
         <source>User</source>
-        <translation>사용자</translation>
+        <translation type="vanished">사용자</translation>
     </message>
     <message>
         <source>SignAlg</source>
@@ -1059,6 +1087,46 @@
         <source>Policy</source>
         <translation>정책</translation>
     </message>
+    <message>
+        <source>MakeCert&amp;Profile</source>
+        <translation>인증서 프로파일 만들기(&amp;P)</translation>
+    </message>
+    <message>
+        <source>Make certificate profile</source>
+        <translation>인증서 프로파일 만들기</translation>
+    </message>
+    <message>
+        <source>MakeC&amp;RLProfile</source>
+        <translation>CRL 프로파일 만들기(&amp;R)</translation>
+    </message>
+    <message>
+        <source>Make CRL Profile</source>
+        <translation>CRL 프로파일 만들기</translation>
+    </message>
+    <message>
+        <source>Delete CertProfile</source>
+        <translation>인증서 프로파일 삭제</translation>
+    </message>
+    <message>
+        <source>Edit CertProfile</source>
+        <translation>인증서 프로파일 편집</translation>
+    </message>
+    <message>
+        <source>Delete CRLProfile</source>
+        <translation>CRL 프로파일 삭제</translation>
+    </message>
+    <message>
+        <source>Edit CRLProfile</source>
+        <translation>CRL 프로파일 편집</translation>
+    </message>
+    <message>
+        <source>Save As ...</source>
+        <translation>다른 이름으로 저장</translation>
+    </message>
+    <message>
+        <source>You have to open database</source>
+        <translation>데이타 베이스를 열어야 합니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -1068,7 +1136,7 @@
     </message>
     <message>
         <source>Policy name</source>
-        <translation>정책 이름</translation>
+        <translation type="vanished">정책 이름</translation>
     </message>
     <message>
         <source>CRL policy</source>
@@ -1116,7 +1184,7 @@
     </message>
     <message>
         <source>There is no CRL Policy</source>
-        <translation>CRL 정책이 없습니다</translation>
+        <translation type="vanished">CRL 정책이 없습니다</translation>
     </message>
     <message>
         <source>Serial</source>
@@ -1130,104 +1198,231 @@
         <source>Date</source>
         <translation>날짜</translation>
     </message>
+    <message>
+        <source>Profile name</source>
+        <translation>프로파일 이름</translation>
+    </message>
+    <message>
+        <source>There is no CRL Profile</source>
+        <translation>CRL 프로파일이 없습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLPolicyDlg</name>
     <message>
         <source>Make CRL policy</source>
-        <translation>CRL 정책 만들기</translation>
+        <translation type="vanished">CRL 정책 만들기</translation>
+    </message>
+    <message>
+        <source>Base</source>
+        <translation type="vanished">기본</translation>
+    </message>
+    <message>
+        <source>CRL Type</source>
+        <translation type="vanished">CRL 타입</translation>
+    </message>
+    <message>
+        <source>Valid days</source>
+        <translation type="vanished">유효 기간</translation>
+    </message>
+    <message>
+        <source>Use from now</source>
+        <translation type="vanished">지금 부터 사용</translation>
+    </message>
+    <message>
+        <source>CRL period</source>
+        <translation type="vanished">CRL 기간</translation>
+    </message>
+    <message>
+        <source>Next Update</source>
+        <translation type="vanished">다음 갱신</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="vanished">이름</translation>
+    </message>
+    <message>
+        <source>Last Update</source>
+        <translation type="vanished">마지막 갱신</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="vanished">버전</translation>
+    </message>
+    <message>
+        <source>Hash</source>
+        <translation type="vanished">해쉬</translation>
+    </message>
+    <message>
+        <source>Extend</source>
+        <translation type="vanished">확장</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="vanished">필수</translation>
+    </message>
+    <message>
+        <source>Auto number</source>
+        <translation type="vanished">자동 번호</translation>
+    </message>
+    <message>
+        <source>Use</source>
+        <translation type="vanished">사용</translation>
+    </message>
+    <message>
+        <source>Certificate serial</source>
+        <translation type="vanished">인증서 시리얼</translation>
+    </message>
+    <message>
+        <source>CRL number</source>
+        <translation type="vanished">CRL 번호</translation>
+    </message>
+    <message>
+        <source>Issuer alternative name</source>
+        <translation type="vanished">발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>Certificate issuer</source>
+        <translation type="vanished">인증서 발급자</translation>
+    </message>
+    <message>
+        <source>Issuing Distribution Point</source>
+        <translation type="vanished">발급 배포 지점</translation>
+    </message>
+    <message>
+        <source>Authority key identifier</source>
+        <translation type="vanished">기관 키 식별자</translation>
+    </message>
+    <message>
+        <source>number</source>
+        <translation type="vanished">숫자</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="vanished">추가</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="vanished">지우기</translation>
+    </message>
+    <message>
+        <source>You have to insert name</source>
+        <translation type="vanished">이름을 입력하세요.</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="vanished">타입</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="vanished">값</translation>
+    </message>
+</context>
+<context>
+    <name>MakeCRLProfileDlg</name>
+    <message>
+        <source>Make CRL policy</source>
+        <translation>CRL 프로파일 만들기</translation>
     </message>
     <message>
         <source>Base</source>
         <translation>기본</translation>
     </message>
     <message>
-        <source>CRL Type</source>
-        <translation>CRL 타입</translation>
+        <source>CRL Profile Name</source>
+        <translation>CRL 프로파일 이름</translation>
     </message>
     <message>
-        <source>Valid days</source>
-        <translation>유효 기간</translation>
+        <source>CRL Information</source>
+        <translation>CRL 정보</translation>
     </message>
     <message>
-        <source>Use from now</source>
-        <translation>지금 부터 사용</translation>
-    </message>
-    <message>
-        <source>CRL period</source>
-        <translation>CRL 기간</translation>
-    </message>
-    <message>
-        <source>Next Update</source>
-        <translation>다음 갱신</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>이름</translation>
-    </message>
-    <message>
-        <source>Last Update</source>
-        <translation>마지막 갱신</translation>
+        <source>Signature Hash</source>
+        <translation>서명 해쉬</translation>
     </message>
     <message>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>해쉬</translation>
+        <source>CRL Period</source>
+        <translation>CRL 기간</translation>
+    </message>
+    <message>
+        <source>Use From Now</source>
+        <translation>지금 시간 사용</translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation>일</translation>
+    </message>
+    <message>
+        <source>Valid Period</source>
+        <translation>유효 기간</translation>
+    </message>
+    <message>
+        <source>Next Update</source>
+        <translation>다음 갱신</translation>
+    </message>
+    <message>
+        <source>Last Update</source>
+        <translation>마지막 갱신</translation>
     </message>
     <message>
         <source>Extend</source>
         <translation>확장</translation>
     </message>
     <message>
-        <source>Critical</source>
-        <translation>필수</translation>
+        <source>CRL number</source>
+        <translation>CRL 번호</translation>
     </message>
     <message>
-        <source>Auto number</source>
-        <translation>자동 번호</translation>
+        <source>Critical</source>
+        <translation>필수</translation>
     </message>
     <message>
         <source>Use</source>
         <translation>사용</translation>
     </message>
     <message>
-        <source>Certificate serial</source>
-        <translation>인증서 시리얼</translation>
+        <source>Number</source>
+        <translation>번호</translation>
     </message>
     <message>
-        <source>CRL number</source>
-        <translation>CRL 번호</translation>
+        <source>Auto Number</source>
+        <translation>자동 번호</translation>
     </message>
     <message>
-        <source>Issuer alternative name</source>
-        <translation>발급자 대체 이름</translation>
+        <source>Authority Key Identifier</source>
+        <translation>기관키 식별자</translation>
     </message>
     <message>
-        <source>Certificate issuer</source>
+        <source>Ceritificate Issuer</source>
         <translation>인증서 발급자</translation>
+    </message>
+    <message>
+        <source>Certificate Serial</source>
+        <translation>인증서 시리얼</translation>
     </message>
     <message>
         <source>Issuing Distribution Point</source>
         <translation>발급 배포 지점</translation>
     </message>
     <message>
-        <source>Authority key identifier</source>
-        <translation>기관 키 식별자</translation>
-    </message>
-    <message>
-        <source>number</source>
-        <translation>숫자</translation>
+        <source>Clear</source>
+        <translation>지우기</translation>
     </message>
     <message>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
-        <source>Clear</source>
-        <translation>지우기</translation>
+        <source>Issuer Alternative Name</source>
+        <translation>발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>삭제</translation>
     </message>
     <message>
         <source>You have to insert name</source>
@@ -1250,7 +1445,7 @@
     </message>
     <message>
         <source>Policy name</source>
-        <translation>정책 이름</translation>
+        <translation type="vanished">정책 이름</translation>
     </message>
     <message>
         <source>Issuer Name</source>
@@ -1314,7 +1509,7 @@
     </message>
     <message>
         <source>There is no certificate policy</source>
-        <translation>인증서 정책이 없습니다.</translation>
+        <translation type="vanished">인증서 정책이 없습니다.</translation>
     </message>
     <message>
         <source>There is no CA certificate</source>
@@ -1332,124 +1527,367 @@
         <source>fail to get certificate information(%1)</source>
         <translation>인증서 정보(%1) 가져오기 실패</translation>
     </message>
+    <message>
+        <source>Find</source>
+        <translation>찾기</translation>
+    </message>
+    <message>
+        <source>Use CSR File</source>
+        <translation>CSR 파일 사용</translation>
+    </message>
+    <message>
+        <source>Profile name</source>
+        <translation>프로파일 이름</translation>
+    </message>
+    <message>
+        <source>You have to find CSR file</source>
+        <translation>CSR 파일을 찾으세요</translation>
+    </message>
+    <message>
+        <source>There is no certificate profile</source>
+        <translation>인증서 프로파일이 없습니다</translation>
+    </message>
+    <message>
+        <source>In case of using csr file, You can not make selfsign certificate.</source>
+        <translation>CSR파일 사용 시 셀프 사인 인증서를 만들 수 없습니다</translation>
+    </message>
+    <message>
+        <source>can not check selfsign when use csr file</source>
+        <translation>CSR 파일 사용 시 SelfSign 옵션을 사용 할 수 없습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertPolicyDlg</name>
     <message>
         <source>Make certificate policy</source>
-        <translation>인증서 정채 만들기</translation>
+        <translation type="vanished">인증서 정채 만들기</translation>
+    </message>
+    <message>
+        <source>Base</source>
+        <translation type="vanished">기본</translation>
+    </message>
+    <message>
+        <source>Subject DN</source>
+        <translation type="vanished">주체자 DN</translation>
+    </message>
+    <message>
+        <source>Hash</source>
+        <translation type="vanished">해쉬</translation>
+    </message>
+    <message>
+        <source>Valid days</source>
+        <translation type="vanished">유효 기간</translation>
+    </message>
+    <message>
+        <source>Use days</source>
+        <translation type="vanished">일자 사용</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation type="vanished">이름</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation type="vanished">일</translation>
+    </message>
+    <message>
+        <source>Not After</source>
+        <translation type="vanished">이후 안됨</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation type="vanished">버전</translation>
+    </message>
+    <message>
+        <source>Not Before</source>
+        <translation type="vanished">이전 안됨</translation>
+    </message>
+    <message>
+        <source>Certificate type</source>
+        <translation type="vanished">인증서 타입</translation>
+    </message>
+    <message>
+        <source>Use CSR</source>
+        <translation type="vanished">CSR 사용</translation>
+    </message>
+    <message>
+        <source>Extend1</source>
+        <translation type="vanished">확장1</translation>
+    </message>
+    <message>
+        <source>Authority Key Identifier</source>
+        <translation type="vanished">기관키 식별자</translation>
+    </message>
+    <message>
+        <source>Use</source>
+        <translation type="vanished">사용</translation>
+    </message>
+    <message>
+        <source>Certificate Issuer</source>
+        <translation type="vanished">인증서 발급자</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation type="vanished">필수</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation type="vanished">지우기</translation>
+    </message>
+    <message>
+        <source>User Notice</source>
+        <translation type="vanished">사용자 공지</translation>
+    </message>
+    <message>
+        <source>Key usage</source>
+        <translation type="vanished">키 용도</translation>
+    </message>
+    <message>
+        <source>Policy</source>
+        <translation type="vanished">정책</translation>
+    </message>
+    <message>
+        <source>Ceritificate serial</source>
+        <translation type="vanished">인증서 시리얼</translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="vanished">추가</translation>
+    </message>
+    <message>
+        <source>Subject Key Identifier</source>
+        <translation type="vanished">주체키 식별자</translation>
+    </message>
+    <message>
+        <source>CPS</source>
+        <translation type="vanished">인증서 정책 문장</translation>
+    </message>
+    <message>
+        <source>Policy OID</source>
+        <translation type="vanished">정책 OID</translation>
+    </message>
+    <message>
+        <source>Extend2</source>
+        <translation type="vanished">확장2</translation>
+    </message>
+    <message>
+        <source>Authority Info Access</source>
+        <translation type="vanished">기관 접근 정보</translation>
+    </message>
+    <message>
+        <source>Extended Key Usage</source>
+        <translation type="vanished">확장 키 용도</translation>
+    </message>
+    <message>
+        <source>CRLDP</source>
+        <translation type="vanished">CRLDP</translation>
+    </message>
+    <message>
+        <source>Extend3</source>
+        <translation type="vanished">확장3</translation>
+    </message>
+    <message>
+        <source>Issuer Alternative Name</source>
+        <translation type="vanished">발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>Policy Constraints</source>
+        <translation type="vanished">정책 제한</translation>
+    </message>
+    <message>
+        <source>Inhibit</source>
+        <translation type="vanished">금지</translation>
+    </message>
+    <message>
+        <source>Subject Alternative Name</source>
+        <translation type="vanished">주체자 대체 이름</translation>
+    </message>
+    <message>
+        <source>Path Len</source>
+        <translation type="vanished">경로 길이</translation>
+    </message>
+    <message>
+        <source>Basic Constraints</source>
+        <translation type="vanished">기본 제한</translation>
+    </message>
+    <message>
+        <source>Explicit</source>
+        <translation type="vanished">외부</translation>
+    </message>
+    <message>
+        <source>Extend4</source>
+        <translation type="vanished">확장4</translation>
+    </message>
+    <message>
+        <source>Policy Mappings</source>
+        <translation type="vanished">정책 맵핑</translation>
+    </message>
+    <message>
+        <source>Max</source>
+        <translation type="vanished">최대</translation>
+    </message>
+    <message>
+        <source>issuerDomainPolicy</source>
+        <translation type="vanished">발급자 도메인 정책</translation>
+    </message>
+    <message>
+        <source>Name Constraints</source>
+        <translation type="vanished">이름 제한</translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation type="vanished">최소</translation>
+    </message>
+    <message>
+        <source>subjectDomainPolicy</source>
+        <translation type="vanished">주체자 도메인 정책</translation>
+    </message>
+    <message>
+        <source>Basic Distance</source>
+        <translation type="vanished">기본 거리</translation>
+    </message>
+    <message>
+        <source>You have to insert name</source>
+        <translation type="vanished">이름을 입력하세요.</translation>
+    </message>
+    <message>
+        <source>You have to set subjec dn</source>
+        <translation type="vanished">주체자 DN 을 설정 하세요.</translation>
+    </message>
+    <message>
+        <source>OID</source>
+        <translation type="vanished">OID</translation>
+    </message>
+    <message>
+        <source>UserNotice</source>
+        <translation type="vanished">사용자 공지</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="vanished">타입</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation type="vanished">값</translation>
+    </message>
+    <message>
+        <source>Target</source>
+        <translation type="vanished">대상</translation>
+    </message>
+</context>
+<context>
+    <name>MakeCertProfileDlg</name>
+    <message>
+        <source>Make certificate policy</source>
+        <translation>인증서 정책 만들기</translation>
     </message>
     <message>
         <source>Base</source>
         <translation>기본</translation>
     </message>
     <message>
-        <source>Subject DN</source>
-        <translation>주체자 DN</translation>
+        <source>Signature Hash</source>
+        <translation>서명 해쉬</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation>해쉬</translation>
+        <source>Subject DN Template</source>
+        <translation>주체자 DN 템플릿</translation>
     </message>
     <message>
-        <source>Valid days</source>
-        <translation>유효 기간</translation>
-    </message>
-    <message>
-        <source>Use days</source>
-        <translation>일자 사용</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>이름</translation>
-    </message>
-    <message>
-        <source>Days</source>
+        <source>Day</source>
         <translation>일</translation>
     </message>
     <message>
-        <source>Not After</source>
+        <source>Use Days</source>
+        <translation>일자 사용</translation>
+    </message>
+    <message>
+        <source>NotBefore</source>
+        <translation>이전 안됨</translation>
+    </message>
+    <message>
+        <source>NotAfter</source>
         <translation>이후 안됨</translation>
+    </message>
+    <message>
+        <source>Valid Periods</source>
+        <translation>유효 기간</translation>
     </message>
     <message>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <source>Not Before</source>
-        <translation>이전 안됨</translation>
+        <source>Certificate Profile Name</source>
+        <translation>인증서 프로파일 이름</translation>
     </message>
     <message>
-        <source>Certificate type</source>
-        <translation>인증서 타입</translation>
+        <source>Base Information</source>
+        <translation>기본 정보</translation>
     </message>
     <message>
-        <source>Use CSR</source>
-        <translation>CSR 사용</translation>
+        <source>Use CSR DN</source>
+        <translation>CSR DN 사용</translation>
     </message>
     <message>
         <source>Extend1</source>
         <translation>확장1</translation>
     </message>
     <message>
-        <source>Authority Key Identifier</source>
-        <translation>기관키 식별자</translation>
-    </message>
-    <message>
-        <source>Use</source>
-        <translation>사용</translation>
-    </message>
-    <message>
-        <source>Certificate Issuer</source>
-        <translation>인증서 발급자</translation>
-    </message>
-    <message>
-        <source>Critical</source>
-        <translation>필수</translation>
-    </message>
-    <message>
-        <source>Clear</source>
-        <translation>지우기</translation>
-    </message>
-    <message>
-        <source>User Notice</source>
-        <translation>사용자 공지</translation>
-    </message>
-    <message>
-        <source>Key usage</source>
+        <source>Key Usage</source>
         <translation>키 용도</translation>
-    </message>
-    <message>
-        <source>Policy</source>
-        <translation>정책</translation>
-    </message>
-    <message>
-        <source>Ceritificate serial</source>
-        <translation>인증서 시리얼</translation>
     </message>
     <message>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
-        <source>Subject Key Identifier</source>
-        <translation>주체키 식별자</translation>
+        <source>Clear</source>
+        <translation>지우기</translation>
+    </message>
+    <message>
+        <source>Use</source>
+        <translation>사용</translation>
+    </message>
+    <message>
+        <source>Critical</source>
+        <translation>필수</translation>
+    </message>
+    <message>
+        <source>Policy</source>
+        <translation>정책</translation>
     </message>
     <message>
         <source>CPS</source>
         <translation>인증서 정책 문장</translation>
     </message>
     <message>
-        <source>Policy OID</source>
-        <translation>정책 OID</translation>
+        <source>OID</source>
+        <translation>OID</translation>
+    </message>
+    <message>
+        <source>UserNotice</source>
+        <translation>사용자 공지</translation>
+    </message>
+    <message>
+        <source>Subject Key Identifier</source>
+        <translation>주체키 식별자</translation>
+    </message>
+    <message>
+        <source>Authority Key Identifier</source>
+        <translation>기관키 식별자</translation>
+    </message>
+    <message>
+        <source>Certificate Issuer</source>
+        <translation>인증서 발급자</translation>
+    </message>
+    <message>
+        <source>Certificate Serial</source>
+        <translation>인증서 시리얼</translation>
     </message>
     <message>
         <source>Extend2</source>
         <translation>확장2</translation>
-    </message>
-    <message>
-        <source>Authority Info Access</source>
-        <translation>기관 접근 정보</translation>
     </message>
     <message>
         <source>Extended Key Usage</source>
@@ -1460,12 +1898,32 @@
         <translation>CRLDP</translation>
     </message>
     <message>
+        <source>Authority Info Access</source>
+        <translation>기관 접근 정보</translation>
+    </message>
+    <message>
         <source>Extend3</source>
         <translation>확장3</translation>
     </message>
     <message>
+        <source>Basic Constraints</source>
+        <translation>기본 제한</translation>
+    </message>
+    <message>
+        <source>Path Len</source>
+        <translation>경로 길이</translation>
+    </message>
+    <message>
+        <source>Subject Alternative Name</source>
+        <translation>주체자 대체 이름</translation>
+    </message>
+    <message>
         <source>Issuer Alternative Name</source>
         <translation>발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>Extend4</source>
+        <translation>확장4</translation>
     </message>
     <message>
         <source>Policy Constraints</source>
@@ -1476,52 +1934,36 @@
         <translation>금지</translation>
     </message>
     <message>
-        <source>Subject Alternative Name</source>
-        <translation>주체자 대체 이름</translation>
-    </message>
-    <message>
-        <source>Path Len</source>
-        <translation>경로 길이</translation>
-    </message>
-    <message>
-        <source>Basic Constraints</source>
-        <translation>기본 제한</translation>
-    </message>
-    <message>
         <source>Explicit</source>
         <translation>외부</translation>
-    </message>
-    <message>
-        <source>Extend4</source>
-        <translation>확장4</translation>
     </message>
     <message>
         <source>Policy Mappings</source>
         <translation>정책 맵핑</translation>
     </message>
     <message>
-        <source>Max</source>
-        <translation>최대</translation>
+        <source>IssuerDomainPolicy</source>
+        <translation>발급자 도메인 정책</translation>
     </message>
     <message>
-        <source>issuerDomainPolicy</source>
-        <translation>발급자 도메인 정책</translation>
+        <source>SubjectDomainPolicy</source>
+        <translation>주체자 도메인 정책</translation>
     </message>
     <message>
         <source>Name Constraints</source>
         <translation>이름 제한</translation>
     </message>
     <message>
-        <source>Min</source>
-        <translation>최소</translation>
-    </message>
-    <message>
-        <source>subjectDomainPolicy</source>
-        <translation>주체자 도메인 정책</translation>
+        <source>Max</source>
+        <translation>최대</translation>
     </message>
     <message>
         <source>Basic Distance</source>
         <translation>기본 거리</translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation>최소</translation>
     </message>
     <message>
         <source>You have to insert name</source>
@@ -1530,14 +1972,6 @@
     <message>
         <source>You have to set subjec dn</source>
         <translation>주체자 DN 을 설정 하세요.</translation>
-    </message>
-    <message>
-        <source>OID</source>
-        <translation>OID</translation>
-    </message>
-    <message>
-        <source>UserNotice</source>
-        <translation>사용자 공지</translation>
     </message>
     <message>
         <source>Type</source>
@@ -1550,6 +1984,10 @@
     <message>
         <source>Target</source>
         <translation>대상</translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation>삭제</translation>
     </message>
 </context>
 <context>
@@ -1568,7 +2006,7 @@
     </message>
     <message>
         <source>Hash</source>
-        <translation>해쉬</translation>
+        <translation type="vanished">해쉬</translation>
     </message>
     <message>
         <source>Key size</source>
@@ -1601,6 +2039,34 @@
     <message>
         <source>ChallengePass</source>
         <translation>도전 암호</translation>
+    </message>
+    <message>
+        <source>Signature Hash</source>
+        <translation>서명 해쉬</translation>
+    </message>
+    <message>
+        <source>Generate Key Pair</source>
+        <translation>새로운 키 쌍 생성</translation>
+    </message>
+    <message>
+        <source>Key Select</source>
+        <translation>키 선택</translation>
+    </message>
+    <message>
+        <source>Key Generate</source>
+        <translation>키 생성</translation>
+    </message>
+    <message>
+        <source>Key Size</source>
+        <translation>키 길이</translation>
+    </message>
+    <message>
+        <source>Public Exponent</source>
+        <translation>Public Exponent</translation>
+    </message>
+    <message>
+        <source>RSA</source>
+        <translation>RSA</translation>
     </message>
 </context>
 <context>
@@ -1657,11 +2123,11 @@
     </message>
     <message>
         <source>Make Cert Policy</source>
-        <translation>인증서 정책 만들기</translation>
+        <translation type="vanished">인증서 정책 만들기</translation>
     </message>
     <message>
         <source>Make CRL Policy</source>
-        <translation>CRL 정책 만들기</translation>
+        <translation type="vanished">CRL 정책 만들기</translation>
     </message>
     <message>
         <source>Import Certificate</source>
@@ -1698,6 +2164,14 @@
     <message>
         <source>Register Key</source>
         <translation>키 등록</translation>
+    </message>
+    <message>
+        <source>Make Cert Profile</source>
+        <translation>인증서 프로파일 만들기</translation>
+    </message>
+    <message>
+        <source>Make CRL Profile</source>
+        <translation>CRL 프로파일 만들기</translation>
     </message>
 </context>
 <context>
@@ -1743,14 +2217,14 @@
     <name>NewPasswdDlg</name>
     <message>
         <source>New password</source>
-        <translation>새로운 암호</translation>
+        <translation type="vanished">새로운 암호</translation>
     </message>
 </context>
 <context>
     <name>PasswdDlg</name>
     <message>
         <source>Password</source>
-        <translation>암호</translation>
+        <translation type="vanished">암호</translation>
     </message>
 </context>
 <context>
@@ -1772,7 +2246,7 @@
     </message>
     <message>
         <source>LDAP Host</source>
-        <translation>LDAP 서버</translation>
+        <translation type="vanished">LDAP 서버</translation>
     </message>
     <message>
         <source>Publish DN</source>
@@ -1792,7 +2266,7 @@
     </message>
     <message>
         <source>LDAP Port</source>
-        <translation>LDAP 포트</translation>
+        <translation type="vanished">LDAP 포트</translation>
     </message>
     <message>
         <source>Password</source>
@@ -1812,11 +2286,23 @@
     </message>
     <message>
         <source>Host information</source>
-        <translation>서버 정보</translation>
+        <translation type="vanished">서버 정보</translation>
     </message>
     <message>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation>호스트</translation>
+    </message>
+    <message>
+        <source>Port</source>
+        <translation>포트</translation>
+    </message>
+    <message>
+        <source>LDAP Host Information</source>
+        <translation>LDAP 호스트 정보</translation>
     </message>
 </context>
 <context>
