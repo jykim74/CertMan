@@ -41,6 +41,7 @@ public:
     void restartApp();
     QString getSetPath();
     bool isPRO() { return is_pro_; };
+    bool isDBOpen();
 
 private:
     int loadPKCS11();

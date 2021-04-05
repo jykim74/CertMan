@@ -44,6 +44,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     tray_icon_ = new ManTrayIcon;
     settings_mgr_ = new SettingsMgr;
     db_mgr_ = new DBMgr;
+//    db_mgr_ = NULL;
 
     in_exit_ = false;
 
@@ -132,6 +133,12 @@ QString ManApplet::getSetPath()
     }
 
     return strPath;
+}
+
+bool ManApplet::isDBOpen()
+{
+    if( db_mgr_ == NULL ) return false;
+    return db_mgr_->isOpen();
 }
 
 void ManApplet::warningBox(const QString& msg, QWidget *parent)

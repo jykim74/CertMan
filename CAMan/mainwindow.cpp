@@ -327,12 +327,15 @@ void MainWindow::createActions()
     dataToolBar->addAction( getLDAPAct );
 
 
-    const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.png"));
-    QAction *tspAct = new QAction( timeIcon, tr("&TSP"), this);
-    connect( tspAct, &QAction::triggered, this, &MainWindow::tsp);
-    tspAct->setStatusTip(tr("TimeStampProtocol Service"));
-    dataMenu->addAction( tspAct );
-    dataToolBar->addAction( tspAct );
+    if( manApplet->isPRO() )
+    {
+        const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.png"));
+        QAction *tspAct = new QAction( timeIcon, tr("&TSP"), this);
+        connect( tspAct, &QAction::triggered, this, &MainWindow::tsp);
+        tspAct->setStatusTip(tr("TimeStampProtocol Service"));
+        dataMenu->addAction( tspAct );
+        dataToolBar->addAction( tspAct );
+    }
 
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -572,17 +575,17 @@ void MainWindow::createTreeMenu()
         pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
         pTSPItem->setType( CM_ITEM_TYPE_TSP );
         pTopItem->appendRow( pTSPItem );
+
+        ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
+        pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
+        pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
+        pTopItem->appendRow( pStatisticsItem );
+
+        ManTreeItem *pAuditItem = new ManTreeItem( QString( "Audit") );
+        pAuditItem->setIcon( QIcon(":/images/audit.png"));
+        pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
+        pTopItem->appendRow( pAuditItem );
     }
-
-    ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
-    pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
-    pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
-    pTopItem->appendRow( pStatisticsItem );
-
-    ManTreeItem *pAuditItem = new ManTreeItem( QString( "Audit") );
-    pAuditItem->setIcon( QIcon(":/images/audit.png"));
-    pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
-    pTopItem->appendRow( pAuditItem );
 
 
     QModelIndex ri = left_model_->index(0,0);
@@ -762,18 +765,36 @@ void MainWindow::quit()
 
 void MainWindow::newKey()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     NewKeyDlg newKeyDlg;
     newKeyDlg.exec();
 }
 
 void MainWindow::makeRequest()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     MakeReqDlg makeReqDlg;
     makeReqDlg.exec();
 }
 
 void MainWindow::makeCertProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     MakeCertProfileDlg makeCertProfileDlg;
     makeCertProfileDlg.setEdit(false);
     makeCertProfileDlg.setProfileNum(-1);
@@ -783,6 +804,12 @@ void MainWindow::makeCertProfile()
 
 void MainWindow::makeCRLProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     MakeCRLProfileDlg makeCRLProfileDlg;
     makeCRLProfileDlg.setEdit(false);
     makeCRLProfileDlg.setProfileNum(-1);
@@ -791,6 +818,12 @@ void MainWindow::makeCRLProfile()
 
 void MainWindow::editCertProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -805,6 +838,12 @@ void MainWindow::editCertProfile()
 
 void MainWindow::editCRLProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -818,6 +857,12 @@ void MainWindow::editCRLProfile()
 
 void MainWindow::makeCertificate()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ManTreeItem *pItem = currentItem();
     MakeCertDlg makeCertDlg;
 
@@ -847,6 +892,12 @@ void MainWindow::makeCertificate()
 
 void MainWindow::makeCRL()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ManTreeItem *pItem = currentItem();
     MakeCRLDlg makeCRLDlg;
 
@@ -863,6 +914,12 @@ void MainWindow::makeCRL()
 
 void MainWindow::revokeCertificate()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -876,12 +933,24 @@ void MainWindow::revokeCertificate()
 
 void MainWindow::registerUser()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     UserDlg userDlg;
     userDlg.exec();
 }
 
 void MainWindow::registerREGSigner()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     SignerDlg signerDlg;
     signerDlg.setType( SIGNER_TYPE_REG );
     signerDlg.exec();
@@ -889,6 +958,12 @@ void MainWindow::registerREGSigner()
 
 void MainWindow::registerOCSPSigner()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     SignerDlg signerDlg;
     signerDlg.setType( SIGNER_TYPE_OCSP );
     signerDlg.exec();
@@ -896,6 +971,12 @@ void MainWindow::registerOCSPSigner()
 
 void MainWindow::viewCertificate()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -909,6 +990,12 @@ void MainWindow::viewCertificate()
 
 void MainWindow::viewCRL()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -922,12 +1009,24 @@ void MainWindow::viewCRL()
 
 void MainWindow::importData()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ImportDlg importDlg;
     importDlg.exec();
 }
 
 void MainWindow::importCert()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ImportDlg importDlg;
     importDlg.setType(3);
     importDlg.exec();
@@ -935,6 +1034,12 @@ void MainWindow::importCert()
 
 void MainWindow::importCRL()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ImportDlg importDlg;
     importDlg.setType(4);
     importDlg.exec();
@@ -942,6 +1047,12 @@ void MainWindow::importCRL()
 
 void MainWindow::exportPriKey()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -956,6 +1067,12 @@ void MainWindow::exportPriKey()
 
 void MainWindow::exportEncPriKey()
 {   
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -970,6 +1087,12 @@ void MainWindow::exportEncPriKey()
 
 void MainWindow::exportPubKey()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -984,6 +1107,12 @@ void MainWindow::exportPubKey()
 
 void MainWindow::exportRequest()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -998,6 +1127,12 @@ void MainWindow::exportRequest()
 
 void MainWindow::exportCertificate()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -1012,6 +1147,12 @@ void MainWindow::exportCertificate()
 
 void MainWindow::exportCRL()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -1026,6 +1167,12 @@ void MainWindow::exportCRL()
 
 void MainWindow::exportPFX()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -1041,6 +1188,12 @@ void MainWindow::exportPFX()
 
 void MainWindow::publishLDAP()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
@@ -1055,6 +1208,12 @@ void MainWindow::publishLDAP()
 
 void MainWindow::getLDAP()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     GetLDAPDlg getLDAPDlg;
     getLDAPDlg.exec();
 }
@@ -1079,6 +1238,12 @@ void MainWindow::serverStatus()
 
 void MainWindow::deleteCertProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1091,6 +1256,12 @@ void MainWindow::deleteCertProfile()
 
 void MainWindow::deleteCRLProfile()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1103,6 +1274,12 @@ void MainWindow::deleteCRLProfile()
 
 void MainWindow::deleteCertificate()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1117,6 +1294,12 @@ void MainWindow::deleteCertificate()
 
 void MainWindow::deleteCRL()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row , 0 );
 
@@ -1132,6 +1315,12 @@ void MainWindow::deleteCRL()
 
 void MainWindow::deleteKeyPair()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1142,6 +1331,12 @@ void MainWindow::deleteKeyPair()
 
 void MainWindow::deleteRequest()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1152,6 +1347,12 @@ void MainWindow::deleteRequest()
 
 void MainWindow::deleteUser()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1162,6 +1363,12 @@ void MainWindow::deleteUser()
 
 void MainWindow::deleteSigner()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1175,12 +1382,24 @@ void MainWindow::deleteSigner()
 
 void MainWindow::registerAdmin()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     AdminDlg adminDlg;
     adminDlg.exec();
 }
 
 void MainWindow::editAdmin()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
