@@ -92,6 +92,22 @@ void MakeCRLProfileDlg::deleteIDPMenu()
     mIDPTable->removeRow( idx.row() );
 }
 
+void MakeCRLProfileDlg::slotExtensionsMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteExtensionsMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mExtensionsTable->viewport()->mapToGlobal(pos));
+}
+
+void MakeCRLProfileDlg::deleteExtensionsMenu()
+{
+    QModelIndex idx = mExtensionsTable->currentIndex();
+    mExtensionsTable->removeRow( idx.row() );
+}
+
 void MakeCRLProfileDlg::loadProfile()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
@@ -139,6 +155,8 @@ void MakeCRLProfileDlg::loadProfile()
             setIDPUse( extProfile );
         else if( extProfile.getSN() == kExtNameIAN )
             setIANUse( extProfile );
+        else
+            setExtensionsUse( extProfile );
     }
 }
 
@@ -238,6 +256,7 @@ void MakeCRLProfileDlg::accept()
     if( mIDPUseCheck->isChecked() ) saveIDPUse( nProfileNum );
     if( mAKIUseCheck->isChecked() ) saveAKIUse( nProfileNum );
     if( mIANUseCheck->isChecked() ) saveIANUse( nProfileNum );
+    if( mExtensionsUseCheck->isChecked() ) saveExtensionsUse( nProfileNum );
 
     /* ....... */
 
@@ -266,15 +285,19 @@ void MakeCRLProfileDlg::connectExtends()
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
     connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
     connect( mIANUseCheck, SIGNAL(clicked()), this, SLOT(clickIAN()));
+    connect( mExtensionsUseCheck, SIGNAL(clicked()), this, SLOT(clickExtensionsUse()));
 
     connect( mIDPAddBtn, SIGNAL(clicked()), this, SLOT(addIDP()));
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
+    connect( mExtensionsAddBtn, SIGNAL(clicked()), this, SLOT(addExtensions()));
 
     connect( mIDPClearBtn, SIGNAL(clicked()), this, SLOT(clearIDP()));
     connect( mIANClearBtn, SIGNAL(clicked()), this, SLOT(clearIAN()));
+    connect( mExtensionsClearBtn, SIGNAL(clicked()), this, SLOT(clearExtensions()));
 
     connect( mIANTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIANMenuRequested(QPoint)));
     connect( mIDPTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIDPMenuRequested(QPoint)));
+    connect( mExtensionsTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotExtensionsMenuRequested(QPoint)));
 }
 
 void MakeCRLProfileDlg::setExtends()
@@ -283,6 +306,7 @@ void MakeCRLProfileDlg::setExtends()
     clickAKI();
     clickIDP();
     clickIAN();
+    clickExtensionsUse();
 }
 
 void MakeCRLProfileDlg::setTableMenus()
@@ -306,6 +330,17 @@ void MakeCRLProfileDlg::setTableMenus()
     mIANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mIANTable->setColumnWidth(0, 60);
+
+    QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };
+    mExtensionsTable->setColumnCount(sExtensionsLabels.size());
+    mExtensionsTable->horizontalHeader()->setStretchLastSection(true);
+    mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);
+    mExtensionsTable->verticalHeader()->setVisible(false);
+    mExtensionsTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mExtensionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mExtensionsTable->setColumnWidth(0,180);
+    mExtensionsTable->setColumnWidth(1,60);
 }
 
 void MakeCRLProfileDlg::clickUseFromNow()
@@ -359,6 +394,18 @@ void MakeCRLProfileDlg::clickIAN()
     mIANAddBtn->setEnabled(bStatus);
 }
 
+void MakeCRLProfileDlg::clickExtensionsUse()
+{
+    bool bStatus = mExtensionsUseCheck->isChecked();
+
+    mExtensionsAddBtn->setEnabled(bStatus);
+    mExtensionsClearBtn->setEnabled(bStatus);
+    mExtensionsOIDText->setEnabled(bStatus);
+    mExtensionsCriticalCheck->setEnabled(bStatus);
+    mExtensionsValueText->setEnabled(bStatus);
+    mExtensionsTable->setEnabled(bStatus);
+}
+
 void MakeCRLProfileDlg::addIDP()
 {
     QString strType = mIDPCombo->currentText();
@@ -385,6 +432,26 @@ void MakeCRLProfileDlg::addIAN()
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
 }
 
+void MakeCRLProfileDlg::addExtensions()
+{
+    QString strOID = mExtensionsOIDText->text();
+    QString strValue = mExtensionsValueText->toPlainText();
+    bool bCrit = mExtensionsCriticalCheck->isChecked();
+    QString strCrit;
+
+    if( bCrit )
+        strCrit = "ture";
+    else
+        strCrit = "false";
+
+    int row = mExtensionsTable->rowCount();
+    mExtensionsTable->setRowCount( row + 1 );
+    mExtensionsTable->setRowHeight( row, 10 );
+    mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
+    mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
+    mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
+}
+
 void MakeCRLProfileDlg::clearIDP()
 {
     int nCnt = mIDPTable->rowCount();
@@ -399,6 +466,14 @@ void MakeCRLProfileDlg::clearIAN()
 
     for( int i=0; i < nCnt; i++)
         mIANTable->removeRow(0);
+}
+
+void MakeCRLProfileDlg::clearExtensions()
+{
+    int nCount = mExtensionsTable->rowCount();
+
+    for( int i = 0; i < nCount; i++ )
+        mExtensionsTable->removeRow(0);
 }
 
 void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
@@ -509,6 +584,31 @@ void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
     dbMgr->addCRLProfileExtension(profileExt);
 }
 
+void MakeCRLProfileDlg::saveExtensionsUse( int nProfileNum )
+{
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+    int nCount = mExtensionsTable->rowCount();
+
+    for( int i = 0; i < nCount; i++ )
+    {
+        bool bCrit = false;
+        QString strOID = mExtensionsTable->takeItem( i, 0 )->text();
+        QString strCrit = mExtensionsTable->takeItem( i, 1 )->text();
+        QString strValue = mExtensionsTable->takeItem( i, 2)->text();
+
+        if( strCrit == "true" ) bCrit = true;
+
+        ProfileExtRec profileRec;
+        profileRec.setProfileNum( nProfileNum );
+        profileRec.setSN( strOID );
+        profileRec.setValue( strValue );
+        profileRec.setCritical( bCrit );
+
+        dbMgr->addCRLProfileExtension( profileRec );
+    }
+}
+
 void MakeCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
     mCRLNumUseCheck->setChecked(true);
@@ -584,4 +684,26 @@ void MakeCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem( i, 1, new QTableWidgetItem(strData));
     }
+}
+
+void MakeCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
+{
+    mExtensionsUseCheck->setChecked(true);
+    clickExtensionsUse();
+
+    QString strOID = profileRec.getSN();
+    QString strValue = profileRec.getValue();
+    QString strCrit;
+
+    if( profileRec.isCritical() )
+        strCrit = "true";
+    else
+        strCrit = "false";
+
+    int row = mExtensionsTable->rowCount();
+    mExtensionsTable->setRowCount( row + 1 );
+    mExtensionsTable->setRowHeight( row, 10 );
+    mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
+    mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
+    mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
 }

@@ -224,6 +224,8 @@ static int _setSKI( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
+
+
 static int _getSKI( const BIN *pBinExt, QString& strVal )
 {
     int ret = 0;
@@ -863,6 +865,31 @@ static int _getCRLReason( const BIN *pBinExt, QString& strVal )
     return 0;
 }
 
+static int _setOctet( BIN *pBinExt, const QString strVal )
+{
+    int ret = 0;
+
+    ret = JS_PKI_setOctetValue( pBinExt, strVal.toStdString().c_str() );
+
+    return ret;
+}
+
+static int _getOctet( const BIN *pBinExt, QString& strVal )
+{
+    int ret = 0;
+    char        *pSKI = NULL;
+
+    ret = JS_PKI_getOctetValue( pBinExt, &pSKI );
+
+    if( pSKI )
+    {
+        strVal = pSKI;
+        JS_free( pSKI );
+    }
+
+    return 0;
+}
+
 QString findFile( QWidget *parent, int nType, const QString strPath )
 {
     QString strCurPath;
@@ -917,7 +944,11 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
 
     memset( sOID, 0x00, sizeof(sOID) );
 
-    JS_PKI_getOIDFromSN( strSN.toStdString().c_str(), sOID );
+    ret = JS_PKI_getOIDFromSN( strSN.toStdString().c_str(), sOID );
+    if( ret != 0 )
+    {
+        sprintf( sOID, "%s", strSN.toStdString().c_str() );
+    }
 
     if( strSN == kExtNameKeyUsage )
     {
@@ -982,7 +1013,8 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
     }
     else
     {
-        return -1;
+//        ret = _setOctet( &binExt, strVal );
+        ret = JS_BIN_decodeHex( strVal.toStdString().c_str(), &binExt );
     }
 
 
@@ -1070,7 +1102,7 @@ int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec 
     }
     else
     {
-//        return -1;
+//        ret = _getOctet( &binExt, strVal );
         strVal = pExtInfo->pValue;
     }
 
@@ -1959,6 +1991,20 @@ QString getCertStatusName( int nStatus )
         return "Revoke";
     else if( nStatus == JS_CERT_STATUS_HOLD )
         return "Hold";
+
+    return "Unknown";
+}
+
+QString getCertStatusSName( int nStatus )
+{
+    if( nStatus == JS_CERT_STATUS_INVALID )
+        return "I";
+    else if( nStatus == JS_CERT_STATUS_GOOD )
+        return "G";
+    else if( nStatus == JS_CERT_STATUS_REVOKE )
+        return "R";
+    else if( nStatus == JS_CERT_STATUS_HOLD )
+        return "H";
 
     return "Unknown";
 }

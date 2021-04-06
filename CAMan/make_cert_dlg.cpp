@@ -509,7 +509,7 @@ void MakeCertDlg::accept()
     JS_BIN_encodeHex( &binCert, &pHexCert );
 
     madeCertRec.setSelf( bSelf );
-    madeCertRec.setStatus(0);
+    madeCertRec.setStatus(JS_CERT_STATUS_GOOD);
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( pHexCert );
 

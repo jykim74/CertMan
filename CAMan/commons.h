@@ -133,6 +133,7 @@ QString getStatusName( int nStatus );
 QString getUserStatusName( int nStatus );
 QString getSignerTypeName( int nType );
 QString getCertStatusName( int nStatus );
+QString getCertStatusSName( int nStatus );
 QString getRevokeReasonName( int nReason );
 
 int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub );

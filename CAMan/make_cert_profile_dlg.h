@@ -54,6 +54,9 @@ private slots:
     void slotNCMenuRequested(QPoint pos);
     void deleteNCMenu();
 
+    void slotExtensionsMenuRequested(QPoint pos);
+    void deleteExtensionsMenu();
+
     void clickUseCSR();
     void clickUseDays();
 
@@ -70,6 +73,7 @@ private slots:
     void clickPMUse();
     void clickSKIUse();
     void clickSANUse();
+    void clickExtensionsUse();
 
     void addKeyUsage();
     void addPolicy();
@@ -80,6 +84,7 @@ private slots:
     void addIAN();
     void addPM();
     void addNC();
+    void addExtensions();
 
     void clearKeyUsage();
     void clearPolicy();
@@ -90,6 +95,7 @@ private slots:
     void clearIAN();
     void clearPM();
     void clearNC();
+    void clearExtensions();
 
 
 private:
@@ -111,6 +117,8 @@ private:
     void savePMUse(int nProfileNum );
     void saveSKIUse(int nProfileNum );
     void saveSANUse(int nProfileNum );
+    void saveExtensionsUse( int nProfileNum );
+
 
     void setAIAUse( ProfileExtRec& profileRec );
     void setAKIUse( ProfileExtRec& profileRec );
@@ -125,6 +133,7 @@ private:
     void setPMUse( ProfileExtRec& profileRec );
     void setSKIUse( ProfileExtRec& profileRec );
     void setSANUse( ProfileExtRec& profileRec );
+    void setExtensionsUse( ProfileExtRec& profileRec );
 
     void initialize();
     void loadProfile();

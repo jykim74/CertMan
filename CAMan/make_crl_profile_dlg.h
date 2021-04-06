@@ -32,16 +32,23 @@ private slots:
     void deleteIANMenu();
     void deleteIDPMenu();
 
+    void slotExtensionsMenuRequested(QPoint pos);
+    void deleteExtensionsMenu();
+
     void clickUseFromNow();
     void clickCRLNum();
     void clickAKI();
     void clickIDP();
     void clickIAN();
+    void clickExtensionsUse();
 
     void addIDP();
     void addIAN();
+    void addExtensions();
+
     void clearIDP();
     void clearIAN();
+    void clearExtensions();
 
 
 private:
@@ -54,11 +61,13 @@ private:
     void saveAKIUse( int nProfileNum );
     void saveIDPUse( int nProfileNum );
     void saveIANUse( int nProfileNum );
+    void saveExtensionsUse( int nProfileNum );
 
     void setCRLNumUse( ProfileExtRec& profileRec );
     void setAKIUse( ProfileExtRec& profileRec );
     void setIDPUse( ProfileExtRec& profileRec );
     void setIANUse( ProfileExtRec& profileRec );
+    void setExtensionsUse( ProfileExtRec& profileRec );
 
     void initialize();
     void loadProfile();

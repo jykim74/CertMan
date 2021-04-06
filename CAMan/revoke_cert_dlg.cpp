@@ -70,7 +70,7 @@ void RevokeCertDlg::accept()
     revoke.setCRLDP( cert.getCRLDP() );
 
     dbMgr->addRevokeRec( revoke );
-    dbMgr->modCertStatus( cert_num_, 1 );
+    dbMgr->modCertStatus( cert_num_, JS_CERT_STATUS_REVOKE );
 
     QDialog::accept();
 }
