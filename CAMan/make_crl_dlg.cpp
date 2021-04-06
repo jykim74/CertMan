@@ -40,6 +40,19 @@ MakeCRLDlg::~MakeCRLDlg()
 
 void MakeCRLDlg::showEvent(QShowEvent *event)
 {
+    if( ca_cert_list_.size() <= 0 )
+    {
+        manApplet->warningBox( tr("There is no CA certficate"), this );
+        destroy();
+        return;
+    }
+
+    if( crl_profile_list_.size() <= 0 )
+    {
+        manApplet->warningBox(tr("There is no CRL Profile"), this );
+        destroy(true);
+        return;
+    }
 //    initialize();
 }
 
@@ -349,11 +362,7 @@ void MakeCRLDlg::initialize()
     mIssuerNameCombo->clear();
 
     dbMgr->getCACertList( ca_cert_list_ );
-    if( ca_cert_list_.size() <= 0 )
-    {
-        manApplet->warningBox( tr("There is no CA certficate"), this );
-        return;
-    }
+
 
     for( int i=0; i < ca_cert_list_.size(); i++ )
     {
@@ -364,18 +373,15 @@ void MakeCRLDlg::initialize()
     crl_profile_list_.clear();
 
     dbMgr->getCRLProfileList( crl_profile_list_ );
-    if( crl_profile_list_.size() <= 0 )
-    {
-        manApplet->warningBox(tr("There is no CRL Profile"), this );
-        close();
-        return;
-    }
+
 
     for( int i = 0; i < crl_profile_list_.size(); i++ )
     {
         CRLProfileRec profileRec = crl_profile_list_.at(i);
         mProfileNameCombo->addItem( profileRec.getName() );
     }
+
+
 
     setRevokeList();
 }

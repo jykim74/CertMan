@@ -75,7 +75,7 @@ void CertInfoDlg::initialize()
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
     mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
-    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.nVersion)));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(sCertInfo.nVersion + 1)));
     i++;
 
     if( sCertInfo.pSerial )

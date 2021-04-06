@@ -27,6 +27,7 @@ public:
 
 private slots:
     virtual void accept();
+    void showEvent(QShowEvent *event);
     void reqChanged( int index );
     void issuerChanged( int index );
     void profileChanged( int index );

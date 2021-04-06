@@ -83,7 +83,7 @@ void CRLInfoDlg::initialize()
     mCRLListTable->insertRow(i);
     mCRLListTable->setRowHeight(i,10);
     mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
-    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.nVersion)));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(crl_info_.nVersion+1)));
     i++;
 
     if( crl_info_.pIssuerName )
