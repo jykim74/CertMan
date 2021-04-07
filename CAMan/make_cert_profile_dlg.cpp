@@ -244,6 +244,7 @@ void MakeCertProfileDlg::accept()
     }
 
     int nProfileNum = dbMgr->getCertProfileNextNum();
+    if( nProfileNum <= 0 ) nProfileNum = 1;
 
     certProfileRec.setNum( nProfileNum );
     certProfileRec.setVersion( mVersionCombo->currentIndex() );

@@ -215,6 +215,7 @@ void MakeCRLProfileDlg::accept()
 
 
     int nProfileNum = dbMgr->getCRLProfileNextNum();
+    if( nProfileNum <= 0 ) nProfileNum = 1;
 
     crlProfileRec.setNum( nProfileNum );
     crlProfileRec.setVersion( mVersionCombo->currentIndex() );
