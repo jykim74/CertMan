@@ -116,7 +116,7 @@ void ManApplet::restartApp()
 
 QString ManApplet::getBrand()
 {
-    return QString::fromUtf8( "CAMan" );
+    return QString::fromUtf8( "CertMan" );
 }
 
 QString ManApplet::getSetPath()

@@ -228,7 +228,7 @@ void MainWindow::createActions()
     fileMenu->addSeparator();
 
     QAction *quitAct = new QAction(tr("&Quit"), this );
-    quitAct->setStatusTip( tr("Quit CAManager") );
+    quitAct->setStatusTip( tr("Quit CertMan") );
     connect( quitAct, &QAction::triggered, this, &MainWindow::quit);
     fileMenu->addAction( quitAct );
 
@@ -355,16 +355,16 @@ void MainWindow::createActions()
     const QIcon settingIcon = QIcon::fromTheme("setting", QIcon(":/images/setting.png"));
     QAction *settingsAct = new QAction( settingIcon, tr("&Settings"), this);
     connect( settingsAct, &QAction::triggered, this, &MainWindow::settings);
-    settingsAct->setStatusTip(tr("Settings CAMan"));
+    settingsAct->setStatusTip(tr("Settings CertMan"));
     helpMenu->addAction( settingsAct );
     helpToolBar->addAction( settingsAct );
 
-    const QIcon caManIcon = QIcon::fromTheme("caman", QIcon(":/images/caman.png"));
-    QAction *aboutAct = new QAction( caManIcon, tr("&About CAMan"), this);
+    const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
+    QAction *aboutAct = new QAction( certManIcon, tr("&About CertMan"), this);
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
     helpMenu->addAction( aboutAct );
     helpToolBar->addAction( aboutAct );
-    aboutAct->setStatusTip(tr("About CAMan"));
+    aboutAct->setStatusTip(tr("About CertMan"));
 
 }
 
@@ -498,7 +498,7 @@ void MainWindow::createTreeMenu()
 
     ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
 
-    ManTreeItem *pTopItem = new ManTreeItem( QString( "CAManager" ) );
+    ManTreeItem *pTopItem = new ManTreeItem( QString( "CertMan" ) );
     pTopItem->setIcon(QIcon(":/images/man.png"));
     pRootItem->insertRow( 0, pTopItem );
 
@@ -661,7 +661,7 @@ int MainWindow::openDB( const QString dbPath )
     createTreeMenu();
 
     if( manApplet->trayIcon()->supportsMessages() )
-        manApplet->trayIcon()->showMessage( "CAMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+        manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
 
     if( ret == 0 )
     {

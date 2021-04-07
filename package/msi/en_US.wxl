@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
 
-  <String Id="AppName">CAMan</String>
-  <String Id="PackageDescription">CAMan Installer</String>
-  <String Id="PackageComments">CAMan Installer</String>
+  <String Id="AppName">CertMan</String>
+  <String Id="PackageDescription">CertMan Installer</String>
+  <String Id="PackageComments">CertMan Installer</String>
   <String Id="Manufacturer">JSSoft</String>
-  <String Id="DowngradeErrorMessage">A more up-to-date version of BerViewer is detected on your machine. The installer will now quit</String>
-  <String Id="UninstallCAMan">Uninstall CAMan</String>
-  <String Id="StartCAMan">Start CAMan</String>
-  <String Id="AutoStartText">Start CAMan on startup</String>
+  <String Id="DowngradeErrorMessage">A more up-to-date version of CertMan is detected on your machine. The installer will now quit</String>
+  <String Id="UninstallCertMan">Uninstall CertMan</String>
+  <String Id="StartCertMan">Start CertMan</String>
+  <String Id="AutoStartText">Start CertMan on startup</String>
 
 </WixLocalization>
 

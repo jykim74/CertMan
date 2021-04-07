@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About CAMan</string>
+   <string>About CertMan</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0" colspan="3">
@@ -41,8 +41,8 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="caman.qrc">
-         <normaloff>:/images/caman.icns</normaloff>:/images/caman.icns</iconset>
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/certman.png</normaloff>:/images/certman.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -111,7 +111,7 @@
   <tabstop>mAboutText</tabstop>
  </tabstops>
  <resources>
-  <include location="caman.qrc"/>
+  <include location="certman.qrc"/>
  </resources>
  <connections/>
 </ui>

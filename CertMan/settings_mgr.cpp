@@ -3,7 +3,7 @@
 #include "settings_mgr.h"
 
 namespace  {
-    const char *kBehaviorGroup = "CAMan";
+    const char *kBehaviorGroup = "CertMan";
     const char *kSaveDBPath = "saveDBPath";
     const char *kServerStatus = "serverStatus";
     const char *kPKCS11Use = "PKCS11Use";

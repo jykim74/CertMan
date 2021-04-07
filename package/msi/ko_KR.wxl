@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WixLocalization Culture="ko-kr" xmlns="http://schemas.microsoft.com/wix/2006/localization">
 
-  <String Id="AppName">CAMan</String>
-  <String Id="PackageDescription">CAMan 설치프로그램</String>
-  <String Id="PackageComments">CAMan 설치프로그램</String>
+  <String Id="AppName">CertMan</String>
+  <String Id="PackageDescription">CertMan 설치프로그램</String>
+  <String Id="PackageComments">CertMan 설치프로그램</String>
   <String Id="Manufacturer">JS .Inc</String>
-  <String Id="DowngradeErrorMessage">이미 더 최신 버전의 CAMan가 설치 되어 있습니다. 설치를 끝내겠습니다.</String>
-  <String Id="UninstallCAMan">CAMan 제거</String>
-  <String Id="StartCAMan">CAMan 시작</String>
-  <String Id="AutoStartText">시작 메뉴에서 CAMan 시작</String>
+  <String Id="DowngradeErrorMessage">이미 더 최신 버전의 CertMan가 설치 되어 있습니다. 설치를 끝내겠습니다.</String>
+  <String Id="UninstallCertMan">CertMan 제거</String>
+  <String Id="StartCertMan">CertMan 시작</String>
+  <String Id="AutoStartText">시작 메뉴에서 CertMan 시작</String>
 
 
 </WixLocalization>

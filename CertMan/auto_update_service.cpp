@@ -14,7 +14,7 @@ SINGLETON_IMPL(AutoUpdateService)
 namespace  {
 #ifdef Q_OS_WIN32
     const char *kSparkleAppcastURI = "https://www.aaa.bbb/update/win_appcast.xml";
-    const char *kWinSparkleRegPath = "SOFTWARE\\CAMan\\WinSparkle";
+    const char *kWinSparkleRegPath = "SOFTWARE\\CertMan\\WinSparkle";
 #else
     const char *kSparkleAppcastURI = "https://www.aaa.bbb/update/mac_appcast.xml";
 #endif
@@ -151,7 +151,7 @@ void AutoUpdateService::checkUpdate()
 }
 
 bool AutoUpdateService::shouldSupportAutoUpdate() const {
-    return QString("CAMan") == "CAMan";
+    return QString("CertMan") == "CertMan";
 }
 
 bool AutoUpdateService::autoUpdateEnabled() const {

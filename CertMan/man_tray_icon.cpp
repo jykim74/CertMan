@@ -9,7 +9,7 @@ const int kRefreshInterval = 3 * 60 * 1000; // 3 min
 
 ManTrayIcon::ManTrayIcon( QObject *parent )
 {
-    QIcon icon( ":/images/caman.png" );
+    QIcon icon( ":/images/certman.png" );
     setIcon( icon );
 
     refresh_timer_ = new QTimer(this);
@@ -55,6 +55,6 @@ void ManTrayIcon::refreshTrayIcon()
 {
     if( !ServerStatusService::instance()->allServersConnected() )
     {
-        showMessage( "CAMan", tr("Some servers are not connected"), QSystemTrayIcon::Warning, 10000 );
+        showMessage( "CertMan", tr("Some servers are not connected"), QSystemTrayIcon::Warning, 10000 );
     }
 }

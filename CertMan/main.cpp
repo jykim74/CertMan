@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setOrganizationName( "JS" );
     QCoreApplication::setOrganizationDomain( "jssoft.com" );
-    QCoreApplication::setApplicationName( "CAMan" );
+    QCoreApplication::setApplicationName( "CertMan" );
 
-    QFile qss(":/caman.qss");
+    QFile qss(":/certman.qss");
     qss.open( QFile::ReadOnly );
     app.setStyleSheet(qss.readAll());
 

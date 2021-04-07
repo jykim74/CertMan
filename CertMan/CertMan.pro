@@ -8,9 +8,9 @@ QT       += core gui sql charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CAMan
+TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "0.9.9"
+PROJECT_VERSION = "0.9.1"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -148,7 +148,9 @@ FORMS += \
         mainwindow.ui \
         make_cert_dlg.ui \
         make_cert_profile_dlg.ui \
+        make_cert_profile_dlg.ui \
         make_crl_dlg.ui \
+        make_crl_profile_dlg.ui \
         make_crl_profile_dlg.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
@@ -170,15 +172,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    caman.qrc
+    certman.qrc
 
-TRANSLATIONS += i18n/caman_ko_KR.ts
+TRANSLATIONS += i18n/certman_ko_KR.ts
 
 INCLUDEPATH += "../../PKILib"
 
 mac {
     DEFINES += _AUTO_UPDATE
-    ICON = images/caman.icns
+    ICON = images/certman.icns
 
     QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks
     HEADERS += mac_sparkle_support.h
@@ -206,7 +208,7 @@ mac {
 
 win32 {
     DEFINES += _AUTO_UPDATE
-    RC_ICONS = caman.ico
+    RC_ICONS = certman.ico
     INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
     INCLUDEPATH += "C:\msys64\mingw32\include"
 

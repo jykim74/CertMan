@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Include Id="CAManInclude">
-  <?define CurrentCAManVersion="0.9.6" ?>
+<Include Id="CertManInclude">
+  <?define CurrentCertManVersion="0.9.1" ?>
 
   <!-- BerViewer Product Guid  -->
-  <?define ProductGuid="23701243-ab34-42a2-8f6f-b35372248b83" ?> <!-- Version 0.9.5-->
-  <!-- ?define ProductGuid="70810570-a053-4719-a6b4-2f216f45a641" ?> Version 0.9.5-->
-  <!-- ?define ProductGuid="cec7b8bc-624c-4253-9b7b-b6b957e9b665" ?> Version 0.9.4-->
-  <!-- ?define ProductGuid="2d14c6c6-b881-4173-ba3f-ff74e23abb0c" ?> Version 0.9.3-->
-  <!-- ?define ProductGuid="6d174582-6c05-471f-ab2d-d1ccb4e23211" ?> Version 0.9.2-->
-  <!-- ?define ProductGuid="1c729857-9f7b-48ab-abeb-74967ec583d4" ?> Version 0.9.1 -->
+  <?define ProductGuid="6c9eefe6-fc86-49cb-9d70-11e194925909" ?> <!-- Version 0.9.1-->
 
-  <?define CurrentUpdateGuid="BC80483F-C23F-4BD8-806D-C8A907D777AF" ?>
-  <?define GuidOfCustomComponent="BC80483F-C23F-4BD8-806D-C8A907D77700" ?>
-  <?define GuidOfAutoStartComponent="BC80483F-C23F-4BD8-806D-C8A907D77701" ?>
-  <?define GuidOfStartMenuShortCutComponent="BC80483F-C23F-4BD8-806D-C8A907D77702" ?>
+  <?define CurrentUpdateGuid="fa428219-1f75-40cf-8d30-623a47338d21" ?>
+  <?define GuidOfCustomComponent="fa428219-1f75-40cf-8d30-623a47338d22" ?>
+  <?define GuidOfAutoStartComponent="fa428219-1f75-40cf-8d30-623a47338d23" ?>
+  <?define GuidOfStartMenuShortCutComponent="fa428219-1f75-40cf-8d30-623a47338d24" ?>
 </Include>

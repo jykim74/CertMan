@@ -12,8 +12,8 @@
         <file>images/penguin_960_720.png</file>
         <file>images/save.png</file>
         <file>images/trash.png</file>
-        <file>i18n/caman_ko_KR.ts</file>
-        <file>images/caman.icns</file>
+        <file>i18n/certman_ko_KR.ts</file>
+        <file>images/certman.icns</file>
         <file>images/cert.png</file>
         <file>images/csr.jpg</file>
         <file>images/crl_profile.png</file>
@@ -25,13 +25,12 @@
         <file>images/reg_signer.png</file>
         <file>images/done.png</file>
         <file>images/red_cross.png</file>
-        <file>ca.db</file>
-        <file>images/caman.png</file>
+        <file>certman.db</file>
         <file>images/ca.png</file>
         <file>images/crl.png</file>
         <file>images/revoke.png</file>
         <file>images/new_key.png</file>
-        <file>i18n/caman_ko_KR.qm</file>
+        <file>i18n/certman_ko_KR.qm</file>
         <file>images/cert_profile.png</file>
         <file>images/disk.png</file>
         <file>images/branch-closed.png</file>
@@ -39,7 +38,6 @@
         <file>images/branch-more.png</file>
         <file>images/branch-open.png</file>
         <file>images/vline.png</file>
-        <file>caman.qss</file>
         <file>images/kms.png</file>
         <file>images/statistics.png</file>
         <file>images/audit.png</file>
@@ -55,6 +53,8 @@
         <file>images/timestamp.jpg</file>
         <file>images/key_reg.png</file>
         <file>images/key.png</file>
-        <file>ca.sql</file>
+        <file>certman.sql</file>
+        <file>certman.qss</file>
+        <file>images/certman.png</file>
     </qresource>
 </RCC>

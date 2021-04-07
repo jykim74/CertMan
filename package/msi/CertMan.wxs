@@ -2,9 +2,9 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
 	<?include Includes.wxi?>
 	<Product Id="$(var.ProductGuid)"
-			Name='!(loc.AppName) $(var.CurrentCAManVersion)'
+			Name='!(loc.AppName) $(var.CurrentCertManVersion)'
 			Language='1033'
-			Version='$(var.CurrentCAManVersion)'
+			Version='$(var.CurrentCertManVersion)'
 			Manufacturer='!(loc.Manufacturer)'
 			UpgradeCode="$(var.CurrentUpdateGuid)" >
 
@@ -16,32 +16,32 @@
 				Compressed='yes' />
 
 		<!-- http://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/configure_arp_appearance.html -->
-		<Icon Id="icon.ico" SourceFile="caman.ico"/>
+		<Icon Id="icon.ico" SourceFile="certman.ico"/>
 		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
 
 		<!-- Don't allow downgrade. -->
 		<MajorUpgrade DowngradeErrorMessage='!(loc.DowngradeErrorMessage)' />
 
 		<Property Id="SUPPRESS_LAUNCH_BERVIEWER_AFTER_INSTALL_FINISH">
-			<RegistrySearch Id="SuppressLaunchCAManHKCU"
+			<RegistrySearch Id="SuppressLaunchCertManHKCU"
 							Root="HKCU"
 							Key="SOFTWARE\!(loc.AppName)"
 							Name="PreconfigureSuppressLaunchAfterInstall"
 							Type="raw" />
 
-			<RegistrySearch Id="SuppressLaunchCAManHKLM"
+			<RegistrySearch Id="SuppressLaunchCertManHKLM"
 							Root="HKLM"
 							Key="SOFTWARE\!(loc.AppName)"
 							Name="PreconfigureSuppressLaunchAfterInstall"
 							Type="raw" />
 		</Property>
 
-		<Media Id='1' Cabinet='caman.cab' EmbedCab='yes' />
+		<Media Id='1' Cabinet='certman.cab' EmbedCab='yes' />
 	
 		<Directory Id='TARGETDIR' Name='SourceDir'>
 			<Directory Id='DesktopFolder' Name="DesktopFolder" />
 			<Directory Id="ProgramMenuFolder">
-				<Directory Id="CAManStartMenuFolder" Name='!(loc.AppName)' />
+				<Directory Id="CertManStartMenuFolder" Name='!(loc.AppName)' />
 			</Directory>
 
 			<Directory Id='ProgramFilesFolder' Name='PFiles'>
@@ -56,33 +56,33 @@
 
 		<!-- Auto-start via REgistry -->
 		<DirectoryRef Id="INSTALLDIR">
-			<Component Id="CAManAutoStart" Guid="$(var.GuidOfAutoStartComponent)">
+			<Component Id="CertManAutoStart" Guid="$(var.GuidOfAutoStartComponent)">
 				<RegistryKey Root="HKCU"
 							Key="Software\Microsoft\Windows\CurrentVersion\Run"
 							Action="create">
-					<RegistryValue Name='!(loc.AppName)' Value="[#caman.exe]" Type="string" KeyPath="yes" />
+					<RegistryValue Name='!(loc.AppName)' Value="[#certman.exe]" Type="string" KeyPath="yes" />
 				</RegistryKey>
 
 				<Condition>HSMMAN_AUTO_START</Condition>
 			</Component>
 		</DirectoryRef>
 
-		<DirectoryRef Id="CAManStartMenuFolder">
-			<Component Id="CAMan_StartMenuShortCut" Guid="$(var.GuidOfStartMenuShortCutComponent)" >
-				<RemoveFolder Id="CAManStartMenuFolder" On="uninstall" />
+		<DirectoryRef Id="CertManStartMenuFolder">
+			<Component Id="CertMan_StartMenuShortCut" Guid="$(var.GuidOfStartMenuShortCutComponent)" >
+				<RemoveFolder Id="CertManStartMenuFolder" On="uninstall" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]"
 						Name="Installed" Type="integer" Value="1" KeyPath='yes' />
 
-				<!-- shortcut to 'start caman' -->
-				<Shortcut Id="ApplicationStartMenuShortCut" Directory="CAManStartMenuFolder"
-							Name="!(loc.AppName)" Target="[#caman.exe]"
+				<!-- shortcut to 'start certman' -->
+				<Shortcut Id="ApplicationStartMenuShortCut" Directory="CertManStartMenuFolder"
+							Name="!(loc.AppName)" Target="[#certman.exe]"
 							Hotkey="0" IconIndex="0" Show="normal"
 							WorkingDirectory="bin" />
 
 				<!-- shortcut to 'Uninstall' -->
-				<Shortcut Id="UninstallProduct" Name="!(loc.UninstallCAMan)"
+				<Shortcut Id="UninstallProduct" Name="!(loc.UninstallCertMan)"
 							Target="[SystemFolder]msiexec.exe" IconIndex="0"
-							Arguments="/x [ProductCode]" Description="!(loc.UninstallCAMan)" />
+							Arguments="/x [ProductCode]" Description="!(loc.UninstallCertMan)" />
 			</Component>
 		</DirectoryRef>
 
@@ -99,20 +99,20 @@
 		</UI>
 
 <!--
-		<Property Id="WixShellExecTarget" Value="[#caman.exe]" />
+		<Property Id="WixShellExecTarget" Value="[#certman.exe]" />
 		<CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 -->
 
 		<Feature Id='Main' Level='1'>
-			<ComponentRef Id='CAMan_StartMenuShortCut' />
-			<ComponentRef Id='CAManAutoStart' />
+			<ComponentRef Id='CertMan_StartMenuShortCut' />
+			<ComponentRef Id='CertManAutoStart' />
 			<!-- defined in fragment.wxs -->
 			<ComponentGroupRef Id='group_bin' />
 		</Feature>
 
 		<Property Id="CHECKBOX_DEL_BERVIEWER_DATA" Secure="yes" />
-		<WixVariable Id="WixUIBannerBmp" Value="caman-top-banner.bmp" />
-		<WixVariable Id="WixUIDialogBmp" Value="caman-background.bmp" />
+		<WixVariable Id="WixUIBannerBmp" Value="certman-top-banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="certman-background.bmp" />
 
 	</Product>
 </Wix>
