@@ -57,13 +57,6 @@ MakeCertDlg::~MakeCertDlg()
 
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
-    if( ca_cert_list_.size() < 1 )
-    {
-        manApplet->warningBox( tr("There is no CA Certificate" ), this );
-        destroy();
-        return;
-    }
-
     if( cert_profile_list_.size() < 1 )
     {
         manApplet->warningBox( tr( "There is no certificate profile"), this );
