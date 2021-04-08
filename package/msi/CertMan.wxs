@@ -12,6 +12,7 @@
 		<Package Description='!(loc.PackageDescription)' Comments='!(loc.PackageComments)'
 				Manufacturer='!(loc.Manufacturer)'
 				InstallerVersion='200'
+				Platform="x64"
 				InstallPrivileges='elevated' InstallScope='perMachine'
 				Compressed='yes' />
 
@@ -44,7 +45,7 @@
 				<Directory Id="CertManStartMenuFolder" Name='!(loc.AppName)' />
 			</Directory>
 
-			<Directory Id='ProgramFilesFolder' Name='PFiles'>
+			<Directory Id='ProgramFiles64Folder' Name='PFiles'>
 				<Directory Id='INSTALLDIR' Name='!(loc.AppName)'>
 					<Directory Id='bin' Name='bin'>
 					</Directory>

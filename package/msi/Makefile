@@ -34,7 +34,8 @@ fragment.wxs:
 	cp -rf ./CertMan/* ./bin
 
 %.wixobj : %.wxs
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) -arch x64 $(CFLAGS) $< -o $@
+#	$(CC) $(CFLAGS) $< -o $@
 
 CertMan.wixobj : CertMan.wxs Includes.wxi
 	$(CC) $(CFLAGS) $< -o $@

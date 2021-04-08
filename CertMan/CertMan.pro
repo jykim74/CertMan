@@ -209,19 +209,38 @@ mac {
 win32 {
     DEFINES += _AUTO_UPDATE
     RC_ICONS = certman.ico
-    INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
-    INCLUDEPATH += "C:\msys64\mingw32\include"
 
-    Debug {
-        LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
-        LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto -lssl
+    contains(QT_ARCH, i386) {
+        message( "32bit" )
+        INCLUDEPATH += "../../PKILib/lib/win32/winsparkle/include"
+        INCLUDEPATH += "C:\msys64\mingw32\include"
+
+        Debug {
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto -lssl
+        } else {
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
+            LIBS += -L"../../PKILib/lib/win32/cmpossl/lib" -lcrypto -lssl
+        }
+
+        LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
+        LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle -lws2_32
     } else {
-        LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
-        LIBS += -L"../../PKILib/lib/win32/cmpossl/lib" -lcrypto -lssl
-    }
+        message( "64bit" );
+        INCLUDEPATH += "../../PKILib/lib/win64/winsparkle/include"
+        INCLUDEPATH += "C:\msys64\mingw64\include"
 
-    LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
-    LIBS += -L"../../PKILib/lib/win32/winsparkle/Release" -lWinSparkle -lws2_32
+        Debug {
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../PKILib/lib/win64/debug/cmpossl/lib" -lcrypto -lssl
+        } else {
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release/release" -lPKILib
+            LIBS += -L"../../PKILib/lib/win64/cmpossl/lib" -lcrypto -lssl
+        }
+
+        LIBS += -L"C:\msys64\mingw64\lib" -lltdl -lldap -llber
+        LIBS += -L"../../PKILib/lib/win64/winsparkle/x64/Release" -lWinSparkle -lws2_32
+    }
 }
 
 linux {

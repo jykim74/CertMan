@@ -5,7 +5,7 @@
     <name>AboutDlg</name>
     <message>
         <source>About CAMan</source>
-        <translation>CAMan 에 대해서</translation>
+        <translation type="vanished">CAMan 에 대해서</translation>
     </message>
     <message>
         <source>Check For Update</source>
@@ -34,6 +34,10 @@
     <message>
         <source>Close</source>
         <translation>닫기</translation>
+    </message>
+    <message>
+        <source>About CertMan</source>
+        <translation>CertMan에 대해</translation>
     </message>
 </context>
 <context>
@@ -425,7 +429,7 @@
     </message>
     <message>
         <source>Quit CAManager</source>
-        <translation>CA매니저 끝내기</translation>
+        <translation type="vanished">CA매니저 끝내기</translation>
     </message>
     <message>
         <source>&amp;Tools</source>
@@ -553,7 +557,7 @@
     </message>
     <message>
         <source>About CAMan</source>
-        <translation>CAMan 에 대해서</translation>
+        <translation type="vanished">CAMan 에 대해서</translation>
     </message>
     <message>
         <source>ServerStatus</source>
@@ -569,7 +573,7 @@
     </message>
     <message>
         <source>Settings CAMan</source>
-        <translation>CAMan 설정</translation>
+        <translation type="vanished">CAMan 설정</translation>
     </message>
     <message>
         <source>Ready</source>
@@ -753,7 +757,7 @@
     </message>
     <message>
         <source>&amp;About CAMan</source>
-        <translation>CAMan에 대해 (&amp;A)</translation>
+        <translation type="vanished">CAMan에 대해 (&amp;A)</translation>
     </message>
     <message>
         <source>ServerS&amp;tatus</source>
@@ -1127,6 +1131,22 @@
         <source>You have to open database</source>
         <translation>데이타 베이스를 열어야 합니다</translation>
     </message>
+    <message>
+        <source>Quit CertMan</source>
+        <translation>CertMan 끝내기</translation>
+    </message>
+    <message>
+        <source>Settings CertMan</source>
+        <translation>CertMan 설정</translation>
+    </message>
+    <message>
+        <source>&amp;About CertMan</source>
+        <translation>CertMan에 대해(&amp;A)</translation>
+    </message>
+    <message>
+        <source>About CertMan</source>
+        <translation>CertMan에 대해</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -1436,6 +1456,18 @@
         <source>Value</source>
         <translation>값</translation>
     </message>
+    <message>
+        <source>Extensions</source>
+        <translation>확장 필드</translation>
+    </message>
+    <message>
+        <source>Use Extensions</source>
+        <translation>확장 필드 사용</translation>
+    </message>
+    <message>
+        <source>OID</source>
+        <translation>OID</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
@@ -1554,6 +1586,10 @@
     <message>
         <source>can not check selfsign when use csr file</source>
         <translation>CSR 파일 사용 시 SelfSign 옵션을 사용 할 수 없습니다</translation>
+    </message>
+    <message>
+        <source>There is no CA Certificate</source>
+        <translation>CA 인증서가 없습니다</translation>
     </message>
 </context>
 <context>
@@ -1988,6 +2024,14 @@
     <message>
         <source>Delete</source>
         <translation>삭제</translation>
+    </message>
+    <message>
+        <source>Extensions</source>
+        <translation>확장 필드</translation>
+    </message>
+    <message>
+        <source>Ues Extensions</source>
+        <translation>확장 필드 사용</translation>
     </message>
 </context>
 <context>
