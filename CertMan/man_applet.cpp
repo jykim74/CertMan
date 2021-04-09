@@ -77,7 +77,7 @@ int ManApplet::loadPKCS11()
     {
         QString strLibPath = settings_mgr_->PKCS11LibraryPath();
         int rv = JS_PKCS11_LoadLibrary( (JP11_CTX **)&p11_ctx_, strLibPath.toStdString().c_str() );
-        if( rv == CKR_OK ) JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_ );
+        if( rv == CKR_OK ) JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_, NULL );
     }
     else
     {

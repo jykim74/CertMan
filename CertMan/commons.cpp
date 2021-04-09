@@ -1439,7 +1439,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
         char *pN = NULL;
         char *pE = NULL;
 
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_MODULUS, &binVal );
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_MODULUS, &binVal );
         if( rv != 0 ) goto end;
 
         JRSAKeyVal  rsaKey;
@@ -1457,7 +1457,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
     }
     else if( keyType == CKK_ECDSA )
     {
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
         if( rv != 0 ) goto end;
 
         char *pECPoint = NULL;

@@ -374,7 +374,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub )
         char *pN = NULL;
         char *pE = NULL;
 
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_MODULUS, &binVal );
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_MODULUS, &binVal );
         if( rv != 0 ) goto end;
 
         JRSAKeyVal  rsaKey;
@@ -392,7 +392,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub )
     }
     else if( keyType == CKK_ECDSA )
     {
-        rv = JS_PKCS11_GetAtrributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
         if( rv != 0 ) goto end;
 
         char *pECPoint = NULL;
