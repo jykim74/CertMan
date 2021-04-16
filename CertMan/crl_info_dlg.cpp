@@ -82,7 +82,7 @@ void CRLInfoDlg::initialize()
 
     mCRLListTable->insertRow(i);
     mCRLListTable->setRowHeight(i,10);
-    mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
+    mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("Version")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(crl_info_.nVersion+1)));
     i++;
 
@@ -90,7 +90,7 @@ void CRLInfoDlg::initialize()
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setRowHeight(i,10);
-        mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("IssuerName")));
+        mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("IssuerName")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pIssuerName)));
         i++;
     }
@@ -99,14 +99,14 @@ void CRLInfoDlg::initialize()
     JS_UTIL_getDateTime( crl_info_.uLastUpdate, sLastUpdate );
     mCRLListTable->insertRow(i);
     mCRLListTable->setRowHeight(i,10);
-    mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("LastUpdate")));
+    mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("LastUpdate")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sLastUpdate)));
     i++;
 
     JS_UTIL_getDateTime( crl_info_.uNextUpdate, sNextUpdate );
     mCRLListTable->insertRow(i);
     mCRLListTable->setRowHeight(i,10);
-    mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("NextUpdate")));
+    mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("NextUpdate")));
     mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNextUpdate)));
     i++;
 
@@ -114,7 +114,7 @@ void CRLInfoDlg::initialize()
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setRowHeight(i,10);
-        mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("SignAlgorithm")));
+        mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("SignAlgorithm")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignAlgorithm)));
         i++;
     }
@@ -123,7 +123,7 @@ void CRLInfoDlg::initialize()
     {
         mCRLListTable->insertRow(i);
         mCRLListTable->setRowHeight(i,10);
-        mCRLListTable->setItem( i, 0, new QTableWidgetItem( QString("Signature")));
+        mCRLListTable->setItem( i, 0, new QTableWidgetItem( tr("Signature")));
         mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(crl_info_.pSignature)));
         i++;
     }

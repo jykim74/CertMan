@@ -74,7 +74,7 @@ void CertInfoDlg::initialize()
 
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
-    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("Version")));
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( tr("Version")));
     mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(sCertInfo.nVersion + 1)));
     i++;
 
@@ -82,7 +82,7 @@ void CertInfoDlg::initialize()
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("Serial")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Serial")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSerial)));
         i++;
     }
@@ -90,14 +90,14 @@ void CertInfoDlg::initialize()
     JS_UTIL_getDateTime( sCertInfo.uNotBefore, sNotBefore );
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
-    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotBefore")));
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( tr("NotBefore")));
     mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNotBefore)));
     i++;
 
     JS_UTIL_getDateTime( sCertInfo.uNotAfter, sNotAfter );
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
-    mFieldTable->setItem( i, 0, new QTableWidgetItem( QString("NotAfter")));
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( tr("NotAfter")));
     mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNotAfter)));
     i++;
 
@@ -107,7 +107,7 @@ void CertInfoDlg::initialize()
 
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("SubjectName")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("SubjectName")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg( name )));
         i++;
     }
@@ -116,7 +116,7 @@ void CertInfoDlg::initialize()
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("PublicKey")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("PublicKey")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pPublicKey)));
         i++;
     }
@@ -125,7 +125,7 @@ void CertInfoDlg::initialize()
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("IssuerName")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("IssuerName")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pIssuerName)));
         i++;
     }
@@ -134,7 +134,7 @@ void CertInfoDlg::initialize()
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("SigAlgorithm")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("SigAlgorithm")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignAlgorithm)));
         i++;
     }
@@ -143,7 +143,7 @@ void CertInfoDlg::initialize()
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(QString("Signature")));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Signature")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pSignature)));
         i++;
     }

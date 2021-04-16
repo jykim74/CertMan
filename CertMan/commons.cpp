@@ -62,7 +62,7 @@ static int _getKeyUsage( const BIN *pBinExt, QString& strVal )
     if( nKeyUsage & JS_PKI_KEYUSAGE_DIGITAL_SIGNATURE )
     {
         if( strVal.length() > 0 ) strVal += ",";
-        strVal += "Digital Signature";
+        strVal += "DigitalSignature";
     }
 
     if( nKeyUsage & JS_PKI_KEYUSAGE_NON_REPUDIATION )

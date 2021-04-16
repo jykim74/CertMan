@@ -141,6 +141,30 @@
         <source>RevokedDate</source>
         <translation>폐기 일자</translation>
     </message>
+    <message>
+        <source>Version</source>
+        <translation>버전</translation>
+    </message>
+    <message>
+        <source>IssuerName</source>
+        <translation>발급자 이름</translation>
+    </message>
+    <message>
+        <source>LastUpdate</source>
+        <translation>최근 업데이트</translation>
+    </message>
+    <message>
+        <source>NextUpdate</source>
+        <translation>다음 업데이트</translation>
+    </message>
+    <message>
+        <source>SignAlgorithm</source>
+        <translation>서명 알고리즘</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>서명</translation>
+    </message>
 </context>
 <context>
     <name>CertInfoDlg</name>
@@ -203,6 +227,42 @@
     <message>
         <source>Check</source>
         <translation>점검</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>버전</translation>
+    </message>
+    <message>
+        <source>Serial</source>
+        <translation>일련번호</translation>
+    </message>
+    <message>
+        <source>NotBefore</source>
+        <translation>유효기간(시작)</translation>
+    </message>
+    <message>
+        <source>NotAfter</source>
+        <translation>유효기간(끝)</translation>
+    </message>
+    <message>
+        <source>SubjectName</source>
+        <translation>주체자 이름</translation>
+    </message>
+    <message>
+        <source>PublicKey</source>
+        <translation>공개키</translation>
+    </message>
+    <message>
+        <source>IssuerName</source>
+        <translation>발급자 이름</translation>
+    </message>
+    <message>
+        <source>SigAlgorithm</source>
+        <translation>서명 알고리즘</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>서명</translation>
     </message>
 </context>
 <context>
@@ -1589,7 +1649,7 @@
     </message>
     <message>
         <source>There is no CA Certificate</source>
-        <translation>CA 인증서가 없습니다</translation>
+        <translation type="vanished">CA 인증서가 없습니다</translation>
     </message>
 </context>
 <context>
