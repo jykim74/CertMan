@@ -139,8 +139,8 @@ void CRLInfoDlg::initialize()
             mCRLListTable->insertRow(i);
             mCRLListTable->setRowHeight(i,10);
             mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileExt.getSN())));
-            mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(profileExt.isCritical())
+            mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("%1%2")
+                                                               .arg(profileExt.isCritical() ? "[C]" : "" )
                                                                .arg(profileExt.getValue())));
 
 

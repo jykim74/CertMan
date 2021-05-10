@@ -1244,6 +1244,9 @@ void MainWindow::deleteCertProfile()
         return;
     }
 
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this certificate profile?" ), this, false );
+    if( bVal == false ) return;
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1262,6 +1265,9 @@ void MainWindow::deleteCRLProfile()
         return;
     }
 
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this CRL profile?" ), this, false );
+    if( bVal == false ) return;
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1279,6 +1285,9 @@ void MainWindow::deleteCertificate()
         manApplet->warningBox( tr("You have to open database"), this );
         return;
     }
+
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this certificate?" ), this, false );
+    if( bVal == false ) return;
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
@@ -1299,6 +1308,9 @@ void MainWindow::deleteCRL()
         manApplet->warningBox( tr("You have to open database"), this );
         return;
     }
+
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this CRL?" ), this, false );
+    if( bVal == false ) return;
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row , 0 );
@@ -1321,6 +1333,9 @@ void MainWindow::deleteKeyPair()
         return;
     }
 
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this key pair?" ), this, false );
+    if( bVal == false ) return;
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1336,6 +1351,9 @@ void MainWindow::deleteRequest()
         manApplet->warningBox( tr("You have to open database"), this );
         return;
     }
+
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this request?" ), this, false );
+    if( bVal == false ) return;
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
@@ -1353,6 +1371,9 @@ void MainWindow::deleteUser()
         return;
     }
 
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this user?" ), this, false );
+    if( bVal == false ) return;
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
@@ -1368,6 +1389,9 @@ void MainWindow::deleteSigner()
         manApplet->warningBox( tr("You have to open database"), this );
         return;
     }
+
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this signer?" ), this, false );
+    if( bVal == false ) return;
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );

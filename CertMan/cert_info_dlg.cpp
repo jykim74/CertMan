@@ -160,8 +160,8 @@ void CertInfoDlg::initialize()
             mFieldTable->insertRow(i);
             mFieldTable->setRowHeight(i,10);
             mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileRec.getSN())));
-            mFieldTable->setItem(i,1, new QTableWidgetItem(QString("[%1]%2")
-                                                               .arg(profileRec.isCritical())
+            mFieldTable->setItem(i,1, new QTableWidgetItem(QString("%1%2")
+                                                               .arg(profileRec.isCritical() ? "[C]" : "" )
                                                                .arg(profileRec.getValue())));
 
 
