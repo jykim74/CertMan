@@ -13,6 +13,8 @@
 #include "mainwindow.h"
 #include "settings_mgr.h"
 
+const QStringList kUserStatus = { "Invalid", "Regiser", "Issue", "Stop" };
+
 UserDlg::UserDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -29,8 +31,6 @@ UserDlg::~UserDlg()
 void UserDlg::showEvent(QShowEvent *event)
 {
     initialize();
-
-    mStatusText->setText( "0" );
 }
 
 void UserDlg::accept()
@@ -47,7 +47,7 @@ void UserDlg::accept()
     QString strName = mNameText->text();
     QString strSSN = mSSNText->text();
     QString strEmail = mEmailText->text();
-    int nStatus = mStatusText->text().toInt();
+    int nStatus = mStatusCombo->currentIndex();
     QString strRefNum = mRefNumText->text();
     QString strAuthCode = mAuthCodeText->text();
 
@@ -104,7 +104,8 @@ void UserDlg::initUI()
 
 void UserDlg::initialize()
 {
-
+    mStatusCombo->addItems( kUserStatus );
+    mStatusCombo->setCurrentIndex(1);
 }
 
 void UserDlg::regServer()

@@ -26,6 +26,8 @@ private slots:
     void clickModify();
 
 private:
+    void initialize();
+
     bool    edit_mode_;
     int    seq_;
 };

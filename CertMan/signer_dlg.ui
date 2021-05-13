@@ -27,9 +27,6 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="mStatusText"/>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
@@ -77,13 +74,15 @@
    <item row="1" column="1" colspan="2">
     <widget class="QLineEdit" name="mCertPathText"/>
    </item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="mStatusCombo"/>
+   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>mTypeCombo</tabstop>
   <tabstop>mCertPathText</tabstop>
   <tabstop>mFindCertBtn</tabstop>
-  <tabstop>mStatusText</tabstop>
   <tabstop>mDescText</tabstop>
  </tabstops>
  <resources/>

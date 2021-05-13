@@ -66,7 +66,7 @@ void SignerDlg::accept()
     signer.setType( nType );
     signer.setDN( sCertInfo.pSubjectName );
     signer.setDNHash( sCertInfo.pDNHash );
-    signer.setStatus( mStatusText->text().toInt() );
+    signer.setStatus( mStatusCombo->currentIndex() );
     signer.setCert( pCert );
     signer.setDesc( mDescText->toPlainText() );
 
@@ -83,7 +83,7 @@ void SignerDlg::accept()
 
 void SignerDlg::initialize()
 {
-
+    mStatusCombo->addItems( kStatusList );
 }
 
 void SignerDlg::initUI()

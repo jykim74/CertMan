@@ -4,7 +4,10 @@
 #include "admin_rec.h"
 #include "man_applet.h"
 #include "mainwindow.h"
+#include "commons.h"
 
+
+const QStringList kAdminType = { "Invalid", "Master", "Admin", "Audit" };
 
 AdminDlg::AdminDlg(QWidget *parent) :
     QDialog(parent)
@@ -19,11 +22,22 @@ AdminDlg::AdminDlg(QWidget *parent) :
     connect( mDeleteBtn, SIGNAL(clicked()), this, SLOT(clickDelete()));
 
     mPasswordText->setEchoMode(QLineEdit::Password);
+
+    initialize();
 }
 
 AdminDlg::~AdminDlg()
 {
 
+}
+
+void AdminDlg::initialize()
+{
+    mStatusCombo->addItems( kStatusList );
+    mStatusCombo->setCurrentIndex( 2 );
+
+    mTypeCombo->addItems( kAdminType );
+    mTypeCombo->setCurrentIndex( 2 );
 }
 
 void AdminDlg::setEditMode(bool bVal)
@@ -51,8 +65,9 @@ void AdminDlg::showEvent(QShowEvent *event)
         mNameText->setText( admin.getName() );
         mPasswordText->setText( admin.getPassword() );
         mEmailText->setText( admin.getEmail() );
-        mStatusText->setText( QString("%1").arg(admin.getStatus()));
-        mTypeText->setText( QString("%1").arg(admin.getType()));
+
+        mStatusCombo->setCurrentIndex(admin.getStatus());
+        mTypeCombo->setCurrentIndex(admin.getType());
     }
     else
     {
@@ -75,8 +90,8 @@ void AdminDlg::clickRegister()
     QString strName = mNameText->text();
     QString strPassword = mPasswordText->text();
     QString strEmail = mEmailText->text();
-    QString strStatus = mStatusText->text();
-    QString strType = mTypeText->text();
+    int nStatus = mStatusCombo->currentIndex();
+    int nType = mTypeCombo->currentIndex();
 
     if( strName.isEmpty() )
     {
@@ -99,8 +114,8 @@ void AdminDlg::clickRegister()
     admin.setName( strName );
     admin.setPassword( strPassword );
     admin.setEmail( strEmail );
-    admin.setStatus( strStatus.toInt() );
-    admin.setType( strType.toInt() );
+    admin.setStatus( nStatus );
+    admin.setType( nType );
 
     dbMgr->addAdminRec( admin );
     manApplet->mainWindow()->createRightAdminList();
@@ -135,8 +150,8 @@ void AdminDlg::clickModify()
     QString strName = mNameText->text();
     QString strPassword = mPasswordText->text();
     QString strEmail = mEmailText->text();
-    QString strStatus = mStatusText->text();
-    QString strType = mTypeText->text();
+    int nStatus = mStatusCombo->currentIndex();
+    int nType = mTypeCombo->currentIndex();
 
     if( strName.isEmpty() )
     {
@@ -159,8 +174,8 @@ void AdminDlg::clickModify()
     admin.setName( strName );
     admin.setPassword( strPassword );
     admin.setEmail( strEmail );
-    admin.setStatus( strStatus.toInt() );
-    admin.setType( strType.toInt() );
+    admin.setStatus( nStatus );
+    admin.setType( nType );
 
     dbMgr->modAdminRec( seq_, admin );
     manApplet->mainWindow()->createRightAdminList();
