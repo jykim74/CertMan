@@ -206,11 +206,11 @@
     </message>
     <message>
         <source>Field List</source>
-        <translation></translation>
+        <translation>필드 목록</translation>
     </message>
     <message>
         <source>Detail Value</source>
-        <translation></translation>
+        <translation>상세 값</translation>
     </message>
     <message>
         <source>Certificate Path</source>
@@ -1206,6 +1206,38 @@
     <message>
         <source>About CertMan</source>
         <translation>CertMan에 대해</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this certificate profile?</source>
+        <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this CRL profile?</source>
+        <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this certificate?</source>
+        <translation>이 인증서를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this CRL?</source>
+        <translation>이 CRL을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this key pair?</source>
+        <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this request?</source>
+        <translation>이 요청서를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this user?</source>
+        <translation>이 사용자를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this signer?</source>
+        <translation>이 서명자를 삭제 하시겠습니까?</translation>
     </message>
 </context>
 <context>
