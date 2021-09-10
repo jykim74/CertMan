@@ -168,6 +168,7 @@ void ExportDlg::clickFind()
     options |= QFileDialog::DontUseNativeDialog;
 
     QString strFilter;
+    QString strPath = mPathText->text();
 
     if( export_type_ == EXPORT_TYPE_PRIKEY )
     {
@@ -201,23 +202,25 @@ void ExportDlg::clickFind()
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName( this,
                                                      tr("Export Files"),
-                                                     QDir::currentPath(),
+                                                     strPath,
                                                      strFilter,
                                                      &selectedFilter,
                                                      options );
 
-    mPathText->setText( fileName );
+    if( fileName.length() > 0 ) mPathText->setText( fileName );
 }
 
 void ExportDlg::initUI()
 {
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFind()));
+    mPasswordText->setEchoMode(QLineEdit::Password);
 }
 
 void ExportDlg::initialize()
 {
     QString strMsg;
     QString strPart;
+    QString strPath;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -234,14 +237,21 @@ void ExportDlg::initialize()
         dbMgr->getKeyPairRec( data_num_, keyPair );
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
+        {
             strMsg = "[Private Key data]\n";
+            strPath = "pri.der";
+        }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             mPasswordText->setEnabled(true);
             strMsg = "[Encrypting Private Key data]\n";
+            strPath = "pri.key";
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
+        {
             strMsg = "[Public Key data]\n";
+            strPath = "pub.der";
+        }
 
         strPart = QString( "Num: %1\nAlgorithm: %2\nName: %3\n")
                 .arg( data_num_)
@@ -254,11 +264,15 @@ void ExportDlg::initialize()
         dbMgr->getCertRec( data_num_, cert );
 
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
+        {
             strMsg = "[ Certificate data ]\n";
+            strPath = "cert.der";
+        }
         else if( export_type_ == EXPORT_TYPE_PFX )
         {
             mPasswordText->setEnabled(true);
             strMsg = "[ PFX data ]\n";
+            strPath = "pri_pub_cert.pfx";
         }
 
         strPart = QString( "Num: %1\nDN: %2\nAlgorithm: %3\n")
@@ -275,6 +289,8 @@ void ExportDlg::initialize()
         strPart = QString( "Num: %1\nAlgorithm: %2\n")
                 .arg( data_num_ )
                 .arg( crl.getSignAlg() );
+
+        strPath = "crl.der";
     }
     else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
@@ -286,6 +302,8 @@ void ExportDlg::initialize()
                 .arg(data_num_)
                 .arg( req.getName() )
                 .arg( req.getDN() );
+
+        strPath = "req.der";
     }
 
 
@@ -306,4 +324,5 @@ void ExportDlg::initialize()
 
     strMsg += strPart;
     mInfoText->setPlainText( strMsg );
+    mPathText->setText( strPath );
 }
