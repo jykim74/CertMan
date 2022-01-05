@@ -1462,7 +1462,7 @@ void MainWindow::logClear()
     log_text_->clear();
 }
 
-void MainWindow::logCurorTop()
+void MainWindow::logCursorTop()
 {
     log_text_->moveCursor(QTextCursor::Start);
 }
@@ -3736,7 +3736,7 @@ void MainWindow::logKeyPair(int seq)
     manApplet->log( QString("Param      : %1\n").arg(keyPair.getParam()));
     manApplet->log( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logRequest( int seq )
@@ -3760,7 +3760,7 @@ void MainWindow::logRequest( int seq )
     manApplet->log( QString("Hash     : %1\n").arg(reqRec.getHash()));
     manApplet->log( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logCertificate( int seq )
@@ -3808,7 +3808,7 @@ void MainWindow::logCertificate( int seq )
     manApplet->log( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
     manApplet->log( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logCertProfile( int seq )
@@ -3868,7 +3868,7 @@ void MainWindow::logCertProfile( int seq )
                 .arg(extRec.getValue()) );
     }
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logCRL( int seq )
@@ -3893,7 +3893,7 @@ void MainWindow::logCRL( int seq )
     manApplet->log( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
     manApplet->log( QString("CRL           : %1\n").arg(crlRec.getCRL()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logCRLProfile( int seq )
@@ -3947,7 +3947,7 @@ void MainWindow::logCRLProfile( int seq )
                 .arg(extRec.getValue()));
     }
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logRevoke( int seq )
@@ -3973,7 +3973,7 @@ void MainWindow::logRevoke( int seq )
     manApplet->log( QString("Reason       : %1 - %2\n").arg( revokeRec.getReason()).arg(strReason));
     manApplet->log( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logUser( int seq )
@@ -3996,7 +3996,7 @@ void MainWindow::logUser( int seq )
     manApplet->log( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
     manApplet->log( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logAdmin( int seq )
@@ -4016,7 +4016,7 @@ void MainWindow::logAdmin( int seq )
     manApplet->log( QString("Password     : %1\n").arg(adminRec.getPassword()));
     manApplet->log( QString("Email        : %1\n").arg(adminRec.getEmail()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logKMS( int seq )
@@ -4055,7 +4055,7 @@ void MainWindow::logKMS( int seq )
                 .arg(attribRec.getValue()));
     }
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logAudit( int seq )
@@ -4079,7 +4079,7 @@ void MainWindow::logAudit( int seq )
     manApplet->log( QString("Info         : %1\n").arg(auditRec.getInfo()));
     manApplet->log( QString("MAC          : %1\n").arg(auditRec.getMAC()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logTSP( int seq )
@@ -4100,7 +4100,7 @@ void MainWindow::logTSP( int seq )
     manApplet->log( QString("TSTInfo      : %1\n").arg(tspRec.getTSTInfo()));
     manApplet->log( QString("Data         : %1\n").arg(tspRec.getData()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logSigner(int seq)
@@ -4123,7 +4123,7 @@ void MainWindow::logSigner(int seq)
     manApplet->log( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
     manApplet->log( QString("Desc         : %1\n").arg(signerRec.getDesc()));
 
-    logCurorTop();
+    logCursorTop();
 }
 
 void MainWindow::logStatistics()
@@ -4133,7 +4133,7 @@ void MainWindow::logStatistics()
     manApplet->log( "== Statistics Information\n" );
     manApplet->log( "========================================================================\n" );
 
-    logCurorTop();
+    logCursorTop();
 }
 
 int MainWindow::rightCount()
