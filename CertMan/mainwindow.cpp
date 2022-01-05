@@ -4013,6 +4013,7 @@ void MainWindow::logAdmin( int seq )
     manApplet->log( QString("Seq          : %1\n").arg(adminRec.getSeq()));
     manApplet->log( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
     manApplet->log( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
+    manApplet->log( QString("Name         : %1\n").arg(adminRec.getName()));
     manApplet->log( QString("Password     : %1\n").arg(adminRec.getPassword()));
     manApplet->log( QString("Email        : %1\n").arg(adminRec.getEmail()));
 
