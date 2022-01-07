@@ -3206,11 +3206,8 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strUserName )));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( cert.getSignAlg() ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
-//        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg(cert.getCRLDP() )));
     }
 
     search_menu_->setTotalCount( nTotalCount );
