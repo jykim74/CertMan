@@ -3356,7 +3356,7 @@ void MainWindow::createRightUserList()
     right_type_ = RightType::TYPE_USER;
 
     int nTotalCount = 0;
-    int nLimit = manApplet->settingsMgr()->listCount();;
+    int nLimit = manApplet->settingsMgr()->listCount();
     int nPage = search_menu_->curPage();
     int nOffset = nPage * nLimit;
 
