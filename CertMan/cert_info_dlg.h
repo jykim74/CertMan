@@ -24,7 +24,6 @@ public:
 
 private slots:
     void showEvent(QShowEvent *event);
-    void clickClose();
     void clickField( QModelIndex index );
     void clickCheck();
 

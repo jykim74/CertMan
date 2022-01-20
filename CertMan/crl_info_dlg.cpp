@@ -22,7 +22,8 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
 
 CRLInfoDlg::~CRLInfoDlg()
 {
-
+    if( ext_info_list_ ) JS_PKI_resetExtensionInfoList( &ext_info_list_ );
+    if( revoke_info_list_ ) JS_PKI_resetRevokeInfoList( &revoke_info_list_ );
 }
 
 void CRLInfoDlg::showEvent(QShowEvent *event)
@@ -33,11 +34,6 @@ void CRLInfoDlg::showEvent(QShowEvent *event)
 void CRLInfoDlg::setCRLNum(int crl_num)
 {
     crl_num_ = crl_num;
-}
-
-void CRLInfoDlg::clickClose()
-{
-    this->hide();
 }
 
 void CRLInfoDlg::initialize()
@@ -76,7 +72,7 @@ void CRLInfoDlg::initialize()
     {
         manApplet->warningBox( tr("fail to get CRL information"), this );
         JS_BIN_reset( &binCRL );
-        this->hide();
+        close();
         return;
     }
 
@@ -157,7 +153,7 @@ void CRLInfoDlg::initialize()
         while( pCurRevList )
         {
             mRevokeListTable->insertRow(k);
-            mCRLListTable->setRowHeight(k,10);
+            mRevokeListTable->setRowHeight(k,10);
             mRevokeListTable->setItem( k, 0, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.pSerial)));
             mRevokeListTable->setItem( k, 1, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.uRevokeDate)));
 
@@ -201,7 +197,7 @@ void CRLInfoDlg::initUI()
     mRevokeDetailTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeDetailTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
     connect( mRevokeListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickRevokeField(QModelIndex)));
 }
@@ -257,7 +253,7 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, profileExt );
 
     mRevokeDetailTable->insertRow(0);
-    mRevokeDetailTable->setColumnWidth(0,10);
+    mRevokeDetailTable->setRowHeight(0,10);
     mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
                                                                 .arg(profileExt.getSN())));
     mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")

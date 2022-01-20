@@ -236,13 +236,8 @@ void CertInfoDlg::initUI()
     mFieldTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
-    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
-}
-
-void CertInfoDlg::clickClose()
-{
-    this->hide();
 }
 
 void CertInfoDlg::clickField(QModelIndex index)
