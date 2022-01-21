@@ -86,7 +86,12 @@ void SearchMenu::updatePageLabel()
     int nOffset = cur_page_ * manApplet->settingsMgr()->listCount();
     int nEnd = nOffset + manApplet->mainWindow()->rightCount();
 
-    QString label = QString( "%1-%2 of %3 [%4p]" ).arg( nOffset + 1 ).arg( nEnd ).arg( total_count_ ).arg(cur_page_+1);
+    QString label = QString( "%1-%2 of %3 [%4p]" )
+            .arg( nOffset + 1 )
+            .arg( nEnd )
+            .arg( total_count_ )
+            .arg(cur_page_+1);
+
     page_label_->setText( label );
 }
 
