@@ -9,6 +9,8 @@
 #include "settings_mgr.h"
 #include "commons.h"
 
+const QStringList kListCountList = { "10", "15", "20", "25", "30" };
+
 SettingsDlg::SettingsDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -73,7 +75,7 @@ void SettingsDlg::updateSettings()
     mgr->setLDAPHost( mLDAPHostText->text() );
     mgr->setLDAPPort( mLDAPPortText->text().toInt() );
     mgr->setBaseDN( mBaseDNText->text() );
-    mgr->setListCount( mListCountText->text().toInt() );
+    mgr->setListCount( mListCountCombo->currentText().toInt() );
 
     bool language_changed = false;
 
@@ -326,11 +328,12 @@ void SettingsDlg::initialize()
 
     checkP11Use();
 
+    mListCountCombo->addItems( kListCountList );
 
     QString strSlotID = QString( "%1" ).arg( mgr->slotID() );
     mSlotIDText->setText( strSlotID );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
-    mListCountText->setText( QString("%1").arg( mgr->listCount() ));
+    mListCountCombo->setCurrentText( QString("%1").arg( mgr->listCount()));
     mLDAPHostText->setText( mgr->LDAPHost() );
     mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
     mBaseDNText->setText( mgr->baseDN() );

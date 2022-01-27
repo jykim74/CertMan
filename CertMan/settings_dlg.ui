@@ -17,44 +17,53 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="mSaveDBPathCheck">
-         <property name="text">
-          <string>Save db path</string>
+       <item row="4" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout_17">
+         <property name="topMargin">
+          <number>0</number>
          </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="mListCountText"/>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ListCount</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="mListCountCombo"/>
+         </item>
+         <item row="0" column="2">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item row="5" column="0" colspan="2">
         <widget class="QCheckBox" name="mServerStatusCheck">
          <property name="text">
           <string>Sever status check</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>BaseDN</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="mBaseDNText"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>ListCount</string>
          </property>
         </widget>
        </item>
@@ -78,6 +87,29 @@
          </property>
         </spacer>
        </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="mBaseDNText"/>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="mSaveDBPathCheck">
+         <property name="text">
+          <string>Save db path</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>BaseDN</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0" colspan="2">
         <layout class="QGridLayout" name="gridLayout_14">
          <property name="topMargin">
@@ -85,6 +117,12 @@
          </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label_23">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
             <string>LDAP Host</string>
            </property>
@@ -733,7 +771,6 @@
   <tabstop>mLDAPHostText</tabstop>
   <tabstop>mLDAPPortText</tabstop>
   <tabstop>mBaseDNText</tabstop>
-  <tabstop>mListCountText</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
   <tabstop>mUseP11Check</tabstop>

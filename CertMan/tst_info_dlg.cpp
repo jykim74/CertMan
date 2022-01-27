@@ -67,17 +67,21 @@ void TSTInfoDlg::initialize()
         goto end;
     }
 
+
     mInfoTable->insertRow(i);
+    mInfoTable->setRowHeight( i, 10 );
     mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Version")));
     mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.nVersion)));
     i++;
 
     mInfoTable->insertRow(i);
+    mInfoTable->setRowHeight( i, 10 );
     mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Order")));
     mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.nOrder)));
     i++;
 
     mInfoTable->insertRow(i);
+    mInfoTable->setRowHeight( i, 10 );
     mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Serial")));
     mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.nSerial)));
     i++;
@@ -85,6 +89,7 @@ void TSTInfoDlg::initialize()
     if( sTSTInfo.pPolicy )
     {
         mInfoTable->insertRow(i);
+        mInfoTable->setRowHeight( i, 10 );
         mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Policy")));
         mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.pPolicy)));
         i++;
@@ -93,6 +98,7 @@ void TSTInfoDlg::initialize()
     if( sTSTInfo.pGenName )
     {
         mInfoTable->insertRow(i);
+        mInfoTable->setRowHeight( i, 10 );
         mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("GenName")));
         mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.pGenName)));
         i++;
@@ -101,6 +107,7 @@ void TSTInfoDlg::initialize()
     if( sTSTInfo.pGenTime )
     {
         mInfoTable->insertRow(i);
+        mInfoTable->setRowHeight( i, 10 );
         mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("GenTime")));
         mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.pGenTime)));
         i++;
@@ -109,6 +116,7 @@ void TSTInfoDlg::initialize()
     if( sTSTInfo.pNonce )
     {
         mInfoTable->insertRow(i);
+        mInfoTable->setRowHeight( i, 10 );
         mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Nonce")));
         mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(sTSTInfo.pNonce)));
         i++;
@@ -121,6 +129,7 @@ void TSTInfoDlg::initialize()
             .arg( sTSTInfo.sAccuracy.nMicroSec );
 
     mInfoTable->insertRow(i);
+    mInfoTable->setRowHeight( i, 10 );
     mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("Accuracy")));
     mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(strAccuracy)));
     i++;
@@ -131,6 +140,7 @@ void TSTInfoDlg::initialize()
             .arg( sTSTInfo.sMsgImprint.pImprint );
 
     mInfoTable->insertRow(i);
+    mInfoTable->setRowHeight( i, 10 );
     mInfoTable->setItem( i, 0, new QTableWidgetItem(QString("MsgImprint")));
     mInfoTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg(strMsgImprint)));
     i++;
@@ -143,12 +153,16 @@ end :
 void TSTInfoDlg::initUI()
 {
     QStringList sBaseLabels = { tr("Field"), tr("Value") };
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
 
     mInfoTable->clear();
     mInfoTable->horizontalHeader()->setStretchLastSection(true);
     mInfoTable->setColumnCount(2);
     mInfoTable->setHorizontalHeaderLabels( sBaseLabels );
     mInfoTable->verticalHeader()->setVisible(false);
+    mInfoTable->horizontalHeader()->setStyleSheet( style );
+    mInfoTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mInfoTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void TSTInfoDlg::clearTable()

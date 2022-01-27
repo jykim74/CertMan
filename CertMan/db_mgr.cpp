@@ -1501,7 +1501,7 @@ int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
     int nPosRegTime = SQL.record().indexOf( "RegTime");
     int nPosSerial = SQL.record().indexOf( "Serial" );
     int nPosSrcHash = SQL.record().indexOf( "SrcHash" );
-    int nPosPolicy = SQL.record().indexOf( "Profile" );
+    int nPosPolicy = SQL.record().indexOf( "Policy" );
     int nPosTSTInfo = SQL.record().indexOf( "TSTInfo" );
     int nPosData = SQL.record().indexOf( "Data" );
 
