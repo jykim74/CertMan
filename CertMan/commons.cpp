@@ -1957,6 +1957,11 @@ QString getStatusName( int nStatus )
     return "Unknown";
 }
 
+QString getStateName( int nState )
+{
+
+}
+
 QString getUserStatusName( int nStatus )
 {
     if( nStatus == JS_USER_STATUS_INVALID )

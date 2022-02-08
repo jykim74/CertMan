@@ -77,19 +77,19 @@ void NewKeyDlg::accept()
     char *pPriHex = NULL;
     char *pPubHex = NULL;
 
-    if( mMechCombo->currentIndex() == 0 )
+    if( mMechCombo->currentText() == kMechRSA )
     {
         int nKeySize = mOptionCombo->currentText().toInt();
         int nExponent = mExponentText->text().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
-    else if( mMechCombo->currentIndex() == 1 )
+    else if( mMechCombo->currentText() == kMechEC )
     {
         int nGroupID = JS_PKI_getNidFromSN( mOptionCombo->currentText().toStdString().c_str() );
         ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
     }
-    else if( mMechCombo->currentIndex() == 2 || mMechCombo->currentIndex() == 3 )
+    else if( mMechCombo->currentText() == kMechPKCS11_RSA || mMechCombo->currentText() == kMechPKCS11_EC )
     {
         QString strPin;
         PinDlg  pinDlg;
@@ -105,7 +105,7 @@ void NewKeyDlg::accept()
             ret = -1;
         }
     }
-    else if( mMechCombo->currentIndex() == 4 || mMechCombo->currentIndex() == 5 )
+    else if( mMechCombo->currentText() == kMechKMIP_RSA || mMechCombo->currentText() == kMechKMIP_EC )
     {
         ret = genKeyPairWithKMIP( &binPri, &binPub );
     }
@@ -147,17 +147,25 @@ end:
 void NewKeyDlg::mechChanged(int index )
 {
     mOptionCombo->clear();
+    QString strMech = mMechCombo->currentText();
 
-    if( index == 0 || index == 2 || index == 4 )
+    if( strMech == kMechRSA || strMech == kMechPKCS11_RSA || strMech == kMechKMIP_RSA )
     {
         mOptionCombo->addItems(kRSAOptionList);
         mExponentLabel->setEnabled(true);
         mExponentText->setEnabled(true);
         mOptionLabel->setText( "Key size");
     }
-    else if( index == 1 || index == 3 || index == 5 )
+    else if( strMech == kMechEC || strMech == kMechPKCS11_EC )
     {
         mOptionCombo->addItems(kECCOptionList);
+        mExponentLabel->setEnabled(false);
+        mExponentText->setEnabled(false);
+        mOptionLabel->setText("NamedCurve");
+    }
+    else if( strMech == kMechKMIP_EC)
+    {
+        mOptionCombo->addItem( "prime256v1" );
         mExponentLabel->setEnabled(false);
         mExponentText->setEnabled(false);
         mOptionLabel->setText("NamedCurve");
