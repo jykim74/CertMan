@@ -506,18 +506,21 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub )
 
     if( nAlg == JS_PKI_KEY_TYPE_RSA )
     {
+        JS_BIN_copy( pPub, &binData );
+        /*
         JRSAKeyVal sRSAKey;
         char *pN = NULL;
         char *pE = NULL;
 
         memset( &sRSAKey, 0x00, sizeof(sRSAKey));
-        JS_PKI_getRSAPublicKeyVal( &binData, &pE, &pN );
+        JS_PKI_getRSAPublicKeyVal( &binPubVal, &pE, &pN );
         JS_PKI_setRSAKeyVal( &sRSAKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
         JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub );
 
         if( pN ) JS_free( pN );
         if( pE ) JS_free( pE );
         JS_PKI_resetRSAKeyVal( &sRSAKey );
+        */
     }
     else if( nAlg == JS_PKI_KEY_TYPE_ECC )
     {
@@ -555,6 +558,10 @@ int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub )
  end :
     if( pPubUUID ) JS_free( pPubUUID );
     if( pPriUUID ) JS_free( pPriUUID );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binData );
 
     if( pSSL ) JS_SSL_clear( pSSL );
     if( pCTX ) JS_SSL_finish( &pCTX );
