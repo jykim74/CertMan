@@ -159,19 +159,19 @@ void ImportDlg::clickFind()
     QString strFilter = "";
 
     if( mDataTypeCombo->currentIndex() == 0 )
-        strFilter = "BER Files (*.ber)";
+        strFilter = "BER Files (*.ber *.der)";
     else if( mDataTypeCombo->currentIndex() == 1 )
-        strFilter = "Private Key Files (*.key)";
+        strFilter = "Private Key Files (*.key *.der)";
     else if( mDataTypeCombo->currentIndex() == 2 )
-        strFilter = "CSF Files (*.csr)";
+        strFilter = "CSF Files (*.csr *.der)";
     else if( mDataTypeCombo->currentIndex() == 3 )
-        strFilter = "Cert Files (*.crt)";
+        strFilter = "Cert Files (*.crt *.der)";
     else if( mDataTypeCombo->currentIndex() == 4 )
-        strFilter = "CRL Files (*.crl)";
+        strFilter = "CRL Files (*.crl *.der)";
     else if( mDataTypeCombo->currentIndex() == 5 )
-        strFilter = "PFX Files (*.pfx);;P12 Files (*.p12)";
+        strFilter = "PFX Files (*.pfx *.der);;P12 Files (*.p12 *.der)";
 
-    strFilter += ";;DER Files (*.der);;All Files (*.*)";
+    strFilter += ";;All Files (*.*)";
 
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
@@ -200,6 +200,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     int nParam = -1;
     BIN binPub = {0,0};
     QString strAlg;
+    KeyPairRec keyPair;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
@@ -260,9 +261,14 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             goto end;
         }
 
-        JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pPriKey, &binReq );
-        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-        JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+        ret = JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pPriKey, &binReq );
+        if( ret != 0 ) goto kmip_end;
+
+        ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        if( ret != 0 ) goto kmip_end;
+
+        ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+        if( ret != 0 ) goto kmip_end;
 
         if( pSSL ) JS_SSL_clear( pSSL );
         if( pCTX ) JS_SSL_finish( &pCTX );
@@ -280,11 +286,16 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             goto end;
         }
 
-        JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, &binPub, &binReq );
-        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-        JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+        ret = JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, &binPub, &binReq );
+        if( ret != 0 ) goto kmip_end;
 
+        ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        if( ret != 0 ) goto kmip_end;
 
+        ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+        if( ret != 0 ) goto kmip_end;
+
+    kmip_end :
         if( pSSL ) JS_SSL_clear( pSSL );
         if( pCTX ) JS_SSL_finish( &pCTX );
         if( pAuth ) JS_KMS_resetAuthentication( pAuth );
@@ -292,19 +303,19 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 
         JS_BIN_reset( &binReq );
         JS_BIN_reset( &binRsp );
+        if( ret != 0 ) goto end;
     }
-    else
-    {
-        KeyPairRec keyPair;
-        keyPair.setAlg( strAlg );
-        keyPair.setRegTime( time(NULL) );
-        keyPair.setName( mNameText->text() );
-        keyPair.setPublicKey( pHexPub );
-        keyPair.setPrivateKey( pHexPri );
-        keyPair.setParam( QString("Imported %1").arg(nParam) );
 
-        ret = dbMgr->addKeyPairRec( keyPair );
-    }
+
+    keyPair.setAlg( strAlg );
+    keyPair.setRegTime( time(NULL) );
+    keyPair.setName( mNameText->text() );
+    keyPair.setPublicKey( pHexPub );
+    keyPair.setPrivateKey( pHexPri );
+    keyPair.setParam( QString("Imported %1").arg(nParam) );
+
+    ret = dbMgr->addKeyPairRec( keyPair );
+
 
  end :
     if( pHexPri ) JS_free( pHexPri );
