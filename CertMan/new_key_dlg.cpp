@@ -98,7 +98,18 @@ void NewKeyDlg::accept()
         if( ret == QDialog::Accepted )
         {
             strPin = pinDlg.getPinText();
-            ret = genKeyPairWithP11( strPin, &binPri, &binPub );
+//            ret = genKeyPairWithP11( strPin, &binPri, &binPub );
+//            pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+
+            ret = genKeyPairWithP11( (JP11_CTX *)manApplet->P11CTX(),
+                                     manApplet->settingsMgr()->slotID(),
+                                     strPin,
+                                     mNameText->text(),
+                                     mMechCombo->currentText(),
+                                     mOptionCombo->currentText(),
+                                     mExponentText->text().toInt(),
+                                     &binPri,
+                                     &binPub );
         }
         else
         {
@@ -107,7 +118,12 @@ void NewKeyDlg::accept()
     }
     else if( mMechCombo->currentText() == kMechKMIP_RSA || mMechCombo->currentText() == kMechKMIP_EC )
     {
-        ret = genKeyPairWithKMIP( &binPri, &binPub );
+        ret = genKeyPairWithKMIP(
+                    manApplet->settingsMgr(),
+                    mMechCombo->currentText(),
+                    mOptionCombo->currentText(),
+                    &binPri,
+                    &binPub );
     }
 
     if( ret != 0 )
@@ -172,6 +188,7 @@ void NewKeyDlg::mechChanged(int index )
     }
 }
 
+/*
 int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub )
 {
     JP11_CTX   *pP11CTX = NULL;
@@ -307,7 +324,7 @@ int NewKeyDlg::genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub )
         uPubCount++;
     }
 
-    /* Pri template */
+
     sPriTemplate[uPriCount].type = CKA_CLASS;
     sPriTemplate[uPriCount].pValue = &priClass;
     sPriTemplate[uPriCount].ulValueLen = sizeof( priClass );
@@ -442,134 +459,4 @@ end :
 
     return rv;
 }
-
-int NewKeyDlg::genKeyPairWithKMIP( BIN *pPri, BIN *pPub )
-{
-    int ret = 0;
-    Authentication *pAuth = NULL;
-    BIN binReq = {0,0};
-    BIN binRsp = {0,0};
-    SSL_CTX *pCTX = NULL;
-    SSL *pSSL = NULL;
-    BIN binData = {0,0};
-
-
-    int nAlg = JS_PKI_KEY_TYPE_RSA;
-    int nParam = mOptionCombo->currentText().toInt();
-    int nType = -1;
-
-    if( mMechCombo->currentText() == kMechKMIP_RSA )
-    {
-        nAlg = JS_PKI_KEY_TYPE_RSA;
-        nParam = mOptionCombo->currentText().toInt();
-    }
-    else if( mMechCombo->currentText() == kMechKMIP_EC )
-    {
-        nAlg = JS_PKI_KEY_TYPE_ECC;
-        nParam = KMIP_CURVE_P_256;
-    }
-    else
-    {
-        fprintf( stderr, "Invalid mechanism\n" );
-        return -1;
-    }
-
-    char *pPriUUID = NULL;
-    char *pPubUUID = NULL;
-
-    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
-    if( ret != 0 )
-    {
-        ret = -1;
-        goto end;
-    }
-
-    ret = JS_KMS_encodeCreateKeyPairReq( pAuth, nAlg, nParam, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-    ret = JS_KMS_decodeCreateKeyPairRsp( &binRsp, &pPubUUID, &pPriUUID );
-
-    JS_BIN_reset( &binReq );
-    JS_BIN_reset( &binRsp );
-    JS_SSL_clear( pSSL );
-    pSSL = NULL;
-
-    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
-    if( ret != 0 )
-    {
-        ret = -1;
-        goto end;
-    }
-
-    ret = JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-    ret = JS_KMS_decodeGetRsp( &binRsp, &nType, &binData );
-
-    if( nAlg == JS_PKI_KEY_TYPE_RSA )
-    {
-        JS_BIN_copy( pPub, &binData );
-        /*
-        JRSAKeyVal sRSAKey;
-        char *pN = NULL;
-        char *pE = NULL;
-
-        memset( &sRSAKey, 0x00, sizeof(sRSAKey));
-        JS_PKI_getRSAPublicKeyVal( &binPubVal, &pE, &pN );
-        JS_PKI_setRSAKeyVal( &sRSAKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
-        JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub );
-
-        if( pN ) JS_free( pN );
-        if( pE ) JS_free( pE );
-        JS_PKI_resetRSAKeyVal( &sRSAKey );
-        */
-    }
-    else if( nAlg == JS_PKI_KEY_TYPE_ECC )
-    {
-        BIN binGroup = {0,0};
-        char *pECPoint = NULL;
-        char *pGroup = NULL;
-
-        JECKeyVal   ecKey;
-        memset( &ecKey, 0x00, sizeof(ecKey));
-
-        char    sHexOID[128];
-        memset( sHexOID, 0x00, sizeof(sHexOID));
-
-        JS_PKI_getHexOIDFromSN( "prime256v1", sHexOID );
-        JS_BIN_decodeHex( sHexOID, &binGroup );
-
-        BIN binKey = {0,0};
-        JS_BIN_set( &binKey, binData.pVal + 2, binData.nLen - 2 );
-
-        JS_BIN_encodeHex( &binKey, &pECPoint );
-        JS_BIN_encodeHex( &binGroup, &pGroup );
-
-        JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
-        JS_PKI_encodeECPublicKey( &ecKey, pPub );
-
-        if( pECPoint ) JS_free( pECPoint );
-        if( pGroup ) JS_free( pGroup );
-        JS_BIN_reset( &binKey );
-        JS_BIN_reset( &binGroup );
-        JS_PKI_resetECKeyVal( &ecKey );
-    }
-
-    JS_BIN_set( pPri, (unsigned char *)pPriUUID, strlen( pPriUUID ) );
-
- end :
-    if( pPubUUID ) JS_free( pPubUUID );
-    if( pPriUUID ) JS_free( pPriUUID );
-
-    JS_BIN_reset( &binReq );
-    JS_BIN_reset( &binRsp );
-    JS_BIN_reset( &binData );
-
-    if( pSSL ) JS_SSL_clear( pSSL );
-    if( pCTX ) JS_SSL_finish( &pCTX );
-    if( pAuth )
-    {
-        JS_KMS_resetAuthentication( pAuth );
-        JS_free( pAuth );
-    }
-
-    return ret;
-}
+*/

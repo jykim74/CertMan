@@ -1533,6 +1533,8 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
 
     char *pPriUUID = NULL;
     char *pPubUUID = NULL;
+    char *pPriUUID2 = NULL;
+    char *pPubUUID2 = NULL;
 
     ret = getKMIPConnection( settingMgr, &pCTX, &pSSL, &pAuth );
     if( ret != 0 )
@@ -1557,24 +1559,45 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
         goto end;
     }
 
+    ret = JS_KMS_encodeActivateReq( pAuth, pPriUUID, &binReq );
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_decodeActivateRsp( &binRsp, &pPriUUID2 );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    JS_SSL_clear( pSSL );
+    pSSL = NULL;
+
+    ret = getKMIPConnection( settingMgr, &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
+    ret = JS_KMS_encodeActivateReq( pAuth, pPubUUID, &binReq );
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_decodeActivateRsp( &binRsp, &pPubUUID2 );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    JS_SSL_clear( pSSL );
+    pSSL = NULL;
+
+    ret = getKMIPConnection( settingMgr, &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        ret = -1;
+        goto end;
+    }
+
     ret = JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
     ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
     ret = JS_KMS_decodeGetRsp( &binRsp, &nType, &binData );
 
     if( nAlg == JS_PKI_KEY_TYPE_RSA )
     {
-        JRSAKeyVal sRSAKey;
-        char *pN = NULL;
-        char *pE = NULL;
-
-        memset( &sRSAKey, 0x00, sizeof(sRSAKey));
-        JS_PKI_getRSAPublicKeyVal( &binData, &pE, &pN );
-        JS_PKI_setRSAKeyVal( &sRSAKey, pN, pE, NULL, NULL, NULL, NULL, NULL, NULL );
-        JS_PKI_encodeRSAPublicKey( &sRSAKey, pPub );
-
-        if( pN ) JS_free( pN );
-        if( pE ) JS_free( pE );
-        JS_PKI_resetRSAKeyVal( &sRSAKey );
+        JS_BIN_copy( pPub, &binData );
     }
     else if( nAlg == JS_PKI_KEY_TYPE_ECC )
     {
@@ -1612,6 +1635,12 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
  end :
     if( pPubUUID ) JS_free( pPubUUID );
     if( pPriUUID ) JS_free( pPriUUID );
+    if( pPubUUID2 ) JS_free( pPubUUID2 );
+    if( pPriUUID2 ) JS_free( pPriUUID2 );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binData );
 
     if( pSSL ) JS_SSL_clear( pSSL );
     if( pCTX ) JS_SSL_finish( &pCTX );

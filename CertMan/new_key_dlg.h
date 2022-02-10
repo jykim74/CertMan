@@ -25,8 +25,7 @@ private slots:
 private:
     void initUI();
     void initialize();
-    int genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub );
-    int genKeyPairWithKMIP( BIN *pPri, BIN *pPub );
+//    int genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub );
 
 };
 
