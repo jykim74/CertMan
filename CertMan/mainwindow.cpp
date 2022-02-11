@@ -2671,7 +2671,14 @@ void MainWindow::checkOCSP()
     else if( sStatusInfo.nStatus == JS_OCSP_STATUS_UNKNOWN )
         strStatus = "UNKNOWN";
     else if( sStatusInfo.nStatus == JS_OCSP_STATUS_REVOKED )
-        strStatus = QString( "Revoked[ Reason : %1, RevokedTime : %2]" ).arg( sStatusInfo.nReason ).arg( sStatusInfo.nRevokedTime );
+    {
+        char sDateTime[32];
+        memset( sDateTime, 0x00, sizeof(sDateTime));
+        JS_UTIL_getDateTime( sStatusInfo.nRevokedTime, sDateTime );
+        strStatus = QString( "Revoked[ Reason : %1, RevokedTime : %2]" )
+                .arg( sStatusInfo.nReason )
+                .arg( sDateTime );
+    }
 
     manApplet->messageBox( strStatus, this );
 
