@@ -15,8 +15,8 @@
 #define     JS_REC_STATUS_USED              1
 
 #define     JS_STATUS_INVALID     0
-#define     JS_STATUS_STOP        1
-#define     JS_STATUS_VALID       2
+#define     JS_STATUS_VALID       1
+#define     JS_STATUS_STOP        2
 
 #define     JS_ADMIN_TYPE_INVALID       0
 #define     JS_ADMIN_TYPE_MASTER        1
@@ -62,7 +62,7 @@ const QString kExtNameCRLNum = "crlNumber";
 const QString kExtNameIDP = "issuingDistributionPoint";
 const QString kExtNameCRLReason = "CRLReason";
 
-const QStringList kStatusList = { "Invalid", "Stop", "Valid" };
+const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
 
 
 const QStringList kHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };

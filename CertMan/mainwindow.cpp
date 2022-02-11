@@ -2614,9 +2614,11 @@ void MainWindow::checkOCSP()
 
     BIN binCA = {0,0};
     BIN binCert = {0,0};
-    BIN binSignCert = {0,0};
+    BIN binSrvCert = {0,0};
     BIN binReq = {0,0};
     BIN binRsp = {0,0};
+    BIN binSignerCert = {0,0};
+    BIN binSignerPri = {0,0};
 
 
     CertRec caRec;
@@ -2638,10 +2640,24 @@ void MainWindow::checkOCSP()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
 
-    ret = JS_OCSP_encodeRequest( &binCert, &binCA, "SHA1", NULL, NULL, &binReq );
+    if( manApplet->settingsMgr()->OCSPAttachSign() == true )
+    {
+        QString strCertPath = manApplet->settingsMgr()->OCSPSignerCertPath();
+        QString strPriPath = manApplet->settingsMgr()->OCSPSignerPriPath();
+
+        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSignerCert );
+        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSignerPri );
+
+        ret = JS_OCSP_encodeRequest( &binCert, &binCA, "SHA1", &binSignerPri, &binSignerCert, &binReq );
+    }
+    else
+    {
+        ret = JS_OCSP_encodeRequest( &binCert, &binCA, "SHA1", NULL, NULL, &binReq );
+    }
+
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to encode request" ), this );
+        manApplet->warningBox( QString(tr("fail to encode request: %1")).arg(ret), this );
         goto end;
     }
 
@@ -2649,7 +2665,7 @@ void MainWindow::checkOCSP()
     strURL += "/OCSP";
     strOCSPSrvCert = manApplet->settingsMgr()->OCSPSrvCertPath();
 
-    JS_BIN_fileRead( strOCSPSrvCert.toLocal8Bit().toStdString().c_str(), &binSignCert );
+    JS_BIN_fileRead( strOCSPSrvCert.toLocal8Bit().toStdString().c_str(), &binSrvCert );
 
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/ocsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )
@@ -2659,10 +2675,10 @@ void MainWindow::checkOCSP()
     }
 
 
-    ret = JS_OCSP_decodeResponse( &binRsp, &binSignCert, &sIDInfo, &sStatusInfo );
+    ret = JS_OCSP_decodeResponse( &binRsp, &binSrvCert, &sIDInfo, &sStatusInfo );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to decode respose" ), this );
+        manApplet->warningBox( QString(tr( "fail to decode respose:%1" )).arg(ret), this );
         goto end;
     }
 
@@ -2673,10 +2689,12 @@ void MainWindow::checkOCSP()
     else if( sStatusInfo.nStatus == JS_OCSP_STATUS_REVOKED )
     {
         char sDateTime[32];
+        QString strReason = getRevokeReasonName( sStatusInfo.nReason );
+
         memset( sDateTime, 0x00, sizeof(sDateTime));
         JS_UTIL_getDateTime( sStatusInfo.nRevokedTime, sDateTime );
         strStatus = QString( "Revoked[ Reason : %1, RevokedTime : %2]" )
-                .arg( sStatusInfo.nReason )
+                .arg( strReason )
                 .arg( sDateTime );
     }
 
@@ -2686,9 +2704,11 @@ void MainWindow::checkOCSP()
 
     JS_BIN_reset( &binCA );
     JS_BIN_reset( &binCert );
-    JS_BIN_reset( &binSignCert );
+    JS_BIN_reset( &binSrvCert );
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binSignerCert );
+    JS_BIN_reset( &binSignerPri );
 
     JS_OCSP_resetCertIDInfo( &sIDInfo );
     JS_OCSP_resetCertStatusInfo( &sStatusInfo );
