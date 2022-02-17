@@ -13,7 +13,7 @@
 #include "mainwindow.h"
 #include "settings_mgr.h"
 
-const QStringList kUserStatus = { "Invalid", "Regiser", "Issue", "Stop" };
+const QStringList kUserStatus = { "Invalid", "Register", "Issue", "Stop" };
 
 UserDlg::UserDlg(QWidget *parent) :
     QDialog(parent)
@@ -143,7 +143,7 @@ void UserDlg::regServer()
 
     JS_JSON_encodeRegUserReq( &sUserReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
 
     JS_JSON_decodeRegUserRsp( pRsp, &sUserRsp );
 

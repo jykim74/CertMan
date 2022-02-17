@@ -2739,9 +2739,18 @@ void MainWindow::statusByReg()
     memset( &sStatusRsp, 0x00, sizeof(sStatusRsp));
 
     CertRec cert;
+    UserRec user;
     manApplet->dbMgr()->getCertRec( num, cert );
 
-    JS_JSON_setRegCertStatusReq( &sStatusReq, "name", cert.getSubjectDN().toStdString().c_str() );
+    if( cert.getUserNum() <= 0 )
+    {
+        manApplet->warningBox( tr("There is no user" ), this );
+        return;
+    }
+
+    manApplet->dbMgr()->getUserRec( cert.getUserNum(), user );
+
+    JS_JSON_setRegCertStatusReq( &sStatusReq, "name", user.getName().toStdString().c_str() );
 
     SettingsMgr *mgr = manApplet->settingsMgr();
     QString strURL;
@@ -2757,7 +2766,7 @@ void MainWindow::statusByReg()
 
     JS_JSON_encodeRegCertStatusReq( &sStatusReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
 
     JS_JSON_decodeRegCertStatusRsp( pRsp, &sStatusRsp );
 
@@ -2807,7 +2816,17 @@ void MainWindow::revokeByReg()
     }
 
     CertRec cert;
+    UserRec user;
+
     manApplet->dbMgr()->getCertRec( num, cert );
+
+    if( cert.getUserNum() <= 0 )
+    {
+        manApplet->warningBox( tr("There is no user" ), this );
+        return;
+    }
+
+    manApplet->dbMgr()->getUserRec( cert.getUserNum(), user );
 
     strURL = mgr->REGURI();
     strURL += "/certrevoke";
@@ -2816,7 +2835,7 @@ void MainWindow::revokeByReg()
 
     JS_JSON_encodeRegCertRevokeReq( &sRevokeReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), pReq, "application/json", &nStatus, &pRsp );
+    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
 
     JS_JSON_decodeRegRsp( pRsp, &sRevokeRsp );
 
