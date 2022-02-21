@@ -22,6 +22,9 @@ DEFINES += JS_PRO
 
 CONFIG += sdk_no_version_check
 
+OPENSSL_NAME = "openssl3"
+#OPENSSL_NAME = "cmpossl"
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -195,10 +198,10 @@ mac {
 
     debug {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_11_3_clang_64bit-Debug" -lPKILib
-        LIBS += -L"../../PKILib/lib/mac/debug/cmpossl/lib" -lcrypto
+        LIBS += -L"../../PKILib/lib/mac/debug/"$${OPENSSL_NAME}"/lib" -lcrypto
     } else {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_11_3_clang_64bit-Release" -lPKILib
-        LIBS += -L"../../PKILib/lib/mac/cmpossl/lib" -lcrypto
+        LIBS += -L"../../PKILib/lib/mac/"$${OPENSSL_NAME}"/lib" -lcrypto
     }
 
     LIBS += -L"/usr/local/lib" -lltdl
@@ -217,10 +220,10 @@ win32 {
 
         Debug {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
-            LIBS += -L"../../PKILib/lib/win32/debug/cmpossl/lib" -lcrypto -lssl
+            LIBS += -L"../../PKILib/lib/win32/debug/"$${OPENSSL_NAME}"/lib" -lcrypto -lssl
         } else {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
-            LIBS += -L"../../PKILib/lib/win32/cmpossl/lib" -lcrypto -lssl
+            LIBS += -L"../../PKILib/lib/win32/"$${OPENSSL_NAME}"/lib" -lcrypto -lssl
         }
 
         LIBS += -L"C:\msys64\mingw32\lib" -lltdl -lldap -llber
@@ -232,10 +235,10 @@ win32 {
 
         Debug {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug/debug" -lPKILib
-            LIBS += -L"../../PKILib/lib/win64/debug/cmpossl/lib" -lcrypto -lssl
+            LIBS += -L"../../PKILib/lib/win64/debug/"$${OPENSSL_NAME}"/lib64" -lcrypto -lssl
         } else {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release/release" -lPKILib
-            LIBS += -L"../../PKILib/lib/win64/cmpossl/lib" -lcrypto -lssl
+            LIBS += -L"../../PKILib/lib/win64/"$${OPENSSL_NAME}"/lib64" -lcrypto -lssl
         }
 
         LIBS += -L"C:\msys64\mingw64\lib" -lltdl -lldap -llber
@@ -245,7 +248,7 @@ win32 {
 
 linux {
     LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
-    LIBS += -L"../../PKILib/lib/linux/debug/cmpossl/lib" -lcrypto
+    LIBS += -L"../../PKILib/lib/linux/debug/"$${OPENSSL_NAME}"/lib" -lcrypto
     LIBS += -lltdl -lldap -llber
 }
 
