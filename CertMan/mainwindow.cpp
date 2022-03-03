@@ -605,7 +605,7 @@ void MainWindow::newFile()
         return;
     }
 
-    QFile resFile( ":/ca.db" );
+    QFile resFile( ":/certman.db" );
     resFile.open(QIODevice::ReadOnly);
     QByteArray data = resFile.readAll();
     resFile.close();
