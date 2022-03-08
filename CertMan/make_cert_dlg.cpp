@@ -532,6 +532,7 @@ void MakeCertDlg::accept()
     userRec.setSSN( mSSNText->text() );
     userRec.setEmail( mEmailText->text() );
     userRec.setRegTime( time(NULL));
+    userRec.setStatus( JS_USER_STATUS_REGISTER );
     if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
