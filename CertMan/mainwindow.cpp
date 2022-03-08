@@ -1843,7 +1843,7 @@ void MainWindow::revokeCMP()
     BIN binCert = {0,0};
     BIN binPri = {0,0};
     BIN binCACert = {0,0};
-    BIN binResCert = {0,0};
+
     int nReason = 0;
 
     int row = right_table_->currentRow();
@@ -1879,7 +1879,7 @@ void MainWindow::revokeCMP()
 
    JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
-   ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason, &binResCert );
+   ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason );
 
    if( ret == 0 )
    {
@@ -1893,7 +1893,6 @@ void MainWindow::revokeCMP()
 
    JS_BIN_reset( &binPri );
    JS_BIN_reset( &binCert );
-   JS_BIN_reset( &binResCert );
    JS_BIN_reset( &binCACert );
 
    if( pTrustList ) JS_BIN_resetList( &pTrustList );
