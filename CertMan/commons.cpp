@@ -1460,23 +1460,32 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
         rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_EC_POINT, &binVal );
         if( rv != 0 ) goto end;
 
-        char *pECPoint = NULL;
+        char *pPubX = NULL;
+        char *pPubY = NULL;
         char *pGroup = NULL;
 
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
 
         BIN binKey = {0,0};
-        JS_BIN_set( &binKey, binVal.pVal + 2, binVal.nLen - 2 );
+        BIN binPubX = {0,0};
+        BIN binPubY = {0,0};
 
-        JS_BIN_encodeHex( &binKey, &pECPoint );
+        JS_BIN_set( &binKey, binVal.pVal + 1, binVal.nLen - 1 );
+        JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2 );
+        JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
+
+
         JS_BIN_encodeHex( &binGroup, &pGroup );
+        JS_BIN_encodeHex( &binPubX, &pPubX );
+        JS_BIN_encodeHex( &binPubY, &pPubY );
 
-        JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
+        JS_PKI_setECKeyVal( &ecKey, pGroup, pPubX, pPubX, NULL );
         JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
-        if( pECPoint ) JS_free( pECPoint );
         if( pGroup ) JS_free( pGroup );
+        if( pPubX ) JS_free( pPubX );
+        if( pPubY ) JS_free( pPubY );
         JS_BIN_reset( &binKey );
         JS_PKI_resetECKeyVal( &ecKey );
     }
@@ -1602,8 +1611,10 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     else if( nAlg == JS_PKI_KEY_TYPE_ECC )
     {
         BIN binGroup = {0,0};
-        char *pECPoint = NULL;
+
         char *pGroup = NULL;
+        char *pPubX = NULL;
+        char *pPubY = NULL;
 
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
@@ -1615,17 +1626,30 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
         JS_BIN_decodeHex( sHexOID, &binGroup );
 
         BIN binKey = {0,0};
-        JS_BIN_set( &binKey, binData.pVal + 2, binData.nLen - 2 );
+        BIN binPubX = {0,0};
+        BIN binPubY = {0,0};
 
-        JS_BIN_encodeHex( &binKey, &pECPoint );
+        JS_BIN_set( &binKey, binData.pVal + 1, binData.nLen - 1 );
+        JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2);
+        JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
+
+
         JS_BIN_encodeHex( &binGroup, &pGroup );
+        JS_BIN_encodeHex( &binPubX, &pPubX );
+        JS_BIN_encodeHex( &binPubY, &pPubY );
 
-        JS_PKI_setECKeyVal( &ecKey, pGroup, pECPoint, NULL );
+
+        JS_PKI_setECKeyVal( &ecKey, pGroup, pPubX, pPubY, NULL );
         JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
-        if( pECPoint ) JS_free( pECPoint );
+
         if( pGroup ) JS_free( pGroup );
+        if( pPubX ) JS_free( pPubX );
+        if( pPubY ) JS_free( pPubY );
+
         JS_BIN_reset( &binKey );
+        JS_BIN_reset( &binPubX );
+        JS_BIN_reset( &binPubY );
         JS_BIN_reset( &binGroup );
         JS_PKI_resetECKeyVal( &ecKey );
     }
