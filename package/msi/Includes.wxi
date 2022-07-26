@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include Id="CertManInclude">
-  <?define CurrentCertManVersion="0.9.3" ?>
+  <?define CurrentCertManVersion="0.9.4" ?>
 
   <!-- BerViewer Product Guid  -->
-  <?define ProductGuid="1be16569-96c6-4585-9369-eac5c9fdf3c4" ?> <!-- Version 0.9.3-->
+  <?define ProductGuid="3ea47f28-5f58-4969-9ec0-e3f9277e3df2" ?> <!-- Version 0.9.4-->
+  <!-- ?define ProductGuid="1be16569-96c6-4585-9369-eac5c9fdf3c4" ? --> <!-- Version 0.9.3-->
   <!-- ?define ProductGuid="d3afe9a8-d03d-4a2b-919e-0432868c6939" ? --> <!-- Version 0.9.2-->
   <!-- ?define ProductGuid="6c9eefe6-fc86-49cb-9d70-11e194925909" ? --> <!-- Version 0.9.1-->
 
