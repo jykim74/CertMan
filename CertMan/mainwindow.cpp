@@ -681,12 +681,9 @@ void MainWindow::setPath( const QString strFilePath )
 
     if( bSavePath )
     {
-        QFileInfo fileInfo( strFilePath );
-        QString strDir = fileInfo.dir().path();
-
         QSettings settings;
         settings.beginGroup("mainwindow");
-        settings.setValue( "dbPath", strDir );
+        settings.setValue( "dbPath", strFilePath );
         settings.endGroup();
     }
 }
