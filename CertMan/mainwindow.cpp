@@ -1699,6 +1699,12 @@ void MainWindow::issueCMP()
    UserRec userRec;
    manApplet->dbMgr()->getUserRec( num, userRec );
 
+   if( userRec.getAuthCode().length() < 1 )
+   {
+       manApplet->warningBox( tr( "AuthNum is empty" ), this );
+       return;
+   }
+
    JS_BIN_set( &binRefNum, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
    JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
 
