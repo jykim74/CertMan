@@ -18,6 +18,7 @@
 #include "audit_rec.h"
 #include "tsp_rec.h"
 #include "admin_rec.h"
+#include "config_rec.h"
 
 DBMgr::DBMgr()
 {
@@ -1553,6 +1554,30 @@ int DBMgr::_getAdminList( QString strQuery, QList<AdminRec>& adminList )
     return 0;
 }
 
+int DBMgr::_getConfigList( QString strQuery, QList<ConfigRec>& configList )
+{
+    QSqlQuery   SQL(strQuery);
+
+    int nPosNum = SQL.record().indexOf( "Num" );
+    int nPosKind = SQL.record().indexOf( "Kind");
+    int nPosName = SQL.record().indexOf( "Name" );
+    int nPosValue = SQL.record().indexOf( "Value" );
+
+    while( SQL.next() )
+    {
+        ConfigRec config;
+        config.setNum( SQL.value(nPosNum).toInt());
+        config.setKind( SQL.value(nPosKind).toInt());
+        config.setName( SQL.value(nPosName).toString());
+        config.setValue( SQL.value( nPosValue).toString());
+
+        configList.append( config );
+    }
+
+    SQL.finish();
+    return 0;
+}
+
 int DBMgr::getSeq( QString strTable )
 {
     int nSeq = -1;
@@ -2079,4 +2104,71 @@ int DBMgr::delAdminRec( int nSeq )
     sqlQuery.exec();
 
     return 0;
+}
+
+int DBMgr::addConfigRec( ConfigRec& configRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "INSERT INTO TB_CONFIG "
+                      "( NUM, KIND, NAME, VALUE ) "
+                      "VALUES( null, ?, ?, ? );" );
+
+//    sqlQuery.bindValue( i++, configRec.getNum() );
+    sqlQuery.bindValue( i++, configRec.getKind() );
+    sqlQuery.bindValue( i++, configRec.getName() );
+    sqlQuery.bindValue( i++, configRec.getValue() );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::delConfigRec( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CONFIG WHERE NUM = ?");
+
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::modConfigRec( int nNum, ConfigRec configRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_CONFIG SET "
+                      "KIND = ?, "
+                      "NAME = ?, "
+                      "VALUE = ? "
+                      "WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( i++, configRec.getKind() );
+    sqlQuery.bindValue( i++, configRec.getName() );
+    sqlQuery.bindValue( i++, configRec.getValue() );
+    sqlQuery.bindValue( i++, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::getConfigRec( int nNum, ConfigRec& configRec )
+{
+    QList<ConfigRec> configList;
+    QString strQuery = QString( "SELECT * FROM TB_CONFIG WHERE NUM = %1").arg( nNum );
+
+    _getConfigList( strQuery, configList );
+    if( configList.size() <= 0 ) return -1;
+
+    configRec = configList.at(0);
+
+    return 0;
+}
+
+int DBMgr::getConfigList( QList<ConfigRec>& configList )
+{
+    QString strQuery = QString("SELECT * FROM TB_CONFIG ORDER BY NUM DESC" );
+
+    return _getConfigList( strQuery, configList );
 }

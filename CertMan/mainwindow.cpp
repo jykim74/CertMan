@@ -62,6 +62,8 @@
 #include "tst_info_dlg.h"
 #include "admin_rec.h"
 #include "admin_dlg.h"
+#include "config_rec.h"
+#include "config_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -251,6 +253,14 @@ void MainWindow::createActions()
 
     if( manApplet->isPRO() )
     {
+        const QIcon configIcon = QIcon::fromTheme( "make config", QIcon(":/images/config.png"));
+        QAction *configAct = new QAction( configIcon, tr( "Make Config"), this );
+        configAct->setStatusTip(tr( "Make Configuration" ));
+        connect( configAct, &QAction::triggered, this, &MainWindow::makeConfig );
+        toolsMenu->addAction( configAct );
+        toolsToolBar->addAction( configAct );
+
+
         const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
         QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
         regUserAct->setStatusTip(tr( "Register User"));
@@ -460,6 +470,11 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Edit Admin"), this, &MainWindow::editAdmin );
     }
+    else if( right_type_ == RightType::TYPE_CONFIG )
+    {
+        menu.addAction(tr("Edit Config"), this, &MainWindow::editConfig );
+        menu.addAction(tr("Delete Config"), this, &MainWindow::deleteConfig );
+    }
     else if( right_type_ == RightType::TYPE_USER )
     {
         menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
@@ -518,6 +533,11 @@ void MainWindow::createTreeMenu()
         pAdminItem->setIcon(QIcon(":/images/admin.png"));
         pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
         pTopItem->appendRow( pAdminItem );
+
+        ManTreeItem *pConfigItem = new ManTreeItem( QString("Config"));
+        pConfigItem->setIcon(QIcon(":/images/config.png"));
+        pConfigItem->setType( CM_ITEM_TYPE_CONFIG );
+        pTopItem->appendRow( pConfigItem );
 
         ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
         pUserItem->setIcon(QIcon(":/images/user.jpg"));
@@ -964,6 +984,44 @@ void MainWindow::registerOCSPSigner()
     SignerDlg signerDlg;
     signerDlg.setType( SIGNER_TYPE_OCSP );
     signerDlg.exec();
+}
+
+void MainWindow::makeConfig()
+{
+    ConfigDlg configDlg;
+    configDlg.exec();
+}
+
+void MainWindow::editConfig()
+{
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    ConfigDlg configDlg;
+    configDlg.setCurNum( num );
+    configDlg.exec();
+}
+
+void MainWindow::deleteConfig()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this config?" ), this, false );
+    if( bVal == false ) return;
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    manApplet->dbMgr()->delConfigRec( num );
+    createRightConfigList();
 }
 
 void MainWindow::viewCertificate()
@@ -1544,6 +1602,10 @@ void MainWindow::tableClick(QModelIndex index )
     else if( right_type_ == RightType::TYPE_ADMIN )
     {
         logAdmin( nSeq );
+    }
+    else if( right_type_ == RightType::TYPE_CONFIG )
+    {
+        logConfig( nSeq );
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
     {
@@ -2895,6 +2957,8 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightUserList();
     else if( nType == CM_ITEM_TYPE_ADMIN )
         createRightAdminList();
+    else if( nType == CM_ITEM_TYPE_CONFIG )
+        createRightConfigList();
     else if( nType == CM_ITEM_TYPE_REG_SIGNER )
         createRightSignerList( SIGNER_TYPE_REG );
     else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
@@ -3624,6 +3688,43 @@ void MainWindow::createRightAdminList()
     }
 }
 
+void MainWindow::createRightConfigList()
+{
+    search_menu_->hide();
+    removeAllRight();
+    right_type_ = RightType::TYPE_CONFIG;
+
+    QStringList headerList = { tr("Num"), tr("Kind"), tr("Name"), tr("Value") };
+
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    QList<ConfigRec> configList;
+    manApplet->dbMgr()->getConfigList( configList );
+
+    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 1, 60 );
+    right_table_->setColumnWidth( 2, 60 );
+
+
+    for( int i = 0; i < configList.size(); i++ )
+    {
+        ConfigRec config = configList.at(i);
+        right_table_->insertRow(i);
+        right_table_->setRowHeight(i, 10 );
+        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( config.getNum() )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( config.getKind() )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( config.getName() )));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( config.getValue() )));
+    }
+}
+
 
 void MainWindow::createRightAuditList()
 {
@@ -4065,6 +4166,25 @@ void MainWindow::logAdmin( int seq )
     manApplet->log( QString("Name         : %1\n").arg(adminRec.getName()));
     manApplet->log( QString("Password     : %1\n").arg(adminRec.getPassword()));
     manApplet->log( QString("Email        : %1\n").arg(adminRec.getEmail()));
+
+    logCursorTop();
+}
+
+void MainWindow::logConfig( int seq )
+{
+    if( manApplet->dbMgr() == NULL ) return;
+
+    ConfigRec configRec;
+    manApplet->dbMgr()->getConfigRec( seq, configRec );
+
+    manApplet->mainWindow()->logClear();
+    manApplet->log( "========================================================================\n" );
+    manApplet->log( "== Config Information\n" );
+    manApplet->log( "========================================================================\n" );
+    manApplet->log( QString("Num          : %1\n").arg(configRec.getNum()));
+    manApplet->log( QString("Kind         : %1\n").arg(configRec.getKind()));
+    manApplet->log( QString("Name         : %1\n").arg(configRec.getName()));
+    manApplet->log( QString("Value        : %1\n").arg(configRec.getValue()));
 
     logCursorTop();
 }

@@ -32,6 +32,7 @@ enum RightType {
     TYPE_REVOKE,
     TYPE_USER,
     TYPE_ADMIN,
+    TYPE_CONFIG,
     TYPE_SIGNER,
     TYPE_KMS,
     TYPE_STATISTICS,
@@ -68,6 +69,7 @@ public:
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
     void createRightAdminList();
+    void createRightConfigList();
     void createRightUserList();
     void createRightKMSList();
     void createRightSignerList(int nType);
@@ -86,6 +88,7 @@ public:
     void logRevoke( int seq );
     void logUser( int seq );
     void logAdmin( int seq );
+    void logConfig( int seq );
     void logKMS( int seq );
     void logAudit( int seq );
     void logTSP( int seq );
@@ -113,6 +116,9 @@ public slots:
     void registerUser();
     void registerREGSigner();
     void registerOCSPSigner();
+    void makeConfig();
+    void editConfig();
+    void deleteConfig();
 
     void viewCertificate();
     void viewCRL();

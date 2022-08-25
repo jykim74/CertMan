@@ -68,6 +68,10 @@ void ManTreeView::showContextMenu(QPoint point)
     {
         menu.addAction(tr("Register Admin"), manApplet->mainWindow(), &MainWindow::registerAdmin );
     }
+    else if( item->getType() == CM_ITEM_TYPE_CONFIG )
+    {
+        menu.addAction(tr("Make Config"), manApplet->mainWindow(), &MainWindow::makeConfig );
+    }
     else if( item->getType() == CM_ITEM_TYPE_USER )
     {
         menu.addAction(tr("Register User"), manApplet->mainWindow(), &MainWindow::registerUser );

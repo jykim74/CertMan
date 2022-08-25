@@ -17,12 +17,13 @@
 #define CM_ITEM_TYPE_SUBCA          12
 #define CM_ITEM_TYPE_USER           13
 #define CM_ITEM_TYPE_ADMIN          14
-#define CM_ITEM_TYPE_REG_SIGNER     15
-#define CM_ITEM_TYPE_OCSP_SIGNER    16
-#define CM_ITEM_TYPE_KMS            17
-#define CM_ITEM_TYPE_STATISTICS     18
-#define CM_ITEM_TYPE_AUDIT          19
-#define CM_ITEM_TYPE_TSP            20
+#define CM_ITEM_TYPE_CONFIG         15
+#define CM_ITEM_TYPE_REG_SIGNER     16
+#define CM_ITEM_TYPE_OCSP_SIGNER    17
+#define CM_ITEM_TYPE_KMS            18
+#define CM_ITEM_TYPE_STATISTICS     19
+#define CM_ITEM_TYPE_AUDIT          20
+#define CM_ITEM_TYPE_TSP            21
 
 
 

@@ -27,6 +27,7 @@ class KMSAttribRec;
 class AuditRec;
 class TSPRec;
 class AdminRec;
+class ConfigRec;
 
 class DBMgr
 {
@@ -168,6 +169,12 @@ public:
     int delKMSRec( int nSeq );
     int delAdminRec( int nSeq );
 
+    int addConfigRec( ConfigRec& configRec );
+    int delConfigRec( int nNum );
+    int modConfigRec( int nNum, ConfigRec configRec );
+    int getConfigRec( int nNum, ConfigRec& configRec );
+    int getConfigList( QList<ConfigRec>& configList );
+
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
     int _getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList );
@@ -184,6 +191,7 @@ private:
     int _getAuditList( QString strQuery, QList<AuditRec>& auditList );
     int _getTSPList( QString strQuery, QList<TSPRec>& tspList );
     int _getAdminList( QString strQuery, QList<AdminRec>& adminList );
+    int _getConfigList( QString strQuery, QList<ConfigRec>& configList );
 
 private:
     QSqlDatabase   db_;

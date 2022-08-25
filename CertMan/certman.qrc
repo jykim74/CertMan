@@ -56,5 +56,6 @@
         <file>certman.sql</file>
         <file>certman.qss</file>
         <file>images/certman.png</file>
+        <file>images/config.png</file>
     </qresource>
 </RCC>
