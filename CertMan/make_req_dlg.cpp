@@ -13,7 +13,7 @@
 #include "commons.h"
 #include "pin_dlg.h"
 
-static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
+static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512", "SM3" };
 static QStringList sMechList = { kMechRSA, kMechEC };
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
