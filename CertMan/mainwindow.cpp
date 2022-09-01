@@ -1785,15 +1785,15 @@ void MainWindow::issueCMP()
 
    writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
 
-   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, &binCert );
+   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, 0, &binCert );
    if( ret != 0 ) goto end;
 
    writeCertDB( manApplet->dbMgr(), &binCert );
 
-   /*
+
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binRefNum, &binAuthCode );
    if( ret != 0 ) goto end;
-   */
+
 
 end:
 
@@ -1870,7 +1870,7 @@ void MainWindow::updateCMP()
 
    writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
 
-   ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, &binNewCert );
+   ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
    if( ret != 0 ) goto end;
 
    writeCertDB( manApplet->dbMgr(), &binNewCert );
