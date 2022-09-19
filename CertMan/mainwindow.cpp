@@ -1790,10 +1790,10 @@ void MainWindow::issueCMP()
 
    writeCertDB( manApplet->dbMgr(), &binCert );
 
-
+/*
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binRefNum, &binAuthCode );
    if( ret != 0 ) goto end;
-
+*/
 
 end:
 
