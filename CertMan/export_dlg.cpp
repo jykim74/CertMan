@@ -41,6 +41,7 @@ void ExportDlg::showEvent(QShowEvent *event)
 
 void ExportDlg::accept()
 {
+    int ret = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -96,15 +97,21 @@ void ExportDlg::accept()
             JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
             if( keyPair.getAlg() == "RSA" )
             {
-                JS_PKI_encryptRSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptRSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else if( keyPair.getAlg() == "EC" )
             {
-                JS_PKI_encryptECPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptECPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
 
             JS_BIN_reset( &binSrc );
             JS_BIN_reset( &binInfo );
+
+            if( ret != 0 )
+            {
+                manApplet->warningBox( tr( "fail to encrypt private key"), this );
+                QDialog::reject();
+            }
         }
     }
     else if( export_type_ == EXPORT_TYPE_CERTIFICATE )
