@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -43,6 +43,12 @@
        </item>
        <item row="3" column="0">
         <widget class="QPlainTextEdit" name="mDetailText">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -79,7 +85,14 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QPlainTextEdit" name="mCertStatusText"/>
+        <widget class="QPlainTextEdit" name="mCertStatusText">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

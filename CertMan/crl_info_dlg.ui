@@ -24,7 +24,7 @@
    <item row="0" column="0" colspan="2">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -35,7 +35,14 @@
         <widget class="QTableWidget" name="mCRLListTable"/>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="mCRLDetailText"/>
+        <widget class="QPlainTextEdit" name="mCRLDetailText">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -48,7 +55,14 @@
         <widget class="QTableWidget" name="mRevokeListTable"/>
        </item>
        <item>
-        <widget class="QTableWidget" name="mRevokeDetailTable"/>
+        <widget class="QTableWidget" name="mRevokeDetailTable">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
