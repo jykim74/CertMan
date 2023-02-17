@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -1125,10 +1125,13 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_5">
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="mPCCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
+         <item row="0" column="6">
+          <widget class="QLineEdit" name="mPCInhibitText">
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>16777215</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1139,25 +1142,49 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QLineEdit" name="mPCExplicitText"/>
-         </item>
          <item row="0" column="5">
-          <widget class="QLineEdit" name="mPCInhibitText"/>
-         </item>
-         <item row="0" column="4">
           <widget class="QLabel" name="label_26">
            <property name="text">
-            <string>Inhibit</string>
+            <string>inhibitPolicyMapping</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_1">
+           <property name="text">
+            <string>requireExplicitPolicy</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="mPCCriticalCheck">
+           <property name="text">
+            <string>Critical</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLineEdit" name="mPCExplicitText">
+           <property name="maximumSize">
+            <size>
+             <width>40</width>
+             <height>16777215</height>
+            </size>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLabel" name="label_1">
-           <property name="text">
-            <string>Explicit</string>
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>

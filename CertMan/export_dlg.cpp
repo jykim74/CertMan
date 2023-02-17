@@ -243,21 +243,23 @@ void ExportDlg::initialize()
         KeyPairRec keyPair;
         dbMgr->getKeyPairRec( data_num_, keyPair );
 
+        strPath = keyPair.getName();
+
         if( export_type_ == EXPORT_TYPE_PRIKEY )
         {
             strMsg = "[Private Key data]\n";
-            strPath = "pri.der";
+            strPath += "_pri.der";
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             mPasswordText->setEnabled(true);
             strMsg = "[Encrypting Private Key data]\n";
-            strPath = "pri.key";
+            strPath += "_pri.key";
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
             strMsg = "[Public Key data]\n";
-            strPath = "pub.der";
+            strPath += "_pub.der";
         }
 
         strPart = QString( "Num: %1\nAlgorithm: %2\nName: %3\n")
@@ -270,16 +272,18 @@ void ExportDlg::initialize()
         CertRec cert;
         dbMgr->getCertRec( data_num_, cert );
 
+        strPath = cert.getSubjectDN();
+
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
         {
             strMsg = "[ Certificate data ]\n";
-            strPath = "cert.der";
+            strPath += "_cert.der";
         }
         else if( export_type_ == EXPORT_TYPE_PFX )
         {
             mPasswordText->setEnabled(true);
             strMsg = "[ PFX data ]\n";
-            strPath = "pri_pub_cert.pfx";
+            strPath += ".pfx";
         }
 
         strPart = QString( "Num: %1\nDN: %2\nAlgorithm: %3\n")
@@ -291,6 +295,7 @@ void ExportDlg::initialize()
     {
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
+
         strMsg = "[ CRL data ]\n";
 
         strPart = QString( "Num: %1\nAlgorithm: %2\n")

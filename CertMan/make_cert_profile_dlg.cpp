@@ -1501,10 +1501,16 @@ void MakeCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
     clickBCUse();
 
     QString strVal = profileRec.getValue();
+    QString strType;
+    QString strLen;
 
     QStringList valList = strVal.split("#");
-    QString strType= valList.at(0);
-    QString strLen = valList.at(1);
+
+    if( valList.size() >= 1 )
+        strType= valList.at(0);
+
+    if( valList.size() >= 2 )
+        strLen = valList.at(1);
 
     mBCCombo->setCurrentText( strType );
     mBCPathLenText->setText( strLen );

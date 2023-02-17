@@ -368,7 +368,7 @@ void MakeCertDlg::accept()
         if( profileExt.getSN() == kExtNameBC )
         {
             QString strVal = profileExt.getValue();
-            if( strVal.contains( "CA#" ) == true )
+            if( strVal.contains( "CA" ) == true )
                 bCA = true;
             else
                 bCA = false;
@@ -415,8 +415,9 @@ void MakeCertDlg::accept()
             }
             else
             {
-                /* SelfSign 경우 무시 한다. */
-                continue;
+                /* SelfSign 경우 KeyID 만 설정. */
+                QString strVal = QString( "KEYID$%1").arg( sKeyID );
+                profileExt.setValue( strVal );
             }
         }
 
