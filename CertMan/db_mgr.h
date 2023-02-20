@@ -159,7 +159,9 @@ public:
     int delCertProfile( int nNum );
     int delCRLProfile( int nNum );
     int delCertProfileExtensionList( int nProfileNum );
+    int delCertProfileExtension( int nProfileNum, const QString strSN );
     int delCRLProfileExtensionList( int nProfileNum );
+    int delCRLProfileExtension( int nProfileNum, const QString strSN );
     int delCertRec( int nNum );
     int delCRLRec( int nNum );
     int delKeyPairRec( int nNum );

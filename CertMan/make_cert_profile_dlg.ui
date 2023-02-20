@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>4</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -504,13 +504,20 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mPolicyOIDText"/>
-         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_13">
            <property name="text">
             <string>CPS</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="mPolicyOIDText"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>UserNotice</string>
            </property>
           </widget>
          </item>
@@ -521,17 +528,17 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_14">
+         <item row="0" column="2">
+          <widget class="QPushButton" name="mPolicySetAnyOIDBtn">
            <property name="text">
-            <string>UserNotice</string>
+            <string>SetAnyOID</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item row="1" column="1" colspan="2">
           <widget class="QLineEdit" name="mPolicyCPSText"/>
          </item>
-         <item row="2" column="1">
+         <item row="2" column="1" colspan="2">
           <widget class="QLineEdit" name="mPolicyUserNoticeText"/>
          </item>
         </layout>

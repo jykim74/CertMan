@@ -1,5 +1,5 @@
 #include <QMenu>
-
+#include "js_pki_ext.h"
 #include "make_crl_profile_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
@@ -97,6 +97,15 @@ void MakeCRLProfileDlg::slotExtensionsMenuRequested(QPoint pos)
 void MakeCRLProfileDlg::deleteExtensionsMenu()
 {
     QModelIndex idx = mExtensionsTable->currentIndex();
+
+    if( isEdit() )
+    {
+        DBMgr* dbMgr = manApplet->dbMgr();
+        if( dbMgr == NULL ) return;
+        QString strSN = mExtensionsTable->item( idx.row(), idx.column() )->text();
+        dbMgr->delCertProfileExtension( profile_num_, strSN );
+    }
+
     mExtensionsTable->removeRow( idx.row() );
 }
 
@@ -250,10 +259,10 @@ void MakeCRLProfileDlg::accept()
 
     /* need to set extend fields here */
 
-    if( mCRLNumUseCheck->isChecked() ) saveCRLNumUse( nProfileNum );
-    if( mIDPUseCheck->isChecked() ) saveIDPUse( nProfileNum );
-    if( mAKIUseCheck->isChecked() ) saveAKIUse( nProfileNum );
-    if( mIANUseCheck->isChecked() ) saveIANUse( nProfileNum );
+    saveCRLNumUse( nProfileNum );
+    saveIDPUse( nProfileNum );
+    saveAKIUse( nProfileNum );
+    saveIANUse( nProfileNum );
     if( mExtensionsUseCheck->isChecked() ) saveExtensionsUse( nProfileNum );
 
     /* ....... */
@@ -479,10 +488,13 @@ void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameCRLNum );
+    if( mCRLNumUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "crlNumber" );
+    profileExt.setSN( JS_PKI_ExtNameCRLNum );
     profileExt.setCritical( mCRLNumCriticalCheck->isChecked() );
 
     QString strVal;
@@ -502,10 +514,13 @@ void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameAKI );
+    if( mAKIUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "authorityKeyIdentifier" );
+    profileExt.setSN( JS_PKI_ExtNameAKI );
     profileExt.setCritical( mAKICriticalCheck->isChecked() );
 
     QString strVal;
@@ -525,10 +540,13 @@ void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameIDP );
+    if( mIDPUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "issuingDistributionPoint" );
+    profileExt.setSN( JS_PKI_ExtNameIDP );
     profileExt.setCritical( mIDPCriticalCheck->isChecked() );
 
     QString strVal;
@@ -556,10 +574,13 @@ void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameIAN );
+    if( mIANUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "issuerAltName" );
+    profileExt.setSN( JS_PKI_ExtNameIAN );
     profileExt.setCritical( mIANCriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -603,6 +624,7 @@ void MakeCRLProfileDlg::saveExtensionsUse( int nProfileNum )
         profileRec.setValue( strValue );
         profileRec.setCritical( bCrit );
 
+        if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, profileRec.getSN() );
         dbMgr->addCRLProfileExtension( profileRec );
     }
 }

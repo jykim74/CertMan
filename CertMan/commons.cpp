@@ -348,6 +348,9 @@ static int _setCRLDP( BIN *pBinExt, const QString strVal )
         JNameVal sNameVal;
         QString info = infoList.at(i);
         QStringList typeData = info.split( "$" );
+
+        if( typeData.size() < 2 ) continue;
+
         QString strType = typeData.at(0);
         QString strData = typeData.at(1);
 
@@ -452,6 +455,8 @@ static int _setPC( BIN *pBinExt, const QString strVal )
         QString info = infoList.at(i);
         QStringList nameVal = info.split("$");
 
+        if( nameVal.size() < 2 ) continue;
+
         QString name = nameVal.at(0);
         QString val = nameVal.at(1);
 
@@ -497,6 +502,8 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
 
         QString info = infoList.at(i);
         QStringList subList = info.split("$");
+
+        if( subList.size() < 3 ) continue;
 
         memset( &sAIA, 0x00, sizeof(sAIA));
 
@@ -578,6 +585,8 @@ static int _setIDP( BIN *pBinExt, const QString strVal )
         QString info = infoList.at(i);
         QStringList typeVal = info.split("$");
 
+        if( typeVal.size() < 2 ) continue;
+
         QString type = typeVal.at(0);
         QString val = typeVal.at(1);
         int nType = -1;
@@ -649,6 +658,8 @@ static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
         QString info = infoList.at(i);
         QStringList typeVal = info.split( "$" );
 
+        if( typeVal.size() < 2 ) continue;
+
         QString type = typeVal.at(0);
         QString val = typeVal.at(1);
 
@@ -718,6 +729,9 @@ static int _setPM( BIN *pBinExt, const QString strVal )
 
         QString info = infoList.at(i);
         QStringList valList = info.split("$");
+
+        if( valList.size() < 2 ) continue;
+
         QString strIDP = valList.at(0);
         QString strSDP = valList.at(1);
 
@@ -781,6 +795,8 @@ static int _setNC( BIN *pBinExt, const QString strVal )
 
         QString info = infoList.at(i);
         QStringList valList = info.split("$");
+
+        if( valList.size() < 3 ) continue;
 
         QString strType = valList.at(0);
         QString strKind = valList.at(1);

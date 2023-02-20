@@ -95,7 +95,7 @@ private slots:
     void clearNC();
     void clearExtensions();
 
-
+    void clickPolicySetAnyOID();
 private:
     void initUI();
     void connectExtends();

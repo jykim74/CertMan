@@ -235,6 +235,7 @@ void CertInfoDlg::initUI()
     mFieldTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mFieldTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mFieldTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mFieldTable->setColumnWidth( 0, 140 );
 
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
     connect( mVerifyCertBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCert()));
@@ -354,14 +355,17 @@ void CertInfoDlg::clickPathValidation()
     BINList *pCRLList = NULL;
 
     JNumValList *pParamList = NULL;
+    int nCount = cert_list_.size();
+    if( nCount < 1 ) return;
 
-    for( int i = 0; i < cert_list_.size(); i++ )
+    for( int i = 0; i < nCount; i++ )
     {
         CertRec cert = cert_list_.at(i);
 
-        if( i == cert_list_.size() - 1 )
+        if( i == nCount - 1 )
         {
             JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binTarget );
+            if( nCount == 1 ) JS_BIN_addList( &pTrustList, &binTarget );
         }
         else
         {

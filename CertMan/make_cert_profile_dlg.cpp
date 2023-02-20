@@ -1,5 +1,5 @@
 #include <QMenu>
-
+#include "js_pki_ext.h"
 #include "make_cert_profile_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
@@ -13,6 +13,8 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+
+    connect( mPolicySetAnyOIDBtn, SIGNAL(clicked()), this, SLOT(clickPolicySetAnyOID()));
 
     initUI();
     connectExtends();
@@ -277,19 +279,19 @@ void MakeCertProfileDlg::accept()
     }
 
     /* need to set extend fields here */
-    if( mAIAUseCheck->isChecked() ) saveAIAUse( nProfileNum );
-    if( mAKIUseCheck->isChecked() ) saveAKIUse( nProfileNum );
-    if( mBCUseCheck->isChecked() ) saveBCUse( nProfileNum );
-    if( mCRLDPUseCheck->isChecked() ) saveCRLDPUse( nProfileNum );
-    if( mEKUUseCheck->isChecked() ) saveEKUUse( nProfileNum );
-    if( mIANUseCheck->isChecked() ) saveIANUse( nProfileNum );
-    if( mKeyUsageUseCheck->isChecked() ) saveKeyUsageUse( nProfileNum );
-    if( mNCUseCheck->isChecked() ) saveNCUse( nProfileNum );
-    if( mPolicyUseCheck->isChecked() ) savePolicyUse( nProfileNum );
-    if( mPCUseCheck->isChecked() ) savePCUse( nProfileNum );
-    if( mPMUseCheck->isChecked() ) savePMUse( nProfileNum );
-    if( mSKIUseCheck->isChecked() ) saveSKIUse( nProfileNum );
-    if( mSANUseCheck->isChecked() ) saveSANUse( nProfileNum );
+    saveAIAUse( nProfileNum );
+    saveAKIUse( nProfileNum );
+    saveBCUse( nProfileNum );
+    saveCRLDPUse( nProfileNum );
+    saveEKUUse( nProfileNum );
+    saveIANUse( nProfileNum );
+    saveKeyUsageUse( nProfileNum );
+    saveNCUse( nProfileNum );
+    savePolicyUse( nProfileNum );
+    savePCUse( nProfileNum );
+    savePMUse( nProfileNum );
+    saveSKIUse( nProfileNum );
+    saveSANUse( nProfileNum );
     if( mExtensionsUseCheck->isChecked() ) saveExtensionsUse( nProfileNum );
     /* ....... */
 
@@ -626,6 +628,15 @@ void MakeCertProfileDlg::slotExtensionsMenuRequested(QPoint pos)
 void MakeCertProfileDlg::deleteExtensionsMenu()
 {
     QModelIndex idx = mExtensionsTable->currentIndex();
+
+    if( isEdit() )
+    {
+        DBMgr* dbMgr = manApplet->dbMgr();
+        if( dbMgr == NULL ) return;
+        QString strSN = mExtensionsTable->item( idx.row(), idx.column() )->text();
+        dbMgr->delCertProfileExtension( profile_num_, strSN );
+    }
+
     mExtensionsTable->removeRow( idx.row() );
 }
 
@@ -1049,15 +1060,23 @@ void MakeCertProfileDlg::clearExtensions()
         mExtensionsTable->removeRow(0);
 }
 
+void MakeCertProfileDlg::clickPolicySetAnyOID()
+{
+    mPolicyOIDText->setText( "2.5.29.32.0" );
+}
+
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameAIA );
+    if( mAIAUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "authorityInfoAccess" );
+    profileExt.setSN( JS_PKI_ExtNameAIA );
     profileExt.setCritical( mAIACriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -1080,6 +1099,7 @@ void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
         strVal += strData;
     }
 
+
     profileExt.setValue( strVal );
     dbMgr->addCertProfileExtension(profileExt);
 }
@@ -1089,10 +1109,13 @@ void MakeCertProfileDlg::saveAKIUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameAKI );
+    if( mAKIUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "authorityKeyIdentifier" );
+    profileExt.setSN( JS_PKI_ExtNameAKI );
     profileExt.setCritical( mAKICriticalCheck->isChecked() );
 
     QString strVal;
@@ -1109,10 +1132,13 @@ void MakeCertProfileDlg::saveBCUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameBC );
+    if( mBCUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN("basicConstraints");
+    profileExt.setSN(JS_PKI_ExtNameBC);
     profileExt.setCritical( mBCCriticalCheck->isChecked() );
 
     QString strVal;
@@ -1138,10 +1164,13 @@ void MakeCertProfileDlg::saveCRLDPUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameCRLDP );
+    if( mCRLDPUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "crlDistributionPoints");
+    profileExt.setSN( JS_PKI_ExtNameCRLDP );
     profileExt.setCritical( mCRLDPCriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -1169,10 +1198,13 @@ void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameEKU );
+    if( mEKUUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "extendedKeyUsage");
+    profileExt.setSN( JS_PKI_ExtNameEKU);
     profileExt.setCritical( mEKUCriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -1192,10 +1224,13 @@ void MakeCertProfileDlg::saveIANUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameIAN );
+    if( mIANUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "issuerAltName" );
+    profileExt.setSN( JS_PKI_ExtNameIAN );
     profileExt.setCritical( mIANCriticalCheck->isChecked() );
 
     QString strVal;
@@ -1223,10 +1258,13 @@ void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameKeyUsage );
+    if( mKeyUsageUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "keyUsage");
+    profileExt.setSN( JS_PKI_ExtNameKeyUsage );
     profileExt.setCritical( mKeyUsageCriticalCheck->isChecked() );
 
     QString strValue;
@@ -1246,10 +1284,13 @@ void MakeCertProfileDlg::saveNCUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameNC );
+    if( mNCUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "nameConstraints" );
+    profileExt.setSN( JS_PKI_ExtNameNC );
     profileExt.setCritical( mNCCriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -1289,10 +1330,13 @@ void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNamePolicy );
+    if( mPolicyUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "certificatePolicies" );
+    profileExt.setSN( JS_PKI_ExtNamePolicy );
     profileExt.setCritical( mPolicyCriticalCheck->isChecked() );
 
     QString strVal;
@@ -1319,10 +1363,13 @@ void MakeCertProfileDlg::savePCUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNamePC );
+    if( mPCUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "policyConstraints" );
+    profileExt.setSN( JS_PKI_ExtNamePC );
     profileExt.setCritical( mPCCriticalCheck->isChecked() );
 
     QString strVal;
@@ -1350,10 +1397,13 @@ void MakeCertProfileDlg::savePMUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNamePM );
+    if( mPMUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "policyMappings" );
+    profileExt.setSN( JS_PKI_ExtNamePM );
     profileExt.setCritical( mPMCriticalCheck->isChecked() );
 
     QString strVal;
@@ -1381,10 +1431,13 @@ void MakeCertProfileDlg::saveSKIUse(int nProfileNum )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameSKI );
+    if( mSKIUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "subjectKeyIdentifier" );
+    profileExt.setSN( JS_PKI_ExtNameSKI );
     profileExt.setCritical( mSKICriticalCheck->isChecked() );
 
     dbMgr->addCertProfileExtension(profileExt);
@@ -1395,10 +1448,13 @@ void MakeCertProfileDlg::saveSANUse(int nProfileNum)
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, JS_PKI_ExtNameSAN );
+    if( mSANUseCheck->isChecked() == false ) return;
+
     ProfileExtRec profileExt;
 
     profileExt.setProfileNum(nProfileNum);
-    profileExt.setSN( "subjectAltName" );
+    profileExt.setSN( JS_PKI_ExtNameSAN );
     profileExt.setCritical( mSANCriticalCheck->isChecked() );
 
     QString strVal = "";
@@ -1441,6 +1497,7 @@ void MakeCertProfileDlg::saveExtensionsUse( int nProfileNum )
         profileRec.setValue( strValue );
         profileRec.setCritical( bCrit );
 
+        if( isEdit() ) dbMgr->delCertProfileExtension( profile_num_, profileRec.getSN() );
         dbMgr->addCertProfileExtension( profileRec );
     }
 }
@@ -1463,6 +1520,9 @@ void MakeCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
         QString strData = "";
 
         QStringList infoList = info.split("$");
+
+        if( infoList.size() < 3 ) continue;
+
         strMethod = infoList.at(0);
         strType = infoList.at(1);
         strData = infoList.at(2);
@@ -1567,6 +1627,8 @@ void MakeCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
     {
         QString info = valList.at(i);
         QStringList infoList = info.split("$");
+
+        if( infoList.size() < 2 ) continue;
 
         QString strType = infoList.at(0);
         QString strData = infoList.at(1);
@@ -1687,6 +1749,8 @@ void MakeCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
         QString info = valList.at(i);
         QStringList infoList = info.split("$");
 
+        if( infoList.size() < 2 ) continue;
+
         QString strType = infoList.at(0);
         QString strData = infoList.at(1);
 
@@ -1711,6 +1775,8 @@ void MakeCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
     {
         QString info = valList.at(i);
         QStringList infoList = info.split("$");
+
+        if( infoList.size() < 2 ) continue;
 
         QString strIDP = infoList.at(0);
         QString strSDP = infoList.at(1);

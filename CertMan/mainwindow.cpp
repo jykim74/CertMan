@@ -408,6 +408,12 @@ void MainWindow::showRightMenu(QPoint point)
 
     if( item == NULL ) return;
 
+    QList<QTableWidgetItem *>list = right_table_->selectedItems();
+    if( list.size() > 1 )
+    {
+        right_table_->selectRow( list.at(0)->row() );
+    }
+
     QMenu menu(this);
 
     if( right_type_ == RightType::TYPE_CERTIFICATE)
@@ -1422,11 +1428,22 @@ void MainWindow::deleteKeyPair()
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this key pair?" ), this, false );
     if( bVal == false ) return;
 
+#if 0
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
     manApplet->dbMgr()->delKeyPairRec( num );
+#else
+    QList<QTableWidgetItem*> list = right_table_->selectedItems();
+    for( int i = 0; i < list.size(); i++ )
+    {
+        QTableWidgetItem* item = list.at(i);
+        int num = item->text().toInt();
+        manApplet->dbMgr()->delKeyPairRec( num );
+    }
+#endif
+
     createRightKeyPairList();
 }
 
@@ -1440,12 +1457,21 @@ void MainWindow::deleteRequest()
 
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this request?" ), this, false );
     if( bVal == false ) return;
-
+#if 0
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
     manApplet->dbMgr()->delReqRec( num );
+#else
+    QList<QTableWidgetItem*> list = right_table_->selectedItems();
+    for( int i = 0; i < list.size(); i++ )
+    {
+        QTableWidgetItem* item = list.at(i);
+        int num = item->text().toInt();
+        manApplet->dbMgr()->delReqRec( num );
+    }
+#endif
     createRightRequestList();
 }
 
@@ -1459,12 +1485,22 @@ void MainWindow::deleteUser()
 
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this user?" ), this, false );
     if( bVal == false ) return;
-
+#if 0
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
     manApplet->dbMgr()->delUserRec( num );
+#else
+    QList<QTableWidgetItem*> list = right_table_->selectedItems();
+    for( int i = 0; i < list.size(); i++ )
+    {
+        QTableWidgetItem* item = list.at(i);
+        int num = item->text().toInt();
+        manApplet->dbMgr()->delUserRec( num );
+    }
+#endif
+
     createRightUserList();
 }
 
@@ -1487,6 +1523,7 @@ void MainWindow::deleteSigner()
     SignerRec signer;
     manApplet->dbMgr()->getSignerRec( num, signer );
     manApplet->dbMgr()->delSignerRec( num );
+
     createRightSignerList( signer.getType() );
 }
 
@@ -1582,7 +1619,7 @@ void MainWindow::treeMenuDoubleClick(QModelIndex index)
     if( pItem == NULL ) return;
 
     if( pItem->getType() == CM_ITEM_TYPE_SUBCA )
-    {
+    {   
         if( pItem->hasChildren() == false )
             expandItem( pItem );
     }

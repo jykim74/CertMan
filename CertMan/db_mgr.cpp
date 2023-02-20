@@ -2005,12 +2005,34 @@ int DBMgr::delCertProfileExtensionList( int nProfileNum )
     sqlQuery.exec();
 }
 
+int DBMgr::delCertProfileExtension( int nProfileNum, const QString strSN )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CERT_PROFILE_EXTENSION WHERE PROFILENUM = ? AND SN = ?");
+
+    sqlQuery.bindValue( 0, nProfileNum );
+    sqlQuery.bindValue( 1, strSN );
+
+    sqlQuery.exec();
+}
+
 int DBMgr::delCRLProfileExtensionList( int nProfileNum )
 {
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "DELETE FROM TB_CRL_PROFILE_EXTENSION WHERE PROFILENUM = ?");
 
     sqlQuery.bindValue( 0, nProfileNum );
+
+    sqlQuery.exec();
+}
+
+int DBMgr::delCRLProfileExtension( int nProfileNum, const QString strSN )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_CRL_PROFILE_EXTENSION WHERE PROFILENUM = ? AND SN = ?");
+
+    sqlQuery.bindValue( 0, nProfileNum );
+    sqlQuery.bindValue( 1, strSN );
 
     sqlQuery.exec();
 }
