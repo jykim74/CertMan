@@ -22,6 +22,8 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     is_edit_ = false;
     profile_num_ = -1;
     mCertTab->setCurrentIndex(0);
+
+    initialize();
 }
 
 MakeCertProfileDlg::~MakeCertProfileDlg()
@@ -29,32 +31,21 @@ MakeCertProfileDlg::~MakeCertProfileDlg()
 
 }
 
-void MakeCertProfileDlg::setEdit(bool is_edit)
+void MakeCertProfileDlg::setEdit(int nProfileNum )
 {
-    is_edit_ = is_edit;
-}
-
-void MakeCertProfileDlg::setProfileNum(int profile_num)
-{
-    profile_num_ = profile_num;
-}
-
-void MakeCertProfileDlg::showEvent(QShowEvent *event)
-{
-    initialize();
+    is_edit_ = true;
+    profile_num_ = nProfileNum;
+    loadProfile( profile_num_ );
 }
 
 void MakeCertProfileDlg::initialize()
 {
     mCertTab->setCurrentIndex(0);
 
-    if( is_edit_ )
-        loadProfile();
-    else
-        defaultProfile();
+    defaultProfile();
 }
 
-void MakeCertProfileDlg::loadProfile()
+void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -63,9 +54,14 @@ void MakeCertProfileDlg::loadProfile()
     QDateTime notBefore;
     QDateTime notAfter;
 
-    dbMgr->getCertProfileRec( profile_num_, certProfile );
+//    dbMgr->getCertProfileRec( profile_num_, certProfile );
+    dbMgr->getCertProfileRec( nProfileNum, certProfile );
 
-    mNameText->setText( certProfile.getName() );
+    if( bCopy == true )
+        mNameText->setText( certProfile.getName() + "_Copy" );
+    else
+        mNameText->setText( certProfile.getName() );
+
     mVersionCombo->setCurrentIndex( certProfile.getVersion() );
     mHashCombo->setCurrentText( certProfile.getHash() );
     mSubjectDNText->setText( certProfile.getDNTemplate() );
@@ -93,7 +89,7 @@ void MakeCertProfileDlg::loadProfile()
 
 
     QList<ProfileExtRec> extProfileList;
-    dbMgr->getCertProfileExtensionList( profile_num_, extProfileList );
+    dbMgr->getCertProfileExtensionList( nProfileNum, extProfileList );
 
     for( int i=0; i < extProfileList.size(); i++ )
     {
@@ -313,8 +309,8 @@ void MakeCertProfileDlg::initUI()
     mAIATypeCombo->addItem( "URI" );
     mSANCombo->addItems(kTypeList);
     mIANCombo->addItems(kTypeList);
-//    mNCTypeCombo->addItems(kTypeList);
-    mNCTypeCombo->addItem( "URI" );
+    mNCTypeCombo->addItems(kTypeList);
+//    mNCTypeCombo->addItem( "URI" );
     mNCSubCombo->addItems(kNCSubList);
     mBCCombo->addItems(kBCTypeList);
     mHashCombo->addItems(kHashList);
@@ -955,8 +951,8 @@ void MakeCertProfileDlg::addNC()
     mNCTable->setItem( row, 0, new QTableWidgetItem(strType));
     mNCTable->setItem( row, 1, new QTableWidgetItem(strSubType));
     mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
-    mNCTable->setItem( row, 3, new QTableWidgetItem(strMax));
-    mNCTable->setItem( row, 4, new QTableWidgetItem(strMin));
+    mNCTable->setItem( row, 3, new QTableWidgetItem(strMin));
+    mNCTable->setItem( row, 4, new QTableWidgetItem(strMax));
 }
 
 void MakeCertProfileDlg::addExtensions()

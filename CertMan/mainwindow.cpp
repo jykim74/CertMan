@@ -460,11 +460,13 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Delete CertProfile"), this, &MainWindow::deleteCertProfile );
         menu.addAction(tr("Edit CertProfile" ), this, &MainWindow::editCertProfile );
+        menu.addAction(tr("Copy CertProfile"), this, &MainWindow::copyCertProfile );
     }
     else if( right_type_ == RightType::TYPE_CRL_PROFILE )
     {
         menu.addAction(tr("Delete CRLProfile"), this, &MainWindow::deleteCRLProfile );
         menu.addAction(tr("Edit CRLProfile"), this, &MainWindow::editCRLProfile );
+        menu.addAction(tr("Copy CRLProfile"), this, &MainWindow::copyCRLProfile );
     }
     else if( right_type_ == RightType::TYPE_ADMIN )
     {
@@ -813,9 +815,6 @@ void MainWindow::makeCertProfile()
     }
 
     MakeCertProfileDlg makeCertProfileDlg;
-    makeCertProfileDlg.setEdit(false);
-    makeCertProfileDlg.setProfileNum(-1);
-
     makeCertProfileDlg.exec();
 }
 
@@ -828,8 +827,6 @@ void MainWindow::makeCRLProfile()
     }
 
     MakeCRLProfileDlg makeCRLProfileDlg;
-    makeCRLProfileDlg.setEdit(false);
-    makeCRLProfileDlg.setProfileNum(-1);
     makeCRLProfileDlg.exec();
 }
 
@@ -847,9 +844,26 @@ void MainWindow::editCertProfile()
     int num = item->text().toInt();
 
     MakeCertProfileDlg makeCertProfileDlg;
-    makeCertProfileDlg.setEdit(true);
-    makeCertProfileDlg.setProfileNum(num);
+    makeCertProfileDlg.setEdit(num);
 
+    makeCertProfileDlg.exec();
+}
+
+void MainWindow::copyCertProfile()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    MakeCertProfileDlg makeCertProfileDlg;
+    makeCertProfileDlg.loadProfile( num, true );
     makeCertProfileDlg.exec();
 }
 
@@ -867,8 +881,25 @@ void MainWindow::editCRLProfile()
     int num = item->text().toInt();
 
     MakeCRLProfileDlg makeCRLProfileDlg;
-    makeCRLProfileDlg.setEdit(true);
-    makeCRLProfileDlg.setProfileNum(num);
+    makeCRLProfileDlg.setEdit(num);
+    makeCRLProfileDlg.exec();
+}
+
+void MainWindow::copyCRLProfile()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    MakeCRLProfileDlg makeCRLProfileDlg;
+    makeCRLProfileDlg.loadProfile( num, true );
     makeCRLProfileDlg.exec();
 }
 

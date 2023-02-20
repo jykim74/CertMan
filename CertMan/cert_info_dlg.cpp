@@ -5,6 +5,7 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_util.h"
+#include "js_pki_pvd.h"
 #include "commons.h"
 
 
@@ -236,6 +237,9 @@ void CertInfoDlg::initUI()
     mFieldTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
+    connect( mVerifyCertBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCert()));
+    connect( mPathValidationBtn, SIGNAL(clicked()), this, SLOT(clickPathValidation()));
+
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
 }
@@ -288,6 +292,116 @@ void CertInfoDlg::clickCheck()
 
     if( pChainList ) JS_BIN_resetList( &pChainList );
     JS_BIN_reset( &binCert );
+}
+
+void CertInfoDlg::clickVerifyCert()
+{
+    int ret = 0;
+    char sRes[128];
+
+    BIN binCA = {0,0};
+    BIN binCert = {0,0};
+
+    int nCount = cert_list_.size();
+    if( nCount < 1 ) return;
+
+    CertRec cert = cert_list_.at( nCount - 1 );
+    JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+
+    if( nCount == 1 )
+    {
+        JS_BIN_copy( &binCA, &binCert );
+    }
+    else
+    {
+        CertRec caCert = cert_list_.at( nCount - 2 );
+        JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binCA );
+    }
+
+    ret = JS_PKI_verifyCert( &binCA, NULL, &binCert, sRes );
+
+    manApplet->log( QString( "PVDCertValid : %1").arg(ret));
+    if( ret == 1 )
+    {
+        QString strOK = "The PathValidation of the target certificate is OK";
+        manApplet->log( strOK );
+        manApplet->messageBox( strOK, this );
+    }
+    else
+    {
+        QString strErr = QString( "Verify fail: %1" ).arg(sRes);
+        manApplet->log( strErr );
+        manApplet->warningBox( strErr, this );
+    }
+
+end :
+    JS_BIN_reset( &binCA );
+    JS_BIN_reset( &binCert );
+}
+
+void CertInfoDlg::clickPathValidation()
+{
+    int ret = 0;
+    char sRes[128];
+
+    BIN binTrust = {0,0};
+    BIN binUntrust = {0,0};
+    BIN binCRL = {0,0};
+    BIN binTarget = {0,0};
+
+    BINList *pTrustList = NULL;
+    BINList *pUntrustList = NULL;
+    BINList *pCRLList = NULL;
+
+    JNumValList *pParamList = NULL;
+
+    for( int i = 0; i < cert_list_.size(); i++ )
+    {
+        CertRec cert = cert_list_.at(i);
+
+        if( i == cert_list_.size() - 1 )
+        {
+            JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binTarget );
+        }
+        else
+        {
+            BIN bin = {0,0};
+            JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &bin );
+
+            if( i == 0 )
+                JS_BIN_addList( &pTrustList, &bin );
+            else
+                JS_BIN_addList( &pUntrustList, &bin );
+
+            JS_BIN_reset( &bin );
+        }
+    }
+
+    ret = JS_PKI_CertPVD( pTrustList, pUntrustList, pCRLList, pParamList, &binTarget, sRes );
+
+    manApplet->log( QString( "PVDCertValid : %1").arg(ret));
+    if( ret == 1 )
+    {
+        QString strOK = "The PathValidation of the target certificate is OK";
+        manApplet->log( strOK );
+        manApplet->messageBox( strOK, this );
+    }
+    else
+    {
+        QString strErr = QString( "Verify fail: %1" ).arg(sRes);
+        manApplet->log( strErr );
+        manApplet->warningBox( strErr, this );
+    }
+
+    JS_BIN_reset( &binTrust );
+    JS_BIN_reset( &binUntrust );
+    JS_BIN_reset( &binCRL );
+    JS_BIN_reset( &binTarget );
+
+    if( pTrustList ) JS_BIN_resetList( &pTrustList );
+    if( pUntrustList ) JS_BIN_resetList( &pUntrustList );
+    if( pCRLList ) JS_BIN_resetList( &pCRLList );
+    if( pParamList ) JS_UTIL_resetNumValList( &pParamList );
 }
 
 void CertInfoDlg::clearTable()

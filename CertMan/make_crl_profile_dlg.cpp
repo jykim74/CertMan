@@ -25,6 +25,8 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
     is_edit_ = false;
     profile_num_ = -1;
+
+    initialize();
 }
 
 MakeCRLProfileDlg::~MakeCRLProfileDlg()
@@ -32,14 +34,12 @@ MakeCRLProfileDlg::~MakeCRLProfileDlg()
 
 }
 
-void MakeCRLProfileDlg::setEdit(bool is_edit)
+void MakeCRLProfileDlg::setEdit( int nProfileNum)
 {
-    is_edit_ = is_edit;
-}
+    is_edit_ = true;
+    profile_num_ = nProfileNum;
 
-void MakeCRLProfileDlg::setProfileNum(int profile_num)
-{
-    profile_num_ = profile_num;
+    loadProfile( profile_num_ );
 }
 
 
@@ -47,15 +47,7 @@ void MakeCRLProfileDlg::initialize()
 {
     mCRLTab->setCurrentIndex(0);
 
-    if( is_edit_ )
-        loadProfile();
-    else
-        defaultProfile();
-}
-
-void MakeCRLProfileDlg::showEvent(QShowEvent *event)
-{
-    initialize();
+    defaultProfile();
 }
 
 void MakeCRLProfileDlg::slotIANMenuRequested(QPoint pos)
@@ -108,16 +100,21 @@ void MakeCRLProfileDlg::deleteExtensionsMenu()
     mExtensionsTable->removeRow( idx.row() );
 }
 
-void MakeCRLProfileDlg::loadProfile()
+void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
     CRLProfileRec crlProfile;
 
-    dbMgr->getCRLProfileRec( profile_num_, crlProfile );
+//    dbMgr->getCRLProfileRec( profile_num_, crlProfile );
+    dbMgr->getCRLProfileRec( nProfileNum, crlProfile );
 
-    mNameText->setText( crlProfile.getName() );
+    if( bCopy == true )
+        mNameText->setText( crlProfile.getName() + "_Copy" );
+    else
+        mNameText->setText( crlProfile.getName() );
+
     mVersionCombo->setCurrentIndex( crlProfile.getVersion() );
     mHashCombo->setCurrentText( crlProfile.getHash() );
 
@@ -141,7 +138,7 @@ void MakeCRLProfileDlg::loadProfile()
     clickUseFromNow();
 
     QList<ProfileExtRec> extProfileList;
-    dbMgr->getCRLProfileExtensionList( profile_num_, extProfileList );
+    dbMgr->getCRLProfileExtensionList( nProfileNum, extProfileList );
 
     for( int i=0; i < extProfileList.size(); i++ )
     {

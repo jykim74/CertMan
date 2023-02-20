@@ -1249,8 +1249,8 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_21">
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mPMIssuerDomainPolicyText"/>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="mPMSubjectDomainPolicyText"/>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_28">
@@ -1266,8 +1266,22 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="mPMSubjectDomainPolicyText"/>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="mPMIssuerDomainPolicyText"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_35">
+           <property name="text">
+            <string>OID value</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>OID value</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

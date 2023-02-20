@@ -26,6 +26,8 @@ private slots:
     void showEvent(QShowEvent *event);
     void clickField( QModelIndex index );
     void clickCheck();
+    void clickVerifyCert();
+    void clickPathValidation();
 
 private:
     int cert_num_;

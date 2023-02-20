@@ -171,9 +171,9 @@ static int _setCertPolicy( BIN *pBinExt, const QString strVal )
         }
 
         JS_PKI_setExtPolicy( &sPolicy,
-                             strOID.toStdString().c_str(),
-                             strCPS.toStdString().c_str(),
-                             strUserNotice.toStdString().c_str() );
+                             strOID.length() > 1 ? strOID.toStdString().c_str() : NULL,
+                             strCPS.length() > 1 ? strCPS.toStdString().c_str() : NULL,
+                             strUserNotice.length() > 1 ? strUserNotice.toStdString().c_str() : NULL );
 
         if( pPolicyList == NULL )
             JS_PKI_createExtPolicyList( &sPolicy, &pPolicyList );
