@@ -15,9 +15,9 @@ private:
 public:
     ProfileExtRec();
 
-    const int getSeq() { return m_nSeq; };
-    const int getProfileNum() { return m_nProfileNum; };
-    const bool isCritical() { return m_bCritical; };
+    int getSeq() { return m_nSeq; };
+    int getProfileNum() { return m_nProfileNum; };
+    bool isCritical() { return m_bCritical; };
     const QString getSN() { return m_strSN; };
     const QString getValue() { return m_strValue; };
 

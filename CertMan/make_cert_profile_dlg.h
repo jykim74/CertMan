@@ -71,7 +71,6 @@ private slots:
     void clickPMUse();
     void clickSKIUse();
     void clickSANUse();
-    void clickExtensionsUse();
 
     void addKeyUsage();
     void addPolicy();
@@ -139,6 +138,7 @@ private:
 
     bool is_edit_;
     int profile_num_;
+    QList<QString> ext_rmlist_;
 };
 
 #endif // MAKE_CERT_PROFILE_DLG_H

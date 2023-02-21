@@ -52,7 +52,7 @@ static int _setKeyUsage( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getKeyUsage( const BIN *pBinExt, QString& strVal )
+static int _getKeyUsage( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
     int     nKeyUsage = 0;
@@ -125,7 +125,7 @@ static int _setCRLNum( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getCRLNum( const BIN *pBinExt, QString& strVal )
+static int _getCRLNum( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
     char    *pCRLNum = NULL;
@@ -133,7 +133,11 @@ static int _getCRLNum( const BIN *pBinExt, QString& strVal )
     ret = JS_PKI_getCRLNumberValue( pBinExt, &pCRLNum );
 
     if( pCRLNum ) {
-        strVal = pCRLNum;
+        if(bShow)
+            strVal = QString( "CRL Number=%1" ).arg( pCRLNum );
+        else
+            strVal = pCRLNum;
+
         JS_free( pCRLNum );
     }
 
@@ -189,9 +193,10 @@ static int _setCertPolicy( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getCertPolicy( const BIN *pBinExt, QString& strVal )
+static int _getCertPolicy( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
+    int i = 0;
     JExtPolicyList *pPolicyList = NULL;
     JExtPolicyList *pCurList = NULL;
 
@@ -201,14 +206,32 @@ static int _getCertPolicy( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
-        if( strVal.length() > 0 ) strVal += "%%";
+        if( bShow )
+        {
+            strVal += QString( "[%1]Certificate Policy:\n" ).arg(i+1);
+            strVal += QString( " Policy Identifier=%1\n" ).arg( pCurList->sPolicy.pOID );
+            if( pCurList->sPolicy.pCPS )
+            {
+                strVal += QString( " [%1,1] CPS = %2\n" ).arg( i+1 ).arg( pCurList->sPolicy.pCPS );
+            }
 
-        strVal += QString("#CPS$%1#OID$%2#UserNotice$%3")
-                .arg( pCurList->sPolicy.pCPS )
+            if( pCurList->sPolicy.pUserNotice )
+            {
+                strVal += QString( " [%1,2] UserNotice = %2\n" ).arg( i+1 ).arg( pCurList->sPolicy.pUserNotice );
+            }
+        }
+        else
+        {
+            if( strVal.length() > 0 ) strVal += "%%";
+
+            strVal += QString("#OID$%1#CPS$%2#UserNotice$%3")
                 .arg( pCurList->sPolicy.pOID )
+                .arg( pCurList->sPolicy.pCPS )
                 .arg( pCurList->sPolicy.pUserNotice );
+        }
 
         pCurList = pCurList->pNext;
+        i++;
     }
 
     if( pPolicyList ) JS_PKI_resetExtPolicyList( &pPolicyList );
@@ -226,7 +249,7 @@ static int _setSKI( BIN *pBinExt, const QString strVal )
 
 
 
-static int _getSKI( const BIN *pBinExt, QString& strVal )
+static int _getSKI( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
     char        *pSKI = NULL;
@@ -271,7 +294,7 @@ static int _setAKI( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getAKI( const BIN *pBinExt, QString& strVal )
+static int _getAKI( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
     char    *pAKI = NULL;
@@ -280,7 +303,16 @@ static int _getAKI( const BIN *pBinExt, QString& strVal )
 
     ret = JS_PKI_getAuthorityKeyIdentifierValue( pBinExt, &pAKI, &pIssuer, &pSerial );
 
-    strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( pAKI ).arg( pIssuer ).arg( pSerial );
+    if( bShow == true )
+    {
+        strVal = QString( "KeyID=%1\n").arg( pAKI );
+        if( pIssuer ) strVal += QString( "CertificateIssuer=\n    %1\n").arg( pIssuer );
+        if( pSerial ) strVal += QString( "CertificateSerialNumber=%1").arg( pSerial );
+    }
+    else
+    {
+        strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( pAKI ).arg( pIssuer ).arg( pSerial );
+    }
 
     if( pAKI ) JS_free( pAKI );
     if( pIssuer ) JS_free( pIssuer );
@@ -313,7 +345,7 @@ static int _setEKU( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getEKU( const BIN *pBinExt, QString& strVal )
+static int _getEKU( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
     JStrList   *pEKUList = NULL;
@@ -371,9 +403,10 @@ static int _setCRLDP( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getCRLDP( const BIN *pBinExt, QString& strVal )
+static int _getCRLDP( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
+    int i = 1;
     JNameValList   *pCRLDPList = NULL;
     JNameValList    *pCurList = NULL;
 
@@ -383,13 +416,22 @@ static int _getCRLDP( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
-        if( strVal.length() > 0 ) strVal += "#";
+        if( bShow )
+        {
+            strVal += QString( "[%1] CRL Distribution Point\n" ).arg(i);
+            strVal += QString( " %1=%2\n" ).arg( pCurList->sNameVal.pName ).arg( pCurList->sNameVal.pValue );
+        }
+        else
+        {
+            if( strVal.length() > 0 ) strVal += "#";
 
-        strVal += QString( "%1$%2")
+            strVal += QString( "%1$%2")
                 .arg( pCurList->sNameVal.pName )
                 .arg( pCurList->sNameVal.pValue );
+        }
 
         pCurList = pCurList->pNext;
+        i++;
     }
 
     if( pCRLDPList ) JS_UTIL_resetNameValList( &pCRLDPList );
@@ -417,7 +459,7 @@ static int _setBC( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getBC( const BIN *pBinExt, QString& strVal )
+static int _getBC( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
     int nType = -1;
@@ -433,11 +475,23 @@ static int _getBC( const BIN *pBinExt, QString& strVal )
     else if( nType == JS_PKI_BC_TYPE_USER )
         strType = "EE";
 
+
     if( nPathLen >= 0 )
         strPathLen = QString("$PathLen:%1").arg( nPathLen );
 
-    strVal += strType;
-    strVal += strPathLen;
+    if( bShow )
+    {
+        strVal = QString( "SubjectType=%1\n").arg(strType);
+        if( nPathLen >= 0 )
+            strVal += QString( "PathLengthConstraint=%1" ).arg(nPathLen);
+        else
+            strVal += QString( "PathLengthConstraint=None" );
+    }
+    else
+    {
+        strVal += strType;
+        strVal += strPathLen;
+    }
 
     return 0;
 }
@@ -470,7 +524,7 @@ static int _setPC( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getPC( const BIN *pBinExt, QString& strVal )
+static int _getPC( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
     int nREP = -1;
@@ -478,8 +532,16 @@ static int _getPC( const BIN *pBinExt, QString& strVal )
 
     ret = JS_PKI_getPolicyConstValue( pBinExt, &nREP, &nIPM );
 
-    if( nREP >= 0 ) strVal += QString("#REP$%1").arg( nREP );
-    if( nIPM >= 0 ) strVal += QString("#IPM$%1").arg( nIPM );
+    if( bShow )
+    {
+        if( nREP >= 0 ) strVal += QString("RequiredExplicitPolicySkipCerts=%1\n").arg( nREP );
+        if( nIPM >= 0 ) strVal += QString("InhibitPolicyMappingSkipCerts=%1\n").arg( nIPM );
+    }
+    else
+    {
+        if( nREP >= 0 ) strVal += QString("#REP$%1").arg( nREP );
+        if( nIPM >= 0 ) strVal += QString("#IPM$%1").arg( nIPM );
+    }
 
     return 0;
 }
@@ -495,6 +557,7 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
     {
         QString strType = "";
         QString strMethod = "";
+        QString strMethodOID = "";
         QString strName = "";
         int nType = -1;
 
@@ -518,8 +581,13 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
         else if( strType == "email" )
             nType = JS_PKI_NAME_TYPE_EMAIL;
 
+        if( strMethod.toUpper() == "CAISSUER" )
+            strMethodOID = "1.3.6.1.5.5.7.48.2";
+        else
+            strMethodOID = "1.3.6.1.5.5.7.48.1";
+
         JS_PKI_setExtAuthorityInfoAccess( &sAIA,
-                                          strMethod.toStdString().c_str(),
+                                          strMethodOID.toStdString().c_str(),
                                           nType,
                                           strName.toStdString().c_str() );
 
@@ -537,9 +605,10 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getAIA( const BIN *pBinExt, QString& strVal )
+static int _getAIA( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
+    int i = 1;
     JExtAuthorityInfoAccessList    *pAIAList = NULL;
     JExtAuthorityInfoAccessList    *pCurList = NULL;
 
@@ -551,8 +620,6 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
     {
         QString strType;
 
-        if( strVal.length() > 0 ) strVal += "%%";
-
         if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_DNS )
             strType = "DNS";
         else if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_URI )
@@ -560,12 +627,25 @@ static int _getAIA( const BIN *pBinExt, QString& strVal )
         else if( pCurList->sAuthorityInfoAccess.nType == JS_PKI_NAME_TYPE_EMAIL )
             strType = "Email";
 
-        strVal += QString( "Method$%1#Type$%2#Name$%3")
+        if( bShow )
+        {
+            strVal += QString( "[%1]Authority Info Access\n" ).arg(i);
+            strVal += QString( " Access Method=%1\n").arg(pCurList->sAuthorityInfoAccess.pMethod);
+            strVal += QString( " Alternative Name:\n" );
+            strVal += QString( " %1=%2\n" ).arg(strType).arg(pCurList->sAuthorityInfoAccess.pName );
+        }
+        else
+        {
+            if( strVal.length() > 0 ) strVal += "%%";
+
+            strVal += QString( "Method$%1#Type$%2#Name$%3")
                 .arg( pCurList->sAuthorityInfoAccess.pMethod )
                 .arg( strType )
                 .arg( pCurList->sAuthorityInfoAccess.pName );
+        }
 
         pCurList = pCurList->pNext;
+        i++;
     }
 
     if( pAIAList ) JS_PKI_resetExtAuthorityInfoAccessList( &pAIAList );
@@ -615,9 +695,11 @@ static int _setIDP( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getIDP( const BIN *pBinExt, QString& strVal )
+static int _getIDP( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
+    int i = 1;
+
     JNumValList    *pIDPList = NULL;
     JNumValList    *pCurList = NULL;
 
@@ -636,7 +718,16 @@ static int _getIDP( const BIN *pBinExt, QString& strVal )
         else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_EMAIL )
             strType = "Email";
 
-        strVal += QString( "#%1$%2" ).arg( strType ).arg( pCurList->sNumVal.pValue );
+        if( bShow )
+        {
+            strVal += QString("[%1] Issuing Distribution Point:\n" ).arg(i);
+            strVal += QString( " %1=%2\n" ).arg( strType ).arg( pCurList->sNumVal.pValue );
+        }
+        else
+        {
+            strVal += QString( "#%1$%2" ).arg( strType ).arg( pCurList->sNumVal.pValue );
+        }
+
         pCurList = pCurList->pNext;
     }
 
@@ -688,7 +779,7 @@ static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
     return ret;
 }
 
-static int _getAltName( const BIN *pBinExt, int nNid, QString& strVal )
+static int _getAltName( const BIN *pBinExt, int nNid, bool bShow, QString& strVal )
 {
     int     ret = 0;
     JNumValList    *pAltNameList = NULL;
@@ -708,7 +799,15 @@ static int _getAltName( const BIN *pBinExt, int nNid, QString& strVal )
         else if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_EMAIL )
             strType = "Email";
 
-        strVal += QString( "#%1$%2").arg( strType ).arg(pCurList->sNumVal.pValue);
+        if( bShow )
+        {
+            strVal += QString( "%1=%2\n" ).arg( strType ).arg( pCurList->sNumVal.pValue );
+        }
+        else
+        {
+            strVal += QString( "#%1$%2").arg( strType ).arg(pCurList->sNumVal.pValue);
+        }
+
         pCurList = pCurList->pNext;
     }
 
@@ -752,9 +851,11 @@ static int _setPM( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getPM( const BIN *pBinExt, QString& strVal )
+static int _getPM( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int ret = 0;
+    int i = 1;
+
     JExtPolicyMappingsList *pPMList = NULL;
     JExtPolicyMappingsList *pCurList = NULL;
 
@@ -764,13 +865,23 @@ static int _getPM( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
-        if( strVal.length() > 0 ) strVal += "%%";
+        if( bShow )
+        {
+            strVal += QString( "[%1]Issuer Domain=%2\n" ).arg(i).arg(pCurList->sPolicyMappings.pIssuerDomainPolicy );
+            if( pCurList->sPolicyMappings.pSubjectDomainPolicy )
+                strVal += QString( " Subject Domain=%1\n" ).arg( pCurList->sPolicyMappings.pSubjectDomainPolicy );
+        }
+        else
+        {
+            if( strVal.length() > 0 ) strVal += "%%";
 
-        strVal += QString( "IDP$%1#SDP$%2")
+            strVal += QString( "IDP$%1#SDP$%2")
                 .arg( pCurList->sPolicyMappings.pIssuerDomainPolicy )
                 .arg( pCurList->sPolicyMappings.pSubjectDomainPolicy );
+        }
 
         pCurList = pCurList->pNext;
+        i++;
     }
 
     if( pPMList ) JS_PKI_resetExtPolicyMappingsList( &pPMList );
@@ -834,9 +945,12 @@ static int _setNC( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getNC( const BIN *pBinExt, QString& strVal )
+static int _getNC( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
+    int     pi = 1;
+    int     ei = 1;
+
     JExtNameConstsList     *pNCList = NULL;
     JExtNameConstsList     *pCurList = NULL;
 
@@ -846,12 +960,43 @@ static int _getNC( const BIN *pBinExt, QString& strVal )
 
     while( pCurList )
     {
-        strVal += QString("#%1$%2$%3$%4$%5")
+        QString strType;
+        if( pCurList->sNameConsts.nType == JS_PKI_NAME_TYPE_URI )
+            strType = "URI";
+        else if( pCurList->sNameConsts.nType == JS_PKI_NAME_TYPE_DNS )
+            strType = "DNS";
+        else if( pCurList->sNameConsts.nType == JS_PKI_NAME_TYPE_EMAIL )
+            strType = "email";
+
+
+        if( bShow )
+        {
+            if( pCurList->sNameConsts.nKind == JS_PKI_NAME_CONSTS_KIND_PST )
+            {
+                if( pi == 1 ) strVal += QString( "Permitted\n" );
+                strVal += QString( " [%1]Subtrees(%2..%3)\n" ).arg( pi ).arg( pCurList->sNameConsts.nMax ).arg( pCurList->sNameConsts.nMin );
+                strVal += QString( "  %1=%2\n" ).arg( strType ).arg( pCurList->sNameConsts.pValue );
+
+                pi++;
+            }
+            else
+            {
+                if( ei == 1 ) strVal += QString( "Excluded\n" );
+                strVal += QString( " [%1]Subtrees(%2..%3)\n" ).arg( ei ).arg( pCurList->sNameConsts.nMax ).arg( pCurList->sNameConsts.nMin );
+                strVal += QString( "  %1=%2\n" ).arg( strType ).arg( pCurList->sNameConsts.pValue );
+
+                ei++;
+            }
+        }
+        else
+        {
+            strVal += QString("#%1$%2$%3$%4$%5")
                 .arg( pCurList->sNameConsts.nKind )
                 .arg( pCurList->sNameConsts.nType )
                 .arg(pCurList->sNameConsts.pValue )
                 .arg(pCurList->sNameConsts.nMin )
                 .arg(pCurList->sNameConsts.nMax );
+        }
 
         pCurList = pCurList->pNext;
     }
@@ -869,7 +1014,7 @@ static int _setCRLReason( BIN *pBinExt, const QString strVal )
     return ret;
 }
 
-static int _getCRLReason( const BIN *pBinExt, QString& strVal )
+static int _getCRLReason( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
     int     nReason = -1;
@@ -1046,7 +1191,7 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
     return ret;
 }
 
-int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec )
+int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec )
 {
     int ret = 0;
     QString strVal = "";
@@ -1057,64 +1202,64 @@ int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec 
 
     if( strSN == kExtNameKeyUsage )
     {
-        ret = _getKeyUsage( &binExt, strVal );
+        ret = _getKeyUsage( &binExt, false, strVal );
     }
     else if( strSN == kExtNameCRLNum )
     {
-        ret = _getCRLNum( &binExt, strVal );
+        ret = _getCRLNum( &binExt, false, strVal );
     }
     else if( strSN == kExtNamePolicy )
     {
-        ret = _getCertPolicy( &binExt, strVal );
+        ret = _getCertPolicy( &binExt, false, strVal );
     }
     else if( strSN == kExtNameSKI )
     {
-        ret = _getSKI( &binExt, strVal );
+        ret = _getSKI( &binExt, false, strVal );
     }
     else if( strSN == kExtNameAKI )
     {
-        ret = _getAKI( &binExt, strVal );
+        ret = _getAKI( &binExt, false, strVal );
     }
     else if( strSN == kExtNameEKU )
     {
-        ret = _getEKU( &binExt, strVal );
+        ret = _getEKU( &binExt, false, strVal );
     }
     else if( strSN == kExtNameCRLDP )
     {
-        ret = _getCRLDP( &binExt, strVal );
+        ret = _getCRLDP( &binExt, false, strVal );
     }
     else if( strSN == kExtNameBC )
     {
-        ret = _getBC( &binExt, strVal );
+        ret = _getBC( &binExt, false, strVal );
     }
     else if( strSN == kExtNamePC )
     {
-        ret = _getPC( &binExt, strVal );
+        ret = _getPC( &binExt, false, strVal );
     }
     else if( strSN == kExtNameAIA )
     {
-        ret = _getAIA( &binExt, strVal );
+        ret = _getAIA( &binExt, false, strVal );
     }
     else if( strSN == kExtNameIDP )
     {
-        ret = _getIDP( &binExt, strVal );
+        ret = _getIDP( &binExt, false, strVal );
     }
     else if( strSN == kExtNameSAN || strSN == kExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
-        ret = _getAltName( &binExt, nNid, strVal );
+        ret = _getAltName( &binExt, nNid, false, strVal );
     }
     else if( strSN == kExtNamePM )
     {
-        ret = _getPM( &binExt, strVal );
+        ret = _getPM( &binExt, false, strVal );
     }
     else if( strSN == kExtNameNC )
     {
-        ret = _getNC( &binExt, strVal );
+        ret = _getNC( &binExt, false, strVal );
     }
     else if( strSN == kExtNameCRLReason )
     {
-        ret = _getCRLReason( &binExt, strVal );
+        ret = _getCRLReason( &binExt, false, strVal );
     }
     else
     {
@@ -1126,7 +1271,86 @@ int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec 
     profileExtRec.setCritical( pExtInfo->bCritical );
     profileExtRec.setValue( strVal );
 
+    JS_BIN_reset( &binExt );
+
     return 0;
+}
+
+void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
+{
+    int ret = 0;
+    QString strSN = pExtInfo->pOID;
+    BIN     binExt = {0,0};
+
+    JS_BIN_decodeHex( pExtInfo->pValue, &binExt );
+
+    if( strSN == kExtNameKeyUsage )
+    {
+        ret = _getKeyUsage( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameCRLNum )
+    {
+        ret = _getCRLNum( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNamePolicy )
+    {
+        ret = _getCertPolicy( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameSKI )
+    {
+        ret = _getSKI( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameAKI )
+    {
+        ret = _getAKI( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameEKU )
+    {
+        ret = _getEKU( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameCRLDP )
+    {
+        ret = _getCRLDP( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameBC )
+    {
+        ret = _getBC( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNamePC )
+    {
+        ret = _getPC( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameAIA )
+    {
+        ret = _getAIA( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameIDP )
+    {
+        ret = _getIDP( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameSAN || strSN == kExtNameIAN )
+    {
+        int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
+        ret = _getAltName( &binExt, nNid, true, strVal );
+    }
+    else if( strSN == kExtNamePM )
+    {
+        ret = _getPM( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameNC )
+    {
+        ret = _getNC( &binExt, true, strVal );
+    }
+    else if( strSN == kExtNameCRLReason )
+    {
+        ret = _getCRLReason( &binExt, true, strVal );
+    }
+    else
+    {
+        strVal = pExtInfo->pValue;
+    }
+
+    JS_BIN_reset( &binExt );
 }
 
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )

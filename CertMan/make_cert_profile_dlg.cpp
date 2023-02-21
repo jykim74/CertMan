@@ -292,7 +292,7 @@ void MakeCertProfileDlg::accept()
     savePMUse( nProfileNum );
     saveSKIUse( nProfileNum );
     saveSANUse( nProfileNum );
-    if( mExtensionsUseCheck->isChecked() ) saveExtensionsUse( nProfileNum );
+    saveExtensionsUse( nProfileNum );
     /* ....... */
 
     manApplet->mainWindow()->createRightCertProfileList();
@@ -439,7 +439,6 @@ void MakeCertProfileDlg::connectExtends()
     connect( mPMUseCheck, SIGNAL(clicked()), this, SLOT(clickPMUse()));
     connect( mSKIUseCheck, SIGNAL(clicked()), this, SLOT(clickSKIUse()));
     connect( mSANUseCheck, SIGNAL(clicked()), this, SLOT(clickSANUse()));
-    connect( mExtensionsUseCheck, SIGNAL(clicked()), this, SLOT(clickExtensionsUse()));
 
     connect( mKeyUsageAddBtn, SIGNAL(clicked()), this, SLOT(addKeyUsage()));
     connect( mPolicyAddBtn, SIGNAL(clicked()), this, SLOT(addPolicy()));
@@ -633,8 +632,8 @@ void MakeCertProfileDlg::deleteExtensionsMenu()
     {
         DBMgr* dbMgr = manApplet->dbMgr();
         if( dbMgr == NULL ) return;
-        QString strSN = mExtensionsTable->item( idx.row(), idx.column() )->text();
-        dbMgr->delCertProfileExtension( profile_num_, strSN );
+        QString strSN = mExtensionsTable->item( idx.row(), 0 )->text();
+        ext_rmlist_.append( strSN );
     }
 
     mExtensionsTable->removeRow( idx.row() );
@@ -686,7 +685,6 @@ void MakeCertProfileDlg::setExtends()
     clickPMUse();
     clickSKIUse();
     clickSANUse();
-    clickExtensionsUse();
 }
 
 
@@ -835,17 +833,6 @@ void MakeCertProfileDlg::clickSANUse()
     mSANTable->setEnabled(bStatus);
 }
 
-void MakeCertProfileDlg::clickExtensionsUse()
-{
-    bool bStatus = mExtensionsUseCheck->isChecked();
-
-    mExtensionsAddBtn->setEnabled(bStatus);
-    mExtensionsClearBtn->setEnabled(bStatus);
-    mExtensionsOIDText->setEnabled(bStatus);
-    mExtensionsCriticalCheck->setEnabled(bStatus);
-    mExtensionsValueText->setEnabled(bStatus);
-    mExtensionsTable->setEnabled(bStatus);
-}
 
 void MakeCertProfileDlg::addKeyUsage()
 {
@@ -1057,7 +1044,15 @@ void MakeCertProfileDlg::clearExtensions()
     int nCount = mExtensionsTable->rowCount();
 
     for( int i = 0; i < nCount; i++ )
+    {
+        if( isEdit() )
+        {
+            QString strSN = mExtensionsTable->item( 0, 0 )->text();
+            ext_rmlist_.append( strSN );
+        }
+
         mExtensionsTable->removeRow(0);
+    }
 }
 
 void MakeCertProfileDlg::clickPolicySetAnyOID()
@@ -1482,6 +1477,18 @@ void MakeCertProfileDlg::saveExtensionsUse( int nProfileNum )
     if( dbMgr == NULL ) return;
     int nCount = mExtensionsTable->rowCount();
 
+    if( isEdit() )
+    {
+        int size = ext_rmlist_.size();
+        for( int i = 0; i < size; i++ )
+        {
+            QString strSN = ext_rmlist_.at(i);
+            dbMgr->delCertProfileExtension( profile_num_, strSN );
+        }
+
+        ext_rmlist_.clear();
+    }
+
     for( int i = 0; i < nCount; i++ )
     {
         bool bCrit = false;
@@ -1824,9 +1831,6 @@ void MakeCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 
 void MakeCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
-    mExtensionsUseCheck->setChecked(true);
-    clickExtensionsUse();
-
     QString strOID = profileRec.getSN();
     QString strValue = profileRec.getValue();
     QString strCrit;

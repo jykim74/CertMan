@@ -155,15 +155,21 @@ void CertInfoDlg::initialize()
 
         while( pCurList )
         {
-            ProfileExtRec profileRec;
-            transExtInfoToDBRec( &pCurList->sExtensionInfo, profileRec );
+            QString strValue;
+            QString strSN = pCurList->sExtensionInfo.pOID;
+            bool bCrit = pCurList->sExtensionInfo.bCritical;
+            getInfoValue( &pCurList->sExtensionInfo, strValue );
+
+            QTableWidgetItem *item = new QTableWidgetItem( strValue );
+            if( bCrit )
+                item->setIcon(QIcon(":/images/critical.png"));
+            else
+                item->setIcon(QIcon(":/images/normal.png"));
 
             mFieldTable->insertRow(i);
             mFieldTable->setRowHeight(i,10);
-            mFieldTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileRec.getSN())));
-            mFieldTable->setItem(i,1, new QTableWidgetItem(QString("%1%2")
-                                                               .arg(profileRec.isCritical() ? "[C]" : "" )
-                                                               .arg(profileRec.getValue())));
+            mFieldTable->setItem(i,0, new QTableWidgetItem( QString("%1").arg(strSN)));
+            mFieldTable->setItem(i, 1, item );
 
 
             pCurList = pCurList->pNext;

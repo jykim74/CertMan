@@ -102,8 +102,8 @@ void MakeCRLProfileDlg::deleteExtensionsMenu()
     {
         DBMgr* dbMgr = manApplet->dbMgr();
         if( dbMgr == NULL ) return;
-        QString strSN = mExtensionsTable->item( idx.row(), idx.column() )->text();
-        dbMgr->delCertProfileExtension( profile_num_, strSN );
+        QString strSN = mExtensionsTable->item( idx.row(), 0 )->text();
+        ext_rmlist_.append( strSN );
     }
 
     mExtensionsTable->removeRow( idx.row() );
@@ -263,7 +263,7 @@ void MakeCRLProfileDlg::accept()
     saveIDPUse( nProfileNum );
     saveAKIUse( nProfileNum );
     saveIANUse( nProfileNum );
-    if( mExtensionsUseCheck->isChecked() ) saveExtensionsUse( nProfileNum );
+    saveExtensionsUse( nProfileNum );
 
     /* ....... */
 
@@ -292,7 +292,6 @@ void MakeCRLProfileDlg::connectExtends()
     connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
     connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
     connect( mIANUseCheck, SIGNAL(clicked()), this, SLOT(clickIAN()));
-    connect( mExtensionsUseCheck, SIGNAL(clicked()), this, SLOT(clickExtensionsUse()));
 
     connect( mIDPAddBtn, SIGNAL(clicked()), this, SLOT(addIDP()));
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
@@ -313,7 +312,6 @@ void MakeCRLProfileDlg::setExtends()
     clickAKI();
     clickIDP();
     clickIAN();
-    clickExtensionsUse();
 }
 
 void MakeCRLProfileDlg::setTableMenus()
@@ -401,17 +399,6 @@ void MakeCRLProfileDlg::clickIAN()
     mIANAddBtn->setEnabled(bStatus);
 }
 
-void MakeCRLProfileDlg::clickExtensionsUse()
-{
-    bool bStatus = mExtensionsUseCheck->isChecked();
-
-    mExtensionsAddBtn->setEnabled(bStatus);
-    mExtensionsClearBtn->setEnabled(bStatus);
-    mExtensionsOIDText->setEnabled(bStatus);
-    mExtensionsCriticalCheck->setEnabled(bStatus);
-    mExtensionsValueText->setEnabled(bStatus);
-    mExtensionsTable->setEnabled(bStatus);
-}
 
 void MakeCRLProfileDlg::addIDP()
 {
@@ -480,7 +467,15 @@ void MakeCRLProfileDlg::clearExtensions()
     int nCount = mExtensionsTable->rowCount();
 
     for( int i = 0; i < nCount; i++ )
+    {
+        if( isEdit() )
+        {
+            QString strSN = mExtensionsTable->item( 0, 0 )->text();
+            ext_rmlist_.append( strSN );
+        }
+
         mExtensionsTable->removeRow(0);
+    }
 }
 
 void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
@@ -609,6 +604,18 @@ void MakeCRLProfileDlg::saveExtensionsUse( int nProfileNum )
     if( dbMgr == NULL ) return;
     int nCount = mExtensionsTable->rowCount();
 
+    if( isEdit() )
+    {
+        int size = ext_rmlist_.size();
+        for( int i = 0; i < size; i++ )
+        {
+            QString strSN = ext_rmlist_.at(i);
+            dbMgr->delCertProfileExtension( profile_num_, strSN );
+        }
+
+        ext_rmlist_.clear();
+    }
+
     for( int i = 0; i < nCount; i++ )
     {
         bool bCrit = false;
@@ -708,9 +715,6 @@ void MakeCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void MakeCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
-    mExtensionsUseCheck->setChecked(true);
-    clickExtensionsUse();
-
     QString strOID = profileRec.getSN();
     QString strValue = profileRec.getValue();
     QString strCrit;

@@ -3366,12 +3366,17 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         CertRec cert = certList.at(i);
         char    sRegTime[64];
 
+
+
         QString strDNInfo;
         if( cert.isSelf() ) strDNInfo += "[Self]";
-        if( cert.isCA() ) strDNInfo += "[CA]";
+ //       if( cert.isCA() ) strDNInfo += "[CA]";
 
         strDNInfo += QString( "[%1] " ).arg( getCertStatusSName(cert.getStatus()) );
         strDNInfo += cert.getSubjectDN();
+
+        QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
+        if( cert.isCA() ) item->setIcon(QIcon(":/images/ca.png"));
 
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 
@@ -3391,7 +3396,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( strDNInfo ));
+        right_table_->setItem( i, pos++, item );
     }
 
     search_menu_->setTotalCount( nTotalCount );

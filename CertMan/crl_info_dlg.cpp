@@ -130,15 +130,21 @@ void CRLInfoDlg::initialize()
 
         while( pCurList )
         {
-            ProfileExtRec profileExt;
-            transExtInfoToDBRec( &pCurList->sExtensionInfo, profileExt );
+            QString strValue;
+            QString strSN = pCurList->sExtensionInfo.pOID;
+            bool bCrit = pCurList->sExtensionInfo.bCritical;
+            getInfoValue( &pCurList->sExtensionInfo, strValue );
+
+            QTableWidgetItem *item = new QTableWidgetItem( strValue );
+            if( bCrit )
+                item->setIcon(QIcon(":/images/critical.png"));
+            else
+                item->setIcon(QIcon(":/images/normal.png"));
+
             mCRLListTable->insertRow(i);
             mCRLListTable->setRowHeight(i,10);
-            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(profileExt.getSN())));
-            mCRLListTable->setItem(i,1, new QTableWidgetItem(QString("%1%2")
-                                                               .arg(profileExt.isCritical() ? "[C]" : "" )
-                                                               .arg(profileExt.getValue())));
-
+            mCRLListTable->setItem(i,0, new QTableWidgetItem(QString("%1").arg(strSN)));
+            mCRLListTable->setItem(i,1, item );
 
             pCurList = pCurList->pNext;
             i++;
@@ -149,13 +155,16 @@ void CRLInfoDlg::initialize()
     {
         int k = 0;
         JRevokeInfoList *pCurRevList = revoke_info_list_;
+        char sRevokeDate[64];
 
         while( pCurRevList )
         {
+            JS_UTIL_getDateTime( pCurRevList->sRevokeInfo.uRevokeDate, sRevokeDate );
+
             mRevokeListTable->insertRow(k);
             mRevokeListTable->setRowHeight(k,10);
             mRevokeListTable->setItem( k, 0, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.pSerial)));
-            mRevokeListTable->setItem( k, 1, new QTableWidgetItem(QString("%1").arg( pCurRevList->sRevokeInfo.uRevokeDate)));
+            mRevokeListTable->setItem( k, 1, new QTableWidgetItem(QString("%1").arg( sRevokeDate )));
 
             pCurRevList = pCurRevList->pNext;
             k++;
@@ -177,6 +186,7 @@ void CRLInfoDlg::initUI()
     mCRLListTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mCRLListTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCRLListTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mCRLListTable->setColumnWidth( 0, 140 );
 
     QStringList sRevokeLabels = { tr("Serial"), tr("RevokedDate") };
     mRevokeListTable->clear();
@@ -187,6 +197,7 @@ void CRLInfoDlg::initUI()
     mRevokeListTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mRevokeListTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeListTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    mRevokeListTable->setColumnWidth( 0, 180 );
 
     mRevokeDetailTable->clear();
     mRevokeDetailTable->horizontalHeader()->setStretchLastSection(true);
@@ -248,15 +259,39 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
         pRevInfoList = pRevInfoList->pNext;
     }
 
-    ProfileExtRec profileExt;
+    char sRevokeDate[64];
 
-    transExtInfoToDBRec( &pRevInfoList->sRevokeInfo.sExtReason, profileExt );
+    JS_UTIL_getDateTime( pRevInfoList->sRevokeInfo.uRevokeDate, sRevokeDate );
 
     mRevokeDetailTable->insertRow(0);
     mRevokeDetailTable->setRowHeight(0,10);
-    mRevokeDetailTable->setItem(0,0, new QTableWidgetItem(QString("%1")
-                                                                .arg(profileExt.getSN())));
-    mRevokeDetailTable->setItem(0,1, new QTableWidgetItem(QString("[%1]%2")
-                                                           .arg(profileExt.isCritical())
-                                                           .arg(profileExt.getValue())));
+    mRevokeDetailTable->setItem( 0, 0, new QTableWidgetItem( QString("Serial" )));
+    mRevokeDetailTable->setItem( 0, 1, new QTableWidgetItem( QString( pRevInfoList->sRevokeInfo.pSerial )));
+
+    mRevokeDetailTable->insertRow(1);
+    mRevokeDetailTable->setRowHeight(1,10);
+    mRevokeDetailTable->setItem( 1, 0, new QTableWidgetItem( QString("RevokedDate" )));
+    mRevokeDetailTable->setItem( 1, 1, new QTableWidgetItem( QString( "%1" ).arg( sRevokeDate )));
+
+    if( pRevInfoList->sRevokeInfo.sExtReason.pOID )
+    {
+        QString strValue = pRevInfoList->sRevokeInfo.sExtReason.pValue;
+        QString strSN = pRevInfoList->sRevokeInfo.sExtReason.pOID;
+        bool bCrit = pRevInfoList->sRevokeInfo.sExtReason.bCritical;
+
+        mRevokeDetailTable->insertRow(2);
+        mRevokeDetailTable->setRowHeight(2,10);
+
+        getInfoValue( &pRevInfoList->sRevokeInfo.sExtReason, strValue );
+
+        QTableWidgetItem *item = new QTableWidgetItem( strValue );
+        if( bCrit )
+            item->setIcon(QIcon(":/images/critical.png"));
+        else
+            item->setIcon(QIcon(":/images/normal.png"));
+
+        mRevokeDetailTable->setItem(2,0, new QTableWidgetItem(QString("%1").arg(strSN)));
+        mRevokeDetailTable->setItem(2,1,item);
+    }
+
 }

@@ -40,7 +40,6 @@ private slots:
     void clickAKI();
     void clickIDP();
     void clickIAN();
-    void clickExtensionsUse();
 
     void addIDP();
     void addIAN();
@@ -75,6 +74,7 @@ private:
 
     bool is_edit_;
     int profile_num_;
+    QList<QString> ext_rmlist_;
 };
 
 #endif // MAKE_CRL_PROFILE_DLG_H

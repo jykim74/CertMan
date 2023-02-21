@@ -112,7 +112,10 @@ enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BE
 QString findFile( QWidget *parent, int nType, const QString strPath );
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec );
-int transExtInfoToDBRec( JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec );
+int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec );
+
+void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal );
+
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
 
 int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );

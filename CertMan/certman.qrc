@@ -57,5 +57,7 @@
         <file>certman.qss</file>
         <file>images/certman.png</file>
         <file>images/config.png</file>
+        <file>images/critical.png</file>
+        <file>images/normal.png</file>
     </qresource>
 </RCC>
