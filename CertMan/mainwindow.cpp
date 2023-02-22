@@ -149,8 +149,12 @@ void MainWindow::initialize()
     log_text_->setFont( QFont("굴림체") );
     log_text_->setReadOnly(true);
 
-    right_table_->setSelectionBehavior(QAbstractItemView::SelectRows);
-    right_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    right_table_->setSelectionBehavior(QAbstractItemView::SelectRows); // 한라인 전체 선택
+    right_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);  // Edit 불가
+    right_table_->setSelectionMode(QAbstractItemView::SingleSelection); // 하나만 선택 가능
+//    right_table_->setAlternatingRowColors(true);
+//    right_table_->setAttribute(Qt::WA_MacShowFocusRect, 0);
+//    right_table_->setSortingEnabled(false);
 
     QWidget *rightWidget = new QWidget;
 
@@ -3109,8 +3113,11 @@ void MainWindow::createRightKeyPairList()
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
+
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+
     right_table_->horizontalHeader()->setStyleSheet( style );
+
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
