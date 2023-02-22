@@ -124,6 +124,7 @@ public slots:
 
     void viewCertificate();
     void viewCRL();
+    void verifyCRL();
 
     void importData();
     void importCert();

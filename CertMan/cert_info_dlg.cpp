@@ -41,6 +41,8 @@ void CertInfoDlg::initialize()
     int i = 0;
 
     BIN binCert = {0,0};
+    BIN binFinger = {0,0};
+
     JCertInfo  sCertInfo;
     JExtensionInfoList *pExtInfoList = NULL;
     char    sNotBefore[64];
@@ -72,6 +74,8 @@ void CertInfoDlg::initialize()
         this->hide();
         return;
     }
+
+    JS_PKI_genHash( "SHA1", &binCert, &binFinger );
 
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
@@ -177,7 +181,15 @@ void CertInfoDlg::initialize()
         }
     }
 
+    mFieldTable->insertRow(i);
+    mFieldTable->setRowHeight(i,10);
+    mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("FingerPrint")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(getHexString(&binFinger))));
+    i++;
+
     JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binFinger );
+
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 }

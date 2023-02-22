@@ -25,6 +25,7 @@ private slots:
     void clickCRLField( QModelIndex index );
     void clickRevokeField( QModelIndex index );
     void showEvent(QShowEvent *event);
+    void clickVerifyCRL();
 
 private:
     int crl_num_;

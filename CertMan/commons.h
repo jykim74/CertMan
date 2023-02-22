@@ -143,6 +143,6 @@ QString getRevokeReasonName( int nReason );
 
 int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub );
 int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strParam, BIN *pPri, BIN *pPub);
-
+QString getHexString( const BIN *pBin );
 
 #endif // COMMONS_H

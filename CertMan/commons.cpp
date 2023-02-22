@@ -1021,7 +1021,7 @@ static int _getCRLReason( const BIN *pBinExt, bool bShow, QString& strVal )
 
     ret = JS_PKI_getCRLReasonValue( pBinExt, &nReason );
 
-    if( nReason > 0 ) strVal = crl_reasons[nReason];
+    if( nReason >= 0 ) strVal = crl_reasons[nReason];
 
     return 0;
 }
@@ -2310,4 +2310,18 @@ QString getCertStatusSName( int nStatus )
 QString getRevokeReasonName( int nReason )
 {
     return kRevokeReasonList.at( nReason );
+}
+
+QString getHexString( const BIN *pBin )
+{
+    char *pHex = NULL;
+
+    if( pBin == NULL || pBin->nLen <= 0 ) return "";
+
+    JS_BIN_encodeHex( pBin, &pHex );
+
+    QString strHex = pHex;
+    if(pHex) JS_free( pHex );
+
+    return strHex;
 }

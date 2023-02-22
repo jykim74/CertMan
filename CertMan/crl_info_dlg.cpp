@@ -31,6 +31,48 @@ void CRLInfoDlg::showEvent(QShowEvent *event)
     initialize();
 }
 
+void CRLInfoDlg::clickVerifyCRL()
+{
+    int ret = 0;
+
+    BIN binCRL = {0,0};
+    BIN binCA = {0,0};
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    CRLRec crlRec;
+    CertRec caRec;
+
+    manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
+    if( crlRec.getIssuerNum() <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no ca certificate" ) );
+        return;
+    }
+
+    manApplet->dbMgr()->getCertRec( crlRec.getIssuerNum(), caRec );
+
+    JS_BIN_decodeHex( crlRec.getCRL().toStdString().c_str(), &binCRL );
+    JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
+
+    ret = JS_PKI_verifyCRL( &binCRL, &binCA );
+    if( ret == 1 )
+    {
+        manApplet->messageBox( "Verify CRL OK", this );
+    }
+    else
+    {
+        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret));
+    }
+
+end :
+    JS_BIN_reset( &binCRL );
+    JS_BIN_reset( &binCA );
+}
+
 void CRLInfoDlg::setCRLNum(int crl_num)
 {
     crl_num_ = crl_num;
@@ -42,6 +84,8 @@ void CRLInfoDlg::initialize()
     int i = 0;
 
     BIN binCRL = {0,0};
+    BIN binFinger = {0,0};
+
     char    sLastUpdate[64];
     char    sNextUpdate[64];
 
@@ -75,6 +119,8 @@ void CRLInfoDlg::initialize()
         close();
         return;
     }
+
+    JS_PKI_genHash( "SHA1", &binCRL, &binFinger );
 
     mCRLListTable->insertRow(i);
     mCRLListTable->setRowHeight(i,10);
@@ -151,6 +197,12 @@ void CRLInfoDlg::initialize()
         }
     }
 
+    mCRLListTable->insertRow(i);
+    mCRLListTable->setRowHeight(i,10);
+    mCRLListTable->setItem(i, 0, new QTableWidgetItem(tr("FingerPrint")));
+    mCRLListTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(getHexString(&binFinger))));
+    i++;
+
     if( revoke_info_list_ )
     {
         int k = 0;
@@ -172,6 +224,7 @@ void CRLInfoDlg::initialize()
     }
 
     JS_BIN_reset( &binCRL );
+    JS_BIN_reset( &binFinger );
 }
 
 void CRLInfoDlg::initUI()
@@ -208,6 +261,7 @@ void CRLInfoDlg::initUI()
     mRevokeDetailTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeDetailTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    connect( mVerifyCRLBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCRL()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
     connect( mRevokeListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickRevokeField(QModelIndex)));

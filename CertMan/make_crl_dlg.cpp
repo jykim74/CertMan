@@ -159,7 +159,15 @@ void MakeCRLDlg::accept()
             JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binCert );
 
             JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
-            QString strVal = QString( "KEYID$%1#ISSUER$%2#SERIAL$%3").arg( sHexID ).arg( sHexIssuer ).arg( sHexSerial );
+
+            QString strVal = QString( "KEYID$%1").arg( sHexID );
+
+            if( profileExt.getValue().contains( "ISSUER" ) )
+                strVal += QString( "#ISSUER$%1" ).arg( sHexIssuer );
+
+            if( profileExt.getValue().contains( "SERIAL" ) )
+                strVal += QString( "#SERIAL$%1").arg( sHexSerial );
+
             profileExt.setValue( strVal );
 
             JS_BIN_reset( &binCert );
