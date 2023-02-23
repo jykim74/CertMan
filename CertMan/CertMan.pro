@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "0.9.6"
+PROJECT_VERSION = "0.9.7"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -18,7 +18,8 @@ PROJECT_VERSION = "0.9.6"
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CAMAN_VERSION=$$PROJECT_VERSION
-DEFINES += JS_PRO
+# DEFINES += JS_PRO
+# DEFINES += _AUTO_UPDATE
 
 CONFIG += sdk_no_version_check
 
@@ -184,7 +185,6 @@ TRANSLATIONS += i18n/certman_ko_KR.ts
 INCLUDEPATH += "../../PKILib"
 
 mac {
-    DEFINES += _AUTO_UPDATE
     ICON = images/certman.icns
 
     QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks
@@ -212,7 +212,6 @@ mac {
 }
 
 win32 {
-    DEFINES += _AUTO_UPDATE
     RC_ICONS = certman.ico
 
     contains(QT_ARCH, i386) {
