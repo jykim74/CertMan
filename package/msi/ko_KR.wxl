@@ -4,7 +4,7 @@
   <String Id="AppName">CertMan</String>
   <String Id="PackageDescription">CertMan 설치프로그램</String>
   <String Id="PackageComments">CertMan 설치프로그램</String>
-  <String Id="Manufacturer">JS .Inc</String>
+  <String Id="Manufacturer">JS Inc</String>
   <String Id="DowngradeErrorMessage">이미 더 최신 버전의 CertMan가 설치 되어 있습니다. 설치를 끝내겠습니다.</String>
   <String Id="UninstallCertMan">CertMan 제거</String>
   <String Id="StartCertMan">CertMan 시작</String>
