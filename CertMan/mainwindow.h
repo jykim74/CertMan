@@ -156,7 +156,10 @@ public slots:
     void expandItem( ManTreeItem *item );
     void addRootCA( CertRec& certRec );
     void certStatus();
+
+#ifdef USE_OCSP
     void checkOCSP();
+#endif
     void tsp();
     void statusByReg();
     void revokeByReg();
@@ -173,17 +176,21 @@ public slots:
     void registerKey();
     void deleteKey();
 
+#ifdef USE_CMP
     void issueCMP();
     void updateCMP();
     void revokeCMP();
+#endif
 
     void verifyAudit();
     void viewTSTInfo();
     void verifyTSMessage();
 
+#ifdef USE_SCEP
     void issueSCEP();
     void renewSCEP();
     void getCRLSCEP();
+#endif
 
 private slots:
     void showRightMenu( QPoint point );

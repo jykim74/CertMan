@@ -432,13 +432,20 @@ void MainWindow::showRightMenu(QPoint point)
 
         if( manApplet->isPRO() )
         {
+#ifdef USE_OCSP
             menu.addAction( tr("Check OCSP"), this, &MainWindow::checkOCSP );
+#endif
+
+#ifdef USE_CMP
             menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
             menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
+#endif
             menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
             menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
+#ifdef USE_SCEP
             menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
             menu.addAction( tr( "getCRLSCEP"), this, &MainWindow::getCRLSCEP );
+#endif
         }
     }
     else if( right_type_ == RightType::TYPE_CRL )
@@ -464,7 +471,9 @@ void MainWindow::showRightMenu(QPoint point)
 
         if( manApplet->isPRO() )
         {
+#ifdef USE_SCEP
             menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
+#endif
         }
     }
     else if( right_type_ == RightType::TYPE_CERT_PROFILE )
@@ -494,7 +503,9 @@ void MainWindow::showRightMenu(QPoint point)
 
         if( manApplet->isPRO() )
         {
+#ifdef USE_CMP
             menu.addAction(tr("Issue CMP"), this, &MainWindow::issueCMP );
+#endif
         }
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
@@ -1854,6 +1865,8 @@ end :
     }
 }
 
+#ifdef USE_CMP
+
 void MainWindow::issueCMP()
 {
     int ret = 0;
@@ -2084,6 +2097,8 @@ void MainWindow::revokeCMP()
    if( pTrustList ) JS_BIN_resetList( &pTrustList );
 }
 
+#endif
+
 void MainWindow::verifyAudit()
 {
     int ret = 0;
@@ -2151,6 +2166,7 @@ void MainWindow::verifyTSMessage()
     JS_BIN_reset( &binData );
 }
 
+#ifdef USE_SCEP
 void MainWindow::issueSCEP()
 {
     int nRet = 0;
@@ -2647,6 +2663,8 @@ end :
     JS_BIN_reset( &binRsp );
 }
 
+#endif
+
 void MainWindow::expandMenu()
 {
     ManTreeItem* item = left_tree_->currentItem();
@@ -2784,6 +2802,8 @@ void MainWindow::certStatus()
     manApplet->messageBox( strStatus, this );
 }
 
+#ifdef USE_OCSP
+
 void MainWindow::checkOCSP()
 {
     int ret = 0;
@@ -2902,6 +2922,8 @@ void MainWindow::checkOCSP()
     JS_OCSP_resetCertIDInfo( &sIDInfo );
     JS_OCSP_resetCertStatusInfo( &sStatusInfo );
 }
+
+#endif
 
 void MainWindow::tsp()
 {
