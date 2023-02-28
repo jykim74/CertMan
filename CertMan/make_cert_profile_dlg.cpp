@@ -1575,7 +1575,11 @@ void MakeCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
     if( valList.size() >= 2 )
         strLen = valList.at(1);
 
-    mBCCombo->setCurrentText( strType );
+    if( strType == "CA" )
+        mBCCombo->setCurrentIndex(0);
+    else
+        mBCCombo->setCurrentIndex(1);
+
     mBCPathLenText->setText( strLen );
 }
 

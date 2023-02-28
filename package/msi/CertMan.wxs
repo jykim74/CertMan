@@ -51,10 +51,13 @@
 			</Directory>
 		</Directory>
 
-		<Property Id="CERTMAN_AUTO_START">1</Property>
+		<!--
+		<Property Id="CERTMAN_AUTO_START">0</Property>
+		-->
 
 		<!-- Auto-start via REgistry -->
 		<DirectoryRef Id="INSTALLDIR">
+			<!--
 			<Component Id="CertManAutoStart" Guid="$(var.GuidOfAutoStartComponent)">
 				<RegistryKey Root="HKCU"
 							Key="Software\Microsoft\Windows\CurrentVersion\Run"
@@ -62,8 +65,9 @@
 					<RegistryValue Name='!(loc.AppName)' Value="[#certman.exe]" Type="string" KeyPath="yes" />
 				</RegistryKey>
 
-				<Condition>HSMMAN_AUTO_START</Condition>
+				<Condition>CERTMAN_AUTO_START</Condition>
 			</Component>
+			-->
 		</DirectoryRef>
 
 		<DirectoryRef Id="CertManStartMenuFolder">
@@ -104,12 +108,14 @@
 
 		<Feature Id='Main' Level='1'>
 			<ComponentRef Id='CertMan_StartMenuShortCut' />
+			<!--
 			<ComponentRef Id='CertManAutoStart' />
+			-->
 			<!-- defined in fragment.wxs -->
 			<ComponentGroupRef Id='group_bin' />
 		</Feature>
 
-		<Property Id="CHECKBOX_DEL_BERVIEWER_DATA" Secure="yes" />
+		<Property Id="CHECKBOX_DEL_CERTMAN_DATA" Secure="yes" />
 		<WixVariable Id="WixUIBannerBmp" Value="certman-top-banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="certman-background.bmp" />
 
