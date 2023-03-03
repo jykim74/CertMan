@@ -96,7 +96,7 @@
 			<UIRef Id='WixUI_ErrorProgressText' />
 		<!--
 			<Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">
-				(NOT Installed) AND (NOT SUPPRESS_LAUNCH_BERVIEWER_AFTER_INSTALL_FINISH)
+				(NOT Installed) AND (NOT SUPPRESS_LAUNCH_CERTMAN_AFTER_INSTALL_FINISH)
 			</Publish>
 -->
 		</UI>
