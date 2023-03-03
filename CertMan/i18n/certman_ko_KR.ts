@@ -165,6 +165,22 @@
         <source>Signature</source>
         <translation>서명</translation>
     </message>
+    <message>
+        <source>VerifyCRL</source>
+        <translation>CRL 검증</translation>
+    </message>
+    <message>
+        <source>You have to open database</source>
+        <translation>데이타 베이스를 열어야 합니다</translation>
+    </message>
+    <message>
+        <source>There is no ca certificate</source>
+        <translation>해당 인증서가 없습니다.</translation>
+    </message>
+    <message>
+        <source>FingerPrint</source>
+        <translation>지문</translation>
+    </message>
 </context>
 <context>
     <name>CertInfoDlg</name>
@@ -264,6 +280,18 @@
         <source>Signature</source>
         <translation>서명</translation>
     </message>
+    <message>
+        <source>VerifyCert</source>
+        <translation>인증서 검증</translation>
+    </message>
+    <message>
+        <source>PathValidation</source>
+        <translation>경로 검증</translation>
+    </message>
+    <message>
+        <source>FingerPrint</source>
+        <translation>지문</translation>
+    </message>
 </context>
 <context>
     <name>CheckCertDlg</name>
@@ -282,6 +310,37 @@
     <message>
         <source>View</source>
         <translation type="vanished">보기</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigDlg</name>
+    <message>
+        <source>Configuration</source>
+        <translation>설정</translation>
+    </message>
+    <message>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <source>Kind</source>
+        <translation>종류</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>확인</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
     </message>
 </context>
 <context>
@@ -349,6 +408,10 @@
     <message>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)</source>
         <translation></translation>
+    </message>
+    <message>
+        <source>fail to encrypt private key</source>
+        <translation>개인키 암호화 실패</translation>
     </message>
 </context>
 <context>
@@ -953,7 +1016,7 @@
     </message>
     <message>
         <source>fail to encode request</source>
-        <translation>요청서 만들기 실패 하였습니다.</translation>
+        <translation type="vanished">요청서 만들기 실패 하였습니다.</translation>
     </message>
     <message>
         <source>fail to request</source>
@@ -961,7 +1024,7 @@
     </message>
     <message>
         <source>fail to decode respose</source>
-        <translation>응답을 열기 실패 하였습니다.</translation>
+        <translation type="vanished">응답을 열기 실패 하였습니다.</translation>
     </message>
     <message>
         <source>REGServer is not set</source>
@@ -1238,6 +1301,62 @@
     <message>
         <source>Are you sure to delete this signer?</source>
         <translation>이 서명자를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Make Config</source>
+        <translation>설정 만들기</translation>
+    </message>
+    <message>
+        <source>Make Configuration</source>
+        <translation>설정 하기</translation>
+    </message>
+    <message>
+        <source>Verify CRL</source>
+        <translation>CRL 검증</translation>
+    </message>
+    <message>
+        <source>Copy CertProfile</source>
+        <translation>인증서 프로파일 복사</translation>
+    </message>
+    <message>
+        <source>Copy CRLProfile</source>
+        <translation>CRL 프로파일 복사</translation>
+    </message>
+    <message>
+        <source>Edit Config</source>
+        <translation>설정 편집</translation>
+    </message>
+    <message>
+        <source>Delete Config</source>
+        <translation>설정 삭제</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this config?</source>
+        <translation>정말로 이 설정을 지우겠습니까?</translation>
+    </message>
+    <message>
+        <source>There is no ca certificate</source>
+        <translation>해당 인증서가 없습니다.</translation>
+    </message>
+    <message>
+        <source>AuthNum is empty</source>
+        <translation>인증번호가 없습니다.</translation>
+    </message>
+    <message>
+        <source>fail to encode request: %1</source>
+        <translation>요청 인코딩 실패: %1</translation>
+    </message>
+    <message>
+        <source>fail to decode respose:%1</source>
+        <translation>응답 디코딩 실패: %1</translation>
+    </message>
+    <message>
+        <source>There is no user</source>
+        <translation>사용자가 없습니다</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
     </message>
 </context>
 <context>
@@ -1554,7 +1673,7 @@
     </message>
     <message>
         <source>Use Extensions</source>
-        <translation>확장 필드 사용</translation>
+        <translation type="vanished">확장 필드 사용</translation>
     </message>
     <message>
         <source>OID</source>
@@ -2059,11 +2178,11 @@
     </message>
     <message>
         <source>Inhibit</source>
-        <translation>금지</translation>
+        <translation type="vanished">금지</translation>
     </message>
     <message>
         <source>Explicit</source>
-        <translation>외부</translation>
+        <translation type="vanished">외부</translation>
     </message>
     <message>
         <source>Policy Mappings</source>
@@ -2123,7 +2242,23 @@
     </message>
     <message>
         <source>Ues Extensions</source>
-        <translation>확장 필드 사용</translation>
+        <translation type="vanished">확장 필드 사용</translation>
+    </message>
+    <message>
+        <source>SetAnyOID</source>
+        <translation>Any 값 설정</translation>
+    </message>
+    <message>
+        <source>inhibitPolicyMapping</source>
+        <translation>InhibitPolicyMapping</translation>
+    </message>
+    <message>
+        <source>requireExplicitPolicy</source>
+        <translation>requireExplicitPolicy</translation>
+    </message>
+    <message>
+        <source>OID value</source>
+        <translation>OID 값</translation>
     </message>
 </context>
 <context>
@@ -2287,7 +2422,7 @@
     </message>
     <message>
         <source>Regiter Signer</source>
-        <translation>서명자 등록</translation>
+        <translation type="vanished">서명자 등록</translation>
     </message>
     <message>
         <source>Register Signer</source>
@@ -2308,6 +2443,10 @@
     <message>
         <source>Make CRL Profile</source>
         <translation>CRL 프로파일 만들기</translation>
+    </message>
+    <message>
+        <source>Make Config</source>
+        <translation>설정 만들기</translation>
     </message>
 </context>
 <context>
