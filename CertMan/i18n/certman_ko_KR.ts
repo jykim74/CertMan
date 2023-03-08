@@ -181,6 +181,70 @@
         <source>FingerPrint</source>
         <translation>지문</translation>
     </message>
+    <message>
+        <source>authorityInfoAccess</source>
+        <translation>기관 정보 액세스</translation>
+    </message>
+    <message>
+        <source>authorityKeyIdentifier</source>
+        <translation>기관 키 식별자</translation>
+    </message>
+    <message>
+        <source>basicConstraints</source>
+        <translation>기본 제한</translation>
+    </message>
+    <message>
+        <source>crlDistributionPoints</source>
+        <translation>CRL 배포 지점</translation>
+    </message>
+    <message>
+        <source>extendedKeyUsage</source>
+        <translation>확장된 키 사용</translation>
+    </message>
+    <message>
+        <source>issuerAltName</source>
+        <translation>발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>keyUsage</source>
+        <translation>키 용도</translation>
+    </message>
+    <message>
+        <source>nameConstraints</source>
+        <translation>이름 제한</translation>
+    </message>
+    <message>
+        <source>certificatePolicies</source>
+        <translation>인증서 정책</translation>
+    </message>
+    <message>
+        <source>policyConstraints</source>
+        <translation>정책 제약 조건</translation>
+    </message>
+    <message>
+        <source>policyMappings</source>
+        <translation>정책 매핑</translation>
+    </message>
+    <message>
+        <source>subjectKeyIdentifier</source>
+        <translation>주체 키 식별자</translation>
+    </message>
+    <message>
+        <source>subjectAltName</source>
+        <translation>주체 대체 이름</translation>
+    </message>
+    <message>
+        <source>crlNumber</source>
+        <translation>CRL 번호</translation>
+    </message>
+    <message>
+        <source>issuingDistributionPoint</source>
+        <translation>발급 배포 지점</translation>
+    </message>
+    <message>
+        <source>CRLReason</source>
+        <translation>폐기 사유</translation>
+    </message>
 </context>
 <context>
     <name>CertInfoDlg</name>
@@ -291,6 +355,74 @@
     <message>
         <source>FingerPrint</source>
         <translation>지문</translation>
+    </message>
+    <message>
+        <source>%1</source>
+        <translation type="vanished">%1</translation>
+    </message>
+    <message>
+        <source>authorityInfoAccess</source>
+        <translation>기관 정보 액세스</translation>
+    </message>
+    <message>
+        <source>authorityKeyIdentifier</source>
+        <translation>기관 키 식별자</translation>
+    </message>
+    <message>
+        <source>basicConstraints</source>
+        <translation>기본 제한</translation>
+    </message>
+    <message>
+        <source>crlDistributionPoints</source>
+        <translation>CRL 배포 지점</translation>
+    </message>
+    <message>
+        <source>extendedKeyUsage</source>
+        <translation>확장된 키 사용</translation>
+    </message>
+    <message>
+        <source>issuerAltName</source>
+        <translation>발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>keyUsage</source>
+        <translation>키 용도</translation>
+    </message>
+    <message>
+        <source>nameConstraints</source>
+        <translation>이름 제한</translation>
+    </message>
+    <message>
+        <source>certificatePolicies</source>
+        <translation>인증서 정책</translation>
+    </message>
+    <message>
+        <source>policyConstraints</source>
+        <translation>정책 제약 조건</translation>
+    </message>
+    <message>
+        <source>policyMappings</source>
+        <translation>정책 매핑</translation>
+    </message>
+    <message>
+        <source>subjectKeyIdentifier</source>
+        <translation>주체 키 식별자</translation>
+    </message>
+    <message>
+        <source>subjectAltName</source>
+        <translation>주체 대체 이름</translation>
+    </message>
+    <message>
+        <source>crlNumber</source>
+        <translation>CRL 번호</translation>
+    </message>
+    <message>
+        <source>issuingDistributionPoint</source>
+        <translation>발급 배포 지점</translation>
+    </message>
+    <message>
+        <source>CRLReason</source>
+        <translation>폐기 사유</translation>
     </message>
 </context>
 <context>
@@ -1128,7 +1260,7 @@
     </message>
     <message>
         <source>User</source>
-        <translation type="vanished">사용자</translation>
+        <translation>사용자</translation>
     </message>
     <message>
         <source>SignAlg</source>
@@ -1204,7 +1336,7 @@
     </message>
     <message>
         <source>MAC</source>
-        <translation>MAC</translation>
+        <translation type="vanished">MAC</translation>
     </message>
     <message>
         <source>SrcHash</source>
@@ -1357,6 +1489,86 @@
     <message>
         <source>Value</source>
         <translation>값</translation>
+    </message>
+    <message>
+        <source>CertMan</source>
+        <translation>인증서 관리자</translation>
+    </message>
+    <message>
+        <source>KeyPair</source>
+        <translation>키 쌍</translation>
+    </message>
+    <message>
+        <source>Request</source>
+        <translation>요청서</translation>
+    </message>
+    <message>
+        <source>Admin</source>
+        <translation>관리자</translation>
+    </message>
+    <message>
+        <source>Config</source>
+        <translation>설정</translation>
+    </message>
+    <message>
+        <source>REGSigner</source>
+        <translation>REG 서명자</translation>
+    </message>
+    <message>
+        <source>OCSPSigner</source>
+        <translation>OCSP 서명자</translation>
+    </message>
+    <message>
+        <source>CertProfile</source>
+        <translation>인증서 프로파일</translation>
+    </message>
+    <message>
+        <source>CRLProfile</source>
+        <translation>CRL 프로파일</translation>
+    </message>
+    <message>
+        <source>RootCA</source>
+        <translation>최상위 인증기관</translation>
+    </message>
+    <message>
+        <source>Import Cert</source>
+        <translation>가져온 인증서</translation>
+    </message>
+    <message>
+        <source>Import CRL</source>
+        <translation>가져온 CRL</translation>
+    </message>
+    <message>
+        <source>KMS</source>
+        <translation>키 관리 시스템</translation>
+    </message>
+    <message>
+        <source>TSP</source>
+        <translation>타임스탬프</translation>
+    </message>
+    <message>
+        <source>Statistics</source>
+        <translation>통계</translation>
+    </message>
+    <message>
+        <source>Audit</source>
+        <translation>감사 로그</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>인증서</translation>
+    </message>
+    <message>
+        <source>CRL</source>
+        <translation>인증서 폐기 목록</translation>
+    </message>
+    <message>
+        <source>Revoke</source>
+        <translation>폐기 인증서</translation>
+    </message>
+    <message>
+        <source>CA</source>
+        <translation>인증 기관</translation>
     </message>
 </context>
 <context>

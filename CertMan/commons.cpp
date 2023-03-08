@@ -1111,64 +1111,64 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
         sprintf( sOID, "%s", strSN.toStdString().c_str() );
     }
 
-    if( strSN == kExtNameKeyUsage )
+    if( strSN == JS_PKI_ExtNameKeyUsage )
     {
         ret = _setKeyUsage( &binExt, strVal );
     }
-    else if( strSN == kExtNameCRLNum )
+    else if( strSN == JS_PKI_ExtNameCRLNum )
     {
         ret = _setCRLNum( &binExt, strVal );
     }
-    else if( strSN == kExtNamePolicy )
+    else if( strSN == JS_PKI_ExtNamePolicy )
     {
         ret = _setCertPolicy( &binExt, strVal );
     }
-    else if( strSN == kExtNameSKI )
+    else if( strSN == JS_PKI_ExtNameSKI )
     {
         ret = _setSKI( &binExt, strVal );
     }
-    else if( strSN == kExtNameAKI )
+    else if( strSN == JS_PKI_ExtNameAKI )
     {
         ret = _setAKI( &binExt, strVal );
     }
-    else if( strSN == kExtNameEKU )
+    else if( strSN == JS_PKI_ExtNameEKU )
     {
         ret = _setEKU( &binExt, strVal );
     }
-    else if( strSN == kExtNameCRLDP )
+    else if( strSN == JS_PKI_ExtNameCRLDP )
     {
         ret = _setCRLDP( &binExt, strVal );
     }
-    else if( strSN == kExtNameBC )
+    else if( strSN == JS_PKI_ExtNameBC )
     {
         ret = _setBC( &binExt, strVal );
     }
-    else if( strSN == kExtNamePC )
+    else if( strSN == JS_PKI_ExtNamePC )
     {
         ret = _setPC( &binExt, strVal );
     }
-    else if( strSN == kExtNameAIA )
+    else if( strSN == JS_PKI_ExtNameAIA )
     {
         ret = _setAIA( &binExt, strVal );
     }
-    else if( strSN == kExtNameIDP )
+    else if( strSN == JS_PKI_ExtNameIDP )
     {
         ret = _setIDP( &binExt, strVal );
     }
-    else if( strSN == kExtNameSAN || strSN == kExtNameIAN )
+    else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
         ret = _setAltName( &binExt, nNid, strVal );
     }
-    else if( strSN == kExtNamePM )
+    else if( strSN == JS_PKI_ExtNamePM )
     {
         ret = _setPM( &binExt, strVal );
     }
-    else if( strSN == kExtNameNC )
+    else if( strSN == JS_PKI_ExtNameNC )
     {
         ret = _setNC( &binExt, strVal );
     }
-    else if( strSN == kExtNameCRLReason )
+    else if( strSN == JS_PKI_ExtNameCRLReason )
     {
         ret = _setCRLReason( &binExt, strVal );
     }
@@ -1200,64 +1200,64 @@ int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileE
 
     JS_BIN_decodeHex( pExtInfo->pValue, &binExt );
 
-    if( strSN == kExtNameKeyUsage )
+    if( strSN == JS_PKI_ExtNameKeyUsage )
     {
         ret = _getKeyUsage( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameCRLNum )
+    else if( strSN == JS_PKI_ExtNameCRLNum )
     {
         ret = _getCRLNum( &binExt, false, strVal );
     }
-    else if( strSN == kExtNamePolicy )
+    else if( strSN == JS_PKI_ExtNamePolicy )
     {
         ret = _getCertPolicy( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameSKI )
+    else if( strSN == JS_PKI_ExtNameSKI )
     {
         ret = _getSKI( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameAKI )
+    else if( strSN == JS_PKI_ExtNameAKI )
     {
         ret = _getAKI( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameEKU )
+    else if( strSN == JS_PKI_ExtNameEKU )
     {
         ret = _getEKU( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameCRLDP )
+    else if( strSN == JS_PKI_ExtNameCRLDP )
     {
         ret = _getCRLDP( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameBC )
+    else if( strSN == JS_PKI_ExtNameBC )
     {
         ret = _getBC( &binExt, false, strVal );
     }
-    else if( strSN == kExtNamePC )
+    else if( strSN == JS_PKI_ExtNamePC )
     {
         ret = _getPC( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameAIA )
+    else if( strSN == JS_PKI_ExtNameAIA )
     {
         ret = _getAIA( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameIDP )
+    else if( strSN == JS_PKI_ExtNameIDP )
     {
         ret = _getIDP( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameSAN || strSN == kExtNameIAN )
+    else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
         ret = _getAltName( &binExt, nNid, false, strVal );
     }
-    else if( strSN == kExtNamePM )
+    else if( strSN == JS_PKI_ExtNamePM )
     {
         ret = _getPM( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameNC )
+    else if( strSN == JS_PKI_ExtNameNC )
     {
         ret = _getNC( &binExt, false, strVal );
     }
-    else if( strSN == kExtNameCRLReason )
+    else if( strSN == JS_PKI_ExtNameCRLReason )
     {
         ret = _getCRLReason( &binExt, false, strVal );
     }
@@ -1284,64 +1284,64 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
 
     JS_BIN_decodeHex( pExtInfo->pValue, &binExt );
 
-    if( strSN == kExtNameKeyUsage )
+    if( strSN == JS_PKI_ExtNameKeyUsage )
     {
         ret = _getKeyUsage( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameCRLNum )
+    else if( strSN == JS_PKI_ExtNameCRLNum )
     {
         ret = _getCRLNum( &binExt, true, strVal );
     }
-    else if( strSN == kExtNamePolicy )
+    else if( strSN == JS_PKI_ExtNamePolicy )
     {
         ret = _getCertPolicy( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameSKI )
+    else if( strSN == JS_PKI_ExtNameSKI )
     {
         ret = _getSKI( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameAKI )
+    else if( strSN == JS_PKI_ExtNameAKI )
     {
         ret = _getAKI( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameEKU )
+    else if( strSN == JS_PKI_ExtNameEKU )
     {
         ret = _getEKU( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameCRLDP )
+    else if( strSN == JS_PKI_ExtNameCRLDP )
     {
         ret = _getCRLDP( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameBC )
+    else if( strSN == JS_PKI_ExtNameBC )
     {
         ret = _getBC( &binExt, true, strVal );
     }
-    else if( strSN == kExtNamePC )
+    else if( strSN == JS_PKI_ExtNamePC )
     {
         ret = _getPC( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameAIA )
+    else if( strSN == JS_PKI_ExtNameAIA )
     {
         ret = _getAIA( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameIDP )
+    else if( strSN == JS_PKI_ExtNameIDP )
     {
         ret = _getIDP( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameSAN || strSN == kExtNameIAN )
+    else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
         ret = _getAltName( &binExt, nNid, true, strVal );
     }
-    else if( strSN == kExtNamePM )
+    else if( strSN == JS_PKI_ExtNamePM )
     {
         ret = _getPM( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameNC )
+    else if( strSN == JS_PKI_ExtNameNC )
     {
         ret = _getNC( &binExt, true, strVal );
     }
-    else if( strSN == kExtNameCRLReason )
+    else if( strSN == JS_PKI_ExtNameCRLReason )
     {
         ret = _getCRLReason( &binExt, true, strVal );
     }
@@ -1920,6 +1920,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
 
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
 {
+    int ret = 0;
     AuditRec auditRec;
     BIN binSrc = {0,0};
     BIN binKey = {0,0};
@@ -1950,22 +1951,24 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
             .arg( auditRec.getRegTime() )
             .arg( auditRec.getUserName() );
 
-    binSrc.pVal = (unsigned char *)strSrc.toStdString().c_str();
-    binSrc.nLen = strSrc.length();
+    JS_BIN_set( &binSrc, (unsigned char *)strSrc.toStdString().c_str(), strSrc.length() );
 
-    JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
+    ret = JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
+    if( ret != 0 ) goto end;
 
     JS_BIN_encodeHex( &binHMAC, &pHex );
     if( pHex )
     {
         auditRec.setMAC( pHex );
         dbMgr->addAuditRec( auditRec );
-        JS_free( pHex );
     }
 
+end :
+    if( pHex ) JS_free( pHex );
     JS_BIN_reset( &binHMAC );
+    JS_BIN_reset( &binSrc );
 
-    return 0;
+    return ret;
 }
 
 int verifyAuditRec( AuditRec audit )
@@ -1987,18 +1990,19 @@ int verifyAuditRec( AuditRec audit )
             .arg( audit.getRegTime() )
             .arg( audit.getUserName() );
 
-    binSrc.pVal = (unsigned char *)strSrc.toStdString().c_str();
-    binSrc.nLen = strSrc.length();
+    JS_BIN_set( &binSrc, (unsigned char *)strSrc.toStdString().c_str(), strSrc.length() );
 
     ret = JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
-    if( ret != 0 ) return -1;
+    if( ret != 0 ) goto end;
 
     JS_BIN_decodeHex( audit.getMAC().toStdString().c_str(), &binRecHMAC );
 
     ret = JS_BIN_cmp( &binHMAC, &binRecHMAC );
 
+end :
     JS_BIN_reset( &binHMAC );
     JS_BIN_reset( &binRecHMAC );
+    JS_BIN_reset( &binSrc );
 
     return ret;
 }

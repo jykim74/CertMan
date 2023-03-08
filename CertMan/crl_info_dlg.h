@@ -20,6 +20,7 @@ public:
 
     void setCRLNum( int crl_num );
     int getCRLNum() { return crl_num_; };
+    QTableWidgetItem* getExtNameItem( const QString strSN );
 
 private slots:
     void clickCRLField( QModelIndex index );

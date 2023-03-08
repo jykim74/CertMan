@@ -1,4 +1,6 @@
 #include <QMenu>
+#include <QString>
+
 #include "js_pki_ext.h"
 #include "make_cert_profile_dlg.h"
 #include "mainwindow.h"
@@ -7,6 +9,26 @@
 #include "profile_ext_rec.h"
 #include "db_mgr.h"
 #include "commons.h"
+
+
+static QStringList sExtNames = {
+    "authorityInfoAccess",
+    "authorityKeyIdentifier",
+    "basicConstraints",
+    "crlDistributionPoints",
+    "extendedKeyUsage",
+    "issuerAltName",
+    "keyUsage",
+    "nameConstraints",
+    "certificatePolicies",
+    "policyConstraints",
+    "policyMappings",
+    "subjectKeyIdentifier",
+    "subjectAltName",
+    "crlNumber",
+    "issuingDistributionPoint",
+    "CRLReason"
+};
 
 
 MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
@@ -97,31 +119,31 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     {
         ProfileExtRec extProfile = extProfileList.at(i);
 
-        if( extProfile.getSN() == kExtNameAIA )
+        if( extProfile.getSN() == JS_PKI_ExtNameAIA )
             setAIAUse( extProfile );
-        else if( extProfile.getSN() == kExtNameAKI )
+        else if( extProfile.getSN() == JS_PKI_ExtNameAKI )
             setAKIUse( extProfile );
-        else if( extProfile.getSN() == kExtNameBC )
+        else if( extProfile.getSN() == JS_PKI_ExtNameBC )
             setBCUse( extProfile );
-        else if( extProfile.getSN() == kExtNameCRLDP )
+        else if( extProfile.getSN() == JS_PKI_ExtNameCRLDP )
             setCRLDPUse( extProfile );
-        else if( extProfile.getSN() == kExtNameEKU )
+        else if( extProfile.getSN() == JS_PKI_ExtNameEKU )
             setEKUUse( extProfile );
-        else if( extProfile.getSN() == kExtNameIAN )
+        else if( extProfile.getSN() == JS_PKI_ExtNameIAN )
             setIANUse( extProfile );
-        else if( extProfile.getSN() == kExtNameKeyUsage )
+        else if( extProfile.getSN() == JS_PKI_ExtNameKeyUsage )
             setKeyUsageUse( extProfile );
-        else if( extProfile.getSN() == kExtNameNC )
+        else if( extProfile.getSN() == JS_PKI_ExtNameNC )
             setNCUse( extProfile );
-        else if( extProfile.getSN() == kExtNamePolicy )
+        else if( extProfile.getSN() == JS_PKI_ExtNamePolicy )
             setPolicyUse( extProfile );
-        else if( extProfile.getSN() == kExtNamePC )
+        else if( extProfile.getSN() == JS_PKI_ExtNamePC )
             setPCUse( extProfile );
-        else if( extProfile.getSN() == kExtNamePM )
+        else if( extProfile.getSN() == JS_PKI_ExtNamePM )
             setPMUse( extProfile );
-        else if( extProfile.getSN() == kExtNameSKI )
+        else if( extProfile.getSN() == JS_PKI_ExtNameSKI )
             setSKIUse( extProfile );
-        else if( extProfile.getSN() == kExtNameSAN )
+        else if( extProfile.getSN() == JS_PKI_ExtNameSAN )
             setSANUse( extProfile );
         else
             setExtensionsUse( extProfile );

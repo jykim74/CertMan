@@ -153,13 +153,13 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     {
         ProfileExtRec extProfile = extProfileList.at(i);
 
-        if( extProfile.getSN() == kExtNameCRLNum )
+        if( extProfile.getSN() == JS_PKI_ExtNameCRLNum )
             setCRLNumUse( extProfile );
-        else if( extProfile.getSN() == kExtNameAKI )
+        else if( extProfile.getSN() == JS_PKI_ExtNameAKI )
             setAKIUse( extProfile );
-        else if( extProfile.getSN() == kExtNameIDP )
+        else if( extProfile.getSN() == JS_PKI_ExtNameIDP )
             setIDPUse( extProfile );
-        else if( extProfile.getSN() == kExtNameIAN )
+        else if( extProfile.getSN() == JS_PKI_ExtNameIAN )
             setIANUse( extProfile );
         else
             setExtensionsUse( extProfile );

@@ -365,7 +365,7 @@ void MakeCertDlg::accept()
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( profileExt.getSN() == kExtNameBC )
+        if( profileExt.getSN() == JS_PKI_ExtNameBC )
         {
             QString strVal = profileExt.getValue();
             if( strVal.contains( "CA" ) == true )
@@ -373,24 +373,24 @@ void MakeCertDlg::accept()
             else
                 bCA = false;
         }
-        else if( profileExt.getSN() == kExtNameSKI )
+        else if( profileExt.getSN() == JS_PKI_ExtNameSKI )
         {
             profileExt.setValue( sKeyID );
         }
-        else if( profileExt.getSN() == kExtNameCRLDP )
+        else if( profileExt.getSN() == JS_PKI_ExtNameCRLDP )
         {
             char *pDN = NULL;
             JS_PKI_getDP( profileExt.getValue().toStdString().c_str(), nSeq, &pDN );
             profileExt.setValue( pDN );
             if( pDN ) JS_free( pDN );
         }
-        else if( profileExt.getSN() == kExtNameSAN )
+        else if( profileExt.getSN() == JS_PKI_ExtNameSAN )
         {
             QString strAltName = profileExt.getValue();
             QString strReplace = getReplacedValue( strAltName );
             profileExt.setValue( strAltName );
         }
-        else if( profileExt.getSN() == kExtNameAKI )
+        else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
         {
             if( bSelf == false )
             {

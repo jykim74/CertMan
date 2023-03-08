@@ -21,6 +21,7 @@ public:
 
     int getCertNum() { return cert_num_; };
     void setCertNum( int cert_num );
+    QTableWidgetItem* getExtNameItem( const QString strSN );
 
 private slots:
     void showEvent(QShowEvent *event);

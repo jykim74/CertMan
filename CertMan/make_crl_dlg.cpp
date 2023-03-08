@@ -11,6 +11,7 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
+#include "js_pki_ext.h"
 #include "js_util.h"
 #include "commons.h"
 #include "settings_mgr.h"
@@ -143,7 +144,7 @@ void MakeCRLDlg::accept()
 
         memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-        if( profileExt.getSN() == kExtNameAKI )
+        if( profileExt.getSN() == JS_PKI_ExtNameAKI )
         {
             BIN binCert = {0,0};
             char sHexID[256];
@@ -172,7 +173,7 @@ void MakeCRLDlg::accept()
 
             JS_BIN_reset( &binCert );
         }
-        else if( profileExt.getSN() == kExtNameCRLNum )
+        else if( profileExt.getSN() == JS_PKI_ExtNameCRLNum )
         {
             QString strVal = profileExt.getValue();
 
@@ -215,7 +216,7 @@ void MakeCRLDlg::accept()
         nReason = revoke.getReason();
         uRevokeDate = revoke.getRevokeDate();
 
-        profileReason.setSN( kExtNameCRLReason );
+        profileReason.setSN( JS_PKI_ExtNameCRLReason );
         profileReason.setCritical( true );
         profileReason.setValue( QString("%1").arg(nReason) );
         profileReason.setSeq(-1);

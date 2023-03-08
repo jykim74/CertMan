@@ -537,60 +537,60 @@ void MainWindow::createTreeMenu()
 
     ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
 
-    ManTreeItem *pTopItem = new ManTreeItem( QString( "CertMan" ) );
+    ManTreeItem *pTopItem = new ManTreeItem( QString( tr("CertMan") ) );
     pTopItem->setIcon(QIcon(":/images/man.png"));
     pRootItem->insertRow( 0, pTopItem );
 
-    ManTreeItem *pKeyPairItem = new ManTreeItem( QString("KeyPair") );
+    ManTreeItem *pKeyPairItem = new ManTreeItem( QString( tr("KeyPair")) );
     pKeyPairItem->setIcon(QIcon(":/images/key_reg.png"));
     pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
     pTopItem->appendRow( pKeyPairItem );
 
-    ManTreeItem *pCSRItem = new ManTreeItem( QString("Request"));
+    ManTreeItem *pCSRItem = new ManTreeItem( QString( tr("Request")));
     pCSRItem->setIcon(QIcon(":/images/csr.jpg"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
     if( manApplet->isPRO() )
     {
-        ManTreeItem *pAdminItem = new ManTreeItem( QString("Admin") );
+        ManTreeItem *pAdminItem = new ManTreeItem( QString(tr("Admin")) );
         pAdminItem->setIcon(QIcon(":/images/admin.png"));
         pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
         pTopItem->appendRow( pAdminItem );
 
-        ManTreeItem *pConfigItem = new ManTreeItem( QString("Config"));
+        ManTreeItem *pConfigItem = new ManTreeItem( QString(tr("Config")));
         pConfigItem->setIcon(QIcon(":/images/config.png"));
         pConfigItem->setType( CM_ITEM_TYPE_CONFIG );
         pTopItem->appendRow( pConfigItem );
 
-        ManTreeItem *pUserItem = new ManTreeItem( QString("User") );
+        ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
         pUserItem->setIcon(QIcon(":/images/user.jpg"));
         pUserItem->setType( CM_ITEM_TYPE_USER );
         pTopItem->appendRow( pUserItem );
 
-        ManTreeItem *pRegSignerItem = new ManTreeItem( QString("REGSigner") );
+        ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
         pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
         pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
         pTopItem->appendRow( pRegSignerItem );
 
-        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString("OCSPSigner") );
+        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString(tr("OCSPSigner")) );
         pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
         pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
         pTopItem->appendRow( pOCSPSignerItem );
     }
 
 
-    ManTreeItem *pCertProfileItem = new ManTreeItem( QString("CertProfile" ) );
+    ManTreeItem *pCertProfileItem = new ManTreeItem( QString(tr("CertProfile") ) );
     pCertProfileItem->setIcon(QIcon(":/images/cert_profile.png"));
     pCertProfileItem->setType( CM_ITEM_TYPE_CERT_PROFILE );
     pTopItem->appendRow( pCertProfileItem );
 
-    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString("CRLProfile" ) );
+    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString( tr("CRLProfile") ) );
     pCRLProfileItem->setIcon(QIcon(":/images/crl_profile.png"));
     pCRLProfileItem->setType( CM_ITEM_TYPE_CRL_PROFILE );
     pTopItem->appendRow( pCRLProfileItem );
 
-    ManTreeItem *pRootCAItem = new ManTreeItem( QString("RootCA") );
+    ManTreeItem *pRootCAItem = new ManTreeItem( QString(tr("RootCA")) );
     pRootCAItem->setIcon( QIcon(":/images/cert.png") );
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
     pRootCAItem->setDataNum(-1);
@@ -598,34 +598,34 @@ void MainWindow::createTreeMenu()
     expandItem( pRootCAItem );
     root_ca_ = pRootCAItem;
 
-    ManTreeItem *pImportCertItem = new ManTreeItem( QString( "ImportCert" ) );
+    ManTreeItem *pImportCertItem = new ManTreeItem( QString( tr("Import Cert") ) );
     pImportCertItem->setIcon(QIcon(":/images/im_cert.png"));
     pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
     pTopItem->appendRow( pImportCertItem );
 
-    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( "ImportCRL" ) );
+    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( tr("Import CRL") ) );
     pImportCRLItem->setIcon(QIcon(":/images/im_crl.png"));
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
 
     if( manApplet->isPRO() )
     {
-        ManTreeItem *pKMSItem = new ManTreeItem( QString( "KMS" ));
+        ManTreeItem *pKMSItem = new ManTreeItem( QString( tr("KMS") ));
         pKMSItem->setIcon(QIcon(":/images/kms.png"));
         pKMSItem->setType( CM_ITEM_TYPE_KMS );
         pTopItem->appendRow( pKMSItem );
 
-        ManTreeItem *pTSPItem = new ManTreeItem( QString( "TSP" ));
+        ManTreeItem *pTSPItem = new ManTreeItem( QString( tr("TSP") ));
         pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
         pTSPItem->setType( CM_ITEM_TYPE_TSP );
         pTopItem->appendRow( pTSPItem );
 
-        ManTreeItem *pStatisticsItem = new ManTreeItem( QString( "Statistics" ));
+        ManTreeItem *pStatisticsItem = new ManTreeItem( QString( tr("Statistics") ));
         pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
         pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
         pTopItem->appendRow( pStatisticsItem );
 
-        ManTreeItem *pAuditItem = new ManTreeItem( QString( "Audit") );
+        ManTreeItem *pAuditItem = new ManTreeItem( QString( tr("Audit")) );
         pAuditItem->setIcon( QIcon(":/images/audit.png"));
         pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
         pTopItem->appendRow( pAuditItem );
@@ -1666,7 +1666,7 @@ void MainWindow::treeMenuClick(QModelIndex index )
     nNum = pItem->getDataNum();
     nType = pItem->getType();
 
-    printf( "Num: %d, Type : %d\n", nNum, nType );
+
     fflush( stdout );
 
     search_menu_->setCurPage(0);
@@ -2688,25 +2688,25 @@ void MainWindow::expandItem( ManTreeItem *item )
         pCAItem->setIcon( QIcon(":/images/ca.png"));
         item->appendRow( pCAItem );
 
-        ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+        ManTreeItem *pCertItem = new ManTreeItem( QString(tr("Certificate")));
         pCertItem->setType( CM_ITEM_TYPE_CERT );
         pCertItem->setDataNum( certRec.getNum() );
         pCertItem->setIcon(QIcon(":/images/cert.png"));
         pCAItem->appendRow( pCertItem );
 
-        ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+        ManTreeItem *pCRLItem = new ManTreeItem( QString(tr("CRL")) );
         pCRLItem->setType( CM_ITEM_TYPE_CRL );
         pCRLItem->setDataNum( certRec.getNum() );
         pCRLItem->setIcon(QIcon(":/images/crl.png"));
         pCAItem->appendRow( pCRLItem );
 
-        ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+        ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoke")));
         pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
         pRevokeItem->setDataNum( certRec.getNum() );
         pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
         pCAItem->appendRow( pRevokeItem );
 
-        ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
+        ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA")));
         pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
         pSubCAItem->setIcon(QIcon(":/images/ca.png"));
         pSubCAItem->setDataNum( certRec.getNum() );
@@ -2728,25 +2728,25 @@ void MainWindow::addRootCA( CertRec& certRec )
    pCAItem->setIcon( QIcon(":/images/ca.png"));
    root_ca_->appendRow( pCAItem );
 
-   ManTreeItem *pCertItem = new ManTreeItem( QString("Certificate"));
+   ManTreeItem *pCertItem = new ManTreeItem( QString(tr("Certificate")));
    pCertItem->setType( CM_ITEM_TYPE_CERT );
    pCertItem->setDataNum( certRec.getNum() );
    pCertItem->setIcon(QIcon(":/images/cert.png"));
    pCAItem->appendRow( pCertItem );
 
-   ManTreeItem *pCRLItem = new ManTreeItem( QString("CRL") );
+   ManTreeItem *pCRLItem = new ManTreeItem( QString(tr("CRL")) );
    pCRLItem->setType( CM_ITEM_TYPE_CRL );
    pCRLItem->setDataNum( certRec.getNum() );
    pCRLItem->setIcon(QIcon(":/images/crl.png"));
    pCAItem->appendRow( pCRLItem );
 
-   ManTreeItem *pRevokeItem = new ManTreeItem( QString("Revoke"));
+   ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoke")));
    pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
    pRevokeItem->setDataNum( certRec.getNum() );
    pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
    pCAItem->appendRow( pRevokeItem );
 
-   ManTreeItem *pSubCAItem = new ManTreeItem( QString("CA"));
+   ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA")));
    pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
    pSubCAItem->setIcon(QIcon(":/images/ca.png"));
    pSubCAItem->setDataNum( certRec.getNum() );
@@ -3427,7 +3427,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 200 );
+    right_table_->setColumnWidth( 3, 140 );
 
 
     if( bIsCA )
@@ -3463,9 +3463,10 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
         QString strDNInfo;
         if( cert.isSelf() ) strDNInfo += "[Self]";
- //       if( cert.isCA() ) strDNInfo += "[CA]";
 
-        strDNInfo += QString( "[%1] " ).arg( getCertStatusSName(cert.getStatus()) );
+        if( cert.getIssuerNum() >= 0 )
+            strDNInfo += QString( "[%1] " ).arg( getCertStatusSName(cert.getStatus()) );
+
         strDNInfo += cert.getSubjectDN();
 
         QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
@@ -3476,8 +3477,13 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 
-        QString strKeyName = manApplet->dbMgr()->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+        QString strKeyName;
         QString strUserName;
+
+        if( cert.getKeyNum() >= 0 )
+            strKeyName = manApplet->dbMgr()->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+        else
+            strKeyName = "None";
 
         if( cert.getUserNum() > 0 )
             manApplet->dbMgr()->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
@@ -3530,7 +3536,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     right_table_->setColumnWidth( 0, 40 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 200 );
-    right_table_->setColumnWidth( 3, 200 );
+    right_table_->setColumnWidth( 3, 140 );
 
 
     if( strWord.length() > 0 )
@@ -3547,7 +3553,12 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     for( int i=0; i < crlList.size(); i++ )
     {
         CRLRec crl = crlList.at(i);
-        QString strIssuerName = manApplet->dbMgr()->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        QString strIssuerName;
+
+        if( crl.getIssuerNum() >= 0 )
+            strIssuerName = manApplet->dbMgr()->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        else
+            strIssuerName = "None";
 
         QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
         item->setIcon(QIcon(":/images/crl.png"));
@@ -3936,7 +3947,7 @@ void MainWindow::createRightAuditList()
     QString strTarget = search_menu_->getCondName();
     QString strWord = search_menu_->getInputWord();
 
-    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Kind"), tr("Operation"), tr("UserName"), tr("Info"), tr("MAC") };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Kind"), tr("Operation"), tr("UserName"), tr("Info") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3965,7 +3976,6 @@ void MainWindow::createRightAuditList()
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
     right_table_->setColumnWidth( 4, 100 );
-    right_table_->setColumnWidth( 5, 100 );
 
     for( int i = 0; i < auditList.size(); i++ )
     {
@@ -3987,7 +3997,6 @@ void MainWindow::createRightAuditList()
         right_table_->setItem(i,3, item );
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( audit.getUserName() )));
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( audit.getInfo() )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( audit.getMAC() )));
     }
 
     search_menu_->setTotalCount( nTotalCount );
