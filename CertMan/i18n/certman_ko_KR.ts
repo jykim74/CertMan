@@ -98,6 +98,10 @@
         <source>Admin is not selected</source>
         <translation>관리자가 선택 되지 않았습니다</translation>
     </message>
+    <message>
+        <source>Admin Information</source>
+        <translation>관리자 정보</translation>
+    </message>
 </context>
 <context>
     <name>CRLInfoDlg</name>
@@ -3193,6 +3197,14 @@
         <source>Certificate files</source>
         <translation type="vanished">인증서 파일</translation>
     </message>
+    <message>
+        <source>Signer Information</source>
+        <translation>서명자 정보</translation>
+    </message>
+    <message>
+        <source>Signer Description</source>
+        <translation>서명자 설명</translation>
+    </message>
 </context>
 <context>
     <name>StatForm</name>
@@ -3343,6 +3355,10 @@
     <message>
         <source>REGServer is not set</source>
         <translation>REG 서버가 설정 되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>User Information</source>
+        <translation>사용자 정보</translation>
     </message>
 </context>
 </TS>
