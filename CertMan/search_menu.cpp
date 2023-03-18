@@ -46,6 +46,19 @@ void SearchMenu::setupModel()
 {
     QGridLayout *layout = new QGridLayout();
 
+#ifdef Q_OS_MAC
+    int btn_size = 20;
+
+    left_end_btn_->setMinimumHeight(btn_size);
+    left_btn_->setMinimumHeight(btn_size);
+    right_btn_->setMinimumHeight(btn_size);
+    right_end_btn_->setMinimumHeight(btn_size);
+    input_text_->setMinimumHeight(20);
+    cond_combo_->setMinimumHeight(20);
+    page_label_->setMinimumHeight(20);
+    search_btn_->setMinimumHeight(btn_size);
+#endif
+
     layout->addWidget( left_end_btn_, 0, 0 );
     layout->addWidget( left_btn_, 0, 1 );
     layout->addWidget( page_label_, 0, 2 );

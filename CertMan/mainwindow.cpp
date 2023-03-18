@@ -173,12 +173,19 @@ void MainWindow::initialize()
     vsplitter_->addWidget(log_text_);
 
     QList <int> vsizes;
+#ifdef Q_OS_MAC
+    vsizes << 760 << 20 << 600;
+#else
     vsizes << 760 << 10 << 600;
+#endif
+
     vsplitter_->setSizes(vsizes);
 
     QList <int> sizes;
     sizes << 500 << 1200;
+
     resize(1024,768);
+
 
     hsplitter_->setSizes(sizes);
     setCentralWidget(hsplitter_);
