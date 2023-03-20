@@ -200,6 +200,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mIssuerNameCombo</tabstop>
+  <tabstop>mAlgorithmText</tabstop>
+  <tabstop>mOptionText</tabstop>
+  <tabstop>mProfileNameCombo</tabstop>
+  <tabstop>mCRLDPCombo</tabstop>
   <tabstop>mRevokeTable</tabstop>
  </tabstops>
  <resources/>

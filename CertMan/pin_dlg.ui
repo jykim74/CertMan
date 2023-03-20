@@ -83,6 +83,9 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mPinText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

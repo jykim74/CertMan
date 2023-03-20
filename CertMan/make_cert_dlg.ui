@@ -274,6 +274,9 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mUseCSRFileCheck</tabstop>
+  <tabstop>mCSRFilePathText</tabstop>
+  <tabstop>mCSRFileFindBtn</tabstop>
   <tabstop>mReqNameCombo</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
@@ -282,6 +285,8 @@
   <tabstop>mSSNText</tabstop>
   <tabstop>mEmailText</tabstop>
   <tabstop>mSubjectDNText</tabstop>
+  <tabstop>mSelfSignCheck</tabstop>
+  <tabstop>mIssuerNameCombo</tabstop>
   <tabstop>mIssuerAlgorithmText</tabstop>
   <tabstop>mIssuerOptionText</tabstop>
  </tabstops>

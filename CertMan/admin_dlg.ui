@@ -259,6 +259,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mTypeCombo</tabstop>
+  <tabstop>mPasswordText</tabstop>
+  <tabstop>mEmailText</tabstop>
+  <tabstop>mStatusCombo</tabstop>
   <tabstop>mCloseBtn</tabstop>
   <tabstop>mDeleteBtn</tabstop>
   <tabstop>mModifyBtn</tabstop>

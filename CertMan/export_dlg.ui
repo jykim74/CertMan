@@ -152,7 +152,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mPEMSaveCheck</tabstop>
   <tabstop>mInfoText</tabstop>
+  <tabstop>mPathText</tabstop>
+  <tabstop>mFindBtn</tabstop>
+  <tabstop>mPasswordText</tabstop>
  </tabstops>
  <resources/>
  <connections>

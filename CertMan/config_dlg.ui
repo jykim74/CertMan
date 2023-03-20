@@ -220,6 +220,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNumText</tabstop>
+  <tabstop>mKindText</tabstop>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mValueText</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

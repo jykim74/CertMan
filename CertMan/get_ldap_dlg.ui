@@ -233,6 +233,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mUseURICheck</tabstop>
+  <tabstop>mURICombo</tabstop>
+  <tabstop>mLDAPHostText</tabstop>
+  <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mSearchCombo</tabstop>
+  <tabstop>mFilterCombo</tabstop>
+  <tabstop>mFilterText</tabstop>
+  <tabstop>mDNText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

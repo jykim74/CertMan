@@ -152,8 +152,14 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mSrcBase64Check</tabstop>
+  <tabstop>mSrcHexCheck</tabstop>
+  <tabstop>mSrcStringCheck</tabstop>
   <tabstop>mSrcText</tabstop>
+  <tabstop>mHashCombo</tabstop>
+  <tabstop>mSendBtn</tabstop>
   <tabstop>mOutputText</tabstop>
+  <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>

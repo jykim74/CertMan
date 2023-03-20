@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -1465,6 +1465,12 @@
   <tabstop>mNotAfterDateTime</tabstop>
   <tabstop>mUseCSRCheck</tabstop>
   <tabstop>mSubjectDNText</tabstop>
+  <tabstop>mExtensionsClearBtn</tabstop>
+  <tabstop>mExtensionsAddBtn</tabstop>
+  <tabstop>mExtensionsOIDText</tabstop>
+  <tabstop>mExtensionsCriticalCheck</tabstop>
+  <tabstop>mExtensionsValueText</tabstop>
+  <tabstop>mExtensionsTable</tabstop>
   <tabstop>mKeyUsageUseCheck</tabstop>
   <tabstop>mKeyUsageCriticalCheck</tabstop>
   <tabstop>mKeyUsageClearBtn</tabstop>
@@ -1476,6 +1482,7 @@
   <tabstop>mPolicyClearBtn</tabstop>
   <tabstop>mPolicyAddBtn</tabstop>
   <tabstop>mPolicyOIDText</tabstop>
+  <tabstop>mPolicySetAnyOIDBtn</tabstop>
   <tabstop>mPolicyCPSText</tabstop>
   <tabstop>mPolicyUserNoticeText</tabstop>
   <tabstop>mPolicyTable</tabstop>
