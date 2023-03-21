@@ -137,6 +137,8 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         QDateTime lastUpdate;
         QDateTime nextUpdate;
 
+        mUseFromNowCheck->setChecked(false);
+
         lastUpdate.setTime_t( crlProfile.getLastUpdate() );
         nextUpdate.setTime_t( crlProfile.getNextUpdate() );
 
@@ -233,14 +235,8 @@ void MakeCRLProfileDlg::accept()
         crlProfileRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
-        QDateTime lastTime;
-        QDateTime nextTime;
-
-        lastTime.setDate( mLastUpdateDateTime->date() );
-        nextTime.setDate( mNextUpdateDateTime->date() );
-
-        crlProfileRec.setLastUpdate( lastTime.toTime_t() );
-        crlProfileRec.setNextUpdate( nextTime.toTime_t() );
+        crlProfileRec.setLastUpdate( mLastUpdateDateTime->dateTime().toTime_t() );
+        crlProfileRec.setNextUpdate( mNextUpdateDateTime->dateTime().toTime_t() );
     }
 
     crlProfileRec.setHash( mHashCombo->currentText() );

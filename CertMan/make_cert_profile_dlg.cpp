@@ -96,6 +96,8 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         mDaysText->setText( QString("%1").arg(certProfile.getNotAfter()));
     }
     else {
+        mUseDaysCheck->setChecked(false);
+
         notBefore.setTime_t( certProfile.getNotBefore() );
         notAfter.setTime_t( certProfile.getNotAfter() );
 
@@ -277,14 +279,8 @@ void MakeCertProfileDlg::accept()
         certProfileRec.setNotAfter( mDaysText->text().toLong());
     }
     else {
-        QDateTime beforeTime;
-        QDateTime afterTime;
-
-        beforeTime.setDate( mNotBeforeDateTime->date() );
-        afterTime.setDate( mNotAfterDateTime->date() );
-
-        certProfileRec.setNotBefore( beforeTime.toTime_t() );
-        certProfileRec.setNotAfter( afterTime.toTime_t() );
+        certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toTime_t() );
+        certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toTime_t() );
     }
 
     certProfileRec.setHash( mHashCombo->currentText() );
