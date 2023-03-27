@@ -202,11 +202,13 @@ mac {
 #    INCLUDEPATH += "/usr/local/Sparkle.framework/Headers"
     INCLUDEPATH += "/usr/local/include"
 
-    debug {
+    CONFIG( debug, debug | release ) {
+        message( "CertMan Debug" );
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Debug" -lPKILib
         LIBS += -L"../../PKILib/lib/mac/debug/openssl3/lib" -lcrypto -lssl
         INCLUDEPATH += "../../PKILib/lib/mac/debug/openssl3/include"
     } else {
+        message( "CertMan Release" );
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Release" -lPKILib
         LIBS += -L"../../PKILib/lib/mac/openssl3/lib" -lcrypto -lssl
         INCLUDEPATH += "../../PKILib/lib/mac/openssl3/include"
