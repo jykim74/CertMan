@@ -554,7 +554,7 @@ void MainWindow::createTreeMenu()
     pTopItem->appendRow( pKeyPairItem );
 
     ManTreeItem *pCSRItem = new ManTreeItem( QString( tr("Request")));
-    pCSRItem->setIcon(QIcon(":/images/csr.jpg"));
+    pCSRItem->setIcon(QIcon(":/images/csr.png"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
 
@@ -571,7 +571,7 @@ void MainWindow::createTreeMenu()
         pTopItem->appendRow( pConfigItem );
 
         ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
-        pUserItem->setIcon(QIcon(":/images/user.jpg"));
+        pUserItem->setIcon(QIcon(":/images/user.png"));
         pUserItem->setType( CM_ITEM_TYPE_USER );
         pTopItem->appendRow( pUserItem );
 
@@ -3713,7 +3713,7 @@ void MainWindow::createRightUserList()
         JS_UTIL_getDateTime( user.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( user.getName() );
-        item->setIcon(QIcon(":/images/user.jpg"));
+        item->setIcon(QIcon(":/images/user.png"));
 
         right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( user.getNum() )));
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));

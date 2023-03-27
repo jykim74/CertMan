@@ -15,12 +15,10 @@
         <file>i18n/certman_ko_KR.ts</file>
         <file>images/certman.icns</file>
         <file>images/cert.png</file>
-        <file>images/csr.jpg</file>
         <file>images/crl_profile.png</file>
         <file>images/man.png</file>
         <file>images/im_cert.png</file>
         <file>images/im_crl.png</file>
-        <file>images/user.jpg</file>
         <file>images/ocsp_signer.png</file>
         <file>images/reg_signer.png</file>
         <file>images/done.png</file>
@@ -50,7 +48,6 @@
         <file>images/server_status.png</file>
         <file>images/pub_ldap.png</file>
         <file>images/get_ldap.png</file>
-        <file>images/timestamp.jpg</file>
         <file>images/key_reg.png</file>
         <file>images/key.png</file>
         <file>certman.sql</file>
@@ -59,5 +56,6 @@
         <file>images/config.png</file>
         <file>images/critical.png</file>
         <file>images/normal.png</file>
+        <file>images/user.png</file>
     </qresource>
 </RCC>

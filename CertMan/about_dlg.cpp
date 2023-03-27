@@ -52,6 +52,12 @@ AboutDlg::AboutDlg(QWidget *parent) :
     strAbout += "\r\n";
     strAbout += tr("mail: jykim74@gmail.com" );
 
+#ifdef _AUTO_UPDATE
+    mCheckUpdateBtn->show();
+#else
+    mCheckUpdateBtn->hide();
+#endif
+
     mAboutText->setText( strAbout );
     mCloseBtn->setFocus();
 }
