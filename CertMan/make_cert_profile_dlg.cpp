@@ -1080,6 +1080,7 @@ void MakeCertProfileDlg::clickPolicySetAnyOID()
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
 {
+    int nAIACnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1104,17 +1105,23 @@ void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
         strType = mAIATable->takeItem( i, 1)->text();
         strData = mAIATable->takeItem( i, 2 )->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strMethod;
         strVal += "$";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nAIACnt++;
     }
 
-
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension(profileExt);
+    if( nAIACnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension(profileExt);
+    }
 }
 
 void MakeCertProfileDlg::saveAKIUse(int nProfileNum )
@@ -1174,6 +1181,8 @@ void MakeCertProfileDlg::saveBCUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveCRLDPUse(int nProfileNum )
 {
+    int nCRLDPCnt = 0;
+
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1196,14 +1205,21 @@ void MakeCertProfileDlg::saveCRLDPUse(int nProfileNum )
         strType = mCRLDPTable->takeItem( i, 0 )->text();
         strData = mCRLDPTable->takeItem( i, 1 )->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nCRLDPCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nCRLDPCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
@@ -1234,6 +1250,7 @@ void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveIANUse(int nProfileNum )
 {
+    int nIANCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1256,14 +1273,21 @@ void MakeCertProfileDlg::saveIANUse(int nProfileNum )
         strType = mIANTable->takeItem( i, 0)->text();
         strData = mIANTable->takeItem( i, 1)->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nIANCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nIANCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
@@ -1294,6 +1318,7 @@ void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveNCUse(int nProfileNum )
 {
+    int nNCCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1322,6 +1347,8 @@ void MakeCertProfileDlg::saveNCUse(int nProfileNum )
         strMin = mNCTable->takeItem(i,3)->text();
         strMax = mNCTable->takeItem(i,4)->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
@@ -1332,14 +1359,20 @@ void MakeCertProfileDlg::saveNCUse(int nProfileNum )
         strVal += strMin;
         strVal += "$";
         strVal += strMax;
+
+        nNCCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nNCCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
 {
+    int nPolicyCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1371,10 +1404,14 @@ void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
         strVal += "#UserNotice$";
         strVal += strUserNotice;
         strVal += "#";
+        nPolicyCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nPolicyCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::savePCUse(int nProfileNum )
@@ -1413,6 +1450,7 @@ void MakeCertProfileDlg::savePCUse(int nProfileNum )
 
 void MakeCertProfileDlg::savePMUse(int nProfileNum )
 {
+    int nPMCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1435,14 +1473,22 @@ void MakeCertProfileDlg::savePMUse(int nProfileNum )
         strIDP = mPMTable->takeItem(i, 1)->text();
         strSDP = mPMTable->takeItem(i, 3)->text();
 
+        if( strIDP.length() < 1 && strSDP.length() < 1 )
+            continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strIDP;
         strVal += "$";
         strVal += strSDP;
+
+        nPMCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nPMCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveSKIUse(int nProfileNum )
@@ -1464,6 +1510,7 @@ void MakeCertProfileDlg::saveSKIUse(int nProfileNum )
 
 void MakeCertProfileDlg::saveSANUse(int nProfileNum)
 {
+    int nSANCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -1485,14 +1532,21 @@ void MakeCertProfileDlg::saveSANUse(int nProfileNum)
         strType = mSANTable->takeItem( i, 0 )->text();
         strData = mSANTable->takeItem( i, 1 )->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nSANCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( nSANCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveExtensionsUse( int nProfileNum )

@@ -528,6 +528,7 @@ void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
 
 void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
 {
+    int nIDPCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -550,18 +551,26 @@ void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
         strType = mIDPTable->takeItem(i,0)->text();
         strData = mIDPTable->takeItem(i,1)->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nIDPCnt++;
     }
 
-    profileExt.setValue(strVal);
-    dbMgr->addCRLProfileExtension(profileExt);
+    if( nIDPCnt > 0 )
+    {
+        profileExt.setValue(strVal);
+        dbMgr->addCRLProfileExtension(profileExt);
+    }
 }
 
 void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
 {
+    int nIANCnt = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
@@ -584,14 +593,21 @@ void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
         strType = mIANTable->takeItem(i,0)->text();
         strData = mIANTable->takeItem(i,1)->text();
 
+        if( strData.length() < 1 ) continue;
+
         if( i != 0 ) strVal += "#";
         strVal += strType;
         strVal += "$";
         strVal += strData;
+
+        nIANCnt++;
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCRLProfileExtension(profileExt);
+    if( nIANCnt > 0 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCRLProfileExtension(profileExt);
+    }
 }
 
 void MakeCRLProfileDlg::saveExtensionsUse( int nProfileNum )
