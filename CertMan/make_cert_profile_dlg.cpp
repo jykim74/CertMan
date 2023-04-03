@@ -1358,12 +1358,18 @@ void MakeCertProfileDlg::savePolicyUse(int nProfileNum )
     {
         if( i != 0 ) strVal += "%%";
 
+        QString strOID = mPolicyTable->takeItem(i,0)->text();
+        QString strCPS = mPolicyTable->takeItem(i,1)->text();
+        QString strUserNotice = mPolicyTable->takeItem(i,2)->text();
+
+        if( strOID.length() < 1 ) continue;
+
         strVal += "OID$";
-        strVal += mPolicyTable->takeItem(i,0)->text();
+        strVal += strOID;
         strVal += "#CPS$";
-        strVal += mPolicyTable->takeItem(i,1)->text();
+        strVal += strCPS;
         strVal += "#UserNotice$";
-        strVal += mPolicyTable->takeItem(i,2)->text();
+        strVal += strUserNotice;
         strVal += "#";
     }
 
