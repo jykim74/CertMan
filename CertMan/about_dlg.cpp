@@ -15,11 +15,11 @@ AboutDlg::AboutDlg(QWidget *parent) :
 
     if( manApplet->isPRO() )
     {
-        version_label_ = tr( "About %1 (%2)").arg( "CertMan PRO").arg(STRINGIZE(CAMAN_VERSION));
+        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan PRO").arg(STRINGIZE(CAMAN_VERSION));
     }
     else
     {
-        version_label_ = tr( "About %1 (%2)").arg( "CertMan").arg(STRINGIZE(CAMAN_VERSION));
+        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan").arg(STRINGIZE(CAMAN_VERSION));
     }
 
 
@@ -33,6 +33,8 @@ AboutDlg::AboutDlg(QWidget *parent) :
     }
 #endif
 
+    mAboutText->setOpenExternalLinks(true);
+
     QString strAbout = tr("This is freeware tool to make certificate, CRL and CSR "
             "If you do not use this for commercial purposes, "
             "you can use it freely "
@@ -40,17 +42,17 @@ AboutDlg::AboutDlg(QWidget *parent) :
 
     QString strLibVersion = JS_GEN_getBuildInfo();
 
-    strAbout += "\r\n\r\nLibrary: ";
+    strAbout += "<br><br>Library: ";
     strAbout += strLibVersion;
 
-    strAbout += "\r\n";
+    strAbout += "<br>";
     strAbout += getBuild();
-    strAbout += "\r\n\r\n";
-    strAbout += "Copyright (C) 2019 ~ 2020 JongYeob Kim";
-    strAbout += "\r\n\r\n";
-    strAbout += "http://jykim74.tistory.com";
-    strAbout += "\r\n";
-    strAbout += tr("mail: jykim74@gmail.com" );
+    strAbout += "<br><br>";
+    strAbout += "Copyright (C) 2022 ~ 2023 JongYeob Kim";
+    strAbout += "<br><br>blog: ";
+    strAbout += "<a href=https://jykim74.tistory.com>https://jykim74.tistory.com</a>";
+    strAbout += "<br>mail: ";
+    strAbout += "<a href=mailto:jykim74@gmail.com>jykim74@gmail.com</a>";
 
 #ifdef _AUTO_UPDATE
     mCheckUpdateBtn->show();
@@ -58,7 +60,8 @@ AboutDlg::AboutDlg(QWidget *parent) :
     mCheckUpdateBtn->hide();
 #endif
 
-    mAboutText->setText( strAbout );
+//    mAboutText->setText( strAbout );
+    mAboutText->setHtml( strAbout );
     mCloseBtn->setFocus();
 }
 
