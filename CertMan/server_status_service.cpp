@@ -32,7 +32,7 @@ void ServerStatusService::loadServerList(SettingsMgr *mgr)
 {
     if( mgr == NULL )
     {
-        fprintf( stderr, "settings mgr is null\n" );
+        manApplet->elog(QString("settings mgr is null"));
     }
 
     if( mgr->KMIPUse() )

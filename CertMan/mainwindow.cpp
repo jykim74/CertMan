@@ -2284,7 +2284,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Get [%d:%d]\n", nRet, nStatus );
+        elog( QString( "fail to request Get [%1:%2]" ).arg(nRet).arg(nStatus));
         manApplet->warningBox( "fail to request Get", this );
         goto end;
     }
@@ -2303,7 +2303,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 )
     {
-        fprintf( stderr, "fail to make PKIReq : %d\n", nRet );
+        elog( QString("fail to make PKIReq : %1").arg( nRet ));
         manApplet->warningBox( "fail to make PKIReq", this );
         goto end;
     }
@@ -2321,7 +2321,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Post [%d:%d]\n", nRet, nStatus );
+        elog(QString( "fail to request Post [%1:%2]" ).arg( nRet ).arg( nStatus ));
         manApplet->warningBox( "fail to request Post", this );
         goto end;
     }
@@ -2336,7 +2336,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 )
     {
-        fprintf( stderr, "fail to parse CertRsp : %d\n", nRet );
+        elog(QString("fail to parse CertRsp : %1").arg( nRet ));
         manApplet->warningBox( "fail to parse CertRsp", this );
         goto end;
     }
@@ -2346,7 +2346,7 @@ void MainWindow::issueSCEP()
     nRet = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNewCert );
     if( nRet != 0 )
     {
-        fprintf( stderr, "fail to get sign certificate in reply: %d\n", nRet );
+        elog(QString("fail to get sign certificate in reply: %1").arg( nRet ));
         manApplet->warningBox( "fail to get sign certificate in reply", this );
         goto end;
     }
@@ -2484,7 +2484,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Get [%d:%d]\n", ret, nStatus );
+        elog(QString("fail to request Get [%1:%2]").arg(ret).arg(nStatus));
         manApplet->warningBox( "fail to request Get", this );
         goto end;
     }
@@ -2501,7 +2501,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to make PKIReq : %d\n", ret );
+        elog(QString("fail to make PKIReq : %1").arg( ret ));
         manApplet->warningBox( "fail to make PKIReq", this );
         goto end;
     }
@@ -2519,7 +2519,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Post [%d:%d]\n", ret, nStatus );
+        elog(QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus));
         manApplet->warningBox( "fail to request Post", this );
         goto end;
     }
@@ -2534,7 +2534,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to parse CertRsp : %d\n", ret );
+        elog(QString("fail to parse CertRsp : %1").arg(ret));
         manApplet->warningBox( "fail to parse CertRsp", this );
         goto end;
     }
@@ -2542,7 +2542,7 @@ void MainWindow::renewSCEP()
     ret = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNCert );
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to get sign certificate in reply: %d\n", ret );
+        elog(QString("fail to get sign certificate in reply: %1").arg(ret));
         manApplet->warningBox( "fail to get sign certificate in reply", this );
         goto end;
     }
@@ -2646,7 +2646,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Get [%d:%d]\n", ret, nStatus );
+        elog(QString("fail to request Get [%1:%2]").arg(ret).arg( nStatus ));
         manApplet->warningBox( "fail to request Get", this );
         goto end;
     }
@@ -2656,7 +2656,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to make getCRL : %d\n", ret );
+        elog(QString("fail to make getCRL : %1").arg(ret));
         manApplet->warningBox( "fail to make PKIReq", this );
         goto end;
     }
@@ -2674,7 +2674,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        fprintf( stderr, "fail to request Post [%d:%d]\n", ret, nStatus );
+        elog(QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus));
         manApplet->warningBox( "fail to request Post", this );
         goto end;
     }
@@ -2689,7 +2689,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to parse CertRsp : %d\n", ret );
+        elog(QString("fail to parse CertRsp : %1").arg(ret));
         manApplet->warningBox( "fail to parse CertRsp", this );
         goto end;
     }
@@ -2697,7 +2697,7 @@ void MainWindow::getCRLSCEP()
     ret = JS_SCEP_getCRL( &binSignedData, &binCRL );
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to get crl in reply: %d\n", ret );
+        elog(QString("fail to get crl in reply: %1").arg(ret));
         manApplet->warningBox( "fail to get crl in reply", this );
         goto end;
     }
