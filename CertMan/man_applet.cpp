@@ -90,6 +90,19 @@ void ManApplet::start()
     main_win_ = new MainWindow;
     main_win_->show();
     tray_icon_->show();
+
+    if( settingsMgr()->showLogTab() )
+        main_win_->logView(true);
+
+    QString strVersion = STRINGIZE(CERTMAN_VERSION);
+    log( "======================================================");
+
+    if( manApplet->isPRO() )
+        log( QString( "== Start CertMan PRO Version: %1" ).arg( strVersion ));
+    else
+        log( QString( "== Start CertMan Version: %1" ).arg( strVersion ));
+
+    log( "======================================================");
 }
 
 void ManApplet::log( const QString strLog, QColor cr )
@@ -97,7 +110,15 @@ void ManApplet::log( const QString strLog, QColor cr )
     main_win_->log( strLog, cr );
 }
 
+void ManApplet::elog( const QString strLog )
+{
+    main_win_->elog( strLog );
+}
 
+void ManApplet::info( const QString strLog, QColor cr )
+{
+    main_win_->info( strLog, cr );
+}
 
 void ManApplet::restartApp()
 {

@@ -51,9 +51,14 @@ public:
 
     void initialize();
     void showWindow();
+
+    void logView( bool bShow = true );
+
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
-    void logClear();
-    void logCursorTop();
+    void elog( const QString strLog );
+    void info( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
+    void infoClear();
+    void infoCursorTop();
 
     void createActions();
     void createStatusBar();
@@ -79,21 +84,21 @@ public:
 
     void removeAllRight();
 
-    void logKeyPair( int seq );
-    void logRequest( int seq );
-    void logCertificate( int seq );
-    void logCertProfile( int seq );
-    void logCRL( int seq );
-    void logCRLProfile( int seq );
-    void logRevoke( int seq );
-    void logUser( int seq );
-    void logAdmin( int seq );
-    void logConfig( int seq );
-    void logKMS( int seq );
-    void logAudit( int seq );
-    void logTSP( int seq );
-    void logSigner( int seq );
-    void logStatistics();
+    void infoKeyPair( int seq );
+    void infoRequest( int seq );
+    void infoCertificate( int seq );
+    void infoCertProfile( int seq );
+    void infoCRL( int seq );
+    void infoCRLProfile( int seq );
+    void infoRevoke( int seq );
+    void infoUser( int seq );
+    void infoAdmin( int seq );
+    void infoConfig( int seq );
+    void infoKMS( int seq );
+    void infoAudit( int seq );
+    void infoTSP( int seq );
+    void infoSigner( int seq );
+    void infoStatistics();
 
     int rightType() { return right_type_; };
     int rightCount();
@@ -192,6 +197,8 @@ public slots:
     void getCRLSCEP();
 #endif
 
+    void clearLog();
+
 private slots:
     void showRightMenu( QPoint point );
 
@@ -214,7 +221,9 @@ private:
     ManTreeView     *left_tree_;
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
+    QTabWidget      *text_tab_;
     QTextEdit       *log_text_;
+    QTextEdit       *info_text_;
     SearchMenu      *search_menu_;
 
     int             right_type_;

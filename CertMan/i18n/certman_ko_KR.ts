@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>About %1 (%2)</source>
-        <translation>%1(%2) 에 대해서</translation>
+        <translation type="vanished">%1(%2) 에 대해서</translation>
     </message>
     <message>
         <source>This is freeware tool to make certificate, CRL and CSR If you do not use this for commercial purposes, you can use it freely If you have any opinions on this tool, please send me a mail</source>
@@ -29,7 +29,7 @@
     </message>
     <message>
         <source>mail: jykim74@gmail.com</source>
-        <translation>메일: jykim74@gmail.com</translation>
+        <translation type="vanished">메일: jykim74@gmail.com</translation>
     </message>
     <message>
         <source>Close</source>
@@ -38,6 +38,10 @@
     <message>
         <source>About CertMan</source>
         <translation>CertMan에 대해</translation>
+    </message>
+    <message>
+        <source>About %1 [Ver %2]</source>
+        <translation>%1 에 대해 [Ver %2]</translation>
     </message>
 </context>
 <context>
@@ -487,7 +491,7 @@
     </message>
     <message>
         <source>Target Path</source>
-        <translation>대상 경로</translation>
+        <translation type="vanished">대상 경로</translation>
     </message>
     <message>
         <source>Source Informtion</source>
@@ -548,6 +552,14 @@
     <message>
         <source>fail to encrypt private key</source>
         <translation>개인키 암호화 실패</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>Save Path</source>
+        <translation>저장 경로</translation>
     </message>
 </context>
 <context>
@@ -613,11 +625,11 @@
     </message>
     <message>
         <source>Source Information</source>
-        <translation>소스 정보</translation>
+        <translation type="vanished">소스 정보</translation>
     </message>
     <message>
         <source>Path</source>
-        <translation>경로</translation>
+        <translation type="vanished">경로</translation>
     </message>
     <message>
         <source>Find</source>
@@ -650,6 +662,14 @@
     <message>
         <source>KMS can not import CRL</source>
         <translation>KMS는 CRL을 주입 할 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>Import Source Information</source>
+        <translation>소스 정보 가져오기</translation>
+    </message>
+    <message>
+        <source>Source Path</source>
+        <translation>소스 경로</translation>
     </message>
 </context>
 <context>
@@ -1573,6 +1593,22 @@
     <message>
         <source>CA</source>
         <translation>인증 기관</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>정보</translation>
+    </message>
+    <message>
+        <source>&amp;Clear Log</source>
+        <translation>로그 지우기(&amp;C)</translation>
+    </message>
+    <message>
+        <source>clear information and log</source>
+        <translation>정보 및 로그 지우기</translation>
+    </message>
+    <message>
+        <source>log</source>
+        <translation>로그</translation>
     </message>
 </context>
 <context>
@@ -3169,6 +3205,10 @@
     <message>
         <source>Private Key File</source>
         <translation type="vanished">개인키 파일</translation>
+    </message>
+    <message>
+        <source>Show log view tab at startup</source>
+        <translation>시작 시 로그탭 보이기</translation>
     </message>
 </context>
 <context>

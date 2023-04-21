@@ -88,7 +88,7 @@ MainWindow::~MainWindow()
     delete vsplitter_;
     delete left_tree_;
     delete left_model_;
-    delete log_text_;
+    delete info_text_;
     delete right_table_;
     delete search_menu_;
 }
@@ -138,7 +138,7 @@ void MainWindow::initialize()
     hsplitter_ = new QSplitter(Qt::Horizontal);
     vsplitter_ = new QSplitter(Qt::Vertical);
     left_tree_ = new ManTreeView(this);
-    log_text_ = new QTextEdit();
+
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
     search_menu_ = new SearchMenu;
@@ -146,8 +146,13 @@ void MainWindow::initialize()
 
     left_tree_->setModel(left_model_);
 
-    log_text_->setFont( QFont("굴림체") );
+    log_text_ = new QTextEdit();
     log_text_->setReadOnly(true);
+    log_text_->setFont( QFont("굴림체") );
+
+    info_text_ = new QTextEdit();
+    info_text_->setFont( QFont("굴림체") );
+    info_text_->setReadOnly(true);
 
     right_table_->setSelectionBehavior(QAbstractItemView::SelectRows); // 한라인 전체 선택
     right_table_->setEditTriggers(QAbstractItemView::NoEditTriggers);  // Edit 불가
@@ -170,7 +175,11 @@ void MainWindow::initialize()
 
     vsplitter_->addWidget(right_table_);
     vsplitter_->addWidget(search_menu_);
-    vsplitter_->addWidget(log_text_);
+
+    text_tab_ = new QTabWidget;
+    vsplitter_->addWidget(text_tab_);
+    text_tab_->setTabPosition( QTabWidget::South );
+    text_tab_->addTab( info_text_, tr( "Information" ));
 
     QList <int> vsizes;
 #ifdef Q_OS_MAC
@@ -380,6 +389,13 @@ void MainWindow::createActions()
     helpMenu->addAction( settingsAct );
     helpToolBar->addAction( settingsAct );
 
+    const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
+    QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
+    connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
+    clearAct->setStatusTip(tr("clear information and log"));
+    helpMenu->addAction( clearAct );
+    helpToolBar->addAction( clearAct );
+
     const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
     QAction *aboutAct = new QAction( certManIcon, tr("&About CertMan"), this);
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
@@ -401,7 +417,7 @@ void MainWindow::createTableMenu()
 
 void MainWindow::removeAllRight()
 {
-    log_text_->setText("");
+    info_text_->setText("");
 
     int rowCnt = right_table_->rowCount();
 
@@ -1637,9 +1653,46 @@ void MainWindow::showWindow()
     activateWindow();
 }
 
+void MainWindow::logView( bool bShow )
+{
+    if( bShow == true )
+    {
+        if( text_tab_->count() <= 1 )
+            text_tab_->addTab( log_text_, tr("log") );
+    }
+    else
+    {
+        if( text_tab_->count() == 2 )
+            text_tab_->removeTab(1);
+    }
+}
+
 void MainWindow::log( const QString strLog, QColor cr )
 {
+    if( text_tab_->count() <= 1 ) return;
+
     QTextCursor cursor = log_text_->textCursor();
+//    cursor.movePosition( QTextCursor::End );
+
+    QTextCharFormat format;
+    format.setForeground( cr );
+    cursor.mergeCharFormat(format);
+
+    cursor.insertText( strLog );
+    cursor.insertText( "\n" );
+
+    log_text_->setTextCursor( cursor );
+    log_text_->repaint();
+}
+
+void MainWindow::elog( const QString strLog )
+{
+    log( strLog, QColor(0xFF,0x00,0x00));
+}
+
+void MainWindow::info( const QString strLog, QColor cr )
+{
+    QTextCursor cursor = info_text_->textCursor();
 
     QTextCharFormat format;
     format.setForeground( cr );
@@ -1647,18 +1700,18 @@ void MainWindow::log( const QString strLog, QColor cr )
 
     cursor.insertText( strLog );
 
-    log_text_->setTextCursor( cursor );
-    log_text_->repaint();
+    info_text_->setTextCursor( cursor );
+    info_text_->repaint();
 }
 
-void MainWindow::logClear()
+void MainWindow::infoClear()
 {
-    log_text_->clear();
+    info_text_->clear();
 }
 
-void MainWindow::logCursorTop()
+void MainWindow::infoCursorTop()
 {
-    log_text_->moveCursor(QTextCursor::Start);
+    info_text_->moveCursor(QTextCursor::Start);
 }
 
 void MainWindow::treeMenuClick(QModelIndex index )
@@ -1708,63 +1761,63 @@ void MainWindow::tableClick(QModelIndex index )
 
     if( right_type_ == RightType::TYPE_KEYPAIR )
     {
-        logKeyPair( nSeq );
+        infoKeyPair( nSeq );
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
-        logRequest( nSeq );
+        infoRequest( nSeq );
     }
     else if( right_type_ == RightType::TYPE_CERTIFICATE )
     {
-        logCertificate( nSeq );
+        infoCertificate( nSeq );
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
-        logCRL( nSeq );
+        infoCRL( nSeq );
     }
     else if( right_type_ == RightType::TYPE_REVOKE )
     {
-        logRevoke( nSeq );
+        infoRevoke( nSeq );
     }
     else if( right_type_ == RightType::TYPE_CERT_PROFILE )
     {
-        logCertProfile( nSeq );
+        infoCertProfile( nSeq );
     }
     else if( right_type_ == RightType::TYPE_CRL_PROFILE )
     {
-        logCRLProfile( nSeq );
+        infoCRLProfile( nSeq );
     }
     else if( right_type_ == RightType::TYPE_USER )
     {
-        logUser( nSeq );
+        infoUser( nSeq );
     }
     else if( right_type_ == RightType::TYPE_ADMIN )
     {
-        logAdmin( nSeq );
+        infoAdmin( nSeq );
     }
     else if( right_type_ == RightType::TYPE_CONFIG )
     {
-        logConfig( nSeq );
+        infoConfig( nSeq );
     }
     else if( right_type_ == RightType::TYPE_SIGNER )
     {
-        logSigner( nSeq );
+        infoSigner( nSeq );
     }
     else if( right_type_ == RightType::TYPE_KMS )
     {
-        logKMS( nSeq );
+        infoKMS( nSeq );
     }
     else if( right_type_ == RightType::TYPE_STATISTICS )
     {
-        logStatistics();
+        infoStatistics();
     }
     else if( right_type_ == RightType::TYPE_AUDIT )
     {
-        logAudit( nSeq );
+        infoAudit( nSeq );
     }
     else if( right_type_ == RightType::TYPE_TSP )
     {
-        logTSP( nSeq );
+        infoTSP( nSeq );
     }
 }
 
@@ -2671,6 +2724,11 @@ end :
 }
 
 #endif
+
+void MainWindow::clearLog()
+{
+    log_text_->clear();
+}
 
 void MainWindow::expandMenu()
 {
@@ -4080,29 +4138,29 @@ void MainWindow::createRightStatistics()
     stack_->setCurrentIndex(1);
 }
 
-void MainWindow::logKeyPair(int seq)
+void MainWindow::infoKeyPair(int seq)
 {
     if( manApplet->dbMgr() == NULL ) return;
     KeyPairRec keyPair;
 
     manApplet->dbMgr()->getKeyPairRec( seq, keyPair );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== KeyPair Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num        : %1\n").arg( keyPair.getNum() ));
-    manApplet->log( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
-    manApplet->log( QString("Name       : %1\n").arg(keyPair.getName()));
-    manApplet->log( QString("PublicKey  : %1\n").arg(keyPair.getPublicKey()));
-    manApplet->log( QString("PrivateKey : %1\n").arg(keyPair.getPrivateKey()));
-    manApplet->log( QString("Param      : %1\n").arg(keyPair.getParam()));
-    manApplet->log( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== KeyPair Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num        : %1\n").arg( keyPair.getNum() ));
+    manApplet->info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
+    manApplet->info( QString("Name       : %1\n").arg(keyPair.getName()));
+    manApplet->info( QString("PublicKey  : %1\n").arg(keyPair.getPublicKey()));
+    manApplet->info( QString("PrivateKey : %1\n").arg(keyPair.getPrivateKey()));
+    manApplet->info( QString("Param      : %1\n").arg(keyPair.getParam()));
+    manApplet->info( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logRequest( int seq )
+void MainWindow::infoRequest( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4111,22 +4169,22 @@ void MainWindow::logRequest( int seq )
 
     QString strKeyName = manApplet->dbMgr()->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Request Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("SEQ      : %1\n").arg(reqRec.getSeq()));
-    manApplet->log( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
-    manApplet->log( QString("Name     : %1\n").arg(reqRec.getName()));
-    manApplet->log( QString("DN       : %1\n").arg(reqRec.getDN()));
-    manApplet->log( QString("Request  : %1\n").arg(reqRec.getCSR()));
-    manApplet->log( QString("Hash     : %1\n").arg(reqRec.getHash()));
-    manApplet->log( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Request Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("SEQ      : %1\n").arg(reqRec.getSeq()));
+    manApplet->info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
+    manApplet->info( QString("Name     : %1\n").arg(reqRec.getName()));
+    manApplet->info( QString("DN       : %1\n").arg(reqRec.getDN()));
+    manApplet->info( QString("Request  : %1\n").arg(reqRec.getCSR()));
+    manApplet->info( QString("Hash     : %1\n").arg(reqRec.getHash()));
+    manApplet->info( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logCertificate( int seq )
+void MainWindow::infoCertificate( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4150,31 +4208,31 @@ void MainWindow::logCertificate( int seq )
     else
         strUserName = "Unknown";
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Certificate Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num           : %1\n").arg(certRec.getNum()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Certificate Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num           : %1\n").arg(certRec.getNum()));
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
-    manApplet->log( QString("RegDate       : %1\n").arg(sRegDate));
-    manApplet->log( QString("KeyNum        : %1 - %2\n").arg(certRec.getKeyNum()).arg( strKeyName ));
-    manApplet->log( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
-    manApplet->log( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    manApplet->log( QString("Certificate   : %1\n").arg(certRec.getCert()));
-    manApplet->log( QString("IsCA          : %1\n").arg(certRec.isCA()));
-    manApplet->log( QString("IsSelf        : %1\n").arg(certRec.isSelf()));
-    manApplet->log( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
-    manApplet->log( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIssuerName ));
-    manApplet->log( QString("Status        : %1 - %2\n").arg(certRec.getStatus()).arg( getCertStatusName( certRec.getStatus() )));
-    manApplet->log( QString("Serial        : %1\n").arg(certRec.getSerial()));
-    manApplet->log( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
-    manApplet->log( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
-    manApplet->log( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
+    manApplet->info( QString("RegDate       : %1\n").arg(sRegDate));
+    manApplet->info( QString("KeyNum        : %1 - %2\n").arg(certRec.getKeyNum()).arg( strKeyName ));
+    manApplet->info( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
+    manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
+    manApplet->info( QString("Certificate   : %1\n").arg(certRec.getCert()));
+    manApplet->info( QString("IsCA          : %1\n").arg(certRec.isCA()));
+    manApplet->info( QString("IsSelf        : %1\n").arg(certRec.isSelf()));
+    manApplet->info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
+    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIssuerName ));
+    manApplet->info( QString("Status        : %1 - %2\n").arg(certRec.getStatus()).arg( getCertStatusName( certRec.getStatus() )));
+    manApplet->info( QString("Serial        : %1\n").arg(certRec.getSerial()));
+    manApplet->info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
+    manApplet->info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
+    manApplet->info( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logCertProfile( int seq )
+void MainWindow::infoCertProfile( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4205,18 +4263,18 @@ void MainWindow::logCertProfile( int seq )
     else
         strDNTemplate = certProfile.getDNTemplate();
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Certificate Profile Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num         : %1\n").arg(certProfile.getNum()));
-    manApplet->log( QString("Name        : %1\n").arg(certProfile.getName()));
-    manApplet->log( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
-    manApplet->log( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
-    manApplet->log( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
-    manApplet->log( QString("Hash        : %1\n").arg(certProfile.getHash()));
-    manApplet->log( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
-    manApplet->log( "======================= Extension Information ==========================\n" );
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Certificate Profile Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num         : %1\n").arg(certProfile.getNum()));
+    manApplet->info( QString("Name        : %1\n").arg(certProfile.getName()));
+    manApplet->info( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
+    manApplet->info( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
+    manApplet->info( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
+    manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
+    manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
+    manApplet->info( "======================= Extension Information ==========================\n" );
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
 
@@ -4224,17 +4282,17 @@ void MainWindow::logCertProfile( int seq )
     {
         ProfileExtRec extRec = extList.at(i);
 
-        manApplet->log( QString( "%1 || %2 || %3 || %4\n")
+        manApplet->info( QString( "%1 || %2 || %3 || %4\n")
                 .arg(extRec.getSeq())
                 .arg(extRec.isCritical())
                 .arg(extRec.getSN())
                 .arg(extRec.getValue()) );
     }
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logCRL( int seq )
+void MainWindow::infoCRL( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4244,22 +4302,22 @@ void MainWindow::logCRL( int seq )
     manApplet->dbMgr()->getCRLRec( seq, crlRec );
     QString strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== CRL Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num           : %1\n").arg(crlRec.getNum()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== CRL Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num           : %1\n").arg(crlRec.getNum()));
     JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
-    manApplet->log( QString("RegTime       : %1\n").arg(sRegTime));
-    manApplet->log( QString("IssuerNum     : %1 - %2\n").arg(crlRec.getIssuerNum()).arg( strIssuerName ));
-    manApplet->log( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
-    manApplet->log( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
-    manApplet->log( QString("CRL           : %1\n").arg(crlRec.getCRL()));
+    manApplet->info( QString("RegTime       : %1\n").arg(sRegTime));
+    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(crlRec.getIssuerNum()).arg( strIssuerName ));
+    manApplet->info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
+    manApplet->info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
+    manApplet->info( QString("CRL           : %1\n").arg(crlRec.getCRL()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logCRLProfile( int seq )
+void MainWindow::infoCRLProfile( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4284,17 +4342,17 @@ void MainWindow::logCRLProfile( int seq )
         strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
     }
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== CRL Profile Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num          : %1\n").arg(crlProfile.getNum()));
-    manApplet->log( QString("Name         : %1\n").arg(crlProfile.getName()));
-    manApplet->log( QString("Version      : %1 - %2\n").arg(crlProfile.getVersion()).arg(strVersion));
-    manApplet->log( QString("LastUpdate   : %1 - %2\n").arg(crlProfile.getLastUpdate()).arg(strLastUpdate));
-    manApplet->log( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
-    manApplet->log( QString("Hash         : %1\n").arg(crlProfile.getHash()));
-    manApplet->log( "======================= Extension Information ==========================\n" );
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== CRL Profile Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num          : %1\n").arg(crlProfile.getNum()));
+    manApplet->info( QString("Name         : %1\n").arg(crlProfile.getName()));
+    manApplet->info( QString("Version      : %1 - %2\n").arg(crlProfile.getVersion()).arg(strVersion));
+    manApplet->info( QString("LastUpdate   : %1 - %2\n").arg(crlProfile.getLastUpdate()).arg(strLastUpdate));
+    manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
+    manApplet->info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
+    manApplet->info( "======================= Extension Information ==========================\n" );
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
@@ -4303,17 +4361,17 @@ void MainWindow::logCRLProfile( int seq )
     {
         ProfileExtRec extRec = extList.at(i);
 
-        manApplet->log( QString( "%1 || %2 || %3 || %4\n")
+        manApplet->info( QString( "%1 || %2 || %3 || %4\n")
                 .arg(extRec.getSeq())
                 .arg(extRec.isCritical())
                 .arg(extRec.getSN())
                 .arg(extRec.getValue()));
     }
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logRevoke( int seq )
+void MainWindow::infoRevoke( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4324,85 +4382,85 @@ void MainWindow::logRevoke( int seq )
     QString strIsserName = manApplet->dbMgr()->getNumName( revokeRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
     QString strReason = JS_PKI_getRevokeReasonName( revokeRec.getReason() );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Revoke Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
-    manApplet->log( QString("CertNum      : %1 - %2\n").arg( revokeRec.getCertNum()).arg(strCertName));
-    manApplet->log( QString("IssuerNum    : %1 - %2\n").arg( revokeRec.getIssuerNum()).arg(strIsserName));
-    manApplet->log( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
-    manApplet->log( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
-    manApplet->log( QString("Reason       : %1 - %2\n").arg( revokeRec.getReason()).arg(strReason));
-    manApplet->log( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Revoke Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
+    manApplet->info( QString("CertNum      : %1 - %2\n").arg( revokeRec.getCertNum()).arg(strCertName));
+    manApplet->info( QString("IssuerNum    : %1 - %2\n").arg( revokeRec.getIssuerNum()).arg(strIsserName));
+    manApplet->info( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
+    manApplet->info( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
+    manApplet->info( QString("Reason       : %1 - %2\n").arg( revokeRec.getReason()).arg(strReason));
+    manApplet->info( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logUser( int seq )
+void MainWindow::infoUser( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
     UserRec userRec;
     manApplet->dbMgr()->getUserRec( seq, userRec );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== User Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num           : %1\n").arg(userRec.getNum()));
-    manApplet->log( QString("RegTime       : %1\n").arg(getDateTime(userRec.getRegTime())));
-    manApplet->log( QString("Name          : %1\n").arg(userRec.getName()));
-    manApplet->log( QString("SSN           : %1\n").arg(userRec.getSSN()));
-    manApplet->log( QString("Email         : %1\n").arg(userRec.getEmail()));
-    manApplet->log( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
-    manApplet->log( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
-    manApplet->log( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== User Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num           : %1\n").arg(userRec.getNum()));
+    manApplet->info( QString("RegTime       : %1\n").arg(getDateTime(userRec.getRegTime())));
+    manApplet->info( QString("Name          : %1\n").arg(userRec.getName()));
+    manApplet->info( QString("SSN           : %1\n").arg(userRec.getSSN()));
+    manApplet->info( QString("Email         : %1\n").arg(userRec.getEmail()));
+    manApplet->info( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
+    manApplet->info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
+    manApplet->info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logAdmin( int seq )
+void MainWindow::infoAdmin( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
     AdminRec adminRec;
     manApplet->dbMgr()->getAdminRec( seq, adminRec );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Admin Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Seq          : %1\n").arg(adminRec.getSeq()));
-    manApplet->log( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
-    manApplet->log( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
-    manApplet->log( QString("Name         : %1\n").arg(adminRec.getName()));
-    manApplet->log( QString("Password     : %1\n").arg(adminRec.getPassword()));
-    manApplet->log( QString("Email        : %1\n").arg(adminRec.getEmail()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Admin Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Seq          : %1\n").arg(adminRec.getSeq()));
+    manApplet->info( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
+    manApplet->info( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
+    manApplet->info( QString("Name         : %1\n").arg(adminRec.getName()));
+    manApplet->info( QString("Password     : %1\n").arg(adminRec.getPassword()));
+    manApplet->info( QString("Email        : %1\n").arg(adminRec.getEmail()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logConfig( int seq )
+void MainWindow::infoConfig( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
     ConfigRec configRec;
     manApplet->dbMgr()->getConfigRec( seq, configRec );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Config Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num          : %1\n").arg(configRec.getNum()));
-    manApplet->log( QString("Kind         : %1\n").arg(configRec.getKind()));
-    manApplet->log( QString("Name         : %1\n").arg(configRec.getName()));
-    manApplet->log( QString("Value        : %1\n").arg(configRec.getValue()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Config Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num          : %1\n").arg(configRec.getNum()));
+    manApplet->info( QString("Kind         : %1\n").arg(configRec.getKind()));
+    manApplet->info( QString("Name         : %1\n").arg(configRec.getName()));
+    manApplet->info( QString("Value        : %1\n").arg(configRec.getValue()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logKMS( int seq )
+void MainWindow::infoKMS( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4412,18 +4470,18 @@ void MainWindow::logKMS( int seq )
     QString strType = JS_KMS_getObjectTypeName( kmsRec.getType() );
     QString strAlgorithm = JS_PKI_getKeyTypeName( kmsRec.getAlgorithm() );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== KMS Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Seq         : %1\n").arg(kmsRec.getSeq()));
-    manApplet->log( QString("RegTime     : %1\n").arg(getDateTime(kmsRec.getRegTime())));
-    manApplet->log( QString("State       : %1 - %2\n").arg(kmsRec.getState()).arg( getStatusName(kmsRec.getState())));
-    manApplet->log( QString("Type        : %1 - %2\n").arg(kmsRec.getType()).arg(strType));
-    manApplet->log( QString("Algorithm   : %1 - %2\n").arg(kmsRec.getAlgorithm()).arg( strAlgorithm ));
-    manApplet->log( QString("ID          : %1\n").arg(kmsRec.getID()));
-    manApplet->log( QString("Info        : %1\n").arg(kmsRec.getInfo()));
-    manApplet->log( "============================ Attribute =================================\n" );
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== KMS Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Seq         : %1\n").arg(kmsRec.getSeq()));
+    manApplet->info( QString("RegTime     : %1\n").arg(getDateTime(kmsRec.getRegTime())));
+    manApplet->info( QString("State       : %1 - %2\n").arg(kmsRec.getState()).arg( getStatusName(kmsRec.getState())));
+    manApplet->info( QString("Type        : %1 - %2\n").arg(kmsRec.getType()).arg(strType));
+    manApplet->info( QString("Algorithm   : %1 - %2\n").arg(kmsRec.getAlgorithm()).arg( strAlgorithm ));
+    manApplet->info( QString("ID          : %1\n").arg(kmsRec.getID()));
+    manApplet->info( QString("Info        : %1\n").arg(kmsRec.getInfo()));
+    manApplet->info( "============================ Attribute =================================\n" );
 
     QList<KMSAttribRec> kmsAttribList;
     manApplet->dbMgr()->getKMSAttribList( seq, kmsAttribList );
@@ -4432,16 +4490,16 @@ void MainWindow::logKMS( int seq )
     {
         KMSAttribRec attribRec = kmsAttribList.at(i);
 
-        manApplet->log( QString( "%1 || %2 || %3\n")
+        manApplet->info( QString( "%1 || %2 || %3\n")
                 .arg(attribRec.getNum())
                 .arg(JS_KMS_attributeName(attribRec.getType()))
                 .arg(attribRec.getValue()));
     }
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logAudit( int seq )
+void MainWindow::infoAudit( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -4451,72 +4509,72 @@ void MainWindow::logAudit( int seq )
     QString strKind = JS_GEN_getKindName( auditRec.getKind() );
     QString strOperation = JS_GEN_getOperationName( auditRec.getOperation() );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Audit Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Seq          : %1\n").arg(auditRec.getSeq()));
-    manApplet->log( QString("Kind         : %1 - %2\n").arg(auditRec.getKind()).arg(strKind));
-    manApplet->log( QString("Operation    : %1 - %2\n").arg(auditRec.getOperation()).arg(strOperation));
-    manApplet->log( QString("UserName     : %1\n").arg(auditRec.getUserName()));
-    manApplet->log( QString("Info         : %1\n").arg(auditRec.getInfo()));
-    manApplet->log( QString("MAC          : %1\n").arg(auditRec.getMAC()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Audit Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Seq          : %1\n").arg(auditRec.getSeq()));
+    manApplet->info( QString("Kind         : %1 - %2\n").arg(auditRec.getKind()).arg(strKind));
+    manApplet->info( QString("Operation    : %1 - %2\n").arg(auditRec.getOperation()).arg(strOperation));
+    manApplet->info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
+    manApplet->info( QString("Info         : %1\n").arg(auditRec.getInfo()));
+    manApplet->info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logTSP( int seq )
+void MainWindow::infoTSP( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
     TSPRec tspRec;
     manApplet->dbMgr()->getTSPRec( seq, tspRec );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== TSP Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Seq          : %1\n").arg(tspRec.getSeq()));
-    manApplet->log( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
-    manApplet->log( QString("Serial       : %1\n").arg(tspRec.getSerial()));
-    manApplet->log( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
-    manApplet->log( QString("TSTInfo      : %1\n").arg(tspRec.getTSTInfo()));
-    manApplet->log( QString("Data         : %1\n").arg(tspRec.getData()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== TSP Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Seq          : %1\n").arg(tspRec.getSeq()));
+    manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
+    manApplet->info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
+    manApplet->info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
+    manApplet->info( QString("TSTInfo      : %1\n").arg(tspRec.getTSTInfo()));
+    manApplet->info( QString("Data         : %1\n").arg(tspRec.getData()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logSigner(int seq)
+void MainWindow::infoSigner(int seq)
 {
     if( manApplet->dbMgr() == NULL ) return;
 
     SignerRec signerRec;
     manApplet->dbMgr()->getSignerRec( seq, signerRec );
 
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Signer Information\n" );
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( QString("Num          : %1\n").arg( signerRec.getNum()));
-    manApplet->log( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
-    manApplet->log( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
-    manApplet->log( QString("DN           : %1\n").arg(signerRec.getDN()));
-    manApplet->log( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    manApplet->log( QString("Cert         : %1\n").arg(signerRec.getCert()));
-    manApplet->log( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
-    manApplet->log( QString("Desc         : %1\n").arg(signerRec.getDesc()));
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Signer Information\n" );
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( QString("Num          : %1\n").arg( signerRec.getNum()));
+    manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
+    manApplet->info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
+    manApplet->info( QString("DN           : %1\n").arg(signerRec.getDN()));
+    manApplet->info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
+    manApplet->info( QString("Cert         : %1\n").arg(signerRec.getCert()));
+    manApplet->info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
+    manApplet->info( QString("Desc         : %1\n").arg(signerRec.getDesc()));
 
-    logCursorTop();
+    infoCursorTop();
 }
 
-void MainWindow::logStatistics()
+void MainWindow::infoStatistics()
 {
-    manApplet->mainWindow()->logClear();
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Statistics Information\n" );
-    manApplet->log( "========================================================================\n" );
+    manApplet->mainWindow()->infoClear();
+    manApplet->info( "========================================================================\n" );
+    manApplet->info( "== Statistics Information\n" );
+    manApplet->info( "========================================================================\n" );
 
-    logCursorTop();
+    infoCursorTop();
 }
 
 int MainWindow::rightCount()

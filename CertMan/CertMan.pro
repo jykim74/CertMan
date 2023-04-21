@@ -17,7 +17,7 @@ PROJECT_VERSION = "0.9.8"
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += CAMAN_VERSION=$$PROJECT_VERSION
+DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 # DEFINES += JS_PRO
 # DEFINES += _AUTO_UPDATE
 

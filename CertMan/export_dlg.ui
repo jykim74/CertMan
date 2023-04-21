@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>458</width>
-    <height>230</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,20 +19,6 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="2">
-      <widget class="QCheckBox" name="mPEMSaveCheck">
-       <property name="text">
-        <string>Save as PEM file</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Source Informtion</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -46,10 +32,107 @@
        </property>
       </spacer>
      </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="mExportLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Source Informtion</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mNameText">
+       <property name="font">
+        <font>
+         <family>굴림체</family>
+        </font>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
     <widget class="QPlainTextEdit" name="mInfoText">
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>221</red>
+           <green>221</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>221</red>
+           <green>221</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <family>굴림체</family>
+      </font>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>
@@ -79,7 +162,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Target Path</string>
+        <string>Save Path</string>
        </property>
       </widget>
      </item>
@@ -97,6 +180,13 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mPasswordText">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
        <property name="minimumSize">
@@ -110,25 +200,12 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mPasswordText">
-       <property name="enabled">
-        <bool>false</bool>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="mPEMSaveCheck">
+       <property name="text">
+        <string>Save as PEM file</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="2">
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -152,7 +229,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>mPEMSaveCheck</tabstop>
   <tabstop>mInfoText</tabstop>
   <tabstop>mPathText</tabstop>
   <tabstop>mFindBtn</tabstop>

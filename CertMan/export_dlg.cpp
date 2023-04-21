@@ -16,6 +16,8 @@ ExportDlg::ExportDlg(QWidget *parent) :
 
     setupUi(this);
 
+    connect( mPEMSaveCheck, SIGNAL(clicked()), this, SLOT(clickPEMSaveCheck()));
+
     initUI();
 }
 
@@ -217,6 +219,46 @@ void ExportDlg::clickFind()
     if( fileName.length() > 0 ) mPathText->setText( fileName );
 }
 
+void ExportDlg::clickPEMSaveCheck()
+{
+    bool bStatus = mPEMSaveCheck->isChecked();
+    QString strPath = mPathText->text();
+
+    QStringList nameList = strPath.split( "." );
+    QString strPathName;
+    QString strExt;
+
+    int num = nameList.size();
+
+    if( num == 2 || num == 1 )
+    {
+        strPathName = nameList.at(0);
+        strPathName += ".";
+    }
+    else if( num == 0 )
+    {
+        strPathName = "undefined.";
+    }
+    else
+    {
+        manApplet->warningBox( "Invalid Path Name", this );
+        return;
+    }
+
+
+    if( bStatus )
+    {
+        strExt = "pem";
+    }
+    else
+    {
+        strExt = "der";
+    }
+
+    strPathName += strExt;
+    mPathText->setText( strPathName );
+}
+
 void ExportDlg::initUI()
 {
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFind()));
@@ -225,9 +267,10 @@ void ExportDlg::initUI()
 
 void ExportDlg::initialize()
 {
-    QString strMsg;
-    QString strPart;
     QString strPath;
+    QString strLabel;
+    QString strName;
+    QString strInfo;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -247,25 +290,25 @@ void ExportDlg::initialize()
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
         {
-            strMsg = "[Private Key data]\n";
+            strLabel = "Export PrivateKey";
             strPath += "_pri.der";
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             mPasswordText->setEnabled(true);
-            strMsg = "[Encrypting Private Key data]\n";
+            strLabel = "Export Encrypted PrivateKey";
             strPath += "_pri.key";
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
-            strMsg = "[Public Key data]\n";
+            strLabel = "Export PublicKey";
             strPath += "_pub.der";
         }
 
-        strPart = QString( "Num: %1\nAlgorithm: %2\nName: %3\n")
-                .arg( data_num_)
-                .arg( keyPair.getAlg() )
-                .arg( keyPair.getName() );
+        strName = keyPair.getName();
+        strInfo = QString( "Num       : %1\n"
+                           "Algorithm : %s" ).arg( data_num_ ).arg( keyPair.getAlg() );
+
     }
     else if( export_type_ == EXPORT_TYPE_CERTIFICATE || export_type_ == EXPORT_TYPE_PFX )
     {
@@ -276,19 +319,20 @@ void ExportDlg::initialize()
 
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
         {
-            strMsg = "[ Certificate data ]\n";
+            strLabel = "Export Certificate";
             strPath += "_cert.der";
         }
         else if( export_type_ == EXPORT_TYPE_PFX )
         {
             mPasswordText->setEnabled(true);
-            strMsg = "[ PFX data ]\n";
+            strLabel = "Export PFX";
             strPath += ".pfx";
         }
 
-        strPart = QString( "Num: %1\nDN: %2\nAlgorithm: %3\n")
+        strName = cert.getSubjectDN();
+        strInfo = QString( "Num       : %1\n"
+                           "Algorithm : %2\n")
                 .arg( data_num_ )
-                .arg( cert.getSubjectDN() )
                 .arg( cert.getSignAlg() );
     }
     else if( export_type_ == EXPORT_TYPE_CRL )
@@ -296,9 +340,11 @@ void ExportDlg::initialize()
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
 
-        strMsg = "[ CRL data ]\n";
+        strLabel = "Export CRL";
+        strName = crl.getCRLDP();
 
-        strPart = QString( "Num: %1\nAlgorithm: %2\n")
+        strInfo = QString( "Num       : %1\n"
+                           "Algorithm : %2\n")
                 .arg( data_num_ )
                 .arg( crl.getSignAlg() );
 
@@ -308,11 +354,13 @@ void ExportDlg::initialize()
     {
         ReqRec req;
         dbMgr->getReqRec( data_num_, req );
-        strMsg = "[ REQUEST data ]\n";
 
-        strPart = QString( "Num: %1\nName: %2\nDN: %3\n")
+        strLabel = "Export CSR";
+        strName = req.getName();
+
+        strInfo = QString( "Num : %1\n"
+                           "DN  : %2\n")
                 .arg(data_num_)
-                .arg( req.getName() )
                 .arg( req.getDN() );
 
         strPath = "req.der";
@@ -334,7 +382,8 @@ void ExportDlg::initialize()
     else
         mPEMSaveCheck->setEnabled(true);
 
-    strMsg += strPart;
-    mInfoText->setPlainText( strMsg );
+    mExportLabel->setText( strLabel );
+    mNameText->setText( strName );
+    mInfoText->setPlainText( strInfo );
     mPathText->setText( strPath );
 }

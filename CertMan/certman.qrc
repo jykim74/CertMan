@@ -57,5 +57,6 @@
         <file>images/critical.png</file>
         <file>images/normal.png</file>
         <file>images/user.png</file>
+        <file>images/clear.png</file>
     </qresource>
 </RCC>

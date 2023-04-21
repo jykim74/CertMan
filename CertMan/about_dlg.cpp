@@ -15,11 +15,11 @@ AboutDlg::AboutDlg(QWidget *parent) :
 
     if( manApplet->isPRO() )
     {
-        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan PRO").arg(STRINGIZE(CAMAN_VERSION));
+        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan PRO").arg(STRINGIZE(CERTMAN_VERSION));
     }
     else
     {
-        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan").arg(STRINGIZE(CAMAN_VERSION));
+        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan").arg(STRINGIZE(CERTMAN_VERSION));
     }
 
 

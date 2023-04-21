@@ -7,6 +7,7 @@
 #include "man_applet.h"
 #include "auto_update_service.h"
 #include "settings_mgr.h"
+#include "mainwindow.h"
 #include "commons.h"
 
 const QStringList kListCountList = { "10", "15", "20", "25", "30" };
@@ -61,6 +62,9 @@ void SettingsDlg::updateSettings()
 
     mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
     mgr->setServerStatus( mServerStatusCheck->checkState() == Qt::Checked );
+
+    mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
+    manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -322,6 +326,9 @@ void SettingsDlg::initialize()
 
     state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;
     mServerStatusCheck->setCheckState( state );
+
+    state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
+    mShowLogTabCheck->setCheckState(state);
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
     mUseP11Check->setCheckState( state );

@@ -36,6 +36,7 @@ private slots:
     virtual void accept();
 
     void clickFind();
+    void clickPEMSaveCheck();
 
 private:
     void initUI();

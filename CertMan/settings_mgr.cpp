@@ -6,6 +6,7 @@ namespace  {
     const char *kBehaviorGroup = "CertMan";
     const char *kSaveDBPath = "saveDBPath";
     const char *kServerStatus = "serverStatus";
+    const char *kShowLogTab = "showLogTab";
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotID = "SlotID";
     const char *kP11LibPath = "PKCS11LibPath";
@@ -95,6 +96,28 @@ bool SettingsMgr::serverStatus()
 
     settings.beginGroup(kBehaviorGroup);
     val = settings.value( kServerStatus, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setShowLogTab( bool bVal )
+{
+    QSettings settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kShowLogTab, bVal );
+    settings.endGroup();
+}
+
+bool SettingsMgr::showLogTab()
+{
+    QSettings settings;
+
+    bool val;
+
+    settings.beginGroup(kBehaviorGroup);
+    val = settings.value( kShowLogTab, false).toBool();
     settings.endGroup();
 
     return val;

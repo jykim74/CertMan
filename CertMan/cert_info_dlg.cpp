@@ -384,17 +384,17 @@ void CertInfoDlg::clickVerifyCert()
 
     ret = JS_PKI_verifyCert( &binCA, NULL, &binCert, sRes );
 
-    manApplet->log( QString( "PVDCertValid : %1").arg(ret));
+    manApplet->info( QString( "PVDCertValid : %1").arg(ret));
     if( ret == 1 )
     {
         QString strOK = "The PathValidation of the target certificate is OK";
-        manApplet->log( strOK );
+        manApplet->info( strOK );
         manApplet->messageBox( strOK, this );
     }
     else
     {
         QString strErr = QString( "Verify fail: %1" ).arg(sRes);
-        manApplet->log( strErr );
+        manApplet->info( strErr );
         manApplet->warningBox( strErr, this );
     }
 
@@ -446,17 +446,17 @@ void CertInfoDlg::clickPathValidation()
 
     ret = JS_PKI_CertPVD( pTrustList, pUntrustList, pCRLList, pParamList, &binTarget, sRes );
 
-    manApplet->log( QString( "PVDCertValid : %1").arg(ret));
+    manApplet->info( QString( "PVDCertValid : %1").arg(ret));
     if( ret == 1 )
     {
         QString strOK = "The PathValidation of the target certificate is OK";
-        manApplet->log( strOK );
+        manApplet->info( strOK );
         manApplet->messageBox( strOK, this );
     }
     else
     {
         QString strErr = QString( "Verify fail: %1" ).arg(sRes);
-        manApplet->log( strErr );
+        manApplet->info( strErr );
         manApplet->warningBox( strErr, this );
     }
 

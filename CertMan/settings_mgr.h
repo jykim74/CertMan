@@ -16,6 +16,9 @@ public:
     void setServerStatus( bool val );
     bool serverStatus();
 
+    void setShowLogTab( bool bVal );
+    bool showLogTab();
+
     void setPKCS11Use( bool val );
     bool PKCS11Use();
 
