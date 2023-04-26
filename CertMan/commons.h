@@ -36,6 +36,14 @@
 #define     JS_CERT_STATUS_REVOKE       2
 #define     JS_CERT_STATUS_HOLD         3
 
+enum {
+    DATA_STRING,
+    DATA_HEX,
+    DATA_BASE64,
+    DATA_URL
+};
+
+
 const int   kListCount = 15;
 
 const QString kMechRSA = "RSA";
@@ -129,6 +137,11 @@ QString getRevokeReasonName( int nReason );
 int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub );
 int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strParam, BIN *pPri, BIN *pPub);
 QString getHexString( const BIN *pBin );
+
+void getBINFromString( BIN *pBin, const QString& strType, const QString& strString );
+void getBINFromString( BIN *pBin, int nType, const QString& strString );
+QString getStringFromBIN( const BIN *pBin, const QString& strType, bool bSeenOnly = false );
+QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly = false );
 
 
 #endif // COMMONS_H

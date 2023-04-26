@@ -350,6 +350,8 @@ void SettingsDlg::initialize()
         state = AutoUpdateService::instance()->autoUpdateEnabled() ? Qt::Checked : Qt::Unchecked;
         mCheckLatestVersionCheck->setCheckState(state);
     }
+#else
+    mCheckLatestVersionCheck->hide();
 #endif
 
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
