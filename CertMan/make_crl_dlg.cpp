@@ -114,9 +114,23 @@ void MakeCRLDlg::accept()
 
     time_t now_t = time(NULL);
 
-    if( profile.getLastUpdate() <= 0 )
+    if( profile.getLastUpdate() == 0 )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
+
+        uLastUpdate = 0;
+        uNextUpdate = uValidSecs;
+    }
+    else if( profile.getLastUpdate() == 1 )
+    {
+        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
+
+        uLastUpdate = 0;
+        uNextUpdate = uValidSecs;
+    }
+    else if( profile.getLastUpdate() == 2 )
+    {
+        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 
         uLastUpdate = 0;
         uNextUpdate = uValidSecs;

@@ -26,6 +26,7 @@ public:
 
 private slots:
     virtual void accept();
+    void changeValidDaysType(int index);
 
     void slotIANMenuRequested(QPoint pos);
     void slotIDPMenuRequested(QPoint pos);

@@ -330,9 +330,21 @@ void MakeCertDlg::accept()
     long notBefore = -1;
     long notAfter = -1;
 
-    if( profileRec.getNotBefore() <= 0 )
+    if( profileRec.getNotBefore() == 0 )
     {
         long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
+        notBefore = 0;
+        notAfter = uValidSecs;
+    }
+    else if( profileRec.getNotBefore() == 1 )
+    {
+        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
+        notBefore = 0;
+        notAfter = uValidSecs;
+    }
+    else if( profileRec.getNotBefore() == 2 )
+    {
+        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
         notBefore = 0;
         notAfter = uValidSecs;
     }

@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -259,13 +259,6 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Day</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0">
           <widget class="QCheckBox" name="mUseDaysCheck">
            <property name="minimumSize">
@@ -276,16 +269,6 @@
            </property>
            <property name="text">
             <string>Use Days</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="mDaysText">
-           <property name="maximumSize">
-            <size>
-             <width>60</width>
-             <height>16777215</height>
-            </size>
            </property>
           </widget>
          </item>
@@ -301,6 +284,38 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="mDaysText">
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="mDaysLabel">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>days</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QComboBox" name="mDaysTypeCombo"/>
          </item>
         </layout>
        </item>

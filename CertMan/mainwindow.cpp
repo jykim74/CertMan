@@ -3374,6 +3374,16 @@ void MainWindow::createRightCertProfileList()
             strNotBefore = "GenTime";
             strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
         }
+        else if( certProfile.getNotBefore() == 1 )
+        {
+            strNotBefore = "GenTime";
+            strNotAfter = QString( "%1 Months" ).arg( certProfile.getNotAfter() );
+        }
+        else if( certProfile.getNotBefore() == 2 )
+        {
+            strNotBefore = "GenTime";
+            strNotAfter = QString( "%1 Years" ).arg( certProfile.getNotAfter() );
+        }
         else
         {
             strNotBefore = getDateTime( certProfile.getNotBefore() );
@@ -3444,6 +3454,16 @@ void MainWindow::createRightCRLProfileList()
         {
             strLastUpdate = "GenTime";
             strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
+        }
+        else if( crlProfile.getLastUpdate() == 1 )
+        {
+            strLastUpdate = "GenTime";
+            strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
+        }
+        else if( crlProfile.getLastUpdate() == 2 )
+        {
+            strLastUpdate = "GenTime";
+            strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
         }
         else
         {
@@ -4252,6 +4272,16 @@ void MainWindow::infoCertProfile( int seq )
         strNotBefore = "GenTime";
         strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
     }
+    else if( certProfile.getNotBefore() == 1 )
+    {
+        strNotBefore = "GenTime";
+        strNotAfter = QString( "%1 Months" ).arg( certProfile.getNotAfter() );
+    }
+    else if( certProfile.getNotBefore() == 2 )
+    {
+        strNotBefore = "GenTime";
+        strNotAfter = QString( "%1 Years" ).arg( certProfile.getNotAfter() );
+    }
     else
     {
         strNotBefore = getDateTime( certProfile.getNotBefore() );
@@ -4335,6 +4365,16 @@ void MainWindow::infoCRLProfile( int seq )
     {
         strLastUpdate = "GenTime";
         strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
+    }
+    else if( crlProfile.getLastUpdate() == 1 )
+    {
+        strLastUpdate = "GenTime";
+        strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
+    }
+    else if( crlProfile.getLastUpdate() == 2 )
+    {
+        strLastUpdate = "GenTime";
+        strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
     }
     else
     {

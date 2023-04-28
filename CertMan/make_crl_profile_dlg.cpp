@@ -12,6 +12,8 @@ static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" 
 static QStringList sTypeList = { "URI", "email", "DNS" };
 static QStringList sVersionList = { "V1", "V2" };
 
+static QStringList kPeriodTypes = { "Day", "Month", "Year" };
+
 
 MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
     QDialog(parent)
@@ -25,6 +27,8 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
     is_edit_ = false;
     profile_num_ = -1;
+
+    connect( mValidDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValidDaysType(int)));
 
     initialize();
 }
@@ -46,6 +50,7 @@ void MakeCRLProfileDlg::setEdit( int nProfileNum)
 void MakeCRLProfileDlg::initialize()
 {
     mCRLTab->setCurrentIndex(0);
+    mValidDaysTypeCombo->addItems( kPeriodTypes );
 
     defaultProfile();
 }
@@ -127,9 +132,10 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     mVersionCombo->setCurrentIndex( crlProfile.getVersion() );
     mHashCombo->setCurrentText( crlProfile.getHash() );
 
-    if( crlProfile.getLastUpdate() == 0 )
+    if( crlProfile.getLastUpdate() >= 0 && crlProfile.getLastUpdate() <= 2)
     {
         mUseFromNowCheck->setChecked(true);
+        mValidDaysTypeCombo->setCurrentIndex( crlProfile.getLastUpdate() );
         mValidDaysText->setText( QString("%1").arg(crlProfile.getNextUpdate()));
     }
     else
@@ -231,10 +237,15 @@ void MakeCRLProfileDlg::accept()
 
     if( mUseFromNowCheck->isChecked() )
     {
-        crlProfileRec.setLastUpdate(0);
+        crlProfileRec.setLastUpdate( mValidDaysTypeCombo->currentIndex() );
         crlProfileRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
+        if( mLastUpdateDateTime->dateTime().toTime_t() <= 10 )
+        {
+            manApplet->warningBox( QString( tr("Too earyly time : %1").arg( mLastUpdateDateTime->dateTime().toTime_t())), this );
+            return;
+        }
         crlProfileRec.setLastUpdate( mLastUpdateDateTime->dateTime().toTime_t() );
         crlProfileRec.setNextUpdate( mNextUpdateDateTime->dateTime().toTime_t() );
     }
@@ -265,6 +276,13 @@ void MakeCRLProfileDlg::accept()
 
     manApplet->mainWindow()->createRightCRLProfileList();
     QDialog::accept();
+}
+
+void MakeCRLProfileDlg::changeValidDaysType(int index)
+{
+    QString strType = mValidDaysTypeCombo->currentText();
+
+    mValidDaysLabel->setText( strType.toLower() + "s" );
 }
 
 void MakeCRLProfileDlg::initUI()
@@ -349,6 +367,7 @@ void MakeCRLProfileDlg::clickUseFromNow()
     bool bStatus = mUseFromNowCheck->isChecked();
 
     mValidDaysText->setEnabled( bStatus );
+    mValidDaysTypeCombo->setEnabled( bStatus );
     mLastUpdateDateTime->setEnabled( !bStatus );
     mNextUpdateDateTime->setEnabled( !bStatus );
 }

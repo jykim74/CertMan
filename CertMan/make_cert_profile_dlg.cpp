@@ -30,6 +30,8 @@ static QStringList sExtNames = {
     "CRLReason"
 };
 
+static QStringList kPeriodTypes = { "Day", "Month", "Year" };
+
 
 MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     QDialog(parent)
@@ -37,6 +39,7 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     setupUi(this);
 
     connect( mPolicySetAnyOIDBtn, SIGNAL(clicked()), this, SLOT(clickPolicySetAnyOID()));
+    connect( mDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDaysType(int)));
 
     initUI();
     connectExtends();
@@ -65,6 +68,7 @@ void MakeCertProfileDlg::setEdit(int nProfileNum )
 void MakeCertProfileDlg::initialize()
 {
     mCertTab->setCurrentIndex(0);
+    mDaysTypeCombo->addItems( kPeriodTypes );
 
     defaultProfile();
 }
@@ -90,9 +94,10 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     mHashCombo->setCurrentText( certProfile.getHash() );
     mSubjectDNText->setText( certProfile.getDNTemplate() );
 
-    if( certProfile.getNotBefore() == 0 )
+    if( certProfile.getNotBefore() >= 0 && certProfile.getNotBefore() <= 2 )
     {
         mUseDaysCheck->setChecked(true);
+        mDaysTypeCombo->setCurrentIndex( certProfile.getNotBefore() );
         mDaysText->setText( QString("%1").arg(certProfile.getNotAfter()));
     }
     else {
@@ -275,10 +280,16 @@ void MakeCertProfileDlg::accept()
 
     if( mUseDaysCheck->isChecked() )
     {
-        certProfileRec.setNotBefore(0);
+        certProfileRec.setNotBefore( mDaysTypeCombo->currentIndex() );
         certProfileRec.setNotAfter( mDaysText->text().toLong());
     }
     else {
+        if( mNotBeforeDateTime->dateTime().toTime_t() <= 10 )
+        {
+            manApplet->warningBox( QString( tr("Too earyly time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
+            return;
+        }
+
         certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toTime_t() );
         certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toTime_t() );
     }
@@ -315,6 +326,13 @@ void MakeCertProfileDlg::accept()
 
     manApplet->mainWindow()->createRightCertProfileList();
     QDialog::accept();
+}
+
+void MakeCertProfileDlg::changeDaysType( int index )
+{
+    QString strType = mDaysTypeCombo->currentText();
+
+    mDaysLabel->setText( strType.toLower() + "s" );
 }
 
 void MakeCertProfileDlg::initUI()
@@ -681,6 +699,7 @@ void MakeCertProfileDlg::clickUseDays()
     bool bStatus = mUseDaysCheck->isChecked();
 
     mDaysText->setEnabled(bStatus);
+    mDaysTypeCombo->setEnabled(bStatus);
     mNotAfterDateTime->setEnabled(!bStatus);
     mNotBeforeDateTime->setEnabled(!bStatus);
 }
