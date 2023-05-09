@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMessageBox>
+#include "js_license.h"
 
 class MainWindow;
 class ManTrayIcon;
@@ -19,6 +20,8 @@ public:
     ~ManApplet();
 
     void start();
+    int checkLicense();
+    JS_LICENSE_INFO& LicenseInfo() { return license_info_; };
 
     void log( const QString strLog, QColor cr = QColor(00,00,00) );
     void elog( const QString strLog );
@@ -45,6 +48,7 @@ public:
     QString getSetPath();
     bool isPRO() { return is_pro_; };
     bool isDBOpen();
+    bool isLicense() { return  is_license_; };
 
 private:
     int loadPKCS11();
@@ -65,6 +69,8 @@ private:
 
     bool is_pro_;
     bool in_exit_;
+    bool is_license_;
+    JS_LICENSE_INFO license_info_;
 };
 
 extern ManApplet *manApplet;

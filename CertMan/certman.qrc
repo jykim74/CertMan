@@ -58,5 +58,6 @@
         <file>images/normal.png</file>
         <file>images/user.png</file>
         <file>images/clear.png</file>
+        <file>certman_license.lcn</file>
     </qresource>
 </RCC>

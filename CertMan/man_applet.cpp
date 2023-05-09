@@ -47,6 +47,9 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 //    db_mgr_ = NULL;
 
     in_exit_ = false;
+    is_license_ = false;
+
+    memset( &license_info_, 0x00, sizeof(license_info_));
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -94,6 +97,13 @@ void ManApplet::start()
     if( settingsMgr()->showLogTab() )
         main_win_->logView(true);
 
+    if( checkLicense() == false )
+    {
+        warningBox( "This tool is not licensed", NULL );
+        exit(0);
+        return;
+    }
+
     QString strVersion = STRINGIZE(CERTMAN_VERSION);
     log( "======================================================");
 
@@ -103,6 +113,43 @@ void ManApplet::start()
         log( QString( "== Start CertMan Version: %1" ).arg( strVersion ));
 
     log( "======================================================");
+}
+
+int ManApplet::checkLicense()
+{
+    QFile resFile( ":/certman_license.lcn" );
+    resFile.open(QIODevice::ReadOnly);
+    QByteArray data = resFile.readAll();
+    resFile.close();
+
+    char sKey[128];
+
+    memset( sKey, 0x00, sizeof(sKey));
+    memcpy( &license_info_, data.data(), data.size() );
+
+    if( memcmp( license_info_.sProduct, "CertMan", 7 ) != 0 )
+    {
+        is_license_ = false;
+        return is_license_;
+    }
+
+    JS_License_DeriveKey( sKey, &license_info_ );
+
+    QDate expireDate = QDate::fromString( license_info_.sExpire, "yyyy-MM-dd" );
+    QDate nowDate = QDate::currentDate();
+
+    if( expireDate < nowDate )
+    {
+        is_license_ = false;
+        return is_license_;
+    }
+
+    if( memcmp( sKey, license_info_.sKey, sizeof(license_info_.sKey)) == 0 )
+        is_license_ = true;
+    else
+        is_license_ = false;
+
+    return is_license_;
 }
 
 void ManApplet::log( const QString strLog, QColor cr )
