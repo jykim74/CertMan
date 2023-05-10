@@ -675,8 +675,12 @@ void MainWindow::newFile()
     }
 
     SetPassDlg setPassDlg;
-    if( setPassDlg.exec() != QDialog::Accepted )
-        return;
+
+    if( manApplet->isLicense() )
+    {
+        if( setPassDlg.exec() != QDialog::Accepted )
+            return;
+    }
 
     QFile resFile( ":/certman.db" );
     resFile.open(QIODevice::ReadOnly);
@@ -715,7 +719,7 @@ void MainWindow::newFile()
         return;
     }
 
-    if( setPassDlg.usePasswd() )
+    if( manApplet->isLicense() && setPassDlg.usePasswd() )
     {
         QString strPass = setPassDlg.getPasswd();
         ConfigRec config;
@@ -779,7 +783,7 @@ int MainWindow::openDB( const QString dbPath )
         setPath( dbPath );
         setTitle( dbPath );
         adjustForCurrentFile( dbPath );
-        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_OPENDB, "" );
+        if( manApplet->isPRO() ) addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_OPENDB, "" );
     }
 
     return ret;

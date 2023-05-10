@@ -154,7 +154,7 @@ void NewKeyDlg::accept()
     keyPairRec.setStatus(0);
 
     dbMgr->addKeyPairRec( keyPairRec );
-    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+    if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
     JS_BIN_reset(&binPri);

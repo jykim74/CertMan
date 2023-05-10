@@ -330,7 +330,7 @@ void MakeCRLDlg::accept()
     madeCRLRec.setCRL( pHexCRL );
 
     dbMgr->addCRLRec( madeCRLRec );
-    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
+    if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
 
 end :
     JS_PKI_resetIssueCRLInfo( &sIssueCRLInfo );

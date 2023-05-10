@@ -165,7 +165,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     {
         int nSeq = manApplet->dbMgr()->getSeq( "TB_KEY_PAIR" );
         keyPair.setNum( nSeq );
-        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+        if( manApplet->isPRO() ) addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
     }
 
 end :
@@ -346,7 +346,7 @@ void MakeReqDlg::accept()
 
     dbMgr->addReqRec( reqRec );
     dbMgr->modKeyPairStatus( keyRec.getNum(), 1 );
-    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
+    if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
 
 end :
     JS_BIN_reset( &binPri );
