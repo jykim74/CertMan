@@ -57,6 +57,7 @@ SOURCES += \
         key_pair_rec.cpp \
         kms_attrib_rec.cpp \
         kms_rec.cpp \
+        login_dlg.cpp \
         main.cpp \
         mainwindow.cpp \
         make_cert_dlg.cpp \
@@ -79,6 +80,7 @@ SOURCES += \
         search_menu.cpp \
         server_status_dlg.cpp \
         server_status_service.cpp \
+        set_pass_dlg.cpp \
         settings_dlg.cpp \
         settings_mgr.cpp \
         signer_dlg.cpp \
@@ -113,6 +115,7 @@ HEADERS += \
         key_pair_rec.h \
         kms_attrib_rec.h \
         kms_rec.h \
+        login_dlg.h \
         mainwindow.h \
         make_cert_dlg.h \
         make_cert_profile_dlg.h \
@@ -134,6 +137,7 @@ HEADERS += \
         search_menu.h \
         server_status_dlg.h \
         server_status_service.h \
+        set_pass_dlg.h \
         settings_dlg.h \
         settings_mgr.h \
         signer_dlg.h \
@@ -155,6 +159,7 @@ FORMS += \
         export_dlg.ui \
         get_ldap_dlg.ui \
         import_dlg.ui \
+        login_dlg.ui \
         mainwindow.ui \
         make_cert_dlg.ui \
         make_cert_profile_dlg.ui \
@@ -168,6 +173,7 @@ FORMS += \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \
+        set_pass_dlg.ui \
         settings_dlg.ui \
         signer_dlg.ui \
         stat_form.ui \
