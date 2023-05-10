@@ -90,18 +90,19 @@ int ManApplet::loadPKCS11()
 
 void ManApplet::start()
 {
+    if( checkLicense() == false )
+    {
+        info( "The CertMan is not licensed" );
+    }
+
     main_win_ = new MainWindow;
     main_win_->show();
     tray_icon_->show();
 
-    if( settingsMgr()->showLogTab() )
-        main_win_->logView(true);
-
-    if( checkLicense() == false )
+    if( isLicense() )
     {
-        warningBox( "This tool is not licensed", NULL );
-        exit(0);
-        return;
+        if( settingsMgr()->showLogTab() )
+            main_win_->logView(true);
     }
 
     QString strVersion = STRINGIZE(CERTMAN_VERSION);

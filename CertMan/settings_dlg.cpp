@@ -63,8 +63,11 @@ void SettingsDlg::updateSettings()
     mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
     mgr->setServerStatus( mServerStatusCheck->checkState() == Qt::Checked );
 
-    mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
-    manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
+    if( manApplet->isLicense() )
+    {
+        mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
+        manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
+    }
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -327,8 +330,13 @@ void SettingsDlg::initialize()
     state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;
     mServerStatusCheck->setCheckState( state );
 
-    state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
-    mShowLogTabCheck->setCheckState(state);
+    if( manApplet->isLicense() )
+    {
+        state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
+        mShowLogTabCheck->setCheckState(state);
+    }
+    else
+        mShowLogTabCheck->hide();
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
     mUseP11Check->setCheckState( state );
