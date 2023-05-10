@@ -175,7 +175,9 @@ public:
     int delConfigRec( int nNum );
     int modConfigRec( int nNum, ConfigRec configRec );
     int getConfigRec( int nNum, ConfigRec& configRec );
+    int getConfigValue( int nKind, const QString& strName, QString& value );
     int getConfigList( QList<ConfigRec>& configList );
+
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );

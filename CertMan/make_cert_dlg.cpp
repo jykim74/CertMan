@@ -354,8 +354,10 @@ void MakeCertDlg::accept()
         notAfter = profileRec.getNotAfter() - now_t;
     }
 
-
-    JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( signKeyPair.getPrivateKey(), &binSignPri );
+    else
+        JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         profileRec.getVersion(),
@@ -561,7 +563,7 @@ void MakeCertDlg::accept()
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );
 
-    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
+    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
 
 end :
     JS_BIN_reset( &binCSR );

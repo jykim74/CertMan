@@ -2188,6 +2188,21 @@ int DBMgr::getConfigRec( int nNum, ConfigRec& configRec )
     return 0;
 }
 
+int DBMgr::getConfigValue( int nKind, const QString& strName, QString& value )
+{
+    QString strQuery = QString( "SELECT Value FROM TB_CONFIG WHERE KIND = %1 AND NAME = '%2'").arg( nKind ).arg( strName );
+    QSqlQuery SQL(strQuery);
+
+    int nPosValue = SQL.record().indexOf( "Value" );
+
+    if( SQL.next() )
+    {
+        value = SQL.value( nPosValue ).toString();
+    }
+
+    return 0;
+}
+
 int DBMgr::getConfigList( QList<ConfigRec>& configList )
 {
     QString strQuery = QString("SELECT * FROM TB_CONFIG ORDER BY NUM DESC" );

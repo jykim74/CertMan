@@ -109,8 +109,13 @@ void MakeCRLDlg::accept()
     else if( caKeyPair.getAlg() == "EC" )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
 
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( caKeyPair.getPrivateKey(), &binSignPri );
+    else
+        JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
-    JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
 
     time_t now_t = time(NULL);
 
@@ -325,7 +330,7 @@ void MakeCRLDlg::accept()
     madeCRLRec.setCRL( pHexCRL );
 
     dbMgr->addCRLRec( madeCRLRec );
-    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
+    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
 
 end :
     JS_PKI_resetIssueCRLInfo( &sIssueCRLInfo );

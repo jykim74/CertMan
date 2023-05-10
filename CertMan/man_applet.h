@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QMessageBox>
+#include "js_bin.h"
 #include "js_license.h"
+
 
 class MainWindow;
 class ManTrayIcon;
@@ -50,6 +52,13 @@ public:
     bool isDBOpen();
     bool isLicense() { return  is_license_; };
 
+    bool isPasswd() { return is_passwd_; };
+    BIN& passwdKey() { return pass_key_; };
+    void setPasswdKey( const QString strPasswd );
+
+    QString getEncPriHex( const BIN *pPri );
+    int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );
+
 private:
     int loadPKCS11();
 
@@ -71,6 +80,9 @@ private:
     bool in_exit_;
     bool is_license_;
     JS_LICENSE_INFO license_info_;
+
+    bool is_passwd_;
+    BIN pass_key_;
 };
 
 extern ManApplet *manApplet;

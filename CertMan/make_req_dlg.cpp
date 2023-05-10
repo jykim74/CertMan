@@ -139,7 +139,17 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
     if( ret != 0 ) goto end;
 
-    JS_BIN_encodeHex( &binPri, &pPriHex );
+    if( manApplet->isPasswd() )
+    {
+        QString strHex = manApplet->getEncPriHex( &binPri );
+        keyPair.setPrivateKey( strHex );
+    }
+    else
+    {
+        JS_BIN_encodeHex( &binPri, &pPriHex );
+        keyPair.setPrivateKey( pPriHex );
+    }
+
     JS_BIN_encodeHex( &binPub, &pPubHex );
 
     keyPair.setAlg( strAlg );
@@ -147,7 +157,6 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     keyPair.setName( strName );
     keyPair.setParam( strParam );
     keyPair.setPublicKey( pPubHex );
-    keyPair.setPrivateKey( pPriHex );
     keyPair.setStatus(0);
 
 
@@ -156,7 +165,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     {
         int nSeq = manApplet->dbMgr()->getSeq( "TB_KEY_PAIR" );
         keyPair.setNum( nSeq );
-        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
     }
 
 end :
@@ -304,8 +313,11 @@ void MakeReqDlg::accept()
             nAlg = JS_PKI_KEY_TYPE_ECC;
         }
 
+        if( manApplet->isPasswd() )
+            manApplet->getDecPriBIN( keyRec.getPrivateKey(), &binPri );
+        else
+            JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
 
-        JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
         ret = JS_PKI_makeCSR( nAlg,
                               mHashCombo->currentText().toStdString().c_str(),
                               strDN.toStdString().c_str(),
@@ -334,7 +346,7 @@ void MakeReqDlg::accept()
 
     dbMgr->addReqRec( reqRec );
     dbMgr->modKeyPairStatus( keyRec.getNum(), 1 );
-    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_CSR, strDN );
+    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
 
 end :
     JS_BIN_reset( &binPri );

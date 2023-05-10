@@ -132,7 +132,17 @@ void NewKeyDlg::accept()
         goto end;
     }
 
-    JS_BIN_encodeHex( &binPri, &pPriHex );
+    if( manApplet->isPasswd() )
+    {
+        QString strHex = manApplet->getEncPriHex( &binPri );
+        keyPairRec.setPrivateKey( strHex );
+    }
+    else
+    {
+        JS_BIN_encodeHex( &binPri, &pPriHex );
+        keyPairRec.setPrivateKey( pPriHex );
+    }
+
     JS_BIN_encodeHex( &binPub, &pPubHex );
 
     keyPairRec.setAlg( mMechCombo->currentText() );
@@ -140,11 +150,11 @@ void NewKeyDlg::accept()
     keyPairRec.setName( strName );
     keyPairRec.setParam( mOptionCombo->currentText() );
     keyPairRec.setPublicKey( pPubHex );
-    keyPairRec.setPrivateKey( pPriHex );
+
     keyPairRec.setStatus(0);
 
     dbMgr->addKeyPairRec( keyPairRec );
-    addAudit( dbMgr, JS_GEN_KIND_CAMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+    addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
     JS_BIN_reset(&binPri);

@@ -224,13 +224,22 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             strAlg = kMechEC;
             nAlg = JS_PKI_KEY_TYPE_ECC;
             nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
-
         }
     }
 
     if( ret != 0  ) return -1;
 
-    JS_BIN_encodeHex( pPriKey, &pHexPri );
+    if( manApplet->isPasswd() )
+    {
+        QString strHex = manApplet->getEncPriHex( pPriKey );
+        keyPair.setPrivateKey( strHex );
+    }
+    else
+    {
+        JS_BIN_encodeHex( pPriKey, &pHexPri );
+        keyPair.setPrivateKey( pHexPri );
+    }
+
     JS_BIN_encodeHex( &binPub, &pHexPub );
 
     if( mImportKMSCheck->isChecked() )
@@ -311,7 +320,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     keyPair.setRegTime( time(NULL) );
     keyPair.setName( mNameText->text() );
     keyPair.setPublicKey( pHexPub );
-    keyPair.setPrivateKey( pHexPri );
+
     keyPair.setParam( QString("Imported %1").arg(nParam) );
 
     ret = dbMgr->addKeyPairRec( keyPair );

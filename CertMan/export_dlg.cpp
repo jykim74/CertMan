@@ -77,7 +77,11 @@ void ExportDlg::accept()
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
         {
-            JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
+            if( manApplet->isPasswd() )
+                manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binData );
+            else
+                JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
+
             if( keyPair.getAlg() == "RSA" )
                 nPEMType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
             else
@@ -96,7 +100,11 @@ void ExportDlg::accept()
             BIN binSrc = {0,0};
             BIN binInfo = {0,0};
 
-            JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
+            if( manApplet->isPasswd() )
+                manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binSrc );
+            else
+                JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
+
             if( keyPair.getAlg() == "RSA" )
             {
                 ret = JS_PKI_encryptRSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
@@ -153,7 +161,11 @@ void ExportDlg::accept()
         else if( keyPair.getAlg() == "EC" )
             nKeyType == JS_PKI_KEY_TYPE_ECC;
 
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+        if( manApplet->isPasswd() )
+            manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+        else
+            JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
 
         JS_PKI_encodePFX( &binData, nKeyType, strPass.toStdString().c_str(), &binPri, &binCert );

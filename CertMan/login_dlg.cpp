@@ -10,3 +10,8 @@ LoginDlg::~LoginDlg()
 {
 
 }
+
+void LoginDlg::accept()
+{
+    return QDialog::accept();
+}

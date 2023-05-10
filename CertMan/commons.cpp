@@ -1940,8 +1940,7 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
     auditRec.setRegTime( time(NULL) );
     auditRec.setUserName( "admin" );
 
-    binKey.pVal = (unsigned char *)JS_GEN_HMAC_KEY;
-    binKey.nLen = strlen( JS_GEN_HMAC_KEY );
+    JS_GEN_getHMACKey( &binKey );
 
     QString strSrc = QString( "%1_%2_%3_%4_%5_%6" )
             .arg( nSeq)
@@ -1967,6 +1966,7 @@ end :
     if( pHex ) JS_free( pHex );
     JS_BIN_reset( &binHMAC );
     JS_BIN_reset( &binSrc );
+    JS_BIN_reset( &binKey );
 
     return ret;
 }
@@ -2456,4 +2456,24 @@ QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly )
 
     if( pOut ) JS_free( pOut );
     return strOut;
+}
+
+const QString getPasswdHMAC( const QString &strPasswd )
+{
+    QString strHex;
+    BIN binHMAC = {0,0};
+    BIN binKey = {0,0};
+    BIN binSrc = {0,0};
+
+    JS_GEN_getHMACKey( &binKey );
+    JS_BIN_set( &binSrc, (unsigned char *)strPasswd.toStdString().c_str(), strPasswd.length() );
+    JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
+
+    strHex = getHexString( &binHMAC );
+
+    JS_BIN_reset( &binHMAC );
+    JS_BIN_reset( &binKey );
+    JS_BIN_reset( &binSrc );
+
+    return strHex;
 }

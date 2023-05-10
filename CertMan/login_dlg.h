@@ -16,6 +16,11 @@ public:
     explicit LoginDlg(QWidget *parent = nullptr);
     ~LoginDlg();
 
+    const QString getPasswd() { return mPasswdText->text(); };
+
+private slots:
+    virtual void accept();
+
 private:
 
 };

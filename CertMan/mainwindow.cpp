@@ -64,6 +64,8 @@
 #include "admin_dlg.h"
 #include "config_rec.h"
 #include "config_dlg.h"
+#include "set_pass_dlg.h"
+#include "login_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -672,6 +674,10 @@ void MainWindow::newFile()
         return;
     }
 
+    SetPassDlg setPassDlg;
+    if( setPassDlg.exec() != QDialog::Accepted )
+        return;
+
     QFile resFile( ":/certman.db" );
     resFile.open(QIODevice::ReadOnly);
     QByteArray data = resFile.readAll();
@@ -709,6 +715,20 @@ void MainWindow::newFile()
         return;
     }
 
+    if( setPassDlg.usePasswd() )
+    {
+        QString strPass = setPassDlg.getPasswd();
+        ConfigRec config;
+        QString strHMAC = getPasswdHMAC( strPass );
+
+        config.setKind( JS_GEN_KIND_CERTMAN );
+        config.setName( "Passwd" );
+        config.setValue( strHMAC );
+
+        manApplet->dbMgr()->addConfigRec( config );
+        manApplet->setPasswdKey( strPass );
+    }
+
     setPath( fileName );
     setTitle( fileName );
     createTreeMenu();
@@ -725,6 +745,30 @@ int MainWindow::openDB( const QString dbPath )
         return ret;
     }
 
+    QString strConf;
+
+    manApplet->dbMgr()->getConfigValue( JS_GEN_KIND_CERTMAN, "Passwd", strConf );
+
+    if( strConf.length() > 1 )
+    {
+        LoginDlg loginDlg;
+        if( loginDlg.exec() != QDialog::Accepted )
+            return -1;
+
+        QString strPasswd = loginDlg.getPasswd();
+
+        QString strHMAC = getPasswdHMAC( strPasswd );
+
+        if( strConf != strHMAC )
+        {
+            manApplet->warningBox( tr("Password is wrong"), this );
+            manApplet->dbMgr()->close();
+            return -1;
+        }
+
+        manApplet->setPasswdKey( strPasswd );
+    }
+
     createTreeMenu();
 
     if( manApplet->trayIcon()->supportsMessages() )
@@ -735,7 +779,7 @@ int MainWindow::openDB( const QString dbPath )
         setPath( dbPath );
         setTitle( dbPath );
         adjustForCurrentFile( dbPath );
-        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CAMAN, JS_GEN_OP_OPENDB, "" );
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_OPENDB, "" );
     }
 
     return ret;
