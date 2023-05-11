@@ -99,6 +99,18 @@ void MakeCRLDlg::accept()
     CRLProfileRec profile = crl_profile_list_.at(profileIdx);
     KeyPairRec caKeyPair;
 
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = dbMgr->getCRLCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_CRL_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You could not make crl than max crl count(%1) in no license")
+                                   .arg( JS_NO_LICENSE_CRL_LIMIT_COUNT ), this );
+            return;
+        }
+    }
+
     memset( &sIssueCRLInfo, 0x00, sizeof(sIssueCRLInfo));
     memset( &sMadeCRLInfo, 0x00, sizeof(sMadeCRLInfo));
 

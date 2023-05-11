@@ -243,7 +243,7 @@ void MakeCRLProfileDlg::accept()
     else {
         if( mLastUpdateDateTime->dateTime().toTime_t() <= 10 )
         {
-            manApplet->warningBox( QString( tr("Too earyly time : %1").arg( mLastUpdateDateTime->dateTime().toTime_t())), this );
+            manApplet->warningBox( QString( tr("Too early time : %1").arg( mLastUpdateDateTime->dateTime().toTime_t())), this );
             return;
         }
         crlProfileRec.setLastUpdate( mLastUpdateDateTime->dateTime().toTime_t() );

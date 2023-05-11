@@ -36,13 +36,17 @@
 #define     JS_CERT_STATUS_REVOKE       2
 #define     JS_CERT_STATUS_HOLD         3
 
+#define     JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT       10
+#define     JS_NO_LICENSE_CSR_LIMIT_COUNT           10
+#define     JS_NO_LICENSE_CERT_LIMIT_COUNT          100
+#define     JS_NO_LICENSE_CRL_LIMIT_COUNT           100
+
 enum {
     DATA_STRING,
     DATA_HEX,
     DATA_BASE64,
     DATA_URL
 };
-
 
 const int   kListCount = 15;
 

@@ -71,6 +71,18 @@ void NewKeyDlg::accept()
         return;
     }
 
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = dbMgr->getKeyPairCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You could not make key pair than max key count(%1) in no license")
+                                   .arg( JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT ), this );
+            return;
+        }
+    }
+
     BIN binPri = {0,0};
     BIN binPub = {0,0};
 

@@ -391,12 +391,15 @@ void MainWindow::createActions()
     helpMenu->addAction( settingsAct );
     helpToolBar->addAction( settingsAct );
 
-    const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
-    QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
-    connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
-    clearAct->setStatusTip(tr("clear information and log"));
-    helpMenu->addAction( clearAct );
-    helpToolBar->addAction( clearAct );
+    if( manApplet->isLicense() )
+    {
+        const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
+        QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
+        connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
+        clearAct->setStatusTip(tr("clear information and log"));
+        helpMenu->addAction( clearAct );
+        helpToolBar->addAction( clearAct );
+    }
 
     const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
     QAction *aboutAct = new QAction( certManIcon, tr("&About CertMan"), this);
@@ -3271,7 +3274,7 @@ void MainWindow::createRightKeyPairList()
         manApplet->dbMgr()->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
 
-    right_table_->setColumnWidth( 0, 40 ); // Number
+    right_table_->setColumnWidth( 0, 60 ); // Number
     right_table_->setColumnWidth( 1, 140 ); // RegTime
     right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 300 );
@@ -3283,14 +3286,17 @@ void MainWindow::createRightKeyPairList()
         char sRegTime[64];
         KeyPairRec keyPairRec = keyPairList.at(i);
 
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() ));
+        seq->setIcon( QIcon(":/images/key_reg.png" ));
+
         QTableWidgetItem *item = new QTableWidgetItem( keyPairRec.getName() );
-        item->setIcon( QIcon(":/images/key_reg.png" ));
+
 
         JS_UTIL_getDateTime( keyPairRec.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() )));
+        right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
         right_table_->setItem( i, 3, item );
@@ -3342,7 +3348,7 @@ void MainWindow::createRightRequestList()
         manApplet->dbMgr()->getReqList( -1, nOffset, nLimit, reqList );
     }
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 140 );
     right_table_->setColumnWidth( 3, 140 );
@@ -3355,7 +3361,8 @@ void MainWindow::createRightRequestList()
         ReqRec reqRec = reqList.at(i);
 
         QTableWidgetItem *item = new QTableWidgetItem( reqRec.getName() );
-        item->setIcon(QIcon(":/images/csr.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ));
+        seq->setIcon(QIcon(":/images/csr.png"));
 
         JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
 
@@ -3363,7 +3370,7 @@ void MainWindow::createRightRequestList()
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ) ));
+        right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strKeyName ) ));
         right_table_->setItem( i, 3, item );
@@ -3397,7 +3404,7 @@ void MainWindow::createRightCertProfileList()
     QList<CertProfileRec> certProfileList;
     manApplet->dbMgr()->getCertProfileList( certProfileList );
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 200 );
     right_table_->setColumnWidth( 2, 50 );
     right_table_->setColumnWidth( 3, 100 );
@@ -3413,7 +3420,8 @@ void MainWindow::createRightCertProfileList()
         QString strDNTemplate;
 
         QTableWidgetItem *item = new QTableWidgetItem( certProfile.getName() );
-        item->setIcon(QIcon(":/images/cert_profile.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( certProfile.getNum() ));
+        seq->setIcon(QIcon(":/images/cert_profile.png"));
 
         strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
 
@@ -3447,7 +3455,7 @@ void MainWindow::createRightCertProfileList()
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(certProfile.getNum()) ));
+        right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, item);
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )));
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
@@ -3478,7 +3486,7 @@ void MainWindow::createRightCRLProfileList()
     QList<CRLProfileRec> crlProfileList;
     manApplet->dbMgr()->getCRLProfileList( crlProfileList );
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 300 );
     right_table_->setColumnWidth( 2, 50 );
     right_table_->setColumnWidth( 3, 100 );
@@ -3494,7 +3502,8 @@ void MainWindow::createRightCRLProfileList()
         QString strNextUpdate;
 
         QTableWidgetItem *item = new QTableWidgetItem( crlProfile.getName() );
-        item->setIcon(QIcon(":/images/crl_profile.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crlProfile.getNum() ));
+        seq->setIcon(QIcon(":/images/crl_profile.png"));
 
         strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
@@ -3521,7 +3530,7 @@ void MainWindow::createRightCRLProfileList()
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crlProfile.getNum() )) );
+        right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, item );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )) );
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strLastUpdate )) );
@@ -3557,7 +3566,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     QList<CertRec> certList;
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 140 );
@@ -3603,10 +3612,12 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         strDNInfo += cert.getSubjectDN();
 
         QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
+
         if( cert.isCA() )
-            item->setIcon(QIcon(":/images/ca.png"));
+            seq->setIcon(QIcon(":/images/ca.png"));
         else
-            item->setIcon(QIcon(":/images/cert.png"));
+            seq->setIcon(QIcon(":/images/cert.png"));
 
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 
@@ -3627,7 +3638,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( cert.getNum()) ));
+        right_table_->setItem( i, pos++, seq );
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
@@ -3666,7 +3677,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 
     QList<CRLRec> crlList;
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 200 );
     right_table_->setColumnWidth( 3, 140 );
@@ -3694,13 +3705,14 @@ void MainWindow::createRightCRLList( int nIssuerNum )
             strIssuerName = "None";
 
         QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
-        item->setIcon(QIcon(":/images/crl.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
+        seq->setIcon(QIcon(":/images/crl.png"));
 
         JS_UTIL_getDateTime( crl.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem( i, 0, new QTableWidgetItem( QString("%1").arg(crl.getNum() )));
+        right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime )));
         right_table_->setItem( i, 2, item );
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
@@ -3750,7 +3762,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         manApplet->dbMgr()->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
     }
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 120 );
     right_table_->setColumnWidth( 2, 120 );
     right_table_->setColumnWidth( 3, 60 );
@@ -3766,11 +3778,12 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         QTableWidgetItem *item = new QTableWidgetItem( strCertName );
-        item->setIcon(QIcon(":/images/revoke.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( revoke.getSeq() ));
+        seq->setIcon(QIcon(":/images/revoke.png"));
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg(revoke.getSeq() )));
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, item );
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( strIsserName )));
         right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
@@ -3822,7 +3835,7 @@ void MainWindow::createRightUserList()
         manApplet->dbMgr()->getUserList( nOffset, nLimit, userList );
     }
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 180 );
     right_table_->setColumnWidth( 3, 100 );
@@ -3839,9 +3852,11 @@ void MainWindow::createRightUserList()
         JS_UTIL_getDateTime( user.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( user.getName() );
-        item->setIcon(QIcon(":/images/user.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( user.getNum() ));
 
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( user.getNum() )));
+        seq->setIcon(QIcon(":/images/user.png"));
+
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, item);
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
@@ -3881,7 +3896,7 @@ void MainWindow::createRightKMSList()
 
     QList<KMSRec> kmsList;
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
@@ -3910,9 +3925,12 @@ void MainWindow::createRightKMSList()
         QString strType = JS_KMS_getObjectTypeName( kms.getType() );
         QString strAlgorithm = JS_PKI_getKeyTypeName( kms.getAlgorithm() );
 
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( kms.getSeq() ));
+        seq->setIcon(QIcon(":/images/kms.png"));
+
         JS_UTIL_getDateTime( kms.getRegTime(), sRegTime );
 
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( kms.getSeq() )));
+        right_table_->setItem(i,0, seq);
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getStatusName( kms.getState() ))));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( strType )));
@@ -3962,13 +3980,14 @@ void MainWindow::createRightSignerList(int nType)
         JS_UTIL_getDateTime( signer.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( signer.getDN() );
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( signer.getNum() ));
 
         if( nType == SIGNER_TYPE_REG )
-            item->setIcon(QIcon(":/images/reg_signer.png"));
+            seq->setIcon(QIcon(":/images/reg_signer.png"));
         else if( nType == SIGNER_TYPE_OCSP )
-            item->setIcon(QIcon(":/images/ocsp_signer.png"));
+            seq->setIcon(QIcon(":/images/ocsp_signer.png"));
 
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( signer.getNum() )));
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getSignerTypeName( signer.getType() ))));
         right_table_->setItem(i,3, item );
@@ -3997,7 +4016,7 @@ void MainWindow::createRightAdminList()
     QList<AdminRec> adminList;
     manApplet->dbMgr()->getAdminList( adminList );
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 60 );
     right_table_->setColumnWidth( 2, 60 );
     right_table_->setColumnWidth( 3, 160 );
@@ -4009,11 +4028,12 @@ void MainWindow::createRightAdminList()
         AdminRec admin = adminList.at(i);
 
         QTableWidgetItem *item = new QTableWidgetItem( admin.getName() );
-        item->setIcon(QIcon(":/images/admin.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( admin.getSeq() ));
+        seq->setIcon(QIcon(":/images/admin.png"));
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( admin.getSeq() )));
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( getStatusName( admin.getStatus() ) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getAdminTypeName( admin.getType() ) )));
         right_table_->setItem(i,3, item );
@@ -4042,7 +4062,7 @@ void MainWindow::createRightConfigList()
     QList<ConfigRec> configList;
     manApplet->dbMgr()->getConfigList( configList );
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 60 );
     right_table_->setColumnWidth( 2, 60 );
 
@@ -4052,11 +4072,12 @@ void MainWindow::createRightConfigList()
         ConfigRec config = configList.at(i);
 
         QTableWidgetItem *item = new QTableWidgetItem( config.getName() );
-        item->setIcon(QIcon(":/images/config.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( config.getNum() ));
+        seq->setIcon(QIcon(":/images/config.png"));
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( config.getNum() )));
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( config.getKind() )));
         right_table_->setItem(i,2, item);
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( config.getValue() )));
@@ -4104,7 +4125,7 @@ void MainWindow::createRightAuditList()
         manApplet->dbMgr()->getAuditList( nOffset, nLimit, auditList );
     }
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
@@ -4122,9 +4143,10 @@ void MainWindow::createRightAuditList()
         JS_UTIL_getDateTime( audit.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( strOperation );
-        item->setIcon(QIcon(":/images/audit.png"));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( audit.getSeq() ));
+        seq->setIcon(QIcon(":/images/audit.png"));
 
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( audit.getSeq() )));
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( strKind )));
         right_table_->setItem(i,3, item );
@@ -4175,7 +4197,7 @@ void MainWindow::createRightTSPList()
         manApplet->dbMgr()->getTSPList( nOffset, nLimit, tspList );
     }
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 200 );
@@ -4188,7 +4210,10 @@ void MainWindow::createRightTSPList()
         right_table_->setRowHeight(i, 10 );
         JS_UTIL_getDateTime( tsp.getRegTime(), sRegTime );
 
-        right_table_->setItem(i,0, new QTableWidgetItem(QString("%1").arg( tsp.getSeq() )));
+        QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( tsp.getSeq() ));
+        seq->setIcon(QIcon(":/images/timestamp.png"));
+
+        right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( tsp.getSerial())));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( tsp.getSrcHash() )));

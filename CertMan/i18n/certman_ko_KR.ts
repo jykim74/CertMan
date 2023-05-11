@@ -673,6 +673,21 @@
     </message>
 </context>
 <context>
+    <name>LoginDlg</name>
+    <message>
+        <source>Login Password</source>
+        <translation>로그인 암호</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>Please enter the password for unlocking database</source>
+        <translation>데이타를 풀기 위한 암호를 입력하세요.</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>CAMan</source>
@@ -1610,6 +1625,10 @@
         <source>log</source>
         <translation>로그</translation>
     </message>
+    <message>
+        <source>Password is wrong</source>
+        <translation>암호가 틀렸습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -1688,6 +1707,10 @@
     <message>
         <source>There is no CRL Profile</source>
         <translation>CRL 프로파일이 없습니다</translation>
+    </message>
+    <message>
+        <source>You could not make crl than max crl count(%1) in no license</source>
+        <translation>라이센스가 없을 경우 최대 CRL 개수(%1) 이상 CRL을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -1837,7 +1860,7 @@
     </message>
     <message>
         <source>Day</source>
-        <translation>일</translation>
+        <translation type="vanished">일</translation>
     </message>
     <message>
         <source>Valid Period</source>
@@ -1930,6 +1953,14 @@
     <message>
         <source>OID</source>
         <translation>OID</translation>
+    </message>
+    <message>
+        <source>days</source>
+        <translation>일</translation>
+    </message>
+    <message>
+        <source>Too early time : %1</source>
+        <translation>너무 이른 시간:%1</translation>
     </message>
 </context>
 <context>
@@ -2053,6 +2084,10 @@
     <message>
         <source>There is no CA Certificate</source>
         <translation type="vanished">CA 인증서가 없습니다</translation>
+    </message>
+    <message>
+        <source>You could not make certificate than max certificate count(%1) in no license</source>
+        <translation>라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2294,7 +2329,7 @@
     </message>
     <message>
         <source>Day</source>
-        <translation>일</translation>
+        <translation type="vanished">일</translation>
     </message>
     <message>
         <source>Use Days</source>
@@ -2512,6 +2547,14 @@
         <source>OID value</source>
         <translation>OID 값</translation>
     </message>
+    <message>
+        <source>days</source>
+        <translation>일</translation>
+    </message>
+    <message>
+        <source>Too early time : %1</source>
+        <translation>너무 이른 시간:%1</translation>
+    </message>
 </context>
 <context>
     <name>MakeReqDlg</name>
@@ -2590,6 +2633,14 @@
     <message>
         <source>RSA</source>
         <translation>RSA</translation>
+    </message>
+    <message>
+        <source>You could not make key pair than max key count(%1) in no license</source>
+        <translation>라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You could not make csr than max csr count(%1) in no license</source>
+        <translation>라이센스가 없을 경우 최대 CSR 개수(%1) 이상 CSR을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2738,6 +2789,10 @@
     <message>
         <source>fail to generate key pairs</source>
         <translation>키 쌍 생성 실패</translation>
+    </message>
+    <message>
+        <source>You could not make key pair than max key count(%1) in no license</source>
+        <translation>라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2954,6 +3009,37 @@
     <message>
         <source>There is no list or ServerStatus is not set in settings</source>
         <translation>서버에 목록이 없거나 설정이 되지 않았습니다.</translation>
+    </message>
+</context>
+<context>
+    <name>SetPassDlg</name>
+    <message>
+        <source>Set Password</source>
+        <translation>암호 설정</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>Please enter password, that will be used to encrypt private keys</source>
+        <translation>개인키 암호화를 위해 패스워드를 입력하세요.</translation>
+    </message>
+    <message>
+        <source>Use Password</source>
+        <translation>암호 사용</translation>
+    </message>
+    <message>
+        <source>Password Confirm</source>
+        <translation>암호 확인</translation>
+    </message>
+    <message>
+        <source>You have to insert password</source>
+        <translation>암호를 입력하세요</translation>
+    </message>
+    <message>
+        <source>Password and Confirm are different</source>
+        <translation>암호와 확인 값이 다릅니다</translation>
     </message>
 </context>
 <context>

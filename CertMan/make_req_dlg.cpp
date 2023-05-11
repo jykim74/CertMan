@@ -96,6 +96,18 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     int nExponent = mNewExponentText->text().toInt();
     QString strParam = mNewOptionCombo->currentText();
 
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = manApplet->dbMgr()->getKeyPairCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You could not make key pair than max key count(%1) in no license")
+                                   .arg( JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT ), this );
+            return -1;
+        }
+    }
+
     if( strAlg == "RSA" )
     {
         int nKeySize = mNewOptionCombo->currentText().toInt();
@@ -199,6 +211,18 @@ void MakeReqDlg::accept()
         manApplet->warningBox( tr("You have to insert name"), this );
         mNameText->setFocus();
         return;
+    }
+
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = dbMgr->getReqCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_CSR_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You could not make csr than max csr count(%1) in no license")
+                                   .arg( JS_NO_LICENSE_CSR_LIMIT_COUNT ), this );
+            return;
+        }
     }
 
     QString strDN = mDNText->text();

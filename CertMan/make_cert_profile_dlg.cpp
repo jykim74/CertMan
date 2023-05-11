@@ -286,7 +286,7 @@ void MakeCertProfileDlg::accept()
     else {
         if( mNotBeforeDateTime->dateTime().toTime_t() <= 10 )
         {
-            manApplet->warningBox( QString( tr("Too earyly time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
+            manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
             return;
         }
 

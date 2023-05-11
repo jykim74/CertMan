@@ -139,6 +139,70 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     return 0;
 }
 
+int DBMgr::getCertCountAll()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getCRLCountAll()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getKeyPairCountAll()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_KEY_PAIR" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getReqCountAll()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_REQ" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getCertCount( int nIssuerNum )
 {
     int nCount = -1;

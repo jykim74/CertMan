@@ -222,6 +222,18 @@ void MakeCertDlg::accept()
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = dbMgr->getCertCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_CERT_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You could not make certificate than max certificate count(%1) in no license")
+                                   .arg( JS_NO_LICENSE_CERT_LIMIT_COUNT ), this );
+            return;
+        }
+    }
+
     if( mUseCSRFileCheck->isChecked() )
     {
         if( mCSRFilePathText->text().length() <= 0 )

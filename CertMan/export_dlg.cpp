@@ -319,7 +319,7 @@ void ExportDlg::initialize()
 
         strName = keyPair.getName();
         strInfo = QString( "Num       : %1\n"
-                           "Algorithm : %s" ).arg( data_num_ ).arg( keyPair.getAlg() );
+                           "Algorithm : %2\n" ).arg( data_num_ ).arg( keyPair.getAlg() );
 
     }
     else if( export_type_ == EXPORT_TYPE_CERTIFICATE || export_type_ == EXPORT_TYPE_PFX )

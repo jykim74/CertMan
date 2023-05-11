@@ -41,6 +41,11 @@ public:
     QString getNumName( int nNum, QString strTable, QString strColName );
     QString getSeqName( int nSeq, QString strTable, QString strColName );
 
+    int getCertCountAll();
+    int getCRLCountAll();
+    int getKeyPairCountAll();
+    int getReqCountAll();
+
     int getCertCount( int nIssuerNum );
     int getCRLCount( int nIssuerNum );
     int getKeyPairCount( int nStatus );
