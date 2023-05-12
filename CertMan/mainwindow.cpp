@@ -12,7 +12,7 @@
 
 #include "commons.h"
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
+//#include "ui_mainwindow.h"
 
 #include "man_tree_item.h"
 #include "man_tree_model.h"
