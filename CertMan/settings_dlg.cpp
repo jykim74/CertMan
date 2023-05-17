@@ -84,6 +84,9 @@ void SettingsDlg::updateSettings()
     mgr->setBaseDN( mBaseDNText->text() );
     mgr->setListCount( mListCountCombo->currentText().toInt() );
 
+    mgr->setDefaultHash( mDefaultHashCombo->currentText() );
+    mgr->setDefaultECCParam( mDefaultECCParamCombo->currentText() );
+
     bool language_changed = false;
 
     if( mLangCombo->currentIndex() != I18NHelper::getInstance()->preferredLanguage() )
@@ -361,6 +364,12 @@ void SettingsDlg::initialize()
 #else
     mCheckLatestVersionCheck->hide();
 #endif
+
+    mDefaultHashCombo->addItems( kHashList );
+    mDefaultHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
+
+    mDefaultECCParamCombo->addItems( kECCOptionList );
+    mDefaultECCParamCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
 
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
 

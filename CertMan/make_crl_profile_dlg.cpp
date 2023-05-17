@@ -203,7 +203,7 @@ void MakeCRLProfileDlg::defaultProfile()
     mIANText->setText("");
 
     mVersionCombo->setCurrentIndex(1);
-    mHashCombo->setCurrentIndex(2);
+    mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     mUseFromNowCheck->setChecked(true);
     clickUseFromNow();

@@ -13,7 +13,6 @@
 #include "commons.h"
 #include "pin_dlg.h"
 
-static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512", "SM3" };
 static QStringList sMechList = { kMechRSA, kMechEC };
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
@@ -36,11 +35,11 @@ MakeReqDlg::~MakeReqDlg()
 
 void MakeReqDlg::initialize()
 {
-    mHashCombo->addItems(sHashList);
-    mHashCombo->setCurrentIndex(2);
-
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
+
+    mHashCombo->addItems(kHashList);
+    mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     key_list_.clear();
     dbMgr->getKeyPairList( 0, key_list_ );
@@ -54,6 +53,7 @@ void MakeReqDlg::initialize()
     mNewExponentText->setText( "65537" );
     mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
+    mNewOptionCombo->setCurrentText( "2048" );
     mNewAlgorithmCombo->clear();
 
     mNewAlgorithmCombo->addItems( sMechList );
@@ -414,12 +414,14 @@ void MakeReqDlg::newAlgChanged(int index )
     if( strAlg == "RSA" || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
     {
         mNewOptionCombo->addItems( kRSAOptionList );
+        mNewOptionCombo->setCurrentText( "2048" );
         mNewExponentText->setEnabled(true);
         mNewExponentLabel->setEnabled(true);
     }
     else
     {
        mNewOptionCombo->addItems( kECCOptionList );
+       mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
        mNewExponentText->setEnabled(false);
        mNewExponentLabel->setEnabled(false);
     }

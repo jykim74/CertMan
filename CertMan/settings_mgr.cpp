@@ -42,6 +42,8 @@ namespace  {
     const char *kSCEPMutualAuth = "SCEPMutualAuth";
     const char *kSCEPPriPath = "SCEPPriPath";
     const char *kSCEPCertPath = "SCEPCertPath";
+    const char *kDefaultHash = "defaultHash";
+    const char *kDefaultECCParam = "defaultECCParam";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -55,6 +57,9 @@ void SettingsMgr::loadSettings()
 
     settings.beginGroup(kBehaviorGroup);
     settings.endGroup();
+
+    getDefaultHash();
+    getDefaultECCParam();
 }
 
 void SettingsMgr::setSaveDBPath( bool val )
@@ -866,3 +871,47 @@ QString SettingsMgr::SCEPCertPath()
 
     return strPath;
 }
+
+void SettingsMgr::setDefaultHash( const QString& strHash )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kDefaultHash, strHash );
+    sets.endGroup();
+
+    default_hash_ = strHash;
+}
+
+QString SettingsMgr::getDefaultHash()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    default_hash_ = sets.value( kDefaultHash, "SHA256" ).toString();
+    sets.endGroup();
+
+    return default_hash_;
+}
+
+
+void SettingsMgr::setDefaultECCParam( const QString& strECCParam )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kDefaultECCParam, strECCParam );
+    sets.endGroup();
+
+    default_ecc_param_ = strECCParam;
+}
+
+QString SettingsMgr::getDefaultECCParam()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    default_ecc_param_ = sets.value( kDefaultECCParam, "prime256v1" ).toString();
+    sets.endGroup();
+
+    return default_ecc_param_;
+}
+

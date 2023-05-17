@@ -9,6 +9,7 @@
 #include "profile_ext_rec.h"
 #include "db_mgr.h"
 #include "commons.h"
+#include "settings_mgr.h"
 
 
 static QStringList sExtNames = {
@@ -164,7 +165,7 @@ void MakeCertProfileDlg::defaultProfile()
     mNameText->setText("");
 
     mVersionCombo->setCurrentIndex(2);
-    mHashCombo->setCurrentIndex(2);
+    mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     mAIAText->setText("");
 

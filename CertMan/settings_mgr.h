@@ -119,7 +119,19 @@ public:
     void setSCEPCertPath( QString strPath );
     QString SCEPCertPath();
 
+    void setDefaultHash( const QString& strHash );
+    QString getDefaultHash();
+    QString defaultHash() { return default_hash_; };
+
+    void setDefaultECCParam( const QString& strECCParam );
+    QString getDefaultECCParam();
+    QString defaultECCParam() { return default_ecc_param_; };
+
     void loadSettings();
+
+private:
+    QString default_hash_;
+    QString default_ecc_param_;
 
 private:
     Q_DISABLE_COPY(SettingsMgr)

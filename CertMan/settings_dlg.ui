@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
+    <width>476</width>
     <height>328</height>
    </rect>
   </property>
@@ -17,70 +17,28 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="4" column="0" colspan="2">
-        <layout class="QGridLayout" name="gridLayout_17">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ListCount</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="mListCountCombo"/>
-         </item>
-         <item row="0" column="2">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
+      <layout class="QVBoxLayout" name="verticalLayout_10">
+       <item>
+        <widget class="QCheckBox" name="mCheckLatestVersionCheck">
          <property name="text">
-          <string>BaseDN</string>
+          <string>Check for updates automatically</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="mServerStatusCheck">
+       <item>
+        <widget class="QCheckBox" name="mSaveDBPathCheck">
          <property name="text">
-          <string>Sever status check</string>
+          <string>Save db path</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item>
         <layout class="QGridLayout" name="gridLayout_14">
          <property name="topMargin">
           <number>0</number>
@@ -120,21 +78,114 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QCheckBox" name="mSaveDBPathCheck">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>BaseDN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="mBaseDNText"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout_17">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ListCount</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="mListCountCombo"/>
+         </item>
+         <item row="0" column="2">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="mServerStatusCheck">
          <property name="text">
-          <string>Save db path</string>
+          <string>Sever status check</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QCheckBox" name="mCheckLatestVersionCheck">
+       <item>
+        <widget class="QCheckBox" name="mShowLogTabCheck">
          <property name="text">
-          <string>Check for updates automatically</string>
+          <string>Show log view tab at startup</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_27">
+         <item row="0" column="3">
+          <widget class="QComboBox" name="mDefaultECCParamCombo"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_29">
+           <property name="text">
+            <string>Default ECCParam</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_28">
+           <property name="text">
+            <string>Default Hash</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="mDefaultHashCombo"/>
+         </item>
+         <item row="0" column="4">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -146,16 +197,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="mBaseDNText"/>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="QCheckBox" name="mShowLogTabCheck">
-         <property name="text">
-          <string>Show log view tab at startup</string>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
@@ -195,26 +236,6 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="title">
-       <string>PKCS11</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
         <widget class="QCheckBox" name="mUseP11Check">
          <property name="text">
           <string>Use PKCS11</string>
@@ -222,10 +243,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
+        <layout class="QGridLayout" name="gridLayout_28">
          <item row="0" column="0">
           <widget class="QLabel" name="label_2">
            <property name="minimumSize">
@@ -258,10 +276,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_18">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
+        <layout class="QGridLayout" name="gridLayout_29">
          <item row="0" column="1">
           <widget class="QLineEdit" name="mLibraryP11PathText"/>
          </item>
@@ -288,7 +303,7 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_3">
+        <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -1033,14 +1048,9 @@
   <tabstop>mSaveDBPathCheck</tabstop>
   <tabstop>mLDAPHostText</tabstop>
   <tabstop>mLDAPPortText</tabstop>
-  <tabstop>mBaseDNText</tabstop>
   <tabstop>mListCountCombo</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
-  <tabstop>mUseP11Check</tabstop>
-  <tabstop>mSlotIDText</tabstop>
-  <tabstop>mLibraryP11PathText</tabstop>
-  <tabstop>mP11FindBtn</tabstop>
   <tabstop>mUseKMIPCheck</tabstop>
   <tabstop>mKMIPHostText</tabstop>
   <tabstop>mKMIPPortText</tabstop>
