@@ -3078,7 +3078,7 @@
     </message>
     <message>
         <source>PKCS11</source>
-        <translation>PKCS11</translation>
+        <translation type="vanished">PKCS11</translation>
     </message>
     <message>
         <source>Library Path</source>
@@ -3295,6 +3295,14 @@
     <message>
         <source>Show log view tab at startup</source>
         <translation>시작 시 로그탭 보이기</translation>
+    </message>
+    <message>
+        <source>Default ECCParam</source>
+        <translation>초기 ECC 파라미터</translation>
+    </message>
+    <message>
+        <source>Default Hash</source>
+        <translation>초기 해쉬</translation>
     </message>
 </context>
 <context>
