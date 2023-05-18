@@ -2263,7 +2263,7 @@ void MainWindow::verifyTSMessage()
     {
         if( smgr->TSPUse() )
         {
-            JS_BIN_fileRead( smgr->TSPSrvCertPath().toStdString().c_str(), &binCert );
+            JS_BIN_fileRead( smgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binCert );
         }
     }
 
