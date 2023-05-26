@@ -154,7 +154,7 @@ void UserDlg::regServer()
     }
     else
     {
-        manApplet->warningBox( "fail to regiser user by REGServer" );
+        manApplet->warningBox( "fail to regiser user by REGServer", this );
         ret = -1;
     }
 

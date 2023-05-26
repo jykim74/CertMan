@@ -1213,7 +1213,7 @@ void MainWindow::verifyCRL()
     manApplet->dbMgr()->getCRLRec( num, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no ca certificate" ) );
+        manApplet->warningBox( tr( "There is no ca certificate" ), this );
         return;
     }
 
@@ -1229,7 +1229,7 @@ void MainWindow::verifyCRL()
     }
     else
     {
-        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret));
+        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret), this );
     }
 
 end :
@@ -2270,7 +2270,7 @@ void MainWindow::verifyTSMessage()
     ret = JS_PKCS7_verifySignedData( &binTS, &binCert, &binData );
     QString strVerify = QString( "Verify val:%1" ).arg( ret );
 
-    manApplet->messageBox( strVerify );
+    manApplet->messageBox( strVerify, this );
 
     JS_BIN_reset( &binTS );
     JS_BIN_reset( &binCert );
@@ -3105,7 +3105,7 @@ void MainWindow::statusByReg()
     }
     else
     {
-        manApplet->warningBox( "fail to get certificate status by REGServer" );
+        manApplet->warningBox( "fail to get certificate status by REGServer", this );
         ret = -1;
     }
 
@@ -3173,7 +3173,7 @@ void MainWindow::revokeByReg()
     }
     else
     {
-        manApplet->warningBox( "fail to revoke certificate by REGServer" );
+        manApplet->warningBox( "fail to revoke certificate by REGServer", this );
         ret = -1;
     }
 

@@ -289,7 +289,7 @@ void ExportDlg::initialize()
 
     if( data_num_ < 0 || export_type_ < 0 )
     {
-        manApplet->warningBox( tr( "There is no data to be selected" ));
+        manApplet->warningBox( tr( "There is no data to be selected" ), this );
         return;
     }
 
