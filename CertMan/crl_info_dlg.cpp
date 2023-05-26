@@ -94,7 +94,7 @@ void CRLInfoDlg::clickVerifyCRL()
     manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no ca certificate" ) );
+        manApplet->warningBox( tr( "There is no ca certificate" ), this );
         return;
     }
 
@@ -110,7 +110,7 @@ void CRLInfoDlg::clickVerifyCRL()
     }
     else
     {
-        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret));
+        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret), this);
     }
 
 end :
