@@ -59,7 +59,7 @@ void ImportDlg::accept()
     }
 
     BIN binSrc = {0,0};
-    JS_BIN_fileRead( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
+    JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
 
     if( nSelType == 0 || nSelType == 1 )
     {
