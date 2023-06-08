@@ -8,7 +8,6 @@
 #include "db_mgr.h"
 #include "commons.h"
 
-static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
 static QStringList sTypeList = { "URI", "email", "DNS" };
 static QStringList sVersionList = { "V1", "V2" };
 
@@ -287,7 +286,12 @@ void MakeCRLProfileDlg::changeValidDaysType(int index)
 
 void MakeCRLProfileDlg::initUI()
 {
-    mHashCombo->addItems(sHashList);
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    mHashCombo->addItems(kHashList);
+    mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
+
 //    mIDPCombo->addItems(sTypeList);
     mIDPCombo->addItem( "URI" );
     mIANCombo->addItems(sTypeList);

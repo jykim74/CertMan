@@ -338,6 +338,9 @@ void MakeCertProfileDlg::changeDaysType( int index )
 
 void MakeCertProfileDlg::initUI()
 {
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
     mKeyUsageCombo->addItems(kKeyUsageList);
     mEKUCombo->addItems(kExtKeyUsageList);
     mVersionCombo->addItems(kCertVersionList);
@@ -353,6 +356,7 @@ void MakeCertProfileDlg::initUI()
     mNCSubCombo->addItems(kNCSubList);
     mBCCombo->addItems(kBCTypeList);
     mHashCombo->addItems(kHashList);
+    mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     QDateTime nowDateTime;
     nowDateTime.setTime_t(time(NULL));
