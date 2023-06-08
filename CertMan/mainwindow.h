@@ -103,6 +103,8 @@ public:
     int rightType() { return right_type_; };
     int rightCount();
 
+    void loadDB( const QString& filename );
+
 public slots:
     void newFile();
     void open();

@@ -4694,3 +4694,8 @@ int MainWindow::rightCount()
 {
     return right_table_->rowCount();
 }
+
+void MainWindow::loadDB( const QString& filename )
+{
+    openDB( filename );
+}

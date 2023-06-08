@@ -29,10 +29,12 @@ int main(int argc, char *argv[])
     manApplet = &mApplet;
     manApplet->start();
 
-    /*
-    MainWindow w;
-    w.show();
-    */
+    MainWindow *mw = manApplet->mainWindow();
+    if( !parser.positionalArguments().isEmpty() )
+    {
+        mw->loadDB( parser.positionalArguments().first() );
+        mw->show();
+    }
 
     return app.exec();
 }
