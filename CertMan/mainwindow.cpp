@@ -3279,7 +3279,7 @@ void MainWindow::createRightKeyPairList()
     right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 300 );
     right_table_->setColumnWidth( 4, 80 );
-    right_table_->setColumnWidth( 5, 60 );
+    right_table_->setColumnWidth( 5, 40 );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
