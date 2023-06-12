@@ -417,6 +417,7 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewOptionCombo->setCurrentText( "2048" );
         mNewExponentText->setEnabled(true);
         mNewExponentLabel->setEnabled(true);
+        mNewOptionLabel->setText( "Key Length" );
     }
     else
     {
@@ -424,6 +425,7 @@ void MakeReqDlg::newAlgChanged(int index )
        mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
        mNewExponentText->setEnabled(false);
        mNewExponentLabel->setEnabled(false);
+       mNewOptionLabel->setText( "Named Curve" );
     }
 }
 
