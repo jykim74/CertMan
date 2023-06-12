@@ -296,6 +296,8 @@ void MakeCertDlg::accept()
         return;
     }
 
+    manApplet->log( QString( "PublicKey : %1").arg( sReqInfo.pPublicKey ));
+
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
     JS_PKI_getPublicKeyValue( &binPub, &binPubVal );
     JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
