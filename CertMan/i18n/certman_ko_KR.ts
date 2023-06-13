@@ -1629,6 +1629,14 @@
         <source>Password is wrong</source>
         <translation>암호가 틀렸습니다</translation>
     </message>
+    <message>
+        <source>The cert have certificates or crls to be issued</source>
+        <translation>해당 인증서는 발급한 인증서 또는 CRL이 있습니다.</translation>
+    </message>
+    <message>
+        <source>The KeyNum(%1) has already used in Req or Cert</source>
+        <translation>키 번호(%1) 은 요청서 또는 인증서에서 이미 사용 되고 있습니다.</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -2088,6 +2096,10 @@
     <message>
         <source>You could not make certificate than max certificate count(%1) in no license</source>
         <translation>라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>User Information</source>
+        <translation>사용자 정보</translation>
     </message>
 </context>
 <context>
@@ -2632,7 +2644,7 @@
     </message>
     <message>
         <source>RSA</source>
-        <translation>RSA</translation>
+        <translation type="vanished">RSA</translation>
     </message>
     <message>
         <source>You could not make key pair than max key count(%1) in no license</source>
