@@ -7,80 +7,78 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>340</height>
+    <height>359</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Make requester</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="11" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="minimumSize">
-      <size>
-       <width>90</width>
-       <height>0</height>
-      </size>
-     </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QLabel" name="label_10">
      <property name="text">
-      <string>Signature Hash</string>
+      <string>Make CSR Information</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="3">
-    <widget class="QLineEdit" name="mChallengePassText"/>
-   </item>
-   <item row="12" column="0" colspan="4">
-    <widget class="Line" name="line_2">
+   <item>
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="11" column="1" colspan="2">
-    <widget class="QComboBox" name="mHashCombo">
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>0</height>
-      </size>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mNameText"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>DN</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="mDNText"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>ChallengePass</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="mChallengePassText"/>
+     </item>
+    </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>DN</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="minimumSize">
-      <size>
-       <width>90</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>ChallengePass</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
+   <item>
+    <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="mDNText"/>
-   </item>
-   <item row="5" column="0" colspan="4">
+   <item>
     <layout class="QGridLayout" name="gridLayout_4">
      <property name="topMargin">
       <number>0</number>
@@ -114,31 +112,7 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" colspan="4">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="4">
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="mNameText"/>
-   </item>
-   <item row="6" column="0" colspan="4">
+   <item>
     <widget class="QTabWidget" name="mKeyInfoTab">
      <property name="currentIndex">
       <number>0</number>
@@ -224,7 +198,7 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
+        <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -359,29 +333,87 @@
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_8">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="mHashCombo">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>This is for CSR signature hash algorithm</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Signature Hash</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>mNameText</tabstop>
-  <tabstop>mDNText</tabstop>
-  <tabstop>mChallengePassText</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>
   <tabstop>mKeyNameCombo</tabstop>
@@ -391,7 +423,6 @@
   <tabstop>mNewAlgorithmCombo</tabstop>
   <tabstop>mNewOptionCombo</tabstop>
   <tabstop>mNewExponentText</tabstop>
-  <tabstop>mHashCombo</tabstop>
  </tabstops>
  <resources/>
  <connections>

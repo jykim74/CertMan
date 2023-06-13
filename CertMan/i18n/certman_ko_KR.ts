@@ -2007,7 +2007,7 @@
     </message>
     <message>
         <source>Certificate policy</source>
-        <translation>인증서 정책</translation>
+        <translation type="vanished">인증서 정책</translation>
     </message>
     <message>
         <source>SSN</source>
@@ -2019,7 +2019,7 @@
     </message>
     <message>
         <source>Issuer information</source>
-        <translation>발급자 정보</translation>
+        <translation type="vanished">발급자 정보</translation>
     </message>
     <message>
         <source>Request Information</source>
@@ -2100,6 +2100,18 @@
     <message>
         <source>User Information</source>
         <translation>사용자 정보</translation>
+    </message>
+    <message>
+        <source>Certificate Profile</source>
+        <translation>인증서 프로파일</translation>
+    </message>
+    <message>
+        <source>Sign yourself with your own key.</source>
+        <translation>자신의 키로 서명 하기</translation>
+    </message>
+    <message>
+        <source>Issuer Certificate Information</source>
+        <translation>발급자 인증서 정보</translation>
     </message>
 </context>
 <context>
@@ -2653,6 +2665,14 @@
     <message>
         <source>You could not make csr than max csr count(%1) in no license</source>
         <translation>라이센스가 없을 경우 최대 CSR 개수(%1) 이상 CSR을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>Make CSR Information</source>
+        <translation>CSR 만들기 정보</translation>
+    </message>
+    <message>
+        <source>This is for CSR signature hash algorithm</source>
+        <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
     </message>
 </context>
 <context>
