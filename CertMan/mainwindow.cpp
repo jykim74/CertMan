@@ -1617,6 +1617,7 @@ void MainWindow::deleteCRL()
 
     manApplet->dbMgr()->getCRLRec( num, crl );
     manApplet->dbMgr()->delCRLRec( num );
+    manApplet->log( QString("CRLNum:%1 is deleted").arg(num));
 
     createRightCRLList( crl.getIssuerNum() );
 }
@@ -1632,34 +1633,24 @@ void MainWindow::deleteKeyPair()
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this key pair?" ), this, false );
     if( bVal == false ) return;
 
-#if 0
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
-    manApplet->dbMgr()->delKeyPairRec( num );
-#else
-    QList<QTableWidgetItem*> list = right_table_->selectedItems();
-    for( int i = 0; i < list.size(); i++ )
+
+    int nReqCnt = manApplet->dbMgr()->getKeyCountReq( num );
+    manApplet->log( QString( "KeyNum: %1 ReqCount: %2").arg( num ).arg( nReqCnt ));
+    int nCertCnt = manApplet->dbMgr()->getKeyCountCert( num );
+    manApplet->log( QString( "KeyNum: %1 CertCount: %2").arg( num ).arg( nCertCnt ));
+
+    if( nReqCnt > 0 || nCertCnt > 0)
     {
-        QTableWidgetItem* item = list.at(i);
-        int num = item->text().toInt();
-
-        int nReqCnt = manApplet->dbMgr()->getKeyCountReq( num );
-        manApplet->log( QString( "KeyNum: %1 ReqCount: %2").arg( num ).arg( nReqCnt ));
-        int nCertCnt = manApplet->dbMgr()->getKeyCountCert( num );
-        manApplet->log( QString( "KeyNum: %1 CertCount: %2").arg( num ).arg( nCertCnt ));
-
-        if( nReqCnt > 0 || nCertCnt > 0)
-        {
-            manApplet->warningBox( tr( "The KeyNum(%1) has already used in Req or Cert"), this );
-            continue;
-        }
-
-        manApplet->dbMgr()->delKeyPairRec( num );
-        manApplet->log( QString("KeyNum:%1 is deleted").arg(num));
+        manApplet->warningBox( tr( "The KeyNum(%1) has already used in Req or Cert").arg(num), this );
+        return;
     }
-#endif
+
+    manApplet->dbMgr()->delKeyPairRec( num );
+    manApplet->log( QString("KeyNum:%1 is deleted").arg(num));
 
     createRightKeyPairList();
 }
@@ -1674,22 +1665,14 @@ void MainWindow::deleteRequest()
 
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this request?" ), this, false );
     if( bVal == false ) return;
-#if 0
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
     manApplet->dbMgr()->delReqRec( num );
-#else
-    QList<QTableWidgetItem*> list = right_table_->selectedItems();
-    for( int i = 0; i < list.size(); i++ )
-    {
-        QTableWidgetItem* item = list.at(i);
-        int num = item->text().toInt();
-        manApplet->dbMgr()->delReqRec( num );
-        manApplet->log( QString("ReqNum:%1 is deleted").arg(num));
-    }
-#endif
+    manApplet->log( QString("ReqNum:%1 is deleted").arg(num));
+
     createRightRequestList();
 }
 
@@ -1703,21 +1686,13 @@ void MainWindow::deleteUser()
 
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this user?" ), this, false );
     if( bVal == false ) return;
-#if 0
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 
     int num = item->text().toInt();
     manApplet->dbMgr()->delUserRec( num );
-#else
-    QList<QTableWidgetItem*> list = right_table_->selectedItems();
-    for( int i = 0; i < list.size(); i++ )
-    {
-        QTableWidgetItem* item = list.at(i);
-        int num = item->text().toInt();
-        manApplet->dbMgr()->delUserRec( num );
-    }
-#endif
+    manApplet->log( QString("UserNum:%1 is deleted").arg(num));
 
     createRightUserList();
 }
