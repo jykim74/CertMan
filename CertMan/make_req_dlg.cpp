@@ -24,6 +24,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
     connect( mGenKeyPairCheck, SIGNAL(clicked()), this, SLOT(checkGenKeyPair()));
     connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
+    connect( mNewOptionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newOptionChanged(int)));
 
     initialize();
 }
@@ -392,6 +393,8 @@ void MakeReqDlg::keyNameChanged(int index)
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
+    if( mOptionText->text() == "SM2" ) mHashCombo->setCurrentText( "SM3" );
+
     if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA )
         mOptionLabel->setText( "Key Size" );
     else {
@@ -427,6 +430,12 @@ void MakeReqDlg::newAlgChanged(int index )
        mNewExponentLabel->setEnabled(false);
        mNewOptionLabel->setText( "Named Curve" );
     }
+}
+
+void MakeReqDlg::newOptionChanged(int index )
+{
+    if( mNewOptionCombo->currentText() == "SM2" )
+        mHashCombo->setCurrentText( "SM3" );
 }
 
 void MakeReqDlg::checkGenKeyPair()
