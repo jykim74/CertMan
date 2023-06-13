@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>510</width>
-    <height>480</height>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -146,7 +146,7 @@
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Certificate policy</string>
+      <string>Certificate Profile</string>
      </property>
     </widget>
    </item>
@@ -223,13 +223,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Issuer information</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <property name="topMargin">
       <number>0</number>
@@ -248,49 +241,83 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_8">
-       <property name="maximumSize">
-        <size>
-         <width>80</width>
-         <height>16777215</height>
-        </size>
+      <widget class="QLabel" name="mSelfSignLabel">
+       <property name="enabled">
+        <bool>false</bool>
        </property>
        <property name="text">
-        <string>Issuer Name</string>
+        <string>Sign yourself with your own key.</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QComboBox" name="mIssuerNameCombo"/>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_6">
-     <property name="topMargin">
-      <number>0</number>
+    <widget class="QGroupBox" name="mIssuerGroup">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_9">
-       <property name="text">
-        <string>Issuer Algorithm</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Issuer Param</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mIssuerAlgorithmText"/>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLineEdit" name="mIssuerOptionText"/>
-     </item>
-    </layout>
+     <property name="title">
+      <string>Issuer Certificate Information</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_9">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Issuer Name</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="mIssuerNameCombo"/>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <layout class="QGridLayout" name="gridLayout_10">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="mIssuerAlgorithmText"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Issuer Param</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Issuer Algorithm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="mIssuerOptionText"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="mUserGroup">
@@ -373,8 +400,6 @@
   <tabstop>mUseCSRFileCheck</tabstop>
   <tabstop>mCSRFilePathText</tabstop>
   <tabstop>mCSRFileFindBtn</tabstop>
-  <tabstop>mSelfSignCheck</tabstop>
-  <tabstop>mIssuerNameCombo</tabstop>
  </tabstops>
  <resources/>
  <connections>

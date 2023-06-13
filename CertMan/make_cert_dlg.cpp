@@ -655,10 +655,14 @@ void MakeCertDlg::clickSelfSign()
             return;
         }
     }
-
+/*
     mIssuerNameCombo->setEnabled( !bStatus );
     mIssuerAlgorithmText->setEnabled( !bStatus );
     mIssuerOptionText->setEnabled( !bStatus );
+*/
+
+    mSelfSignLabel->setEnabled( bStatus );
+    mIssuerGroup->setEnabled( !bStatus );
 }
 
 void MakeCertDlg::clickUseCSRFile()
