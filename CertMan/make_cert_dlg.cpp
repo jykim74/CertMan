@@ -102,6 +102,12 @@ void MakeCertDlg::initialize()
 
     if( req_list_.size() <= 0 ) mUseCSRFileCheck->setChecked(true);
     clickUseCSRFile();
+
+    if( manApplet->isPRO() == false )
+    {
+        mUserGroup->hide();
+        resize( width(), height() - 120 );
+    }
 }
 
 void MakeCertDlg::setSubjectDN()
@@ -566,18 +572,20 @@ void MakeCertDlg::accept()
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
 
+    if( manApplet->isPRO() )
+    {
+        userRec.setName( mUserNameText->text() );
+        userRec.setSSN( mSSNText->text() );
+        userRec.setEmail( mEmailText->text() );
+        userRec.setRegTime( time(NULL));
+        userRec.setStatus( JS_USER_STATUS_REGISTER );
+        if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
 
-    userRec.setName( mUserNameText->text() );
-    userRec.setSSN( mSSNText->text() );
-    userRec.setEmail( mEmailText->text() );
-    userRec.setRegTime( time(NULL));
-    userRec.setStatus( JS_USER_STATUS_REGISTER );
-    if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
+        addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
+    }
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
-        manApplet->mainWindow()->addRootCA( madeCertRec );
-
-    if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
+        manApplet->mainWindow()->addRootCA( madeCertRec );        
 
 end :
     JS_BIN_reset( &binCSR );
