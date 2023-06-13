@@ -193,31 +193,52 @@ void ExportDlg::clickFind()
 
     if( export_type_ == EXPORT_TYPE_PRIKEY )
     {
-        strFilter = tr("DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
     {
-        strFilter = tr("Key Files (*.key);;DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("Key Files (*.key);;DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_PUBKEY )
     {
-        strFilter = tr("DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
-        strFilter = tr("CSR Files (*.csr);;DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("CSR Files (*.csr);;DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_CRL )
     {
-        strFilter = tr("CRL Files (*.crl);;DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("CRL Files (*.crl);;DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_PFX )
     {
-        strFilter = tr("PFX Files (*.pfx);;DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("PFX Files (*.pfx);;DER Files (*.der);;All Files (*.*)");
     }
     else if( export_type_ == EXPORT_TYPE_CERTIFICATE )
     {
-        strFilter = tr("Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)");
+        if( mPEMSaveCheck->isChecked() )
+            strFilter = tr("Cert Files (*.crt);;PEM Files (*.pem);;All Files (*.*)");
+        else
+            strFilter = tr("Cert Files (*.crt);;DER Files (*.der);;All Files (*.*)");
     }
 
     QString selectedFilter;

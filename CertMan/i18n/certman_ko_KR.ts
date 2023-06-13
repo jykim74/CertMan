@@ -561,6 +561,14 @@
         <source>Save Path</source>
         <translation>저장 경로</translation>
     </message>
+    <message>
+        <source>PEM Files (*.pem);;All Files (*.*)</source>
+        <translation>PEM Files (*.pem);;All Files (*.*)</translation>
+    </message>
+    <message>
+        <source>Cert Files (*.crt);;PEM Files (*.pem);;All Files (*.*)</source>
+        <translation>Cert Files (*.crt);;PEM Files (*.pem);;All Files (*.*)</translation>
+    </message>
 </context>
 <context>
     <name>GetLDAPDlg</name>
