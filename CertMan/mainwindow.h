@@ -113,6 +113,7 @@ public slots:
 
     void newKey();
     void makeRequest();
+    void makeRequestSetKeyName();
     void makeCertProfile();
     void makeCRLProfile();
     void editCertProfile();

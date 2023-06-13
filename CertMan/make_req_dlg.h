@@ -19,6 +19,8 @@ public:
     explicit MakeReqDlg(QWidget *parent = nullptr);
     ~MakeReqDlg();
 
+    void setKeyName( const QString strName );
+
 private slots:
     virtual void accept();
     void keyNameChanged(int index);

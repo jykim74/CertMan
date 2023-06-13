@@ -489,13 +489,19 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
-        menu.addAction(tr("Make Request"), this, &MainWindow::makeRequest );
+
+        QTableWidgetItem* useitem = right_table_->item( row, 5 );
+        if( useitem->text() == "NotUsed" )
+            menu.addAction(tr("Make Request"), this, &MainWindow::makeRequestSetKeyName );
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
         menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest );
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
-        menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
+
+        QTableWidgetItem* useitem = right_table_->item( row, 5 );
+        if( useitem->text() == "NotUsed" )
+            menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
 
         if( manApplet->isPRO() )
         {
@@ -902,6 +908,28 @@ void MainWindow::makeRequest()
     makeReqDlg.exec();
 }
 
+void MainWindow::makeRequestSetKeyName()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    KeyPairRec keyRec;
+    manApplet->dbMgr()->getKeyPairRec( num, keyRec );
+
+    MakeReqDlg makeReqDlg;
+    makeReqDlg.setKeyName( keyRec.getName() );
+    makeReqDlg.exec();
+}
+
 void MainWindow::makeCertProfile()
 {
     if( manApplet->isDBOpen() == false )
@@ -921,6 +949,7 @@ void MainWindow::makeCRLProfile()
         manApplet->warningBox( tr("You have to open database"), this );
         return;
     }
+
 
     MakeCRLProfileDlg makeCRLProfileDlg;
     makeCRLProfileDlg.exec();
@@ -1033,6 +1062,7 @@ void MainWindow::makeCertificate()
 
     makeCertDlg.exec();
 }
+
 
 void MainWindow::makeCRL()
 {

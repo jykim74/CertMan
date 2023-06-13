@@ -34,6 +34,11 @@ MakeReqDlg::~MakeReqDlg()
 
 }
 
+void MakeReqDlg::setKeyName( const QString strName )
+{
+    mKeyNameCombo->setCurrentText( strName );
+}
+
 void MakeReqDlg::initialize()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
