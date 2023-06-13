@@ -1540,6 +1540,8 @@ void MainWindow::deleteCRLProfile()
 
 void MainWindow::deleteCertificate()
 {
+    DBMgr* dbMgr = manApplet->dbMgr();
+
     if( manApplet->isDBOpen() == false )
     {
         manApplet->warningBox( tr("You have to open database"), this );
@@ -1555,8 +1557,42 @@ void MainWindow::deleteCertificate()
     int num = item->text().toInt();
 
     CertRec cert;
-    manApplet->dbMgr()->getCertRec( num, cert );
-    manApplet->dbMgr()->delCertRec( num );
+    dbMgr->getCertRec( num, cert );
+
+    if( cert.isCA() )
+    {
+        int nCertCnt = dbMgr->getCertSearchCount( num );
+        manApplet->log( QString("Issued Cert Cnt : %1").arg( nCertCnt ));
+        int nCRLCnt = dbMgr->getCRLSearchCount( num );
+        manApplet->log( QString( "Issued CRL Cnt : %1" ).arg( nCRLCnt ));
+
+        if( nCertCnt > 0 || nCRLCnt > 0 )
+        {
+            manApplet->warningBox( tr("The cert have certificates or crls to be issued"), this );
+            return;
+        }
+
+        if( cert.isSelf() )
+        {
+            /* Remove RootCA TreeItem */
+            if( root_ca_ != NULL && root_ca_->hasChildren() )
+            {
+                int nRow = root_ca_->rowCount();
+                for( int i = 0; i < nRow; i++ )
+                {
+                    ManTreeItem *child = (ManTreeItem *)root_ca_->child( i );
+                    if( child->getDataNum() == num )
+                    {
+                        root_ca_->removeRow( i );
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    dbMgr->delCertRec( num );
+    manApplet->log( QString( "CertNum : %1 is deleted").arg( num ));
 
     createRightCertList( cert.getIssuerNum() );
 }
@@ -1608,7 +1644,20 @@ void MainWindow::deleteKeyPair()
     {
         QTableWidgetItem* item = list.at(i);
         int num = item->text().toInt();
+
+        int nReqCnt = manApplet->dbMgr()->getKeyCountReq( num );
+        manApplet->log( QString( "KeyNum: %1 ReqCount: %2").arg( num ).arg( nReqCnt ));
+        int nCertCnt = manApplet->dbMgr()->getKeyCountCert( num );
+        manApplet->log( QString( "KeyNum: %1 CertCount: %2").arg( num ).arg( nCertCnt ));
+
+        if( nReqCnt > 0 || nCertCnt > 0)
+        {
+            manApplet->warningBox( tr( "The KeyNum(%1) has already used in Req or Cert"), this );
+            continue;
+        }
+
         manApplet->dbMgr()->delKeyPairRec( num );
+        manApplet->log( QString("KeyNum:%1 is deleted").arg(num));
     }
 #endif
 
@@ -1638,6 +1687,7 @@ void MainWindow::deleteRequest()
         QTableWidgetItem* item = list.at(i);
         int num = item->text().toInt();
         manApplet->dbMgr()->delReqRec( num );
+        manApplet->log( QString("ReqNum:%1 is deleted").arg(num));
     }
 #endif
     createRightRequestList();

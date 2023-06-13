@@ -388,10 +388,13 @@ int DBMgr::getCertSearchCount( int nIssuerNum, QString strTarget, QString strWor
 {
     int nCount = -1;
 
-    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%'" )
-            .arg( nIssuerNum )
-            .arg( strTarget )
-            .arg( strWord );
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISSUERNUM = %1" )
+            .arg( nIssuerNum );
+
+    if( strTarget != nullptr && strTarget.length() > 1 )
+    {
+        strSQL += QString( " AND %1 LIKE '%%2%'" ).arg( strTarget ).arg( strWord );
+    }
 
     QSqlQuery SQL(strSQL);
 
@@ -408,10 +411,13 @@ int DBMgr::getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord
 {
     int nCount = -1;
 
-    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%'" )
-            .arg( nIssuerNum )
-            .arg( strTarget )
-            .arg( strWord );
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL WHERE ISSUERNUM = %1" )
+            .arg( nIssuerNum );
+
+    if( strTarget != nullptr && strTarget.length() > 1 )
+    {
+        strSQL += QString( " AND %1 LIKE '%%2%'" ).arg( strTarget ).arg( strWord );
+    }
 
     QSqlQuery SQL(strSQL);
 
@@ -427,7 +433,7 @@ int DBMgr::getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord
 int DBMgr::getKeyPairSearchCount( int nStatus, QString strTarget, QString strWord)
 {
     int nCount = -1;
-    QString strSQL = QString("SELECT COUNT(*) FROM TB_CRL WHERE %1 LIKE '%%2%'")
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_KEY_PAIR WHERE %1 LIKE '%%2%'")
             .arg( strTarget )
             .arg( strWord );
 
@@ -467,7 +473,8 @@ int DBMgr::getReqSearchCount( int nStatus, QString strTarget, QString strWord)
 int DBMgr::getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord )
 {
     int nCount = -1;
-    QString strSQL = QString("SELECT COUNT(*) FROM TB_REVOKED WHERE %1 LIKE '%%2%'")
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_REVOKED WHERE ISSUERNUM = %1 AND %2 LIKE '%%3%'")
+            .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord );
 
@@ -2272,4 +2279,38 @@ int DBMgr::getConfigList( QList<ConfigRec>& configList )
     QString strQuery = QString("SELECT * FROM TB_CONFIG ORDER BY NUM DESC" );
 
     return _getConfigList( strQuery, configList );
+}
+
+int DBMgr::getKeyCountReq( int nKeyNum )
+{
+    int nCount = -1;
+    if( nKeyNum < 0 ) return -1;
+
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_REQ WHERE KEY_NUM = %1").arg( nKeyNum );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getKeyCountCert( int nKeyNum )
+{
+    int nCount = -1;
+    if( nKeyNum < 0 ) return -1;
+
+    QString strSQL = QString("SELECT COUNT(*) FROM TB_CERT WHERE KEYNUM = %1").arg( nKeyNum );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
 }

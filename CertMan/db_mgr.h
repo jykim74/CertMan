@@ -57,12 +57,12 @@ public:
     int getTSPCount();
     int getStatisticsCount( int nStartTime, int nEndTime, QString strTable );
 
-    int getCertSearchCount( int nIssuerNum, QString strTarget, QString strWord );
-    int getCRLSearchCount( int nIssuerNum, QString strTarget, QString strWord );
-    int getKeyPairSearchCount( int nStatus, QString strTarget, QString strWord);
+    int getCertSearchCount( int nIssuerNum, QString strTarget = nullptr, QString strWord = nullptr);
+    int getCRLSearchCount( int nIssuerNum, QString strTarget = nullptr, QString strWord = nullptr );
+    int getKeyPairSearchCount( int nStatus, QString strTarget, QString strWord );
     int getReqSearchCount( int nStatus, QString strTarget, QString strWord);
     int getRevokeSearchCount( int nIssuerNum, QString strTarget, QString strWord );
-    int getUserSearchCount( QString strTarget, QString strWord);
+    int getUserSearchCount( QString strTarget, QString strWord );
     int getKMSSearchCount( QString strTarget, QString strWord);
     int getAuditSearchCount( QString strTarget, QString strWord);
     int getTSPSearchCount( QString strTarget, QString strWord);
@@ -183,6 +183,8 @@ public:
     int getConfigValue( int nKind, const QString& strName, QString& value );
     int getConfigList( QList<ConfigRec>& configList );
 
+    int getKeyCountReq( int nKeyNum );
+    int getKeyCountCert( int nKeyNum );
 
 private:
     int _getCertList( QString strQuery, QList<CertRec>& certList );
