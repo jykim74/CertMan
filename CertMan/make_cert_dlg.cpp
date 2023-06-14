@@ -341,7 +341,13 @@ void MakeCertDlg::accept()
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
-
+    else if( signKeyPair.getAlg() == kMechEdDSA )
+    {
+        if( signKeyPair.getParam().toLower() == "ed25519" )
+            nKeyType = JS_PKI_KEY_TYPE_ED25519;
+        else
+            nKeyType = JS_PKI_KEY_TYPE_ED448;
+    }
 
 //    QString strDN = mSubjectDNText->text();
     QString strDN = getRealSubjectDN();

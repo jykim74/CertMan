@@ -338,9 +338,21 @@ void MakeReqDlg::accept()
     else
     {
         if( strAlg == kMechRSA )
+        {
             nAlg = JS_PKI_KEY_TYPE_RSA;
-        else {
+        }
+        else if( strAlg == kMechEC )
+        {
             nAlg = JS_PKI_KEY_TYPE_ECC;
+        }
+        else if( strAlg == kMechEdDSA )
+        {
+            QString strOption = mOptionText->text();
+
+            if( strOption.toLower() == "ed25519" )
+                nAlg = JS_PKI_KEY_TYPE_ED25519;
+            else
+                nAlg = JS_PKI_KEY_TYPE_ED448;
         }
 
         if( manApplet->isPasswd() )

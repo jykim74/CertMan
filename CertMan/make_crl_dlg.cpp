@@ -120,6 +120,13 @@ void MakeCRLDlg::accept()
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( caKeyPair.getAlg() == "EC" )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
+    else if( caKeyPair.getAlg() == kMechEdDSA )
+    {
+        if( caKeyPair.getParam().toLower() == "ed25519" )
+            nKeyType = JS_PKI_KEY_TYPE_ED25519;
+        else
+            nKeyType = JS_PKI_KEY_TYPE_ED448;
+    }
 
     if( manApplet->isPasswd() )
         manApplet->getDecPriBIN( caKeyPair.getPrivateKey(), &binSignPri );

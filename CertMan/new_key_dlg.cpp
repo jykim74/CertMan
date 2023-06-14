@@ -2,6 +2,7 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "js_pki.h"
+#include "js_pki_eddsa.h"
 #include "js_pki_tools.h"
 #include "js_bin.h"
 #include "db_mgr.h"
@@ -13,7 +14,7 @@
 #include "js_gen.h"
 #include "commons.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC };
+static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA };
 
 NewKeyDlg::NewKeyDlg(QWidget *parent) :
     QDialog(parent)
@@ -100,6 +101,17 @@ void NewKeyDlg::accept()
     {
         int nGroupID = JS_PKI_getNidFromSN( mOptionCombo->currentText().toStdString().c_str() );
         ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
+    }
+    else if( mMechCombo->currentText() == kMechEdDSA )
+    {
+        int nParam = 0;
+
+        if( mOptionCombo->currentText() == "Ed25519" )
+            nParam = JS_PKI_KEY_TYPE_ED25519;
+        else if( mOptionCombo->currentText() == "Ed448" )
+            nParam = JS_PKI_KEY_TYPE_ED448;
+
+        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
     else if( mMechCombo->currentText() == kMechPKCS11_RSA || mMechCombo->currentText() == kMechPKCS11_EC )
     {
@@ -209,5 +221,12 @@ void NewKeyDlg::mechChanged(int index )
         mExponentLabel->setEnabled(false);
         mExponentText->setEnabled(false);
         mOptionLabel->setText("NamedCurve");
+    }
+    else if( strMech == kMechEdDSA )
+    {
+        mOptionCombo->addItems( kEdDSAOptionList );
+        mExponentLabel->setEnabled(false);
+        mExponentText->setEnabled(false);
+        mOptionLabel->setText( "NamedCurve" );
     }
 }
