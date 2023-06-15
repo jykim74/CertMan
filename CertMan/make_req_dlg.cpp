@@ -9,11 +9,12 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
+#include "js_pki_eddsa.h"
 #include "settings_mgr.h"
 #include "commons.h"
 #include "pin_dlg.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC };
+static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA };
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
     QDialog(parent)
@@ -86,6 +87,8 @@ void MakeReqDlg::initialize()
         mGenKeyPairCheck->setChecked(true);
         checkGenKeyPair();
     }
+
+    if( key_list_.size() > 0 ) keyNameChanged(0);
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
@@ -114,16 +117,27 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
         }
     }
 
-    if( strAlg == "RSA" )
+    if( strAlg == kMechRSA )
     {
         int nKeySize = mNewOptionCombo->currentText().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
-    else if( strAlg == "EC" )
+    else if( strAlg == kMechEC )
     {
         int nGroupID = JS_PKI_getNidFromSN( mNewOptionCombo->currentText().toStdString().c_str() );
         ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
+    }
+    else if( strAlg == kMechEdDSA )
+    {
+        int nParam = 0;
+
+        if( mNewOptionCombo->currentText() == "Ed25519" )
+            nParam = JS_PKI_KEY_TYPE_ED25519;
+        else if( mNewOptionCombo->currentText() == "Ed448" )
+            nParam = JS_PKI_KEY_TYPE_ED448;
+
+        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
     else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
     {
@@ -410,13 +424,22 @@ void MakeReqDlg::keyNameChanged(int index)
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
-    if( mOptionText->text() == "SM2" ) mHashCombo->setCurrentText( "SM3" );
-
     if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA )
+    {
         mOptionLabel->setText( "Key Size" );
-    else {
+    }
+    else
+    {
         mOptionLabel->setText( "NamedCurve" );
     }
+
+    if( mOptionText->text() == "SM2" )
+        mHashCombo->setCurrentText( "SM3" );
+
+    if( keyRec.getAlg() == kMechEdDSA )
+        mHashCombo->setEnabled(false);
+    else
+        mHashCombo->setEnabled(true);
 
     QString strTitle = keyRec.getName();
     strTitle += "(REQ)";
@@ -438,14 +461,24 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewExponentText->setEnabled(true);
         mNewExponentLabel->setEnabled(true);
         mNewOptionLabel->setText( "Key Length" );
+        mHashCombo->setEnabled(true);
     }
-    else
+    else if( strAlg == kMechEC )
     {
        mNewOptionCombo->addItems( kECCOptionList );
        mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
        mNewExponentText->setEnabled(false);
        mNewExponentLabel->setEnabled(false);
        mNewOptionLabel->setText( "Named Curve" );
+       mHashCombo->setEnabled(true);
+    }
+    else if( strAlg == kMechEdDSA )
+    {
+        mNewOptionCombo->addItems( kEdDSAOptionList );
+        mNewExponentText->setEnabled(false);
+        mNewExponentLabel->setEnabled(false);
+        mNewOptionLabel->setText( "Named Curve" );
+        mHashCombo->setEnabled(false);
     }
 }
 
