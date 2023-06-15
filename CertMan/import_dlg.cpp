@@ -147,7 +147,8 @@ void ImportDlg::initUI()
 
 void ImportDlg::initialize()
 {
-
+    if( manApplet->isPRO() == false )
+        mImportKMSCheck->hide();
 }
 
 

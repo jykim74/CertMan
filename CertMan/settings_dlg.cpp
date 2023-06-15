@@ -444,6 +444,7 @@ void SettingsDlg::initialize()
         mTabWidget->removeTab( 5 );
         mTabWidget->removeTab( 4 );
         mTabWidget->removeTab( 3 );
+        mTabWidget->removeTab( 2 );
     }
 
     mTabWidget->setCurrentIndex(0);
