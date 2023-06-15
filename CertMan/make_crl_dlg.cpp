@@ -116,10 +116,12 @@ void MakeCRLDlg::accept()
 
     dbMgr->getKeyPairRec( caCert.getKeyNum(), caKeyPair );
 
-    if( caKeyPair.getAlg() == "RSA" )
+    if( caKeyPair.getAlg() == kMechRSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( caKeyPair.getAlg() == "EC" )
+    else if( caKeyPair.getAlg() == kMechEC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
+    else if( caKeyPair.getAlg() == kMechDSA )
+        nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( caKeyPair.getAlg() == kMechEdDSA )
     {
         if( caKeyPair.getParam().toLower() == "ed25519" )

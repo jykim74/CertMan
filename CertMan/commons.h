@@ -53,6 +53,7 @@ const int   kListCount = 15;
 const QString kMechRSA = "RSA";
 const QString kMechEC = "EC";
 const QString kMechEdDSA = "EdDSA";
+const QString kMechDSA = "DSA";
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
 const QString kMechKMIP_RSA = "KMIP_RSA";
@@ -103,7 +104,7 @@ static QStringList kECCOptionList = { "prime256v1",
 };
 
 static QStringList kEdDSAOptionList = { "Ed25519", "Ed448" };
-
+static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
 

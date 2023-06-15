@@ -14,7 +14,7 @@
 #include "js_gen.h"
 #include "commons.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA };
+static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA, kMechDSA };
 
 NewKeyDlg::NewKeyDlg(QWidget *parent) :
     QDialog(parent)
@@ -96,6 +96,12 @@ void NewKeyDlg::accept()
         int nExponent = mExponentText->text().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
+    }
+    else if( mMechCombo->currentText() == kMechDSA )
+    {
+        int nKeySize = mOptionCombo->currentText().toInt();
+
+        ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
     else if( mMechCombo->currentText() == kMechEC )
     {
@@ -228,5 +234,13 @@ void NewKeyDlg::mechChanged(int index )
         mExponentLabel->setEnabled(false);
         mExponentText->setEnabled(false);
         mOptionLabel->setText( "NamedCurve" );
+    }
+    else if( strMech == kMechDSA )
+    {
+        mOptionCombo->addItems(kDSAOptionList);
+        mOptionCombo->setCurrentText( "2048" );
+        mExponentLabel->setEnabled(false);
+        mExponentText->setEnabled(false);
+        mOptionLabel->setText( "Key size");
     }
 }

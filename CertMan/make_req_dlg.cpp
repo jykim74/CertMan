@@ -359,6 +359,10 @@ void MakeReqDlg::accept()
         {
             nAlg = JS_PKI_KEY_TYPE_ECC;
         }
+        else if( strAlg == kMechDSA )
+        {
+            nAlg = JS_PKI_KEY_TYPE_DSA;
+        }
         else if( strAlg == kMechEdDSA )
         {
             QString strOption = mOptionText->text();
@@ -424,7 +428,7 @@ void MakeReqDlg::keyNameChanged(int index)
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
-    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA )
+    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA || keyRec.getAlg() == kMechDSA )
     {
         mOptionLabel->setText( "Key Size" );
     }
@@ -460,6 +464,15 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewOptionCombo->setCurrentText( "2048" );
         mNewExponentText->setEnabled(true);
         mNewExponentLabel->setEnabled(true);
+        mNewOptionLabel->setText( "Key Length" );
+        mHashCombo->setEnabled(true);
+    }
+    else if( strAlg == kMechDSA )
+    {
+        mNewOptionCombo->addItems( kDSAOptionList );
+        mNewOptionCombo->setCurrentText( "2048" );
+        mNewExponentText->setEnabled(false);
+        mNewExponentLabel->setEnabled(false);
         mNewOptionLabel->setText( "Key Length" );
         mHashCombo->setEnabled(true);
     }
