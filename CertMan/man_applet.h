@@ -59,6 +59,9 @@ public:
     QString getEncPriHex( const BIN *pPri );
     int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );
 
+    QString curFile() { return cur_file_; };
+    void setCurFile( const QString& strFile );
+
 private:
     int loadPKCS11();
 
@@ -83,6 +86,7 @@ private:
 
     bool is_passwd_;
     BIN pass_key_;
+    QString cur_file_;
 };
 
 extern ManApplet *manApplet;

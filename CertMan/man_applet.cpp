@@ -123,6 +123,12 @@ void ManApplet::start()
     log( "======================================================");
 }
 
+void ManApplet::setCurFile( const QString& strFile )
+{
+    cur_file_ = strFile;
+}
+
+
 int ManApplet::checkLicense()
 {
     time_t ntp_t = 0;
