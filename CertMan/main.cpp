@@ -17,6 +17,12 @@ int main(int argc, char *argv[])
     qss.open( QFile::ReadOnly );
     app.setStyleSheet(qss.readAll());
 
+#ifdef Q_OS_WIN32
+    QFont font;
+    font.setFamily(QString("굴림체"));
+    app.setFont(font);
+#endif
+
     QCommandLineParser parser;
     parser.setApplicationDescription( QCoreApplication::applicationName() );
     parser.addHelpOption();
