@@ -66,6 +66,7 @@
 #include "config_dlg.h"
 #include "set_pass_dlg.h"
 #include "login_dlg.h"
+#include "pri_key_info_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -489,6 +490,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
+        menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
 
         QTableWidgetItem* useitem = right_table_->item( row, 5 );
         if( useitem->text() == "NotUsed" )
@@ -1265,6 +1267,25 @@ void MainWindow::verifyCRL()
 end :
     JS_BIN_reset( &binCRL );
     JS_BIN_reset( &binCA );
+}
+
+void MainWindow::viewPriKey()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
+    PriKeyInfoDlg priKeyInfoDlg;
+    priKeyInfoDlg.setKeyNum( num );
+    priKeyInfoDlg.exec();
 }
 
 void MainWindow::importData()

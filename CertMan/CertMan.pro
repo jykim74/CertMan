@@ -72,6 +72,7 @@ SOURCES += \
         man_tree_view.cpp \
         new_key_dlg.cpp \
         pin_dlg.cpp \
+        pri_key_info_dlg.cpp \
         profile_ext_rec.cpp \
         pub_ldap_dlg.cpp \
         req_rec.cpp \
@@ -129,6 +130,7 @@ HEADERS += \
         man_tree_view.h \
         new_key_dlg.h \
         pin_dlg.h \
+        pri_key_info_dlg.h \
         profile_ext_rec.h \
         pub_ldap_dlg.h \
         req_rec.h \
@@ -170,6 +172,7 @@ FORMS += \
         make_req_dlg.ui \
         new_key_dlg.ui \
         pin_dlg.ui \
+        pri_key_info_dlg.ui \
         pub_ldap_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \
