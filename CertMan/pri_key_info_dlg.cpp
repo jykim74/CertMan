@@ -184,13 +184,6 @@ void PriKeyInfoDlg::setEdDSAPriKey( const BIN *pPriKey )
 
     if( ret == 0 )
     {
-        QString strType;
-        if( sRawKeyVal.nType == JS_PKI_KEY_TYPE_ED25519 )
-            strType = "Ed25519";
-        else if( sRawKeyVal.nType == JS_PKI_KEY_TYPE_ED448 )
-            strType = "Ed448";
-
-        mEdDSA_KeyTypeText->setText( strType );
         mEdDSA_NameText->setText( sRawKeyVal.pName );
         mEdDSA_RawPublicText->setText( sRawKeyVal.pPub );
         mEdDSA_RawPrivateText->setText( sRawKeyVal.pPri );

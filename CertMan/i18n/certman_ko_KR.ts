@@ -1645,6 +1645,10 @@
         <source>The KeyNum(%1) has already used in Req or Cert</source>
         <translation>키 번호(%1) 은 요청서 또는 인증서에서 이미 사용 되고 있습니다.</translation>
     </message>
+    <message>
+        <source>View PrivateKey</source>
+        <translation>개인키 보기</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -2858,6 +2862,97 @@
     <message>
         <source>Insert pin value</source>
         <translation>핀 값을 입력하세요</translation>
+    </message>
+</context>
+<context>
+    <name>PriKeyInfoDlg</name>
+    <message>
+        <source>Private Key Information</source>
+        <translation>개인키 정보</translation>
+    </message>
+    <message>
+        <source>RSA</source>
+        <translation>RSA</translation>
+    </message>
+    <message>
+        <source>E</source>
+        <translation>E</translation>
+    </message>
+    <message>
+        <source>N</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <source>Q</source>
+        <translation>Q</translation>
+    </message>
+    <message>
+        <source>DMP1</source>
+        <translation>DMP1</translation>
+    </message>
+    <message>
+        <source>IQMP</source>
+        <translation>IQMP</translation>
+    </message>
+    <message>
+        <source>D</source>
+        <translation>D</translation>
+    </message>
+    <message>
+        <source>P</source>
+        <translation>P</translation>
+    </message>
+    <message>
+        <source>DMQ1</source>
+        <translation>DMQ1</translation>
+    </message>
+    <message>
+        <source>ECC</source>
+        <translation>ECC</translation>
+    </message>
+    <message>
+        <source>Private</source>
+        <translation>Private</translation>
+    </message>
+    <message>
+        <source>Group</source>
+        <translation>Group</translation>
+    </message>
+    <message>
+        <source>PubX</source>
+        <translation>PubX</translation>
+    </message>
+    <message>
+        <source>PubY</source>
+        <translation>PubY</translation>
+    </message>
+    <message>
+        <source>DSA</source>
+        <translation>DSA</translation>
+    </message>
+    <message>
+        <source>G</source>
+        <translation>G</translation>
+    </message>
+    <message>
+        <source>EdDSA</source>
+        <translation>EdDSA</translation>
+    </message>
+    <message>
+        <source>Raw Private</source>
+        <translation>Raw Private</translation>
+    </message>
+    <message>
+        <source>Raw Public</source>
+        <translation>Raw Public</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
     </message>
 </context>
 <context>
