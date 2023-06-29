@@ -1,6 +1,7 @@
 #ifndef PRI_KEY_INFO_DLG_H
 #define PRI_KEY_INFO_DLG_H
 
+#include "js_bin.h"
 #include <QDialog>
 #include "ui_pri_key_info_dlg.h"
 
@@ -35,11 +36,21 @@ private slots:
     void changeECC_PubY( const QString& text );
     void changeECC_Private( const QString& text );
 
+    void changeDSA_G( const QString& text );
+    void changeDSA_P( const QString& text );
+    void changeDSA_Q( const QString& text );
+    void changeDSA_Private( const QString& text );
+
+    void changeEdDSA_RawPublic( const QString& text );
+    void changeEdDSA_RawPrivate( const QString& text );
+
 private:
     void initialize();
 
-    void setRSAPriKey( const QString& strPriVal );
-    void setECCPriKey( const QString& strPriVal );
+    void setRSAPriKey( const BIN *pPriKey );
+    void setECCPriKey( const BIN *pPriKey );
+    void setDSAPriKey( const BIN *pPriKey );
+    void setEdDSAPriKey( const BIN *pPriKey );
 
 private:
     int key_num_;

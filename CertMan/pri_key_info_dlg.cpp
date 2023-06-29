@@ -1,4 +1,6 @@
+#include "js_bin.h"
 #include "js_pki.h"
+#include "js_pki_eddsa.h"
 
 #include "man_applet.h"
 #include "db_mgr.h"
@@ -26,6 +28,14 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mECC_PubXText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_PubX(const QString&)));
     connect( mECC_PubYText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_PubY(const QString&)));
     connect( mECC_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_Private(const QString&)));
+
+    connect( mDSA_GText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_G(const QString&)));
+    connect( mDSA_PText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_P(const QString&)));
+    connect( mDSA_QText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Q(const QString&)));
+    connect( mDSA_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Private(const QString&)));
+
+    connect( mEdDSA_RawPublicText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPublic(const QString&)));
+    connect( mEdDSA_RawPrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPrivate(const QString&)));
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()
@@ -45,6 +55,7 @@ void PriKeyInfoDlg::initialize()
     if( dbMgr == NULL ) return;
 
     KeyPairRec keyPair;
+    BIN binPri = {0,0};
 
     mKeyTab->setTabEnabled(0, false);
     mKeyTab->setTabEnabled(1, false);
@@ -53,28 +64,37 @@ void PriKeyInfoDlg::initialize()
 
     dbMgr->getKeyPairRec( key_num_, keyPair );
 
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
     if( keyPair.getAlg() == "RSA" )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
-        setRSAPriKey( keyPair.getPrivateKey() );
+        setRSAPriKey( &binPri );
     }
     else if( keyPair.getAlg() == "EC" )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
-        setECCPriKey( keyPair.getPrivateKey() );
+        setECCPriKey( &binPri );
     }
     else if( keyPair.getAlg() == "DSA" )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
+        setDSAPriKey( &binPri );
     }
     else
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
+        setEdDSAPriKey( &binPri );
     }
+
+    JS_BIN_reset( &binPri );
 }
 
 void PriKeyInfoDlg::showEvent(QShowEvent *event)
@@ -82,18 +102,16 @@ void PriKeyInfoDlg::showEvent(QShowEvent *event)
     initialize();
 }
 
-void PriKeyInfoDlg::setRSAPriKey( const QString& strPriVal )
+void PriKeyInfoDlg::setRSAPriKey( const BIN *pPriKey )
 {
     int ret = 0;
     JRSAKeyVal  sRSAKey;
-    BIN binPri = {0,0};
 
-    if( strPriVal.length() < 1 ) return;
+    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
 
     memset( &sRSAKey, 0x00, sizeof(sRSAKey));
 
-    JS_BIN_decodeHex( strPriVal.toStdString().c_str(), &binPri );
-    ret = JS_PKI_getRSAKeyVal( &binPri, &sRSAKey );
+    ret = JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
 
     if( ret == 0 )
     {
@@ -107,22 +125,19 @@ void PriKeyInfoDlg::setRSAPriKey( const QString& strPriVal )
         mRSA_IQMPText->setText( sRSAKey.pIQMP );
     }
 
-    JS_BIN_reset( &binPri );
     JS_PKI_resetRSAKeyVal( &sRSAKey );
 }
 
-void PriKeyInfoDlg::setECCPriKey( const QString& strPriVal )
+void PriKeyInfoDlg::setECCPriKey( const BIN *pPriKey )
 {
     int ret = 0;
     JECKeyVal sECKey;
-    BIN binPri = {0,0};
 
-    if( strPriVal.length() < 1 ) return;
+    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
 
     memset( &sECKey, 0x00, sizeof(sECKey));
 
-    JS_BIN_decodeHex( strPriVal.toStdString().c_str(), &binPri );
-    ret = JS_PKI_getECKeyVal( &binPri, &sECKey );
+    ret = JS_PKI_getECKeyVal( pPriKey, &sECKey );
 
     if( ret == 0 )
     {
@@ -132,8 +147,56 @@ void PriKeyInfoDlg::setECCPriKey( const QString& strPriVal )
         mECC_PrivateText->setText( sECKey.pPrivate );
     }
 
-    JS_BIN_reset( &binPri );
     JS_PKI_resetECKeyVal( &sECKey );
+}
+
+void PriKeyInfoDlg::setDSAPriKey( const BIN *pPriKey )
+{
+    int ret = 0;
+    JDSAKeyVal sDSAKey;
+
+    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+
+    memset( &sDSAKey, 0x00, sizeof(sDSAKey));
+
+    ret = JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
+
+    if( ret == 0 )
+    {
+        mDSA_GText->setText( sDSAKey.pG );
+        mDSA_PText->setText( sDSAKey.pP );
+        mDSA_QText->setText( sDSAKey.pQ );
+        mDSA_PrivateText->setText( sDSAKey.pPrivate );
+    }
+
+    JS_PKI_resetDSAKeyVal( &sDSAKey );
+}
+
+void PriKeyInfoDlg::setEdDSAPriKey( const BIN *pPriKey )
+{
+    int ret = 0;
+    JRawKeyVal sRawKeyVal;
+
+    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+
+    memset( &sRawKeyVal, 0x00, sizeof(sRawKeyVal));
+    ret = JS_PKI_getRawKeyVal( pPriKey, &sRawKeyVal );
+
+    if( ret == 0 )
+    {
+        QString strType;
+        if( sRawKeyVal.nType == JS_PKI_KEY_TYPE_ED25519 )
+            strType = "Ed25519";
+        else if( sRawKeyVal.nType == JS_PKI_KEY_TYPE_ED448 )
+            strType = "Ed448";
+
+        mEdDSA_KeyTypeText->setText( strType );
+        mEdDSA_NameText->setText( sRawKeyVal.pName );
+        mEdDSA_RawPublicText->setText( sRawKeyVal.pPub );
+        mEdDSA_RawPrivateText->setText( sRawKeyVal.pPri );
+    }
+
+    JS_PKI_resetRawKeyVal( &sRawKeyVal );
 }
 
 void PriKeyInfoDlg::changeRSA_N( const QString& text )
@@ -209,3 +272,38 @@ void PriKeyInfoDlg::changeECC_Private( const QString& text )
     mECC_PrivateLenText->setText( QString("%1").arg(nLen));
 }
 
+void PriKeyInfoDlg::changeDSA_G( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mDSA_GLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeDSA_P( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mDSA_PLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeDSA_Q( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mDSA_QLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeDSA_Private( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mDSA_PrivateLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeEdDSA_RawPublic( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mEdDSA_RawPublicLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeEdDSA_RawPrivate( const QString& text )
+{
+    int nLen = text.length() / 2;
+    mEdDSA_RawPrivateLenText->setText( QString("%1").arg(nLen));
+}
