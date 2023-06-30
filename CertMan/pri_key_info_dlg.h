@@ -4,6 +4,9 @@
 #include "js_bin.h"
 #include <QDialog>
 #include "ui_pri_key_info_dlg.h"
+#include "key_pair_rec.h"
+
+class KeyPairRec;
 
 namespace Ui {
 class PriKeyInfoDlg;
@@ -45,16 +48,21 @@ private slots:
     void changeEdDSA_RawPublic( const QString& text );
     void changeEdDSA_RawPrivate( const QString& text );
 
+    void clickClear();
+    void clickGetPrivateKey();
+    void clickGetPublicKey();
+
 private:
     void initialize();
 
-    void setRSAPriKey( const BIN *pPriKey );
-    void setECCPriKey( const BIN *pPriKey );
-    void setDSAPriKey( const BIN *pPriKey );
-    void setEdDSAPriKey( const QString& strParam, const BIN *pPriKey );
+    void setRSAKey( const BIN *pKey, bool bPri = true );
+    void setECCKey( const BIN *pKey, bool bPri = true );
+    void setDSAKey( const BIN *pKey, bool bPri = true );
+    void setEdDSAKey( const QString& strParam, const BIN *pKey, bool bPri = true );
 
 private:
     int key_num_;
+    KeyPairRec key_rec_;
 };
 
 #endif // PRI_KEY_INFO_DLG_H

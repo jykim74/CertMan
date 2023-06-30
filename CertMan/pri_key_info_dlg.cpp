@@ -11,6 +11,7 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     QDialog(parent)
 {
     key_num_ = -1;
+
     setupUi(this);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
@@ -37,6 +38,10 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
 
     connect( mEdDSA_RawPublicText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPublic(const QString&)));
     connect( mEdDSA_RawPrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPrivate(const QString&)));
+
+    connect( mClearBtn, SIGNAL(clicked()), this, SLOT(clickClear()));
+    connect( mGetPrivateKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPrivateKey()));
+    connect( mGetPublicKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPublicKey()));
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()
@@ -46,56 +51,21 @@ PriKeyInfoDlg::~PriKeyInfoDlg()
 
 void PriKeyInfoDlg::setKeyNum( int key_num )
 {
+    DBMgr* dbMgr = manApplet->dbMgr();
     key_num_ = key_num;
+
+    if( dbMgr == NULL ) return;
+    dbMgr->getKeyPairRec( key_num, key_rec_ );
 }
 
 void PriKeyInfoDlg::initialize()
 {
-    DBMgr* dbMgr = manApplet->dbMgr();
-
-    if( dbMgr == NULL ) return;
-
-    KeyPairRec keyPair;
-    BIN binPri = {0,0};
-
     mKeyTab->setTabEnabled(0, false);
     mKeyTab->setTabEnabled(1, false);
     mKeyTab->setTabEnabled(2, false);
     mKeyTab->setTabEnabled(3, false);
 
-    dbMgr->getKeyPairRec( key_num_, keyPair );
-
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
-
-    if( keyPair.getAlg() == "RSA" )
-    {
-        mKeyTab->setCurrentIndex(0);
-        mKeyTab->setTabEnabled(0, true);
-        setRSAPriKey( &binPri );
-    }
-    else if( keyPair.getAlg() == "EC" )
-    {
-        mKeyTab->setCurrentIndex(1);
-        mKeyTab->setTabEnabled(1, true);
-        setECCPriKey( &binPri );
-    }
-    else if( keyPair.getAlg() == "DSA" )
-    {
-        mKeyTab->setCurrentIndex( 2 );
-        mKeyTab->setTabEnabled(2, true);
-        setDSAPriKey( &binPri );
-    }
-    else
-    {
-        mKeyTab->setCurrentIndex( 3 );
-        mKeyTab->setTabEnabled(3, true);
-        setEdDSAPriKey( keyPair.getParam(), &binPri );
-    }
-
-    JS_BIN_reset( &binPri );
+    clickGetPrivateKey();
 }
 
 void PriKeyInfoDlg::showEvent(QShowEvent *event)
@@ -103,16 +73,19 @@ void PriKeyInfoDlg::showEvent(QShowEvent *event)
     initialize();
 }
 
-void PriKeyInfoDlg::setRSAPriKey( const BIN *pPriKey )
+void PriKeyInfoDlg::setRSAKey( const BIN *pKey, bool bPri )
 {
     int ret = 0;
     JRSAKeyVal  sRSAKey;
 
-    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+    if( pKey == NULL || pKey->nLen <= 0 ) return;
 
     memset( &sRSAKey, 0x00, sizeof(sRSAKey));
 
-    ret = JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
+    if( bPri == true )
+        ret = JS_PKI_getRSAKeyVal( pKey, &sRSAKey );
+    else
+        ret = JS_PKI_getRSAKeyValFromPub( pKey, &sRSAKey );
 
     if( ret == 0 )
     {
@@ -129,16 +102,19 @@ void PriKeyInfoDlg::setRSAPriKey( const BIN *pPriKey )
     JS_PKI_resetRSAKeyVal( &sRSAKey );
 }
 
-void PriKeyInfoDlg::setECCPriKey( const BIN *pPriKey )
+void PriKeyInfoDlg::setECCKey( const BIN *pKey, bool bPri )
 {
     int ret = 0;
     JECKeyVal sECKey;
 
-    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+    if( pKey == NULL || pKey->nLen <= 0 ) return;
 
     memset( &sECKey, 0x00, sizeof(sECKey));
 
-    ret = JS_PKI_getECKeyVal( pPriKey, &sECKey );
+    if( bPri == true )
+        ret = JS_PKI_getECKeyVal( pKey, &sECKey );
+    else
+        ret = JS_PKI_getECKeyValFromPub( pKey, &sECKey );
 
     if( ret == 0 )
     {
@@ -151,16 +127,19 @@ void PriKeyInfoDlg::setECCPriKey( const BIN *pPriKey )
     JS_PKI_resetECKeyVal( &sECKey );
 }
 
-void PriKeyInfoDlg::setDSAPriKey( const BIN *pPriKey )
+void PriKeyInfoDlg::setDSAKey( const BIN *pKey, bool bPri )
 {
     int ret = 0;
     JDSAKeyVal sDSAKey;
 
-    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+    if( pKey == NULL || pKey->nLen <= 0 ) return;
 
     memset( &sDSAKey, 0x00, sizeof(sDSAKey));
 
-    ret = JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
+    if( bPri == true )
+        ret = JS_PKI_getDSAKeyVal( pKey, &sDSAKey );
+    else
+        ret = JS_PKI_getDSAKeyValFromPub( pKey, &sDSAKey );
 
     if( ret == 0 )
     {
@@ -174,13 +153,13 @@ void PriKeyInfoDlg::setDSAPriKey( const BIN *pPriKey )
     JS_PKI_resetDSAKeyVal( &sDSAKey );
 }
 
-void PriKeyInfoDlg::setEdDSAPriKey( const QString& strParam, const BIN *pPriKey )
+void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool bPri )
 {
     int ret = 0;
     int nType = 0;
     JRawKeyVal sRawKeyVal;
 
-    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
+    if( pKey == NULL || pKey->nLen <= 0 ) return;
 
     if( strParam == "Ed25519" )
         nType = JS_PKI_KEY_TYPE_ED25519;
@@ -188,7 +167,11 @@ void PriKeyInfoDlg::setEdDSAPriKey( const QString& strParam, const BIN *pPriKey 
         nType = JS_PKI_KEY_TYPE_ED448;
 
     memset( &sRawKeyVal, 0x00, sizeof(sRawKeyVal));
-    ret = JS_PKI_getRawKeyVal( nType, pPriKey, &sRawKeyVal );
+
+    if( bPri == true )
+        ret = JS_PKI_getRawKeyVal( nType, pKey, &sRawKeyVal );
+    else
+        ret = JS_PKI_getRawKeyValFromPub( nType, pKey, &sRawKeyVal );
 
     if( ret == 0 )
     {
@@ -317,4 +300,106 @@ void PriKeyInfoDlg::changeEdDSA_RawPrivate( const QString& text )
 {
     int nLen = text.length() / 2;
     mEdDSA_RawPrivateLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::clickClear()
+{
+    mRSA_DText->clear();
+    mRSA_EText->clear();
+    mRSA_NText->clear();
+    mRSA_PText->clear();
+    mRSA_QText->clear();
+    mRSA_DMP1Text->clear();
+    mRSA_DMQ1Text->clear();
+    mRSA_IQMPText->clear();
+
+    mECC_PubXText->clear();
+    mECC_PubYText->clear();
+    mECC_GroupText->clear();
+    mECC_PrivateText->clear();
+
+    mDSA_GText->clear();
+    mDSA_PText->clear();
+    mDSA_QText->clear();
+    mDSA_PublicText->clear();
+    mDSA_PrivateText->clear();
+
+    mEdDSA_NameText->clear();
+    mEdDSA_RawPublicText->clear();
+    mEdDSA_RawPrivateText->clear();
+}
+
+void PriKeyInfoDlg::clickGetPrivateKey()
+{
+    BIN binPri = {0,0};
+
+    clickClear();
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+
+    if( key_rec_.getAlg() == "RSA" )
+    {
+        mKeyTab->setCurrentIndex(0);
+        mKeyTab->setTabEnabled(0, true);
+        setRSAKey( &binPri );
+    }
+    else if( key_rec_.getAlg() == "EC" )
+    {
+        mKeyTab->setCurrentIndex(1);
+        mKeyTab->setTabEnabled(1, true);
+        setECCKey( &binPri );
+    }
+    else if( key_rec_.getAlg() == "DSA" )
+    {
+        mKeyTab->setCurrentIndex( 2 );
+        mKeyTab->setTabEnabled(2, true);
+        setDSAKey( &binPri );
+    }
+    else
+    {
+        mKeyTab->setCurrentIndex( 3 );
+        mKeyTab->setTabEnabled(3, true);
+        setEdDSAKey( key_rec_.getParam(), &binPri );
+    }
+
+    JS_BIN_reset( &binPri );
+}
+
+void PriKeyInfoDlg::clickGetPublicKey()
+{
+    BIN binPub = {0,0};
+
+    clickClear();
+
+    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+
+    if( key_rec_.getAlg() == "RSA" )
+    {
+        mKeyTab->setCurrentIndex(0);
+        mKeyTab->setTabEnabled(0, true);
+        setRSAKey( &binPub, false );
+    }
+    else if( key_rec_.getAlg() == "EC" )
+    {
+        mKeyTab->setCurrentIndex(1);
+        mKeyTab->setTabEnabled(1, true);
+        setECCKey( &binPub, false );
+    }
+    else if( key_rec_.getAlg() == "DSA" )
+    {
+        mKeyTab->setCurrentIndex( 2 );
+        mKeyTab->setTabEnabled(2, true);
+        setDSAKey( &binPub, false );
+    }
+    else
+    {
+        mKeyTab->setCurrentIndex( 3 );
+        mKeyTab->setTabEnabled(3, true);
+        setEdDSAKey( key_rec_.getParam(), &binPub, false );
+    }
+
+    JS_BIN_reset( &binPub );
 }
