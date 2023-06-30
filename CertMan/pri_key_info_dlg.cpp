@@ -15,9 +15,9 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
-    connect( mRSA_NText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_N(const QString&)));
+    connect( mRSA_NText, SIGNAL(textChanged()), this, SLOT(changeRSA_N()));
     connect( mRSA_EText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_E(const QString&)));
-    connect( mRSA_DText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_D(const QString&)));
+    connect( mRSA_DText, SIGNAL(textChanged()), this, SLOT(changeRSA_D()));
     connect( mRSA_PText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_P(const QString&)));
     connect( mRSA_QText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_Q(const QString&)));
     connect( mRSA_DMP1Text, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_DMP1(const QString&)));
@@ -30,8 +30,9 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mECC_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_Private(const QString&)));
 
     connect( mDSA_GText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_G(const QString&)));
-    connect( mDSA_PText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_P(const QString&)));
+    connect( mDSA_PText, SIGNAL(textChanged()), this, SLOT(changeDSA_P()));
     connect( mDSA_QText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Q(const QString&)));
+    connect( mDSA_PublicText, SIGNAL(textChanged()), this, SLOT(changeDSA_Public()));
     connect( mDSA_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Private(const QString&)));
 
     connect( mEdDSA_RawPublicText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPublic(const QString&)));
@@ -91,7 +92,7 @@ void PriKeyInfoDlg::initialize()
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
-        setEdDSAPriKey( &binPri );
+        setEdDSAPriKey( keyPair.getParam(), &binPri );
     }
 
     JS_BIN_reset( &binPri );
@@ -115,9 +116,9 @@ void PriKeyInfoDlg::setRSAPriKey( const BIN *pPriKey )
 
     if( ret == 0 )
     {
-        mRSA_NText->setText( sRSAKey.pN );
+        mRSA_NText->setPlainText( sRSAKey.pN );
         mRSA_EText->setText( sRSAKey.pE );
-        mRSA_DText->setText( sRSAKey.pD );
+        mRSA_DText->setPlainText( sRSAKey.pD );
         mRSA_PText->setText( sRSAKey.pP );
         mRSA_QText->setText( sRSAKey.pQ );
         mRSA_DMP1Text->setText( sRSAKey.pDMP1 );
@@ -164,23 +165,30 @@ void PriKeyInfoDlg::setDSAPriKey( const BIN *pPriKey )
     if( ret == 0 )
     {
         mDSA_GText->setText( sDSAKey.pG );
-        mDSA_PText->setText( sDSAKey.pP );
+        mDSA_PText->setPlainText( sDSAKey.pP );
         mDSA_QText->setText( sDSAKey.pQ );
+        mDSA_PublicText->setPlainText( sDSAKey.pPublic );
         mDSA_PrivateText->setText( sDSAKey.pPrivate );
     }
 
     JS_PKI_resetDSAKeyVal( &sDSAKey );
 }
 
-void PriKeyInfoDlg::setEdDSAPriKey( const BIN *pPriKey )
+void PriKeyInfoDlg::setEdDSAPriKey( const QString& strParam, const BIN *pPriKey )
 {
     int ret = 0;
+    int nType = 0;
     JRawKeyVal sRawKeyVal;
 
     if( pPriKey == NULL || pPriKey->nLen <= 0 ) return;
 
+    if( strParam == "Ed25519" )
+        nType = JS_PKI_KEY_TYPE_ED25519;
+    else
+        nType = JS_PKI_KEY_TYPE_ED448;
+
     memset( &sRawKeyVal, 0x00, sizeof(sRawKeyVal));
-    ret = JS_PKI_getRawKeyVal( pPriKey, &sRawKeyVal );
+    ret = JS_PKI_getRawKeyVal( nType, pPriKey, &sRawKeyVal );
 
     if( ret == 0 )
     {
@@ -192,9 +200,10 @@ void PriKeyInfoDlg::setEdDSAPriKey( const BIN *pPriKey )
     JS_PKI_resetRawKeyVal( &sRawKeyVal );
 }
 
-void PriKeyInfoDlg::changeRSA_N( const QString& text )
+void PriKeyInfoDlg::changeRSA_N()
 {
-    int nLen = text.length() / 2;
+    QString strN = mRSA_NText->toPlainText();
+    int nLen = strN.length() / 2;
     mRSA_NLenText->setText( QString("%1").arg(nLen));
 }
 
@@ -204,9 +213,10 @@ void PriKeyInfoDlg::changeRSA_E( const QString& text )
     mRSA_ELenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeRSA_D( const QString& text )
+void PriKeyInfoDlg::changeRSA_D()
 {
-    int nLen = text.length() / 2;
+    QString strD = mRSA_DText->toPlainText();
+    int nLen = strD.length() / 2;
     mRSA_DLenText->setText( QString("%1").arg(nLen));
 }
 
@@ -271,9 +281,10 @@ void PriKeyInfoDlg::changeDSA_G( const QString& text )
     mDSA_GLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeDSA_P( const QString& text )
+void PriKeyInfoDlg::changeDSA_P()
 {
-    int nLen = text.length() / 2;
+    QString strP = mDSA_PText->toPlainText();
+    int nLen = strP.length() / 2;
     mDSA_PLenText->setText( QString("%1").arg(nLen));
 }
 
@@ -281,6 +292,13 @@ void PriKeyInfoDlg::changeDSA_Q( const QString& text )
 {
     int nLen = text.length() / 2;
     mDSA_QLenText->setText( QString("%1").arg(nLen));
+}
+
+void PriKeyInfoDlg::changeDSA_Public()
+{
+    QString strPublic = mDSA_PublicText->toPlainText();
+    int nLen = strPublic.length() / 2;
+    mDSA_PublicLenText->setText( QString("%1").arg(nLen));
 }
 
 void PriKeyInfoDlg::changeDSA_Private( const QString& text )
