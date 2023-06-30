@@ -2876,11 +2876,11 @@
     </message>
     <message>
         <source>E</source>
-        <translation>E</translation>
+        <translation type="vanished">E</translation>
     </message>
     <message>
         <source>N</source>
-        <translation>N</translation>
+        <translation type="vanished">N</translation>
     </message>
     <message>
         <source>Q</source>
@@ -2888,15 +2888,15 @@
     </message>
     <message>
         <source>DMP1</source>
-        <translation>DMP1</translation>
+        <translation type="vanished">DMP1</translation>
     </message>
     <message>
         <source>IQMP</source>
-        <translation>IQMP</translation>
+        <translation type="vanished">IQMP</translation>
     </message>
     <message>
         <source>D</source>
-        <translation>D</translation>
+        <translation type="vanished">D</translation>
     </message>
     <message>
         <source>P</source>
@@ -2904,7 +2904,7 @@
     </message>
     <message>
         <source>DMQ1</source>
-        <translation>DMQ1</translation>
+        <translation type="vanished">DMQ1</translation>
     </message>
     <message>
         <source>ECC</source>
@@ -2912,7 +2912,7 @@
     </message>
     <message>
         <source>Private</source>
-        <translation>Private</translation>
+        <translation type="vanished">Private</translation>
     </message>
     <message>
         <source>Group</source>
@@ -2940,11 +2940,11 @@
     </message>
     <message>
         <source>Raw Private</source>
-        <translation>Raw Private</translation>
+        <translation type="vanished">Raw Private</translation>
     </message>
     <message>
         <source>Raw Public</source>
-        <translation>Raw Public</translation>
+        <translation type="vanished">Raw Public</translation>
     </message>
     <message>
         <source>Name</source>
@@ -2953,6 +2953,66 @@
     <message>
         <source>Close</source>
         <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Get PrivateKey</source>
+        <translation>개인키 가져오기</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>지우기</translation>
+    </message>
+    <message>
+        <source>Get PublicKey</source>
+        <translation>공개키 가져오기</translation>
+    </message>
+    <message>
+        <source>Exponent2(DMQ1)</source>
+        <translation>Exponent2(DMQ1)</translation>
+    </message>
+    <message>
+        <source>Exponent1(DMP1)</source>
+        <translation>Exponent1(DMP1)</translation>
+    </message>
+    <message>
+        <source>PublicExponent(E)</source>
+        <translation>PublicExponent(E)</translation>
+    </message>
+    <message>
+        <source>Prime1(P)</source>
+        <translation>Prime1(P)</translation>
+    </message>
+    <message>
+        <source>Prime2(Q)</source>
+        <translation>Prime2(Q)</translation>
+    </message>
+    <message>
+        <source>Coefficient(IQMP)</source>
+        <translation>Coefficient(IQMP)</translation>
+    </message>
+    <message>
+        <source>Modules(N)</source>
+        <translation>Modules(N)</translation>
+    </message>
+    <message>
+        <source>PrivateExponent(D)</source>
+        <translation>PrivateExponent(D)</translation>
+    </message>
+    <message>
+        <source>PrivateKey</source>
+        <translation>개인키</translation>
+    </message>
+    <message>
+        <source>PublicKey</source>
+        <translation>공개키</translation>
+    </message>
+    <message>
+        <source>Raw PrivateKey</source>
+        <translation>Raw 개인키</translation>
+    </message>
+    <message>
+        <source>Raw PublicKey</source>
+        <translation>Raw 공개키</translation>
     </message>
 </context>
 <context>

@@ -35,18 +35,18 @@ private slots:
     void changeRSA_IQMP( const QString& text );
 
     void changeECC_Group( const QString& text );
-    void changeECC_PubX( const QString& text );
-    void changeECC_PubY( const QString& text );
-    void changeECC_Private( const QString& text );
+    void changeECC_PubX();
+    void changeECC_PubY();
+    void changeECC_Private();
 
-    void changeDSA_G( const QString& text );
+    void changeDSA_G();
     void changeDSA_P();
     void changeDSA_Q( const QString& text );
     void changeDSA_Public();
     void changeDSA_Private( const QString& text );
 
-    void changeEdDSA_RawPublic( const QString& text );
-    void changeEdDSA_RawPrivate( const QString& text );
+    void changeEdDSA_RawPublic();
+    void changeEdDSA_RawPrivate();
 
     void clickClear();
     void clickGetPrivateKey();

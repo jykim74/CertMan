@@ -26,18 +26,18 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mRSA_IQMPText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_IQMP(const QString&)));
 
     connect( mECC_GroupText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_Group(const QString&)));
-    connect( mECC_PubXText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_PubX(const QString&)));
-    connect( mECC_PubYText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_PubY(const QString&)));
-    connect( mECC_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_Private(const QString&)));
+    connect( mECC_PubXText, SIGNAL(textChanged()), this, SLOT(changeECC_PubX()));
+    connect( mECC_PubYText, SIGNAL(textChanged()), this, SLOT(changeECC_PubY()));
+    connect( mECC_PrivateText, SIGNAL(textChanged()), this, SLOT(changeECC_Private()));
 
-    connect( mDSA_GText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_G(const QString&)));
+    connect( mDSA_GText, SIGNAL(textChanged()), this, SLOT(changeDSA_G()));
     connect( mDSA_PText, SIGNAL(textChanged()), this, SLOT(changeDSA_P()));
     connect( mDSA_QText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Q(const QString&)));
     connect( mDSA_PublicText, SIGNAL(textChanged()), this, SLOT(changeDSA_Public()));
     connect( mDSA_PrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeDSA_Private(const QString&)));
 
-    connect( mEdDSA_RawPublicText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPublic(const QString&)));
-    connect( mEdDSA_RawPrivateText, SIGNAL(textChanged(const QString&)), this, SLOT(changeEdDSA_RawPrivate(const QString&)));
+    connect( mEdDSA_RawPublicText, SIGNAL(textChanged()), this, SLOT(changeEdDSA_RawPublic()));
+    connect( mEdDSA_RawPrivateText, SIGNAL(textChanged()), this, SLOT(changeEdDSA_RawPrivate()));
 
     connect( mClearBtn, SIGNAL(clicked()), this, SLOT(clickClear()));
     connect( mGetPrivateKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPrivateKey()));
@@ -119,9 +119,9 @@ void PriKeyInfoDlg::setECCKey( const BIN *pKey, bool bPri )
     if( ret == 0 )
     {
         mECC_GroupText->setText( sECKey.pGroup );
-        mECC_PubXText->setText( sECKey.pPubX );
-        mECC_PubYText->setText( sECKey.pPubY );
-        mECC_PrivateText->setText( sECKey.pPrivate );
+        mECC_PubXText->setPlainText( sECKey.pPubX );
+        mECC_PubYText->setPlainText( sECKey.pPubY );
+        mECC_PrivateText->setPlainText( sECKey.pPrivate );
     }
 
     JS_PKI_resetECKeyVal( &sECKey );
@@ -143,7 +143,7 @@ void PriKeyInfoDlg::setDSAKey( const BIN *pKey, bool bPri )
 
     if( ret == 0 )
     {
-        mDSA_GText->setText( sDSAKey.pG );
+        mDSA_GText->setPlainText( sDSAKey.pG );
         mDSA_PText->setPlainText( sDSAKey.pP );
         mDSA_QText->setText( sDSAKey.pQ );
         mDSA_PublicText->setPlainText( sDSAKey.pPublic );
@@ -176,8 +176,8 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
     if( ret == 0 )
     {
         mEdDSA_NameText->setText( sRawKeyVal.pName );
-        mEdDSA_RawPublicText->setText( sRawKeyVal.pPub );
-        mEdDSA_RawPrivateText->setText( sRawKeyVal.pPri );
+        mEdDSA_RawPublicText->setPlainText( sRawKeyVal.pPub );
+        mEdDSA_RawPrivateText->setPlainText( sRawKeyVal.pPri );
     }
 
     JS_PKI_resetRawKeyVal( &sRawKeyVal );
@@ -240,27 +240,31 @@ void PriKeyInfoDlg::changeECC_Group( const QString& text )
     mECC_GroupLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeECC_PubX( const QString& text )
+void PriKeyInfoDlg::changeECC_PubX()
 {
-    int nLen = text.length() / 2;
+    QString strPubX = mECC_PubXText->toPlainText();
+    int nLen = strPubX.length() / 2;
     mECC_PubXLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeECC_PubY( const QString& text )
+void PriKeyInfoDlg::changeECC_PubY()
 {
-    int nLen = text.length() / 2;
+    QString strPubY = mECC_PubYText->toPlainText();
+    int nLen = strPubY.length() / 2;
     mECC_PubYLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeECC_Private( const QString& text )
+void PriKeyInfoDlg::changeECC_Private()
 {
-    int nLen = text.length() / 2;
+    QString strPrivate = mECC_PrivateText->toPlainText();
+    int nLen = strPrivate.length() / 2;
     mECC_PrivateLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeDSA_G( const QString& text )
+void PriKeyInfoDlg::changeDSA_G()
 {
-    int nLen = text.length() / 2;
+    QString strG = mDSA_GText->toPlainText();
+    int nLen = strG.length() / 2;
     mDSA_GLenText->setText( QString("%1").arg(nLen));
 }
 
@@ -290,15 +294,17 @@ void PriKeyInfoDlg::changeDSA_Private( const QString& text )
     mDSA_PrivateLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeEdDSA_RawPublic( const QString& text )
+void PriKeyInfoDlg::changeEdDSA_RawPublic()
 {
-    int nLen = text.length() / 2;
+    QString strRawPublic = mEdDSA_RawPublicText->toPlainText();
+    int nLen = strRawPublic.length() / 2;
     mEdDSA_RawPublicLenText->setText( QString("%1").arg(nLen));
 }
 
-void PriKeyInfoDlg::changeEdDSA_RawPrivate( const QString& text )
+void PriKeyInfoDlg::changeEdDSA_RawPrivate()
 {
-    int nLen = text.length() / 2;
+    QString strRawPrivte = mEdDSA_RawPrivateText->toPlainText();
+    int nLen = strRawPrivte.length() / 2;
     mEdDSA_RawPrivateLenText->setText( QString("%1").arg(nLen));
 }
 
