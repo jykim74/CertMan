@@ -131,48 +131,20 @@ void ManApplet::setCurFile( const QString& strFile )
 
 int ManApplet::checkLicense()
 {
+    int ret = 0;
     time_t ntp_t = 0;
     QFile resFile( ":/certman_license.lcn" );
     resFile.open(QIODevice::ReadOnly);
     QByteArray data = resFile.readAll();
     resFile.close();
 
-    char sKey[128];
-
-    memset( sKey, 0x00, sizeof(sKey));
     memcpy( &license_info_, data.data(), data.size() );
 
-    if( memcmp( license_info_.sProduct, "CertMan", 7 ) != 0 )
-    {
-        is_license_ = false;
-        return is_license_;
-    }
-
-    JS_License_DeriveKey( sKey, &license_info_ );
-
-    QDate expireDate = QDate::fromString( license_info_.sExpire, "yyyy-MM-dd" );
-    QDate nowDate;
-
     ntp_t = JS_NET_clientNTP( JS_NTP_SERVER, JS_NTP_PORT, 2 );
-    if( ntp_t > 0 )
-    {
-        QDateTime dateTime;
-        dateTime.setTime_t( ntp_t );
-        nowDate = dateTime.date();
-    }
-    else
-    {
-        nowDate = QDate::currentDate();
-    }
+    if( ntp_t <= 0 ) ntp_t = time(NULL);
 
-
-    if( expireDate < nowDate )
-    {
-        is_license_ = false;
-        return is_license_;
-    }
-
-    if( memcmp( sKey, license_info_.sKey, sizeof(license_info_.sKey)) == 0 )
+    ret = JS_License_IsValid( &license_info_, LICENSE_PRODUCT_CERTMAN_NAME, NULL, ntp_t );
+    if( ret == LICENSE_VALID )
         is_license_ = true;
     else
         is_license_ = false;
