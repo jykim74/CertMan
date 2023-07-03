@@ -48,6 +48,7 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
+    initFontFamily();
     initialize();
 }
 
@@ -131,6 +132,7 @@ void SettingsDlg::updateSettings()
     mgr->setSCEPMutualAuth( mSCEPMutualAuthCheck->checkState() == Qt::Checked );
     mgr->setSCEPPriKeyPath( mSCEPPriKeyPathText->text() );
     mgr->setSCEPCertPath( mSCEPCertPathText->text() );
+    mgr->setFontFamily( mFontFamilyCombo->currentText() );
 }
 
 void SettingsDlg::checkP11Use()
@@ -371,6 +373,8 @@ void SettingsDlg::initialize()
     mDefaultECCParamCombo->addItems( kECCOptionList );
     mDefaultECCParamCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
 
+    mFontFamilyCombo->setCurrentText( manApplet->settingsMgr()->getFontFamily() );
+
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
 
     if( manApplet->isPRO() )
@@ -448,4 +452,11 @@ void SettingsDlg::initialize()
     }
 
     mTabWidget->setCurrentIndex(0);
+}
+
+void SettingsDlg::initFontFamily()
+{
+    QFontDatabase fontDB;
+    QStringList fontList = fontDB.families();
+    mFontFamilyCombo->addItems( fontList );
 }

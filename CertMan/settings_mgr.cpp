@@ -44,6 +44,7 @@ namespace  {
     const char *kSCEPCertPath = "SCEPCertPath";
     const char *kDefaultHash = "defaultHash";
     const char *kDefaultECCParam = "defaultECCParam";
+    const char *kFontFamily = "fontFamily";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -915,3 +916,21 @@ QString SettingsMgr::getDefaultECCParam()
     return default_ecc_param_;
 }
 
+void SettingsMgr::setFontFamily( const QString& strFamily )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kFontFamily, strFamily );
+    sets.endGroup();
+}
+
+QString SettingsMgr::getFontFamily()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    QString strFamily = sets.value( kFontFamily, "굴림체" ).toString();
+    sets.endGroup();
+
+    return strFamily;
+}

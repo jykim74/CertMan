@@ -127,6 +127,9 @@ public:
     QString getDefaultECCParam();
     QString defaultECCParam() { return default_ecc_param_; };
 
+    void setFontFamily( const QString& strFamily );
+    QString getFontFamily();
+
     void loadSettings();
 
 private:

@@ -20,8 +20,6 @@ private slots:
     void updateSettings();
     virtual void accept();
 
-    void initialize();
-
     void checkP11Use();
     void findP11Path();
     void checkKMIPUse();
@@ -49,6 +47,9 @@ private slots:
     void findSCEPCert();
 
 private:
+    void initFontFamily();
+    void initialize();
+
     Q_DISABLE_COPY(SettingsDlg)
 };
 

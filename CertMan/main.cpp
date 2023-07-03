@@ -4,6 +4,7 @@
 #include <QCommandLineOption>
 #include "man_applet.h"
 #include "i18n_helper.h"
+#include "settings_mgr.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,12 +18,6 @@ int main(int argc, char *argv[])
     qss.open( QFile::ReadOnly );
     app.setStyleSheet(qss.readAll());
 
-#ifdef Q_OS_WIN32
-    QFont font;
-    font.setFamily(QString("굴림체"));
-    app.setFont(font);
-#endif
-
     QCommandLineParser parser;
     parser.setApplicationDescription( QCoreApplication::applicationName() );
     parser.addHelpOption();
@@ -34,6 +29,12 @@ int main(int argc, char *argv[])
     ManApplet mApplet;
     manApplet = &mApplet;
     manApplet->start();
+
+    QFont font;
+    QString strFont = manApplet->settingsMgr()->getFontFamily();
+
+    font.setFamily( strFont );
+    app.setFont(font);
 
     MainWindow *mw = manApplet->mainWindow();
     if( !parser.positionalArguments().isEmpty() )
