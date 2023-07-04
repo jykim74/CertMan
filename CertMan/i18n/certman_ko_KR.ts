@@ -1649,6 +1649,10 @@
         <source>View PrivateKey</source>
         <translation>개인키 보기</translation>
     </message>
+    <message>
+        <source>Renew Certificate</source>
+        <translation>인증서 갱신</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -3122,6 +3126,69 @@
     </message>
 </context>
 <context>
+    <name>RenewCertDlg</name>
+    <message>
+        <source>Renew Certificate Window</source>
+        <translation>인증서 갱신 창</translation>
+    </message>
+    <message>
+        <source>Certficate Renewal Information</source>
+        <translation>인증서 갱신 정보</translation>
+    </message>
+    <message>
+        <source>Cert DN</source>
+        <translation>인증서 DN</translation>
+    </message>
+    <message>
+        <source>Sign Key Name</source>
+        <translation>서명 키 이름</translation>
+    </message>
+    <message>
+        <source>Validity</source>
+        <translation>유효 기간</translation>
+    </message>
+    <message>
+        <source>Not After</source>
+        <translation>이후 안됨</translation>
+    </message>
+    <message>
+        <source>Not Before</source>
+        <translation>이전 안됨</translation>
+    </message>
+    <message>
+        <source>Renewal Validity</source>
+        <translation>갱신 유효 기간</translation>
+    </message>
+    <message>
+        <source>Use Days</source>
+        <translation>일자 사용</translation>
+    </message>
+    <message>
+        <source>Days</source>
+        <translation>일</translation>
+    </message>
+    <message>
+        <source>Keep Serial</source>
+        <translation>일련 번호 유지</translation>
+    </message>
+    <message>
+        <source>Revoke Old Certificate</source>
+        <translation>기존 인증서 폐기</translation>
+    </message>
+    <message>
+        <source>Revoke Reason</source>
+        <translation>폐기 이유</translation>
+    </message>
+    <message>
+        <source>fail to make certificate(%1)</source>
+        <translation>인증서(%1) 만들기 실패</translation>
+    </message>
+    <message>
+        <source>fail to get certificate information(%1)</source>
+        <translation>인증서 정보(%1) 가져오기 실패</translation>
+    </message>
+</context>
+<context>
     <name>RevokeCertDlg</name>
     <message>
         <source>Revoke certificate</source>
@@ -3498,6 +3565,14 @@
     <message>
         <source>Default Hash</source>
         <translation>초기 해쉬</translation>
+    </message>
+    <message>
+        <source>Font Family</source>
+        <translation>폰트 패밀리</translation>
+    </message>
+    <message>
+        <source>Need to restart</source>
+        <translation>재 실행 필요함</translation>
     </message>
 </context>
 <context>

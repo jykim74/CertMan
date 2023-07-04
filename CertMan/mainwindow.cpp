@@ -4396,9 +4396,14 @@ void MainWindow::infoCertificate( int seq )
     CertRec certRec;
     manApplet->dbMgr()->getCertRec( seq, certRec );
 
-    QString strKeyName = manApplet->dbMgr()->getNumName( certRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+    QString strKeyName;
     QString strUserName;
     QString strIssuerName;
+
+    if( certRec.getKeyNum() > 0 )
+        strKeyName = manApplet->dbMgr()->getNumName( certRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
+    else
+        strKeyName = "Unknown";
 
     if( certRec.getIssuerNum() > 0 )
         strIssuerName = manApplet->dbMgr()->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
@@ -4513,7 +4518,13 @@ void MainWindow::infoCRL( int seq )
     char    sRegTime[64];
 
     manApplet->dbMgr()->getCRLRec( seq, crlRec );
-    QString strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    QString strIssuerName;
+
+    if( crlRec.getIssuerNum() > 0 )
+        strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    else
+        strIssuerName = "Unknown";
+
 
     manApplet->mainWindow()->infoClear();
     manApplet->info( "========================================================================\n" );
