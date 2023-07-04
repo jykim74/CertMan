@@ -75,6 +75,7 @@ SOURCES += \
         pri_key_info_dlg.cpp \
         profile_ext_rec.cpp \
         pub_ldap_dlg.cpp \
+        renew_cert_dlg.cpp \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
@@ -133,6 +134,7 @@ HEADERS += \
         pri_key_info_dlg.h \
         profile_ext_rec.h \
         pub_ldap_dlg.h \
+        renew_cert_dlg.h \
         req_rec.h \
         revoke_cert_dlg.h \
         revoke_rec.h \
@@ -174,6 +176,7 @@ FORMS += \
         pin_dlg.ui \
         pri_key_info_dlg.ui \
         pub_ldap_dlg.ui \
+        renew_cert_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \
         set_pass_dlg.ui \

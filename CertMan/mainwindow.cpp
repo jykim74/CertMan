@@ -67,6 +67,7 @@
 #include "set_pass_dlg.h"
 #include "login_dlg.h"
 #include "pri_key_info_dlg.h"
+#include "renew_cert_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -449,15 +450,23 @@ void MainWindow::showRightMenu(QPoint point)
 
     QMenu menu(this);
 
+    ManTreeItem* treeItem = currentItem();
+
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
-        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
-        menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
+        if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CERT )
+        {
+            menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+            menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
+            menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
+            menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+            menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
+            menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
+        }
+
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
-        menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
-        menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
-        menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
+
 
         if( manApplet->isPRO() )
         {
@@ -479,11 +488,15 @@ void MainWindow::showRightMenu(QPoint point)
     }
     else if( right_type_ == RightType::TYPE_CRL )
     {
-        menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
+        if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CRL )
+        {
+            menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
+            menu.addAction( tr( "Verify CRL" ), this, &MainWindow::verifyCRL );
+            menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
+        }
+
         menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
-        menu.addAction( tr( "Verify CRL" ), this, &MainWindow::verifyCRL );
         menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
-        menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
@@ -1086,6 +1099,19 @@ void MainWindow::makeCRL()
     }
 
     makeCRLDlg.exec();
+}
+
+void MainWindow::renewCert()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    ManTreeItem *pItem = currentItem();
+    RenewCertDlg renewCertDlg;
+    renewCertDlg.exec();
 }
 
 void MainWindow::revokeCertificate()

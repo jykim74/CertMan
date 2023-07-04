@@ -122,6 +122,7 @@ public slots:
     void copyCRLProfile();
     void makeCertificate();
     void makeCRL();
+    void renewCert();
     void revokeCertificate();
     void registerUser();
     void registerREGSigner();
