@@ -47,7 +47,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    ManTreeItem* currentItem();
+    ManTreeItem* currentTreeItem();
 
     void initialize();
     void showWindow();

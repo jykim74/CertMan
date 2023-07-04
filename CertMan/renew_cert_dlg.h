@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_renew_cert_dlg.h"
+#include "js_bin.h"
 
 namespace Ui {
 class RenewCertDlg;
@@ -16,8 +17,22 @@ public:
     explicit RenewCertDlg(QWidget *parent = nullptr);
     ~RenewCertDlg();
 
-private:
+    void setCertNum( int cert_num );
 
+private slots:
+    virtual void accept();
+    void showEvent(QShowEvent *event);
+
+    void changeDayType( int index );
+    void clickUseDay();
+    void clickKeepSerial();
+    void clickRevoke();
+
+private:
+    void initialize();
+
+    int cert_num_;
+    bool is_self_;
 };
 
 #endif // RENEW_CERT_DLG_H

@@ -127,7 +127,7 @@ void MainWindow::setTitle(const QString strName)
     setWindowTitle(strWinTitle);
 }
 
-ManTreeItem* MainWindow::currentItem()
+ManTreeItem* MainWindow::currentTreeItem()
 {
     ManTreeItem *item = NULL;
     QModelIndex index = left_tree_->currentIndex();
@@ -450,7 +450,7 @@ void MainWindow::showRightMenu(QPoint point)
 
     QMenu menu(this);
 
-    ManTreeItem* treeItem = currentItem();
+    ManTreeItem* treeItem = currentTreeItem();
 
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
@@ -1051,7 +1051,7 @@ void MainWindow::makeCertificate()
         return;
     }
 
-    ManTreeItem *pItem = currentItem();
+    ManTreeItem *pItem = currentTreeItem();
     MakeCertDlg makeCertDlg;
 
     if( right_type_ == RightType::TYPE_REQUEST )
@@ -1087,7 +1087,7 @@ void MainWindow::makeCRL()
         return;
     }
 
-    ManTreeItem *pItem = currentItem();
+    ManTreeItem *pItem = currentTreeItem();
     MakeCRLDlg makeCRLDlg;
 
     if( pItem )
@@ -1109,8 +1109,16 @@ void MainWindow::renewCert()
         return;
     }
 
-    ManTreeItem *pItem = currentItem();
+    ManTreeItem *pItem = currentTreeItem();
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     RenewCertDlg renewCertDlg;
+    renewCertDlg.setCertNum( num );
     renewCertDlg.exec();
 }
 

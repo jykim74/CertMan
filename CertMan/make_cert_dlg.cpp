@@ -382,10 +382,7 @@ void MakeCertDlg::accept()
         notAfter = profileRec.getNotAfter() - now_t;
     }
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( signKeyPair.getPrivateKey(), &binSignPri );
-    else
-        JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         profileRec.getVersion(),
@@ -532,6 +529,11 @@ void MakeCertDlg::accept()
     }
     else
     {
+        if( manApplet->isPasswd() )
+            manApplet->getDecPriBIN( signKeyPair.getPrivateKey(), &binSignPri );
+        else
+            JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
         ret = JS_PKI_makeCertificate( bSelf, &sIssueCertInfo, pExtInfoList, nKeyType, &binSignPri, &binSignCert, &binCert );
     }
 
