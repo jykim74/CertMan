@@ -193,7 +193,7 @@ void RenewCertDlg::accept()
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( strKeyAlg == kMechEC || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( strKeyAlg == kMechDSA )
+    else if( strKeyAlg == kMechDSA || strKeyAlg == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( strKeyAlg == kMechEdDSA )
     {
@@ -203,7 +203,7 @@ void RenewCertDlg::accept()
             nKeyType = JS_PKI_KEY_TYPE_ED448;
     }
 
-    if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC )
+    if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechPKCS11_DSA )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotID();

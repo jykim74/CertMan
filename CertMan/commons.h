@@ -56,6 +56,7 @@ const QString kMechEdDSA = "EdDSA";
 const QString kMechDSA = "DSA";
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
+const QString kMechPKCS11_DSA = "PKCS11_DSA";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_EC = "KMIP_EC";
 

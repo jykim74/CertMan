@@ -69,6 +69,7 @@ void MakeReqDlg::initialize()
     {
         mNewAlgorithmCombo->addItem( kMechPKCS11_RSA );
         mNewAlgorithmCombo->addItem( kMechPKCS11_EC );
+        mNewAlgorithmCombo->addItem( kMechPKCS11_DSA );
     }
 
     if( manApplet->settingsMgr()->KMIPUse() )
@@ -139,7 +140,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
-    else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
+    else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
         QString strPin;
         PinDlg pinDlg;

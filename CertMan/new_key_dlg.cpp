@@ -45,6 +45,7 @@ void NewKeyDlg::initUI()
     {
         mMechCombo->addItem( kMechPKCS11_RSA );
         mMechCombo->addItem( kMechPKCS11_EC );
+        mMechCombo->addItem( kMechPKCS11_DSA );
     }
 
     if( manApplet->settingsMgr()->KMIPUse() )
@@ -90,25 +91,27 @@ void NewKeyDlg::accept()
     char *pPriHex = NULL;
     char *pPubHex = NULL;
 
-    if( mMechCombo->currentText() == kMechRSA )
+    QString strMech = mMechCombo->currentText();
+
+    if( strMech == kMechRSA )
     {
         int nKeySize = mOptionCombo->currentText().toInt();
         int nExponent = mExponentText->text().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
-    else if( mMechCombo->currentText() == kMechDSA )
+    else if( strMech == kMechDSA )
     {
         int nKeySize = mOptionCombo->currentText().toInt();
 
         ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
-    else if( mMechCombo->currentText() == kMechEC )
+    else if( strMech == kMechEC )
     {
         int nGroupID = JS_PKI_getNidFromSN( mOptionCombo->currentText().toStdString().c_str() );
         ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
     }
-    else if( mMechCombo->currentText() == kMechEdDSA )
+    else if( strMech == kMechEdDSA )
     {
         int nParam = 0;
 
@@ -119,7 +122,7 @@ void NewKeyDlg::accept()
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
-    else if( mMechCombo->currentText() == kMechPKCS11_RSA || mMechCombo->currentText() == kMechPKCS11_EC )
+    else if( strMech == kMechPKCS11_RSA || strMech == kMechPKCS11_EC || strMech == kMechPKCS11_DSA )
     {
         QString strPin;
         PinDlg  pinDlg;
@@ -235,7 +238,7 @@ void NewKeyDlg::mechChanged(int index )
         mExponentText->setEnabled(false);
         mOptionLabel->setText( "NamedCurve" );
     }
-    else if( strMech == kMechDSA )
+    else if( strMech == kMechDSA || strMech == kMechPKCS11_DSA )
     {
         mOptionCombo->addItems(kDSAOptionList);
         mOptionCombo->setCurrentText( "2048" );
