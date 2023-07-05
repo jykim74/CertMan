@@ -1354,11 +1354,11 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
     JS_BIN_reset( &binExt );
 }
 
-CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
+CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
 {
-    PinDlg pinDlg;
-    QString strPin;
+    int ret = 0;
 
+    QString strPass;
     JP11_CTX    *pCTX = (JP11_CTX *)pP11CTX;
 
     int nFlags = 0;
@@ -1373,14 +1373,16 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
     nUserType = CKU_USER;
 
 
-    int ret = pinDlg.exec();
-    if( ret == QDialog::Accepted )
+    if( strPIN == nullptr || strPIN.length() < 1 )
     {
-        strPin = pinDlg.getPinText();
+        PinDlg pinDlg;
+        ret = pinDlg.exec();
+        if( ret == QDialog::Accepted )
+            strPass = pinDlg.getPinText();
     }
     else
     {
-        return -1;
+        strPass = strPIN;
     }
 
     ret = JS_PKCS11_GetSlotList2( pCTX, CK_TRUE, sSlotList, &uSlotCnt );
@@ -1403,7 +1405,7 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID )
         return -1;
     }
 
-    ret = JS_PKCS11_Login( pCTX, nUserType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
+    ret = JS_PKCS11_Login( pCTX, nUserType, (CK_UTF8CHAR *)strPass.toStdString().c_str(), strPass.length() );
     if( ret != 0 )
     {
         fprintf( stderr, "fail to run login hsm(%d)\n", ret );
@@ -1596,13 +1598,13 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     }
     else if( keyType == CKK_DSA )
     {
-        long uKeyLen = strParam.toInt();
+        uModBitLen = strParam.toInt();
 
-        JS_PKI_DSA_GenParam( uKeyLen, &binP, &binQ, &binG );
+        JS_PKI_DSA_GenParam( uModBitLen, &binP, &binQ, &binG );
 
         sPubTemplate[uPubCount].type = CKA_PRIME_BITS;
-        sPubTemplate[uPubCount].pValue = &uKeyLen;
-        sPubTemplate[uPubCount].ulValueLen = sizeof( uKeyLen );
+        sPubTemplate[uPubCount].pValue = &uModBitLen;
+        sPubTemplate[uPubCount].ulValueLen = sizeof( uModBitLen );
         uPubCount++;
 
         sPubTemplate[uPubCount].type = CKA_PRIME;

@@ -281,7 +281,9 @@ void MakeCRLDlg::accept()
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         BIN binID = {0,0};
         int nSlotID = manApplet->settingsMgr()->slotIndex();
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
 
         if( hSession < 0 )
         {

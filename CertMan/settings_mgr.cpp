@@ -10,6 +10,7 @@ namespace  {
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotIndex = "SlotIndex";
     const char *kP11LibPath = "PKCS11LibPath";
+    const char *kP11Pin = "PKCS11Pin";
     const char *kLDAPHost = "LDAPHost";
     const char *kLDAPPort = "LDAPPort";
     const char *kBaseDN = "BaseDN";
@@ -192,6 +193,27 @@ QString SettingsMgr::PKCS11LibraryPath()
     settings.endGroup();
 
     return strPath;
+}
+
+void SettingsMgr::setPKCS11Pin( QString strPin )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kP11Pin, strPin );
+    settings.endGroup();
+}
+
+QString SettingsMgr::PKCS11Pin()
+{
+    QString strPin;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPin = settings.value( kP11Pin, "" ).toString();
+    settings.endGroup();
+
+    return strPin;
 }
 
 void SettingsMgr::setBaseDN( QString strBaseDN )

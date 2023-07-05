@@ -87,6 +87,7 @@ void SettingsDlg::updateSettings()
 
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
     mgr->setDefaultECCParam( mDefaultECCParamCombo->currentText() );
+    mgr->setPKCS11Pin( mPINText->text() );
 
     bool language_changed = false;
 
@@ -353,6 +354,7 @@ void SettingsDlg::initialize()
     QString strSlotIndex = QString( "%1" ).arg( mgr->slotIndex() );
     mSlotIndexText->setText( strSlotIndex );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
+    mPINText->setText( mgr->PKCS11Pin() );
     mListCountCombo->setCurrentText( QString("%1").arg( mgr->listCount()));
     mLDAPHostText->setText( mgr->LDAPHost() );
     mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));

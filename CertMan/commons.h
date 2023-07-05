@@ -118,7 +118,7 @@ int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileE
 
 void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal );
 
-CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID );
+CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN = nullptr );
 
 int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );
 

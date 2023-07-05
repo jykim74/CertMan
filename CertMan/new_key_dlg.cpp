@@ -125,8 +125,10 @@ void NewKeyDlg::accept()
     else if( strMech == kMechPKCS11_RSA || strMech == kMechPKCS11_EC || strMech == kMechPKCS11_DSA )
     {
         int ret = 0;
+        int nIndex = manApplet->settingsMgr()->slotIndex();
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
-        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotIndex() );
+        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), nIndex, strPIN );
 
         if( hSession < 0 )
         {
@@ -142,6 +144,8 @@ void NewKeyDlg::accept()
                                  &binPri,
                                  &binPub );
 
+        JS_PKCS11_Logout( (JP11_CTX *)manApplet->P11CTX() );
+        JS_PKCS11_CloseSession( (JP11_CTX *)manApplet->P11CTX() );
     }
     else if( mMechCombo->currentText() == kMechKMIP_RSA || mMechCombo->currentText() == kMechKMIP_EC )
     {

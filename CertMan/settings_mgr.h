@@ -28,6 +28,9 @@ public:
     void setPKCS11LibraryPath( QString strLibPath );
     QString PKCS11LibraryPath();
 
+    void setPKCS11Pin( QString strPin );
+    QString PKCS11Pin();
+
     void setBaseDN( QString strBaseDN );
     QString baseDN();
 

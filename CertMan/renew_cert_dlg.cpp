@@ -261,9 +261,11 @@ void RenewCertDlg::accept()
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
         BIN binID = {0,0};
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
             goto end;
