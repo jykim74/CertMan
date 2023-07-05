@@ -10,6 +10,7 @@
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
 #include "js_pki_ext.h"
+#include "js_pki_eddsa.h"
 #include "js_util.h"
 #include "pin_dlg.h"
 #include "audit_rec.h"
@@ -1473,7 +1474,7 @@ end :
     return ret;
 }
 
-int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub )
+int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub )
 {
     JP11_CTX   *pP11CTX = NULL;
 
@@ -1516,6 +1517,14 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
     BIN binVal = {0,0};
     BIN binHash = {0,0};
 
+    BIN binP = {0,0};
+    BIN binG = {0,0};
+    BIN binQ = {0,0};
+
+    BIN binKey = {0,0};
+    BIN binPubX = {0,0};
+    BIN binPubY = {0,0};
+
     memset( &sMech, 0x00, sizeof(sMech) );
 
     if( strAlg == kMechPKCS11_RSA )
@@ -1527,6 +1536,11 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
     {
         sMech.mechanism = CKM_ECDSA_KEY_PAIR_GEN;
         keyType = CKK_ECDSA;
+    }
+    else if( strAlg == kMechPKCS11_DSA )
+    {
+        sMech.mechanism = CKM_DSA_KEY_PAIR_GEN;
+        keyType = CKK_DSA;
     }
 
     sPubTemplate[uPubCount].type = CKA_CLASS;
@@ -1578,6 +1592,32 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
         sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
         sPubTemplate[uPubCount].pValue = binGroup.pVal;
         sPubTemplate[uPubCount].ulValueLen = binGroup.nLen;
+        uPubCount++;
+    }
+    else if( keyType == CKK_DSA )
+    {
+        long uKeyLen = strParam.toInt();
+
+        JS_PKI_DSA_GenParam( uKeyLen, &binP, &binQ, &binG );
+
+        sPubTemplate[uPubCount].type = CKA_PRIME_BITS;
+        sPubTemplate[uPubCount].pValue = &uKeyLen;
+        sPubTemplate[uPubCount].ulValueLen = sizeof( uKeyLen );
+        uPubCount++;
+
+        sPubTemplate[uPubCount].type = CKA_PRIME;
+        sPubTemplate[uPubCount].pValue = binP.pVal;
+        sPubTemplate[uPubCount].ulValueLen = binP.nLen;
+        uPubCount++;
+
+        sPubTemplate[uPubCount].type = CKA_SUBPRIME;
+        sPubTemplate[uPubCount].pValue = binQ.pVal;
+        sPubTemplate[uPubCount].ulValueLen = binQ.nLen;
+        uPubCount++;
+
+        sPubTemplate[uPubCount].type = CKA_BASE;
+        sPubTemplate[uPubCount].pValue = binG.pVal;
+        sPubTemplate[uPubCount].ulValueLen = binG.nLen;
         uPubCount++;
     }
 
@@ -1657,7 +1697,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
     sPriTemplate[uPriCount].pValue = &bTrue;
     sPriTemplate[uPriCount].ulValueLen = sizeof( bTrue );
     uPriCount++;
-
+/*
     rv = JS_PKCS11_GetSlotList2( pP11CTX, CK_TRUE, sSlotList, &uSlotCnt );
     if( rv != 0 ) goto end;
 
@@ -1670,7 +1710,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
 
     rv = JS_PKCS11_Login( pP11CTX, nType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
     if( rv != 0 ) goto end;
-
+*/
     rv = JS_PKCS11_GenerateKeyPair( pP11CTX, &sMech, sPubTemplate, uPubCount, sPriTemplate, uPriCount, &uPubObj, &uPriObj );
     if( rv != 0 ) goto end;
 
@@ -1707,10 +1747,6 @@ int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strPin, QString strN
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
 
-        BIN binKey = {0,0};
-        BIN binPubX = {0,0};
-        BIN binPubY = {0,0};
-
         JS_BIN_set( &binKey, binVal.pVal + 1, binVal.nLen - 1 );
         JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2 );
         JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
@@ -1745,6 +1781,20 @@ end :
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
+
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binPubExponent );
+    JS_BIN_reset( &binGroup );
+    JS_BIN_reset( &binVal );
+    JS_BIN_reset( &binHash );
+
+    JS_BIN_reset( &binP );
+    JS_BIN_reset( &binQ );
+    JS_BIN_reset( &binG );
+
+    JS_BIN_reset( &binKey );
+    JS_BIN_reset( &binPubX );
+    JS_BIN_reset( &binPubY );
 
     return rv;
 }

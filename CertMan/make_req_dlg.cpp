@@ -142,23 +142,23 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
     else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
-        QString strPin;
-        PinDlg pinDlg;
+        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotID() );
 
-        if( pinDlg.exec() == QDialog::Accepted )
+        if( hSession < 0 )
         {
-            strPin = pinDlg.getPinText();
-            ret = genKeyPairWithP11(
-                        (JP11_CTX *)manApplet->P11CTX(),
-                        manApplet->settingsMgr()->slotID(),
-                        strPin,
-                        strName,
-                        strAlg,
-                        strParam,
-                        nExponent,
-                        &binPri,
-                        &binPub );
+            manApplet->elog( "fail to get P11Session" );
+            goto end;
         }
+
+        ret = genKeyPairWithP11(
+                    (JP11_CTX *)manApplet->P11CTX(),
+                    manApplet->settingsMgr()->slotID(),
+                    strName,
+                    strAlg,
+                    strParam,
+                    nExponent,
+                    &binPri,
+                    &binPub );
     }
     else if( strAlg == kMechKMIP_RSA || strAlg == kMechKMIP_EC )
     {

@@ -124,30 +124,25 @@ void NewKeyDlg::accept()
     }
     else if( strMech == kMechPKCS11_RSA || strMech == kMechPKCS11_EC || strMech == kMechPKCS11_DSA )
     {
-        QString strPin;
-        PinDlg  pinDlg;
-        int ret = pinDlg.exec();
+        int ret = 0;
 
-        if( ret == QDialog::Accepted )
-        {
-            strPin = pinDlg.getPinText();
-//            ret = genKeyPairWithP11( strPin, &binPri, &binPub );
-//            pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotID() );
 
-            ret = genKeyPairWithP11( (JP11_CTX *)manApplet->P11CTX(),
-                                     manApplet->settingsMgr()->slotID(),
-                                     strPin,
-                                     mNameText->text(),
-                                     mMechCombo->currentText(),
-                                     mOptionCombo->currentText(),
-                                     mExponentText->text().toInt(),
-                                     &binPri,
-                                     &binPub );
-        }
-        else
+        if( hSession < 0 )
         {
-            ret = -1;
+            manApplet->elog( "fail to get P11Session" );
+            goto end;
         }
+
+        ret = genKeyPairWithP11( (JP11_CTX *)manApplet->P11CTX(),
+                                 manApplet->settingsMgr()->slotID(),
+                                 mNameText->text(),
+                                 mMechCombo->currentText(),
+                                 mOptionCombo->currentText(),
+                                 mExponentText->text().toInt(),
+                                 &binPri,
+                                 &binPub );
+
     }
     else if( mMechCombo->currentText() == kMechKMIP_RSA || mMechCombo->currentText() == kMechKMIP_EC )
     {
