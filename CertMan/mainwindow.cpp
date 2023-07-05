@@ -456,7 +456,6 @@ void MainWindow::showRightMenu(QPoint point)
     {
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CERT )
         {
-            menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
             menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
             menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
             menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
@@ -464,6 +463,7 @@ void MainWindow::showRightMenu(QPoint point)
             menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
         }
 
+        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
 
@@ -490,11 +490,11 @@ void MainWindow::showRightMenu(QPoint point)
     {
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CRL )
         {
-            menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
             menu.addAction( tr( "Verify CRL" ), this, &MainWindow::verifyCRL );
             menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
         }
 
+        menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
         menu.addAction( tr("View CRL"), this, &MainWindow::viewCRL );
         menu.addAction( tr("Delete CRL"), this, &MainWindow::deleteCRL );
     }
