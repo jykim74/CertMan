@@ -129,6 +129,8 @@ void RenewCertDlg::accept()
 
     int nKeyType = -1;
     int nRenewCertNum = -1;
+    long uLimitBefore = -1;
+    long uLimitAfter = -1;
 
     QTextCodec *codec = QTextCodec::codecForName("UTF-16");
     QByteArray ba;
@@ -146,6 +148,9 @@ void RenewCertDlg::accept()
     }
     else
     {
+        JCertInfo sSignInfo;
+        memset( &sSignInfo, 0x00, sizeof(sSignInfo));
+
         dbMgr->getCertRec( cert.getIssuerNum(), caCert );
         nKeyNum = caCert.getKeyNum();
 
@@ -156,6 +161,12 @@ void RenewCertDlg::accept()
         }
 
         JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
+        JS_PKI_getCertInfo( &binSignCert, &sSignInfo, NULL );
+
+        uLimitBefore = sSignInfo.uNotBefore;
+        uLimitAfter = sSignInfo.uNotAfter;
+
+        JS_PKI_resetCertInfo( &sSignInfo );
     }
 
     dbMgr->getKeyPairRec( nKeyNum, keyPair );
@@ -182,6 +193,49 @@ void RenewCertDlg::accept()
     {
         notBefore = mNotBeforeDateTime->dateTime().toTime_t() - now_t;
         notAfter = mNotAfterDateTime->dateTime().toTime_t() - now_t;
+    }
+
+    if( uLimitBefore > 0 )
+    {
+        if( uLimitBefore > ( notBefore + now_t ) )
+        {
+            QDateTime limitDateTime;
+            QDateTime beforeDateTime;
+
+            limitDateTime.setTime_t( uLimitBefore );
+            beforeDateTime.setTime_t( notBefore + now_t );
+
+            QString strErr = tr("It(%1) cannot be earlier than issuer time(%2).")
+                    .arg( beforeDateTime.toString( "yyyy-MM-dd HH:mm:ss"))
+                    .arg( limitDateTime.toString( "yyyy-MM-dd HH:mm:ss") );
+
+            manApplet->elog( strErr );
+            manApplet->warningBox( strErr, this );
+            ret = -1;
+            goto end;
+        }
+    }
+
+    if( uLimitAfter > 0 )
+    {
+        if( uLimitAfter < ( notAfter + now_t ) )
+        {
+            QDateTime limitDateTime;
+            QDateTime afterDateTime;
+
+            limitDateTime.setTime_t( uLimitBefore );
+            afterDateTime.setTime_t( notAfter + now_t );
+
+            QString strErr = tr("It(%1) cannot be later than the issuer time(%2).")
+                    .arg( afterDateTime.toString( "yyyy-MM-dd HH:mm:ss"))
+                    .arg( limitDateTime.toString( "yyyy-MM-dd HH:mm:ss") );
+
+            manApplet->elog( strErr );
+            manApplet->warningBox( strErr, this );
+
+            ret = -1;
+            goto end;
+        }
     }
 \
     if( mSerialText->text().length() > 0 )

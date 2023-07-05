@@ -2888,7 +2888,7 @@
     </message>
     <message>
         <source>Q</source>
-        <translation>Q</translation>
+        <translation type="vanished">Q</translation>
     </message>
     <message>
         <source>DMP1</source>
@@ -2904,7 +2904,7 @@
     </message>
     <message>
         <source>P</source>
-        <translation>P</translation>
+        <translation type="vanished">P</translation>
     </message>
     <message>
         <source>DMQ1</source>
@@ -2936,7 +2936,7 @@
     </message>
     <message>
         <source>G</source>
-        <translation>G</translation>
+        <translation type="vanished">G</translation>
     </message>
     <message>
         <source>EdDSA</source>
@@ -3017,6 +3017,18 @@
     <message>
         <source>Raw PublicKey</source>
         <translation>Raw 공개키</translation>
+    </message>
+    <message>
+        <source>Subprime (Q)</source>
+        <translation>Subprime(Q)</translation>
+    </message>
+    <message>
+        <source>Generator (G)</source>
+        <translation>Generator(G)</translation>
+    </message>
+    <message>
+        <source>Prime (P)</source>
+        <translation>Prime(P)</translation>
     </message>
 </context>
 <context>
@@ -3186,6 +3198,14 @@
     <message>
         <source>fail to get certificate information(%1)</source>
         <translation>인증서 정보(%1) 가져오기 실패</translation>
+    </message>
+    <message>
+        <source>It(%1) cannot be earlier than issuer time(%2).</source>
+        <translation>시작 시간(%1)은 발급자 시간(%2) 보다 빠를 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>It(%1) cannot be later than the issuer time(%2).</source>
+        <translation>종료 시간(%1)은 발급자 시간(%2) 보다 늦을 수 없습니다.</translation>
     </message>
 </context>
 <context>
