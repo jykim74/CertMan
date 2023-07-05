@@ -3368,7 +3368,7 @@
     </message>
     <message>
         <source>Slot ID</source>
-        <translation>슬롯 ID</translation>
+        <translation type="vanished">슬롯 ID</translation>
     </message>
     <message>
         <source>Use PKCS11</source>
@@ -3593,6 +3593,14 @@
     <message>
         <source>Need to restart</source>
         <translation>재 실행 필요함</translation>
+    </message>
+    <message>
+        <source>Slot Index</source>
+        <translation>슬롯 인덱스</translation>
+    </message>
+    <message>
+        <source>Slot position index to use</source>
+        <translation>사용할 슬롯 위치의 인덱스</translation>
     </message>
 </context>
 <context>

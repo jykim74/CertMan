@@ -78,7 +78,7 @@ void SettingsDlg::updateSettings()
 #endif
 
     mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
-    mgr->setSlotID( mSlotIDText->text().toInt() );
+    mgr->setSlotIndex( mSlotIndexText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
     mgr->setLDAPHost( mLDAPHostText->text() );
     mgr->setLDAPPort( mLDAPPortText->text().toInt() );
@@ -138,7 +138,7 @@ void SettingsDlg::updateSettings()
 void SettingsDlg::checkP11Use()
 {
     bool val = mUseP11Check->isChecked();
-    mSlotIDText->setEnabled(val);
+    mSlotIndexText->setEnabled(val);
     mLibraryP11PathText->setEnabled(val);
     mP11FindBtn->setEnabled(val);
 }
@@ -350,8 +350,8 @@ void SettingsDlg::initialize()
 
     mListCountCombo->addItems( kListCountList );
 
-    QString strSlotID = QString( "%1" ).arg( mgr->slotID() );
-    mSlotIDText->setText( strSlotID );
+    QString strSlotIndex = QString( "%1" ).arg( mgr->slotIndex() );
+    mSlotIndexText->setText( strSlotIndex );
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
     mListCountCombo->setCurrentText( QString("%1").arg( mgr->listCount()));
     mLDAPHostText->setText( mgr->LDAPHost() );

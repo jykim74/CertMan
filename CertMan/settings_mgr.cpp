@@ -8,7 +8,7 @@ namespace  {
     const char *kServerStatus = "serverStatus";
     const char *kShowLogTab = "showLogTab";
     const char *kPKCS11Use = "PKCS11Use";
-    const char *kSlotID = "SlotID";
+    const char *kSlotIndex = "SlotIndex";
     const char *kP11LibPath = "PKCS11LibPath";
     const char *kLDAPHost = "LDAPHost";
     const char *kLDAPPort = "LDAPPort";
@@ -151,26 +151,26 @@ bool SettingsMgr::PKCS11Use()
     return val;
 }
 
-void SettingsMgr::setSlotID( int nID )
+void SettingsMgr::setSlotIndex(int nIndex)
 {
     QSettings   settings;
 
     settings.beginGroup( kBehaviorGroup );
-    settings.setValue( kSlotID, nID );
+    settings.setValue( kSlotIndex, nIndex );
     settings.endGroup();
 }
 
-int SettingsMgr::slotID()
+int SettingsMgr::slotIndex()
 {
-    int nID = -1;
+    int nIndex = -1;
 
     QSettings   settings;
 
     settings.beginGroup( kBehaviorGroup );
-    nID = settings.value( kSlotID, -1 ).toInt();
+    nIndex = settings.value( kSlotIndex, -1 ).toInt();
     settings.endGroup();
 
-    return nID;
+    return nIndex;
 }
 
 void SettingsMgr::setPKCS11LibraryPath( QString strLibPath )

@@ -142,7 +142,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
     else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
-        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotID() );
+        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotIndex() );
 
         if( hSession < 0 )
         {
@@ -152,7 +152,6 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
         ret = genKeyPairWithP11(
                     (JP11_CTX *)manApplet->P11CTX(),
-                    manApplet->settingsMgr()->slotID(),
                     strName,
                     strAlg,
                     strParam,
@@ -275,7 +274,7 @@ void MakeReqDlg::accept()
     if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
     {
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
-        int nSlotID = manApplet->settingsMgr()->slotID();
+        int nSlotID = manApplet->settingsMgr()->slotIndex();
         BIN binID = {0,0};
 
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );

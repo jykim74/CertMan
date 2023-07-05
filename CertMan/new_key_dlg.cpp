@@ -126,7 +126,7 @@ void NewKeyDlg::accept()
     {
         int ret = 0;
 
-        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotID() );
+        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), manApplet->settingsMgr()->slotIndex() );
 
         if( hSession < 0 )
         {
@@ -135,7 +135,6 @@ void NewKeyDlg::accept()
         }
 
         ret = genKeyPairWithP11( (JP11_CTX *)manApplet->P11CTX(),
-                                 manApplet->settingsMgr()->slotID(),
                                  mNameText->text(),
                                  mMechCombo->currentText(),
                                  mOptionCombo->currentText(),

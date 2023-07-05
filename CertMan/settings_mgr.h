@@ -22,8 +22,8 @@ public:
     void setPKCS11Use( bool val );
     bool PKCS11Use();
 
-    void setSlotID( int nID );
-    int slotID();
+    void setSlotIndex( int nIndex );
+    int slotIndex();
 
     void setPKCS11LibraryPath( QString strLibPath );
     QString PKCS11LibraryPath();

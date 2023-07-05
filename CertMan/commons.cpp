@@ -1474,7 +1474,7 @@ end :
     return ret;
 }
 
-int genKeyPairWithP11( JP11_CTX *pCTX, int nSlotID, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub )
+int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub )
 {
     JP11_CTX   *pP11CTX = NULL;
 

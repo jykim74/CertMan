@@ -482,7 +482,7 @@ void MakeCertDlg::accept()
     if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
-        int nSlotID = manApplet->settingsMgr()->slotID();
+        int nSlotID = manApplet->settingsMgr()->slotIndex();
         BIN binID = {0,0};
 
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID );
