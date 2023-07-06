@@ -1591,13 +1591,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     else if( keyType == CKK_DSA )
     {
         uModBitLen = strParam.toInt();
-
         JS_PKI_DSA_GenParam( uModBitLen, &binP, &binQ, &binG );
-
-        sPubTemplate[uPubCount].type = CKA_PRIME_BITS;
-        sPubTemplate[uPubCount].pValue = &uModBitLen;
-        sPubTemplate[uPubCount].ulValueLen = sizeof( uModBitLen );
-        uPubCount++;
 
         sPubTemplate[uPubCount].type = CKA_PRIME;
         sPubTemplate[uPubCount].pValue = binP.pVal;
@@ -1691,20 +1685,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     sPriTemplate[uPriCount].pValue = &bTrue;
     sPriTemplate[uPriCount].ulValueLen = sizeof( bTrue );
     uPriCount++;
-/*
-    rv = JS_PKCS11_GetSlotList2( pP11CTX, CK_TRUE, sSlotList, &uSlotCnt );
-    if( rv != 0 ) goto end;
 
-    if( uSlotCnt < nSlotID )
-        goto end;
-
-    rv = JS_PKCS11_OpenSession( pP11CTX, sSlotList[nSlotID], nFlags );
-    if( rv != 0 ) goto end;
-
-
-    rv = JS_PKCS11_Login( pP11CTX, nType, (CK_UTF8CHAR *)strPin.toStdString().c_str(), strPin.length() );
-    if( rv != 0 ) goto end;
-*/
     rv = JS_PKCS11_GenerateKeyPair( pP11CTX, &sMech, sPubTemplate, uPubCount, sPriTemplate, uPriCount, &uPubObj, &uPriObj );
     if( rv != 0 ) goto end;
 
@@ -1745,7 +1726,6 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2 );
         JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
 
-
         JS_BIN_encodeHex( &binGroup, &pGroup );
         JS_BIN_encodeHex( &binPubX, &pPubX );
         JS_BIN_encodeHex( &binPubY, &pPubY );
@@ -1758,6 +1738,34 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         if( pPubY ) JS_free( pPubY );
         JS_BIN_reset( &binKey );
         JS_PKI_resetECKeyVal( &ecKey );
+    }
+    else if( keyType == CKK_DSA )
+    {
+        char *pHexG = NULL;
+        char *pHexP = NULL;
+        char *pHexQ = NULL;
+        char *pHexPub = NULL;
+
+        JDSAKeyVal sDSAKey;
+        memset( &sDSAKey, 0x00, sizeof(sDSAKey));
+
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_VALUE, &binVal );
+        if( rv != 0 ) goto end;
+
+        JS_BIN_encodeHex( &binP, &pHexP );
+        JS_BIN_encodeHex( &binQ, &pHexQ );
+        JS_BIN_encodeHex( &binG, &pHexG );
+        JS_BIN_encodeHex( &binVal, &pHexPub );
+
+        JS_PKI_setDSAKeyVal( &sDSAKey, pHexG, pHexP, pHexQ, pHexPub, NULL );
+        JS_PKI_encodeDSAPublicKey( &sDSAKey, pPub );
+
+        if( pHexG ) JS_free( pHexG );
+        if( pHexP ) JS_free( pHexP );
+        if( pHexQ ) JS_free( pHexQ );
+        if( pHexPub ) JS_free( pHexPub );
+
+        JS_PKI_resetDSAKeyVal( &sDSAKey );
     }
 
     JS_PKI_genHash( "SHA1", pPub, &binHash );
