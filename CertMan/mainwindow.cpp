@@ -3725,9 +3725,19 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
 
         if( cert.isCA() )
-            seq->setIcon(QIcon(":/images/ca.png"));
+        {
+            if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                seq->setIcon(QIcon(":/images/ca_revoked.png"));
+            else
+                seq->setIcon(QIcon(":/images/ca.png"));
+        }
         else
-            seq->setIcon(QIcon(":/images/cert.png"));
+        {
+            if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                seq->setIcon(QIcon(":/images/cert_revoked.png"));
+            else
+                seq->setIcon(QIcon(":/images/cert.png"));
+        }
 
         JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
 

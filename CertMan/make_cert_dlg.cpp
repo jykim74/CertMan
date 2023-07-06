@@ -298,6 +298,7 @@ void MakeCertDlg::accept()
     if( sReqInfo.bVerify == 0 )
     {
         manApplet->warningBox(tr("Request is not verified"), this );
+        JS_PKI_resetReqInfo( &sReqInfo );
         JS_BIN_reset( &binCSR );
         return;
     }
@@ -314,6 +315,11 @@ void MakeCertDlg::accept()
         {
             manApplet->warningBox(tr("In case of using csr file, You can not make selfsign certificate."), this );
             JS_BIN_reset( &binCSR );
+            JS_PKI_resetReqInfo( &sReqInfo );
+            JS_BIN_reset( &binCSR );
+            JS_BIN_reset( &binPub );
+            JS_BIN_reset( &binPubVal );
+
             return;
         }
 
@@ -322,6 +328,23 @@ void MakeCertDlg::accept()
     }
     else {
         CertRec issuerCert = ca_cert_list_.at( issuerIdx );
+
+        if( issuerCert.getStatus() == JS_CERT_STATUS_REVOKE )
+        {
+            QString strMsg = tr( "The CA certificate is revoked. continue?" );
+            bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+            if( bVal == false )
+            {
+                JS_BIN_reset( &binCSR );
+                JS_PKI_resetReqInfo( &sReqInfo );
+                JS_BIN_reset( &binCSR );
+                JS_BIN_reset( &binPub );
+                JS_BIN_reset( &binPubVal );
+
+                return;
+            }
+        }
+
         nSignKeyNum = issuerCert.getKeyNum();
         nIssuerNum = issuerCert.getNum();
         JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binSignCert );

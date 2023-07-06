@@ -111,6 +111,13 @@ void MakeCRLDlg::accept()
         }
     }
 
+    if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
+    {
+        QString strMsg = tr( "The CA certificate is revoked. continue?" );
+        bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+        if( bVal == false ) return;
+    }
+
     memset( &sIssueCRLInfo, 0x00, sizeof(sIssueCRLInfo));
     memset( &sMadeCRLInfo, 0x00, sizeof(sMadeCRLInfo));
 

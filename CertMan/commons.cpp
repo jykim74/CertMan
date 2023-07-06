@@ -1484,19 +1484,11 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
 
     pP11CTX = pCTX;
 
-    CK_ULONG uSlotCnt = 0;
-    CK_SLOT_ID  sSlotList[10];
-
-    CK_LONG nFlags = CKF_SERIAL_SESSION | CKF_RW_SESSION;
-
-    CK_USER_TYPE nType = CKU_USER;
-
     CK_ATTRIBUTE sPubTemplate[20];
     CK_ULONG uPubCount = 0;
     CK_ATTRIBUTE sPriTemplate[20];
     CK_ULONG uPriCount = 0;
     CK_MECHANISM sMech;
-    CK_ULONG modulusBits = 0;
     CK_KEY_TYPE keyType;
 
     CK_OBJECT_HANDLE uPubObj = 0;
@@ -1778,12 +1770,6 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     if( rv != 0 ) goto end;
 
 end :
-    if( pP11CTX->hSession >= 0 )
-    {
-        JS_PKCS11_Logout( pP11CTX );
-        JS_PKCS11_CloseSession( pP11CTX );
-    }
-
     JS_BIN_reset( &binLabel );
     JS_BIN_reset( &binPubExponent );
     JS_BIN_reset( &binGroup );

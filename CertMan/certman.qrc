@@ -59,5 +59,7 @@
         <file>images/user.png</file>
         <file>images/clear.png</file>
         <file>certman_license.lcn</file>
+        <file>images/ca_revoked.png</file>
+        <file>images/cert_revoked.png</file>
     </qresource>
 </RCC>
