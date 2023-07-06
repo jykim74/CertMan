@@ -14,7 +14,7 @@
 #include "commons.h"
 #include "pin_dlg.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA };
+static QStringList sMechList = { kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
     QDialog(parent)
@@ -128,6 +128,12 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     {
         int nGroupID = JS_PKI_getNidFromSN( mNewOptionCombo->currentText().toStdString().c_str() );
         ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
+    }
+    else if( strAlg == kMechDSA )
+    {
+        int nKeySize = mNewOptionCombo->currentText().toInt();
+
+        ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
     else if( strAlg == kMechEdDSA )
     {

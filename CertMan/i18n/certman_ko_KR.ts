@@ -1736,6 +1736,10 @@
         <source>You could not make crl than max crl count(%1) in no license</source>
         <translation>라이센스가 없을 경우 최대 CRL 개수(%1) 이상 CRL을 만들 수 없습니다.</translation>
     </message>
+    <message>
+        <source>The CA certificate is revoked. continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLPolicyDlg</name>
@@ -2128,6 +2132,10 @@
     <message>
         <source>Issuer Certificate Information</source>
         <translation>발급자 인증서 정보</translation>
+    </message>
+    <message>
+        <source>The CA certificate is revoked. continue?</source>
+        <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
 </context>
 <context>

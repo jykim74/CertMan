@@ -142,10 +142,7 @@ void SettingsDlg::updateSettings()
 void SettingsDlg::checkP11Use()
 {
     bool val = mUseP11Check->isChecked();
-    mSlotIndexText->setEnabled(val);
-    mLibraryP11PathText->setEnabled(val);
-    mP11FindBtn->setEnabled(val);
-    mPINText->setEnabled(val);
+    mP11Group->setEnabled(val);
 }
 
 void SettingsDlg::checkKMIPUse()
