@@ -3602,6 +3602,10 @@
         <source>Slot position index to use</source>
         <translation>사용할 슬롯 위치의 인덱스</translation>
     </message>
+    <message>
+        <source>PIN</source>
+        <translation>핀값</translation>
+    </message>
 </context>
 <context>
     <name>SignerDlg</name>

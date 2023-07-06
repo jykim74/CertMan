@@ -168,7 +168,7 @@ int SettingsMgr::slotIndex()
     QSettings   settings;
 
     settings.beginGroup( kBehaviorGroup );
-    nIndex = settings.value( kSlotIndex, -1 ).toInt();
+    nIndex = settings.value( kSlotIndex, 0 ).toInt();
     settings.endGroup();
 
     return nIndex;

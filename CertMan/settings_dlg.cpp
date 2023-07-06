@@ -48,6 +48,9 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     mKMIPPasswdText->setEchoMode(QLineEdit::Password);
 
+    QIntValidator *intVal = new QIntValidator( 0, 99 );
+    mSlotIndexText->setValidator( intVal );
+
     initFontFamily();
     initialize();
 }
@@ -142,6 +145,7 @@ void SettingsDlg::checkP11Use()
     mSlotIndexText->setEnabled(val);
     mLibraryP11PathText->setEnabled(val);
     mP11FindBtn->setEnabled(val);
+    mPINText->setEnabled(val);
 }
 
 void SettingsDlg::checkKMIPUse()
@@ -350,6 +354,7 @@ void SettingsDlg::initialize()
     checkP11Use();
 
     mListCountCombo->addItems( kListCountList );
+
 
     QString strSlotIndex = QString( "%1" ).arg( mgr->slotIndex() );
     mSlotIndexText->setText( strSlotIndex );
