@@ -152,10 +152,8 @@ void MainWindow::initialize()
 
     log_text_ = new QTextEdit();
     log_text_->setReadOnly(true);
-    log_text_->setFont( QFont("굴림체") );
 
     info_text_ = new QTextEdit();
-    info_text_->setFont( QFont("굴림체") );
     info_text_->setReadOnly(true);
 
     right_table_->setSelectionBehavior(QAbstractItemView::SelectRows); // 한라인 전체 선택
