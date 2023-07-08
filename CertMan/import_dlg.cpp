@@ -8,6 +8,7 @@
 #include "js_pki_tools.h"
 #include "js_pki_x509.h"
 #include "commons.h"
+#include "js_pki_eddsa.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -69,8 +70,12 @@ void ImportDlg::accept()
             BIN binPri = {0,0};
 
             ret = JS_PKI_decryptRSAPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
+
             if( ret != 0 )
                 ret = JS_PKI_decryptECPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
+
+            if( ret != 0 )
+                ret = JS_PKI_decryptDSAPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
 
             if( ret == 0 )
             {
@@ -197,35 +202,53 @@ void ImportDlg::dataTypeChanged( int index )
 int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 {
     int ret = 0;
-    int nAlg = 0;
+
     int nParam = -1;
     BIN binPub = {0,0};
     QString strAlg;
     KeyPairRec keyPair;
+    int nKeyType = -1;
+    JRSAKeyVal  sRSAKey;
+    JECKeyVal   sECKey;
+    JDSAKeyVal  sDSAKey;
+
+    if( pPriKey == NULL || pPriKey->nLen <= 0 ) return -1;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
 
+    memset( &sRSAKey, 0x00, sizeof(sRSAKey));
+    memset( &sECKey, 0x00, sizeof(sECKey));
+    memset( &sDSAKey, 0x00, sizeof(sDSAKey));
 
-    char *pHexPri = NULL;
-    char *pHexPub = NULL;
+    nKeyType = JS_PKI_getPriKeyType( pPriKey );
 
-    ret = JS_PKI_getPubKeyFromPriKey( JS_PKI_KEY_TYPE_RSA, pPriKey, &binPub );
-    if( ret == 0 )
+    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
+        JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
         strAlg = kMechRSA;
-        nAlg = JS_PKI_KEY_TYPE_RSA;
-        nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_RSA, pPriKey );
+        nParam = ( strlen( sRSAKey.pD ) / 2 ) * 8;
+        JS_PKI_encodeRSAPublicKey( &sRSAKey, &binPub );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    {
+        strAlg = kMechEC;
+        JS_PKI_getECKeyVal( pPriKey, &sECKey );
+        nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
+        JS_PKI_encodeECPublicKey( &sECKey, &binPub );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+    {
+        strAlg = kMechDSA;
+        JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
+        nParam = ( strlen( sDSAKey.pG ) / 2 ) * 8;
+        JS_PKI_encodeDSAPublicKey( &sDSAKey, &binPub );
     }
     else
     {
-        ret = JS_PKI_getPubKeyFromPriKey( JS_PKI_KEY_TYPE_ECC, pPriKey, &binPub );
-        if( ret == 0 )
-        {
-            strAlg = kMechEC;
-            nAlg = JS_PKI_KEY_TYPE_ECC;
-            nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
-        }
+        manApplet->elog( QString( "Invalid KeyType: %1").arg( nKeyType));
+        ret = -1;
+        goto end;
     }
 
     if( ret != 0  ) return -1;
@@ -237,11 +260,8 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     }
     else
     {
-        JS_BIN_encodeHex( pPriKey, &pHexPri );
-        keyPair.setPrivateKey( pHexPri );
+        keyPair.setPrivateKey( getHexString( pPriKey ) );
     }
-
-    JS_BIN_encodeHex( &binPub, &pHexPub );
 
     if( mImportKMSCheck->isChecked() )
     {
@@ -255,7 +275,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 
         char *pUUID = NULL;
 
-        if( nAlg == JS_PKI_KEY_TYPE_ECC )
+        if( nKeyType == JS_PKI_KEY_TYPE_ECC )
         {
             if( nParam != NID_X9_62_prime256v1 )
             {
@@ -271,7 +291,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             goto end;
         }
 
-        ret = JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pPriKey, &binReq );
+        ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPriKey, &binReq );
         if( ret != 0 ) goto kmip_end;
 
         ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
@@ -296,7 +316,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             goto end;
         }
 
-        ret = JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, &binPub, &binReq );
+        ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, &binPub, &binReq );
         if( ret != 0 ) goto kmip_end;
 
         ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
@@ -316,20 +336,18 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         if( ret != 0 ) goto end;
     }
 
-
     keyPair.setAlg( strAlg );
     keyPair.setRegTime( time(NULL) );
     keyPair.setName( mNameText->text() );
-    keyPair.setPublicKey( pHexPub );
-
+    keyPair.setPublicKey( getHexString( &binPub) );
     keyPair.setParam( QString("Imported %1").arg(nParam) );
 
     ret = dbMgr->addKeyPairRec( keyPair );
 
-
  end :
-    if( pHexPri ) JS_free( pHexPri );
-    if( pHexPub ) JS_free( pHexPub );
+    JS_PKI_resetRSAKeyVal( &sRSAKey );
+    JS_PKI_resetECKeyVal( &sECKey );
+    JS_PKI_resetDSAKeyVal( &sDSAKey );
     JS_BIN_reset( &binPub );
 
     return ret;
