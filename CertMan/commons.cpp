@@ -1963,32 +1963,32 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     return ret;
 }
 
-int createRSAPublicKeyP11( JRSAKeyVal *pRsaKeyVal )
+int createRSAPublicKeyP11( JP11_CTX *pCTX, JRSAKeyVal *pRsaKeyVal )
 {
     return 0;
 }
 
-int createRSAPrivateKeyP11( JRSAKeyVal *pRsaKeyVal )
+int createRSAPrivateKeyP11( JP11_CTX *pCTX, JRSAKeyVal *pRsaKeyVal )
 {
     return 0;
 }
 
-int createECPublicKeyP11( JECKeyVal *pEcKeyVal )
+int createECPublicKeyP11( JP11_CTX *pCTX, JECKeyVal *pEcKeyVal )
 {
     return 0;
 }
 
-int createECPrivateKeyP11( JECKeyVal *pECKeyVal )
+int createECPrivateKeyP11( JP11_CTX *pCTX, JECKeyVal *pECKeyVal )
 {
     return 0;
 }
 
-int createDSAPublicKeyP11( JDSAKeyVal *pDSAKeyVal )
+int createDSAPublicKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal )
 {
     return 0;
 }
 
-int createDSAPrivateKeyP11( JDSAKeyVal *pDSAKeyVal )
+int createDSAPrivateKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal )
 {
     return 0;
 }
