@@ -88,6 +88,8 @@ void ExportDlg::accept()
                 nPEMType = JS_PEM_TYPE_EC_PRIVATE_KEY;
             else if( keyPair.getAlg() == "DSA" )
                 nPEMType = JS_PEM_TYPE_DSA_PRIVATE_KEY;
+            else if( keyPair.getAlg() == "EdDSA" )
+                nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
@@ -98,6 +100,8 @@ void ExportDlg::accept()
                 nPEMType = JS_PEM_TYPE_EC_PUBLIC_KEY;
             else if( keyPair.getAlg() == "DSA" )
                 nPEMType = JS_PEM_TYPE_DSA_PUBLIC_KEY;
+            else if( keyPair.getAlg() == "EdDSA" )
+                nPEMType = JS_PEM_TYPE_PUBLIC_KEY;
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
@@ -120,6 +124,19 @@ void ExportDlg::accept()
             else if( keyPair.getAlg() == "DSA" )
             {
                 ret = JS_PKI_encryptDSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+            }
+            else if( keyPair.getAlg() == "EdDSA" )
+            {
+                int nKeyType = JS_PKI_KEY_TYPE_ED25519;
+                if( keyPair.getParam() == "Ed448" )
+                    nKeyType = JS_PKI_KEY_TYPE_ED448;
+
+                ret = JS_PKI_encryptPrivateKey( nKeyType, -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+            }
+            else
+            {
+                manApplet->warningBox( QString( "Not support %1 algorithm to export").arg( keyPair.getAlg()));
+                ret = -1;
             }
 
             JS_BIN_reset( &binSrc );

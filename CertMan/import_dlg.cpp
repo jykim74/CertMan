@@ -77,6 +77,9 @@ void ImportDlg::accept()
             if( ret != 0 )
                 ret = JS_PKI_decryptDSAPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
 
+            if( ret != 0 )
+                ret = JS_PKI_decryptPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
+
             if( ret == 0 )
             {
                 ret = ImportKeyPair( &binPri );
@@ -211,6 +214,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JRSAKeyVal  sRSAKey;
     JECKeyVal   sECKey;
     JDSAKeyVal  sDSAKey;
+    JRawKeyVal sRawKey;
 
     if( pPriKey == NULL || pPriKey->nLen <= 0 ) return -1;
 
@@ -220,6 +224,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     memset( &sRSAKey, 0x00, sizeof(sRSAKey));
     memset( &sECKey, 0x00, sizeof(sECKey));
     memset( &sDSAKey, 0x00, sizeof(sDSAKey));
+    memset( &sRawKey, 0x00, sizeof(sRawKey));
 
     nKeyType = JS_PKI_getPriKeyType( pPriKey );
 
@@ -243,6 +248,13 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
         nParam = ( strlen( sDSAKey.pG ) / 2 ) * 8;
         JS_PKI_encodeDSAPublicKey( &sDSAKey, &binPub );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        strAlg = kMechEdDSA;
+        nParam = nKeyType;
+        JS_PKI_getRawKeyVal( nKeyType, pPriKey, &sRawKey );
+        JS_PKI_encodeRawPublicKey( &sRawKey, &binPub );
     }
     else
     {
@@ -348,6 +360,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JS_PKI_resetRSAKeyVal( &sRSAKey );
     JS_PKI_resetECKeyVal( &sECKey );
     JS_PKI_resetDSAKeyVal( &sDSAKey );
+    JS_PKI_resetRawKeyVal( &sRawKey );
     JS_BIN_reset( &binPub );
 
     return ret;
