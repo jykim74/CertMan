@@ -215,6 +215,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JECKeyVal   sECKey;
     JDSAKeyVal  sDSAKey;
     JRawKeyVal sRawKey;
+    QString strParam;
 
     if( pPriKey == NULL || pPriKey->nLen <= 0 ) return -1;
 
@@ -234,6 +235,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         strAlg = kMechRSA;
         nParam = ( strlen( sRSAKey.pD ) / 2 ) * 8;
         JS_PKI_encodeRSAPublicKey( &sRSAKey, &binPub );
+        strParam = QString("%1").arg(nParam);
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
     {
@@ -241,6 +243,8 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         JS_PKI_getECKeyVal( pPriKey, &sECKey );
         nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
         JS_PKI_encodeECPublicKey( &sECKey, &binPub );
+
+        strParam = JS_PKI_getSNFromNid( nParam );
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
     {
@@ -248,11 +252,16 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
         nParam = ( strlen( sDSAKey.pG ) / 2 ) * 8;
         JS_PKI_encodeDSAPublicKey( &sDSAKey, &binPub );
+        strParam = QString("%1").arg(nParam);
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
     {
         strAlg = kMechEdDSA;
-        nParam = nKeyType;
+        if( nKeyType == JS_PKI_KEY_TYPE_ED25519 )
+            strParam = "Ed25519";
+        else
+            strParam = "Ed448";
+
         JS_PKI_getRawKeyVal( nKeyType, pPriKey, &sRawKey );
         JS_PKI_encodeRawPublicKey( &sRawKey, &binPub );
     }
@@ -352,7 +361,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     keyPair.setRegTime( time(NULL) );
     keyPair.setName( mNameText->text() );
     keyPair.setPublicKey( getHexString( &binPub) );
-    keyPair.setParam( QString("Imported %1").arg(nParam) );
+    keyPair.setParam( strParam );
 
     ret = dbMgr->addKeyPairRec( keyPair );
 
