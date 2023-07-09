@@ -1963,6 +1963,35 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     return ret;
 }
 
+int createRSAPublicKeyP11( JRSAKeyVal *pRsaKeyVal )
+{
+    return 0;
+}
+
+int createRSAPrivateKeyP11( JRSAKeyVal *pRsaKeyVal )
+{
+    return 0;
+}
+
+int createECPublicKeyP11( JECKeyVal *pEcKeyVal )
+{
+    return 0;
+}
+
+int createECPrivateKeyP11( JECKeyVal *pECKeyVal )
+{
+    return 0;
+}
+
+int createDSAPublicKeyP11( JDSAKeyVal *pDSAKeyVal )
+{
+    return 0;
+}
+
+int createDSAPrivateKeyP11( JDSAKeyVal *pDSAKeyVal )
+{
+    return 0;
+}
 
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
 {
