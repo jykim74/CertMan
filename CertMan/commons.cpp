@@ -1519,7 +1519,10 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     BIN binPubX = {0,0};
     BIN binPubY = {0,0};
 
+    char sCurveOID[128];
+
     memset( &sMech, 0x00, sizeof(sMech) );
+    memset( sCurveOID, 0x00, sizeof(sCurveOID));
 
     if( strAlg == kMechPKCS11_RSA )
     {
@@ -1577,11 +1580,8 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     }
     else if( keyType == CKK_ECDSA )
     {
-        char    sHexOID[128];
-        memset( sHexOID, 0x00, sizeof(sHexOID));
-
-        JS_PKI_getHexOIDFromSN( strParam.toStdString().c_str(), sHexOID );
-        JS_BIN_decodeHex( sHexOID, &binGroup );
+        JS_PKI_getOIDFromSN( strParam.toStdString().c_str(), sCurveOID );
+        JS_PKI_getOIDFromString( sCurveOID, &binGroup );
 
         sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
         sPubTemplate[uPubCount].pValue = binGroup.pVal;
@@ -1717,7 +1717,6 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
 
         char *pPubX = NULL;
         char *pPubY = NULL;
-        char *pGroup = NULL;
 
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
@@ -1726,14 +1725,13 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2 );
         JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
 
-        JS_BIN_encodeHex( &binGroup, &pGroup );
+
         JS_BIN_encodeHex( &binPubX, &pPubX );
         JS_BIN_encodeHex( &binPubY, &pPubY );
 
-        JS_PKI_setECKeyVal( &ecKey, pGroup, pPubX, pPubX, NULL );
+        JS_PKI_setECKeyVal( &ecKey, sCurveOID, pPubX, pPubX, NULL );
         JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
-        if( pGroup ) JS_free( pGroup );
         if( pPubX ) JS_free( pPubX );
         if( pPubY ) JS_free( pPubY );
         JS_BIN_reset( &binKey );
