@@ -1896,20 +1896,17 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
     else if( nAlg == JS_PKI_KEY_TYPE_ECC )
     {
-        BIN binGroup = {0,0};
-
-        char *pGroup = NULL;
         char *pPubX = NULL;
         char *pPubY = NULL;
+
+        char sOID[128];
 
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
 
-        char    sHexOID[128];
-        memset( sHexOID, 0x00, sizeof(sHexOID));
+        memset( sOID, 0x00, sizeof(sOID));
 
-        JS_PKI_getHexOIDFromSN( "prime256v1", sHexOID );
-        JS_BIN_decodeHex( sHexOID, &binGroup );
+        JS_PKI_getOIDFromSN( "prime256v1", sOID );
 
         BIN binKey = {0,0};
         BIN binPubX = {0,0};
@@ -1919,24 +1916,19 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
         JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2);
         JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
 
-
-        JS_BIN_encodeHex( &binGroup, &pGroup );
         JS_BIN_encodeHex( &binPubX, &pPubX );
         JS_BIN_encodeHex( &binPubY, &pPubY );
 
 
-        JS_PKI_setECKeyVal( &ecKey, pGroup, pPubX, pPubY, NULL );
+        JS_PKI_setECKeyVal( &ecKey, sOID, pPubX, pPubY, NULL );
         JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
-
-        if( pGroup ) JS_free( pGroup );
         if( pPubX ) JS_free( pPubX );
         if( pPubY ) JS_free( pPubY );
 
         JS_BIN_reset( &binKey );
         JS_BIN_reset( &binPubX );
         JS_BIN_reset( &binPubY );
-        JS_BIN_reset( &binGroup );
         JS_PKI_resetECKeyVal( &ecKey );
     }
 
