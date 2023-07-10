@@ -2310,12 +2310,12 @@ int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKe
     sTemplate[uCount].ulValueLen = sizeof(keyType);
     uCount++;
 
-    QString strECParams = pEcKeyVal->pGroup;
+    QString strECParams = pEcKeyVal->pCurveOID;
     BIN binECParams = {0,0};
 
     if( !strECParams.isEmpty() )
     {
-        JS_BIN_decodeHex( strECParams.toStdString().c_str(), &binECParams );
+        JS_PKI_getOIDFromString( strECParams.toStdString().c_str(), &binECParams );
         sTemplate[uCount].type = CKA_EC_PARAMS;
         sTemplate[uCount].pValue = binECParams.pVal;
         sTemplate[uCount].ulValueLen = binECParams.nLen;
@@ -2407,12 +2407,12 @@ int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECK
     sTemplate[uCount].ulValueLen = sizeof(keyType);
     uCount++;
 
-    QString strECParams = pECKeyVal->pGroup;
+    QString strECParams = pECKeyVal->pCurveOID;
     BIN binECParams = {0,0};
 
     if( !strECParams.isEmpty() )
     {
-        JS_BIN_decodeHex( strECParams.toStdString().c_str(), &binECParams );
+        JS_PKI_getOIDFromString( strECParams.toStdString().c_str(), &binECParams );
         sTemplate[uCount].type = CKA_EC_PARAMS;
         sTemplate[uCount].pValue = binECParams.pVal;
         sTemplate[uCount].ulValueLen = binECParams.nLen;

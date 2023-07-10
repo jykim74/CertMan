@@ -1,6 +1,7 @@
 #include "js_bin.h"
 #include "js_pki.h"
 #include "js_pki_eddsa.h"
+#include "js_pki_tools.h"
 
 #include "man_applet.h"
 #include "db_mgr.h"
@@ -25,7 +26,6 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mRSA_DMQ1Text, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_DMQ1(const QString&)));
     connect( mRSA_IQMPText, SIGNAL(textChanged(const QString&)), this, SLOT(changeRSA_IQMP(const QString&)));
 
-    connect( mECC_GroupText, SIGNAL(textChanged(const QString&)), this, SLOT(changeECC_Group(const QString&)));
     connect( mECC_PubXText, SIGNAL(textChanged()), this, SLOT(changeECC_PubX()));
     connect( mECC_PubYText, SIGNAL(textChanged()), this, SLOT(changeECC_PubY()));
     connect( mECC_PrivateText, SIGNAL(textChanged()), this, SLOT(changeECC_Private()));
@@ -118,7 +118,9 @@ void PriKeyInfoDlg::setECCKey( const BIN *pKey, bool bPri )
 
     if( ret == 0 )
     {
-        mECC_GroupText->setText( sECKey.pGroup );
+        QString strSN = JS_PKI_getSNFromOID( sECKey.pCurveOID );
+        mECC_CurveOIDText->setText( QString( "%1 (%2)" ).arg(sECKey.pCurveOID).arg( strSN ) );
+
         mECC_PubXText->setPlainText( sECKey.pPubX );
         mECC_PubYText->setPlainText( sECKey.pPubY );
         mECC_PrivateText->setPlainText( sECKey.pPrivate );
@@ -233,13 +235,6 @@ void PriKeyInfoDlg::changeRSA_IQMP( const QString& text )
     mRSA_IQMPLenText->setText( QString("%1").arg(nLen));
 }
 
-
-void PriKeyInfoDlg::changeECC_Group( const QString& text )
-{
-    int nLen = text.length() / 2;
-    mECC_GroupLenText->setText( QString("%1").arg(nLen));
-}
-
 void PriKeyInfoDlg::changeECC_PubX()
 {
     QString strPubX = mECC_PubXText->toPlainText();
@@ -321,7 +316,7 @@ void PriKeyInfoDlg::clickClear()
 
     mECC_PubXText->clear();
     mECC_PubYText->clear();
-    mECC_GroupText->clear();
+    mECC_CurveOIDText->clear();
     mECC_PrivateText->clear();
 
     mDSA_GText->clear();
@@ -338,6 +333,7 @@ void PriKeyInfoDlg::clickClear()
 void PriKeyInfoDlg::clickGetPrivateKey()
 {
     BIN binPri = {0,0};
+    QString strAlg = key_rec_.getAlg();
 
     clickClear();
 
@@ -346,29 +342,33 @@ void PriKeyInfoDlg::clickGetPrivateKey()
     else
         JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
 
-    if( key_rec_.getAlg() == "RSA" )
+    if( strAlg == "RSA" )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPri );
     }
-    else if( key_rec_.getAlg() == "EC" )
+    else if( strAlg == "EC" )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
         setECCKey( &binPri );
     }
-    else if( key_rec_.getAlg() == "DSA" )
+    else if( strAlg == "DSA" )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPri );
     }
-    else
+    else if( strAlg == "EdDSA" )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         setEdDSAKey( key_rec_.getParam(), &binPri );
+    }
+    else
+    {
+        manApplet->warningBox( tr("Can not view private key algorithm: %1").arg( strAlg ));
     }
 
     JS_BIN_reset( &binPri );
@@ -377,34 +377,39 @@ void PriKeyInfoDlg::clickGetPrivateKey()
 void PriKeyInfoDlg::clickGetPublicKey()
 {
     BIN binPub = {0,0};
+    QString strAlg = key_rec_.getAlg();
 
     clickClear();
 
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
 
-    if( key_rec_.getAlg() == "RSA" )
+    if( strAlg == "RSA" )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPub, false );
     }
-    else if( key_rec_.getAlg() == "EC" )
+    else if( strAlg == "EC" )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
         setECCKey( &binPub, false );
     }
-    else if( key_rec_.getAlg() == "DSA" )
+    else if( strAlg == "DSA" )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPub, false );
     }
-    else
+    else if( strAlg == "EdDSA" )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         setEdDSAKey( key_rec_.getParam(), &binPub, false );
+    }
+    else
+    {
+        manApplet->warningBox( tr("Can not view public key algorithm: %1").arg( strAlg ));
     }
 
     JS_BIN_reset( &binPub );

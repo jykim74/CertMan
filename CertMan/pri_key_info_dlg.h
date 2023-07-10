@@ -34,7 +34,6 @@ private slots:
     void changeRSA_DMQ1( const QString& text );
     void changeRSA_IQMP( const QString& text );
 
-    void changeECC_Group( const QString& text );
     void changeECC_PubX();
     void changeECC_PubY();
     void changeECC_Private();

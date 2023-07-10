@@ -31,7 +31,7 @@
    <item>
     <widget class="QTabWidget" name="mKeyTab">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -951,20 +951,8 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="mECC_GroupLenText">
-           <property name="minimumSize">
-            <size>
-             <width>40</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>40</width>
-             <height>16777215</height>
-            </size>
-           </property>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="mECC_CurveOIDText">
            <property name="palette">
             <palette>
              <active>
@@ -1009,52 +997,20 @@
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_10">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Group</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mECC_GroupText">
-           <property name="palette">
-            <palette>
-             <active>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>221</red>
-                 <green>221</green>
-                 <blue>255</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>221</red>
-                 <green>221</green>
-                 <blue>255</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Base">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>240</red>
-                 <green>240</green>
-                 <blue>240</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
+            <string>Curve OID</string>
            </property>
           </widget>
          </item>
@@ -1064,6 +1020,18 @@
         <layout class="QGridLayout" name="gridLayout_12">
          <item row="0" column="0">
           <widget class="QLabel" name="label_13">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>PrivateKey</string>
            </property>
