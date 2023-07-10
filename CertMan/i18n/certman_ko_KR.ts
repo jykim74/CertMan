@@ -661,7 +661,7 @@
     </message>
     <message>
         <source>Import to KMS</source>
-        <translation>KMS 에 주입하기</translation>
+        <translation type="vanished">KMS 에 주입하기</translation>
     </message>
     <message>
         <source>KMS can not import CSR</source>
@@ -678,6 +678,14 @@
     <message>
         <source>Source Path</source>
         <translation>소스 경로</translation>
+    </message>
+    <message>
+        <source>To KMS</source>
+        <translation>KMS 저장</translation>
+    </message>
+    <message>
+        <source>To PKCS11</source>
+        <translation>PKCS11 저장</translation>
     </message>
 </context>
 <context>
@@ -1738,7 +1746,7 @@
     </message>
     <message>
         <source>The CA certificate is revoked. continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
 </context>
 <context>
