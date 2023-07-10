@@ -2936,7 +2936,7 @@
     </message>
     <message>
         <source>Group</source>
-        <translation>Group</translation>
+        <translation type="vanished">Group</translation>
     </message>
     <message>
         <source>PubX</source>
@@ -3045,6 +3045,18 @@
     <message>
         <source>Prime (P)</source>
         <translation>Prime(P)</translation>
+    </message>
+    <message>
+        <source>Curve OID</source>
+        <translation>커브 OID</translation>
+    </message>
+    <message>
+        <source>Can not view private key algorithm: %1</source>
+        <translation>볼수 없는 개인키 알고리즘: %1</translation>
+    </message>
+    <message>
+        <source>Can not view public key algorithm: %1</source>
+        <translation>볼수 없는 공개키 알고리즘: %1</translation>
     </message>
 </context>
 <context>
