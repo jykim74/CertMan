@@ -98,7 +98,7 @@ void ImportDlg::accept()
     }
     else if( nSelType == 2 )
     {
-        if( mImportKMSCheck->isChecked() )
+        if( mToKMSCheck->isChecked() )
         {
             manApplet->warningBox( tr( "KMS can not import CSR" ), this );
             return;
@@ -120,7 +120,7 @@ void ImportDlg::accept()
     }
     else if( nSelType == 4 )
     {
-        if( mImportKMSCheck->isChecked() )
+        if( mToKMSCheck->isChecked() )
         {
             manApplet->warningBox( tr( "KMS can not import CRL" ), this );
             return;
@@ -156,7 +156,10 @@ void ImportDlg::initUI()
 void ImportDlg::initialize()
 {
     if( manApplet->isPRO() == false )
-        mImportKMSCheck->hide();
+        mToKMSCheck->hide();
+
+    if( manApplet->settingsMgr()->PKCS11Use() == false )
+        mToPKCS11Check->hide();
 }
 
 
@@ -195,7 +198,17 @@ void ImportDlg::clickFind()
 
 void ImportDlg::dataTypeChanged( int index )
 {
-    if( index == 1 || index == 5 )
+    QString strType = mDataTypeCombo->currentText();
+
+    if( manApplet->settingsMgr()->PKCS11Use() == true )
+    {
+        if( strType == "PrivateKey" || strType == "Encrypted PrivateKey" )
+            mToPKCS11Check->setEnabled(true);
+        else
+            mToPKCS11Check->setEnabled(false);
+    }
+
+    if( strType == "Encrypted PrivateKey" || strType == "PFX" )
         mPasswordText->setEnabled(true);
     else {
         mPasswordText->setEnabled(false);
@@ -216,6 +229,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JDSAKeyVal  sDSAKey;
     JRawKeyVal sRawKey;
     QString strParam;
+    BIN binID = {0,0};
 
     if( pPriKey == NULL || pPriKey->nLen <= 0 ) return -1;
 
@@ -284,77 +298,23 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         keyPair.setPrivateKey( getHexString( pPriKey ) );
     }
 
-    if( mImportKMSCheck->isChecked() )
+    if( manApplet->settingsMgr()->KMIPUse() && mToKMSCheck->isChecked() )
     {
-        SSL_CTX     *pCTX = NULL;
-        SSL         *pSSL = NULL;
-        Authentication  *pAuth = NULL;
-        BIN         binReq = {0,0};
-        BIN         binRsp = {0,0};
+        ret = ImportPriKeyToKMIP( nKeyType, pPriKey, nParam, &binPub, &binID );
+        if( ret == 0 ) keyPair.setPrivateKey( getHexString( &binID ));
+    }
 
-        int nType = JS_KMS_OBJECT_TYPE_PRIKEY;
+    if( manApplet->settingsMgr()->PKCS11Use() && mToPKCS11Check->isChecked() )
+    {
+        ret = ImportPriKeyToPKCS11( nKeyType, pPriKey, nParam, &binPub, &binID );
+        if( ret == 0 ) keyPair.setPrivateKey( getHexString( &binID ));
+    }
 
-        char *pUUID = NULL;
-
-        if( nKeyType == JS_PKI_KEY_TYPE_ECC )
-        {
-            if( nParam != NID_X9_62_prime256v1 )
-            {
-                goto end;
-            }
-
-            nParam = KMIP_CURVE_P_256;
-        }
-
-        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
-        if( ret != 0 )
-        {
-            goto end;
-        }
-
-        ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPriKey, &binReq );
-        if( ret != 0 ) goto kmip_end;
-
-        ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-        if( ret != 0 ) goto kmip_end;
-
-        ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
-        if( ret != 0 ) goto kmip_end;
-
-        if( pSSL ) JS_SSL_clear( pSSL );
-        if( pCTX ) JS_SSL_finish( &pCTX );
-        if( pAuth ) JS_KMS_resetAuthentication( pAuth );
-
-        pSSL = NULL;
-        pCTX = NULL;
-        pAuth = NULL;
-
-        nType = JS_KMS_OBJECT_TYPE_PUBKEY;
-
-        ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
-        if( ret != 0 )
-        {
-            goto end;
-        }
-
-        ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, &binPub, &binReq );
-        if( ret != 0 ) goto kmip_end;
-
-        ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
-        if( ret != 0 ) goto kmip_end;
-
-        ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
-        if( ret != 0 ) goto kmip_end;
-
-    kmip_end :
-        if( pSSL ) JS_SSL_clear( pSSL );
-        if( pCTX ) JS_SSL_finish( &pCTX );
-        if( pAuth ) JS_KMS_resetAuthentication( pAuth );
-        if( pUUID ) JS_free( pUUID );
-
-        JS_BIN_reset( &binReq );
-        JS_BIN_reset( &binRsp );
-        if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to import PrivateKey: %1").arg(ret));
+        ret = -1;
+        goto end;
     }
 
     keyPair.setAlg( strAlg );
@@ -371,13 +331,166 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     JS_PKI_resetDSAKeyVal( &sDSAKey );
     JS_PKI_resetRawKeyVal( &sRawKey );
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binID );
+
+    return ret;
+}
+
+int ImportDlg::ImportPriKeyToKMIP( int nKeyType, const BIN *pPriKey, int nParam, const BIN *pPubInfoKey, BIN *pID )
+{
+    int ret = 0;
+    SSL_CTX     *pCTX = NULL;
+    SSL         *pSSL = NULL;
+    Authentication  *pAuth = NULL;
+    BIN         binReq = {0,0};
+    BIN         binRsp = {0,0};
+
+    int nType = JS_KMS_OBJECT_TYPE_PRIKEY;
+
+    char *pUUID = NULL;
+
+    if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    {
+        if( nParam != NID_X9_62_prime256v1 )
+        {
+            goto end;
+        }
+
+        nParam = KMIP_CURVE_P_256;
+    }
+
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        goto end;
+    }
+
+    ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPriKey, &binReq );
+    if( ret != 0 ) goto end;
+
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    if( ret != 0 ) goto end;
+
+    ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+    if( ret != 0 ) goto end;
+
+    if( pSSL ) JS_SSL_clear( pSSL );
+    if( pCTX ) JS_SSL_finish( &pCTX );
+    if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+
+    pSSL = NULL;
+    pCTX = NULL;
+    pAuth = NULL;
+
+    nType = JS_KMS_OBJECT_TYPE_PUBKEY;
+
+    ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
+    if( ret != 0 )
+    {
+        goto end;
+    }
+
+    ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPubInfoKey, &binReq );
+    if( ret != 0 ) goto end;
+
+    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    if( ret != 0 ) goto end;
+
+    ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
+    if( ret != 0 ) goto end;
+
+    JS_BIN_set( pID, (unsigned char *)pUUID, strlen(pUUID));
+
+end :
+    if( pSSL ) JS_SSL_clear( pSSL );
+    if( pCTX ) JS_SSL_finish( &pCTX );
+    if( pAuth ) JS_KMS_resetAuthentication( pAuth );
+    if( pUUID ) JS_free( pUUID );
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    return ret;
+}
+
+int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, int nParam, const BIN *pPubInfoKey, BIN *pID )
+{
+    int ret = 0;
+    BIN binHash = {0,0};
+    JP11_CTX *pCTX = NULL;
+
+    JRSAKeyVal sRSAKey;
+    JECKeyVal sECKey;
+    JDSAKeyVal sDSAKey;
+
+    memset( &sRSAKey, 0x00, sizeof(sRSAKey));
+    memset( &sECKey, 0x00, sizeof(sECKey));
+    memset( &sDSAKey, 0x00, sizeof(sDSAKey));
+
+    int nIndex = manApplet->settingsMgr()->slotIndex();
+    QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+    pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+
+    if( hSession < 0 )
+    {
+        manApplet->elog( "fail to get P11Session" );
+        goto end;
+    }
+
+    JS_PKI_genHash( "SHA1", pPubInfoKey, &binHash );
+
+    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+    {
+        JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
+        ret = createRSAPrivateKeyP11( pCTX, &binHash, &sRSAKey );
+        if( ret != 0 ) goto end;
+        ret = createRSAPublicKeyP11( pCTX, &binHash, &sRSAKey );
+        if( ret != 0 ) goto end;
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    {
+        JS_PKI_getECKeyVal( pPriKey, &sECKey );
+        ret = createECPrivateKeyP11( pCTX, &binHash, &sECKey );
+        if( ret != 0 ) goto end;
+        ret = createECPublicKeyP11( pCTX, &binHash, &sECKey );
+        if( ret != 0 ) goto end;
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+    {
+        JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
+        ret = createDSAPrivateKeyP11( pCTX, &binHash, &sDSAKey );
+        if( ret != 0 ) goto end;
+        ret = createDSAPublicKeyP11( pCTX, &binHash, &sDSAKey );
+        if( ret != 0 ) goto end;
+    }
+    else
+    {
+        ret = -1;
+        goto end;
+    }
+
+
+    JS_BIN_copy( pID, &binHash );
+    ret = 0;
+
+end :
+    JS_PKCS11_Logout( pCTX );
+    JS_PKCS11_CloseSession( pCTX );
+
+    JS_BIN_reset( &binHash );
+    JS_PKI_resetRSAKeyVal( &sRSAKey );
+    JS_PKI_resetECKeyVal( &sECKey );
+    JS_PKI_resetDSAKeyVal( &sDSAKey );
 
     return ret;
 }
 
 void ImportDlg::setKMIPCheck()
 {
-    mImportKMSCheck->setChecked(true);
+    mToKMSCheck->setChecked(true);
 }
 
 int ImportDlg::ImportCert( const BIN *pCert )
@@ -398,7 +511,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
 
     JS_BIN_encodeHex( pCert, &pHexCert );
 
-    if( mImportKMSCheck->isChecked() )
+    if( mToKMSCheck->isChecked() )
     {
         SSL_CTX     *pCTX = NULL;
         SSL         *pSSL = NULL;

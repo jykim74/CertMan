@@ -38,6 +38,9 @@ private:
     int ImportRequest( const BIN *pCSR );
     int ImportPFX( const BIN *pPFX );
 
+    int ImportPriKeyToKMIP( int nKeyType, const BIN *pPriKey, int nParam, const BIN *pPubInfoKey, BIN *pID );
+    int ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, int nParam, const BIN *pPubInfoKey, BIN *pID );
+
 private:
 };
 

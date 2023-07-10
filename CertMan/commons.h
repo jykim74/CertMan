@@ -147,12 +147,12 @@ QString getRevokeReasonName( int nReason );
 int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString strParam, int nExponent, BIN *pPri, BIN *pPub );
 int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strParam, BIN *pPri, BIN *pPub);
 
-int createRSAPublicKeyP11( JP11_CTX *pCTX,JRSAKeyVal *pRsaKeyVal );
-int createRSAPrivateKeyP11( JP11_CTX *pCTX, JRSAKeyVal *pRsaKeyVal );
-int createECPublicKeyP11( JP11_CTX *pCTX, JECKeyVal *pEcKeyVal );
-int createECPrivateKeyP11( JP11_CTX *pCTX, JECKeyVal *pECKeyVal );
-int createDSAPublicKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal );
-int createDSAPrivateKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal );
+int createRSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal );
+int createRSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal );
+int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKeyVal );
+int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECKeyVal );
+int createDSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal );
+int createDSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal );
 
 QString getHexString( const BIN *pBin );
 

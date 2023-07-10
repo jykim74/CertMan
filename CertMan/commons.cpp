@@ -1963,34 +1963,832 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     return ret;
 }
 
-int createRSAPublicKeyP11( JP11_CTX *pCTX, JRSAKeyVal *pRsaKeyVal )
+int createRSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL    bTrue = CK_TRUE;
+    CK_OBJECT_HANDLE    hObject = 0;
+
+    CK_OBJECT_CLASS objClass = CKO_PUBLIC_KEY;
+    CK_KEY_TYPE keyType = CKK_RSA;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strModulus = pRsaKeyVal->pN;
+    BIN binModulus = {0,0};
+
+    if( !strModulus.isEmpty() )
+    {
+        JS_BIN_decodeHex( strModulus.toStdString().c_str(), &binModulus );
+        sTemplate[uCount].type = CKA_MODULUS;
+        sTemplate[uCount].pValue = binModulus.pVal;
+        sTemplate[uCount].ulValueLen = binModulus.nLen;
+        uCount++;
+    }
+
+    QString strExponent = pRsaKeyVal->pE;
+    BIN binExponent = {0,0};
+
+    if( !strExponent.isEmpty() )
+    {
+        JS_BIN_decodeHex( strExponent.toStdString().c_str(), &binExponent );
+        sTemplate[uCount].type = CKA_PUBLIC_EXPONENT;
+        sTemplate[uCount].pValue = binExponent.pVal;
+        sTemplate[uCount].ulValueLen = binExponent.nLen;
+        uCount++;
+    }
+
+    QString strLabel = "RSA Imported Public Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+    JS_BIN_copy( &binID, pID );
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_VERIFY;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_ENCRYPT;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_WRAP;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binModulus );
+    JS_BIN_reset( &binExponent );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+    if( rv != CKR_OK )
+    {
+        fprintf( stderr, "fail to create RSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
+        return rv;
+    }
+
+    return rv;
 }
 
-int createRSAPrivateKeyP11( JP11_CTX *pCTX, JRSAKeyVal *pRsaKeyVal )
+int createRSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL bTrue = CK_TRUE;
+    CK_BBOOL bFalse = CK_FALSE;
+
+    CK_OBJECT_CLASS objClass = CKO_PRIVATE_KEY;
+    CK_KEY_TYPE keyType = CKK_RSA;
+
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strModules = pRsaKeyVal->pN;
+    BIN binModules = {0,0};
+
+    if( !strModules.isEmpty() )
+    {
+        JS_BIN_decodeHex( strModules.toStdString().c_str(), &binModules );
+        sTemplate[uCount].type = CKA_MODULUS;
+        sTemplate[uCount].pValue = binModules.pVal;
+        sTemplate[uCount].ulValueLen = binModules.nLen;
+        uCount++;
+    }
+
+    QString strPublicExponent = pRsaKeyVal->pE;
+    BIN binPublicExponent = {0,0};
+
+    if( !strPublicExponent.isEmpty() )
+    {
+        JS_BIN_decodeHex( strPublicExponent.toStdString().c_str(), &binPublicExponent );
+        sTemplate[uCount].type = CKA_PUBLIC_EXPONENT;
+        sTemplate[uCount].pValue = binPublicExponent.pVal;
+        sTemplate[uCount].ulValueLen = binPublicExponent.nLen;
+        uCount++;
+    }
+
+    QString strPrivateExponent = pRsaKeyVal->pD;
+    BIN binPrivateExponent = {0,0};
+
+    if( !strPrivateExponent.isEmpty() )
+    {
+        JS_BIN_decodeHex( strPrivateExponent.toStdString().c_str(), &binPrivateExponent );
+        sTemplate[uCount].type = CKA_PRIVATE_EXPONENT;
+        sTemplate[uCount].pValue = binPrivateExponent.pVal;
+        sTemplate[uCount].ulValueLen = binPrivateExponent.nLen;
+        uCount++;
+    }
+
+    QString strPrime1 = pRsaKeyVal->pP;
+    BIN binPrime1 = {0,0};
+
+    if( !strPrime1.isEmpty() )
+    {
+        JS_BIN_decodeHex( strPrime1.toStdString().c_str(), &binPrime1 );
+        sTemplate[uCount].type = CKA_PRIME_1;
+        sTemplate[uCount].pValue = binPrime1.pVal;
+        sTemplate[uCount].ulValueLen = binPrime1.nLen;
+        uCount++;
+    }
+
+    QString strPrime2 = pRsaKeyVal->pQ;
+    BIN binPrime2 = {0,0};
+
+    if( !strPrime2.isEmpty() )
+    {
+        JS_BIN_decodeHex( strPrime2.toStdString().c_str(), &binPrime2 );
+        sTemplate[uCount].type = CKA_PRIME_2;
+        sTemplate[uCount].pValue = binPrime2.pVal;
+        sTemplate[uCount].ulValueLen = binPrime2.nLen;
+        uCount++;
+    }
+
+    QString strExponent1 = pRsaKeyVal->pDMP1;
+    BIN binExponent1 = {0,0};
+
+    if( !strExponent1.isEmpty() )
+    {
+        JS_BIN_decodeHex( strExponent1.toStdString().c_str(), &binExponent1 );
+        sTemplate[uCount].type = CKA_EXPONENT_1;
+        sTemplate[uCount].pValue = binExponent1.pVal;
+        sTemplate[uCount].ulValueLen = binExponent1.nLen;
+        uCount++;
+    }
+
+    QString strExponent2 = pRsaKeyVal->pDMQ1;
+    BIN binExponent2 = {0,0};
+
+    if( !strExponent2.isEmpty() )
+    {
+        JS_BIN_decodeHex( strExponent2.toStdString().c_str(), &binExponent2 );
+        sTemplate[uCount].type = CKA_EXPONENT_2;
+        sTemplate[uCount].pValue = binExponent2.pVal;
+        sTemplate[uCount].ulValueLen = binExponent2.nLen;
+        uCount++;
+    }
+
+    QString strCoefficient = pRsaKeyVal->pIQMP;
+    BIN binCoefficient = {0,0};
+
+    if( !strCoefficient.isEmpty() )
+    {
+        JS_BIN_decodeHex( strCoefficient.toStdString().c_str(), &binCoefficient );
+        sTemplate[uCount].type = CKA_COEFFICIENT;
+        sTemplate[uCount].pValue = binCoefficient.pVal;
+        sTemplate[uCount].ulValueLen = binCoefficient.nLen;
+        uCount++;
+    }
+
+    QString strLabel = "RSA Imported Private Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length());
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof( objClass );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof( keyType );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_LABEL;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_ID;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_PRIVATE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_DECRYPT;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_UNWRAP;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SENSITIVE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SIGN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    CK_OBJECT_HANDLE hObject = 0;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binModules );
+    JS_BIN_reset( &binPublicExponent );
+    JS_BIN_reset( &binPrivateExponent );
+    JS_BIN_reset( &binPrime1 );
+    JS_BIN_reset( &binPrime2 );
+    JS_BIN_reset( &binExponent1 );
+    JS_BIN_reset( &binExponent2 );
+    JS_BIN_reset( &binCoefficient );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+    if( rv != CKR_OK )
+    {
+        fprintf( stderr, "fail to create RSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
+        return rv;
+    }
+
+    return rv;
 }
 
-int createECPublicKeyP11( JP11_CTX *pCTX, JECKeyVal *pEcKeyVal )
+int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL    bTrue = CK_TRUE;
+    CK_OBJECT_HANDLE    hObject = 0;
+
+    CK_OBJECT_CLASS objClass = CKO_PUBLIC_KEY;
+    CK_KEY_TYPE keyType = CKK_EC;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strECParams = pEcKeyVal->pGroup;
+    BIN binECParams = {0,0};
+
+    if( !strECParams.isEmpty() )
+    {
+        JS_BIN_decodeHex( strECParams.toStdString().c_str(), &binECParams );
+        sTemplate[uCount].type = CKA_EC_PARAMS;
+        sTemplate[uCount].pValue = binECParams.pVal;
+        sTemplate[uCount].ulValueLen = binECParams.nLen;
+        uCount++;
+    }
+
+    QString strECPoints = pEcKeyVal->pPubX;
+    strECPoints += pEcKeyVal->pPubY;
+    BIN binECPoints = {0,0};
+
+    if( !strECPoints.isEmpty() )
+    {
+        JS_BIN_decodeHex( strECPoints.toStdString().c_str(), &binECPoints );
+        sTemplate[uCount].type = CKA_EC_POINT;
+        sTemplate[uCount].pValue = binECPoints.pVal;
+        sTemplate[uCount].ulValueLen = binECPoints.nLen;
+        uCount++;
+    }
+
+    QString strLabel = "EC Imported Public Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_VERIFY;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binECParams );
+    JS_BIN_reset( &binECPoints );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+    if( rv != CKR_OK )
+    {
+        fprintf( stderr, "fail to create EC public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        return rv;
+    }
+
+    return rv;
 }
 
-int createECPrivateKeyP11( JP11_CTX *pCTX, JECKeyVal *pECKeyVal )
+int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL bTrue = CK_TRUE;
+    CK_BBOOL bFalse = CK_FALSE;
+
+    CK_OBJECT_CLASS objClass = CKO_PRIVATE_KEY;
+    CK_KEY_TYPE keyType = CKK_EC;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strECParams = pECKeyVal->pGroup;
+    BIN binECParams = {0,0};
+
+    if( !strECParams.isEmpty() )
+    {
+        JS_BIN_decodeHex( strECParams.toStdString().c_str(), &binECParams );
+        sTemplate[uCount].type = CKA_EC_PARAMS;
+        sTemplate[uCount].pValue = binECParams.pVal;
+        sTemplate[uCount].ulValueLen = binECParams.nLen;
+        uCount++;
+    }
+
+    QString strValue = pECKeyVal->pPrivate;
+    BIN binValue = {0,0};
+
+    if( !strValue.isEmpty() )
+    {
+        JS_BIN_decodeHex( strValue.toStdString().c_str(), &binValue);
+        sTemplate[uCount].type = CKA_VALUE;
+        sTemplate[uCount].pValue = binValue.pVal;
+        sTemplate[uCount].ulValueLen = binValue.nLen;
+        uCount++;
+    }
+
+    QString strLabel = "EC Imported Private Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof( objClass );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof( keyType );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_LABEL;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_ID;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_PRIVATE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SENSITIVE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SIGN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    CK_OBJECT_HANDLE hObject = 0;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binECParams );
+    JS_BIN_reset( &binValue );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+
+    if( rv != CKR_OK )
+    {
+        fprintf( stderr, "fail to create EC private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        return rv;
+    }
+
+    return rv;
 }
 
-int createDSAPublicKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal )
+int createDSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL    bTrue = CK_TRUE;
+    CK_BBOOL    bFalse = CK_FALSE;
+    CK_OBJECT_HANDLE    hObject = 0;
+
+    CK_OBJECT_CLASS objClass = CKO_PUBLIC_KEY;
+    CK_KEY_TYPE keyType = CKK_DSA;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strP = pDSAKeyVal->pP;
+    BIN binP = {0,0};
+
+    if( !strP.isEmpty() )
+    {
+        JS_BIN_decodeHex( strP.toStdString().c_str(), &binP );
+        sTemplate[uCount].type = CKA_PRIME;
+        sTemplate[uCount].pValue = binP.pVal;
+        sTemplate[uCount].ulValueLen = binP.nLen;
+        uCount++;
+    }
+
+    QString strQ = pDSAKeyVal->pQ;
+    BIN binQ = {0,0};
+
+    if( !strQ.isEmpty() )
+    {
+        JS_BIN_decodeHex( strQ.toStdString().c_str(), &binQ );
+        sTemplate[uCount].type = CKA_SUBPRIME;
+        sTemplate[uCount].pValue = binQ.pVal;
+        sTemplate[uCount].ulValueLen = binQ.nLen;
+        uCount++;
+    }
+
+    QString strG = pDSAKeyVal->pG;
+    BIN binG = {0,0};
+
+    if( !strG.isEmpty() )
+    {
+        JS_BIN_decodeHex( strG.toStdString().c_str(), &binG );
+        sTemplate[uCount].type = CKA_BASE;
+        sTemplate[uCount].pValue = binG.pVal;
+        sTemplate[uCount].ulValueLen = binG.nLen;
+        uCount++;
+    }
+
+    QString strPublic = pDSAKeyVal->pPublic;
+    BIN binPublic = {0,0};
+
+    if( !strPublic.isEmpty() )
+    {
+        JS_BIN_decodeHex( strPublic.toStdString().c_str(), &binPublic );
+        sTemplate[uCount].type = CKA_VALUE;
+        sTemplate[uCount].pValue = binPublic.pVal;
+        sTemplate[uCount].ulValueLen = binPublic.nLen;
+        uCount++;
+    }
+
+
+    QString strLabel = "DSA Imported Public Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_VERIFY;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof(bTrue);
+    uCount++;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binP );
+    JS_BIN_reset( &binQ );
+    JS_BIN_reset( &binG );
+    JS_BIN_reset( &binPublic );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+    if( rv != CKR_OK )
+    {
+        fprintf( stderr, "fail to create DSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        return rv;
+    }
+
+    return rv;
 }
 
-int createDSAPrivateKeyP11( JP11_CTX *pCTX, JDSAKeyVal *pDSAKeyVal )
+int createDSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
 {
-    return 0;
+    int rv = -1;
+
+    CK_ATTRIBUTE sTemplate[20];
+    long uCount = 0;
+    CK_BBOOL bTrue = CK_TRUE;
+    CK_BBOOL bFalse = CK_FALSE;
+
+    CK_OBJECT_CLASS objClass = CKO_PRIVATE_KEY;
+    CK_KEY_TYPE keyType = CKK_DSA;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof(keyType);
+    uCount++;
+
+    QString strP = pDSAKeyVal->pP;
+    BIN binP = {0,0};
+
+    if( !strP.isEmpty() )
+    {
+        JS_BIN_decodeHex( strP.toStdString().c_str(), &binP );
+        sTemplate[uCount].type = CKA_PRIME;
+        sTemplate[uCount].pValue = binP.pVal;
+        sTemplate[uCount].ulValueLen = binP.nLen;
+        uCount++;
+    }
+
+    QString strQ = pDSAKeyVal->pQ;
+    BIN binQ = {0,0};
+
+    if( !strQ.isEmpty() )
+    {
+        JS_BIN_decodeHex( strQ.toStdString().c_str(), &binQ );
+        sTemplate[uCount].type = CKA_SUBPRIME;
+        sTemplate[uCount].pValue = binQ.pVal;
+        sTemplate[uCount].ulValueLen = binQ.nLen;
+        uCount++;
+    }
+
+    QString strG = pDSAKeyVal->pG;
+    BIN binG = {0,0};
+
+    if( !strG.isEmpty() )
+    {
+        JS_BIN_decodeHex( strG.toStdString().c_str(), &binG );
+        sTemplate[uCount].type = CKA_BASE;
+        sTemplate[uCount].pValue = binG.pVal;
+        sTemplate[uCount].ulValueLen = binG.nLen;
+        uCount++;
+    }
+
+    QString strValue = pDSAKeyVal->pPrivate;
+    BIN binValue = {0,0};
+
+    if( !strValue.isEmpty() )
+    {
+        JS_BIN_decodeHex( strValue.toStdString().c_str(), &binValue);
+        sTemplate[uCount].type = CKA_VALUE;
+        sTemplate[uCount].pValue = binValue.pVal;
+        sTemplate[uCount].ulValueLen = binValue.nLen;
+        uCount++;
+    }
+
+    QString strLabel = "DSA Imported Private Key";
+    BIN binLabel = {0,0};
+
+    if( !strLabel.isEmpty() )
+    {
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        sTemplate[uCount].type = CKA_LABEL;
+        sTemplate[uCount].pValue = binLabel.pVal;
+        sTemplate[uCount].ulValueLen = binLabel.nLen;
+        uCount++;
+    }
+
+    BIN binID = {0,0};
+
+    if( pID )
+    {
+        JS_BIN_copy( &binID, pID );
+
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = binID.pVal;
+        sTemplate[uCount].ulValueLen = binID.nLen;
+        uCount++;
+    }
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof( objClass );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_KEY_TYPE;
+    sTemplate[uCount].pValue = &keyType;
+    sTemplate[uCount].ulValueLen = sizeof( keyType );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_LABEL;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_ID;
+    sTemplate[uCount].pValue = binLabel.pVal;
+    sTemplate[uCount].ulValueLen = binLabel.nLen;
+    uCount++;
+
+    sTemplate[uCount].type = CKA_TOKEN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_PRIVATE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SENSITIVE;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    sTemplate[uCount].type = CKA_SIGN;
+    sTemplate[uCount].pValue = &bTrue;
+    sTemplate[uCount].ulValueLen = sizeof( bTrue );
+    uCount++;
+
+    CK_OBJECT_HANDLE hObject = 0;
+
+    rv = JS_PKCS11_CreateObject( pCTX, sTemplate, uCount, &hObject );
+
+    JS_BIN_reset( &binP );
+    JS_BIN_reset( &binQ );
+    JS_BIN_reset( &binG );
+    JS_BIN_reset( &binValue );
+    JS_BIN_reset( &binLabel );
+    JS_BIN_reset( &binID );
+
+    if( rv != CKR_OK )
+    {
+        fprintf(stderr, "fail to create DSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        return rv;
+    }
+
+    return rv;
 }
 
 int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )

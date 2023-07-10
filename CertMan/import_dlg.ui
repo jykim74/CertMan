@@ -58,6 +58,9 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="mDataTypeCombo"/>
+     </item>
      <item row="0" column="2">
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -71,13 +74,17 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="mDataTypeCombo"/>
-     </item>
      <item row="0" column="3">
-      <widget class="QCheckBox" name="mImportKMSCheck">
+      <widget class="QCheckBox" name="mToKMSCheck">
        <property name="text">
-        <string>Import to KMS</string>
+        <string>To KMS</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QCheckBox" name="mToPKCS11Check">
+       <property name="text">
+        <string>To PKCS11</string>
        </property>
       </widget>
      </item>
@@ -101,6 +108,19 @@
         <string>Target Information</string>
        </property>
       </widget>
+     </item>
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
