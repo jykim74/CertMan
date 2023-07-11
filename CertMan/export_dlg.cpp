@@ -219,10 +219,20 @@ void ExportDlg::accept()
 
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
 
-        JS_PKI_encodePFX( &binData, nKeyType, strPass.toStdString().c_str(), &binPri, &binCert );
+        ret = JS_PKI_encodePFX( &binData, nKeyType, strPass.toStdString().c_str(), &binPri, &binCert );
 
         JS_BIN_reset( &binPri );
         JS_BIN_reset( &binCert );
+
+        if( ret != 0 )
+        {
+            QString strMsg = tr( "fail to encode PFX: %1" ).arg(ret);
+            manApplet->warningBox( strMsg, this );
+            manApplet->elog( strMsg );
+
+            QDialog::reject();
+            return;
+        }
     }
 
     if( mPEMSaveCheck->isChecked() )

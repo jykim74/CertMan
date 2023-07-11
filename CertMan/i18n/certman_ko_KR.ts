@@ -573,6 +573,10 @@
         <source>not support algorithm: %1</source>
         <translation>지원하지 않는 알고리즘: %1</translation>
     </message>
+    <message>
+        <source>fail to encode PFX: %1</source>
+        <translation>PFX 인코딩 실패: %1</translation>
+    </message>
 </context>
 <context>
     <name>GetLDAPDlg</name>
@@ -690,6 +694,14 @@
     <message>
         <source>To PKCS11</source>
         <translation>PKCS11 저장</translation>
+    </message>
+    <message>
+        <source>fail to decrypt private key: %1</source>
+        <translation>개인키 복호화에 실패 하였습니다: %1</translation>
+    </message>
+    <message>
+        <source>fail to import: %1</source>
+        <translation>가져오기 실패: %1</translation>
     </message>
 </context>
 <context>

@@ -84,6 +84,13 @@ void ImportDlg::accept()
             {
                 ret = ImportKeyPair( &binPri );
             }
+            else
+            {
+                QString strMsg = tr("fail to decrypt private key: %1").arg( ret );
+                manApplet->warningBox( strMsg, this );
+                manApplet->elog( strMsg );
+                QDialog::reject();
+            }
 
             JS_BIN_reset( &binInfo );
             JS_BIN_reset( &binPri );
@@ -139,6 +146,15 @@ void ImportDlg::accept()
         {
             manApplet->mainWindow()->createRightCertList(-2);
         }
+    }
+
+    if( ret != 0 )
+    {
+        QString strMsg = tr( "fail to import: %1").arg( ret );
+        manApplet->warningBox( strMsg, this );
+        manApplet->elog( strMsg );
+        QDialog::reject();
+        return;
     }
 
     JS_BIN_reset( &binSrc );
