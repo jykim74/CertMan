@@ -1669,6 +1669,10 @@
         <source>can not view KMIP private key:%1</source>
         <translation>PKCS11 공개키는 볼수 없습니다:%1</translation>
     </message>
+    <message>
+        <source>Export PublicKey</source>
+        <translation>공개키 내보내기</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>

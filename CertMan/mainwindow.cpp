@@ -498,6 +498,7 @@ void MainWindow::showRightMenu(QPoint point)
     }
     else if( right_type_ == RightType::TYPE_KEYPAIR )
     {
+        menu.addAction(tr("Export PublicKey"), this, &MainWindow::exportPubKey );
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
