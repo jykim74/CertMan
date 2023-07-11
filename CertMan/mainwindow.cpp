@@ -1313,7 +1313,21 @@ void MainWindow::viewPriKey()
     if( row < 0 ) return;
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
+    QTableWidgetItem* item2 = right_table_->item( row, 2 );
     int num = item->text().toInt();
+    QString strAlg = item2->text();
+
+    if( strAlg.contains( "PKCS11" ) )
+    {
+        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        return;
+    }
+
+    if( strAlg.contains( "KMIP" ) )
+    {
+        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        return;
+    }
 
     PriKeyInfoDlg priKeyInfoDlg;
     priKeyInfoDlg.setKeyNum( num );
