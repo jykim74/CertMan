@@ -306,7 +306,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
 
     if( manApplet->settingsMgr()->PKCS11Use() && mToPKCS11Check->isChecked() )
     {
-        ret = ImportPriKeyToPKCS11( nKeyType, pPriKey, nParam, &binPub, &binID );
+        ret = ImportPriKeyToPKCS11( nKeyType, pPriKey, &binPub, &binID );
         if( ret == 0 ) keyPair.setPrivateKey( getHexString( &binID ));
     }
 
@@ -413,7 +413,7 @@ end :
     return ret;
 }
 
-int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, int nParam, const BIN *pPubInfoKey, BIN *pID )
+int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN *pPubInfoKey, BIN *pID )
 {
     int ret = 0;
     BIN binHash = {0,0};

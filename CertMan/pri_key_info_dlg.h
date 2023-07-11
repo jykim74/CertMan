@@ -50,6 +50,7 @@ private slots:
     void clickClear();
     void clickGetPrivateKey();
     void clickGetPublicKey();
+    void clickInsertToHSM();
 
 private:
     void initialize();

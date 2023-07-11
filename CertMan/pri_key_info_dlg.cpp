@@ -6,6 +6,9 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 #include "pri_key_info_dlg.h"
+#include "settings_mgr.h"
+#include "js_pkcs11.h"
+#include "commons.h"
 
 
 PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
@@ -42,6 +45,7 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mClearBtn, SIGNAL(clicked()), this, SLOT(clickClear()));
     connect( mGetPrivateKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPrivateKey()));
     connect( mGetPublicKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPublicKey()));
+    connect( mInsertToHSMBtn, SIGNAL(clicked()), this, SLOT(clickInsertToHSM()));
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()
@@ -66,6 +70,9 @@ void PriKeyInfoDlg::initialize()
     mKeyTab->setTabEnabled(3, false);
 
     clickGetPrivateKey();
+
+    if( manApplet->settingsMgr()->PKCS11Use() == false )
+        mInsertToHSMBtn->hide();
 }
 
 void PriKeyInfoDlg::showEvent(QShowEvent *event)
@@ -365,6 +372,7 @@ void PriKeyInfoDlg::clickGetPrivateKey()
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         setEdDSAKey( key_rec_.getParam(), &binPri );
+        mInsertToHSMBtn->setEnabled(false);
     }
     else
     {
@@ -413,4 +421,94 @@ void PriKeyInfoDlg::clickGetPublicKey()
     }
 
     JS_BIN_reset( &binPub );
+}
+
+void PriKeyInfoDlg::clickInsertToHSM()
+{
+    int ret = 0;
+    BIN binHash = {0,0};
+    JRSAKeyVal  sRSAKey;
+    JECKeyVal   sECKey;
+    JDSAKeyVal  sDSAKey;
+
+    BIN binPri = {0,0};
+    BIN binPub = {0,0};
+    QString strAlg = key_rec_.getAlg();
+    int nKeyType = 0;
+
+    int nIndex = manApplet->settingsMgr()->slotIndex();
+    QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+
+    if( hSession < 0 )
+    {
+        manApplet->elog( "fail to get P11Session" );
+        goto end;
+    }
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+
+    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+    JS_PKI_genHash( "SHA1", &binPub, &binHash );
+
+    if( strAlg == "RSA" )
+    {
+        JS_PKI_getRSAKeyVal( &binPri, &sRSAKey );
+        ret = createRSAPrivateKeyP11( pCTX, &binHash, &sRSAKey );
+        if( ret != 0 ) goto end;
+        ret = createRSAPublicKeyP11( pCTX, &binHash, &sRSAKey );
+        if( ret != 0 ) goto end;
+    }
+    else if( strAlg == "EC" )
+    {
+        JS_PKI_getECKeyVal( &binPri, &sECKey );
+        ret = createECPrivateKeyP11( pCTX, &binHash, &sECKey );
+        if( ret != 0 ) goto end;
+        ret = createECPublicKeyP11( pCTX, &binHash, &sECKey );
+        if( ret != 0 ) goto end;
+    }
+    else if( strAlg == "DSA" )
+    {
+        JS_PKI_getDSAKeyVal( &binPri, &sDSAKey );
+        ret = createDSAPrivateKeyP11( pCTX, &binHash, &sDSAKey );
+        if( ret != 0 ) goto end;
+        ret = createDSAPublicKeyP11( pCTX, &binHash, &sDSAKey );
+        if( ret != 0 ) goto end;
+    }
+    else
+    {
+        manApplet->elog( QString( "Invalid Algorithm: %1").arg(strAlg));
+        goto end;
+    }
+
+    if( ret == 0 )
+    {
+        QString strMsg = "The private key and public key are inserted to HSM successfully";
+        manApplet->messageBox( strMsg, this );
+        manApplet->log( strMsg );
+    }
+    else
+    {
+        QString strMsg = "fail to insert private key and public key to HSM";
+        manApplet->warningBox( strMsg, this );
+        manApplet->elog( strMsg );
+    }
+
+end :
+    JS_PKCS11_Logout( pCTX );
+    JS_PKCS11_CloseSession( pCTX );
+
+    JS_BIN_reset( &binHash );
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binPub );
+
+    JS_PKI_resetRSAKeyVal( &sRSAKey );
+    JS_PKI_resetECKeyVal( &sECKey );
+    JS_PKI_resetDSAKeyVal( &sDSAKey );
 }
