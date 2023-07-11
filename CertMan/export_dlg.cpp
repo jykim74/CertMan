@@ -316,7 +316,12 @@ void ExportDlg::clickPEMSaveCheck()
     bool bStatus = mPEMSaveCheck->isChecked();
     QString strPath = mPathText->text();
 
-    QStringList nameList = strPath.split( "." );
+    QFileInfo file;
+    file.setFile( strPath );
+
+    QString fileName = file.fileName();
+
+    QStringList nameList = fileName.split( "." );
     QString strPathName;
     QString strExt;
 
@@ -348,7 +353,7 @@ void ExportDlg::clickPEMSaveCheck()
     }
 
     strPathName += strExt;
-    mPathText->setText( strPathName );
+    mPathText->setText( file.dir().path() + "/" + strPathName );
 }
 
 void ExportDlg::initUI()
