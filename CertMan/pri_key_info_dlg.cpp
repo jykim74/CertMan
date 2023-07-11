@@ -7,6 +7,7 @@
 #include "db_mgr.h"
 #include "pri_key_info_dlg.h"
 #include "settings_mgr.h"
+#include "mainwindow.h"
 #include "js_pkcs11.h"
 #include "commons.h"
 
@@ -434,7 +435,13 @@ void PriKeyInfoDlg::clickInsertToHSM()
     BIN binPri = {0,0};
     BIN binPub = {0,0};
     QString strAlg = key_rec_.getAlg();
-    int nKeyType = 0;
+    KeyPairRec addKey;
+
+    if( manApplet->settingsMgr()->PKCS11Use() == false ) return;
+
+    memset( &sRSAKey, 0x00, sizeof(sRSAKey));
+    memset( &sECKey, 0x00, sizeof(sECKey));
+    memset( &sDSAKey, 0x00, sizeof(sDSAKey));
 
     int nIndex = manApplet->settingsMgr()->slotIndex();
     QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
@@ -464,6 +471,8 @@ void PriKeyInfoDlg::clickInsertToHSM()
         if( ret != 0 ) goto end;
         ret = createRSAPublicKeyP11( pCTX, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
+
+        addKey.setAlg( kMechPKCS11_RSA );
     }
     else if( strAlg == "EC" )
     {
@@ -472,6 +481,8 @@ void PriKeyInfoDlg::clickInsertToHSM()
         if( ret != 0 ) goto end;
         ret = createECPublicKeyP11( pCTX, &binHash, &sECKey );
         if( ret != 0 ) goto end;
+
+        addKey.setAlg( kMechPKCS11_EC );
     }
     else if( strAlg == "DSA" )
     {
@@ -480,6 +491,8 @@ void PriKeyInfoDlg::clickInsertToHSM()
         if( ret != 0 ) goto end;
         ret = createDSAPublicKeyP11( pCTX, &binHash, &sDSAKey );
         if( ret != 0 ) goto end;
+
+        addKey.setAlg( kMechPKCS11_DSA );
     }
     else
     {
@@ -492,6 +505,15 @@ void PriKeyInfoDlg::clickInsertToHSM()
         QString strMsg = "The private key and public key are inserted to HSM successfully";
         manApplet->messageBox( strMsg, this );
         manApplet->log( strMsg );
+
+        addKey.setRegTime( time(NULL) );
+        addKey.setName( key_rec_.getName() + "_ToHSM" );
+        addKey.setPublicKey( getHexString( &binPub ));
+        addKey.setParam( key_rec_.getParam() );
+        addKey.setPrivateKey( getHexString( &binHash ));
+
+        manApplet->dbMgr()->addKeyPairRec( addKey );
+        manApplet->mainWindow()->createRightKeyPairList();
     }
     else
     {

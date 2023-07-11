@@ -1661,6 +1661,14 @@
         <source>Renew Certificate</source>
         <translation>인증서 갱신</translation>
     </message>
+    <message>
+        <source>can not view PKCS11 private key:%1</source>
+        <translation>PKCS11 개인키는 볼수 없습니다:%1</translation>
+    </message>
+    <message>
+        <source>can not view KMIP private key:%1</source>
+        <translation>PKCS11 공개키는 볼수 없습니다:%1</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -3057,6 +3065,10 @@
     <message>
         <source>Can not view public key algorithm: %1</source>
         <translation>볼수 없는 공개키 알고리즘: %1</translation>
+    </message>
+    <message>
+        <source>Insert To HSM</source>
+        <translation>HSM에 추가하기</translation>
     </message>
 </context>
 <context>
