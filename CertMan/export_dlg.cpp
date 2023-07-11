@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "man_applet.h"
 #include "db_mgr.h"
+#include "commons.h"
 
 #include "js_bin.h"
 #include "js_pki.h"
@@ -72,8 +73,11 @@ void ExportDlg::accept()
 
     if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY || export_type_ == EXPORT_TYPE_PUBKEY )
     {
+        QString strAlg;
         KeyPairRec keyPair;
         dbMgr->getKeyPairRec( data_num_, keyPair );
+
+        strAlg = keyPair.getAlg();
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
         {
@@ -82,25 +86,32 @@ void ExportDlg::accept()
             else
                 JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
 
-            if( keyPair.getAlg() == "RSA" )
+            if( strAlg == "RSA" )
                 nPEMType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
-            else if( keyPair.getAlg() == "EC" || keyPair.getAlg() == "ECC" )
+            else if( strAlg == "EC" || strAlg == "ECC" )
                 nPEMType = JS_PEM_TYPE_EC_PRIVATE_KEY;
-            else if( keyPair.getAlg() == "DSA" )
+            else if( strAlg == "DSA" )
                 nPEMType = JS_PEM_TYPE_DSA_PRIVATE_KEY;
-            else if( keyPair.getAlg() == "EdDSA" )
+            else if( strAlg == "EdDSA" )
                 nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
+            else
+            {
+                QString strMsg = tr( "not support algorithm: %1").arg( strAlg );
+                manApplet->warningBox( strMsg, this );
+                QDialog::reject();
+                return;
+            }
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
             JS_BIN_decodeHex( keyPair.getPublicKey().toStdString().c_str(), &binData );
-            if( keyPair.getAlg() == "RSA" )
+            if( strAlg == "RSA" || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
                 nPEMType = JS_PEM_TYPE_RSA_PUBLIC_KEY;
-            else if( keyPair.getAlg() == "EC" || keyPair.getAlg() == "ECC" )
+            else if( strAlg == "EC" || strAlg == "ECC" || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
                 nPEMType = JS_PEM_TYPE_EC_PUBLIC_KEY;
-            else if( keyPair.getAlg() == "DSA" )
+            else if( strAlg == "DSA" || strAlg == kMechPKCS11_DSA )
                 nPEMType = JS_PEM_TYPE_DSA_PUBLIC_KEY;
-            else if( keyPair.getAlg() == "EdDSA" )
+            else if( strAlg == "EdDSA" )
                 nPEMType = JS_PEM_TYPE_PUBLIC_KEY;
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
@@ -113,19 +124,19 @@ void ExportDlg::accept()
             else
                 JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
 
-            if( keyPair.getAlg() == "RSA" )
+            if( strAlg == "RSA" )
             {
                 ret = JS_PKI_encryptRSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
-            else if( keyPair.getAlg() == "EC" )
+            else if( strAlg == "EC" )
             {
                 ret = JS_PKI_encryptECPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
-            else if( keyPair.getAlg() == "DSA" )
+            else if( strAlg == "DSA" )
             {
                 ret = JS_PKI_encryptDSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
-            else if( keyPair.getAlg() == "EdDSA" )
+            else if( strAlg == "EdDSA" )
             {
                 int nKeyType = JS_PKI_KEY_TYPE_ED25519;
                 if( keyPair.getParam() == "Ed448" )
@@ -175,16 +186,31 @@ void ExportDlg::accept()
         int nKeyType = -1;
         KeyPairRec keyPair;
         CertRec cert;
+        QString strAlg;
 
         BIN binPri = {0,0};
         BIN binCert = { 0, 0};
 
         dbMgr->getCertRec( data_num_, cert );
         dbMgr->getKeyPairRec( cert.getKeyNum(), keyPair );
-        if( keyPair.getAlg() == "RSA" )
+
+        strAlg = keyPair.getAlg();
+
+        if( strAlg == "RSA" )
             nKeyType = JS_PKI_KEY_TYPE_RSA;
-        else if( keyPair.getAlg() == "EC" )
-            nKeyType == JS_PKI_KEY_TYPE_ECC;
+        else if( strAlg == "EC" )
+            nKeyType = JS_PKI_KEY_TYPE_ECC;
+        else if( strAlg == "DSA" )
+            nPEMType = JS_PEM_TYPE_DSA_PRIVATE_KEY;
+        else if( strAlg == "EdDSA" )
+            nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
+        else
+        {
+            QString strMsg = tr( "not support algorithm: %1").arg( strAlg );
+            manApplet->warningBox( strMsg, this );
+            QDialog::reject();
+            return;
+        }
 
         if( manApplet->isPasswd() )
             manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
@@ -200,9 +226,11 @@ void ExportDlg::accept()
     }
 
     if( mPEMSaveCheck->isChecked() )
-        JS_BIN_writePEM( &binData, nPEMType, strPath.toStdString().c_str() );
+        JS_BIN_writePEM( &binData, nPEMType, strPath.toLocal8Bit().toStdString().c_str() );
     else
         JS_BIN_fileWrite( &binData, strPath.toLocal8Bit().toStdString().c_str() );
+
+    manApplet->setCurFile( strPath );
 
     JS_BIN_reset( &binData );
     QDialog::accept();
@@ -215,6 +243,9 @@ void ExportDlg::clickFind()
 
     QString strFilter;
     QString strPath = mPathText->text();
+
+    if( strPath.length() < 1 )
+        strPath = manApplet->curFile();
 
     if( export_type_ == EXPORT_TYPE_PRIKEY )
     {
@@ -274,7 +305,10 @@ void ExportDlg::clickFind()
                                                      &selectedFilter,
                                                      options );
 
-    if( fileName.length() > 0 ) mPathText->setText( fileName );
+    if( fileName.length() > 0 )
+    {
+        mPathText->setText( fileName );
+    }
 }
 
 void ExportDlg::clickPEMSaveCheck()
@@ -443,5 +477,5 @@ void ExportDlg::initialize()
     mExportLabel->setText( strLabel );
     mNameText->setText( strName );
     mInfoText->setPlainText( strInfo );
-    mPathText->setText( strPath );
+    mPathText->setText( manApplet->curFolder() + "/" + strPath );
 }

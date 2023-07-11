@@ -60,6 +60,7 @@ public:
     int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );
 
     QString curFile() { return cur_file_; };
+    QString curFolder();
     void setCurFile( const QString& strFile );
 
 private:

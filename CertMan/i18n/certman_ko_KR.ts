@@ -569,6 +569,10 @@
         <source>Cert Files (*.crt);;PEM Files (*.pem);;All Files (*.*)</source>
         <translation>Cert Files (*.crt);;PEM Files (*.pem);;All Files (*.*)</translation>
     </message>
+    <message>
+        <source>not support algorithm: %1</source>
+        <translation>지원하지 않는 알고리즘: %1</translation>
+    </message>
 </context>
 <context>
     <name>GetLDAPDlg</name>
