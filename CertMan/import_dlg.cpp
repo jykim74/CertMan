@@ -69,14 +69,6 @@ void ImportDlg::accept()
             BIN binInfo = {0,0};
             BIN binPri = {0,0};
 
-            ret = JS_PKI_decryptRSAPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
-
-            if( ret != 0 )
-                ret = JS_PKI_decryptECPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
-
-            if( ret != 0 )
-                ret = JS_PKI_decryptDSAPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
-
             if( ret != 0 )
                 ret = JS_PKI_decryptPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
 
@@ -86,10 +78,12 @@ void ImportDlg::accept()
             }
             else
             {
+                JS_BIN_reset( &binSrc );
                 QString strMsg = tr("fail to decrypt private key: %1").arg( ret );
                 manApplet->warningBox( strMsg, this );
                 manApplet->elog( strMsg );
                 QDialog::reject();
+                return;
             }
 
             JS_BIN_reset( &binInfo );
@@ -130,6 +124,7 @@ void ImportDlg::accept()
         if( mToKMSCheck->isChecked() )
         {
             manApplet->warningBox( tr( "KMS can not import CRL" ), this );
+            JS_BIN_reset( &binSrc );
             return;
         }
 
@@ -150,6 +145,7 @@ void ImportDlg::accept()
 
     if( ret != 0 )
     {
+        JS_BIN_reset( &binSrc );
         QString strMsg = tr( "fail to import: %1").arg( ret );
         manApplet->warningBox( strMsg, this );
         manApplet->elog( strMsg );

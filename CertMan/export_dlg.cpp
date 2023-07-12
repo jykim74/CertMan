@@ -123,9 +123,12 @@ void ExportDlg::accept()
             BIN binSrc = {0,0};
             BIN binInfo = {0,0};
             int nPbeNid = -1;
+            int nKeyType = -1;
 
             QString strSN = mPBEAlgCombo->currentText();
             nPbeNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
+
+            manApplet->log( QString( "PbeNid: %1 (%2)").arg( strSN ).arg( nPbeNid ));
 
             if( manApplet->isPasswd() )
                 manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binSrc );
@@ -134,29 +137,30 @@ void ExportDlg::accept()
 
             if( strAlg == "RSA" )
             {
-                ret = JS_PKI_encryptRSAPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                nKeyType = JS_PKI_KEY_TYPE_RSA;
             }
             else if( strAlg == "EC" )
             {
-                ret = JS_PKI_encryptECPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                nKeyType = JS_PKI_KEY_TYPE_ECC;
             }
             else if( strAlg == "DSA" )
             {
-                ret = JS_PKI_encryptDSAPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                nKeyType = JS_PKI_KEY_TYPE_DSA;
             }
             else if( strAlg == "EdDSA" )
             {
                 int nKeyType = JS_PKI_KEY_TYPE_ED25519;
                 if( keyPair.getParam() == "Ed448" )
                     nKeyType = JS_PKI_KEY_TYPE_ED448;
-
-                ret = JS_PKI_encryptPrivateKey( nKeyType, nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else
             {
                 manApplet->warningBox( QString( "Not support %1 algorithm to export").arg( keyPair.getAlg()));
                 ret = -1;
+                return;
             }
+
+            ret = JS_PKI_encryptPrivateKey( nKeyType, nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
 
             JS_BIN_reset( &binSrc );
             JS_BIN_reset( &binInfo );
@@ -165,6 +169,7 @@ void ExportDlg::accept()
             {
                 manApplet->warningBox( tr( "fail to encrypt private key"), this );
                 QDialog::reject();
+                return;
             }
         }
     }
@@ -202,6 +207,8 @@ void ExportDlg::accept()
         QString strSN = mPBEAlgCombo->currentText();
         int nPbeNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
 
+        manApplet->log( QString( "PbeNid: %1 (%2)").arg( strSN ).arg( nPbeNid ));
+
         dbMgr->getCertRec( data_num_, cert );
         dbMgr->getKeyPairRec( cert.getKeyNum(), keyPair );
 
@@ -212,9 +219,13 @@ void ExportDlg::accept()
         else if( strAlg == "EC" )
             nKeyType = JS_PKI_KEY_TYPE_ECC;
         else if( strAlg == "DSA" )
-            nPEMType = JS_PEM_TYPE_DSA_PRIVATE_KEY;
+            nKeyType = JS_PKI_KEY_TYPE_DSA;
         else if( strAlg == "EdDSA" )
-            nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
+        {
+            int nKeyType = JS_PKI_KEY_TYPE_ED25519;
+            if( keyPair.getParam() == "Ed448" )
+                nKeyType = JS_PKI_KEY_TYPE_ED448;
+        }
         else
         {
             QString strMsg = tr( "not support algorithm: %1").arg( strAlg );
@@ -395,6 +406,7 @@ void ExportDlg::initUI()
     mPasswordText->setEchoMode(QLineEdit::Password);
 
     mPBEVersionCombo->addItems( kPBEVersions );
+    mPBEAlgCombo->clear();
     mPBEAlgCombo->addItems( kPBEv1List );
 }
 
