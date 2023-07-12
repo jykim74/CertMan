@@ -256,12 +256,6 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     memset( &sRawKey, 0x00, sizeof(sRawKey));
 
     nKeyType = JS_PKI_getPriKeyType( pPriKey );
-    if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
-    {
-        QString strMsg = tr( "EdDSA Algorithm can not import" );
-        manApplet->warningBox( strMsg, this );
-        goto end;
-    }
 
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
@@ -297,7 +291,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
             strParam = "Ed448";
 
         JS_PKI_getRawKeyVal( nKeyType, pPriKey, &sRawKey );
-        JS_PKI_encodeRawPublicKey( &sRawKey, &binPub );
+        JS_PKI_getRawPublicKeyFromPri( nKeyType, pPriKey, &binPub );
     }
     else
     {
@@ -664,14 +658,6 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
     if( ret != 0 )
     {
-        goto end;
-    }
-
-    nKeyType = JS_PKI_getPriKeyType( &binPri );
-    if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
-    {
-        QString strMsg = tr( "EdDSA Algorithm can not import" );
-        manApplet->warningBox( strMsg, this );
         goto end;
     }
 
