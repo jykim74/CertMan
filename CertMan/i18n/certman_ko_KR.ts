@@ -711,6 +711,10 @@
         <source>fail to import: %1</source>
         <translation>가져오기 실패: %1</translation>
     </message>
+    <message>
+        <source>EdDSA Algorithm can not import</source>
+        <translation>EdDSA 알고리즘은 가져오기 할 수 없습니다.</translation>
+    </message>
 </context>
 <context>
     <name>LoginDlg</name>

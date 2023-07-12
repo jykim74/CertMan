@@ -5,6 +5,7 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 #include "js_pki.h"
+#include "js_pki_key.h"
 #include "js_pki_tools.h"
 #include "js_pki_x509.h"
 #include "commons.h"
@@ -69,7 +70,7 @@ void ImportDlg::accept()
             BIN binInfo = {0,0};
             BIN binPri = {0,0};
 
-            if( ret != 0 )
+            if( binSrc.nLen > 0 )
                 ret = JS_PKI_decryptPrivateKey( strPass.toStdString().c_str(), &binSrc, &binInfo, &binPri );
 
             if( ret == 0 )
@@ -160,6 +161,7 @@ void ImportDlg::accept()
 void ImportDlg::initUI()
 {
     mDataTypeCombo->addItems(sDataTypeList);
+    dataTypeChanged(0);
 
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT( clickFind()));
     connect( mDataTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
@@ -254,6 +256,12 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     memset( &sRawKey, 0x00, sizeof(sRawKey));
 
     nKeyType = JS_PKI_getPriKeyType( pPriKey );
+    if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        QString strMsg = tr( "EdDSA Algorithm can not import" );
+        manApplet->warningBox( strMsg, this );
+        goto end;
+    }
 
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
@@ -649,20 +657,39 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     BIN binCert = {0,0};
     BIN binPri = {0,0};
 
+    int nKeyType = 0;
+
     QString strPasswd = mPasswordText->text().toStdString().c_str();
-//    const char *pPasswd = "26c521a0c94b61580c780a46436f065ce658b73c";
 
     ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
-    if( ret != 0 ) return ret;
+    if( ret != 0 )
+    {
+        goto end;
+    }
+
+    nKeyType = JS_PKI_getPriKeyType( &binPri );
+    if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        QString strMsg = tr( "EdDSA Algorithm can not import" );
+        manApplet->warningBox( strMsg, this );
+        goto end;
+    }
 
     ret = ImportCert( &binCert );
-    if( ret != 0 ) return ret;
+    if( ret != 0 )
+    {
+        goto end;
+    }
 
     ret = ImportKeyPair( &binPri );
-    if( ret != 0 ) return ret;
+    if( ret != 0 )
+    {
+        goto end;
+    }
 
+end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPri );
 
-    return 0;
+    return ret;
 }
