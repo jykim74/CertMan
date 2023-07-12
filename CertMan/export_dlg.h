@@ -38,6 +38,8 @@ private slots:
     void clickFind();
     void clickPEMSaveCheck();
 
+    void changePBEVersion( int index );
+
 private:
     void initUI();
     void initialize();

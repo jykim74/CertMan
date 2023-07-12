@@ -577,6 +577,14 @@
         <source>fail to encode PFX: %1</source>
         <translation>PFX 인코딩 실패: %1</translation>
     </message>
+    <message>
+        <source>PBE Type</source>
+        <translation>PBE 타입</translation>
+    </message>
+    <message>
+        <source>Export successfully</source>
+        <translation>내보내기 성공하였습니다.</translation>
+    </message>
 </context>
 <context>
     <name>GetLDAPDlg</name>

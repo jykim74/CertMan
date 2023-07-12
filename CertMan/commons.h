@@ -110,6 +110,9 @@ static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
 
+static QStringList kPBEv1List = { "PBE-MD5-DES", "PBE-SHA1-DES", "PBE-SHA1-3DES", "PBE-SHA1-2DES" };
+static QStringList kPBEv2List = { "AES-128-CBC", "AES-256-CBC", "DES-EDE-CBC", "ARIA-128-CBC", "ARIA-256-CBC" };
+
 enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BER, JS_FILE_TYPE_DB, JS_FILE_TYPE_DLL };
 
 QString findFile( QWidget *parent, int nType, const QString strPath );

@@ -8,6 +8,9 @@
 
 #include "js_bin.h"
 #include "js_pki.h"
+#include "js_pki_tools.h"
+
+static const QStringList kPBEVersions = { "V1", "V2" };
 
 ExportDlg::ExportDlg(QWidget *parent) :
     QDialog(parent)
@@ -18,6 +21,7 @@ ExportDlg::ExportDlg(QWidget *parent) :
     setupUi(this);
 
     connect( mPEMSaveCheck, SIGNAL(clicked()), this, SLOT(clickPEMSaveCheck()));
+    connect( mPBEVersionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changePBEVersion(int)));
 
     initUI();
 }
@@ -118,6 +122,10 @@ void ExportDlg::accept()
         {
             BIN binSrc = {0,0};
             BIN binInfo = {0,0};
+            int nPbeNid = -1;
+
+            QString strSN = mPBEAlgCombo->currentText();
+            nPbeNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
 
             if( manApplet->isPasswd() )
                 manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binSrc );
@@ -126,15 +134,15 @@ void ExportDlg::accept()
 
             if( strAlg == "RSA" )
             {
-                ret = JS_PKI_encryptRSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptRSAPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else if( strAlg == "EC" )
             {
-                ret = JS_PKI_encryptECPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptECPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else if( strAlg == "DSA" )
             {
-                ret = JS_PKI_encryptDSAPrivateKey( -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptDSAPrivateKey( nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else if( strAlg == "EdDSA" )
             {
@@ -142,7 +150,7 @@ void ExportDlg::accept()
                 if( keyPair.getParam() == "Ed448" )
                     nKeyType = JS_PKI_KEY_TYPE_ED448;
 
-                ret = JS_PKI_encryptPrivateKey( nKeyType, -1, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
+                ret = JS_PKI_encryptPrivateKey( nKeyType, nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
             }
             else
             {
@@ -191,6 +199,9 @@ void ExportDlg::accept()
         BIN binPri = {0,0};
         BIN binCert = { 0, 0};
 
+        QString strSN = mPBEAlgCombo->currentText();
+        int nPbeNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
+
         dbMgr->getCertRec( data_num_, cert );
         dbMgr->getKeyPairRec( cert.getKeyNum(), keyPair );
 
@@ -219,7 +230,7 @@ void ExportDlg::accept()
 
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
 
-        ret = JS_PKI_encodePFX( &binData, nKeyType, strPass.toStdString().c_str(), &binPri, &binCert );
+        ret = JS_PKI_encodePFX( &binData, nKeyType, strPass.toStdString().c_str(), nPbeNid, &binPri, &binCert );
 
         JS_BIN_reset( &binPri );
         JS_BIN_reset( &binCert );
@@ -243,6 +254,8 @@ void ExportDlg::accept()
     manApplet->setCurFile( strPath );
 
     JS_BIN_reset( &binData );
+
+    manApplet->messageBox( tr("Export successfully"), this );
     QDialog::accept();
 }
 
@@ -366,10 +379,23 @@ void ExportDlg::clickPEMSaveCheck()
     mPathText->setText( file.dir().path() + "/" + strPathName );
 }
 
+void ExportDlg::changePBEVersion( int index )
+{
+    mPBEAlgCombo->clear();
+
+    if( index == 0 )
+        mPBEAlgCombo->addItems( kPBEv1List );
+    else
+        mPBEAlgCombo->addItems( kPBEv2List );
+}
+
 void ExportDlg::initUI()
 {
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFind()));
     mPasswordText->setEchoMode(QLineEdit::Password);
+
+    mPBEVersionCombo->addItems( kPBEVersions );
+    mPBEAlgCombo->addItems( kPBEv1List );
 }
 
 void ExportDlg::initialize()
@@ -476,10 +502,10 @@ void ExportDlg::initialize()
 
     if( export_type_ == EXPORT_TYPE_PFX || export_type_ == EXPORT_TYPE_ENC_PRIKEY )
     {
-        mPasswordText->setEnabled( true );
+        mEncGroup->setEnabled( true );
     }
     else
-        mPasswordText->setEnabled( false );
+        mEncGroup->setEnabled( false );
 
     if( exportType() == EXPORT_TYPE_PFX )
     {
