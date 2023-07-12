@@ -1776,6 +1776,14 @@
         <source>The CA certificate is revoked. continue?</source>
         <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
+    <message>
+        <source>Profile Hash(%1) has to be SM3. Are you change CRL hash as SM3?</source>
+        <translation>프로파일 해쉬(%1)가 SM3이어야 합니다. CRL 해쉬를 SM3로 변경 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Profile SM3 hash can not be used(%1:%2)</source>
+        <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLPolicyDlg</name>
@@ -2172,6 +2180,18 @@
     <message>
         <source>The CA certificate is revoked. continue?</source>
         <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Profile Hash(%1) has to be SM3. Are you change certificate hash as SM3?</source>
+        <translation>프로파일 해쉬(%1)가 SM3이어야 합니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>SM3 hash can not be used (%1)</source>
+        <translation type="vanished">SM3 해시는 사용 할 수 없습니다(%1)</translation>
+    </message>
+    <message>
+        <source>Profile SM3 hash can not be used (%1:%2)</source>
+        <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
 </context>
 <context>

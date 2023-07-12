@@ -123,6 +123,41 @@ void MakeCRLDlg::accept()
 
     dbMgr->getKeyPairRec( caCert.getKeyNum(), caKeyPair );
 
+    time_t now_t = -1;
+    QList<ProfileExtRec> profileExtList;
+    QList<RevokeRec> revokeList;
+    QString strCRLDP = mCRLDPCombo->currentText();
+
+    if( caKeyPair.getParam() == "SM2" )
+    {
+        if( profile.getHash() != "SM3" )
+        {
+            QString strMsg = tr( "Profile Hash(%1) has to be SM3. Are you change CRL hash as SM3?" ).arg( profile.getHash() );
+            bool bVal = manApplet->yesOrNoBox( strMsg, this, true );
+
+            if( bVal )
+            {
+                profile.setHash( "SM3" );
+            }
+            else
+            {
+                goto end;
+            }
+        }
+    }
+    else
+    {
+        if( profile.getHash() == "SM3" )
+        {
+            QString strMsg = tr( "Profile SM3 hash can not be used(%1:%2)" )
+                    .arg( caKeyPair.getAlg() )
+                    .arg( caKeyPair.getParam() );
+
+            manApplet->warningBox( strMsg, this );
+            goto end;
+        }
+    }
+
     if( caKeyPair.getAlg() == kMechRSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( caKeyPair.getAlg() == kMechEC )
@@ -145,7 +180,7 @@ void MakeCRLDlg::accept()
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
 
 
-    time_t now_t = time(NULL);
+    now_t = time(NULL);
 
     if( profile.getLastUpdate() == 0 )
     {
@@ -182,7 +217,7 @@ void MakeCRLDlg::accept()
 
     /* need to set revoked certificate information */
 
-    QList<ProfileExtRec> profileExtList;
+
     dbMgr->getCRLProfileExtensionList( profile.getNum(), profileExtList );
     for( int i=0; i < profileExtList.size(); i++ )
     {
@@ -241,8 +276,7 @@ void MakeCRLDlg::accept()
             JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
     }
 
-    QList<RevokeRec> revokeList;
-    QString strCRLDP = mCRLDPCombo->currentText();
+
     dbMgr->getRevokeList( caCert.getNum(), strCRLDP, revokeList );
 
     for( int i = 0; i < revokeList.size(); i++ )

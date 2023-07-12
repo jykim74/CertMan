@@ -281,6 +281,7 @@ void MakeCertDlg::accept()
     int nIssuerNum = -1;
     int nCertNum = -1;
 
+
     ReqRec reqRec;
     CertProfileRec profileRec = cert_profile_list_.at( profileIdx );
     if( mUseCSRFileCheck->isChecked() )
@@ -350,16 +351,56 @@ void MakeCertDlg::accept()
         JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binSignCert );
     }
 
+    QString strSerial;
+    int nSeq = -1;
+    QString strSignAlg;
+    QString strDN;
+    time_t now_t = -1;
+    long notBefore = -1;
+    long notAfter = -1;
+     QList<ProfileExtRec> profileExtList;
+
     KeyPairRec signKeyPair;
     dbMgr->getKeyPairRec( nSignKeyNum, signKeyPair );
 
+    if( signKeyPair.getParam() == "SM2" )
+    {
+        if( profileRec.getHash() != "SM3" )
+        {
+            QString strMsg = tr( "Profile Hash(%1) has to be SM3. Are you change certificate hash as SM3?" ).arg( profileRec.getHash());
+            bool bVal = manApplet->yesOrNoBox( strMsg, this, true );
+
+            if( bVal )
+            {
+                profileRec.setHash( "SM3" );
+            }
+            else
+            {
+                goto end;
+            }
+        }
+    }
+    else
+    {
+        if( profileRec.getHash() == "SM3" )
+        {
+            QString strMsg = tr( "Profile SM3 hash can not be used (%1:%2)" )
+                    .arg( signKeyPair.getAlg() )
+                    .arg( signKeyPair.getParam() );
+
+            manApplet->warningBox( strMsg, this );
+            goto end;
+        }
+    }
+
     /* need to work more */
 
-    QString strSerial;
-    int nSeq = dbMgr->getSeq( "TB_CERT" );
+
+    nSeq = dbMgr->getSeq( "TB_CERT" );
 
     strSerial = QString("%1").arg(nSeq);
-    QString strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
+    strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
+
     if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
@@ -375,11 +416,10 @@ void MakeCertDlg::accept()
     }
 
 //    QString strDN = mSubjectDNText->text();
-    QString strDN = getRealSubjectDN();
+    strDN = getRealSubjectDN();
+    now_t = time(NULL);
 
-    time_t now_t = time(NULL);
-    long notBefore = -1;
-    long notAfter = -1;
+
 
     if( profileRec.getNotBefore() == 0 )
     {
@@ -418,7 +458,7 @@ void MakeCertDlg::accept()
                         sReqInfo.pPublicKey );
 
     /* need to support extensions start */
-    QList<ProfileExtRec> profileExtList;
+
     dbMgr->getCertProfileExtensionList( profileRec.getNum(), profileExtList );
     for( int i=0; i < profileExtList.size(); i++ )
     {
