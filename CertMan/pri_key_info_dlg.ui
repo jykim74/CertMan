@@ -2343,17 +2343,17 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="4">
+     <item row="0" column="5">
       <widget class="QPushButton" name="mGetPublicKeyBtn">
        <property name="text">
         <string>Get PublicKey</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="mClearBtn">
+     <item row="0" column="4">
+      <widget class="QPushButton" name="mGetPrivateKeyBtn">
        <property name="text">
-        <string>Clear</string>
+        <string>Get PrivateKey</string>
        </property>
       </widget>
      </item>
@@ -2370,17 +2370,24 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="mGetPrivateKeyBtn">
-       <property name="text">
-        <string>Get PrivateKey</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QPushButton" name="mInsertToHSMBtn">
        <property name="text">
         <string>Insert To HSM</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mClearBtn">
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mKeyPairCheckBtn">
+       <property name="text">
+        <string>KeyPair Check</string>
        </property>
       </widget>
      </item>

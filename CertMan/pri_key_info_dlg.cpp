@@ -9,6 +9,7 @@
 #include "settings_mgr.h"
 #include "mainwindow.h"
 #include "js_pkcs11.h"
+#include "js_pki_tools.h"
 #include "commons.h"
 
 
@@ -47,6 +48,7 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mGetPrivateKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPrivateKey()));
     connect( mGetPublicKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPublicKey()));
     connect( mInsertToHSMBtn, SIGNAL(clicked()), this, SLOT(clickInsertToHSM()));
+    connect( mKeyPairCheckBtn, SIGNAL(clicked()), this, SLOT(clickKeyPairCheck()));
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()
@@ -533,4 +535,29 @@ end :
     JS_PKI_resetRSAKeyVal( &sRSAKey );
     JS_PKI_resetECKeyVal( &sECKey );
     JS_PKI_resetDSAKeyVal( &sDSAKey );
+}
+
+void PriKeyInfoDlg::clickKeyPairCheck()
+{
+    int ret = 0;
+    BIN binPri = {0,0};
+    BIN binPub = {0,0};
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+
+
+    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+
+    ret = JS_PKI_IsValidKeyPair( &binPri, &binPub );
+
+    if( ret == JS_VALID )
+        manApplet->messageBox( tr( "KeyPair is valid"), this );
+    else
+        manApplet->warningBox( tr( "KeyPair is invalid"), this );
+
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binPub );
 }

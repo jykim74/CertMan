@@ -713,7 +713,7 @@
     </message>
     <message>
         <source>EdDSA Algorithm can not import</source>
-        <translation>EdDSA 알고리즘은 가져오기 할 수 없습니다.</translation>
+        <translation type="vanished">EdDSA 알고리즘은 가져오기 할 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -3121,6 +3121,18 @@
     <message>
         <source>Insert To HSM</source>
         <translation>HSM에 추가하기</translation>
+    </message>
+    <message>
+        <source>KeyPair Check</source>
+        <translation>키쌍 체크</translation>
+    </message>
+    <message>
+        <source>KeyPair is valid</source>
+        <translation>키쌍이 맞습니다</translation>
+    </message>
+    <message>
+        <source>KeyPair is invalid</source>
+        <translation>키쌍이 틀립니다</translation>
     </message>
 </context>
 <context>
