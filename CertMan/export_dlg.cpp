@@ -128,6 +128,8 @@ void ExportDlg::accept()
             QString strSN = mPBEAlgCombo->currentText();
             nPbeNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
 
+            nPEMType = JS_PEM_TYPE_ENCRYPTED_PRIVATE_KEY;
+
             manApplet->log( QString( "PbeNid: %1 (%2)").arg( strSN ).arg( nPbeNid ));
 
             if( manApplet->isPasswd() )
@@ -149,7 +151,8 @@ void ExportDlg::accept()
             }
             else if( strAlg == "EdDSA" )
             {
-                int nKeyType = JS_PKI_KEY_TYPE_ED25519;
+                nKeyType = JS_PKI_KEY_TYPE_ED25519;
+
                 if( keyPair.getParam() == "Ed448" )
                     nKeyType = JS_PKI_KEY_TYPE_ED448;
             }
