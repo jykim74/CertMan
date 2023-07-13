@@ -227,6 +227,15 @@ void ImportDlg::dataTypeChanged( int index )
     else {
         mPasswordText->setEnabled(false);
     }
+
+    if( strType == "Certificate" || strType == "CRL" )
+    {
+        mNameText->setEnabled(false);
+    }
+    else
+    {
+        mNameText->setEnabled(true);
+    }
 }
 
 int ImportDlg::ImportKeyPair( const BIN *pPriKey )
