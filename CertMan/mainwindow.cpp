@@ -4447,7 +4447,10 @@ void MainWindow::infoCertificate( int seq )
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
     manApplet->info( QString("RegDate       : %1\n").arg(sRegDate));
     manApplet->info( QString("KeyNum        : %1 - %2\n").arg(certRec.getKeyNum()).arg( strKeyName ));
-    manApplet->info( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
+
+    if( manApplet->isPRO() )
+        manApplet->info( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
+
     manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
     manApplet->info( QString("Certificate   : %1\n").arg(certRec.getCert()));
     manApplet->info( QString("IsCA          : %1\n").arg(certRec.isCA()));
