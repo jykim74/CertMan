@@ -380,7 +380,7 @@ void MakeCertDlg::accept()
             }
         }
     }
-    else
+    else if( signKeyPair.getAlg() != kMechEdDSA )
     {
         if( profileRec.getHash() == "SM3" )
         {

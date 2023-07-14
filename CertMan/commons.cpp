@@ -3347,3 +3347,22 @@ const QString getPasswdHMAC( const QString &strPasswd )
 
     return strHex;
 }
+
+const QString getNameFromDN( const QString& strDN )
+{
+    if( strDN.length() < 1 ) return "";
+
+    QString strBuf = strDN;
+
+    strBuf.replace( " ", "" );
+    QStringList partList = strBuf.split( "," );
+
+    if( partList.size() < 1 ) return "";
+
+    QString strFirst = partList.at(0);
+
+    QStringList firstList = strFirst.split( "=" );
+    if( firstList.size() <= 1 ) return strFirst;
+
+    return firstList.at(1);
+}

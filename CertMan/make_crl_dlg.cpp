@@ -145,7 +145,7 @@ void MakeCRLDlg::accept()
             }
         }
     }
-    else
+    else if( caKeyPair.getAlg() != kMechEdDSA )
     {
         if( profile.getHash() == "SM3" )
         {

@@ -217,16 +217,16 @@ void ExportDlg::accept()
 
         strAlg = keyPair.getAlg();
 
-        if( strAlg == "RSA" )
+        if( strAlg == kMechRSA )
             nKeyType = JS_PKI_KEY_TYPE_RSA;
-        else if( strAlg == "EC" )
+        else if( strAlg == kMechEC )
             nKeyType = JS_PKI_KEY_TYPE_ECC;
-        else if( strAlg == "DSA" )
+        else if( strAlg == kMechDSA )
             nKeyType = JS_PKI_KEY_TYPE_DSA;
-        else if( strAlg == "EdDSA" )
+        else if( strAlg == kMechEdDSA )
         {
-            int nKeyType = JS_PKI_KEY_TYPE_ED25519;
-            if( keyPair.getParam() == "Ed448" )
+            nKeyType = JS_PKI_KEY_TYPE_ED25519;
+            if( keyPair.getParam() == kMechEd448 )
                 nKeyType = JS_PKI_KEY_TYPE_ED448;
         }
         else
@@ -445,7 +445,7 @@ void ExportDlg::initialize()
         {
             mPasswordText->setEnabled(true);
             strLabel = "Export Encrypted PrivateKey";
-            strPath += "_pri.key";
+            strPath += "_enc_pri.key";
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
@@ -463,7 +463,7 @@ void ExportDlg::initialize()
         CertRec cert;
         dbMgr->getCertRec( data_num_, cert );
 
-        strPath = cert.getSubjectDN();
+        strPath = getNameFromDN( cert.getSubjectDN() );
 
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
         {
@@ -486,17 +486,33 @@ void ExportDlg::initialize()
     else if( export_type_ == EXPORT_TYPE_CRL )
     {
         CRLRec crl;
+        CertRec issuer;
+
         dbMgr->getCRLRec( data_num_, crl );
 
+        if( crl.getIssuerNum() > 0 )
+        {
+            dbMgr->getCertRec( crl.getIssuerNum(), issuer );
+            strName = issuer.getSubjectDN();
+        }
+        else
+        {
+            strName = "Unknown";
+        }
+
+
         strLabel = "Export CRL";
-        strName = crl.getCRLDP();
+ //       strName = crl.getCRLDP();
+        strPath = getNameFromDN( strName );
 
         strInfo = QString( "Num       : %1\n"
-                           "Algorithm : %2\n")
+                           "Algorithm : %2\n"
+                           "CRLDP     : %3\n" )
                 .arg( data_num_ )
-                .arg( crl.getSignAlg() );
+                .arg( crl.getSignAlg() )
+                .arg( crl.getCRLDP() );
 
-        strPath = "crl.der";
+        strPath += "_crl.crl";
     }
     else if( export_type_ == EXPORT_TYPE_REQUEST )
     {
@@ -505,13 +521,14 @@ void ExportDlg::initialize()
 
         strLabel = "Export CSR";
         strName = req.getName();
+        strPath = strName;
 
         strInfo = QString( "Num : %1\n"
                            "DN  : %2\n")
                 .arg(data_num_)
                 .arg( req.getDN() );
 
-        strPath = "req.der";
+        strPath += "_req.der";
     }
 
 

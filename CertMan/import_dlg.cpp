@@ -154,6 +154,7 @@ void ImportDlg::accept()
         return;
     }
 
+    manApplet->setCurFile( strPath );
     JS_BIN_reset( &binSrc );
     QDialog::accept();
 }
@@ -183,6 +184,10 @@ void ImportDlg::clickFind()
     options |= QFileDialog::DontUseNativeDialog;
 
     QString strFilter = "";
+    QString strPath = mPathText->text();
+
+    if( strPath.length() < 1 )
+        strPath = manApplet->curFolder();
 
     if( mDataTypeCombo->currentIndex() == 0 )
         strFilter = "BER Files (*.ber *.der)";
@@ -202,7 +207,7 @@ void ImportDlg::clickFind()
     QString selectedFilter;
     QString fileName = QFileDialog::getOpenFileName( this,
                                                      tr("Import files"),
-                                                     QDir::currentPath(),
+                                                     strPath,
                                                      strFilter,
                                                      &selectedFilter,
                                                      options );
