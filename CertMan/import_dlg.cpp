@@ -279,7 +279,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
         JS_PKI_encodeRSAPublicKey( &sRSAKey, &binPub );
         strParam = QString("%1").arg(nParam);
     }
-    else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECC || nKeyType == JS_PKI_KEY_TYPE_SM2 )
     {
         strAlg = kMechEC;
         JS_PKI_getECKeyVal( pPriKey, &sECKey );
@@ -678,12 +678,14 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     ret = ImportCert( &binCert );
     if( ret != 0 )
     {
+        manApplet->elog( QString( "fail to import certificate:%1").arg( ret ));
         goto end;
     }
 
     ret = ImportKeyPair( &binPri );
     if( ret != 0 )
     {
+        manApplet->elog( QString( "fail to import key pair:%1").arg( ret ));
         goto end;
     }
 
