@@ -2951,7 +2951,7 @@ void MainWindow::expandItem( ManTreeItem *item )
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
 
-        left_tree_->expand( pCAItem->index() );
+//        left_tree_->expand( pCAItem->index() );
     }
 
     left_tree_->expand( item->index() );

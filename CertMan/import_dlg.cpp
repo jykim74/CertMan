@@ -354,6 +354,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     ret = dbMgr->addKeyPairRec( keyPair );
 
  end :
+    if( ret == 0 ) manApplet->log( "The key pair is imported successfully" );
     JS_PKI_resetRSAKeyVal( &sRSAKey );
     JS_PKI_resetECKeyVal( &sECKey );
     JS_PKI_resetDSAKeyVal( &sDSAKey );
@@ -584,6 +585,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
     }
 
 end :
+    if( ret == 0 ) manApplet->log( "The request is imported successfully" );
 
     if( pHexCert ) JS_free( pHexCert );
     JS_PKI_resetCertInfo( &sCertInfo );
@@ -623,6 +625,8 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
+    manApplet->log( "The CRL is imported successfully" );
+
     return 0;
 }
 
@@ -652,6 +656,8 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     if( pHexCSR ) JS_free( pHexCSR );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+
+    manApplet->log( "The request is imported successfully" );
 
     return 0;
 }
