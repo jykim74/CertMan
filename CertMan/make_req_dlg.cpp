@@ -283,7 +283,7 @@ void MakeReqDlg::accept()
         strAlg = mAlgorithmText->text();
     }
 
-    if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC )
+    if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
@@ -299,11 +299,20 @@ void MakeReqDlg::accept()
 
         if( strAlg == kMechPKCS11_RSA )
             nAlg = JS_PKI_KEY_TYPE_RSA;
-        else
+        else if( strAlg == kMechPKCS11_EC )
             nAlg = JS_PKI_KEY_TYPE_ECC;
+        else if( strAlg == kMechPKCS11_DSA )
+            nAlg = JS_PKI_KEY_TYPE_DSA;
+        else
+        {
+            manApplet->warningBox( tr( "not support PKCS11 algorithm: %1").arg( strAlg ) );
+            goto end;
+        }
 
         JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
         JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
+
+        manApplet->log( QString( "ID : %1").arg( getHexString(&binID)));
 
         ret = JS_PKI_makeCSRByP11( nAlg,
                                    strHash.toStdString().c_str(),

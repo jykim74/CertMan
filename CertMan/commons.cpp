@@ -1728,7 +1728,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JECKeyVal   ecKey;
         memset( &ecKey, 0x00, sizeof(ecKey));
 
-        JS_BIN_set( &binKey, binVal.pVal + 1, binVal.nLen - 1 );
+        JS_BIN_set( &binKey, binVal.pVal + 3, binVal.nLen - 3 ); // 04+Len(1byte)+04 건너팀
         JS_BIN_set( &binPubX, &binKey.pVal[0], binKey.nLen/2 );
         JS_BIN_set( &binPubY, &binKey.pVal[binKey.nLen/2], binKey.nLen/2 );
 
@@ -1736,7 +1736,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JS_BIN_encodeHex( &binPubX, &pPubX );
         JS_BIN_encodeHex( &binPubY, &pPubY );
 
-        JS_PKI_setECKeyVal( &ecKey, sCurveOID, pPubX, pPubX, NULL );
+        JS_PKI_setECKeyVal( &ecKey, sCurveOID, pPubX, pPubY, NULL );
         JS_PKI_encodeECPublicKey( &ecKey, pPub );
 
         if( pPubX ) JS_free( pPubX );
@@ -1781,6 +1781,8 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
 
     rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uPubObj, CKA_ID, &binHash );
     if( rv != 0 ) goto end;
+
+    JS_BIN_copy( pPri, &binHash );
 
 end :
     JS_BIN_reset( &binLabel );

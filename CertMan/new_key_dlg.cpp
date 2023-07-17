@@ -163,15 +163,23 @@ void NewKeyDlg::accept()
         goto end;
     }
 
-    if( manApplet->isPasswd() )
-    {
-        QString strHex = manApplet->getEncPriHex( &binPri );
-        keyPairRec.setPrivateKey( strHex );
-    }
-    else
+    if( strMech.contains( "KMIP") == true || strMech.contains( "PKCS11" ) == true )
     {
         JS_BIN_encodeHex( &binPri, &pPriHex );
         keyPairRec.setPrivateKey( pPriHex );
+    }
+    else
+    {
+        if( manApplet->isPasswd() )
+        {
+            QString strHex = manApplet->getEncPriHex( &binPri );
+            keyPairRec.setPrivateKey( strHex );
+        }
+        else
+        {
+            JS_BIN_encodeHex( &binPri, &pPriHex );
+            keyPairRec.setPrivateKey( pPriHex );
+        }
     }
 
     JS_BIN_encodeHex( &binPub, &pPubHex );
