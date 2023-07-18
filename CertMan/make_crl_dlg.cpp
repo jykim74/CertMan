@@ -158,11 +158,11 @@ void MakeCRLDlg::accept()
         }
     }
 
-    if( caKeyPair.getAlg() == kMechRSA )
+    if( caKeyPair.getAlg() == kMechRSA || caKeyPair.getAlg() == kMechPKCS11_RSA || caKeyPair.getAlg() == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( caKeyPair.getAlg() == kMechEC )
+    else if( caKeyPair.getAlg() == kMechEC || caKeyPair.getAlg() == kMechPKCS11_EC || caKeyPair.getAlg() == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( caKeyPair.getAlg() == kMechDSA )
+    else if( caKeyPair.getAlg() == kMechDSA || caKeyPair.getAlg() == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( caKeyPair.getAlg() == kMechEdDSA )
     {
@@ -317,7 +317,7 @@ void MakeCRLDlg::accept()
 
     /* need to support extensions */
 
-    if( caKeyPair.getAlg() == kMechPKCS11_RSA || caKeyPair.getAlg() == kMechPKCS11_EC )
+    if( caKeyPair.getAlg() == kMechPKCS11_RSA || caKeyPair.getAlg() == kMechPKCS11_EC || caKeyPair.getAlg() == kMechPKCS11_DSA )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         BIN binID = {0,0};
