@@ -268,6 +268,7 @@ void MakeReqDlg::accept()
 
     QString strAlg;
     QString strHash = mHashCombo->currentText();
+    QString strParam;
 
     if( mGenKeyPairCheck->isChecked() )
     {
@@ -275,13 +276,17 @@ void MakeReqDlg::accept()
         if( ret != 0 ) goto end;
 
         strAlg = mNewAlgorithmCombo->currentText();
+        strParam = mNewOptionCombo->currentText();
     }
     else
     {
         int keyIdx = mKeyNameCombo->currentIndex();
         keyRec = key_list_.at( keyIdx );
         strAlg = mAlgorithmText->text();
+        strParam = mOptionText->text();
     }
+
+    nAlg = getKeyType( strAlg, strParam );
 
     if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
@@ -294,18 +299,6 @@ void MakeReqDlg::accept()
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
-            goto end;
-        }
-
-        if( strAlg == kMechPKCS11_RSA )
-            nAlg = JS_PKI_KEY_TYPE_RSA;
-        else if( strAlg == kMechPKCS11_EC )
-            nAlg = JS_PKI_KEY_TYPE_ECC;
-        else if( strAlg == kMechPKCS11_DSA )
-            nAlg = JS_PKI_KEY_TYPE_DSA;
-        else
-        {
-            manApplet->warningBox( tr( "not support PKCS11 algorithm: %1").arg( strAlg ) );
             goto end;
         }
 
@@ -339,11 +332,6 @@ void MakeReqDlg::accept()
         Authentication  *pAuth = NULL;
         BIN binID = {0,0};
 
-        if( strAlg == kMechKMIP_RSA )
-            nAlg = JS_PKI_KEY_TYPE_RSA;
-        else
-            nAlg = JS_PKI_KEY_TYPE_ECC;
-
         JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
         JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
 
@@ -374,28 +362,6 @@ void MakeReqDlg::accept()
     }
     else
     {
-        if( strAlg == kMechRSA )
-        {
-            nAlg = JS_PKI_KEY_TYPE_RSA;
-        }
-        else if( strAlg == kMechEC )
-        {
-            nAlg = JS_PKI_KEY_TYPE_ECC;
-        }
-        else if( strAlg == kMechDSA )
-        {
-            nAlg = JS_PKI_KEY_TYPE_DSA;
-        }
-        else if( strAlg == kMechEdDSA )
-        {
-            QString strOption = mOptionText->text();
-
-            if( strOption.toLower() == "ed25519" )
-                nAlg = JS_PKI_KEY_TYPE_ED25519;
-            else
-                nAlg = JS_PKI_KEY_TYPE_ED448;
-        }
-
         if( manApplet->isPasswd() )
             manApplet->getDecPriBIN( keyRec.getPrivateKey(), &binPri );
         else
