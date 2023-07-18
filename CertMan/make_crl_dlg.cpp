@@ -172,10 +172,7 @@ void MakeCRLDlg::accept()
             nKeyType = JS_PKI_KEY_TYPE_ED448;
     }
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( caKeyPair.getPrivateKey(), &binSignPri );
-    else
-        JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
 
@@ -369,6 +366,11 @@ void MakeCRLDlg::accept()
     }
     else
     {
+        if( manApplet->isPasswd() )
+            manApplet->getDecPriBIN( caKeyPair.getPrivateKey(), &binSignPri );
+        else
+            JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
         ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, nKeyType, &binSignPri, &binSignCert, &binCRL );
     }
 
