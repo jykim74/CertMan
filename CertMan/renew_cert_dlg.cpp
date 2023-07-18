@@ -243,19 +243,7 @@ void RenewCertDlg::accept()
 
     strKeyAlg = keyPair.getAlg();
 
-    if( strKeyAlg == kMechRSA || strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechKMIP_RSA )
-        nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( strKeyAlg == kMechEC || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechKMIP_EC )
-        nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( strKeyAlg == kMechDSA || strKeyAlg == kMechPKCS11_DSA )
-        nKeyType = JS_PKI_KEY_TYPE_DSA;
-    else if( strKeyAlg == kMechEdDSA )
-    {
-        if( keyPair.getParam().toLower() == "ed25519" )
-            nKeyType = JS_PKI_KEY_TYPE_ED25519;
-        else
-            nKeyType = JS_PKI_KEY_TYPE_ED448;
-    }
+    nKeyType = getKeyType( strKeyAlg, keyPair.getParam() );
 
     if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechPKCS11_DSA )
     {

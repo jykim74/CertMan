@@ -1387,6 +1387,24 @@ void MainWindow::exportPriKey()
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    DBMgr* dbMgr = manApplet->dbMgr();
+    KeyPairRec keyPair;
+
+    dbMgr->getKeyPairRec( num, keyPair );
+    QString strAlg = keyPair.getAlg();
+
+    if( strAlg.contains( "PKCS11" ) )
+    {
+        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        return;
+    }
+
+    if( strAlg.contains( "KMIP" ) )
+    {
+        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        return;
+    }
+
     ExportDlg exportDlg;
     exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_PRIKEY );
@@ -1406,6 +1424,24 @@ void MainWindow::exportEncPriKey()
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    KeyPairRec keyPair;
+
+    dbMgr->getKeyPairRec( num, keyPair );
+    QString strAlg = keyPair.getAlg();
+
+    if( strAlg.contains( "PKCS11" ) )
+    {
+        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        return;
+    }
+
+    if( strAlg.contains( "KMIP" ) )
+    {
+        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        return;
+    }
 
     ExportDlg exportDlg;
     exportDlg.setDataNum( num );
@@ -1506,6 +1542,27 @@ void MainWindow::exportPFX()
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
+
+    CertRec certRec;
+    KeyPairRec keyPair;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    dbMgr->getCertRec( num, certRec );
+
+    dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    QString strAlg = keyPair.getAlg();
+
+    if( strAlg.contains( "PKCS11" ) )
+    {
+        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        return;
+    }
+
+    if( strAlg.contains( "KMIP" ) )
+    {
+        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        return;
+    }
 
     ExportDlg exportDlg;
     exportDlg.setDataNum( num );
