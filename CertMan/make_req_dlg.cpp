@@ -451,7 +451,8 @@ void MakeReqDlg::keyNameChanged(int index)
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
-    if( keyRec.getAlg() == "RSA" || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA || keyRec.getAlg() == kMechDSA )
+    if( keyRec.getAlg() == kMechRSA || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA
+            || keyRec.getAlg() == kMechDSA || keyRec.getAlg() == kMechPKCS11_DSA )
     {
         mOptionLabel->setText( "Key Size" );
     }
@@ -481,7 +482,7 @@ void MakeReqDlg::newAlgChanged(int index )
     QString strAlg = mNewAlgorithmCombo->currentText();
     mNewOptionCombo->clear();
 
-    if( strAlg == "RSA" || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
     {
         mNewOptionCombo->addItems( kRSAOptionList );
         mNewOptionCombo->setCurrentText( "2048" );
@@ -490,7 +491,7 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewOptionLabel->setText( "Key Length" );
         mHashCombo->setEnabled(true);
     }
-    else if( strAlg == kMechDSA )
+    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
     {
         mNewOptionCombo->addItems( kDSAOptionList );
         mNewOptionCombo->setCurrentText( "2048" );
@@ -499,7 +500,7 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewOptionLabel->setText( "Key Length" );
         mHashCombo->setEnabled(true);
     }
-    else if( strAlg == kMechEC )
+    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
     {
        mNewOptionCombo->addItems( kECCOptionList );
        mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
