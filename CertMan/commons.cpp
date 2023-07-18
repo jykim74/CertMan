@@ -3368,3 +3368,24 @@ const QString getNameFromDN( const QString& strDN )
 
     return firstList.at(1);
 }
+
+int getKeyType( const QString& strAlg, const QString& strParam )
+{
+    int nKeyType = -1;
+
+    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+        nKeyType = JS_PKI_KEY_TYPE_RSA;
+    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+        nKeyType = JS_PKI_KEY_TYPE_ECC;
+    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
+        nKeyType = JS_PKI_KEY_TYPE_DSA;
+    else if( strAlg == kMechEdDSA )
+    {
+        if( strParam.toLower() == "ed25519" )
+            nKeyType = JS_PKI_KEY_TYPE_ED25519;
+        else
+            nKeyType = JS_PKI_KEY_TYPE_ED448;
+    }
+
+    return nKeyType;
+}

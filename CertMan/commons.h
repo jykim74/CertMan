@@ -167,4 +167,6 @@ QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly = false );
 const QString getPasswdHMAC( const QString &strPasswd );
 const QString getNameFromDN( const QString& strDN );
 
+int getKeyType( const QString& strAlg, const QString& strParam );
+
 #endif // COMMONS_H

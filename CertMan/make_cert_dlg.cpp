@@ -401,20 +401,7 @@ void MakeCertDlg::accept()
     strSerial = QString("%1").arg(nSeq);
     strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
 
-    if( signKeyPair.getAlg() == kMechRSA || signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechKMIP_RSA )
-        nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
-        nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( signKeyPair.getAlg() == kMechDSA || signKeyPair.getAlg() == kMechPKCS11_DSA )
-        nKeyType = JS_PKI_KEY_TYPE_DSA;
-    else if( signKeyPair.getAlg() == kMechEdDSA )
-    {
-        if( signKeyPair.getParam().toLower() == "ed25519" )
-            nKeyType = JS_PKI_KEY_TYPE_ED25519;
-        else
-            nKeyType = JS_PKI_KEY_TYPE_ED448;
-    }
-
+    nKeyType = getKeyType( signKeyPair.getAlg(), signKeyPair.getParam() );
 //    QString strDN = mSubjectDNText->text();
     strDN = getRealSubjectDN();
     now_t = time(NULL);

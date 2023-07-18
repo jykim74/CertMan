@@ -158,21 +158,7 @@ void MakeCRLDlg::accept()
         }
     }
 
-    if( caKeyPair.getAlg() == kMechRSA || caKeyPair.getAlg() == kMechPKCS11_RSA || caKeyPair.getAlg() == kMechKMIP_RSA )
-        nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( caKeyPair.getAlg() == kMechEC || caKeyPair.getAlg() == kMechPKCS11_EC || caKeyPair.getAlg() == kMechKMIP_EC )
-        nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( caKeyPair.getAlg() == kMechDSA || caKeyPair.getAlg() == kMechPKCS11_DSA )
-        nKeyType = JS_PKI_KEY_TYPE_DSA;
-    else if( caKeyPair.getAlg() == kMechEdDSA )
-    {
-        if( caKeyPair.getParam().toLower() == "ed25519" )
-            nKeyType = JS_PKI_KEY_TYPE_ED25519;
-        else
-            nKeyType = JS_PKI_KEY_TYPE_ED448;
-    }
-
-
+    nKeyType = getKeyType( caKeyPair.getAlg(), caKeyPair.getParam() );
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
 
