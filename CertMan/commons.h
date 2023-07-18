@@ -105,7 +105,7 @@ static QStringList kECCOptionList = { "prime256v1",
     "sect409r1", "sect571k1", "sect571r1", "SM2"
 };
 
-static QStringList kEdDSAOptionList = { "Ed25519", "Ed448" };
+static QStringList kEdDSAOptionList = { kMechEd25519, kMechEd448 };
 static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";

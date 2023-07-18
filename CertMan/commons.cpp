@@ -3381,7 +3381,7 @@ int getKeyType( const QString& strAlg, const QString& strParam )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( strAlg == kMechEdDSA )
     {
-        if( strParam.toLower() == "ed25519" )
+        if( strParam == kMechEd25519 )
             nKeyType = JS_PKI_KEY_TYPE_ED25519;
         else
             nKeyType = JS_PKI_KEY_TYPE_ED448;

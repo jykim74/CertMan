@@ -173,7 +173,7 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
 
     if( pKey == NULL || pKey->nLen <= 0 ) return;
 
-    if( strParam == "Ed25519" )
+    if( strParam == kMechEd25519 )
         nType = JS_PKI_KEY_TYPE_ED25519;
     else
         nType = JS_PKI_KEY_TYPE_ED448;

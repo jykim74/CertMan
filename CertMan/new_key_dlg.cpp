@@ -115,9 +115,9 @@ void NewKeyDlg::accept()
     {
         int nParam = 0;
 
-        if( mOptionCombo->currentText() == "Ed25519" )
+        if( mOptionCombo->currentText() == kMechEd25519 )
             nParam = JS_PKI_KEY_TYPE_ED25519;
-        else if( mOptionCombo->currentText() == "Ed448" )
+        else if( mOptionCombo->currentText() == kMechEd448 )
             nParam = JS_PKI_KEY_TYPE_ED448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );

@@ -139,9 +139,9 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     {
         int nParam = 0;
 
-        if( mNewOptionCombo->currentText() == "Ed25519" )
+        if( mNewOptionCombo->currentText() == kMechEd25519 )
             nParam = JS_PKI_KEY_TYPE_ED25519;
-        else if( mNewOptionCombo->currentText() == "Ed448" )
+        else if( mNewOptionCombo->currentText() == kMechEd448 )
             nParam = JS_PKI_KEY_TYPE_ED448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
