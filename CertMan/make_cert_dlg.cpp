@@ -405,7 +405,7 @@ void MakeCertDlg::accept()
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( signKeyPair.getAlg() == kMechEC || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
-    else if( signKeyPair.getAlg() == kMechDSA )
+    else if( signKeyPair.getAlg() == kMechDSA || signKeyPair.getAlg() == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( signKeyPair.getAlg() == kMechEdDSA )
     {
@@ -542,7 +542,7 @@ void MakeCertDlg::accept()
     }
     /* need to support extensions end */
 
-    if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC )
+    if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechPKCS11_DSA )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
