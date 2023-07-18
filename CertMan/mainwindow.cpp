@@ -1395,13 +1395,13 @@ void MainWindow::exportPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
         return;
     }
 
@@ -1433,13 +1433,13 @@ void MainWindow::exportEncPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
         return;
     }
 
@@ -1554,13 +1554,13 @@ void MainWindow::exportPFX()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
         return;
     }
 
