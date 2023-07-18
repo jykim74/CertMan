@@ -90,13 +90,13 @@ void ExportDlg::accept()
             else
                 JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
 
-            if( strAlg == "RSA" )
+            if( strAlg == kMechKMIP_RSA )
                 nPEMType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
-            else if( strAlg == "EC" || strAlg == "ECC" )
+            else if( strAlg == kMechEC )
                 nPEMType = JS_PEM_TYPE_EC_PRIVATE_KEY;
-            else if( strAlg == "DSA" )
+            else if( strAlg == kMechDSA )
                 nPEMType = JS_PEM_TYPE_DSA_PRIVATE_KEY;
-            else if( strAlg == "EdDSA" )
+            else if( strAlg == kMechEdDSA )
                 nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
             else
             {
@@ -109,13 +109,13 @@ void ExportDlg::accept()
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
             JS_BIN_decodeHex( keyPair.getPublicKey().toStdString().c_str(), &binData );
-            if( strAlg == "RSA" || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+            if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
                 nPEMType = JS_PEM_TYPE_RSA_PUBLIC_KEY;
-            else if( strAlg == "EC" || strAlg == "ECC" || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+            else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
                 nPEMType = JS_PEM_TYPE_EC_PUBLIC_KEY;
-            else if( strAlg == "DSA" || strAlg == kMechPKCS11_DSA )
+            else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
                 nPEMType = JS_PEM_TYPE_DSA_PUBLIC_KEY;
-            else if( strAlg == "EdDSA" )
+            else if( strAlg == kMechEdDSA )
                 nPEMType = JS_PEM_TYPE_PUBLIC_KEY;
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
@@ -137,19 +137,19 @@ void ExportDlg::accept()
             else
                 JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
 
-            if( strAlg == "RSA" )
+            if( strAlg == kMechRSA )
             {
                 nKeyType = JS_PKI_KEY_TYPE_RSA;
             }
-            else if( strAlg == "EC" )
+            else if( strAlg == kMechEC )
             {
                 nKeyType = JS_PKI_KEY_TYPE_ECC;
             }
-            else if( strAlg == "DSA" )
+            else if( strAlg == kMechDSA )
             {
                 nKeyType = JS_PKI_KEY_TYPE_DSA;
             }
-            else if( strAlg == "EdDSA" )
+            else if( strAlg == kMechEdDSA )
             {
                 nKeyType = JS_PKI_KEY_TYPE_ED25519;
 
