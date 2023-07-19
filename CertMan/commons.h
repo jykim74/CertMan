@@ -37,10 +37,12 @@
 #define     JS_CERT_STATUS_REVOKE       2
 #define     JS_CERT_STATUS_HOLD         3
 
-#define     JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT       10
-#define     JS_NO_LICENSE_CSR_LIMIT_COUNT           10
-#define     JS_NO_LICENSE_CERT_LIMIT_COUNT          100
-#define     JS_NO_LICENSE_CRL_LIMIT_COUNT           100
+#define     JS_NO_LICENSE_SELF_LIMIT_COUNT          1
+#define     JS_NO_LICENSE_CA_LIMIT_COUNT            2
+#define     JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT       8
+#define     JS_NO_LICENSE_CSR_LIMIT_COUNT           8
+#define     JS_NO_LICENSE_CERT_LIMIT_COUNT          32
+#define     JS_NO_LICENSE_CRL_LIMIT_COUNT           32
 
 enum {
     DATA_STRING,

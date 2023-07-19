@@ -234,7 +234,7 @@ void MakeCertDlg::accept()
 
         if( nTotalCnt >= JS_NO_LICENSE_CERT_LIMIT_COUNT )
         {
-            manApplet->warningBox( tr( "You could not make certificate than max certificate count(%1) in no license")
+            manApplet->warningBox( tr( "You can not make certificate more than %1 certificates in no license")
                                    .arg( JS_NO_LICENSE_CERT_LIMIT_COUNT ), this );
             return;
         }
@@ -268,6 +268,16 @@ void MakeCertDlg::accept()
         if( ca_cert_list_.size() <= 0 )
         {
             manApplet->warningBox(tr("There is no CA certificate"), this );
+            return;
+        }
+    }
+    else
+    {
+        int nSelfCount = dbMgr->getCertCount( -1 );
+        if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
+        {
+            manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
+                                  .arg( JS_NO_LICENSE_SELF_LIMIT_COUNT ), this );
             return;
         }
     }
@@ -528,6 +538,18 @@ void MakeCertDlg::accept()
             JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
     }
     /* need to support extensions end */
+
+    if( bCA && manApplet->isLicense() == false)
+    {
+        int nCACnt = dbMgr->getCACount();
+        if( nCACnt >= JS_NO_LICENSE_CA_LIMIT_COUNT )
+        {
+            manApplet->warningBox(tr("You can not make more than %1 CA certificates in no license")
+                                  .arg( JS_NO_LICENSE_CA_LIMIT_COUNT), this );
+            ret = -1;
+            goto end;
+        }
+    }
 
     if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechPKCS11_DSA )
     {

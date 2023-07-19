@@ -105,7 +105,7 @@ void MakeCRLDlg::accept()
 
         if( nTotalCnt >= JS_NO_LICENSE_CRL_LIMIT_COUNT )
         {
-            manApplet->warningBox( tr( "You could not make crl than max crl count(%1) in no license")
+            manApplet->warningBox( tr( "You can not make CRL more than %1 CRLs in no license")
                                    .arg( JS_NO_LICENSE_CRL_LIMIT_COUNT ), this );
             return;
         }

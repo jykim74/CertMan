@@ -1790,7 +1790,7 @@
     </message>
     <message>
         <source>You could not make crl than max crl count(%1) in no license</source>
-        <translation>라이센스가 없을 경우 최대 CRL 개수(%1) 이상 CRL을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 최대 CRL 개수(%1) 이상 CRL을 만들 수 없습니다.</translation>
     </message>
     <message>
         <source>The CA certificate is revoked. continue?</source>
@@ -1803,6 +1803,10 @@
     <message>
         <source>Profile SM3 hash can not be used(%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
+    </message>
+    <message>
+        <source>You can not make CRL more than %1 CRLs in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 CRL을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2179,7 +2183,7 @@
     </message>
     <message>
         <source>You could not make certificate than max certificate count(%1) in no license</source>
-        <translation>라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
     </message>
     <message>
         <source>User Information</source>
@@ -2212,6 +2216,18 @@
     <message>
         <source>Profile SM3 hash can not be used (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
+    </message>
+    <message>
+        <source>You can not make certificate more than %1 certificates in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make more than %1 selfsign certificate in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make more than %1 CA certificates in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2760,11 +2776,11 @@
     </message>
     <message>
         <source>You could not make key pair than max key count(%1) in no license</source>
-        <translation>라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
     </message>
     <message>
         <source>You could not make csr than max csr count(%1) in no license</source>
-        <translation>라이센스가 없을 경우 최대 CSR 개수(%1) 이상 CSR을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 최대 CSR 개수(%1) 이상 CSR을 만들 수 없습니다.</translation>
     </message>
     <message>
         <source>Make CSR Information</source>
@@ -2773,6 +2789,14 @@
     <message>
         <source>This is for CSR signature hash algorithm</source>
         <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
+    </message>
+    <message>
+        <source>You can not make key pair more than %1 key pairs in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make CSR more than %1 CSRs in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>
@@ -2924,7 +2948,11 @@
     </message>
     <message>
         <source>You could not make key pair than max key count(%1) in no license</source>
-        <translation>라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make key pair more than %1 key pairs in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
     </message>
 </context>
 <context>

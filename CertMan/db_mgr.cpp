@@ -219,6 +219,22 @@ int DBMgr::getCertCount( int nIssuerNum )
     return -1;
 }
 
+int DBMgr::getCACount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISCA = 1");
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getCRLCount( int nIssuerNum )
 {
     int nCount = -1;

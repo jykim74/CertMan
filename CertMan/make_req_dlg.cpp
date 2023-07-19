@@ -112,7 +112,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
         if( nTotalCnt >= JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT )
         {
-            manApplet->warningBox( tr( "You could not make key pair than max key count(%1) in no license")
+            manApplet->warningBox( tr( "You can not make key pair more than %1 key pairs in no license")
                                    .arg( JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT ), this );
             return -1;
         }
@@ -251,7 +251,7 @@ void MakeReqDlg::accept()
 
         if( nTotalCnt >= JS_NO_LICENSE_CSR_LIMIT_COUNT )
         {
-            manApplet->warningBox( tr( "You could not make csr than max csr count(%1) in no license")
+            manApplet->warningBox( tr( "You can not make CSR more than %1 CSRs in no license")
                                    .arg( JS_NO_LICENSE_CSR_LIMIT_COUNT ), this );
             return;
         }
