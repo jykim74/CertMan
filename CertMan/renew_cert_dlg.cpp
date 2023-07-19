@@ -139,10 +139,44 @@ void RenewCertDlg::accept()
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
 
+    if( manApplet->isLicense() == false )
+    {
+        int nTotalCnt = dbMgr->getCertCountAll();
+
+        if( nTotalCnt >= JS_NO_LICENSE_CERT_LIMIT_COUNT )
+        {
+            manApplet->warningBox( tr( "You can not make certificate more than %1 certificates in no license")
+                                   .arg( JS_NO_LICENSE_CERT_LIMIT_COUNT ), this );
+            return;
+        }
+    }
+
     dbMgr->getCertRec( cert_num_, cert );
+    if( cert.isCA() && manApplet->isLicense() == false )
+    {
+        int nCACnt = dbMgr->getCACount();
+        if( nCACnt >= JS_NO_LICENSE_CA_LIMIT_COUNT )
+        {
+            manApplet->warningBox(tr("You can not make more than %1 CA certificates in no license")
+                                  .arg( JS_NO_LICENSE_CA_LIMIT_COUNT), this );
+
+            return;
+        }
+    }
 
     if( cert.isSelf() )
     {
+        if( manApplet->isLicense() == false )
+        {
+            int nSelfCount = dbMgr->getCertCount( -1 );
+            if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
+            {
+                manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
+                                      .arg( JS_NO_LICENSE_SELF_LIMIT_COUNT ), this );
+                return;
+            }
+        }
+
         nKeyNum = cert.getKeyNum();
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binSignCert );
     }

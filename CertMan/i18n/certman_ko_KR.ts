@@ -3347,6 +3347,18 @@
         <source>It(%1) cannot be later than the issuer time(%2).</source>
         <translation>종료 시간(%1)은 발급자 시간(%2) 보다 늦을 수 없습니다.</translation>
     </message>
+    <message>
+        <source>You can not make certificate more than %1 certificates in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make more than %1 CA certificates in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>You can not make more than %1 selfsign certificate in no license</source>
+        <translation>라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
+    </message>
 </context>
 <context>
     <name>RevokeCertDlg</name>
