@@ -1962,7 +1962,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     return ret;
 }
 
-int createRSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
+int createRSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
 {
     int rv = -1;
 
@@ -2008,7 +2008,6 @@ int createRSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRs
         uCount++;
     }
 
-    QString strLabel = "RSA Imported Public Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )
@@ -2070,7 +2069,7 @@ int createRSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRs
     return rv;
 }
 
-int createRSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
+int createRSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JRSAKeyVal *pRsaKeyVal )
 {
     int rv = -1;
 
@@ -2189,7 +2188,6 @@ int createRSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pR
         uCount++;
     }
 
-    QString strLabel = "RSA Imported Private Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )
@@ -2287,7 +2285,7 @@ int createRSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JRSAKeyVal *pR
     return rv;
 }
 
-int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKeyVal )
+int createECPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JECKeyVal *pEcKeyVal )
 {
     int rv = -1;
 
@@ -2334,7 +2332,6 @@ int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKe
         uCount++;
     }
 
-    QString strLabel = "EC Imported Public Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )
@@ -2384,7 +2381,7 @@ int createECPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pEcKe
     return rv;
 }
 
-int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECKeyVal )
+int createECPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JECKeyVal *pECKeyVal )
 {
     int rv = -1;
 
@@ -2430,7 +2427,6 @@ int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECK
         uCount++;
     }
 
-    QString strLabel = "EC Imported Private Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )
@@ -2512,7 +2508,7 @@ int createECPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JECKeyVal *pECK
     return rv;
 }
 
-int createDSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
+int createDSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
 {
     int rv = -1;
 
@@ -2584,7 +2580,6 @@ int createDSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDS
     }
 
 
-    QString strLabel = "DSA Imported Public Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )
@@ -2636,7 +2631,7 @@ int createDSAPublicKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDS
     return rv;
 }
 
-int createDSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
+int createDSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JDSAKeyVal *pDSAKeyVal )
 {
     int rv = -1;
 
@@ -2706,7 +2701,6 @@ int createDSAPrivateKeyP11( JP11_CTX *pCTX, const BIN *pID, const JDSAKeyVal *pD
         uCount++;
     }
 
-    QString strLabel = "DSA Imported Private Key";
     BIN binLabel = {0,0};
 
     if( !strLabel.isEmpty() )

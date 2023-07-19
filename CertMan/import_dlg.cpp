@@ -458,6 +458,7 @@ int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN
 
     int nIndex = manApplet->settingsMgr()->slotIndex();
     QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+    QString strName = mNameText->text();
 
     pCTX = (JP11_CTX *)manApplet->P11CTX();
 
@@ -474,25 +475,25 @@ int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
         JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
-        ret = createRSAPrivateKeyP11( pCTX, &binHash, &sRSAKey );
+        ret = createRSAPrivateKeyP11( pCTX, strName, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
-        ret = createRSAPublicKeyP11( pCTX, &binHash, &sRSAKey );
+        ret = createRSAPublicKeyP11( pCTX, strName, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
     {
         JS_PKI_getECKeyVal( pPriKey, &sECKey );
-        ret = createECPrivateKeyP11( pCTX, &binHash, &sECKey );
+        ret = createECPrivateKeyP11( pCTX, strName, &binHash, &sECKey );
         if( ret != 0 ) goto end;
-        ret = createECPublicKeyP11( pCTX, &binHash, &sECKey );
+        ret = createECPublicKeyP11( pCTX, strName, &binHash, &sECKey );
         if( ret != 0 ) goto end;
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
     {
         JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
-        ret = createDSAPrivateKeyP11( pCTX, &binHash, &sDSAKey );
+        ret = createDSAPrivateKeyP11( pCTX, strName, &binHash, &sDSAKey );
         if( ret != 0 ) goto end;
-        ret = createDSAPublicKeyP11( pCTX, &binHash, &sDSAKey );
+        ret = createDSAPublicKeyP11( pCTX, strName, &binHash, &sDSAKey );
         if( ret != 0 ) goto end;
     }
     else

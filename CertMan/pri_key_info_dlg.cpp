@@ -437,6 +437,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
     BIN binPri = {0,0};
     BIN binPub = {0,0};
     QString strAlg = key_rec_.getAlg();
+    QString strName = key_rec_.getName();
     KeyPairRec addKey;
 
     if( manApplet->settingsMgr()->PKCS11Use() == false ) return;
@@ -469,9 +470,9 @@ void PriKeyInfoDlg::clickInsertToHSM()
     if( strAlg == "RSA" )
     {
         JS_PKI_getRSAKeyVal( &binPri, &sRSAKey );
-        ret = createRSAPrivateKeyP11( pCTX, &binHash, &sRSAKey );
+        ret = createRSAPrivateKeyP11( pCTX, strName, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
-        ret = createRSAPublicKeyP11( pCTX, &binHash, &sRSAKey );
+        ret = createRSAPublicKeyP11( pCTX, strName, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
 
         addKey.setAlg( kMechPKCS11_RSA );
@@ -479,9 +480,9 @@ void PriKeyInfoDlg::clickInsertToHSM()
     else if( strAlg == "EC" )
     {
         JS_PKI_getECKeyVal( &binPri, &sECKey );
-        ret = createECPrivateKeyP11( pCTX, &binHash, &sECKey );
+        ret = createECPrivateKeyP11( pCTX, strName, &binHash, &sECKey );
         if( ret != 0 ) goto end;
-        ret = createECPublicKeyP11( pCTX, &binHash, &sECKey );
+        ret = createECPublicKeyP11( pCTX, strName, &binHash, &sECKey );
         if( ret != 0 ) goto end;
 
         addKey.setAlg( kMechPKCS11_EC );
@@ -489,9 +490,9 @@ void PriKeyInfoDlg::clickInsertToHSM()
     else if( strAlg == "DSA" )
     {
         JS_PKI_getDSAKeyVal( &binPri, &sDSAKey );
-        ret = createDSAPrivateKeyP11( pCTX, &binHash, &sDSAKey );
+        ret = createDSAPrivateKeyP11( pCTX, strName, &binHash, &sDSAKey );
         if( ret != 0 ) goto end;
-        ret = createDSAPublicKeyP11( pCTX, &binHash, &sDSAKey );
+        ret = createDSAPublicKeyP11( pCTX, strName, &binHash, &sDSAKey );
         if( ret != 0 ) goto end;
 
         addKey.setAlg( kMechPKCS11_DSA );
