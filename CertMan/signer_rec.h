@@ -18,7 +18,7 @@ private:
     QString     m_strDNHash;
     int         m_nStatus;
     QString     m_strCert;
-    QString     m_strDesc;
+    QString     m_strInfo;
 
 public:
     SignerRec();
@@ -30,7 +30,7 @@ public:
     QString getDNHash() { return m_strDNHash; };
     int getStatus() { return m_nStatus; };
     QString getCert() { return m_strCert; };
-    QString getDesc() { return m_strDesc; };
+    QString getInfo() { return m_strInfo; };
 
     void setNum( int nNum );
     void setRegTime( int nRegTime );
@@ -39,7 +39,7 @@ public:
     void setDNHash( QString strDNHash );
     void setStatus( int nStatus );
     void setCert( QString strCert );
-    void setDesc( QString strDesc );
+    void setInfo( QString strInfo );
 };
 
 #endif // SIGNERREC_H

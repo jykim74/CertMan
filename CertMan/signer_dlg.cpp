@@ -68,7 +68,7 @@ void SignerDlg::accept()
     signer.setDNHash( sCertInfo.pDNHash );
     signer.setStatus( mStatusCombo->currentIndex() );
     signer.setCert( pCert );
-    signer.setDesc( mDescText->toPlainText() );
+    signer.setInfo( mInfoText->toPlainText() );
 
     dbMgr->addSignerRec( signer );
 

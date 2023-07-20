@@ -61,5 +61,6 @@
         <file>certman_license.lcn</file>
         <file>images/ca_revoked.png</file>
         <file>images/cert_revoked.png</file>
+        <file>certman_mysql.sql</file>
     </qresource>
 </RCC>

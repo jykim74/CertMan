@@ -4879,7 +4879,7 @@ void MainWindow::infoSigner(int seq)
     manApplet->info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
     manApplet->info( QString("Cert         : %1\n").arg(signerRec.getCert()));
     manApplet->info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
-    manApplet->info( QString("Desc         : %1\n").arg(signerRec.getDesc()));
+    manApplet->info( QString("Info         : %1\n").arg(signerRec.getInfo()));
 
     infoCursorTop();
 }

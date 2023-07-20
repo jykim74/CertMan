@@ -126,12 +126,12 @@
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Signer Description</string>
+      <string>Signer Information</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="mDescText"/>
+    <widget class="QPlainTextEdit" name="mInfoText"/>
    </item>
    <item>
     <widget class="Line" name="line_3">
@@ -157,7 +157,7 @@
   <tabstop>mStatusCombo</tabstop>
   <tabstop>mCertPathText</tabstop>
   <tabstop>mFindCertBtn</tabstop>
-  <tabstop>mDescText</tabstop>
+  <tabstop>mInfoText</tabstop>
  </tabstops>
  <resources/>
  <connections>

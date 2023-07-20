@@ -9,7 +9,7 @@ SignerRec::SignerRec()
     m_strDNHash = "";
     m_nStatus = -1;
     m_strCert = "";
-    m_strDesc = "";
+    m_strInfo = "";
 }
 
 void SignerRec::setNum( int nNum )
@@ -47,7 +47,7 @@ void SignerRec::setCert( QString strCert )
     m_strCert = strCert;
 }
 
-void SignerRec::setDesc( QString strDesc )
+void SignerRec::setInfo( QString strInfo )
 {
-    m_strDesc = strDesc;
+    m_strInfo = strInfo;
 }

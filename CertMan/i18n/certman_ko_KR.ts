@@ -3791,7 +3791,7 @@
     </message>
     <message>
         <source>Signer Description</source>
-        <translation>서명자 설명</translation>
+        <translation type="vanished">서명자 설명</translation>
     </message>
 </context>
 <context>
