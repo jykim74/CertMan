@@ -50,7 +50,7 @@ void ImportDlg::accept()
 
     int nSelType = mDataTypeCombo->currentIndex();
 
-    if( nSelType == 1 || nSelType == 5 )
+    if( nSelType == IMPORT_TYPE_ENC_PRIKEY || nSelType == IMPORT_TYPE_PFX )
     {
         if( strPass.length() < 1 )
         {
@@ -63,7 +63,7 @@ void ImportDlg::accept()
     BIN binSrc = {0,0};
     JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
 
-    if( nSelType == 0 || nSelType == 1 )
+    if( nSelType == IMPORT_TYPE_PRIKEY || nSelType == IMPORT_TYPE_ENC_PRIKEY )
     {
         if( nSelType == 1 )
         {
@@ -75,7 +75,7 @@ void ImportDlg::accept()
 
             if( ret == 0 )
             {
-                ret = ImportKeyPair( &binPri );
+                ret = ImportKeyPair( &binPri, JS_REC_STATUS_NOT_USED );
             }
             else
             {
@@ -91,14 +91,14 @@ void ImportDlg::accept()
             JS_BIN_reset( &binPri );
         }
         else
-            ret = ImportKeyPair( &binSrc );
+            ret = ImportKeyPair( &binSrc, JS_REC_STATUS_NOT_USED );
 
         if( ret == 0 )
         {
             manApplet->mainWindow()->createRightKeyPairList();
         }
     }
-    else if( nSelType == 2 )
+    else if( nSelType == IMPORT_TYPE_CSR )
     {
         if( mToKMSCheck->isChecked() )
         {
@@ -112,7 +112,7 @@ void ImportDlg::accept()
             manApplet->mainWindow()->createRightRequestList();
         }
     }
-    else if( nSelType == 3 )
+    else if( nSelType == IMPORT_TYPE_CERT )
     {
         ret = ImportCert( &binSrc );
         if( ret == 0 )
@@ -120,7 +120,7 @@ void ImportDlg::accept()
             manApplet->mainWindow()->createRightCertList( -2 );
         }
     }
-    else if( nSelType == 4 )
+    else if( nSelType == IMPORT_TYPE_CRL )
     {
         if( mToKMSCheck->isChecked() )
         {
@@ -135,7 +135,7 @@ void ImportDlg::accept()
             manApplet->mainWindow()->createRightCRLList(-2);
         }
     }
-    else if( nSelType == 5 )
+    else if( nSelType == IMPORT_TYPE_PFX )
     {
         ret = ImportPFX( &binSrc );
         if( ret == 0 )
@@ -190,17 +190,17 @@ void ImportDlg::clickFind()
         strPath = manApplet->curFolder();
 
     if( mDataTypeCombo->currentIndex() == 0 )
-        strFilter = "BER Files (*.ber *.der)";
+        strFilter = "BER Files (*.ber *.der *.pem)";
     else if( mDataTypeCombo->currentIndex() == 1 )
-        strFilter = "Private Key Files (*.key *.der)";
+        strFilter = "Private Key Files (*.key *.der *.pem)";
     else if( mDataTypeCombo->currentIndex() == 2 )
-        strFilter = "CSF Files (*.csr *.der)";
+        strFilter = "CSF Files (*.csr *.der *.pem)";
     else if( mDataTypeCombo->currentIndex() == 3 )
-        strFilter = "Cert Files (*.crt *.der)";
+        strFilter = "Cert Files (*.crt *.der *.pem)";
     else if( mDataTypeCombo->currentIndex() == 4 )
-        strFilter = "CRL Files (*.crl *.der)";
+        strFilter = "CRL Files (*.crl *.der *.pem)";
     else if( mDataTypeCombo->currentIndex() == 5 )
-        strFilter = "PFX Files (*.pfx *.der);;P12 Files (*.p12 *.der)";
+        strFilter = "PFX Files (*.pfx *.der *.pem);;P12 Files (*.p12 *.der *.pem)";
 
     strFilter += ";;All Files (*.*)";
 
@@ -243,7 +243,7 @@ void ImportDlg::dataTypeChanged( int index )
     }
 }
 
-int ImportDlg::ImportKeyPair( const BIN *pPriKey )
+int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
 {
     int ret = 0;
 
@@ -350,6 +350,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey )
     keyPair.setName( mNameText->text() );
     keyPair.setPublicKey( getHexString( &binPub) );
     keyPair.setParam( strParam );
+    keyPair.setStatus( nStatus );
 
     ret = dbMgr->addKeyPairRec( keyPair );
 
@@ -689,7 +690,7 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
         goto end;
     }
 
-    ret = ImportKeyPair( &binPri );
+    ret = ImportKeyPair( &binPri, JS_REC_STATUS_USED );
     if( ret != 0 )
     {
         manApplet->elog( QString( "fail to import key pair:%1").arg( ret ));

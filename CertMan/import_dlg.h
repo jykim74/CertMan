@@ -6,6 +6,15 @@
 
 #include "js_bin.h"
 
+enum {
+    IMPORT_TYPE_PRIKEY = 0,
+    IMPORT_TYPE_ENC_PRIKEY,
+    IMPORT_TYPE_CSR,
+    IMPORT_TYPE_CERT,
+    IMPORT_TYPE_CRL,
+    IMPORT_TYPE_PFX
+};
+
 namespace Ui {
 class ImportDlg;
 }
@@ -32,7 +41,7 @@ private:
     void initUI();
     void initialize();
 
-    int ImportKeyPair( const BIN *pPriKey );
+    int ImportKeyPair( const BIN *pPriKey, int nStatus );
     int ImportCert( const BIN *pCert );
     int ImportCRL( const BIN *pCRL );
     int ImportRequest( const BIN *pCSR );

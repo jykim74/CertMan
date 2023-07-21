@@ -394,7 +394,7 @@ void MakeReqDlg::accept()
     reqRec.setStatus(0);
 
     dbMgr->addReqRec( reqRec );
-    dbMgr->modKeyPairStatus( keyRec.getNum(), 1 );
+    dbMgr->modKeyPairStatus( keyRec.getNum(), JS_REC_STATUS_USED );
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
 
 end :

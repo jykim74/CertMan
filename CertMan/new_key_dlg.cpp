@@ -190,7 +190,7 @@ void NewKeyDlg::accept()
     keyPairRec.setParam( mOptionCombo->currentText() );
     keyPairRec.setPublicKey( pPubHex );
 
-    keyPairRec.setStatus(0);
+    keyPairRec.setStatus(JS_REC_STATUS_NOT_USED);
 
     dbMgr->addKeyPairRec( keyPairRec );
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
