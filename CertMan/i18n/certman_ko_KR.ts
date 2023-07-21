@@ -715,6 +715,10 @@
         <source>EdDSA Algorithm can not import</source>
         <translation type="vanished">EdDSA 알고리즘은 가져오기 할 수 없습니다.</translation>
     </message>
+    <message>
+        <source>Import is successful</source>
+        <translation>가져오기 성공하였습니다.</translation>
+    </message>
 </context>
 <context>
     <name>LoginDlg</name>

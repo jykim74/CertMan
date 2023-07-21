@@ -154,6 +154,7 @@ void ImportDlg::accept()
         return;
     }
 
+    manApplet->messageBox( tr( "Import is successful"), this );
     manApplet->setCurFile( strPath );
     JS_BIN_reset( &binSrc );
     QDialog::accept();
@@ -673,13 +674,12 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     BIN binCert = {0,0};
     BIN binPri = {0,0};
 
-    int nKeyType = 0;
-
     QString strPasswd = mPasswordText->text().toStdString().c_str();
 
     ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
     if( ret != 0 )
     {
+        manApplet->elog( QString( "fail to decode pfx:%1").arg(ret));
         goto end;
     }
 
