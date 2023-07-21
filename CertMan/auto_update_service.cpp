@@ -14,10 +14,10 @@ SINGLETON_IMPL(AutoUpdateService)
 
 namespace  {
 #ifdef Q_OS_WIN32
-    const char *kSparkleAppcastURI = "https://www.aaa.bbb/update/win_appcast.xml";
+    const char *kSparkleAppcastURI = "https://jykim74.github.io/appcast/certman_appcast_win.xml";
     const char *kWinSparkleRegPath = "SOFTWARE\\JS Inc\\CertMan\\WinSparkle";
 #else
-    const char *kSparkleAppcastURI = "https://www.aaa.bbb/update/mac_appcast.xml";
+    const char *kSparkleAppcastURI = "https://jykim74.github.io/appcast/certman_appcast_mac.xml";
 #endif
     const char *kSparkleAlreadyEnableUpdateByDefault = "SparkleAlreadyEnableUpdateByDefault";
 }
