@@ -41,6 +41,7 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
 
     connect( mPolicySetAnyOIDBtn, SIGNAL(clicked()), this, SLOT(clickPolicySetAnyOID()));
     connect( mDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDaysType(int)));
+    connect( mForCSRCheck, SIGNAL(clicked()), this, SLOT(checkForCSR()));
 
     initUI();
     connectExtends();
@@ -1100,6 +1101,20 @@ void MakeCertProfileDlg::clearExtensions()
 void MakeCertProfileDlg::clickPolicySetAnyOID()
 {
     mPolicyOIDText->setText( "2.5.29.32.0" );
+}
+
+void MakeCertProfileDlg::checkForCSR()
+{
+    bool bVal = mForCSRCheck->isChecked();
+
+    mVersionCombo->setEnabled( !bVal );
+    mNotAfterDateTime->setEnabled( !bVal );
+    mNotBeforeDateTime->setEnabled( !bVal );
+    mUseDaysCheck->setEnabled( !bVal );
+    mUseCSRCheck->setEnabled( !bVal );
+    mDaysLabel->setEnabled( !bVal );
+    mDaysText->setEnabled( !bVal );
+    mSubjectDNText->setEnabled( !bVal );
 }
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )

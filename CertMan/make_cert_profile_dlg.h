@@ -96,6 +96,7 @@ private slots:
     void clearExtensions();
 
     void clickPolicySetAnyOID();
+    void checkForCSR();
 private:
     void initUI();
     void connectExtends();

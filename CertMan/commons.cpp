@@ -3383,3 +3383,4 @@ int getKeyType( const QString& strAlg, const QString& strParam )
 
     return nKeyType;
 }
+

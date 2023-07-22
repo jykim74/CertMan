@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QTableWidgetItem>
 
 #include "db_mgr.h"
 #include "js_pki.h"
@@ -170,5 +171,6 @@ const QString getPasswdHMAC( const QString &strPasswd );
 const QString getNameFromDN( const QString& strDN );
 
 int getKeyType( const QString& strAlg, const QString& strParam );
+
 
 #endif // COMMONS_H
