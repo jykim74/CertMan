@@ -68,6 +68,7 @@
 #include "login_dlg.h"
 #include "pri_key_info_dlg.h"
 #include "renew_cert_dlg.h"
+#include "csr_info_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -512,6 +513,8 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export Request"), this, &MainWindow::exportRequest );
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
+        menu.addAction(tr("Import CSR"), this, &MainWindow::importCSR );
+        menu.addAction(tr("View CSR"), this, &MainWindow::viewCSR );
 
         QTableWidgetItem* useitem = right_table_->item( row, 5 );
         if( useitem->text() == "NotUsed" )
@@ -1335,6 +1338,18 @@ void MainWindow::viewPriKey()
     priKeyInfoDlg.exec();
 }
 
+void MainWindow::viewCSR()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    CSRInfoDlg csrInfoDlg;
+    csrInfoDlg.exec();
+}
+
 void MainWindow::importData()
 {
     if( manApplet->isDBOpen() == false )
@@ -1370,6 +1385,19 @@ void MainWindow::importCRL()
 
     ImportDlg importDlg;
     importDlg.setType(4);
+    importDlg.exec();
+}
+
+void MainWindow::importCSR()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    ImportDlg importDlg;
+    importDlg.setType(2);
     importDlg.exec();
 }
 

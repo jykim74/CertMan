@@ -49,6 +49,7 @@ SOURCES += \
         crl_info_dlg.cpp \
         crl_profile_rec.cpp \
         crl_rec.cpp \
+        csr_info_dlg.cpp \
         db_mgr.cpp \
         export_dlg.cpp \
         get_ldap_dlg.cpp \
@@ -109,6 +110,7 @@ HEADERS += \
         crl_info_dlg.h \
         crl_profile_rec.h \
         crl_rec.h \
+        csr_info_dlg.h \
         db_mgr.h \
         export_dlg.h \
         get_ldap_dlg.h \
@@ -160,6 +162,7 @@ FORMS += \
         cert_info_dlg.ui \
         config_dlg.ui \
         crl_info_dlg.ui \
+        csr_info_dlg.ui \
         export_dlg.ui \
         get_ldap_dlg.ui \
         import_dlg.ui \

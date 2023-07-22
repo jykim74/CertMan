@@ -135,10 +135,12 @@ public slots:
     void viewCRL();
     void verifyCRL();
     void viewPriKey();
+    void viewCSR();
 
     void importData();
     void importCert();
     void importCRL();
+    void importCSR();
     void exportPriKey();
     void exportEncPriKey();
     void exportPubKey();
