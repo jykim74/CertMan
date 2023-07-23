@@ -26,6 +26,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mGenKeyPairCheck, SIGNAL(clicked()), this, SLOT(checkGenKeyPair()));
     connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
     connect( mNewOptionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newOptionChanged(int)));
+    connect( mUseExtensionCheck, SIGNAL(clicked()), this, SLOT(checkExtension()));
 
     initialize();
 }
@@ -90,6 +91,15 @@ void MakeReqDlg::initialize()
     }
 
     if( key_list_.size() > 0 ) keyNameChanged(0);
+
+    cert_profile_list_.clear();
+    dbMgr->getCertProfileList( cert_profile_list_ );
+
+    for( int i = 0; i < cert_profile_list_.size(); i++ )
+    {
+        CertProfileRec profileRec = cert_profile_list_.at(i);
+        mProfileNameCombo->addItem( profileRec.getName() );
+    }
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
@@ -231,6 +241,7 @@ void MakeReqDlg::accept()
     char *pHexCSR = NULL;
     KeyPairRec keyRec;
     ReqRec reqRec;
+    JExtensionInfoList *pExtInfoList = NULL;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -286,6 +297,63 @@ void MakeReqDlg::accept()
         strParam = mOptionText->text();
     }
 
+    if( mUseExtensionCheck->isChecked() )
+    {
+        /* need to support extensions start */
+#if 0
+        dbMgr->getCertProfileExtensionList( profileRec.getNum(), profileExtList );
+        for( int i=0; i < profileExtList.size(); i++ )
+        {
+            JExtensionInfo sExtInfo;
+            ProfileExtRec profileExt = profileExtList.at(i);
+
+            memset( &sExtInfo, 0x00, sizeof(sExtInfo));
+
+            if( profileExt.getSN() == JS_PKI_ExtNameBC )
+            {
+                QString strVal = profileExt.getValue();
+                if( strVal.contains( "CA" ) == true )
+                    bCA = true;
+                else
+                    bCA = false;
+            }
+            else if( profileExt.getSN() == JS_PKI_ExtNameSKI )
+            {
+                profileExt.setValue( sKeyID );
+            }
+            else if( profileExt.getSN() == JS_PKI_ExtNameCRLDP )
+            {
+                char *pDN = NULL;
+                JS_PKI_getDP( profileExt.getValue().toStdString().c_str(), nSeq, &pDN );
+                profileExt.setValue( pDN );
+                if( pDN ) JS_free( pDN );
+            }
+            else if( profileExt.getSN() == JS_PKI_ExtNameSAN )
+            {
+                QString strAltName = profileExt.getValue();
+                QString strReplace = getReplacedValue( strAltName );
+                profileExt.setValue( strAltName );
+            }
+            else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
+            {
+                /* SelfSign 경우 KeyID 만 설정. */
+                QString strVal = QString( "KEYID$%1").arg( sKeyID );
+                profileExt.setValue( strVal );
+                /*
+                Need to support ISSUER and SERIAL
+                */
+            }
+
+            transExtInfoFromDBRec( &sExtInfo, profileExt );
+
+            if( pExtInfoList == NULL )
+                JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
+            else
+                JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+        }
+#endif
+    }
+
     nAlg = getKeyType( strAlg, strParam );
 
     if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
@@ -313,7 +381,7 @@ void MakeReqDlg::accept()
                                    strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
                                    &binID,
                                    &binPubKey,
-                                   NULL,
+                                   pExtInfoList,
                                    pP11CTX,
                                    &binCSR );
 
@@ -345,7 +413,7 @@ void MakeReqDlg::accept()
                                         strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
                                         &binID,
                                         &binPubKey,
-                                        NULL,
+                                        pExtInfoList,
                                         pSSL,
                                         pAuth,
                                         &binCSR );
@@ -372,7 +440,7 @@ void MakeReqDlg::accept()
                               strDN.toStdString().c_str(),
                               strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
                               &binPri,
-                              NULL,
+                              pExtInfoList,
                               &binCSR );
     }
 
@@ -402,6 +470,7 @@ end :
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binPubKey );
     if( pHexCSR ) JS_free( pHexCSR );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
     if( ret == 0 )
     {
@@ -509,9 +578,17 @@ void MakeReqDlg::checkGenKeyPair()
     }
 }
 
+void MakeReqDlg::checkExtension()
+{
+    bool bVal = mUseExtensionCheck->isChecked();
+
+    mProfileNameCombo->setEnabled( bVal );
+    mProfileNameLabel->setEnabled( bVal );
+}
+
 void MakeReqDlg::initUI()
 {
-
+    checkExtension();
 }
 
 

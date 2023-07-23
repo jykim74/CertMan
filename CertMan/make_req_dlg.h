@@ -6,6 +6,7 @@
 #include "ui_make_req_dlg.h"
 
 class KeyPairRec;
+class CertProfileRec;
 
 namespace Ui {
 class MakeReqDlg;
@@ -27,7 +28,7 @@ private slots:
     void newAlgChanged(int index );
     void newOptionChanged(int index );
     void checkGenKeyPair();
-
+    void checkExtension();
 
 private:
     void initUI();
@@ -35,7 +36,7 @@ private:
     int genKeyPair( KeyPairRec& keyPair );
 
     QList<KeyPairRec> key_list_;
-
+    QList<CertProfileRec> cert_profile_list_;
 };
 
 #endif // MAKE_REQ_DLG_H

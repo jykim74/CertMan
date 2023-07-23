@@ -98,12 +98,18 @@ void CSRInfoDlg::initialize()
         i++;
     }
 
-    if( sReqInfo.pPublicKey )
+    mFieldTable->insertRow(i);
+    mFieldTable->setRowHeight(i,10);
+    mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Verify")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.bVerify ? "Verify" : "Not Verify")));
+    i++;
+
+    if( sReqInfo.pSignature )
     {
         mFieldTable->insertRow(i);
         mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("PublicKey")));
-        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pPublicKey)));
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Signature")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pSignature)));
         i++;
     }
 
@@ -122,6 +128,15 @@ void CSRInfoDlg::initialize()
         mFieldTable->setRowHeight(i,10);
         mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Signature")));
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pSignature)));
+        i++;
+    }
+
+    if( sReqInfo.pChallenge )
+    {
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Challenge")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pChallenge)));
         i++;
     }
 
