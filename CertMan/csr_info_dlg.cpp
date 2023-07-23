@@ -12,6 +12,9 @@ CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
 {
     csr_num_ = -1;
     setupUi(this);
+
+    connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 CSRInfoDlg::~CSRInfoDlg()
@@ -26,6 +29,7 @@ void CSRInfoDlg::setCSRNum(int nNum)
 
 void CSRInfoDlg::showEvent(QShowEvent *event)
 {
+    initUI();
     initialize();
 }
 
@@ -75,6 +79,50 @@ void CSRInfoDlg::initialize()
     {
         manApplet->warningBox( tr("fail to get CSR information"), this );
         goto end;
+    }
+
+    mFieldTable->insertRow(i);
+    mFieldTable->setRowHeight(i,10);
+    mFieldTable->setItem( i, 0, new QTableWidgetItem( tr("Version")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(sReqInfo.nVersion)));
+    i++;
+
+    if( sReqInfo.pSubjectDN )
+    {
+        QString name = QString::fromUtf8( sReqInfo.pSubjectDN );
+
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("SubjectName")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg( name )));
+        i++;
+    }
+
+    if( sReqInfo.pPublicKey )
+    {
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("PublicKey")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pPublicKey)));
+        i++;
+    }
+
+    if( sReqInfo.pSignAlgorithm )
+    {
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("SigAlgorithm")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pSignAlgorithm)));
+        i++;
+    }
+
+    if( sReqInfo.pSignature )
+    {
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Signature")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pSignature)));
+        i++;
     }
 
     if( pExtInfoList )
@@ -153,4 +201,15 @@ QTableWidgetItem* CSRInfoDlg::getExtNameItem( const QString strSN )
 
 
     return item;
+}
+
+void CSRInfoDlg::clickField(QModelIndex index)
+{
+    int row = index.row();
+    int col = index.column();
+
+    QTableWidgetItem* item = mFieldTable->item( row, 1 );
+    if( item == NULL ) return;
+
+    mDetailText->setPlainText( item->text() );
 }

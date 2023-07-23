@@ -1346,7 +1346,14 @@ void MainWindow::viewCSR()
         return;
     }
 
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
     CSRInfoDlg csrInfoDlg;
+    csrInfoDlg.setCSRNum( num );
     csrInfoDlg.exec();
 }
 
