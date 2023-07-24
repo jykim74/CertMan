@@ -252,11 +252,7 @@ void MakeCRLDlg::accept()
         }
 
         transExtInfoFromDBRec( &sExtInfo, profileExt );
-
-        if( pExtInfoList == NULL )
-            JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
-        else
-            JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+        JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
     }
 
 

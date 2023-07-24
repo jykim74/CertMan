@@ -3081,6 +3081,8 @@ QString getDateTime( time_t tTime )
     QDateTime dateTime;
     dateTime.setTime_t( tTime );
 
+    if( tTime < 0 ) return "NA";
+
     return dateTime.toString( "yyyy-MM-dd HH:mm:ss");
 }
 
@@ -3384,3 +3386,36 @@ int getKeyType( const QString& strAlg, const QString& strParam )
     return nKeyType;
 }
 
+const QString getProfileType( int nProfileType )
+{
+    QString strType;
+
+    if( nProfileType == JS_PKI_PROFILE_TYPE_CERT )
+        strType = "CertProfile";
+    else if( nProfileType == JS_PKI_PROFILE_TYPE_CSR )
+        strType = "CSRProfile";
+    else if( nProfileType == JS_PKI_PROFILE_TYPE_CRL )
+        strType = "CRLProfile";
+    else
+        strType = "Unknown";
+
+    return strType;
+}
+
+const QString getExtUsage( int nExtUsage )
+{
+    QString strUsage;
+
+    if( nExtUsage == JS_PKI_EXT_CERT_ONLY )
+        strUsage = "CertOnly";
+    else if( nExtUsage == JS_PKI_EXT_CSR_ONLY )
+        strUsage = "CSROnly";
+    else if( nExtUsage == JS_PKI_EXT_BOTH_CERT_FIRST )
+        strUsage = "BothAndCertFirst";
+    else if( nExtUsage == JS_PKI_EXT_BOTH_CSR_FIRST )
+        strUsage = "BothAdnCSRFirst";
+    else
+        strUsage = "Unknown";
+
+    return strUsage;
+}

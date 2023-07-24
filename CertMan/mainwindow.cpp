@@ -9,6 +9,7 @@
 #include "js_json.h"
 #include "js_pkcs7.h"
 #include "js_scep.h"
+#include "js_pki_ext.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -3605,7 +3606,7 @@ void MainWindow::createRightCertProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBerfoer"), tr("NotAfter"), tr("Hash"), tr("DNTemplate") };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBefore"), tr("NotAfter"), tr("Hash"), tr("Type") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3621,7 +3622,7 @@ void MainWindow::createRightCertProfileList()
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 200 );
-    right_table_->setColumnWidth( 2, 50 );
+    right_table_->setColumnWidth( 2, 60 );
     right_table_->setColumnWidth( 3, 100 );
     right_table_->setColumnWidth( 4, 100 );
     right_table_->setColumnWidth( 5, 60 );
@@ -3632,11 +3633,15 @@ void MainWindow::createRightCertProfileList()
         QString strVersion;
         QString strNotBefore;
         QString strNotAfter;
-        QString strDNTemplate;
+ //       QString strDNTemplate;
 
         QTableWidgetItem *item = new QTableWidgetItem( certProfile.getName() );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( certProfile.getNum() ));
-        seq->setIcon(QIcon(":/images/cert_profile.png"));
+
+        if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
+            seq->setIcon(QIcon(":/images/csr_profile.png"));
+        else
+            seq->setIcon(QIcon(":/images/cert_profile.png"));
 
         strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
 
@@ -3660,12 +3665,12 @@ void MainWindow::createRightCertProfileList()
             strNotBefore = getDateTime( certProfile.getNotBefore() );
             strNotAfter = getDateTime( certProfile.getNotAfter() );
         }
-
+/*
         if( certProfile.getDNTemplate() == "#CSR" )
             strDNTemplate = "Use CSR DN";
         else
             strDNTemplate = certProfile.getDNTemplate();
-
+*/
 
 
         right_table_->insertRow(i);
@@ -3676,7 +3681,7 @@ void MainWindow::createRightCertProfileList()
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNotAfter )));
         right_table_->setItem( i, 5, new QTableWidgetItem( certProfile.getHash() ));
-        right_table_->setItem( i, 6, new QTableWidgetItem( strDNTemplate ));
+        right_table_->setItem( i, 6, new QTableWidgetItem( getProfileType( certProfile.getType() ) ));
     }
 }
 
@@ -4605,9 +4610,11 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Num         : %1\n").arg(certProfile.getNum()));
     manApplet->info( QString("Name        : %1\n").arg(certProfile.getName()));
+    manApplet->info( QString("Type        : %1 - %2\n").arg(certProfile.getType()).arg( getProfileType( certProfile.getType())));
     manApplet->info( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
     manApplet->info( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
     manApplet->info( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
+    manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
     manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
     manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
     manApplet->info( "======================= Extension Information ==========================\n" );

@@ -108,6 +108,8 @@ static QStringList kECCOptionList = { "prime256v1",
     "sect409r1", "sect571k1", "sect571r1", "SM2"
 };
 
+
+
 static QStringList kEdDSAOptionList = { kMechEd25519, kMechEd448 };
 static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
 
@@ -169,8 +171,11 @@ QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly = false );
 
 const QString getPasswdHMAC( const QString &strPasswd );
 const QString getNameFromDN( const QString& strDN );
+const QString getExtensionUsageName( int nExtUsage );
 
 int getKeyType( const QString& strAlg, const QString& strParam );
+const QString getProfileType( int nProfileType );
+const QString getExtUsage( int nExtUsage );
 
 
 #endif // COMMONS_H

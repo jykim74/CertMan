@@ -33,6 +33,13 @@ static QStringList sExtNames = {
 
 static QStringList kPeriodTypes = { "Day", "Month", "Year" };
 
+static QStringList kExtUsageList = {
+    "The Certificate Extension Only",
+    "The CSR Extension Only",
+    "Both Certificate and CSR, and the The certificate first",
+    "Both Certificate and CSR and the CSR first"
+};
+
 
 MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     QDialog(parent)
@@ -92,6 +99,7 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     else
         mNameText->setText( certProfile.getName() );
 
+    mForCSRCheck->setChecked( certProfile.getType() );
     mVersionCombo->setCurrentIndex( certProfile.getVersion() );
     mHashCombo->setCurrentText( certProfile.getHash() );
     mSubjectDNText->setText( certProfile.getDNTemplate() );
@@ -120,6 +128,7 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         clickUseCSR();
     }
 
+    mExtUsageCombo->setCurrentIndex( certProfile.getExtUsage() );
 
     QList<ProfileExtRec> extProfileList;
     dbMgr->getCertProfileExtensionList( nProfileNum, extProfileList );
@@ -158,6 +167,7 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
             setExtensionsUse( extProfile );
     }
 
+    checkForCSR();
 }
 
 void MakeCertProfileDlg::defaultProfile()
@@ -265,38 +275,50 @@ void MakeCertProfileDlg::accept()
         return;
     }
 
-    QString strSubjectDN = mSubjectDNText->text();
-    if( strSubjectDN.isEmpty() )
-    {
-        manApplet->warningBox(tr( "You have to set subjec dn"), this );
-        return;
-    }
-
     int nProfileNum = dbMgr->getCertProfileNextNum();
     if( nProfileNum <= 0 ) nProfileNum = 1;
 
     certProfileRec.setNum( nProfileNum );
     certProfileRec.setVersion( mVersionCombo->currentIndex() );
     certProfileRec.setName( strName );
-    certProfileRec.setDNTemplate( strSubjectDN );
+    certProfileRec.setHash( mHashCombo->currentText() );
 
-    if( mUseDaysCheck->isChecked() )
+    if( mForCSRCheck->isChecked() )
     {
-        certProfileRec.setNotBefore( mDaysTypeCombo->currentIndex() );
-        certProfileRec.setNotAfter( mDaysText->text().toLong());
+        certProfileRec.setType( JS_PKI_PROFILE_TYPE_CSR );
     }
-    else {
-        if( mNotBeforeDateTime->dateTime().toTime_t() <= 10 )
+    else
+    {
+        certProfileRec.setType( JS_PKI_PROFILE_TYPE_CERT );
+
+        QString strSubjectDN = mSubjectDNText->text();
+        if( strSubjectDN.isEmpty() )
         {
-            manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
+            manApplet->warningBox(tr( "You have to set subjec dn"), this );
             return;
         }
 
-        certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toTime_t() );
-        certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toTime_t() );
+        certProfileRec.setDNTemplate( strSubjectDN );
+
+        if( mUseDaysCheck->isChecked() )
+        {
+            certProfileRec.setNotBefore( mDaysTypeCombo->currentIndex() );
+            certProfileRec.setNotAfter( mDaysText->text().toLong());
+        }
+        else {
+            if( mNotBeforeDateTime->dateTime().toTime_t() <= 10 )
+            {
+                manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
+                return;
+            }
+
+            certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toTime_t() );
+            certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toTime_t() );
+        }
+
+        certProfileRec.setExtUsage( mExtUsageCombo->currentIndex() );
     }
 
-    certProfileRec.setHash( mHashCombo->currentText() );
 
     if( is_edit_ )
     {
@@ -363,6 +385,8 @@ void MakeCertProfileDlg::initUI()
     nowDateTime.setTime_t(time(NULL));
     mNotBeforeDateTime->setDateTime(nowDateTime);
     mNotAfterDateTime->setDateTime(nowDateTime);
+
+    mExtUsageCombo->addItems( kExtUsageList );
 }
 
 void MakeCertProfileDlg::setTableMenus()
@@ -1107,7 +1131,7 @@ void MakeCertProfileDlg::checkForCSR()
 {
     bool bVal = mForCSRCheck->isChecked();
 
-    mVersionCombo->setEnabled( !bVal );
+//    mVersionCombo->setEnabled( !bVal );
     mNotAfterDateTime->setEnabled( !bVal );
     mNotBeforeDateTime->setEnabled( !bVal );
     mUseDaysCheck->setEnabled( !bVal );
@@ -1116,6 +1140,12 @@ void MakeCertProfileDlg::checkForCSR()
     mDaysTypeCombo->setEnabled( !bVal );
     mDaysText->setEnabled( !bVal );
     mSubjectDNText->setEnabled( !bVal );
+    mExtUsageCombo->setEnabled( !bVal );
+
+    if( bVal )
+        mVersionCombo->setCurrentIndex(0);
+    else
+        mVersionCombo->setCurrentIndex(2);
 }
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )

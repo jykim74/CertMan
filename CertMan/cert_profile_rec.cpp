@@ -3,9 +3,11 @@
 CertProfileRec::CertProfileRec()
 {
     m_nNum = -1;
+    m_nType = -1;
     m_nVersion = -1;
     m_uNotBefore = -1;
     m_uNotAfter = -1;
+    m_nExtUsage = -1;
     m_strName = "";
     m_strHash = "";
     m_strDNTemplate = "";
@@ -19,6 +21,11 @@ void CertProfileRec::setNum( int nNum )
 void CertProfileRec::setName( QString strName )
 {
     m_strName = strName;
+}
+
+void CertProfileRec::setType( int nType )
+{
+    m_nType = nType;
 }
 
 void CertProfileRec::setVersion( int nVersion )
@@ -44,4 +51,9 @@ void CertProfileRec::setNotBefore( long uNotBefore )
 void CertProfileRec::setNotAfter( long uNotAfter )
 {
     m_uNotAfter = uNotAfter;
+}
+
+void CertProfileRec::setExtUsage( int nExtUsage )
+{
+    m_nExtUsage = nExtUsage;
 }

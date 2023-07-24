@@ -34,7 +34,8 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
 MakeReqDlg::~MakeReqDlg()
 {
-
+    key_list_.clear();
+    cert_profile_list_.clear();
 }
 
 void MakeReqDlg::setKeyName( const QString strName )
@@ -94,7 +95,7 @@ void MakeReqDlg::initialize()
     if( key_list_.size() > 0 ) keyNameChanged(0);
 
     cert_profile_list_.clear();
-    dbMgr->getCertProfileList( cert_profile_list_ );
+    dbMgr->getCertProfileListByType( JS_PKI_PROFILE_TYPE_CSR, cert_profile_list_ );
 
     for( int i = 0; i < cert_profile_list_.size(); i++ )
     {
@@ -307,7 +308,7 @@ void MakeReqDlg::accept()
     JS_PKI_getPublicKeyValue( &binPubKey, &binPubVal );
     JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
 
-    if( mUseExtensionCheck->isChecked() )
+    if( mUseExtensionCheck->isChecked() && cert_profile_list_.size() > 0 )
     {
         CertProfileRec profileRec = cert_profile_list_.at( mProfileNameCombo->currentIndex() );
         QList<ProfileExtRec> profileExtList;
@@ -335,11 +336,7 @@ void MakeReqDlg::accept()
             }
 
             transExtInfoFromDBRec( &sExtInfo, profileExt );
-
-            if( pExtInfoList == NULL )
-                JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
-            else
-                JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+            JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
         }
     }
 

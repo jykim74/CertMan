@@ -1187,6 +1187,14 @@ int DBMgr::getCertProfileList( QList<CertProfileRec>& certProfileList )
     return _getCertProfileList( strSQL, certProfileList );
 }
 
+int DBMgr::getCertProfileListByType( int nType, QList<CertProfileRec>& certProfileList )
+{
+    QString strSQL;
+    strSQL.sprintf( "SELECT * FROM TB_CERT_PROFILE WHERE TYPE = %d ORDER BY NUM DESC", nType );
+
+    return _getCertProfileList( strSQL, certProfileList );
+}
+
 
 int DBMgr::getCertProfileRec( int nNum, CertProfileRec& certProfile )
 {
@@ -1225,9 +1233,11 @@ int DBMgr::_getCertProfileList( QString strQuery, QList<CertProfileRec>& certPro
 
     int nPosNum = SQL.record().indexOf( "NUM" );
     int nPosName = SQL.record().indexOf( "NAME" );
+    int nPosType = SQL.record().indexOf( "TYPE" );
     int nPosVersion = SQL.record().indexOf( "VERSION" );
     int nPosNotBefore = SQL.record().indexOf( "NotBefore" );
     int nPosNotAfter = SQL.record().indexOf( "NotAfter" );
+    int nPosExtUsage = SQL.record().indexOf( "ExtUsage" );
     int nPosHash = SQL.record().indexOf( "HASH" );
     int nPosDNTemplate = SQL.record().indexOf( "DNTemplate" );
 
@@ -1237,9 +1247,11 @@ int DBMgr::_getCertProfileList( QString strQuery, QList<CertProfileRec>& certPro
 
         certProfile.setNum( SQL.value(nPosNum).toInt() );
         certProfile.setName( SQL.value(nPosName).toString() );
+        certProfile.setType( SQL.value(nPosType).toInt());
         certProfile.setVersion( SQL.value(nPosVersion).toInt() );
         certProfile.setNotBefore( SQL.value(nPosNotBefore).toInt() );
         certProfile.setNotAfter( SQL.value(nPosNotAfter).toInt() );
+        certProfile.setExtUsage( SQL.value( nPosExtUsage ).toInt());
         certProfile.setHash( SQL.value(nPosHash).toString() );
         certProfile.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
 
@@ -1753,17 +1765,21 @@ int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "UPDATE TB_CERT_PROFILE SET "
                       "NAME = ?, "
+                      "TYPE = ?, "
                       "VERSION = ?, "
                       "NOTBEFORE = ?, "
                       "NOTAFTER = ?, "
+                      "EXTUSAGE = ?, "
                       "HASH = ?, "
                       "DNTemplate = ? "
                       "WHERE NUM = ?;" );
 
     sqlQuery.bindValue( i++, profileRec.getName() );
     sqlQuery.bindValue( i++, profileRec.getVersion() );
+    sqlQuery.bindValue( i++, profileRec.getType() );
     sqlQuery.bindValue( i++, (int)profileRec.getNotBefore() );
     sqlQuery.bindValue( i++, (int)profileRec.getNotAfter() );
+    sqlQuery.bindValue( i++, profileRec.getExtUsage() );
     sqlQuery.bindValue( i++, profileRec.getHash() );
     sqlQuery.bindValue( i++, profileRec.getDNTemplate() );
     sqlQuery.bindValue( i++, nProfileNum );
@@ -1841,14 +1857,16 @@ int DBMgr::addCertProfileRec( CertProfileRec& certProfileRec )
     int i = 0;
     QSqlQuery sqlQuery;
     sqlQuery.prepare( "INSERT INTO TB_CERT_PROFILE "
-                      "( NUM, NAME, VERSION, NOTBEFORE, NOTAFTER, HASH, DNTEMPLATE ) "
-                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, NAME, TYPE, VERSION, NOTBEFORE, NOTAFTER, EXTUSAGE, HASH, DNTEMPLATE ) "
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, certProfileRec.getNum() );
     sqlQuery.bindValue( i++, certProfileRec.getName() );
+    sqlQuery.bindValue( i++, certProfileRec.getType() );
     sqlQuery.bindValue( i++, certProfileRec.getVersion() );
     sqlQuery.bindValue( i++, QString( "%1" ).arg( certProfileRec.getNotBefore() ) );
     sqlQuery.bindValue( i++, QString( "%1").arg( certProfileRec.getNotAfter() ) );
+    sqlQuery.bindValue( i++, certProfileRec.getExtUsage() );
     sqlQuery.bindValue( i++, certProfileRec.getHash() );
     sqlQuery.bindValue( i++, certProfileRec.getDNTemplate() );
 

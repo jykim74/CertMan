@@ -18,7 +18,7 @@
 #include "js_gen.h"
 #include "js_kms.h"
 
-static int g_iVerbose = 1;
+
 
 QString getSignAlg( const QString strAlg, const QString strHash )
 {
@@ -46,23 +46,18 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
     connect( mUseCSRFileCheck, SIGNAL(clicked()), this, SLOT(clickUseCSRFile()));
     connect( mCSRFileFindBtn, SIGNAL(clicked()), this, SLOT(findCSRFile()));
-
-    initialize();
 }
 
 MakeCertDlg::~MakeCertDlg()
 {
-
+    req_list_.clear();
+    ca_cert_list_.clear();
+    cert_profile_list_.clear();
 }
 
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
-    if( cert_profile_list_.size() < 1 )
-    {
-        manApplet->warningBox( tr( "There is no certificate profile"), this );
-        destroy();
-        return;
-    }
+    initialize();
 }
 
 void MakeCertDlg::initialize()
@@ -73,6 +68,12 @@ void MakeCertDlg::initialize()
     req_list_.clear();
 
     dbMgr->getReqList( 0, req_list_ );
+    if( req_list_.size() <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no request"), this );
+        return;
+    }
+
     for( int i = 0; i < req_list_.size(); i++ )
     {
         ReqRec reqRec = req_list_.at(i);
@@ -90,7 +91,13 @@ void MakeCertDlg::initialize()
 
     cert_profile_list_.clear();
 
-    dbMgr->getCertProfileList( cert_profile_list_ );
+    dbMgr->getCertProfileListByType( JS_PKI_PROFILE_TYPE_CERT, cert_profile_list_ );
+
+    if( cert_profile_list_.size() <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no certificate profile"), this );
+        return;
+    }
 
     for( int i=0; i < cert_profile_list_.size(); i++ )
     {
@@ -212,6 +219,8 @@ void MakeCertDlg::accept()
     memset( sKeyID, 0x00, sizeof(sKeyID));
 
     CertRec madeCertRec;
+    JExtensionInfoList *pCertExtInfoList = NULL;
+    JExtensionInfoList *pCSRExtInfoList = NULL;
     JExtensionInfoList *pExtInfoList = NULL;
     JExtensionInfoList *pMadeExtInfoList = NULL;
 
@@ -304,7 +313,7 @@ void MakeCertDlg::accept()
         JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
     }
 
-    JS_PKI_getReqInfo( &binCSR, &sReqInfo, NULL );
+    JS_PKI_getReqInfo( &binCSR, &sReqInfo, &pCSRExtInfoList );
 
     if( sReqInfo.bVerify == 0 )
     {
@@ -531,13 +540,11 @@ void MakeCertDlg::accept()
         }
 
         transExtInfoFromDBRec( &sExtInfo, profileExt );
-
-        if( pExtInfoList == NULL )
-            JS_PKI_createExtensionInfoList( &sExtInfo, &pExtInfoList );
-        else
-            JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
+        JS_PKI_addExtensionInfoList( &pCertExtInfoList, &sExtInfo );
     }
     /* need to support extensions end */
+
+    JS_PKI_getExtensionUsageList( profileRec.getExtUsage(), pCertExtInfoList, pCSRExtInfoList, &pExtInfoList );
 
     if( bCA && manApplet->isLicense() == false)
     {
@@ -678,6 +685,8 @@ end :
     JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
     JS_PKI_resetCertInfo( &sMadeCertInfo );
     if( pHexCert ) JS_free( pHexCert );
+    if( pCertExtInfoList ) JS_PKI_resetExtensionInfoList( &pCertExtInfoList );
+    if( pCSRExtInfoList ) JS_PKI_resetExtensionInfoList( &pCSRExtInfoList );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );

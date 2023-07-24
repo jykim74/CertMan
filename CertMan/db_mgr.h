@@ -97,6 +97,7 @@ public:
 
     int getCertProfileRec( int nNum, CertProfileRec& certProfile );
     int getCertProfileList( QList<CertProfileRec>& certProfileList );
+    int getCertProfileListByType( int nType, QList<CertProfileRec>& certProfileList );
     int getCRLProfileRec( int nNum, CRLProfileRec& crlProfile );
     int getCRLProfileList( QList<CRLProfileRec>& crlProfileList );
     int getCertProfileExtensionList( int nProfileNum, QList<ProfileExtRec>& profileExtList );
