@@ -255,6 +255,129 @@
     </message>
 </context>
 <context>
+    <name>CSRInfoDlg</name>
+    <message>
+        <source>CSR Information</source>
+        <translation>CSR 정보</translation>
+    </message>
+    <message>
+        <source>Field List</source>
+        <translation>필드 목록</translation>
+    </message>
+    <message>
+        <source>Detail Value</source>
+        <translation>상세 값</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Field</source>
+        <translation>필드</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
+    <message>
+        <source>Select CSR</source>
+        <translation>CSR을 선택 하세요</translation>
+    </message>
+    <message>
+        <source>fail to get CSR information</source>
+        <translation>CSR 정보 가져오기 실패</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>버전</translation>
+    </message>
+    <message>
+        <source>SubjectName</source>
+        <translation>주체자 이름</translation>
+    </message>
+    <message>
+        <source>Verify</source>
+        <translation>검증</translation>
+    </message>
+    <message>
+        <source>Signature</source>
+        <translation>서명</translation>
+    </message>
+    <message>
+        <source>SigAlgorithm</source>
+        <translation>서명 알고리즘</translation>
+    </message>
+    <message>
+        <source>Challenge</source>
+        <translation>도전 값</translation>
+    </message>
+    <message>
+        <source>authorityInfoAccess</source>
+        <translation>기관 정보 액세스</translation>
+    </message>
+    <message>
+        <source>authorityKeyIdentifier</source>
+        <translation>기관 키 식별자</translation>
+    </message>
+    <message>
+        <source>basicConstraints</source>
+        <translation>기본 제한</translation>
+    </message>
+    <message>
+        <source>crlDistributionPoints</source>
+        <translation>CRL 배포 지점</translation>
+    </message>
+    <message>
+        <source>extendedKeyUsage</source>
+        <translation>확장된 키 사용</translation>
+    </message>
+    <message>
+        <source>issuerAltName</source>
+        <translation>발급자 대체 이름</translation>
+    </message>
+    <message>
+        <source>keyUsage</source>
+        <translation>키 용도</translation>
+    </message>
+    <message>
+        <source>nameConstraints</source>
+        <translation>이름 제한</translation>
+    </message>
+    <message>
+        <source>certificatePolicies</source>
+        <translation>인증서 정책</translation>
+    </message>
+    <message>
+        <source>policyConstraints</source>
+        <translation>정책 제약 조건</translation>
+    </message>
+    <message>
+        <source>policyMappings</source>
+        <translation>정책 매핑</translation>
+    </message>
+    <message>
+        <source>subjectKeyIdentifier</source>
+        <translation>주체 키 식별자</translation>
+    </message>
+    <message>
+        <source>subjectAltName</source>
+        <translation>주체 대체 이름</translation>
+    </message>
+    <message>
+        <source>crlNumber</source>
+        <translation>CRL 번호</translation>
+    </message>
+    <message>
+        <source>issuingDistributionPoint</source>
+        <translation>발급 배포 지점</translation>
+    </message>
+    <message>
+        <source>CRLReason</source>
+        <translation>폐기 사유</translation>
+    </message>
+</context>
+<context>
     <name>CertInfoDlg</name>
     <message>
         <source>Certificate information</source>
@@ -1327,7 +1450,7 @@
     </message>
     <message>
         <source>NotBerfoer</source>
-        <translation>유효기간(시작)</translation>
+        <translation type="vanished">유효기간(시작)</translation>
     </message>
     <message>
         <source>NotAfter</source>
@@ -1335,7 +1458,7 @@
     </message>
     <message>
         <source>DNTemplate</source>
-        <translation>DN템플릿</translation>
+        <translation type="vanished">DN템플릿</translation>
     </message>
     <message>
         <source>LastUpdate</source>
@@ -1712,6 +1835,18 @@
     <message>
         <source>can not read KMIP private key:%1</source>
         <translation>KMIP 개인키는 읽을 수 없습니다:%1</translation>
+    </message>
+    <message>
+        <source>Import CSR</source>
+        <translation>CSR 가져오기</translation>
+    </message>
+    <message>
+        <source>View CSR</source>
+        <translation>CSR 보기</translation>
+    </message>
+    <message>
+        <source>NotBefore</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2497,7 +2632,7 @@
     </message>
     <message>
         <source>Certificate Profile Name</source>
-        <translation>인증서 프로파일 이름</translation>
+        <translation type="vanished">인증서 프로파일 이름</translation>
     </message>
     <message>
         <source>Base Information</source>
@@ -2699,6 +2834,18 @@
         <source>Too early time : %1</source>
         <translation>너무 이른 시간:%1</translation>
     </message>
+    <message>
+        <source>Extension Usage</source>
+        <translation>확장 사용법</translation>
+    </message>
+    <message>
+        <source>Profile Name</source>
+        <translation>프로파일 이름</translation>
+    </message>
+    <message>
+        <source>For CSR</source>
+        <translation>CSR 용</translation>
+    </message>
 </context>
 <context>
     <name>MakeReqDlg</name>
@@ -2801,6 +2948,14 @@
     <message>
         <source>You can not make CSR more than %1 CSRs in no license</source>
         <translation>라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>Use Extension</source>
+        <translation>확장 필드 사용</translation>
+    </message>
+    <message>
+        <source>Profile Name</source>
+        <translation>프로파일 이름</translation>
     </message>
 </context>
 <context>
