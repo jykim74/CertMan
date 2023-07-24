@@ -240,10 +240,9 @@ void MakeReqDlg::accept()
     BIN binPri = {0,0};
     BIN binCSR = {0,0};
     BIN binPubKey = {0,0};
+    BIN binKeyID = {0,0};
     char *pHexCSR = NULL;
-    char sKeyID[128];
 
-    BIN binPubVal = {0,0};
     KeyPairRec keyRec;
     ReqRec reqRec;
     JExtensionInfoList *pExtInfoList = NULL;
@@ -253,8 +252,6 @@ void MakeReqDlg::accept()
 
     QString strName = mNameText->text();
     QString strChallenge = mChallengePassText->text();
-
-    memset(sKeyID, 0x00, sizeof(sKeyID));
 
     if( strName.isEmpty() )
     {
@@ -305,8 +302,7 @@ void MakeReqDlg::accept()
     }
 
     JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
-    JS_PKI_getPublicKeyValue( &binPubKey, &binPubVal );
-    JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
+    JS_PKI_getPublicKeyValue( &binPubKey, &binKeyID );
 
     if( mUseExtensionCheck->isChecked() && cert_profile_list_.size() > 0 )
     {
@@ -323,12 +319,12 @@ void MakeReqDlg::accept()
 
             if( profileExt.getSN() == JS_PKI_ExtNameSKI )
             {
-                profileExt.setValue( sKeyID );
+                profileExt.setValue( getHexString( &binKeyID ) );
             }
             else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
             {
                 /* SelfSign 경우 KeyID 만 설정. */
-                QString strVal = QString( "KEYID$%1").arg( sKeyID );
+                QString strVal = QString( "KEYID$%1").arg( getHexString( &binKeyID ) );
                 profileExt.setValue( strVal );
                 /*
                 Need to support ISSUER and SERIAL
@@ -453,7 +449,8 @@ end :
     JS_BIN_reset( &binPri );
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binPubKey );
-    JS_BIN_reset( &binPubVal );
+    JS_BIN_reset( &binKeyID );
+
     if( pHexCSR ) JS_free( pHexCSR );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 

@@ -210,13 +210,10 @@ void MakeCertDlg::accept()
     char *pHexCert = NULL;
     bool bCA = false;
     BIN binPub = {0,0};
-    BIN binPubVal = {0,0};
+    BIN binKeyID = {0,0};
 
-    char sKeyID[128];
     char *pHexCRLDP = NULL;
     char *pCRLDP = NULL;
-
-    memset( sKeyID, 0x00, sizeof(sKeyID));
 
     CertRec madeCertRec;
     JExtensionInfoList *pCertExtInfoList = NULL;
@@ -326,8 +323,7 @@ void MakeCertDlg::accept()
     manApplet->log( QString( "PublicKey : %1").arg( sReqInfo.pPublicKey ));
 
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
-    JS_PKI_getPublicKeyValue( &binPub, &binPubVal );
-    JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
+    JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
 
     if( bSelf )
     {
@@ -338,7 +334,6 @@ void MakeCertDlg::accept()
             JS_PKI_resetReqInfo( &sReqInfo );
             JS_BIN_reset( &binCSR );
             JS_BIN_reset( &binPub );
-            JS_BIN_reset( &binPubVal );
 
             return;
         }
@@ -359,7 +354,6 @@ void MakeCertDlg::accept()
                 JS_PKI_resetReqInfo( &sReqInfo );
                 JS_BIN_reset( &binCSR );
                 JS_BIN_reset( &binPub );
-                JS_BIN_reset( &binPubVal );
 
                 return;
             }
@@ -483,7 +477,7 @@ void MakeCertDlg::accept()
         }
         else if( profileExt.getSN() == JS_PKI_ExtNameSKI )
         {
-            profileExt.setValue( sKeyID );
+            profileExt.setValue( getHexString( &binKeyID ) );
         }
         else if( profileExt.getSN() == JS_PKI_ExtNameCRLDP )
         {
@@ -531,7 +525,7 @@ void MakeCertDlg::accept()
             else
             {
                 /* SelfSign 경우 KeyID 만 설정. */
-                QString strVal = QString( "KEYID$%1").arg( sKeyID );
+                QString strVal = QString( "KEYID$%1").arg( getHexString( &binKeyID ) );
                 profileExt.setValue( strVal );
                 /*
                 Need to support ISSUER and SERIAL
@@ -657,7 +651,7 @@ void MakeCertDlg::accept()
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
     if( pCRLDP ) madeCertRec.setCRLDP( pCRLDP );
     JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
-    madeCertRec.setKeyHash( sKeyID );
+    madeCertRec.setKeyHash( getHexString( &binKeyID ) );
 
     dbMgr->addCertRec( madeCertRec );
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
@@ -690,7 +684,7 @@ end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pMadeExtInfoList ) JS_PKI_resetExtensionInfoList( &pMadeExtInfoList );
     JS_BIN_reset( &binPub );
-    JS_BIN_reset( &binPubVal );
+    JS_BIN_reset( &binKeyID );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pHexCRLDP ) JS_free( pHexCRLDP );
     if( pCRLDP ) JS_free( pCRLDP );
