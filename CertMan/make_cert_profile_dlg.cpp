@@ -1113,6 +1113,7 @@ void MakeCertProfileDlg::checkForCSR()
     mUseDaysCheck->setEnabled( !bVal );
     mUseCSRCheck->setEnabled( !bVal );
     mDaysLabel->setEnabled( !bVal );
+    mDaysTypeCombo->setEnabled( !bVal );
     mDaysText->setEnabled( !bVal );
     mSubjectDNText->setEnabled( !bVal );
 }

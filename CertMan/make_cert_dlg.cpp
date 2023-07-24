@@ -368,7 +368,7 @@ void MakeCertDlg::accept()
     time_t now_t = -1;
     long notBefore = -1;
     long notAfter = -1;
-     QList<ProfileExtRec> profileExtList;
+    QList<ProfileExtRec> profileExtList;
 
     KeyPairRec signKeyPair;
     dbMgr->getKeyPairRec( nSignKeyNum, signKeyPair );

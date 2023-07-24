@@ -10,6 +10,7 @@
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
 #include "js_pki_eddsa.h"
+#include "js_pki_ext.h"
 #include "settings_mgr.h"
 #include "commons.h"
 #include "pin_dlg.h"
@@ -239,6 +240,9 @@ void MakeReqDlg::accept()
     BIN binCSR = {0,0};
     BIN binPubKey = {0,0};
     char *pHexCSR = NULL;
+    char sKeyID[128];
+
+    BIN binPubVal = {0,0};
     KeyPairRec keyRec;
     ReqRec reqRec;
     JExtensionInfoList *pExtInfoList = NULL;
@@ -248,6 +252,8 @@ void MakeReqDlg::accept()
 
     QString strName = mNameText->text();
     QString strChallenge = mChallengePassText->text();
+
+    memset(sKeyID, 0x00, sizeof(sKeyID));
 
     if( strName.isEmpty() )
     {
@@ -297,10 +303,15 @@ void MakeReqDlg::accept()
         strParam = mOptionText->text();
     }
 
+    JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
+    JS_PKI_getPublicKeyValue( &binPubKey, &binPubVal );
+    JS_PKI_getKeyIdentifier( &binPubVal, sKeyID );
+
     if( mUseExtensionCheck->isChecked() )
     {
-        /* need to support extensions start */
-#if 0
+        CertProfileRec profileRec = cert_profile_list_.at( mProfileNameCombo->currentIndex() );
+        QList<ProfileExtRec> profileExtList;
+
         dbMgr->getCertProfileExtensionList( profileRec.getNum(), profileExtList );
         for( int i=0; i < profileExtList.size(); i++ )
         {
@@ -309,30 +320,9 @@ void MakeReqDlg::accept()
 
             memset( &sExtInfo, 0x00, sizeof(sExtInfo));
 
-            if( profileExt.getSN() == JS_PKI_ExtNameBC )
-            {
-                QString strVal = profileExt.getValue();
-                if( strVal.contains( "CA" ) == true )
-                    bCA = true;
-                else
-                    bCA = false;
-            }
-            else if( profileExt.getSN() == JS_PKI_ExtNameSKI )
+            if( profileExt.getSN() == JS_PKI_ExtNameSKI )
             {
                 profileExt.setValue( sKeyID );
-            }
-            else if( profileExt.getSN() == JS_PKI_ExtNameCRLDP )
-            {
-                char *pDN = NULL;
-                JS_PKI_getDP( profileExt.getValue().toStdString().c_str(), nSeq, &pDN );
-                profileExt.setValue( pDN );
-                if( pDN ) JS_free( pDN );
-            }
-            else if( profileExt.getSN() == JS_PKI_ExtNameSAN )
-            {
-                QString strAltName = profileExt.getValue();
-                QString strReplace = getReplacedValue( strAltName );
-                profileExt.setValue( strAltName );
             }
             else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
             {
@@ -351,7 +341,6 @@ void MakeReqDlg::accept()
             else
                 JS_PKI_appendExtensionInfoList( pExtInfoList, &sExtInfo );
         }
-#endif
     }
 
     nAlg = getKeyType( strAlg, strParam );
@@ -371,7 +360,6 @@ void MakeReqDlg::accept()
         }
 
         JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
-        JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
 
         manApplet->log( QString( "ID : %1").arg( getHexString(&binID)));
 
@@ -401,7 +389,6 @@ void MakeReqDlg::accept()
         BIN binID = {0,0};
 
         JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
-        JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
 
         ret = getKMIPConnection( manApplet->settingsMgr(), &pCTX, &pSSL, &pAuth );
 
@@ -469,6 +456,7 @@ end :
     JS_BIN_reset( &binPri );
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binPubKey );
+    JS_BIN_reset( &binPubVal );
     if( pHexCSR ) JS_free( pHexCSR );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
