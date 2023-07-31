@@ -19,7 +19,7 @@ PROJECT_VERSION = "1.2.5"
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 # DEFINES += JS_PRO
-# DEFINES += _AUTO_UPDATE
+DEFINES += _AUTO_UPDATE
 
 DEFINES += USE_SCEP
 DEFINES += USE_CMP
@@ -76,6 +76,7 @@ SOURCES += \
         pri_key_info_dlg.cpp \
         profile_ext_rec.cpp \
         pub_ldap_dlg.cpp \
+        remote_db_dlg.cpp \
         renew_cert_dlg.cpp \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
@@ -136,6 +137,7 @@ HEADERS += \
         pri_key_info_dlg.h \
         profile_ext_rec.h \
         pub_ldap_dlg.h \
+        remote_db_dlg.h \
         renew_cert_dlg.h \
         req_rec.h \
         revoke_cert_dlg.h \
@@ -179,6 +181,7 @@ FORMS += \
         pin_dlg.ui \
         pri_key_info_dlg.ui \
         pub_ldap_dlg.ui \
+        remote_db_dlg.ui \
         renew_cert_dlg.ui \
         revoke_cert_dlg.ui \
         server_status_dlg.ui \

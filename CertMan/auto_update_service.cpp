@@ -53,9 +53,9 @@ public:
         win_sparkle_set_registry_path(kWinSparkleRegPath);
         win_sparkle_set_appcast_url(getAppcastURI().toUtf8().data());
         win_sparkle_set_app_details(
-                    L"BerViewer",
-                    L"ASN Decoder",
-                    QString(STRINGIZE(BER_VIEWER_VERSION)).toStdWString().c_str() );
+                    L"CertMan",
+                    L"X.509 Certificate and CRL Manager",
+                    QString(STRINGIZE(CERTMAN_VERSION)).toStdWString().c_str() );
     }
 
     void start() {

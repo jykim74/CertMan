@@ -63,5 +63,6 @@
         <file>images/cert_revoked.png</file>
         <file>certman_mysql.sql</file>
         <file>images/csr_profile.png</file>
+        <file>images/remotedb.png</file>
     </qresource>
 </RCC>

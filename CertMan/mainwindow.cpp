@@ -70,6 +70,7 @@
 #include "pri_key_info_dlg.h"
 #include "renew_cert_dlg.h"
 #include "csr_info_dlg.h"
+#include "remote_db_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -232,6 +233,16 @@ void MainWindow::createActions()
     connect( openAct, &QAction::triggered, this, &MainWindow::open);
     fileMenu->addAction(openAct);
     fileToolBar->addAction(openAct);
+
+    if( manApplet->isLicense() )
+    {
+        const QIcon remotedbIcon = QIcon::fromTheme("document-remotedb", QIcon(":/images/remotedb.png"));
+        QAction *remoteDBAct = new QAction( remotedbIcon, tr("&Remote Database"), this );
+        remoteDBAct->setStatusTip(tr("Connect Remote Database"));
+        connect( remoteDBAct, &QAction::triggered, this, &MainWindow::remoteDB);
+        fileMenu->addAction(remoteDBAct);
+        fileToolBar->addAction(remoteDBAct);
+    }
 
     QAction* recentFileAct = NULL;
     for( auto i = 0; i < kMaxRecentFiles; ++i )
@@ -886,6 +897,18 @@ void MainWindow::open()
     if( fileName.length() < 1 ) return;
 
     int ret = openDB( fileName );
+}
+
+void MainWindow::remoteDB()
+{
+    if( manApplet->dbMgr()->isOpen() )
+    {
+        manApplet->warningBox( tr("Database has already opened"), this );
+        return;
+    }
+
+    RemoteDBDlg remoteDBDlg;
+    remoteDBDlg.exec();
 }
 
 void MainWindow::openRecent()

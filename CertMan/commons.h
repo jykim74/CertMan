@@ -120,6 +120,8 @@ static QStringList kPBEv2List = { "AES-128-CBC", "AES-256-CBC", "ARIA-128-CBC", 
 
 enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BER, JS_FILE_TYPE_DB, JS_FILE_TYPE_DLL };
 
+static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Connectivity(ODBC)" };
+
 QString findFile( QWidget *parent, int nType, const QString strPath );
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec );

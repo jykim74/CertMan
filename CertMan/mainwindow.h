@@ -108,6 +108,7 @@ public:
 public slots:
     void newFile();
     void open();
+    void remoteDB();
     void openRecent();
     void quit();
 
