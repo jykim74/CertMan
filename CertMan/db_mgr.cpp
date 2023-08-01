@@ -119,7 +119,7 @@ QString DBMgr::getSeqName( int nSeq, QString strTable, QString strColName )
     QString strName;
     if( nSeq < 0 ) return "Unknown";
 
-    QString strSQL = QString( "SELECT %1 FROM %2 WHERE SEQ = %1").arg( strColName ).arg( strTable ).arg(nSeq);
+    QString strSQL = QString( "SELECT %1 FROM %2 WHERE SEQ = %3").arg( strColName ).arg( strTable ).arg(nSeq);
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
