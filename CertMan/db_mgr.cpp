@@ -40,12 +40,56 @@ int DBMgr::open(const QString dbPath)
     if( db_.isOpen() == false )
         return -1;
 
+    db_type_ = "QSQLITE";
+    return 0;
+}
+
+int DBMgr::remoteOpen( const QString strType, const QString strHost, const QString strUserName, const QString strPasswd, const QString strDBName )
+{
+    int nPort = -1;
+    QString strDBHost;
+    QStringList hostList = strHost.split( ":" );
+
+    if( hostList.size() < 1 ) return -1;
+
+    strDBHost = hostList.at(0);
+    if( hostList.size() > 1 )
+        nPort = hostList.at(1).toInt();
+
+    if( nPort < 0 )
+    {
+        if( strType == "QMYSQL" || strType == "QMYSQL3" || strType == "QMARIADB" )
+            nPort = 3306;
+        else if( strType == "QPSQL" || strType == "QPSQL7" )
+            nPort = 5432;
+    }
+
+    if( nPort < 0 ) return -2;
+
+
+    db_ = QSqlDatabase::addDatabase( strType );
+    db_.setHostName( strDBHost );
+    db_.setPort( nPort );
+    db_.setDatabaseName( strDBName );
+    db_.setUserName( strUserName );
+    db_.setPassword( strPasswd );
+
+    if( !db_.open() )
+    {
+        return -3;
+    }
+
+    if( db_.isOpen() == false )
+        return -4;
+
+    db_type_ = strType;
     return 0;
 }
 
 void DBMgr::close()
 {
     db_.close();
+    db_type_.clear();
 }
 
 bool DBMgr::isOpen()

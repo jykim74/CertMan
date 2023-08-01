@@ -35,6 +35,7 @@ public:
     DBMgr();
 
     int open( const QString dbPath );
+    int remoteOpen( const QString strType, const QString strHost, const QString strUserName, const QString strPasswd, const QString strDBName );
     void close();
     bool isOpen();
 
@@ -207,7 +208,8 @@ private:
     int _getConfigList( QString strQuery, QList<ConfigRec>& configList );
 
 private:
-    QSqlDatabase   db_;
+    QSqlDatabase    db_;
+    QString         db_type_;
 };
 
 #endif // DB_MGR_H
