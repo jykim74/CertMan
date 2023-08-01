@@ -1848,6 +1848,14 @@
         <source>NotBefore</source>
         <translation></translation>
     </message>
+    <message>
+        <source>&amp;Remote Database</source>
+        <translation>원격 데이타베이스(&amp;R)</translation>
+    </message>
+    <message>
+        <source>Connect Remote Database</source>
+        <translation>원격 데이타베이스 연결</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -3434,6 +3442,61 @@
     <message>
         <source>DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)</source>
         <translation>DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
+    </message>
+</context>
+<context>
+    <name>RemoteDBDlg</name>
+    <message>
+        <source>Open Remote Database</source>
+        <translation>원격 데이타베이스 열기</translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation>사용자 이름</translation>
+    </message>
+    <message>
+        <source>Database Type</source>
+        <translation>데이타베이스 타입</translation>
+    </message>
+    <message>
+        <source>Password</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <source>Hostname</source>
+        <translation>호스트 이름</translation>
+    </message>
+    <message>
+        <source>Database Name</source>
+        <translation>데이타베이스 이름</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Connect</source>
+        <translation>연결</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>지우기</translation>
+    </message>
+    <message>
+        <source>fail to open database</source>
+        <translation>데이타 베이스 열기 실패</translation>
+    </message>
+    <message>
+        <source>Password is wrong</source>
+        <translation>암호가 틀렸습니다</translation>
+    </message>
+    <message>
+        <source>DB file is opened</source>
+        <translation>데이타 베이스 파일을 열었습니다</translation>
+    </message>
+    <message>
+        <source>Remote DataBase Dialog</source>
+        <translation>원격 데이타베이스 대화창</translation>
     </message>
 </context>
 <context>
