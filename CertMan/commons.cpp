@@ -2796,8 +2796,8 @@ int addAudit( DBMgr *dbMgr, int nKind, int nOP, QString strInfo )
 
     if( dbMgr == NULL ) return -1;
 
-    int nSeq = dbMgr->getSeq( "TB_AUDIT" );
-    nSeq++;
+    int nSeq = dbMgr->getNextVal( "TB_AUDIT" );
+//    nSeq++;
 
     auditRec.setSeq( nSeq );
     auditRec.setKind( nKind );
@@ -2928,8 +2928,8 @@ int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL )
         goto end;
     }
 
-    nSeq = dbMgr->getSeq( "TB_CRL" );
-    nSeq++;
+    nSeq = dbMgr->getNextVal( "TB_CRL" );
+//    nSeq++;
 
     JS_BIN_encodeHex( pCRL, &pHex );
 
@@ -2954,8 +2954,8 @@ int writeCSRDB( DBMgr *dbMgr, int nKeyNum, const char *pName, const char *pDN, c
     ReqRec  req;
     char *pHexCSR = NULL;
 
-    seq = dbMgr->getSeq( "TB_REQ" );
-    seq++;
+    seq = dbMgr->getNextVal( "TB_REQ" );
+    //seq++;
 
     JS_BIN_encodeHex( pCSR, &pHexCSR );
 
@@ -2987,8 +2987,8 @@ int writeKeyPairDB( DBMgr *dbMgr, const char *pName, const BIN *pPub, const BIN 
 
     KeyPairRec  keyPair;
 
-    seq = dbMgr->getSeq( "TB_KEY_PAIR" );
-    seq++;
+    seq = dbMgr->getNextVal( "TB_KEY_PAIR" );
+    //seq++;
 
     ret = JS_PKI_getPubKeyInfo( pPub, &nType, &nOption );
     if( ret != 0 ) return -1;

@@ -219,7 +219,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     ret = manApplet->dbMgr()->addKeyPairRec( keyPair );
     if( ret == 0 )
     {
-        int nSeq = manApplet->dbMgr()->getSeq( "TB_KEY_PAIR" );
+        int nSeq = manApplet->dbMgr()->getLastVal( "TB_KEY_PAIR" );
         keyPair.setNum( nSeq );
         if( manApplet->isPRO() ) addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
     }

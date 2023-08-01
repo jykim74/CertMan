@@ -409,7 +409,7 @@ void MakeCertDlg::accept()
     /* need to work more */
 
 
-    nSeq = dbMgr->getSeq( "TB_CERT" );
+    nSeq = dbMgr->getLastVal( "TB_CERT" );
 
     strSerial = QString("%1").arg(nSeq);
     strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
@@ -638,8 +638,8 @@ void MakeCertDlg::accept()
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 
-    nCertNum = dbMgr->getSeq( "TB_CERT" );
-    nCertNum++;
+    nCertNum = dbMgr->getNextVal( "TB_CERT" );
+//    nCertNum++;
     madeCertRec.setNum( nCertNum );
 
     madeCertRec.setRegTime( now_t );

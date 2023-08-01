@@ -1180,10 +1180,17 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     int i = 0;
     QSqlQuery query;
 
+    if( keyPair.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_KEY_PAIR" );
+        keyPair.setNum( nSeq );
+    }
+
     query.prepare( "INSERT INTO TB_KEY_PAIR "
                    "(NUM, REGTIME, ALGORITHM, NAME, PUBLIC, PRIVATE, PARAM, STATUS ) "
-                   "VALUES ( null, ?, ?, ?, ?, ?, ?, ? )" );
+                   "VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )" );
 
+    query.bindValue(i++, keyPair.getNum() );
     query.bindValue(i++, keyPair.getRegTime());
     query.bindValue(i++, keyPair.getAlg() );
     query.bindValue(i++, keyPair.getName() );
@@ -1208,10 +1215,17 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     int i = 0;
     QSqlQuery query;
 
+    if( reqRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_REQ" );
+        reqRec.setSeq( nSeq );
+    }
+
     query.prepare( "INSERT INTO TB_REQ "
                    "(SEQ, REGTIME, KEY_NUM, NAME, DN, CSR, HASH, STATUS ) "
-                   "VALUES( null, ?, ?, ?, ?, ?, ?, ? )" );
+                   "VALUES( ?, ?, ?, ?, ?, ?, ?, ? )" );
 
+    query.bindValue( i++, reqRec.getSeq() );
     query.bindValue( i++, reqRec.getRegTime() );
     query.bindValue( i++, reqRec.getKeyNum() );
     query.bindValue( i++, reqRec.getName() );
@@ -1721,6 +1735,7 @@ int DBMgr::_getConfigList( QString strQuery, QList<ConfigRec>& configList )
     return 0;
 }
 
+/*
 int DBMgr::getSeq( QString strTable )
 {
     int nSeq = -1;
@@ -1740,15 +1755,100 @@ int DBMgr::getSeq( QString strTable )
     query.finish();
     return nSeq;
 }
+*/
+
+int DBMgr::getNextVal( const QString strTable )
+{
+    int nSeq = -1;
+    int nPosSeq = 0;
+    QSqlQuery sqlQuery;
+
+    if( db_type_ == "QSQLITE" )
+    {
+        QSqlQuery subQuery;
+        subQuery.prepare( "UPDATE SQLITE_SEQUENCE SET SEQ=SEQ+1 WHERE NAME = ?");
+        subQuery.bindValue( 0, strTable );
+
+        if( subQuery.exec() == false )
+        {
+            subQuery.finish();
+            return -1;
+        }
+
+
+        sqlQuery.prepare( "SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME = ?" );
+        sqlQuery.bindValue( 0, strTable );
+        sqlQuery.exec();
+        nPosSeq = sqlQuery.record().indexOf( "SEQ" );
+    }
+    else
+    {
+        QString strSeqTable = "SEQ_";
+        strSeqTable += strTable;
+
+        sqlQuery.prepare( "SELECT nextval(?)" );
+        sqlQuery.bindValue( 0, strSeqTable );
+        sqlQuery.exec();
+    }
+
+    while( sqlQuery.next() )
+    {
+        nSeq = sqlQuery.value(nPosSeq).toInt();
+        break;
+    }
+
+    sqlQuery.finish();
+    return nSeq;
+}
+
+int DBMgr::getLastVal( const QString strTable )
+{
+    int nSeq = -1;
+    QSqlQuery sqlQuery;
+
+    if( db_type_ == "QSQLITE" )
+    {
+        sqlQuery.prepare( "SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME = ?");
+        sqlQuery.bindValue( 0, strTable );
+        sqlQuery.exec();
+    }
+    else
+    {
+        QString strSeqTable = "SEQ_";
+        strSeqTable += strTable;
+
+        sqlQuery.prepare( "SELECT lastval(?)" );
+        sqlQuery.bindValue( 0, strSeqTable );
+        sqlQuery.exec();
+    }
+
+    while( sqlQuery.next() )
+    {
+        nSeq = sqlQuery.value(0).toInt();
+        break;
+    }
+
+    sqlQuery.finish();
+    return nSeq;
+}
 
 int DBMgr::addCertRec( CertRec& certRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( certRec.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_CERT" );
+        certRec.setNum( nSeq );
+    }
+
+
     sqlQuery.prepare( "INSERT INTO TB_CERT "
                       "( NUM, REGTIME, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, certRec.getNum() );
     sqlQuery.bindValue( i++, certRec.getRegTime() );
     sqlQuery.bindValue( i++, certRec.getKeyNum() );
     sqlQuery.bindValue( i++, certRec.getUserNum() );
@@ -1882,10 +1982,18 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( crlRec.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_CRL" );
+        crlRec.setNum( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_CRL "
                       "( NUM, REGTIME, ISSUERNUM, SIGNALG, CRLDP, CRL ) "
-                      "VALUES( null,?, ?, ?, ?, ? );" );
+                      "VALUES( ?,?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, crlRec.getNum() );
     sqlQuery.bindValue( i++, crlRec.getRegTime() );
     sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
     sqlQuery.bindValue( i++, crlRec.getSignAlg() );
@@ -1976,15 +2084,24 @@ int DBMgr::getCRLProfileNextNum()
 
 int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
+
+    if( profileExtension.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_CERT_PROFILE_EXTENSION" );
+        profileExtension.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_CERT_PROFILE_EXTENSION "
                       "( SEQ, PROFILENUM, CRITICAL, SN, VALUE ) "
-                      "VALUES( null, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, profileExtension.getProfileNum() );
-    sqlQuery.bindValue( 1, profileExtension.isCritical() );
-    sqlQuery.bindValue( 2, profileExtension.getSN() );
-    sqlQuery.bindValue( 3, profileExtension.getValue() );
+    sqlQuery.bindValue( i++, profileExtension.getSeq() );
+    sqlQuery.bindValue( i++, profileExtension.getProfileNum() );
+    sqlQuery.bindValue( i++, profileExtension.isCritical() );
+    sqlQuery.bindValue( i++, profileExtension.getSN() );
+    sqlQuery.bindValue( i++, profileExtension.getValue() );
 
     sqlQuery.exec();
     return 0;
@@ -1992,15 +2109,24 @@ int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
 
 int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
+
+    if( profileExtension.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_CRL_PROFILE_EXTENSION" );
+        profileExtension.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_CRL_PROFILE_EXTENSION "
                       "( SEQ, PROFILENUM, CRITICAL, SN, VALUE ) "
-                      "VALUES( null, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, profileExtension.getProfileNum() );
-    sqlQuery.bindValue( 1, profileExtension.isCritical() );
-    sqlQuery.bindValue( 2, profileExtension.getSN() );
-    sqlQuery.bindValue( 3, profileExtension.getValue() );
+    sqlQuery.bindValue( i++, profileExtension.getSeq() );
+    sqlQuery.bindValue( i++, profileExtension.getProfileNum() );
+    sqlQuery.bindValue( i++, profileExtension.isCritical() );
+    sqlQuery.bindValue( i++, profileExtension.getSN() );
+    sqlQuery.bindValue( i++, profileExtension.getValue() );
 
     sqlQuery.exec();
     return 0;
@@ -2009,17 +2135,26 @@ int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
 
 int DBMgr::addRevokeRec( RevokeRec& revokeRec )
 {
+    int i = 0;
     QSqlQuery sqlQuery;
+
+    if( revokeRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_REVOKED" );
+        revokeRec.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_REVOKED "
                       "( SEQ, CERTNUM, ISSUERNUM, SERIAL, REVOKEDDATE, REASON, CRLDP ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
-    sqlQuery.bindValue( 0, revokeRec.getCertNum() );
-    sqlQuery.bindValue( 1, revokeRec.getIssuerNum() );
-    sqlQuery.bindValue( 2, revokeRec.getSerial() );
-    sqlQuery.bindValue( 3, revokeRec.getRevokeDate() );
-    sqlQuery.bindValue( 4, revokeRec.getReason() );
-    sqlQuery.bindValue( 5, revokeRec.getCRLDP() );
+    sqlQuery.bindValue( i++, revokeRec.getSeq() );
+    sqlQuery.bindValue( i++, revokeRec.getCertNum() );
+    sqlQuery.bindValue( i++, revokeRec.getIssuerNum() );
+    sqlQuery.bindValue( i++, revokeRec.getSerial() );
+    sqlQuery.bindValue( i++, revokeRec.getRevokeDate() );
+    sqlQuery.bindValue( i++, revokeRec.getReason() );
+    sqlQuery.bindValue( i++, revokeRec.getCRLDP() );
 
     sqlQuery.exec();
     return 0;
@@ -2029,10 +2164,18 @@ int DBMgr::addUserRec(UserRec &userRec)
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( userRec.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_USER" );
+        userRec.setNum( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_USER "
                       "( NUM, REGTIME, NAME, SSN, EMAIL, STATUS, REFNUM, AUTHCODE ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, userRec.getNum() );
     sqlQuery.bindValue( i++, userRec.getRegTime() );
     sqlQuery.bindValue( i++, userRec.getName() );
     sqlQuery.bindValue( i++, userRec.getSSN() );
@@ -2049,10 +2192,18 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( signerRec.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_SIGNER" );
+        signerRec.setNum( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_SIGNER "
                       "( NUM, REGTIME, TYPE, DN, DNHASH, STATUS, CERT, INFO ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, signerRec.getNum() );
     sqlQuery.bindValue( i++, signerRec.getRegTime() );
     sqlQuery.bindValue( i++, signerRec.getType() );
     sqlQuery.bindValue( i++, signerRec.getDN() );
@@ -2069,10 +2220,18 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( kmsRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal("TB_KMS");
+        kmsRec.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_KMS "
                       "( SEQ, REGTIME, STATE, TYPE, ALGORITHM, ID, INFO ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, kmsRec.getSeq() );
     sqlQuery.bindValue( i++, kmsRec.getRegTime() );
     sqlQuery.bindValue( i++, kmsRec.getState() );
     sqlQuery.bindValue( i++, kmsRec.getType() );
@@ -2088,10 +2247,18 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( auditRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_AUDIT" );
+        auditRec.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_AUDIT "
                       "( SEQ, REGTIME, KIND, OPERATION, USERNAME, INFO, MAC ) "
-                      "VALUES( null, ?, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, auditRec.getSeq() );
     sqlQuery.bindValue( i++, auditRec.getRegTime() );
     sqlQuery.bindValue( i++, auditRec.getKind() );
     sqlQuery.bindValue( i++, auditRec.getOperation() );
@@ -2107,10 +2274,18 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( adminRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_ADMIN" );
+        adminRec.setSeq( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_ADMIN "
                       "( SEQ, STATUS, TYPE, NAME, PASSWORD, EMAIL ) "
-                      "VALUES( null, ?, ?, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ?, ?, ? );" );
 
+    sqlQuery.bindValue( i++, adminRec.getSeq() );
     sqlQuery.bindValue( i++, adminRec.getStatus() );
     sqlQuery.bindValue( i++, adminRec.getType() );
     sqlQuery.bindValue( i++, adminRec.getName() );
@@ -2281,11 +2456,18 @@ int DBMgr::addConfigRec( ConfigRec& configRec )
 {
     int i = 0;
     QSqlQuery sqlQuery;
+
+    if( configRec.getNum() < 0 )
+    {
+        int nSeq = getNextVal( "TB_CONFIG" );
+        configRec.setNum( nSeq );
+    }
+
     sqlQuery.prepare( "INSERT INTO TB_CONFIG "
                       "( NUM, KIND, NAME, VALUE ) "
-                      "VALUES( null, ?, ?, ? );" );
+                      "VALUES( ?, ?, ?, ? );" );
 
-//    sqlQuery.bindValue( i++, configRec.getNum() );
+    sqlQuery.bindValue( i++, configRec.getNum() );
     sqlQuery.bindValue( i++, configRec.getKind() );
     sqlQuery.bindValue( i++, configRec.getName() );
     sqlQuery.bindValue( i++, configRec.getValue() );

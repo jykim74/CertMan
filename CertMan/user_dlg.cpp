@@ -76,7 +76,7 @@ void UserDlg::getRefNum()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    int nSeq = dbMgr->getSeq( "TB_USER" );
+    int nSeq = dbMgr->getLastVal( "TB_USER" );
 
     mRefNumText->setText( QString("%1").arg( nSeq));
 }

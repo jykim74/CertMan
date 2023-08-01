@@ -160,7 +160,9 @@ public:
     int modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec );
     int modAdminRec( int nSeq, AdminRec adminRec );
 
-    int getSeq( QString strTable );
+ //   int getSeq( QString strTable );
+    int getNextVal( const QString strTable );
+    int getLastVal( const QString strTable );
     int getCertProfileNextNum();
     int getCRLProfileNextNum();
 

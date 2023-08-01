@@ -361,8 +361,8 @@ void RenewCertDlg::accept()
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 
-    nRenewCertNum = dbMgr->getSeq( "TB_CERT" );
-    nRenewCertNum++;
+    nRenewCertNum = dbMgr->getNextVal( "TB_CERT" );
+//    nRenewCertNum++;
     madeCertRec.setNum( nRenewCertNum );
 
     madeCertRec.setRegTime( now_t );

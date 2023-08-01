@@ -244,7 +244,7 @@ void MakeCRLDlg::accept()
 
             if( strVal.contains( "auto" ) )
             {
-                int nSeq = dbMgr->getSeq( "TB_CRL" );
+                int nSeq = dbMgr->getLastVal( "TB_CRL" );
                 QString strSeq;
                 strSeq.sprintf( "%04x", nSeq );
                 profileExt.setValue( strSeq );
