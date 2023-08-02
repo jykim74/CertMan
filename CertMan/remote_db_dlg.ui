@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>220</height>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,16 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Database Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="mUsernameText"/>
+     </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
@@ -43,20 +53,16 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="mDBTypeCombo"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="mHostnameText"/>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Database Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="mDBTypeCombo"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Password</string>
        </property>
       </widget>
      </item>
@@ -67,23 +73,17 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Database Name</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="mHostnameText"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="mUsernameText"/>
-     </item>
      <item row="3" column="1">
       <widget class="QLineEdit" name="mPasswordText">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Password</string>
        </property>
       </widget>
      </item>

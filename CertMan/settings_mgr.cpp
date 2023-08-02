@@ -5,6 +5,8 @@
 namespace  {
     const char *kBehaviorGroup = "CertMan";
     const char *kSaveDBPath = "saveDBPath";
+    const char *kSaveRemoteInfo = "saveRemoteInfo";
+    const char *kRemoteInfo = "remoteInfo";
     const char *kServerStatus = "serverStatus";
     const char *kShowLogTab = "showLogTab";
     const char *kPKCS11Use = "PKCS11Use";
@@ -84,6 +86,49 @@ bool SettingsMgr::saveDBPath()
     settings.endGroup();
 
     return val;
+}
+
+void SettingsMgr::setSaveRemoteInfo( bool val )
+{
+    QSettings settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kSaveRemoteInfo, val );
+    settings.endGroup();
+}
+
+bool SettingsMgr::saveRemoteInfo()
+{
+    QSettings settings;
+
+    bool val;
+
+    settings.beginGroup(kBehaviorGroup);
+    val = settings.value( kSaveRemoteInfo, false ).toBool();
+    settings.endGroup();
+
+    return val;
+}
+
+void SettingsMgr::setRemoteInfo( QString strRemoteInfo )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kRemoteInfo, strRemoteInfo );
+    settings.endGroup();
+}
+
+QString SettingsMgr::remoteInfo()
+{
+    QString strInfo;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strInfo = settings.value( kRemoteInfo, "" ).toString();
+    settings.endGroup();
+
+    return strInfo;
 }
 
 void SettingsMgr::setServerStatus( bool val )

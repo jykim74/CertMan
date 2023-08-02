@@ -67,8 +67,12 @@ void SettingsDlg::updateSettings()
     mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
     mgr->setServerStatus( mServerStatusCheck->checkState() == Qt::Checked );
 
+
     if( manApplet->isLicense() )
     {
+        mgr->setSaveRemoteInfo( mSaveRemoteInfoCheck->checkState() == Qt::Checked );
+        if( mSaveDBPathCheck->isChecked() == false ) mgr->setRemoteInfo( "" );
+
         mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
         manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
     }
@@ -334,16 +338,24 @@ void SettingsDlg::initialize()
     state = mgr->saveDBPath() ? Qt::Checked : Qt::Unchecked;
     mSaveDBPathCheck->setCheckState(state);
 
+
+
     state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;
     mServerStatusCheck->setCheckState( state );
 
     if( manApplet->isLicense() )
     {
+        state = mgr->saveRemoteInfo() ? Qt::Checked : Qt::Unchecked;
+        mSaveRemoteInfoCheck->setCheckState( state );
+
         state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
         mShowLogTabCheck->setCheckState(state);
     }
     else
+    {
+        mSaveRemoteInfoCheck->hide();
         mShowLogTabCheck->hide();
+    }
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
     mUseP11Check->setCheckState( state );

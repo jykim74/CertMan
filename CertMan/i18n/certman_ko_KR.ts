@@ -4020,6 +4020,10 @@
         <source>PIN</source>
         <translation>핀값</translation>
     </message>
+    <message>
+        <source>Save Remote Information</source>
+        <translation>원격 정보 저장 하기</translation>
+    </message>
 </context>
 <context>
     <name>SignerDlg</name>

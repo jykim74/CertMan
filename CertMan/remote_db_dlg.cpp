@@ -7,6 +7,7 @@
 #include "login_dlg.h"
 #include "man_tray_icon.h"
 #include "mainwindow.h"
+#include "settings_mgr.h"
 
 RemoteDBDlg::RemoteDBDlg(QWidget *parent) :
     QDialog(parent)
@@ -28,8 +29,25 @@ RemoteDBDlg::~RemoteDBDlg()
 void RemoteDBDlg::initialize()
 {
     mDBTypeCombo->addItems( kRemoteDBList );
-    mHostnameText->setText( "localhost" );
-    mDBNameText->setText( "certman" );
+
+    if( manApplet->settingsMgr()->saveRemoteInfo() )
+    {
+        QString strInfo = manApplet->settingsMgr()->remoteInfo();
+        QStringList infoList = strInfo.split( ":" );
+
+        if( infoList.size() >= 4 )
+        {
+            mDBTypeCombo->setCurrentIndex( infoList.at(0).toInt() );
+            mHostnameText->setText( infoList.at(1) );
+            mUsernameText->setText( infoList.at(2) );
+//            mPasswordText->setText( infoList.at(3) );
+            mDBNameText->setText( infoList.at(3) );
+        }
+    }
+
+    if( mHostnameText->text().length() < 1 ) mHostnameText->setText( "localhost" );
+    if( mDBNameText->text().length() < 1 ) mDBNameText->setText( "certman" );
+
     mConnectBtn->setFocus();
 }
 
@@ -100,6 +118,17 @@ void RemoteDBDlg::clickConnect()
 
     QString strTitle = QString( "RemoteDB[%1] : %2").arg( strType ).arg( strHost );
     manApplet->mainWindow()->setTitle( strTitle );
+
+    if( manApplet->settingsMgr()->saveRemoteInfo() == true )
+    {
+        QString strInfo = QString( "%1:%2:%3:%4" )
+                .arg( mDBTypeCombo->currentIndex() )
+                .arg( mHostnameText->text() )
+                .arg( mUsernameText->text() )
+                .arg( mDBNameText->text() );
+
+        manApplet->settingsMgr()->setRemoteInfo( strInfo );
+    }
 
     QDialog::accept();
 }

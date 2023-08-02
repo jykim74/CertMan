@@ -13,6 +13,12 @@ public:
     void setSaveDBPath( bool val );
     bool saveDBPath();
 
+    void setSaveRemoteInfo( bool val );
+    bool saveRemoteInfo();
+
+    void setRemoteInfo( QString strRemoteInfo );
+    QString remoteInfo();
+
     void setServerStatus( bool val );
     bool serverStatus();
 
