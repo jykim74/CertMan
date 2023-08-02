@@ -66,5 +66,6 @@
         <file>images/remotedb.png</file>
         <file>images/logout.png</file>
         <file>images/setpass.png</file>
+        <file>base_insert.sql</file>
     </qresource>
 </RCC>
