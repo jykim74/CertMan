@@ -1856,6 +1856,46 @@
         <source>Connect Remote Database</source>
         <translation>원격 데이타베이스 연결</translation>
     </message>
+    <message>
+        <source>&amp;Logout</source>
+        <translation>로그아웃(&amp;L)</translation>
+    </message>
+    <message>
+        <source>Logout current db</source>
+        <translation>현재 데이타 베이스를 로그아웃</translation>
+    </message>
+    <message>
+        <source>&amp;SetPasswd</source>
+        <translation>패스워드 설정(&amp;S)</translation>
+    </message>
+    <message>
+        <source>Set PrivateKey Password</source>
+        <translation>개인키 패스워드 설정</translation>
+    </message>
+    <message>
+        <source>DB is not connected</source>
+        <translation>데이타 베이스가 연결 되지 않았습니다.</translation>
+    </message>
+    <message>
+        <source>Database is closed</source>
+        <translation>데이타베이스가 종료되었습니다.</translation>
+    </message>
+    <message>
+        <source>Database is not opened</source>
+        <translation>데이타베이스가 열려 있지 않습니다</translation>
+    </message>
+    <message>
+        <source>The PrivateKeys are already encrypted.</source>
+        <translation>개인키가 암호화 설정이 이미 되었습니다.</translation>
+    </message>
+    <message>
+        <source>There is no license</source>
+        <translation>라이센스가 없습니다</translation>
+    </message>
+    <message>
+        <source>KeyPair has to be empty</source>
+        <translation>키 쌍 정보가 없어야 합니다.</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>

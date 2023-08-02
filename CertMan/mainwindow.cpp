@@ -1696,6 +1696,8 @@ void MainWindow::setPasswd()
     }
 
     SetPassDlg setPassDlg;
+    setPassDlg.mUsePasswdCheck->setEnabled(false);
+
     if( setPassDlg.exec() != QDialog::Accepted )
         return;
 
