@@ -114,6 +114,7 @@ QString DBMgr::getNumName( int nNum, QString strTable, QString strColName )
     return strName;
 }
 
+/*
 QString DBMgr::getSeqName( int nSeq, QString strTable, QString strColName )
 {
     QString strName;
@@ -130,6 +131,7 @@ QString DBMgr::getSeqName( int nSeq, QString strTable, QString strColName )
 
     return strName;
 }
+*/
 
 int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 {
@@ -1769,56 +1771,49 @@ int DBMgr::getNextVal( const QString strTable )
     int nSeq = -1;
     int nPosSeq = 0;
     QSqlQuery sqlQuery;
+    QSqlQuery subQuery;
+    subQuery.prepare( "UPDATE TB_SEQ SET SEQ=SEQ+1 WHERE NAME = ?");
+    subQuery.bindValue( 0, strTable );
 
-    if( db_type_ == "QSQLITE" )
+    if( subQuery.exec() == false )
     {
-        QSqlQuery subQuery;
-        subQuery.prepare( "UPDATE SQLITE_SEQUENCE SET SEQ=SEQ+1 WHERE NAME = ?");
-        subQuery.bindValue( 0, strTable );
+        qDebug() << "UPDATE_" << sqlQuery.lastError().text();
+        subQuery.finish();
+        return -1;
+    }
 
-        if( subQuery.exec() == false )
-        {
-            subQuery.finish();
-            return -1;
-        }
+    sqlQuery.prepare( "SELECT SEQ FROM TB_SEQ WHERE NAME = ?" );
+    sqlQuery.bindValue( 0, strTable );
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError().text();
+        sqlQuery.finish();
+        return -1;
+    }
 
+    nPosSeq = sqlQuery.record().indexOf( "SEQ" );
 
-        sqlQuery.prepare( "SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME = ?" );
-        sqlQuery.bindValue( 0, strTable );
-        sqlQuery.exec();
-        nPosSeq = sqlQuery.record().indexOf( "SEQ" );
+    if( sqlQuery.next() )
+    {
+        nSeq = sqlQuery.value(nPosSeq).toInt();
+        sqlQuery.finish();
     }
     else
     {
-        QString strSeqTable = "SEQ_";
-        strSeqTable += strTable;
-
-        QString strSQL;
-
-        if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
-            strSQL = QString( "SELECT NEXT VALUE FOR %1" ).arg( strSeqTable );
-        else if( db_type_ == "QPSQL" || db_type_ == "QPSQL7" )
-            strSQL = QString( "SELECT NEXTVAL( '%1' )" ).arg( strSeqTable );
-        else
-            strSQL = QString( "SELECT NEXTVAL( %1 )" ).arg( strSeqTable );
-
-
-        sqlQuery.prepare( strSQL );
-        if( sqlQuery.exec() == false )
+        QSqlQuery inQuery;
+        inQuery.prepare( "INSERT INTO TB_SEQ ( SEQ, NAME ) VALUES( 100, ? )");
+        inQuery.bindValue( 0, strTable );
+        if( inQuery.exec() == false )
         {
-            sqlQuery.finish();
-            qDebug() << sqlQuery.lastError().text();
+            inQuery.finish();
+            qDebug() << inQuery.lastError().text();
             return -1;
         }
+
+        inQuery.finish();
+        nSeq = 100;
     }
 
-    while( sqlQuery.next() )
-    {
-        nSeq = sqlQuery.value(nPosSeq).toInt();
-        break;
-    }
-
-    sqlQuery.finish();
     return nSeq;
 }
 
@@ -1827,43 +1822,36 @@ int DBMgr::getLastVal( const QString strTable )
     int nSeq = -1;
     QSqlQuery sqlQuery;
 
-    if( db_type_ == "QSQLITE" )
+    sqlQuery.prepare( "SELECT SEQ FROM TB_SEQ WHERE NAME = ?");
+    sqlQuery.bindValue( 0, strTable );
+    if( sqlQuery.exec() == false )
     {
-        sqlQuery.prepare( "SELECT SEQ FROM SQLITE_SEQUENCE WHERE NAME = ?");
-        sqlQuery.bindValue( 0, strTable );
-        sqlQuery.exec();
+        qDebug() << sqlQuery.lastError().text();
+        sqlQuery.finish();
+        return -1;
+    }
+
+    if( sqlQuery.next() )
+    {
+        nSeq = sqlQuery.value(0).toInt();
+        sqlQuery.finish();
     }
     else
     {
-        QString strSeqTable = "SEQ_";
-        strSeqTable += strTable;
-
-        QString strSQL;
-
-        if( db_type_ == "QPSQL" || db_type_ == "QPSQL7" )
-            strSQL = QString( "SELECT last_value FROM %1").arg( strSeqTable );
-        else if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
-            strSQL = QString( "SELECT current_value FROM sys.sequences WHERE name = %1" ).arg(strSeqTable);
-        else
-            strSQL = QString( "SELECT lastval( %1 )" ).arg( strSeqTable );
-
-        sqlQuery.prepare( strSQL );
-
-        if( sqlQuery.exec() == false )
+        QSqlQuery inQuery;
+        inQuery.prepare( "INSERT INTO TB_SEQ ( SEQ, NAME ) VALUES( 100, ? )");
+        inQuery.bindValue( 0, strTable );
+        if( inQuery.exec() == false )
         {
-            sqlQuery.finish();
-            qDebug() << sqlQuery.lastError().text();
+            inQuery.finish();
+            qDebug() << inQuery.lastError().text();
             return -1;
         }
+
+        inQuery.finish();
+        nSeq = 100;
     }
 
-    while( sqlQuery.next() )
-    {
-        nSeq = sqlQuery.value(0).toInt();
-        break;
-    }
-
-    sqlQuery.finish();
     return nSeq;
 }
 

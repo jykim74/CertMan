@@ -40,7 +40,7 @@ public:
     bool isOpen();
 
     QString getNumName( int nNum, QString strTable, QString strColName );
-    QString getSeqName( int nSeq, QString strTable, QString strColName );
+//    QString getSeqName( int nSeq, QString strTable, QString strColName );
 
     int getCertCountAll();
     int getCRLCountAll();
