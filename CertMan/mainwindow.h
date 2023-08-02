@@ -127,6 +127,8 @@ public slots:
     void makeCRL();
     void renewCert();
     void revokeCertificate();
+
+
     void registerUser();
     void registerREGSigner();
     void registerOCSPSigner();
@@ -151,6 +153,7 @@ public slots:
     void exportCertificate();
     void exportCRL();
     void exportPFX();
+    void setPasswd();
 
     void deleteCertProfile();
     void deleteCRLProfile();

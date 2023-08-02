@@ -379,6 +379,16 @@ void MainWindow::createActions()
     dataMenu->addAction( getLDAPAct );
     dataToolBar->addAction( getLDAPAct );
 
+    if( manApplet->isLicense() )
+    {
+        const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
+        QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
+        connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
+        getLDAPAct->setStatusTip(tr("Set PrivateKey Password"));
+        dataMenu->addAction( setPassAct );
+        dataToolBar->addAction( setPassAct );
+    }
+
 
     if( manApplet->isPRO() )
     {
@@ -1658,6 +1668,48 @@ void MainWindow::exportPFX()
     exportDlg.exec();
 }
 
+void MainWindow::setPasswd()
+{
+    if( manApplet->dbMgr()->isOpen() == false )
+    {
+        manApplet->warningBox( tr( "Database is not opened" ), this );
+        return;
+    }
+
+    if( manApplet->isPasswd() == true )
+    {
+        manApplet->warningBox( tr( "The PrivateKeys are already encrypted."), this );
+        return;
+    }
+
+    if( manApplet->isLicense() == false )
+    {
+        manApplet->warningBox( tr( "There is no license"), this );
+        return;
+    }
+
+    int nKeyCount = manApplet->dbMgr()->getKeyPairCountAll();
+    if( nKeyCount > 0 )
+    {
+        manApplet->warningBox( tr( "KeyPair has to be empty"), this );
+        return;
+    }
+
+    SetPassDlg setPassDlg;
+    if( setPassDlg.exec() != QDialog::Accepted )
+        return;
+
+    QString strPass = setPassDlg.getPasswd();
+    ConfigRec config;
+    QString strHMAC = getPasswdHMAC( strPass );
+
+    config.setKind( JS_GEN_KIND_CERTMAN );
+    config.setName( "Passwd" );
+    config.setValue( strHMAC );
+
+    manApplet->dbMgr()->addConfigRec( config );
+    manApplet->setPasswdKey( strPass );
+}
 
 void MainWindow::publishLDAP()
 {

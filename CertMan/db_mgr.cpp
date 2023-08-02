@@ -60,6 +60,8 @@ int DBMgr::remoteOpen( const QString strType, const QString strHost, const QStri
             nPort = 3306;
         else if( strType == "QPSQL" || strType == "QPSQL7" )
             nPort = 5432;
+        else if( strType == "QODBC" || strType == "QODBC3" )
+            nPort = 1433;
     }
 
     if( nPort < 0 ) return -2;
