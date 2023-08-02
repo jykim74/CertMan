@@ -1777,7 +1777,7 @@ int DBMgr::getNextVal( const QString strTable )
 
     if( subQuery.exec() == false )
     {
-        qDebug() << "UPDATE_" << sqlQuery.lastError().text();
+        qDebug() << sqlQuery.lastError().text();
         subQuery.finish();
         return -1;
     }
