@@ -1797,6 +1797,8 @@ int DBMgr::getNextVal( const QString strTable )
 
         if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
             strSQL = QString( "SELECT NEXT VALUE FOR %1" ).arg( strSeqTable );
+        else if( db_type_ == "QPSQL" || db_type_ == "QPSQL7" )
+            strSQL = QString( "SELECT NEXTVAL( '%1' )" ).arg( strSeqTable );
         else
             strSQL = QString( "SELECT NEXTVAL( %1 )" ).arg( strSeqTable );
 
@@ -1839,7 +1841,7 @@ int DBMgr::getLastVal( const QString strTable )
         QString strSQL;
 
         if( db_type_ == "QPSQL" || db_type_ == "QPSQL7" )
-            strSQL = QString( "SELECT currval( %1 )").arg( strSeqTable );
+            strSQL = QString( "SELECT last_value FROM %1").arg( strSeqTable );
         else if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
             strSQL = QString( "SELECT current_value FROM sys.sequences WHERE name = %1" ).arg(strSeqTable);
         else
