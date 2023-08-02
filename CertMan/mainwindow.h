@@ -51,6 +51,7 @@ public:
 
     void initialize();
     void showWindow();
+    void setTitle( const QString strName );
 
     void logView( bool bShow = true );
 
@@ -110,6 +111,7 @@ public slots:
     void open();
     void remoteDB();
     void openRecent();
+    void logout();
     void quit();
 
     void newKey();
@@ -214,7 +216,7 @@ private slots:
     virtual void dropEvent( QDropEvent *event );
 
 private:
-    void setTitle( const QString strName );
+
     void setPath( const QString strFilePath );
 
     void adjustForCurrentFile( const QString& filePath );

@@ -244,6 +244,14 @@ void MainWindow::createActions()
         fileToolBar->addAction(remoteDBAct);
     }
 
+    const QIcon logoutIcon = QIcon::fromTheme("document-logout", QIcon(":/images/logout.png"));
+    QAction *logoutAct = new QAction( logoutIcon, tr("&Logout"), this );
+    logoutAct->setShortcut(QKeySequence::Close);
+    logoutAct->setStatusTip(tr("Logout current db"));
+    connect( logoutAct, &QAction::triggered, this, &MainWindow::logout);
+    fileMenu->addAction(logoutAct);
+    fileToolBar->addAction(logoutAct);
+
     QAction* recentFileAct = NULL;
     for( auto i = 0; i < kMaxRecentFiles; ++i )
     {
@@ -435,7 +443,8 @@ void MainWindow::createTableMenu()
 
 void MainWindow::removeAllRight()
 {
-    info_text_->setText("");
+    info_text_->clear();
+    log_text_->clear();
 
     int rowCnt = right_table_->rowCount();
 
@@ -908,7 +917,10 @@ void MainWindow::remoteDB()
     }
 
     RemoteDBDlg remoteDBDlg;
-    remoteDBDlg.exec();
+    if( remoteDBDlg.exec() == QDialog::Accepted )
+    {
+
+    }
 }
 
 void MainWindow::openRecent()
@@ -918,6 +930,23 @@ void MainWindow::openRecent()
         openDB( action->data().toString() );
 }
 
+void MainWindow::logout()
+{
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    if( dbMgr->isOpen() == false )
+    {
+        manApplet->warningBox( tr( "DB is not connected"), this );
+    }
+    else
+    {
+        dbMgr->close();
+        removeAllRight();
+        left_model_->clear();
+
+        manApplet->messageBox( tr( "Database is closed"), this );
+    }
+}
 
 void MainWindow::quit()
 {

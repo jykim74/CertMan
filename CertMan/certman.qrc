@@ -64,5 +64,6 @@
         <file>certman_mysql.sql</file>
         <file>images/csr_profile.png</file>
         <file>images/remotedb.png</file>
+        <file>images/logout.png</file>
     </qresource>
 </RCC>

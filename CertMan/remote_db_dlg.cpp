@@ -30,6 +30,7 @@ void RemoteDBDlg::initialize()
     mDBTypeCombo->addItems( kRemoteDBList );
     mHostnameText->setText( "localhost" );
     mDBNameText->setText( "certman" );
+    mConnectBtn->setFocus();
 }
 
 void RemoteDBDlg::clickClear()
@@ -96,6 +97,9 @@ void RemoteDBDlg::clickConnect()
 
     if( manApplet->trayIcon()->supportsMessages() )
         manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+
+    QString strTitle = QString( "RemoteDB[%1] : %2").arg( strType ).arg( strHost );
+    manApplet->mainWindow()->setTitle( strTitle );
 
     QDialog::accept();
 }
