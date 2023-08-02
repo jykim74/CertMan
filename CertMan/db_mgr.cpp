@@ -29,8 +29,6 @@ int DBMgr::open(const QString dbPath)
 {
     db_ = QSqlDatabase::addDatabase( "QSQLITE" );
     db_.setDatabaseName( dbPath );
-//    db_.setUserName( "username" );
-//    db_.setPassword( "password" );
 
     if( !db_.open() )
     {
@@ -1234,7 +1232,14 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     query.bindValue( i++, reqRec.getHash() );
     query.bindValue( i++, reqRec.getStatus() );
 
-    query.exec();
+    if( query.exec() == false )
+    {
+        query.finish();
+        qDebug() << query.lastError().text();
+        return  -1;
+    }
+
+    query.finish();
     return 0;
 }
 
@@ -1786,9 +1791,21 @@ int DBMgr::getNextVal( const QString strTable )
         QString strSeqTable = "SEQ_";
         strSeqTable += strTable;
 
-        sqlQuery.prepare( "SELECT nextval(?)" );
-        sqlQuery.bindValue( 0, strSeqTable );
-        sqlQuery.exec();
+        QString strSQL;
+
+        if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
+            strSQL = QString( "SELECT NEXT VALUE FOR %1" ).arg( strSeqTable );
+        else
+            strSQL = QString( "SELECT NEXTVAL( %1 )" ).arg( strSeqTable );
+
+
+        sqlQuery.prepare( strSQL );
+        if( sqlQuery.exec() == false )
+        {
+            sqlQuery.finish();
+            qDebug() << sqlQuery.lastError().text();
+            return -1;
+        }
     }
 
     while( sqlQuery.next() )
@@ -1817,9 +1834,23 @@ int DBMgr::getLastVal( const QString strTable )
         QString strSeqTable = "SEQ_";
         strSeqTable += strTable;
 
-        sqlQuery.prepare( "SELECT lastval(?)" );
-        sqlQuery.bindValue( 0, strSeqTable );
-        sqlQuery.exec();
+        QString strSQL;
+
+        if( db_type_ == "QPSQL" || db_type_ == "QPSQL7" )
+            strSQL = QString( "SELECT currval( %1 )").arg( strSeqTable );
+        else if( db_type_ == "QODBC" || db_type_ == "QODBC3" )
+            strSQL = QString( "SELECT current_value FROM sys.sequences WHERE name = %1" ).arg(strSeqTable);
+        else
+            strSQL = QString( "SELECT lastval( %1 )" ).arg( strSeqTable );
+
+        sqlQuery.prepare( strSQL );
+
+        if( sqlQuery.exec() == false )
+        {
+            sqlQuery.finish();
+            qDebug() << sqlQuery.lastError().text();
+            return -1;
+        }
     }
 
     while( sqlQuery.next() )

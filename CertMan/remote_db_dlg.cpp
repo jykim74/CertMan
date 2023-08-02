@@ -29,6 +29,7 @@ void RemoteDBDlg::initialize()
 {
     mDBTypeCombo->addItems( kRemoteDBList );
     mHostnameText->setText( "localhost" );
+    mDBNameText->setText( "certman" );
 }
 
 void RemoteDBDlg::clickClear()
