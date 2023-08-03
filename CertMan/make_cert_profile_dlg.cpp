@@ -261,6 +261,7 @@ void MakeCertProfileDlg::defaultProfile()
 
 void MakeCertProfileDlg::accept()
 {
+    int ret = 0;
     CertProfileRec certProfileRec;
     DBMgr* dbMgr = manApplet->dbMgr();
 
@@ -322,13 +323,16 @@ void MakeCertProfileDlg::accept()
 
     if( is_edit_ )
     {
-        dbMgr->modCertProfileRec( profile_num_, certProfileRec );
+        ret = dbMgr->modCertProfileRec( profile_num_, certProfileRec );
+        if( ret != 0 ) goto end;
+
         dbMgr->delCertProfileExtensionList( profile_num_ );
         nProfileNum = profile_num_;
     }
     else
     {
-        dbMgr->addCertProfileRec( certProfileRec );
+        ret = dbMgr->addCertProfileRec( certProfileRec );
+        if( ret != 0 ) goto end;
     }
 
     /* need to set extend fields here */
@@ -347,9 +351,17 @@ void MakeCertProfileDlg::accept()
     saveSANUse( nProfileNum );
     saveExtensionsUse( nProfileNum );
     /* ....... */
-
-    manApplet->mainWindow()->createRightCertProfileList();
-    QDialog::accept();
+end :
+    if( ret == 0 )
+    {
+        manApplet->mainWindow()->createRightCertProfileList();
+        QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to make certificate profile"), this );
+        QDialog::reject();
+    }
 }
 
 void MakeCertProfileDlg::changeDaysType( int index )

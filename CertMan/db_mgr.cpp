@@ -1932,7 +1932,14 @@ int DBMgr::modKeyPairStatus( int nNum, int nStatus )
     sqlQuery.bindValue( 0, nStatus );
     sqlQuery.bindValue( 1, nNum );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
@@ -1944,7 +1951,15 @@ int DBMgr::modReqStatus( int nSeq, int nStatus )
     sqlQuery.bindValue( 0, nStatus );
     sqlQuery.bindValue( 1, nSeq );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -1956,7 +1971,14 @@ int DBMgr::modCertStatus( int nNum, int nStatus )
     sqlQuery.bindValue( 0, nStatus );
     sqlQuery.bindValue( 1, nNum );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
@@ -1985,7 +2007,14 @@ int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
     sqlQuery.bindValue( i++, profileRec.getDNTemplate() );
     sqlQuery.bindValue( i++, nProfileNum );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
@@ -2008,7 +2037,14 @@ int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
     sqlQuery.bindValue( i++, profileRec.getHash() );
     sqlQuery.bindValue( i++, nProfileNum );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
@@ -2031,7 +2067,14 @@ int DBMgr::modAdminRec( int nSeq, AdminRec adminRec )
     sqlQuery.bindValue( i++, adminRec.getEmail() );
     sqlQuery.bindValue( i++, nSeq );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 

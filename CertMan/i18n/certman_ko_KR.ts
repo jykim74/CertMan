@@ -2273,6 +2273,10 @@
         <source>Too early time : %1</source>
         <translation>너무 이른 시간:%1</translation>
     </message>
+    <message>
+        <source>fail to make CRL profile</source>
+        <translation>CRL 프로파일 만들기에 실패하였습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
@@ -2925,6 +2929,10 @@
     <message>
         <source>For CSR</source>
         <translation>CSR 용</translation>
+    </message>
+    <message>
+        <source>fail to make certificate profile</source>
+        <translation>인증서 프로파일 만들기 실패</translation>
     </message>
 </context>
 <context>

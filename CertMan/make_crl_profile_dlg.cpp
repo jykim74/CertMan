@@ -212,6 +212,7 @@ void MakeCRLProfileDlg::defaultProfile()
 
 void MakeCRLProfileDlg::accept()
 {
+    int ret = 0;
     CRLProfileRec crlProfileRec;
     DBMgr* dbMgr = manApplet->dbMgr();
 
@@ -253,13 +254,16 @@ void MakeCRLProfileDlg::accept()
 
     if( is_edit_ )
     {
-        dbMgr->modCRLProfileRec( profile_num_, crlProfileRec );
+        ret = dbMgr->modCRLProfileRec( profile_num_, crlProfileRec );
+        if( ret != 0 ) goto end;
+
         dbMgr->delCRLProfileExtensionList( profile_num_ );
         nProfileNum = profile_num_;
     }
     else
     {
-        dbMgr->addCRLProfileRec( crlProfileRec );
+        ret = dbMgr->addCRLProfileRec( crlProfileRec );
+        if( ret != 0 ) goto end;
     }
 
 
@@ -272,9 +276,18 @@ void MakeCRLProfileDlg::accept()
     saveExtensionsUse( nProfileNum );
 
     /* ....... */
+end :
+    if( ret == 0 )
+    {
+        manApplet->mainWindow()->createRightCRLProfileList();
+        QDialog::accept();
+    }
+    else
 
-    manApplet->mainWindow()->createRightCRLProfileList();
-    QDialog::accept();
+    {
+        manApplet->warningBox( tr( "fail to make CRL profile"), this );
+        QDialog::reject();
+    }
 }
 
 void MakeCRLProfileDlg::changeValidDaysType(int index)
