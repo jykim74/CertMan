@@ -995,6 +995,14 @@ void MainWindow::makeRequest()
         return;
     }
 
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    if( dbMgr->getReqCount( 0 ) <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no valid request"), this );
+        return;
+    }
+
     MakeReqDlg makeReqDlg;
     makeReqDlg.exec();
 }
@@ -1226,7 +1234,17 @@ void MainWindow::revokeCertificate()
     }
 
     int row = right_table_->currentRow();
-    if( row < 0 ) return;
+    if( row < 0 )
+    {
+        manApplet->warningBox( tr( "There is no certificate to be selected" ), this );
+        return;
+    }
+
+    if( right_type_ != RightType::TYPE_CERTIFICATE )
+    {
+        manApplet->warningBox( tr( "You have to select certificate" ), this );
+        return;
+    }
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
@@ -1752,7 +1770,17 @@ void MainWindow::publishLDAP()
     }
 
     int row = right_table_->currentRow();
-    if( row < 0 ) return;
+    if( row < 0 )
+    {
+        manApplet->warningBox( tr( "A item is not selected"), this );
+        return;
+    }
+
+    if( right_type_ != RightType::TYPE_CERTIFICATE && right_type_ != RightType::TYPE_CRL )
+    {
+        manApplet->warningBox(tr("Invalid data type"), this );
+        return;
+    }
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();

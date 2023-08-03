@@ -1916,6 +1916,26 @@
         <source>There is no CRL profile</source>
         <translation>CRL 프로파일이 없습니다</translation>
     </message>
+    <message>
+        <source>There is no valid request</source>
+        <translation>요청서가 없습니다.</translation>
+    </message>
+    <message>
+        <source>There is no certificate to be selected</source>
+        <translation>선택 된 인증서가 없습니다.</translation>
+    </message>
+    <message>
+        <source>You have to select certificate</source>
+        <translation>인증서를 선택하세요</translation>
+    </message>
+    <message>
+        <source>A item is not selected</source>
+        <translation>아이템이 선택 되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>Invalid data type</source>
+        <translation>잘못 된 데이타 타입</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>

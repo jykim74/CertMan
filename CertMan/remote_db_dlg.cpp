@@ -29,6 +29,7 @@ RemoteDBDlg::~RemoteDBDlg()
 void RemoteDBDlg::initialize()
 {
     mDBTypeCombo->addItems( kRemoteDBList );
+    mConnectBtn->setDefault(true);
 
     if( manApplet->settingsMgr()->saveRemoteInfo() )
     {

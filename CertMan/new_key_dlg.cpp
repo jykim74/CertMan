@@ -41,6 +41,7 @@ void NewKeyDlg::initUI()
     mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
 
+
     if( manApplet->settingsMgr()->PKCS11Use() )
     {
         mMechCombo->addItem( kMechPKCS11_RSA );
