@@ -927,6 +927,11 @@ void MainWindow::open()
     if( fileName.length() < 1 ) return;
 
     int ret = openDB( fileName );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "fail to open database" ), this );
+        return;
+    }
 }
 
 void MainWindow::remoteDB()
@@ -1294,12 +1299,24 @@ void MainWindow::registerOCSPSigner()
 
 void MainWindow::makeConfig()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     ConfigDlg configDlg;
     configDlg.exec();
 }
 
 void MainWindow::editConfig()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
 

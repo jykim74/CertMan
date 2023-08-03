@@ -53,7 +53,8 @@ public:
     bool isLicense() { return  is_license_; };
 
     bool isPasswd() { return is_passwd_; };
-    BIN& passwdKey() { return pass_key_; };
+//    BIN& passwdKey() { return pass_key_; };
+    const QString priPasswd() { return pri_passwd_; };
     void setPasswdKey( const QString strPasswd );
 
     QString getEncPriHex( const BIN *pPri );
@@ -86,7 +87,8 @@ private:
     JS_LICENSE_INFO license_info_;
 
     bool is_passwd_;
-    BIN pass_key_;
+//    BIN pass_key_;
+    QString pri_passwd_;
     QString cur_file_;
 };
 

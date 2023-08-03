@@ -55,7 +55,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     memset( &license_info_, 0x00, sizeof(license_info_));
 
     is_passwd_ = false;
-    memset( &pass_key_, 0x00, sizeof(pass_key_));
+    //memset( &pass_key_, 0x00, sizeof(pass_key_));
+    pri_passwd_.clear();
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -318,27 +319,38 @@ bool ManApplet::detailedYesOrNoBox(const QString& msg, const QString& detailed_t
 
 void ManApplet::setPasswdKey( const QString strPasswd )
 {
+    /*
     BIN binSalt = {0,0};
 
     JS_GEN_getHMACKey( &binSalt );
     JS_BIN_reset( &pass_key_ );
     JS_PKI_PBKDF2( strPasswd.toStdString().c_str(), &binSalt, 1024, "SHA256", 16, &pass_key_ );
     JS_BIN_reset( &binSalt );
+    */
+    pri_passwd_ = strPasswd;
     is_passwd_ = true;
 }
 
 QString ManApplet::getEncPriHex( const BIN *pPri )
 {
+    int ret = 0;
     BIN binEnc = {0,0};
-    BIN binIV = {0,0};
+//    BIN binIV = {0,0};
+    int nKeyType = -1;
     QString strHex;
 
     if( is_passwd_ == false ) return "";
     if( pPri == NULL || pPri->nLen <= 0 ) return "";
 
-    JS_PKI_encryptData( "aes-128-cbc", 1, pPri, &binIV, &pass_key_, &binEnc );
+    //ret = JS_PKI_encryptData( "aes-128-cbc", 1, pPri, &binIV, &pass_key_, &binEnc );
+
+    nKeyType = JS_PKI_getPriKeyType( pPri );
+    ret = JS_PKI_encryptPrivateKey( nKeyType, -1, pri_passwd_.toStdString().c_str(), pPri, NULL, &binEnc );
+    if( ret != 0 ) goto end;
 
     strHex = getHexString( &binEnc );
+
+end :
     JS_BIN_reset( &binEnc );
 
     return strHex;
@@ -348,14 +360,15 @@ int ManApplet::getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri )
 {
     int ret = 0;
     BIN binEnc = {0,0};
-    BIN binIV = {0,0};
+//    BIN binIV = {0,0};
 
     if( is_passwd_ == false ) return -1;
 
     if( strEncPriHex.length() < 1 ) return -2;
 
     JS_BIN_decodeHex( strEncPriHex.toStdString().c_str(), &binEnc );
-    ret = JS_PKI_decryptData( "aes-128-cbc", 1, &binEnc, &binIV, &pass_key_, pDecPri );
+//    ret = JS_PKI_decryptData( "aes-128-cbc", 1, &binEnc, &binIV, &pass_key_, pDecPri );
+    ret = JS_PKI_decryptPrivateKey( pri_passwd_.toStdString().c_str(), &binEnc, NULL, pDecPri );
 
     JS_BIN_reset( &binEnc );
 
