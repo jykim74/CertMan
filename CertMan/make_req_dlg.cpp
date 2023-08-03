@@ -441,7 +441,9 @@ void MakeReqDlg::accept()
     reqRec.setKeyNum( keyRec.getNum() );
     reqRec.setStatus(0);
 
-    dbMgr->addReqRec( reqRec );
+    ret = dbMgr->addReqRec( reqRec );
+    if( ret != 0 ) goto end;
+
     dbMgr->modKeyPairStatus( keyRec.getNum(), JS_REC_STATUS_USED );
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
 
@@ -458,6 +460,11 @@ end :
     {
         manApplet->mainWindow()->createRightRequestList();
         QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to generate CSR" ), this );
+        QDialog::reject();
     }
 }
 

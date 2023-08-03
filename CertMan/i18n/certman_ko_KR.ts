@@ -2019,6 +2019,10 @@
         <source>There is no CRL profile</source>
         <translation>CRL 프로파일이 없습니다</translation>
     </message>
+    <message>
+        <source>fail to make CRL</source>
+        <translation>CSR 만들기에 실패 하였습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLPolicyDlg</name>
@@ -2439,6 +2443,10 @@
     <message>
         <source>You can not make more than %1 CA certificates in no license</source>
         <translation>라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>fail to make certificate</source>
+        <translation>인증서 만들기에 실패하였습니다</translation>
     </message>
 </context>
 <context>
@@ -3029,6 +3037,10 @@
         <source>Profile Name</source>
         <translation>프로파일 이름</translation>
     </message>
+    <message>
+        <source>fail to generate CSR</source>
+        <translation>요청서 만들기에 실패하였습니다</translation>
+    </message>
 </context>
 <context>
     <name>ManApplet</name>
@@ -3184,6 +3196,10 @@
     <message>
         <source>You can not make key pair more than %1 key pairs in no license</source>
         <translation>라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>fail to make key pair</source>
+        <translation>키 쌍 만들기 실패</translation>
     </message>
 </context>
 <context>

@@ -192,7 +192,9 @@ void NewKeyDlg::accept()
 
     keyPairRec.setStatus(JS_REC_STATUS_NOT_USED);
 
-    dbMgr->addKeyPairRec( keyPairRec );
+    ret = dbMgr->addKeyPairRec( keyPairRec );
+    if( ret != 0 ) goto end;
+
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
@@ -206,6 +208,11 @@ end:
     {
         manApplet->mainWindow()->createRightKeyPairList();
         QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to make key pair" ), this );
+        QDialog::reject();
     }
 }
 

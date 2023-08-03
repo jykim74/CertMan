@@ -377,7 +377,9 @@ void MakeCRLDlg::accept()
     madeCRLRec.setCRLDP( strCRLDP );
     madeCRLRec.setCRL( pHexCRL );
 
-    dbMgr->addCRLRec( madeCRLRec );
+    ret = dbMgr->addCRLRec( madeCRLRec );
+    if( ret != 0 ) goto end;
+
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
 
 end :
@@ -396,6 +398,11 @@ end :
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
         QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to make CRL" ), this );
+        QDialog::reject();
     }
 }
 

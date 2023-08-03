@@ -653,7 +653,9 @@ void MakeCertDlg::accept()
     JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
     madeCertRec.setKeyHash( getHexString( &binKeyID ) );
 
-    dbMgr->addCertRec( madeCertRec );
+    ret = dbMgr->addCertRec( madeCertRec );
+    if( ret != 0 ) goto end;
+
     dbMgr->modReqStatus( reqRec.getSeq(), 1 );
 
     if( manApplet->isPRO() )
@@ -693,6 +695,11 @@ end :
     {
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
         QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to make certificate" ), this );
+        QDialog::reject();
     }
 }
 

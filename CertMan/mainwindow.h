@@ -214,6 +214,7 @@ public slots:
 
     void clearLog();
 
+
 private slots:
     void showRightMenu( QPoint point );
 

@@ -8,8 +8,8 @@ CertRec::CertRec()
     m_nUserNum = -1;
     m_strCert = "";
     m_strSignAlg = "";
-    m_bSelf = false;
-    m_bCA = false;
+    m_nSelf = 0;
+    m_nCA = 0;
     m_nIssuerNum = -1;
     m_strSubjectDN = "";
     m_nStatus = -1;
@@ -49,12 +49,12 @@ void CertRec::setCert( QString strCert )
 
 void CertRec::setSelf( bool bSelf )
 {
-    m_bSelf = bSelf;
+    m_nSelf = bSelf;
 }
 
 void CertRec::setCA( bool bCA )
 {
-    m_bCA = bCA;
+    m_nCA = bCA;
 }
 
 void CertRec::setIssuerNum( int nIssuerNum )

@@ -13,8 +13,8 @@ private:
     int         m_nUserNum;
     QString     m_strSignAlg;
     QString     m_strCert;
-    bool        m_bSelf;
-    bool        m_bCA;
+    int         m_nSelf;
+    int         m_nCA;
     int         m_nIssuerNum;
     QString     m_strSubjectDN;
     int         m_nStatus;
@@ -32,8 +32,8 @@ public:
     int getUserNum() { return m_nUserNum; };
     QString getSignAlg() { return m_strSignAlg; };
     QString getCert() { return m_strCert; };
-    bool isSelf() { return m_bSelf; };
-    bool isCA() { return m_bCA; };
+    int isSelf() { return m_nSelf; };
+    int isCA() { return m_nCA; };
     int getIssuerNum() { return m_nIssuerNum; };
     QString getSubjectDN() { return m_strSubjectDN; };
     int getStatus() { return m_nStatus; };

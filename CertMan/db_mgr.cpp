@@ -1221,6 +1221,8 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     if( keyPair.getNum() < 0 )
     {
         int nSeq = getNextVal( "TB_KEY_PAIR" );
+        if( nSeq < 0 ) return -1;
+
         keyPair.setNum( nSeq );
     }
 
@@ -1237,14 +1239,14 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     query.bindValue(i++, keyPair.getParam() );
     query.bindValue(i++, keyPair.getStatus() );
 
-    bool res = query.exec();
-
-    if( res == false )
+    if( query.exec() == false )
     {
+        query.finish();
         qDebug() << query.lastError();
-        return -1;
+        return -2;
     }
 
+    query.finish();
     return 0;
 }
 
@@ -1256,6 +1258,8 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     if( reqRec.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_REQ" );
+        if( nSeq < 0 ) return -1;
+
         reqRec.setSeq( nSeq );
     }
 
@@ -1276,7 +1280,7 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     {
         query.finish();
         qDebug() << query.lastError().text();
-        return  -1;
+        return  -2;
     }
 
     query.finish();
@@ -1883,6 +1887,8 @@ int DBMgr::addCertRec( CertRec& certRec )
     if( certRec.getNum() < 0 )
     {
         int nSeq = getNextVal( "TB_CERT" );
+        if( nSeq < 0 ) return -1;
+
         certRec.setNum( nSeq );
     }
 
@@ -1907,9 +1913,17 @@ int DBMgr::addCertRec( CertRec& certRec )
     sqlQuery.bindValue( i++, certRec.getKeyHash() );
     sqlQuery.bindValue( i++, certRec.getCRLDP() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
+
 int DBMgr::modKeyPairStatus( int nNum, int nStatus )
 {
     QSqlQuery sqlQuery;
@@ -2029,6 +2043,7 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     if( crlRec.getNum() < 0 )
     {
         int nSeq = getNextVal( "TB_CRL" );
+        if( nSeq < 0 ) return -1;
         crlRec.setNum( nSeq );
     }
 
@@ -2043,7 +2058,15 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     sqlQuery.bindValue( i++, crlRec.getCRLDP() );
     sqlQuery.bindValue( i++, crlRec.getCRL() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2133,6 +2156,8 @@ int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
     if( profileExtension.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_CERT_PROFILE_EXTENSION" );
+        if( nSeq < 0 ) return -1;
+
         profileExtension.setSeq( nSeq );
     }
 
@@ -2146,7 +2171,15 @@ int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
     sqlQuery.bindValue( i++, profileExtension.getSN() );
     sqlQuery.bindValue( i++, profileExtension.getValue() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2158,6 +2191,8 @@ int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
     if( profileExtension.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_CRL_PROFILE_EXTENSION" );
+        if( nSeq < 0 ) return -1;
+
         profileExtension.setSeq( nSeq );
     }
 
@@ -2171,7 +2206,15 @@ int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
     sqlQuery.bindValue( i++, profileExtension.getSN() );
     sqlQuery.bindValue( i++, profileExtension.getValue() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2184,6 +2227,8 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     if( revokeRec.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_REVOKED" );
+        if( nSeq < 0 ) return -1;
+
         revokeRec.setSeq( nSeq );
     }
 
@@ -2199,7 +2244,15 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     sqlQuery.bindValue( i++, revokeRec.getReason() );
     sqlQuery.bindValue( i++, revokeRec.getCRLDP() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2211,6 +2264,8 @@ int DBMgr::addUserRec(UserRec &userRec)
     if( userRec.getNum() < 0 )
     {
         int nSeq = getNextVal( "TB_USER" );
+        if( nSeq < 0 ) return -1;
+
         userRec.setNum( nSeq );
     }
 
@@ -2227,7 +2282,14 @@ int DBMgr::addUserRec(UserRec &userRec)
     sqlQuery.bindValue( i++, userRec.getRefNum() );
     sqlQuery.bindValue( i++, userRec.getAuthCode() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
@@ -2239,6 +2301,8 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
     if( signerRec.getNum() < 0 )
     {
         int nSeq = getNextVal( "TB_SIGNER" );
+        if( nSeq < 0 ) return -1;
+
         signerRec.setNum( nSeq );
     }
 
@@ -2255,7 +2319,15 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
     sqlQuery.bindValue( i++, signerRec.getCert() );
     sqlQuery.bindValue( i++, signerRec.getInfo() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2267,6 +2339,8 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
     if( kmsRec.getSeq() < 0 )
     {
         int nSeq = getNextVal("TB_KMS");
+        if( nSeq < 0 ) return -1;
+
         kmsRec.setSeq( nSeq );
     }
 
@@ -2282,7 +2356,15 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
     sqlQuery.bindValue( i++, kmsRec.getID() );
     sqlQuery.bindValue( i++, kmsRec.getInfo() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2294,6 +2376,8 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
     if( auditRec.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_AUDIT" );
+        if( nSeq < 0 ) return -1;
+
         auditRec.setSeq( nSeq );
     }
 
@@ -2309,7 +2393,15 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
     sqlQuery.bindValue( i++, auditRec.getInfo() );
     sqlQuery.bindValue( i++, auditRec.getMAC() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+
     return 0;
 }
 
@@ -2321,6 +2413,8 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
     if( adminRec.getSeq() < 0 )
     {
         int nSeq = getNextVal( "TB_ADMIN" );
+        if( nSeq < 0 ) return -1;
+
         adminRec.setSeq( nSeq );
     }
 
@@ -2335,7 +2429,14 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
     sqlQuery.bindValue( i++, adminRec.getPassword() );
     sqlQuery.bindValue( i++, adminRec.getEmail() );
 
-    sqlQuery.exec();
+    if( sqlQuery.exec() == false )
+    {
+        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
     return 0;
 }
 
