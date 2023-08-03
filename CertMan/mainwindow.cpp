@@ -433,6 +433,17 @@ void MainWindow::createActions()
     }
 
     const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
+
+    QAction *bugIssueAct = new QAction( certManIcon, tr("Bug or Issue Report"), this);
+    connect( bugIssueAct, &QAction::triggered, this, &MainWindow::bugIssueReport);
+    helpMenu->addAction( bugIssueAct );
+    bugIssueAct->setStatusTip(tr("Bug or Issue Report"));
+
+    QAction *qnaAct = new QAction( certManIcon, tr("Q and A"), this);
+    connect( qnaAct, &QAction::triggered, this, &MainWindow::qnaDiscussion);
+    helpMenu->addAction( qnaAct );
+    qnaAct->setStatusTip(tr("Question and Answer"));
+
     QAction *aboutAct = new QAction( certManIcon, tr("&About CertMan"), this);
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
     helpMenu->addAction( aboutAct );
@@ -1110,9 +1121,19 @@ void MainWindow::copyCRLProfile()
 
 void MainWindow::makeCertificate()
 {
+
     if( manApplet->isDBOpen() == false )
     {
         manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    if( dbMgr->getCertProfileCount( JS_PKI_PROFILE_TYPE_CERT ) <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no certificate profile"), this );
         return;
     }
 
@@ -1149,6 +1170,15 @@ void MainWindow::makeCRL()
     if( manApplet->isDBOpen() == false )
     {
         manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    if( dbMgr->getCRLProfileCount() <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no CRL profile"), this );
         return;
     }
 
@@ -3154,6 +3184,18 @@ void MainWindow::expandItem( ManTreeItem *item )
     }
 
     left_tree_->expand( item->index() );
+}
+
+void MainWindow::bugIssueReport()
+{
+    QString link = "https://github.com/jykim74/CertMan/issues/new";
+    QDesktopServices::openUrl(QUrl(link));
+}
+
+void MainWindow::qnaDiscussion()
+{
+    QString link = "https://github.com/jykim74/CertMan/discussions/new?category=q-a";
+    QDesktopServices::openUrl(QUrl(link));
 }
 
 void MainWindow::addRootCA( CertRec& certRec )

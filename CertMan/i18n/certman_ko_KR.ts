@@ -1896,6 +1896,26 @@
         <source>KeyPair has to be empty</source>
         <translation>키 쌍 정보가 없어야 합니다.</translation>
     </message>
+    <message>
+        <source>Bug or Issue Report</source>
+        <translation>버그 또느 이슈 보고</translation>
+    </message>
+    <message>
+        <source>Q and A</source>
+        <translation>문의하기</translation>
+    </message>
+    <message>
+        <source>Question and Answer</source>
+        <translation>질문과 답변하기</translation>
+    </message>
+    <message>
+        <source>There is no certificate profile</source>
+        <translation>인증서 프로파일이 없습니다</translation>
+    </message>
+    <message>
+        <source>There is no CRL profile</source>
+        <translation>CRL 프로파일이 없습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -1994,6 +2014,10 @@
     <message>
         <source>You can not make CRL more than %1 CRLs in no license</source>
         <translation>라이센스가 없을 경우 %1 개 이상 CRL을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>There is no CRL profile</source>
+        <translation>CRL 프로파일이 없습니다</translation>
     </message>
 </context>
 <context>

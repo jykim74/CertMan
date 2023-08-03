@@ -413,6 +413,42 @@ int DBMgr::getTSPCount()
     return -1;
 }
 
+int DBMgr::getCertProfileCount( int nType )
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT_PROFILE" );
+
+    if( nType >= 0 )
+        strSQL += QString( " WHERE TYPE = %1" ).arg( nType );
+
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
+int DBMgr::getCRLProfileCount()
+{
+    int nCount = -1;
+
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CRL_PROFILE" );
+    QSqlQuery SQL(strSQL);
+
+    while( SQL.next() )
+    {
+        nCount = SQL.value(0).toInt();
+        return nCount;
+    }
+
+    return -1;
+}
+
 int DBMgr::getStatisticsCount( int nStartTime, int nEndTime, QString strTable )
 {
     int nCount = -1;
@@ -1769,7 +1805,7 @@ int DBMgr::getSeq( QString strTable )
 int DBMgr::getNextVal( const QString strTable )
 {
     int nSeq = -1;
-    int nPosSeq = 0;
+
     QSqlQuery sqlQuery;
     QSqlQuery subQuery;
     subQuery.prepare( "UPDATE TB_SEQ SET SEQ=SEQ+1 WHERE NAME = ?");
@@ -1791,28 +1827,8 @@ int DBMgr::getNextVal( const QString strTable )
         return -1;
     }
 
-    nPosSeq = sqlQuery.record().indexOf( "SEQ" );
-
-    if( sqlQuery.next() )
-    {
-        nSeq = sqlQuery.value(nPosSeq).toInt();
-        sqlQuery.finish();
-    }
-    else
-    {
-        QSqlQuery inQuery;
-        inQuery.prepare( "INSERT INTO TB_SEQ ( SEQ, NAME ) VALUES( 100, ? )");
-        inQuery.bindValue( 0, strTable );
-        if( inQuery.exec() == false )
-        {
-            inQuery.finish();
-            qDebug() << inQuery.lastError().text();
-            return -1;
-        }
-
-        inQuery.finish();
-        nSeq = 100;
-    }
+    sqlQuery.finish();
+    nSeq = getLastVal( strTable );
 
     return nSeq;
 }
@@ -1820,6 +1836,8 @@ int DBMgr::getNextVal( const QString strTable )
 int DBMgr::getLastVal( const QString strTable )
 {
     int nSeq = -1;
+    int nPosSeq = 0;
+
     QSqlQuery sqlQuery;
 
     sqlQuery.prepare( "SELECT SEQ FROM TB_SEQ WHERE NAME = ?");
@@ -1831,9 +1849,11 @@ int DBMgr::getLastVal( const QString strTable )
         return -1;
     }
 
+    nPosSeq = sqlQuery.record().indexOf( "SEQ" );
+
     if( sqlQuery.next() )
     {
-        nSeq = sqlQuery.value(0).toInt();
+        nSeq = sqlQuery.value(nPosSeq).toInt();
         sqlQuery.finish();
     }
     else

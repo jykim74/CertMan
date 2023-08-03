@@ -58,6 +58,8 @@ public:
     int getAuditCount();
     int getTSPCount();
     int getStatisticsCount( int nStartTime, int nEndTime, QString strTable );
+    int getCertProfileCount( int nType = -1 );
+    int getCRLProfileCount();
 
     int getCertSearchCount( int nIssuerNum, QString strTarget = nullptr, QString strWord = nullptr);
     int getCRLSearchCount( int nIssuerNum, QString strTarget = nullptr, QString strWord = nullptr );

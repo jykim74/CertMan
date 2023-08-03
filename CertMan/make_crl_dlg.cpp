@@ -450,14 +450,17 @@ void MakeCRLDlg::initialize()
 
     dbMgr->getCRLProfileList( crl_profile_list_ );
 
+    if( crl_profile_list_.size() <= 0 )
+    {
+        manApplet->warningBox( tr( "There is no CRL profile"), this );
+        return;
+    }
 
     for( int i = 0; i < crl_profile_list_.size(); i++ )
     {
         CRLProfileRec profileRec = crl_profile_list_.at(i);
         mProfileNameCombo->addItem( profileRec.getName() );
     }
-
-
 
     setRevokeList();
 }

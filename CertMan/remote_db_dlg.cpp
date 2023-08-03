@@ -39,9 +39,8 @@ void RemoteDBDlg::initialize()
         {
             mDBTypeCombo->setCurrentIndex( infoList.at(0).toInt() );
             mHostnameText->setText( infoList.at(1) );
-            mUsernameText->setText( infoList.at(2) );
-//            mPasswordText->setText( infoList.at(3) );
-            mDBNameText->setText( infoList.at(3) );
+            mDBNameText->setText( infoList.at(2) );
+            mUsernameText->setText( infoList.at(3) );
         }
     }
 
@@ -124,8 +123,8 @@ void RemoteDBDlg::clickConnect()
         QString strInfo = QString( "%1:%2:%3:%4" )
                 .arg( mDBTypeCombo->currentIndex() )
                 .arg( mHostnameText->text() )
-                .arg( mUsernameText->text() )
-                .arg( mDBNameText->text() );
+                .arg( mDBNameText->text() )
+                .arg( mUsernameText->text() );
 
         manApplet->settingsMgr()->setRemoteInfo( strInfo );
     }

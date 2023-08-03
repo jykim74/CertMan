@@ -36,17 +36,34 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_6">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Database Name</string>
+        <string>Hostname</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="mUsernameText"/>
      </item>
-     <item row="2" column="0">
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="mHostnameText"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Password</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Database Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Username</string>
@@ -56,38 +73,21 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="mDBTypeCombo"/>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="mHostnameText"/>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Database Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Hostname</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QLineEdit" name="mPasswordText">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_5">
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_6">
        <property name="text">
-        <string>Password</string>
+        <string>Database Name</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="2" column="1">
       <widget class="QLineEdit" name="mDBNameText"/>
      </item>
     </layout>
@@ -155,6 +155,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mDBTypeCombo</tabstop>
+  <tabstop>mHostnameText</tabstop>
+  <tabstop>mDBNameText</tabstop>
+  <tabstop>mUsernameText</tabstop>
+  <tabstop>mPasswordText</tabstop>
+  <tabstop>mClearBtn</tabstop>
+  <tabstop>mConnectBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
