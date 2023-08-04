@@ -842,6 +842,10 @@
         <source>Import is successful</source>
         <translation>가져오기 성공하였습니다.</translation>
     </message>
+    <message>
+        <source>fail to read : %1</source>
+        <translation>파일 읽기 실패 : %1</translation>
+    </message>
 </context>
 <context>
     <name>LoginDlg</name>
@@ -3069,6 +3073,10 @@
         <source>fail to generate CSR</source>
         <translation>요청서 만들기에 실패하였습니다</translation>
     </message>
+    <message>
+        <source>fail to generate key pair</source>
+        <translation>키 쌍 생성에 실패 하였습니다</translation>
+    </message>
 </context>
 <context>
     <name>ManApplet</name>
@@ -3688,6 +3696,10 @@
     <message>
         <source>You can not make more than %1 selfsign certificate in no license</source>
         <translation>라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
+    </message>
+    <message>
+        <source>fail to renew certificate</source>
+        <translation>인증서 갱신에 실패하였습니다</translation>
     </message>
 </context>
 <context>

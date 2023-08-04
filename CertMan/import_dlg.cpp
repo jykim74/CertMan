@@ -61,7 +61,12 @@ void ImportDlg::accept()
     }
 
     BIN binSrc = {0,0};
-    JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
+    ret = JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
+    if( ret <= 0 )
+    {
+        manApplet->warningBox( tr( "fail to read : %1").arg( strPass ), this );
+        return;
+    }
 
     if( nSelType == IMPORT_TYPE_PRIKEY || nSelType == IMPORT_TYPE_ENC_PRIKEY )
     {

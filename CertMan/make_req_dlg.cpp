@@ -111,6 +111,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     BIN binPub = {0,0};
     char *pPriHex = NULL;
     char *pPubHex = NULL;
+    int nSeq = 0;
 
 
     QString strAlg = mNewAlgorithmCombo->currentText();
@@ -207,7 +208,9 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
 
     JS_BIN_encodeHex( &binPub, &pPubHex );
+    nSeq = manApplet->dbMgr()->getNextVal( "TB_KEY_PAIR" );
 
+    keyPair.setNum( nSeq );
     keyPair.setAlg( strAlg );
     keyPair.setRegTime( time(NULL) );
     keyPair.setName( strName );
@@ -219,9 +222,11 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     ret = manApplet->dbMgr()->addKeyPairRec( keyPair );
     if( ret == 0 )
     {
-        int nSeq = manApplet->dbMgr()->getLastVal( "TB_KEY_PAIR" );
-        keyPair.setNum( nSeq );
         if( manApplet->isPRO() ) addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to generate key pair"), this );
     }
 
 end :

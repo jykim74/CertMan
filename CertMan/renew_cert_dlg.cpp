@@ -362,7 +362,6 @@ void RenewCertDlg::accept()
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 
     nRenewCertNum = dbMgr->getNextVal( "TB_CERT" );
-//    nRenewCertNum++;
     madeCertRec.setNum( nRenewCertNum );
 
     madeCertRec.setRegTime( now_t );
@@ -409,6 +408,11 @@ end :
     {
         manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
         QDialog::accept();
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to renew certificate" ), this );
+        QDialog::reject();
     }
 }
 

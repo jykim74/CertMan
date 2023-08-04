@@ -127,7 +127,7 @@ void MakeCRLDlg::accept()
     QList<ProfileExtRec> profileExtList;
     QList<RevokeRec> revokeList;
     QString strCRLDP = mCRLDPCombo->currentText();
-    int nSeq = dbMgr->getLastVal( "TB_CRL" );
+    int nSeq = dbMgr->getNextVal( "TB_CRL" );
 
     if( caKeyPair.getParam() == "SM2" )
     {
