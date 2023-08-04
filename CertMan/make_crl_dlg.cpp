@@ -127,6 +127,7 @@ void MakeCRLDlg::accept()
     QList<ProfileExtRec> profileExtList;
     QList<RevokeRec> revokeList;
     QString strCRLDP = mCRLDPCombo->currentText();
+    int nSeq = dbMgr->getLastVal( "TB_CRL" );
 
     if( caKeyPair.getParam() == "SM2" )
     {
@@ -201,6 +202,7 @@ void MakeCRLDlg::accept()
     /* need to set revoked certificate information */
 
 
+
     dbMgr->getCRLProfileExtensionList( profile.getNum(), profileExtList );
     for( int i=0; i < profileExtList.size(); i++ )
     {
@@ -244,7 +246,6 @@ void MakeCRLDlg::accept()
 
             if( strVal.contains( "auto" ) )
             {
-                int nSeq = dbMgr->getLastVal( "TB_CRL" );
                 QString strSeq;
                 strSeq.sprintf( "%04x", nSeq );
                 profileExt.setValue( strSeq );
@@ -371,6 +372,7 @@ void MakeCRLDlg::accept()
 
     JS_BIN_encodeHex( &binCRL, &pHexCRL );
 
+    madeCRLRec.setNum( nSeq );
     madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );

@@ -279,12 +279,15 @@ void MakeCertDlg::accept()
     }
     else
     {
-        int nSelfCount = dbMgr->getCertCount( -1 );
-        if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
+        if( manApplet->isLicense() == false )
         {
-            manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
+            int nSelfCount = dbMgr->getCertCount( -1 );
+            if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
+            {
+                manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
                                   .arg( JS_NO_LICENSE_SELF_LIMIT_COUNT ), this );
-            return;
+                return;
+            }
         }
     }
 
@@ -295,7 +298,6 @@ void MakeCertDlg::accept()
     int nSignKeyNum = -1;
     int nKeyType = -1;
     int nIssuerNum = -1;
-    int nCertNum = -1;
 
 
     ReqRec reqRec;
@@ -409,13 +411,12 @@ void MakeCertDlg::accept()
     /* need to work more */
 
 
-    nSeq = dbMgr->getLastVal( "TB_CERT" );
+    nSeq = dbMgr->getNextVal( "TB_CERT" );
 
     strSerial = QString("%1").arg(nSeq);
     strSignAlg = getSignAlg( signKeyPair.getAlg(), profileRec.getHash() );
 
     nKeyType = getKeyType( signKeyPair.getAlg(), signKeyPair.getParam() );
-//    QString strDN = mSubjectDNText->text();
     strDN = getRealSubjectDN();
     now_t = time(NULL);
 
@@ -638,9 +639,7 @@ void MakeCertDlg::accept()
     ba = sMadeCertInfo.pSubjectName;
     madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
 
-    nCertNum = dbMgr->getNextVal( "TB_CERT" );
-//    nCertNum++;
-    madeCertRec.setNum( nCertNum );
+    madeCertRec.setNum( nSeq );
 
     madeCertRec.setRegTime( now_t );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
