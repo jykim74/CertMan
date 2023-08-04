@@ -1242,7 +1242,7 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
     if( query.exec() == false )
     {
         query.finish();
-        qDebug() << query.lastError();
+//        qDebug() << query.lastError();
         return -2;
     }
 
@@ -1279,7 +1279,7 @@ int DBMgr::addReqRec( ReqRec& reqRec )
     if( query.exec() == false )
     {
         query.finish();
-        qDebug() << query.lastError().text();
+//        qDebug() << query.lastError().text();
         return  -2;
     }
 
@@ -1817,7 +1817,7 @@ int DBMgr::getNextVal( const QString strTable )
 
     if( subQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError().text();
+//        qDebug() << sqlQuery.lastError().text();
         subQuery.finish();
         return -1;
     }
@@ -1826,7 +1826,7 @@ int DBMgr::getNextVal( const QString strTable )
     sqlQuery.bindValue( 0, strTable );
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError().text();
+//        qDebug() << sqlQuery.lastError().text();
         sqlQuery.finish();
         return -1;
     }
@@ -1848,7 +1848,7 @@ int DBMgr::getLastVal( const QString strTable )
     sqlQuery.bindValue( 0, strTable );
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError().text();
+//        qDebug() << sqlQuery.lastError().text();
         sqlQuery.finish();
         return -1;
     }
@@ -1868,7 +1868,7 @@ int DBMgr::getLastVal( const QString strTable )
         if( inQuery.exec() == false )
         {
             inQuery.finish();
-            qDebug() << inQuery.lastError().text();
+//            qDebug() << inQuery.lastError().text();
             return -1;
         }
 
@@ -1915,7 +1915,7 @@ int DBMgr::addCertRec( CertRec& certRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -1935,7 +1935,7 @@ int DBMgr::modKeyPairStatus( int nNum, int nStatus )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -1954,7 +1954,7 @@ int DBMgr::modReqStatus( int nSeq, int nStatus )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -1974,7 +1974,7 @@ int DBMgr::modCertStatus( int nNum, int nStatus )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -2010,7 +2010,7 @@ int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -2040,7 +2040,7 @@ int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -2070,7 +2070,7 @@ int DBMgr::modAdminRec( int nSeq, AdminRec adminRec )
     if( sqlQuery.exec() == false )
     {
         sqlQuery.finish();
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         return -1;
     }
 
@@ -2103,7 +2103,7 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2216,7 +2216,7 @@ int DBMgr::addCertProfileExtension( ProfileExtRec& profileExtension )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2251,7 +2251,7 @@ int DBMgr::addCRLProfileExtension( ProfileExtRec& profileExtension )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2289,7 +2289,7 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2327,7 +2327,7 @@ int DBMgr::addUserRec(UserRec &userRec)
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2364,7 +2364,7 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2401,7 +2401,7 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2438,7 +2438,7 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }
@@ -2474,7 +2474,7 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
 
     if( sqlQuery.exec() == false )
     {
-        qDebug() << sqlQuery.lastError();
+//        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }

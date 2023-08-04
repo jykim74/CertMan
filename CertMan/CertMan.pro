@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "1.2.5"
+PROJECT_VERSION = "1.4.0"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -19,7 +19,7 @@ PROJECT_VERSION = "1.2.5"
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 # DEFINES += JS_PRO
-DEFINES += _AUTO_UPDATE
+# DEFINES += _AUTO_UPDATE
 
 DEFINES += USE_SCEP
 DEFINES += USE_CMP
@@ -246,10 +246,10 @@ win32 {
         INCLUDEPATH += "C:\msys64\mingw32\include"
 
         Debug {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_MinGW_32_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
             LIBS += -L"../../PKILib/lib/win32/debug/openssl3/lib" -lcrypto -lssl
         } else {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_MinGW_32_bit-Release/release" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
             LIBS += -L"../../PKILib/lib/win32/openssl3/lib" -lcrypto -lssl
         }
 
@@ -261,10 +261,10 @@ win32 {
         INCLUDEPATH += "C:\msys64\mingw64\include"
 
         Debug {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug/debug" -lPKILib
             LIBS += -L"../../PKILib/lib/win64/debug/openssl3/lib64" -lcrypto -lssl
         } else {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_MinGW_64_bit-Release/release" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release/release" -lPKILib
             LIBS += -L"../../PKILib/lib/win64/openssl3/lib64" -lcrypto -lssl
         }
 
