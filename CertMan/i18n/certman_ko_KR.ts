@@ -1902,7 +1902,7 @@
     </message>
     <message>
         <source>Bug or Issue Report</source>
-        <translation>버그 또느 이슈 보고</translation>
+        <translation>버그 또는 이슈 보고</translation>
     </message>
     <message>
         <source>Q and A</source>
