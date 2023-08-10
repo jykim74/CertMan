@@ -67,5 +67,6 @@
         <file>images/logout.png</file>
         <file>images/setpass.png</file>
         <file>base_insert.sql</file>
+        <file>images/license.png</file>
     </qresource>
 </RCC>
