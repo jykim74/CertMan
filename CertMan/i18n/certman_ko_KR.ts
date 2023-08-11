@@ -848,6 +848,73 @@
     </message>
 </context>
 <context>
+    <name>LCNInfoDlg</name>
+    <message>
+        <source>License Information Dialog</source>
+        <translation>라이선스 정보 창</translation>
+    </message>
+    <message>
+        <source>License Information</source>
+        <translation>라이센스 정보</translation>
+    </message>
+    <message>
+        <source>Current License</source>
+        <translation>현재 라이선스</translation>
+    </message>
+    <message>
+        <source>Issue Date</source>
+        <translation>발급 일자</translation>
+    </message>
+    <message>
+        <source>Email</source>
+        <translation>이메일</translation>
+    </message>
+    <message>
+        <source>Expire Date</source>
+        <translation>만료 일자</translation>
+    </message>
+    <message>
+        <source>Request License</source>
+        <translation>요청 라이선스</translation>
+    </message>
+    <message>
+        <source>License Key</source>
+        <translation>라이선스 키</translation>
+    </message>
+    <message>
+        <source>Get</source>
+        <translation>가겨오기</translation>
+    </message>
+    <message>
+        <source>Use License File</source>
+        <translation>파일 라이선스 사용</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Update</source>
+        <translation>갱신</translation>
+    </message>
+    <message>
+        <source>fail to get license:%1</source>
+        <translation>라이선스 가져오기 실패: %1</translation>
+    </message>
+    <message>
+        <source>fail to parse license:%1</source>
+        <translation>라이선스 파싱 실패: %1</translation>
+    </message>
+    <message>
+        <source>license is not valid:%1</source>
+        <translation>라이선스가 유효하지 않습니다: %1</translation>
+    </message>
+    <message>
+        <source>There is no current license</source>
+        <translation>현재 라이선스가 없습니다</translation>
+    </message>
+</context>
+<context>
     <name>LoginDlg</name>
     <message>
         <source>Login Password</source>
@@ -1939,6 +2006,14 @@
     <message>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
+    </message>
+    <message>
+        <source>License Information</source>
+        <translation>라이선스 정보</translation>
+    </message>
+    <message>
+        <source>You have changed license. Restart to apply it?</source>
+        <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
     </message>
 </context>
 <context>
