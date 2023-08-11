@@ -36,6 +36,7 @@
 #include "settings_mgr.h"
 #include "cert_info_dlg.h"
 #include "crl_info_dlg.h"
+#include "lcn_info_dlg.h"
 
 #include "man_applet.h"
 #include "db_mgr.h"
@@ -431,6 +432,12 @@ void MainWindow::createActions()
         helpMenu->addAction( clearAct );
         helpToolBar->addAction( clearAct );
     }
+
+    const QIcon lcnIcon = QIcon::fromTheme("berview-license", QIcon(":/images/license.png"));
+    QAction *lcnAct = new QAction( lcnIcon, tr("License Information"), this);
+    connect( lcnAct, &QAction::triggered, this, &MainWindow::licenseInfo);
+    helpMenu->addAction( lcnAct );
+    lcnAct->setStatusTip(tr("License Information"));
 
     const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
 
@@ -3229,6 +3236,16 @@ void MainWindow::expandItem( ManTreeItem *item )
     }
 
     left_tree_->expand( item->index() );
+}
+
+void MainWindow::licenseInfo()
+{
+    LCNInfoDlg lcnInfoDlg;
+    if( lcnInfoDlg.exec() == QDialog::Accepted )
+    {
+        if( manApplet->yesOrNoBox(tr("You have changed license. Restart to apply it?"), this, true))
+            manApplet->restartApp();
+    }
 }
 
 void MainWindow::bugIssueReport()

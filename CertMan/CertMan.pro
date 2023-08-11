@@ -58,6 +58,7 @@ SOURCES += \
         key_pair_rec.cpp \
         kms_attrib_rec.cpp \
         kms_rec.cpp \
+        lcn_info_dlg.cpp \
         login_dlg.cpp \
         main.cpp \
         mainwindow.cpp \
@@ -120,6 +121,7 @@ HEADERS += \
         key_pair_rec.h \
         kms_attrib_rec.h \
         kms_rec.h \
+        lcn_info_dlg.h \
         login_dlg.h \
         mainwindow.h \
         make_cert_dlg.h \
@@ -168,6 +170,7 @@ FORMS += \
         export_dlg.ui \
         get_ldap_dlg.ui \
         import_dlg.ui \
+        lcn_info_dlg.ui \
         login_dlg.ui \
         mainwindow.ui \
         make_cert_dlg.ui \

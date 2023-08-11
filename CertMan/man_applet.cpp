@@ -144,22 +144,34 @@ int ManApplet::checkLicense()
 {
     int ret = 0;
     time_t ntp_t = 0;
-    QFile resFile( ":/certman_license.lcn" );
-    resFile.open(QIODevice::ReadOnly);
-    QByteArray data = resFile.readAll();
-    resFile.close();
 
-    memcpy( &license_info_, data.data(), data.size() );
+    BIN binLCN = {0,0};
+    QString strLicense = settings_mgr_->getLicense();
+    JS_BIN_decodeHex( strLicense.toStdString().c_str(), &binLCN );
+
+    ret = JS_LCN_ParseBIN( &binLCN, &license_info_ );
+    if( ret != 0 )
+    {
+        QFile resFile( ":/certman_license.lcn" );
+        resFile.open(QIODevice::ReadOnly);
+        QByteArray data = resFile.readAll();
+        resFile.close();
+
+        if( data.size() != sizeof( JS_LICENSE_INFO ) ) goto end;
+
+        memcpy( &license_info_, data.data(), data.size() );
+    }
 
     ntp_t = JS_NET_clientNTP( JS_NTP_SERVER, JS_NTP_PORT, 2 );
     if( ntp_t <= 0 ) ntp_t = time(NULL);
 
     ret = JS_LCN_IsValid( &license_info_, LICENSE_PRODUCT_CERTMAN_NAME, NULL, ntp_t );
+
     if( ret == LICENSE_VALID )
         is_license_ = true;
-    else
-        is_license_ = false;
 
+end :
+    JS_BIN_reset( &binLCN );
     return is_license_;
 }
 

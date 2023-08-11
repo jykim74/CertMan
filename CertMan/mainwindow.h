@@ -172,6 +172,7 @@ public slots:
     void getLDAP();
     void expandMenu();
     void expandItem( ManTreeItem *item );
+    void licenseInfo();
     void bugIssueReport();
     void qnaDiscussion();
     void addRootCA( CertRec& certRec );
