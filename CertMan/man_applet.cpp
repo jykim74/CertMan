@@ -144,6 +144,7 @@ int ManApplet::checkLicense()
 {
     int ret = 0;
     time_t ntp_t = 0;
+    is_license_ = false;
 
     BIN binLCN = {0,0};
     QString strLicense = settings_mgr_->getLicense();
