@@ -208,7 +208,10 @@ void ManApplet::restartApp()
 
 QString ManApplet::getBrand()
 {
-    return QString::fromUtf8( "CertMan" );
+    if( is_license_ )
+        return QString::fromUtf8( "CertMan" );
+    else
+        return QString::fromUtf8( "CertManLite" );
 }
 
 QString ManApplet::getSetPath()
