@@ -90,7 +90,7 @@ void ExportDlg::accept()
             else
                 JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binData );
 
-            if( strAlg == kMechKMIP_RSA )
+            if( strAlg == kMechRSA )
                 nPEMType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
             else if( strAlg == kMechEC )
                 nPEMType = JS_PEM_TYPE_EC_PRIVATE_KEY;
