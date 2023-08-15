@@ -235,15 +235,12 @@ void MainWindow::createActions()
     fileMenu->addAction(openAct);
     fileToolBar->addAction(openAct);
 
-    if( manApplet->isLicense() )
-    {
-        const QIcon remotedbIcon = QIcon::fromTheme("document-remotedb", QIcon(":/images/remotedb.png"));
-        QAction *remoteDBAct = new QAction( remotedbIcon, tr("&Remote Database"), this );
-        remoteDBAct->setStatusTip(tr("Connect Remote Database"));
-        connect( remoteDBAct, &QAction::triggered, this, &MainWindow::remoteDB);
-        fileMenu->addAction(remoteDBAct);
-        fileToolBar->addAction(remoteDBAct);
-    }
+    const QIcon remotedbIcon = QIcon::fromTheme("document-remotedb", QIcon(":/images/remotedb.png"));
+    QAction *remoteDBAct = new QAction( remotedbIcon, tr("&Remote Database"), this );
+    remoteDBAct->setStatusTip(tr("Connect Remote Database"));
+    connect( remoteDBAct, &QAction::triggered, this, &MainWindow::remoteDB);
+    fileMenu->addAction(remoteDBAct);
+    fileToolBar->addAction(remoteDBAct);
 
     const QIcon logoutIcon = QIcon::fromTheme("document-logout", QIcon(":/images/logout.png"));
     QAction *logoutAct = new QAction( logoutIcon, tr("&Logout"), this );
