@@ -997,8 +997,14 @@ QString SettingsMgr::getFontFamily()
 {
     QSettings sets;
 
+#ifdef Q_OS_MAC
+    QString strDefault = "Monaco";
+#else
+    QString strDefault = "굴림체";
+#endif
+
     sets.beginGroup( kBehaviorGroup );
-    QString strFamily = sets.value( kFontFamily, "굴림체" ).toString();
+    QString strFamily = sets.value( kFontFamily, strDefault ).toString();
     sets.endGroup();
 
     return strFamily;
