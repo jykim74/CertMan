@@ -147,8 +147,13 @@ int ManApplet::checkLicense()
     is_license_ = false;
 
     BIN binLCN = {0,0};
+    BIN binEncLCN = {0,0};
+
+    QString strEmail = settings_mgr_->getEmail();
     QString strLicense = settings_mgr_->getLicense();
-    JS_BIN_decodeHex( strLicense.toStdString().c_str(), &binLCN );
+
+    JS_BIN_decodeHex( strLicense.toStdString().c_str(), &binEncLCN );
+    JS_LCN_dec( strEmail.toStdString().c_str(), &binEncLCN, &binLCN );
 
     ret = JS_LCN_ParseBIN( &binLCN, &license_info_ );
     if( ret != 0 )
@@ -173,6 +178,8 @@ int ManApplet::checkLicense()
 
 end :
     JS_BIN_reset( &binLCN );
+    JS_BIN_reset( &binEncLCN );
+
     return is_license_;
 }
 

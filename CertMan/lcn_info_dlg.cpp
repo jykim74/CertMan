@@ -88,6 +88,17 @@ void LCNInfoDlg::initialize()
     mUpdateBtn->setEnabled( mCurGroup->isEnabled() );
 }
 
+void LCNInfoDlg::settingsLCN( const QString strSID, const BIN *pLCN )
+{
+    BIN binEncLCN = {0,0};
+
+    JS_LCN_enc( strSID.toStdString().c_str(), pLCN, &binEncLCN );
+    manApplet->settingsMgr()->setEmail( strSID );
+    manApplet->settingsMgr()->setLicense( getHexString( &binEncLCN ));
+
+    JS_BIN_reset( &binEncLCN );
+}
+
 
 int LCNInfoDlg::getLCN( BIN *pLCN )
 {
@@ -238,12 +249,12 @@ void LCNInfoDlg::clickGet()
         goto end;
     }
 
-    manApplet->settingsMgr()->setEmail( sInfo.sUser );
-    manApplet->settingsMgr()->setLicense( getHexString( &binLCN ));
+    settingsLCN( QString(sInfo.sSID), &binLCN );
     ret = 0;
 
 end :
     JS_BIN_reset( &binLCN );
+
 
     if( ret == 0 )
     {
@@ -260,6 +271,7 @@ void LCNInfoDlg::clickUpdate()
     int ret = 0;
     BIN binLCN = {0,0};
     BIN binNewLCN = {0,0};
+
     JS_LICENSE_INFO sInfo;
     QString strErr;
 
@@ -287,8 +299,7 @@ void LCNInfoDlg::clickUpdate()
             goto end;
         }
 
-        manApplet->settingsMgr()->setEmail( sInfo.sUser );
-        manApplet->settingsMgr()->setLicense( getHexString( &binNewLCN ));
+        settingsLCN( QString(sInfo.sSID), &binNewLCN );
         ret = 0;
     }
     else
