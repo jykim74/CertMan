@@ -48,6 +48,7 @@ namespace  {
     const char *kDefaultHash = "defaultHash";
     const char *kDefaultECCParam = "defaultECCParam";
     const char *kFontFamily = "fontFamily";
+    const char *kMisc = "Misc";
     const char *kEmail = "email";
     const char *kLicense = "license";
 }
@@ -1013,7 +1014,7 @@ QString SettingsMgr::getFontFamily()
 void SettingsMgr::setEmail( const QString strEmail )
 {
     QSettings sets;
-    sets.beginGroup( kBehaviorGroup );
+    sets.beginGroup( kMisc );
     sets.setValue( kEmail, strEmail );
     sets.endGroup();
 }
@@ -1022,7 +1023,7 @@ QString SettingsMgr::getEmail()
 {
     QSettings sets;
 
-    sets.beginGroup( kBehaviorGroup );
+    sets.beginGroup( kMisc );
     QString strEmail = sets.value( kEmail, "" ).toString();
     sets.endGroup();
 
@@ -1032,7 +1033,7 @@ QString SettingsMgr::getEmail()
 void SettingsMgr::setLicense( const QString strLicense )
 {
     QSettings sets;
-    sets.beginGroup( kBehaviorGroup );
+    sets.beginGroup( kMisc );
     sets.setValue( kLicense, strLicense );
     sets.endGroup();
 }
@@ -1041,7 +1042,7 @@ QString SettingsMgr::getLicense()
 {
     QSettings sets;
 
-    sets.beginGroup( kBehaviorGroup );
+    sets.beginGroup( kMisc );
     QString strLicense = sets.value( kLicense, "" ).toString();
     sets.endGroup();
 
