@@ -45,7 +45,7 @@ public:
                                                QMessageBox::StandardButton default_btn);
     bool yesOrCancelBox(const QString& msg, QWidget *parent, bool default_ok);
 
-    QString getBrand();
+    static QString getBrand();
     void restartApp();
     QString getSetPath();
     bool isPRO() { return is_pro_; };
@@ -53,7 +53,6 @@ public:
     bool isLicense() { return  is_license_; };
 
     bool isPasswd() { return is_passwd_; };
-//    BIN& passwdKey() { return pass_key_; };
     const QString priPasswd() { return pri_passwd_; };
     void setPasswdKey( const QString strPasswd );
 

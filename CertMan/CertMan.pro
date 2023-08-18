@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "1.4.1"
+PROJECT_VERSION = "1.4.2"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -210,6 +210,7 @@ TRANSLATIONS += i18n/certman_ko_KR.ts
 INCLUDEPATH += "../../PKILib"
 
 mac {
+    QMAKE_INFO_PLIST = info.plist
     ICON = images/certman.icns
 
     QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks

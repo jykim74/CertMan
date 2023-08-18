@@ -68,5 +68,6 @@
         <file>images/setpass.png</file>
         <file>base_insert.sql</file>
         <file>images/license.png</file>
+        <file>Info.plist</file>
     </qresource>
 </RCC>
