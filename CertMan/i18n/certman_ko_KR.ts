@@ -921,6 +921,10 @@
         <source>fail to renew license:%1</source>
         <translation>라이선스 갱신 실패: %1</translation>
     </message>
+    <message>
+        <source>The current license is longer period</source>
+        <translation>현재 라이선스가 더 긴 기간의 라이선스 입니다</translation>
+    </message>
 </context>
 <context>
     <name>LoginDlg</name>
