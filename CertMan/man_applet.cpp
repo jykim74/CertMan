@@ -43,11 +43,12 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     is_pro_ = false;
 #endif
 
+    main_win_ = nullptr;
+    p11_ctx_ = NULL;
 
     tray_icon_ = new ManTrayIcon;
     settings_mgr_ = new SettingsMgr;
     db_mgr_ = new DBMgr;
-//    db_mgr_ = NULL;
 
     in_exit_ = false;
     is_license_ = false;
@@ -55,7 +56,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     memset( &license_info_, 0x00, sizeof(license_info_));
 
     is_passwd_ = false;
-    //memset( &pass_key_, 0x00, sizeof(pass_key_));
     pri_passwd_.clear();
 
 #ifdef _AUTO_UPDATE
@@ -71,12 +71,16 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 
 ManApplet::~ManApplet()
 {
-//    delete main_win_;
-
 #ifdef _AUTO_UPDATE
     AutoUpdateService::instance()->stop();
 #endif
 
+    if( main_win_ != nullptr ) delete main_win_;
+    if( tray_icon_ != nullptr ) delete tray_icon_;
+    if( settings_mgr_ != nullptr ) delete settings_mgr_;
+    if( db_mgr_ != nullptr ) delete db_mgr_;
+
+    if( p11_ctx_ != NULL ) JS_PKCS11_ReleaseLibrry( (JP11_CTX **)&p11_ctx_ );
 }
 
 int ManApplet::loadPKCS11()
