@@ -64,14 +64,12 @@ void SettingsDlg::updateSettings()
 {
     SettingsMgr *mgr = manApplet->settingsMgr();
 
-    mgr->setSaveDBPath( mSaveDBPathCheck->checkState() == Qt::Checked );
     mgr->setServerStatus( mServerStatusCheck->checkState() == Qt::Checked );
 
 
     if( manApplet->isLicense() )
     {
         mgr->setSaveRemoteInfo( mSaveRemoteInfoCheck->checkState() == Qt::Checked );
-        if( mSaveDBPathCheck->isChecked() == false ) mgr->setRemoteInfo( "" );
 
         mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
         manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
@@ -158,7 +156,7 @@ void SettingsDlg::checkKMIPUse()
 
 void SettingsDlg::findCACert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -167,7 +165,7 @@ void SettingsDlg::findCACert()
 
 void SettingsDlg::findCert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -176,7 +174,7 @@ void SettingsDlg::findCert()
 
 void SettingsDlg::findPrivateKey()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -188,7 +186,7 @@ void SettingsDlg::findP11Path()
 #ifdef Q_OS_MAC
     QString strPath = "/usr/local/lib";
 #else
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
 #endif
 
     QString fileName = findFile( this, JS_FILE_TYPE_DLL, strPath );
@@ -216,7 +214,7 @@ void SettingsDlg::checkOCSPAttachSign()
 
 void SettingsDlg::findOCSPSrvCert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -225,7 +223,7 @@ void SettingsDlg::findOCSPSrvCert()
 
 void SettingsDlg::findOCSPPri()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -234,7 +232,7 @@ void SettingsDlg::findOCSPPri()
 
 void SettingsDlg::findOCSPCert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -256,7 +254,7 @@ void SettingsDlg::checkCMPUse()
 
 void SettingsDlg::findCMPRootCACert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -265,7 +263,7 @@ void SettingsDlg::findCMPRootCACert()
 
 void SettingsDlg::findCMPCACert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -280,7 +278,7 @@ void SettingsDlg::checkTSPUse()
 
 void SettingsDlg::findTSPSrvCert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -307,7 +305,7 @@ void SettingsDlg::checkSCEPMutualAuth()
 
 void SettingsDlg::findSCEPPriKey()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -316,7 +314,7 @@ void SettingsDlg::findSCEPPriKey()
 
 void SettingsDlg::findSCEPCert()
 {
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->curFolder();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -334,10 +332,6 @@ void SettingsDlg::initialize()
     SettingsMgr *mgr = manApplet->settingsMgr();
 
     Qt::CheckState state;
-
-    state = mgr->saveDBPath() ? Qt::Checked : Qt::Unchecked;
-    mSaveDBPathCheck->setCheckState(state);
-
 
 
     state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;

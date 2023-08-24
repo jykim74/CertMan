@@ -4,7 +4,6 @@
 
 namespace  {
     const char *kBehaviorGroup = "CertMan";
-    const char *kSaveDBPath = "saveDBPath";
     const char *kSaveRemoteInfo = "saveRemoteInfo";
     const char *kRemoteInfo = "remoteInfo";
     const char *kServerStatus = "serverStatus";
@@ -67,28 +66,6 @@ void SettingsMgr::loadSettings()
 
     getDefaultHash();
     getDefaultECCParam();
-}
-
-void SettingsMgr::setSaveDBPath( bool val )
-{
-    QSettings settings;
-
-    settings.beginGroup( kBehaviorGroup );
-    settings.setValue( kSaveDBPath, val );
-    settings.endGroup();
-}
-
-bool SettingsMgr::saveDBPath()
-{
-    QSettings settings;
-
-    bool val;
-
-    settings.beginGroup(kBehaviorGroup);
-    val = settings.value( kSaveDBPath, false ).toBool();
-    settings.endGroup();
-
-    return val;
 }
 
 void SettingsMgr::setSaveRemoteInfo( bool val )

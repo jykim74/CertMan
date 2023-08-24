@@ -224,8 +224,6 @@ private slots:
 
 private:
 
-    void setPath( const QString strFilePath );
-
     void adjustForCurrentFile( const QString& filePath );
     void updateRecentActionList();
 

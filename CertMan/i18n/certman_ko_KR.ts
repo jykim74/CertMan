@@ -3933,7 +3933,7 @@
     </message>
     <message>
         <source>Save db path</source>
-        <translation>데이타 베이스 폴더 저장</translation>
+        <translation type="vanished">데이타 베이스 폴더 저장</translation>
     </message>
     <message>
         <source>ListCount</source>

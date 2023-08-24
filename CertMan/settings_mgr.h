@@ -10,9 +10,6 @@ class SettingsMgr : public QObject
 public:
     SettingsMgr( QObject *parent = nullptr );
 
-    void setSaveDBPath( bool val );
-    bool saveDBPath();
-
     void setSaveRemoteInfo( bool val );
     bool saveRemoteInfo();
 

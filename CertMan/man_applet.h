@@ -48,7 +48,10 @@ public:
     static QString getBrand();
     void restartApp();
     void exitApp( int nNum = 0 );
-    QString getSetPath();
+
+    QString getDBPath();
+    void setDBPath( const QString strPath );
+
     bool isPRO() { return is_pro_; };
     bool isDBOpen();
     bool isLicense() { return  is_license_; };
@@ -86,7 +89,6 @@ private:
     JS_LICENSE_INFO license_info_;
 
     bool is_passwd_;
-//    BIN pass_key_;
     QString pri_passwd_;
     QString cur_file_;
 };

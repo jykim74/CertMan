@@ -770,7 +770,7 @@ void MainWindow::newFile()
     resFile.close();
 
 
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->getDBPath();
     QString strType = QObject::tr("DB Files (*.db *db3 *.xdb);;All Files(*.*)");
     QString selectedFilter;
     QFileDialog::Options options;
@@ -815,7 +815,7 @@ void MainWindow::newFile()
         manApplet->setPasswdKey( strPass );
     }
 
-    setPath( fileName );
+    manApplet->setDBPath( fileName );
     setTitle( fileName );
     createTreeMenu();
 }
@@ -862,28 +862,15 @@ int MainWindow::openDB( const QString dbPath )
 
     if( ret == 0 )
     {
-        setPath( dbPath );
         setTitle( dbPath );
         adjustForCurrentFile( dbPath );
         if( manApplet->isPRO() ) addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_OPENDB, "" );
+        manApplet->setDBPath( dbPath );
     }
 
     return ret;
 }
 
-
-void MainWindow::setPath( const QString strFilePath )
-{
-    bool bSavePath = manApplet->settingsMgr()->saveDBPath();
-
-    if( bSavePath )
-    {
-        QSettings settings;
-        settings.beginGroup("mainwindow");
-        settings.setValue( "dbPath", strFilePath );
-        settings.endGroup();
-    }
-}
 
 void MainWindow::adjustForCurrentFile( const QString& filePath )
 {
@@ -936,7 +923,7 @@ void MainWindow::open()
         return;
     }
 
-    QString strPath = manApplet->getSetPath();
+    QString strPath = manApplet->getDBPath();
     QString fileName = findFile( this, JS_FILE_TYPE_DB, strPath );
     if( fileName.length() < 1 ) return;
 

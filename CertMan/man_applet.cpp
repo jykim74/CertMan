@@ -228,20 +228,24 @@ QString ManApplet::getBrand()
     return QString::fromUtf8( "CertMan" );
 }
 
-QString ManApplet::getSetPath()
+QString ManApplet::getDBPath()
 {
-    bool bSavePath = settings_mgr_->saveDBPath();
-    QString strPath = QDir::currentPath();
+    QString strPath;
+    QSettings settings;
 
-    if( bSavePath )
-    {
-        QSettings settings;
-        settings.beginGroup("mainwindow");
-        strPath = settings.value( "dbPath", "" ).toString();
-        settings.endGroup();
-    }
+    settings.beginGroup("mainwindow");
+    strPath = settings.value( "dbPath", "" ).toString();
+    settings.endGroup();
 
     return strPath;
+}
+
+void ManApplet::setDBPath( const QString strPath )
+{
+    QSettings settings;
+    settings.beginGroup("mainwindow");
+    settings.setValue( "dbPath", strPath );
+    settings.endGroup();
 }
 
 bool ManApplet::isDBOpen()
