@@ -100,7 +100,7 @@ void LCNInfoDlg::settingsLCN( const QString strSID, const BIN *pLCN )
 }
 
 
-int LCNInfoDlg::getLCN( BIN *pLCN )
+int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLCN )
 {
     int ret = 0;
     int status = 0;
@@ -109,21 +109,7 @@ int LCNInfoDlg::getLCN( BIN *pLCN )
     char *pRsp = NULL;
     JCC_NameVal sNameVal;
 
-    QString strEmail = mEmailText->text();
-    QString strKey = mKeyText->text();
     QString strProduct = manApplet->getBrand();
-
-    if( strEmail.length() < 1 )
-    {
-        manApplet->elog( "You have to input email" );
-        return -1;
-    }
-
-    if( strKey.length() < 1 )
-    {
-        manApplet->elog( "You have to input license key" );
-        return -2;
-    }
 
     memset( &sNameVal, 0x00, sizeof(sNameVal));
     strProduct.remove( "Lite" );
@@ -229,7 +215,22 @@ void LCNInfoDlg::clickGet()
     }
     else
     {
-        ret = getLCN( &binLCN );
+        QString strEmail = mEmailText->text();
+        QString strKey = mKeyText->text();
+
+        if( strEmail.length() < 1 )
+        {
+            manApplet->warningBox( tr("You have to input email"), this );
+            return;
+        }
+
+        if( strKey.length() < 1 )
+        {
+            manApplet->warningBox( "You have to input license key", this );
+            return;
+        }
+
+        ret = getLCN( strEmail, strKey, &binLCN );
         if( ret != 0 )
         {
             strErr = tr( "fail to get license:%1").arg( ret );
