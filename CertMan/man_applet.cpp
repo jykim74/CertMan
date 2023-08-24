@@ -50,7 +50,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     settings_mgr_ = new SettingsMgr;
     db_mgr_ = new DBMgr;
 
-    in_exit_ = false;
     is_license_ = false;
 
     memset( &license_info_, 0x00, sizeof(license_info_));
@@ -204,11 +203,8 @@ void ManApplet::info( const QString strLog, QColor cr )
 
 void ManApplet::restartApp()
 {
-    if( in_exit_ || QCoreApplication::closingDown() )
+    if( QCoreApplication::closingDown() )
         return;
-
-    in_exit_ = true;
-
 
     QStringList args = QApplication::arguments();
     args.removeFirst();
@@ -216,6 +212,16 @@ void ManApplet::restartApp()
     QProcess::startDetached(QApplication::applicationFilePath(), args);
     QCoreApplication::quit();
 }
+
+void ManApplet::exitApp( int nNum )
+{
+    if ( QCoreApplication::closingDown()) {
+        return;
+    }
+
+    QCoreApplication::exit(nNum);
+}
+
 
 QString ManApplet::getBrand()
 {

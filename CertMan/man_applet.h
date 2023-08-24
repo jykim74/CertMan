@@ -47,6 +47,7 @@ public:
 
     static QString getBrand();
     void restartApp();
+    void exitApp( int nNum = 0 );
     QString getSetPath();
     bool isPRO() { return is_pro_; };
     bool isDBOpen();
@@ -81,7 +82,6 @@ private:
     void*       p11_ctx_;
 
     bool is_pro_;
-    bool in_exit_;
     bool is_license_;
     JS_LICENSE_INFO license_info_;
 

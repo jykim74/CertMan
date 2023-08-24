@@ -990,7 +990,8 @@ void MainWindow::logout()
 
 void MainWindow::quit()
 {
-    QCoreApplication::exit();
+//    QCoreApplication::exit();
+    manApplet->exitApp();
 }
 
 
