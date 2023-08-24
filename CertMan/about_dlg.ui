@@ -23,7 +23,7 @@
       <widget class="QLabel" name="mVersionLabel">
        <property name="font">
         <font>
-         <family>Courier</family>
+         <family>Consolas</family>
          <pointsize>15</pointsize>
          <weight>75</weight>
          <bold>true</bold>
@@ -40,7 +40,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/certman.png</normaloff>:/images/certman.png</iconset>
        </property>
        <property name="iconSize">
@@ -113,8 +113,6 @@
   <tabstop>mCheckUpdateBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

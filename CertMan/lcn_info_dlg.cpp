@@ -226,7 +226,7 @@ void LCNInfoDlg::clickGet()
 
         if( strKey.length() < 1 )
         {
-            manApplet->warningBox( "You have to input license key", this );
+            manApplet->warningBox( tr("You have to input license key"), this );
             return;
         }
 
