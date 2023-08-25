@@ -15,10 +15,18 @@ void setQss( QApplication* app )
     strStyle = qss.readAll();
 
 #if defined( Q_OS_WIN32 )
-    QFile css( ":/qt-win.css" );
+    QFile css( "qt-win.css" );
+
+    if( QFileInfo(css).exists() == false )
+        css.setFileName( ":/qt-win.css" );
+
 #elif defined( Q_OS_MAC)
-    QFile css( ":/qt-mac.css" );
+    QFile css( "qt-mac.css" );
+
+    if( QFileInfo(css).exists() == false )
+        css.setFileName( ":/qt-mac.css" );
 #endif
+
     css.open( QFile::ReadOnly );
 
     if( css.size() > 0 )
