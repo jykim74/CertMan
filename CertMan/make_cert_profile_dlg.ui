@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>603</height>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,13 +17,16 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>4</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
+       <property name="spacing">
+        <number>5</number>
+       </property>
        <item row="7" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">

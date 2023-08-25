@@ -60,6 +60,9 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     mCertTab->setCurrentIndex(0);
 
     initialize();
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 MakeCertProfileDlg::~MakeCertProfileDlg()
