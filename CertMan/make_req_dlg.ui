@@ -532,6 +532,9 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mDNText</tabstop>
+  <tabstop>mChallengePassText</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>
   <tabstop>mKeyNameCombo</tabstop>
@@ -541,6 +544,9 @@
   <tabstop>mNewAlgorithmCombo</tabstop>
   <tabstop>mNewOptionCombo</tabstop>
   <tabstop>mNewExponentText</tabstop>
+  <tabstop>mUseExtensionCheck</tabstop>
+  <tabstop>mProfileNameCombo</tabstop>
+  <tabstop>mHashCombo</tabstop>
  </tabstops>
  <resources/>
  <connections>

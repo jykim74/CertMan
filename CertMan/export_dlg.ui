@@ -333,9 +333,14 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mPEMSaveCheck</tabstop>
+  <tabstop>mNameText</tabstop>
   <tabstop>mInfoText</tabstop>
   <tabstop>mPathText</tabstop>
   <tabstop>mFindBtn</tabstop>
+  <tabstop>mPBEVersionCombo</tabstop>
+  <tabstop>mPBEAlgCombo</tabstop>
+  <tabstop>mPasswordText</tabstop>
  </tabstops>
  <resources/>
  <connections>

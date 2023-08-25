@@ -40,7 +40,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/certman.png</normaloff>:/images/certman.png</iconset>
        </property>
        <property name="iconSize">
@@ -110,9 +110,12 @@
  </widget>
  <tabstops>
   <tabstop>pushButton</tabstop>
+  <tabstop>mAboutText</tabstop>
   <tabstop>mCheckUpdateBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>

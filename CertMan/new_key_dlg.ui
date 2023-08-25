@@ -207,7 +207,9 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mNameText</tabstop>
   <tabstop>mMechCombo</tabstop>
+  <tabstop>mExponentText</tabstop>
   <tabstop>mOptionCombo</tabstop>
  </tabstops>
  <resources/>

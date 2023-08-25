@@ -126,6 +126,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mUsePasswdCheck</tabstop>
+  <tabstop>mPasswdText</tabstop>
+  <tabstop>mPasswdConfirmText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

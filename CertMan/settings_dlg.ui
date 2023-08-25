@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -1135,9 +1135,20 @@
   <tabstop>mCheckLatestVersionCheck</tabstop>
   <tabstop>mLDAPHostText</tabstop>
   <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mBaseDNText</tabstop>
   <tabstop>mListCountCombo</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
+  <tabstop>mShowLogTabCheck</tabstop>
+  <tabstop>mDefaultHashCombo</tabstop>
+  <tabstop>mDefaultECCParamCombo</tabstop>
+  <tabstop>mFontFamilyCombo</tabstop>
+  <tabstop>mSaveRemoteInfoCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
+  <tabstop>mUseP11Check</tabstop>
+  <tabstop>mSlotIndexText</tabstop>
+  <tabstop>mLibraryP11PathText</tabstop>
+  <tabstop>mP11FindBtn</tabstop>
+  <tabstop>mPINText</tabstop>
   <tabstop>mUseKMIPCheck</tabstop>
   <tabstop>mKMIPHostText</tabstop>
   <tabstop>mKMIPPortText</tabstop>

@@ -97,6 +97,9 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mPasswdText</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

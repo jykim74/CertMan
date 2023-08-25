@@ -4,6 +4,7 @@ LoginDlg::LoginDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    mPasswdText->setFocus();
 }
 
 LoginDlg::~LoginDlg()

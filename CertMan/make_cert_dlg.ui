@@ -605,6 +605,18 @@
   <tabstop>mUseCSRFileCheck</tabstop>
   <tabstop>mCSRFilePathText</tabstop>
   <tabstop>mCSRFileFindBtn</tabstop>
+  <tabstop>mReqNameCombo</tabstop>
+  <tabstop>mAlgorithmText</tabstop>
+  <tabstop>mOptionText</tabstop>
+  <tabstop>mProfileNameCombo</tabstop>
+  <tabstop>mSubjectDNText</tabstop>
+  <tabstop>mSelfSignCheck</tabstop>
+  <tabstop>mIssuerNameCombo</tabstop>
+  <tabstop>mIssuerAlgorithmText</tabstop>
+  <tabstop>mIssuerOptionText</tabstop>
+  <tabstop>mUserNameText</tabstop>
+  <tabstop>mSSNText</tabstop>
+  <tabstop>mEmailText</tabstop>
  </tabstops>
  <resources/>
  <connections>

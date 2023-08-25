@@ -232,6 +232,8 @@
  </widget>
  <tabstops>
   <tabstop>mDataTypeCombo</tabstop>
+  <tabstop>mToKMSCheck</tabstop>
+  <tabstop>mToPKCS11Check</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mPasswordText</tabstop>
   <tabstop>mPathText</tabstop>

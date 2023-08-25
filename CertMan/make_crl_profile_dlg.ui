@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCRLTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -595,6 +595,7 @@
   <tabstop>mVersionCombo</tabstop>
   <tabstop>mHashCombo</tabstop>
   <tabstop>mUseFromNowCheck</tabstop>
+  <tabstop>mValidDaysTypeCombo</tabstop>
   <tabstop>mValidDaysText</tabstop>
   <tabstop>mLastUpdateDateTime</tabstop>
   <tabstop>mNextUpdateDateTime</tabstop>
