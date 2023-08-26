@@ -229,6 +229,10 @@ void MainWindow::createActions()
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     QToolBar *fileToolBar = addToolBar(tr("File"));
 
+#ifdef Q_OS_MAC
+        fileToolBar->setIconSize( QSize(24,24));
+#endif
+
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
     QAction *newAct = new QAction( newIcon, tr("&New"), this);
     newAct->setShortcut( QKeySequence::New);
@@ -287,6 +291,10 @@ void MainWindow::createActions()
 
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
+
+#ifdef Q_OS_MAC
+        toolsToolBar->setIconSize( QSize(24,24));
+#endif
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
@@ -366,6 +374,10 @@ void MainWindow::createActions()
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     QToolBar *dataToolBar = addToolBar(tr("Data"));
 
+#ifdef Q_OS_MAC
+    dataToolBar->setIconSize( QSize(24,24));
+#endif
+
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
     QAction* importDataAct = new QAction( diskIcon, tr("&ImportData"), this );
     connect( importDataAct, &QAction::triggered, this, &MainWindow::importData );
@@ -411,6 +423,10 @@ void MainWindow::createActions()
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
+
+#ifdef Q_OS_MAC
+    helpToolBar->setIconSize( QSize(24,24));
+#endif
 
     if( manApplet->isPRO() )
     {
