@@ -70,7 +70,7 @@ void SearchMenu::setupModel()
     layout->addWidget( search_btn_, 0, 7 );
 
 
-    layout->setContentsMargins(0,0,5,0);
+    layout->setContentsMargins(0,0,9,0);
 #ifdef Q_OS_MAC
 //    layout->setSpacing(5);
 //     layout->setMargin(0);

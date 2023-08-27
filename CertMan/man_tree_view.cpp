@@ -28,11 +28,14 @@ void ManTreeView::showContextMenu(QPoint point)
     if( item->getType() == CM_ITEM_TYPE_KEYPAIR )
     {
         menu.addAction(tr("New Key"), manApplet->mainWindow(), &MainWindow::newKey);
+        menu.addAction( tr("Import PriKey"), manApplet->mainWindow(), &MainWindow::importPriKey );
+        menu.addAction(tr("Import Enc PriKey"), manApplet->mainWindow(), &MainWindow::importEncPriKey );
     }
     else if( item->getType() == CM_ITEM_TYPE_REQUEST )
     {
         menu.addAction(tr("Make Request"), manApplet->mainWindow(), &MainWindow::makeRequest );
         menu.addAction(tr("Make Certificate"), manApplet->mainWindow(), &MainWindow::makeCertificate );
+        menu.addAction(tr("Import CSR"), manApplet->mainWindow(), &MainWindow::importCSR);
     }
     else if( item->getType() == CM_ITEM_TYPE_CERT_PROFILE )
     {

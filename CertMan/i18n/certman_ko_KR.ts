@@ -3281,6 +3281,18 @@
         <source>Make Config</source>
         <translation>설정 만들기</translation>
     </message>
+    <message>
+        <source>Import PriKey</source>
+        <translation>개인키 가져오기</translation>
+    </message>
+    <message>
+        <source>Import Enc PriKey</source>
+        <translation>암호화 개인키 가져오기</translation>
+    </message>
+    <message>
+        <source>Import CSR</source>
+        <translation>CSR 가져오기</translation>
+    </message>
 </context>
 <context>
     <name>NewKeyDlg</name>

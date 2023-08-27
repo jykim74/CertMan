@@ -146,6 +146,8 @@ public slots:
     void importCert();
     void importCRL();
     void importCSR();
+    void importPriKey();
+    void importEncPriKey();
     void exportPriKey();
     void exportEncPriKey();
     void exportPubKey();

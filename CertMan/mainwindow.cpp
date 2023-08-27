@@ -1517,6 +1517,7 @@ void MainWindow::importData()
     }
 
     ImportDlg importDlg;
+    importDlg.setType(IMPORT_TYPE_PRIKEY);
     importDlg.exec();
 }
 
@@ -1529,7 +1530,7 @@ void MainWindow::importCert()
     }
 
     ImportDlg importDlg;
-    importDlg.setType(3);
+    importDlg.setType(IMPORT_TYPE_CERT);
     importDlg.exec();
 }
 
@@ -1542,7 +1543,7 @@ void MainWindow::importCRL()
     }
 
     ImportDlg importDlg;
-    importDlg.setType(4);
+    importDlg.setType(IMPORT_TYPE_CRL);
     importDlg.exec();
 }
 
@@ -1555,7 +1556,33 @@ void MainWindow::importCSR()
     }
 
     ImportDlg importDlg;
-    importDlg.setType(2);
+    importDlg.setType(IMPORT_TYPE_CSR);
+    importDlg.exec();
+}
+
+void MainWindow::importPriKey()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    ImportDlg importDlg;
+    importDlg.setType(IMPORT_TYPE_PRIKEY);
+    importDlg.exec();
+}
+
+void MainWindow::importEncPriKey()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    ImportDlg importDlg;
+    importDlg.setType(IMPORT_TYPE_ENC_PRIKEY);
     importDlg.exec();
 }
 
