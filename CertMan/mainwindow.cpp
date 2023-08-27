@@ -160,7 +160,12 @@ void MainWindow::initialize()
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
     search_menu_ = new SearchMenu;
+
+#ifdef Q_OS_MAC
+    search_menu_->setMaximumHeight( 30 );
+#else
     search_menu_->setMaximumHeight( 20 );
+#endif
 
     left_tree_->setModel(left_model_);
 

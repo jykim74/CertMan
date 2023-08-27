@@ -48,14 +48,15 @@ void SearchMenu::setupModel()
 
 #ifdef Q_OS_MAC
     int btn_size = 20;
+    layout->setVerticalSpacing(0);
 
     left_end_btn_->setMinimumHeight(btn_size);
     left_btn_->setMinimumHeight(btn_size);
     right_btn_->setMinimumHeight(btn_size);
     right_end_btn_->setMinimumHeight(btn_size);
-    input_text_->setMinimumHeight(20);
-    cond_combo_->setMinimumHeight(20);
-    page_label_->setMinimumHeight(20);
+    input_text_->setMinimumHeight(btn_size);
+    cond_combo_->setMinimumHeight(btn_size);
+    page_label_->setMinimumHeight(btn_size);
     search_btn_->setMinimumHeight(btn_size);
 #endif
 
@@ -68,8 +69,12 @@ void SearchMenu::setupModel()
     layout->addWidget( input_text_, 0, 6 );
     layout->addWidget( search_btn_, 0, 7 );
 
-//    layout->setMargin(0);
+
     layout->setContentsMargins(0,0,5,0);
+#ifdef Q_OS_MAC
+//    layout->setSpacing(5);
+//     layout->setMargin(0);
+#endif
 
     setLayout( layout );
 }
