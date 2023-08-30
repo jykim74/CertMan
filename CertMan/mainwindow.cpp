@@ -235,7 +235,8 @@ void MainWindow::createActions()
     QToolBar *fileToolBar = addToolBar(tr("File"));
 
 #ifdef Q_OS_MAC
-        fileToolBar->setIconSize( QSize(24,24));
+    fileToolBar->setIconSize( QSize(24,24));
+    fileToolBar->layout()->setSpacing(0);
 #endif
 
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
@@ -298,7 +299,8 @@ void MainWindow::createActions()
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
 
 #ifdef Q_OS_MAC
-        toolsToolBar->setIconSize( QSize(24,24));
+    toolsToolBar->setIconSize( QSize(24,24));
+    toolsToolBar->layout()->setSpacing(0);
 #endif
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
@@ -381,6 +383,7 @@ void MainWindow::createActions()
 
 #ifdef Q_OS_MAC
     dataToolBar->setIconSize( QSize(24,24));
+    dataToolBar->layout()->setSpacing(0);
 #endif
 
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
@@ -431,6 +434,7 @@ void MainWindow::createActions()
 
 #ifdef Q_OS_MAC
     helpToolBar->setIconSize( QSize(24,24));
+    helpToolBar->layout()->setSpacing(0);
 #endif
 
     if( manApplet->isPRO() )
