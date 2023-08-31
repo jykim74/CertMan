@@ -421,6 +421,16 @@ void MakeCertDlg::accept()
     now_t = time(NULL);
 
 
+    if( nKeyType != sReqInfo.nKeyAlg )
+    {
+        bool bVal = manApplet->yesOrNoBox( tr( "Request KeyAlg[%1] and SignKey Alg[%2] are different. Continue?" )
+                                           .arg( sReqInfo.nKeyAlg ).arg( nKeyType), this, false );
+        if( bVal == false )
+        {
+            ret = -1;
+            goto end;
+        }
+    }
 
     if( profileRec.getNotBefore() == 0 )
     {

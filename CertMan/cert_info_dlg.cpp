@@ -351,7 +351,7 @@ void CertInfoDlg::clickCheck()
 
     ret = JS_PKI_checkValidPath( pChainList, NULL, &binCert );
 
-    QString strRes = QString( "Ret: %1").arg( ret );
+    QString strRes = QString( "%1 [%2]").arg( JS_PKI_checkValidPathMsg(ret) ).arg( ret );
     mCertStatusText->setPlainText( strRes );
 
     if( pChainList ) JS_BIN_resetList( &pChainList );
