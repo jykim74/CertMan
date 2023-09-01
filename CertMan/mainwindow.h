@@ -14,7 +14,8 @@
 class ManTreeView;
 class ManTreeModel;
 class ManTreeItem;
-class SearchMenu;
+// class SearchMenu;
+class SearchForm;
 class CertRec;
 class StatForm;
 
@@ -241,7 +242,8 @@ private:
     QTabWidget      *text_tab_;
     QTextEdit       *log_text_;
     QTextEdit       *info_text_;
-    SearchMenu      *search_menu_;
+//    SearchMenu      *search_menu_;
+    SearchForm      *search_form_;
 
     int             right_type_;
     ManTreeItem     *root_ca_;

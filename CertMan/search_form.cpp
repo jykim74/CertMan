@@ -1,0 +1,161 @@
+#include "search_form.h"
+#include "commons.h"
+#include "man_tree_item.h"
+#include "mainwindow.h"
+#include "man_applet.h"
+#include "settings_mgr.h"
+
+static QStringList  s_condBaseList = { "Page" };
+static QStringList  s_condCertList = { "Page", "SubjectDN", "Serial" };
+static QStringList  s_condCRLList = { "Page" };
+static QStringList  s_condKeyPairList = { "Page", "Name" };
+static QStringList  s_condReqList = { "Page", "Name" };
+static QStringList  s_condRevokeList = { "Page", "Serial" };
+static QStringList  s_condUserList = { "Page", "Name", "Email", "SSN" };
+
+SearchForm::SearchForm(QWidget *parent) :
+    QWidget(parent)
+{
+    setupUi(this);
+
+    mCondCombo->addItems( s_condCertList );
+
+    cur_page_ = 0;
+    total_count_ = 0;
+    left_type_ = -1;
+    left_num_ = -1;
+
+    connect( mLeftEndBtn, SIGNAL(clicked()), this, SLOT(leftEndPage()));
+    connect( mLeftBtn, SIGNAL(clicked()), this, SLOT(leftPage()));
+    connect( mRightEndBtn, SIGNAL(clicked()), this, SLOT(rightEndPage()));
+    connect( mRightBtn, SIGNAL(clicked()), this, SLOT(rightPage()));
+    connect( mSearchBtn, SIGNAL(clicked()), this, SLOT(search()));
+}
+
+SearchForm::~SearchForm()
+{
+
+}
+
+void SearchForm::setTotalCount( int nCount )
+{
+    total_count_ = nCount;
+}
+
+void SearchForm::setCurPage( int nPage )
+{
+   cur_page_ = nPage;
+}
+
+
+void SearchForm::setLeftType( int nType )
+{
+    left_type_ = nType;
+    setCondCombo();
+}
+
+void SearchForm::setLeftNum( int nNum )
+{
+    left_num_ = nNum;
+}
+
+void SearchForm::updatePageLabel()
+{
+    int nOffset = cur_page_ * manApplet->settingsMgr()->listCount();
+    int nEnd = nOffset + manApplet->mainWindow()->rightCount();
+
+    QString label = QString( "%1-%2 of %3 [%4p]" )
+            .arg( nOffset + 1 )
+            .arg( nEnd )
+            .arg( total_count_ )
+            .arg(cur_page_+1);
+
+    mPageLabel->setText( label );
+}
+
+void SearchForm::setCondCombo()
+{
+    mCondCombo->clear();
+    mInputText->clear();
+
+    if( left_type_ == CM_ITEM_TYPE_ROOTCA
+            || left_type_ == CM_ITEM_TYPE_IMPORT_CERT
+            || left_type_ == CM_ITEM_TYPE_CA
+            || left_type_ == CM_ITEM_TYPE_CERT
+            || left_type_ == CM_ITEM_TYPE_SUBCA )
+        mCondCombo->addItems( s_condCertList );
+    else if( left_type_ == CM_ITEM_TYPE_KEYPAIR )
+        mCondCombo->addItems( s_condKeyPairList );
+    else if( left_type_ == CM_ITEM_TYPE_REVOKE )
+        mCondCombo->addItems( s_condRevokeList );
+    else if( left_type_ == CM_ITEM_TYPE_REQUEST )
+        mCondCombo->addItems( s_condReqList );
+    else if( left_type_ == CM_ITEM_TYPE_USER  )
+        mCondCombo->addItems( s_condUserList );
+    else if( left_type_ == CM_ITEM_TYPE_CRL
+             || left_type_ == CM_ITEM_TYPE_IMPORT_CRL )
+        mCondCombo->addItems( s_condCRLList );
+    else
+        mCondCombo->addItems( s_condBaseList );
+}
+
+QString SearchForm::getCondName()
+{
+    return mCondCombo->currentText();
+}
+
+QString SearchForm::getInputWord()
+{
+    return mInputText->text();
+}
+
+void SearchForm::leftPage()
+{
+    cur_page_ = cur_page_ - 1;
+    if( cur_page_ < 0 ) cur_page_ = 0;
+
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
+}
+
+void SearchForm::leftEndPage()
+{
+    cur_page_ = 0;
+
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
+}
+
+void SearchForm::rightPage()
+{
+    int nListCnt = manApplet->settingsMgr()->listCount();
+    int end_page = int ( (total_count_ - 1 ) / nListCnt );
+
+    cur_page_ = cur_page_ + 1;
+    if( cur_page_ >= end_page ) cur_page_ = end_page;
+
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
+}
+
+void SearchForm::rightEndPage()
+{
+    int nListCnt = manApplet->settingsMgr()->listCount();
+    int end_page = int ( (total_count_ - 1 ) / nListCnt );
+    cur_page_ = end_page;
+
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
+}
+
+void SearchForm::search()
+{
+    QString strTarget = mCondCombo->currentText();
+    QString strWord = mInputText->text();
+
+    if( strTarget == "Page" )
+    {
+        cur_page_ = strWord.toInt();
+        cur_page_--;
+        if( cur_page_ < 0 ) cur_page_ = 0;
+        mInputText->clear();
+    }
+
+    manApplet->mainWindow()->createRightList( left_type_, left_num_ );
+}

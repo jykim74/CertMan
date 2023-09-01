@@ -18,7 +18,8 @@
 #include "man_tree_item.h"
 #include "man_tree_model.h"
 #include "man_tree_view.h"
-#include "search_menu.h"
+// #include "search_menu.h"
+#include "search_form.h"
 
 #include "about_dlg.h"
 #include "export_dlg.h"
@@ -103,7 +104,7 @@ MainWindow::~MainWindow()
     delete log_text_;
     delete info_text_;
 
-    delete search_menu_;
+    delete search_form_;
     delete stack_;
     delete right_table_;
     delete text_tab_;
@@ -159,12 +160,12 @@ void MainWindow::initialize()
 
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
-    search_menu_ = new SearchMenu;
+    search_form_ = new SearchForm;
 
 #ifdef Q_OS_MAC
-    search_menu_->setMaximumHeight( 30 );
+    search_form_->setMaximumHeight( 30 );
 #else
-    search_menu_->setMaximumHeight( 20 );
+    search_form_->setMaximumHeight( 23 );
 #endif
 
     left_tree_->setModel(left_model_);
@@ -195,7 +196,7 @@ void MainWindow::initialize()
     hsplitter_->addWidget( rightWidget );
 
     vsplitter_->addWidget(right_table_);
-    vsplitter_->addWidget(search_menu_);
+    vsplitter_->addWidget( search_form_ );
 
     text_tab_ = new QTabWidget;
     vsplitter_->addWidget(text_tab_);
@@ -2231,9 +2232,9 @@ void MainWindow::treeMenuClick(QModelIndex index )
 
     fflush( stdout );
 
-    search_menu_->setCurPage(0);
-    search_menu_->setLeftNum( nNum );
-    search_menu_->setLeftType( nType );
+    search_form_->setCurPage(0);
+    search_form_->setLeftNum( nNum );
+    search_form_->setLeftType( nType );
 
     createRightList( nType, nNum );
 }
@@ -3707,18 +3708,18 @@ void MainWindow::createRightList( int nType, int nNum )
 
 void MainWindow::createRightKeyPairList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_KEYPAIR;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name"), tr("Param"), tr("Status") };
 
@@ -3777,25 +3778,25 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem(i, 5, new QTableWidgetItem( QString("%1").arg(getRecStatusName(keyPairRec.getStatus()))));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 
 void MainWindow::createRightRequestList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_REQUEST;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Key"), tr("Name"), tr("Hash"), tr("Status"), tr("DN") };
 
@@ -3852,13 +3853,13 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 6, new QTableWidgetItem( reqRec.getDN() ));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightCertProfileList()
 {
-    search_menu_->hide();
+    search_form_->hide();
 
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_PROFILE;
@@ -3944,7 +3945,7 @@ void MainWindow::createRightCertProfileList()
 
 void MainWindow::createRightCRLProfileList()
 {
-    search_menu_->hide();
+    search_form_->hide();
 
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_PROFILE;
@@ -4018,11 +4019,11 @@ void MainWindow::createRightCRLProfileList()
 
 void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
-    search_menu_->show();
+    search_form_->show();
     removeAllRight();
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
     right_type_ = RightType::TYPE_CERTIFICATE;
@@ -4038,8 +4039,8 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QList<CertRec> certList;
 
@@ -4132,25 +4133,25 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setItem( i, pos++, item );
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightCRLList( int nIssuerNum )
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_CRL;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
     char sRegTime[64];
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Issuer"), tr("SignAlg"), tr("CRLDP") };
     right_table_->clear();
@@ -4206,24 +4207,24 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRLDP() ));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightRevokeList(int nIssuerNum)
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_REVOKE;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("Cert"), tr("Issuer"), tr("Serial"), tr("RevokeDate"), tr("Reason"), tr("CRLDP") };
 
@@ -4279,24 +4280,24 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightUserList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_USER;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Name"), tr("SSN"), tr("Email"), tr("Status") };
 
@@ -4351,24 +4352,24 @@ void MainWindow::createRightUserList()
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( getUserStatusName( user.getStatus() ) )));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightKMSList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_KMS;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Status"), tr("Type"), tr("Algorithm"), tr("ID"), tr("Info") };
 
@@ -4426,13 +4427,13 @@ void MainWindow::createRightKMSList()
         right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg( kms.getInfo() )));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightSignerList(int nType)
 {
-    search_menu_->hide();
+    search_form_->hide();
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
@@ -4485,7 +4486,7 @@ void MainWindow::createRightSignerList(int nType)
 
 void MainWindow::createRightAdminList()
 {
-    search_menu_->hide();
+    search_form_->hide();
     removeAllRight();
     right_type_ = RightType::TYPE_ADMIN;
 
@@ -4531,7 +4532,7 @@ void MainWindow::createRightAdminList()
 
 void MainWindow::createRightConfigList()
 {
-    search_menu_->hide();
+    search_form_->hide();
     removeAllRight();
     right_type_ = RightType::TYPE_CONFIG;
 
@@ -4574,7 +4575,7 @@ void MainWindow::createRightConfigList()
 
 void MainWindow::createRightAuditList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_AUDIT;
@@ -4582,11 +4583,11 @@ void MainWindow::createRightAuditList()
     int nTotalCount = 0;
 //    int nLimit = kListCount;
     int nLimit = manApplet->settingsMgr()->listCount();
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Kind"), tr("Operation"), tr("UserName"), tr("Info") };
 
@@ -4641,24 +4642,24 @@ void MainWindow::createRightAuditList()
         right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( audit.getInfo() )));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightTSPList()
 {
-    search_menu_->show();
+    search_form_->show();
 
     removeAllRight();
     right_type_ = RightType::TYPE_TSP;
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
-    int nPage = search_menu_->curPage();
+    int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    QString strTarget = search_menu_->getCondName();
-    QString strWord = search_menu_->getInputWord();
+    QString strTarget = search_form_->getCondName();
+    QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Serial"), tr("SrcHash"), tr("Policy") };
 
@@ -4707,8 +4708,8 @@ void MainWindow::createRightTSPList()
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( tsp.getPolicy() )));
     }
 
-    search_menu_->setTotalCount( nTotalCount );
-    search_menu_->updatePageLabel();
+    search_form_->setTotalCount( nTotalCount );
+    search_form_->updatePageLabel();
 }
 
 void MainWindow::createRightStatistics()

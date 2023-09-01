@@ -82,6 +82,7 @@ SOURCES += \
         req_rec.cpp \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
+        search_form.cpp \
         search_menu.cpp \
         server_status_dlg.cpp \
         server_status_service.cpp \
@@ -144,6 +145,7 @@ HEADERS += \
         req_rec.h \
         revoke_cert_dlg.h \
         revoke_rec.h \
+        search_form.h \
         search_menu.h \
         server_status_dlg.h \
         server_status_service.h \
@@ -187,6 +189,7 @@ FORMS += \
         remote_db_dlg.ui \
         renew_cert_dlg.ui \
         revoke_cert_dlg.ui \
+        search_form.ui \
         server_status_dlg.ui \
         set_pass_dlg.ui \
         settings_dlg.ui \
