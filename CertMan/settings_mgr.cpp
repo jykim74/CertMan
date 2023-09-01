@@ -71,6 +71,9 @@ void SettingsMgr::loadSettings()
 
     getDefaultHash();
     getDefaultECCParam();
+
+    getCertProfileNum();
+    getCRLProfileNum();
 }
 
 void SettingsMgr::setSaveRemoteInfo( bool val )
