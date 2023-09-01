@@ -2571,6 +2571,10 @@
         <source>fail to make certificate</source>
         <translation>인증서 만들기에 실패하였습니다</translation>
     </message>
+    <message>
+        <source>Request KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
+        <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertPolicyDlg</name>
