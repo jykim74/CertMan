@@ -399,6 +399,8 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
+        manApplet->settingsMgr()->setCRLProfileNum( mProfileNameCombo->currentIndex() );
+
         QDialog::accept();
     }
     else
@@ -471,6 +473,7 @@ void MakeCRLDlg::initialize()
         mProfileNameCombo->addItem( profileRec.getName() );
     }
 
+    mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->CRLProfileNum() );
     setRevokeList();
 }
 

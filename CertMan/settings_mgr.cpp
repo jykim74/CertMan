@@ -50,10 +50,15 @@ namespace  {
     const char *kMisc = "Misc";
     const char *kEmail = "email";
     const char *kLicense = "license";
+    const char *kCertProfileNum = "certProfileNum";
+    const char *kCRLProfileNum = "CRLProfileNum";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
 {
+    cert_profile_num_ = -1;
+    crl_profile_num_ = -1;
+
     loadSettings();
 }
 
@@ -1024,5 +1029,48 @@ QString SettingsMgr::getLicense()
     sets.endGroup();
 
     return strLicense;
+}
+
+
+void SettingsMgr::setCertProfileNum( int num )
+{
+    QSettings sets;
+    sets.beginGroup( kMisc );
+    sets.setValue( kCertProfileNum, num );
+    sets.endGroup();
+
+    cert_profile_num_ = num;
+}
+
+int SettingsMgr::getCertProfileNum()
+{
+    QSettings sets;
+
+    sets.beginGroup( kMisc );
+    cert_profile_num_ = sets.value( kCertProfileNum, 0 ).toInt();
+    sets.endGroup();
+
+    return cert_profile_num_;
+}
+
+void SettingsMgr::setCRLProfileNum( int num )
+{
+    QSettings sets;
+    sets.beginGroup( kMisc );
+    sets.setValue( kCRLProfileNum, num );
+    sets.endGroup();
+
+    crl_profile_num_ = num;
+}
+
+int SettingsMgr::getCRLProfileNum()
+{
+    QSettings sets;
+
+    sets.beginGroup( kMisc );
+    crl_profile_num_ = sets.value( kCRLProfileNum, 0 ).toInt();
+    sets.endGroup();
+
+    return crl_profile_num_;
 }
 

@@ -142,11 +142,21 @@ public:
     void setLicense( const QString strLicense );
     QString getLicense();
 
+    void setCertProfileNum( int num );
+    int getCertProfileNum();
+    int certProfileNum() { return cert_profile_num_; };
+
+    void setCRLProfileNum( int num );
+    int getCRLProfileNum();
+    int CRLProfileNum() { return crl_profile_num_; };
+
     void loadSettings();
 
 private:
     QString default_hash_;
     QString default_ecc_param_;
+    int cert_profile_num_;
+    int crl_profile_num_;
 
 private:
     Q_DISABLE_COPY(SettingsMgr)

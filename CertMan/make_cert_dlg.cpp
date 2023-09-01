@@ -105,6 +105,8 @@ void MakeCertDlg::initialize()
         mProfileNameCombo->addItem( certProfileRec.getName() );
     }
 
+    mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->certProfileNum() );
+
     setSubjectDN();
 
     if( req_list_.size() <= 0 ) mUseCSRFileCheck->setChecked(true);
@@ -704,6 +706,8 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
+        manApplet->settingsMgr()->setCertProfileNum( mProfileNameCombo->currentIndex() );
+
         QDialog::accept();
     }
     else

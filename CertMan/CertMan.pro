@@ -83,7 +83,6 @@ SOURCES += \
         revoke_cert_dlg.cpp \
         revoke_rec.cpp \
         search_form.cpp \
-        search_menu.cpp \
         server_status_dlg.cpp \
         server_status_service.cpp \
         set_pass_dlg.cpp \
@@ -146,7 +145,6 @@ HEADERS += \
         revoke_cert_dlg.h \
         revoke_rec.h \
         search_form.h \
-        search_menu.h \
         server_status_dlg.h \
         server_status_service.h \
         set_pass_dlg.h \
