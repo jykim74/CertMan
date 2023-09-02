@@ -56,8 +56,8 @@ namespace  {
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
 {
-    cert_profile_num_ = -1;
-    crl_profile_num_ = -1;
+    cert_profile_num_ = 0;
+    crl_profile_num_ = 0;
 
     loadSettings();
 }

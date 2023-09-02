@@ -473,7 +473,9 @@ void MakeCRLDlg::initialize()
         mProfileNameCombo->addItem( profileRec.getName() );
     }
 
-    mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->CRLProfileNum() );
+    if( manApplet->settingsMgr()->CRLProfileNum() < crl_profile_list_.size() )
+        mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->CRLProfileNum() );
+
     setRevokeList();
 }
 

@@ -68,11 +68,14 @@ void MakeCertDlg::initialize()
     req_list_.clear();
 
     dbMgr->getReqList( 0, req_list_ );
+
+    /*
     if( req_list_.size() <= 0 )
     {
         manApplet->warningBox( tr( "There is no request"), this );
         return;
     }
+    */
 
     for( int i = 0; i < req_list_.size(); i++ )
     {
@@ -105,7 +108,8 @@ void MakeCertDlg::initialize()
         mProfileNameCombo->addItem( certProfileRec.getName() );
     }
 
-    mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->certProfileNum() );
+    if( manApplet->settingsMgr()->certProfileNum() < cert_profile_list_.size() )
+        mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->certProfileNum() );
 
     setSubjectDN();
 
@@ -800,16 +804,21 @@ void MakeCertDlg::findCSRFile()
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
+    strPath = mCSRFilePathText->text();
+    if( strPath.length() < 0 ) strPath = manApplet->curFolder();
+
     QString filePath = findFile( this, nType, strPath );
     if( filePath.length() > 0 )
     {
         ret = JS_BIN_fileRead( filePath.toLocal8Bit().toStdString().c_str(), &binCSR );
-        if( ret != 0 ) goto end;
+        if( ret <= 0 ) goto end;
 
         ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, NULL );
         if( ret != 0 ) goto end;
 
         mCSRFilePathText->setText( filePath );
+        mSubjectDNText->setText( sReqInfo.pSubjectDN );
+        manApplet->setCurFile( filePath );
     }
 
 end :
