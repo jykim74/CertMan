@@ -150,6 +150,10 @@ public:
     int getCRLProfileNum();
     int CRLProfileNum() { return crl_profile_num_; };
 
+    void setIssuerNum( int num );
+    int getIssuerNum();
+    int issuerNum() { return issuer_num_; };
+
     void loadSettings();
 
 private:
@@ -157,6 +161,7 @@ private:
     QString default_ecc_param_;
     int cert_profile_num_;
     int crl_profile_num_;
+    int issuer_num_;
 
 private:
     Q_DISABLE_COPY(SettingsMgr)

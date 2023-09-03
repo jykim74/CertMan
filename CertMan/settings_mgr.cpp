@@ -52,6 +52,7 @@ namespace  {
     const char *kLicense = "license";
     const char *kCertProfileNum = "certProfileNum";
     const char *kCRLProfileNum = "CRLProfileNum";
+    const char *kIssuerNum = "issuerNum";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -1077,3 +1078,23 @@ int SettingsMgr::getCRLProfileNum()
     return crl_profile_num_;
 }
 
+void SettingsMgr::setIssuerNum( int num )
+{
+    QSettings sets;
+    sets.beginGroup( kMisc );
+    sets.setValue( kIssuerNum, num );
+    sets.endGroup();
+
+    issuer_num_ = num;
+}
+
+int SettingsMgr::getIssuerNum()
+{
+    QSettings sets;
+
+    sets.beginGroup( kMisc );
+    issuer_num_ = sets.value( kIssuerNum, 0 ).toInt();
+    sets.endGroup();
+
+    return issuer_num_;
+}

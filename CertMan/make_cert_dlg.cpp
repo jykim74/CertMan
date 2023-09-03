@@ -46,6 +46,8 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
     connect( mUseCSRFileCheck, SIGNAL(clicked()), this, SLOT(clickUseCSRFile()));
     connect( mCSRFileFindBtn, SIGNAL(clicked()), this, SLOT(findCSRFile()));
+
+    initialize();
 }
 
 MakeCertDlg::~MakeCertDlg()
@@ -57,7 +59,7 @@ MakeCertDlg::~MakeCertDlg()
 
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
-    initialize();
+//    initialize();
 }
 
 void MakeCertDlg::initialize()

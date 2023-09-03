@@ -1162,7 +1162,6 @@ void MainWindow::copyCRLProfile()
 
 void MainWindow::makeCertificate()
 {
-
     if( manApplet->isDBOpen() == false )
     {
         manApplet->warningBox( tr("You have to open database"), this );
