@@ -532,7 +532,13 @@ void MakeCertDlg::accept()
                 CertRec issuerCert = ca_cert_list_.at( issuerIdx );
                 JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binCert );
 
-                JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
+                ret = JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
+                if( ret != 0 )
+                {
+                    JS_BIN_reset( &binCert );
+                    goto end;
+                }
+
                 QString strVal = QString( "KEYID$%1").arg( sHexID );
 
                 if( profileExt.getValue().contains( "ISSUER" ) )
