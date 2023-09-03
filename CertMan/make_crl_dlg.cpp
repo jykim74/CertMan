@@ -456,10 +456,10 @@ void MakeCRLDlg::initialize()
     {
         CertRec certRec = ca_cert_list_.at(i);
         mIssuerNameCombo->addItem( certRec.getSubjectDN() );
-
-        if( manApplet->settingsMgr()->issuerNum() < ca_cert_list_.size() )
-            mIssuerNameCombo->setCurrentIndex( manApplet->settingsMgr()->issuerNum() );
     }
+
+    if( manApplet->settingsMgr()->issuerNum() < ca_cert_list_.size() )
+        mIssuerNameCombo->setCurrentIndex( manApplet->settingsMgr()->issuerNum() );
 
     crl_profile_list_.clear();
 

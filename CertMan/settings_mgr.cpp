@@ -59,6 +59,7 @@ SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
 {
     cert_profile_num_ = 0;
     crl_profile_num_ = 0;
+    issuer_num_ = 0;
 
     loadSettings();
 }
