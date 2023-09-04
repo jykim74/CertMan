@@ -30,11 +30,13 @@ private slots:
     void clickVerifyCert();
     void clickPathValidation();
 
+    void changeFieldType( int index );
+
 private:
     int cert_num_;
     QList<CertRec> cert_list_;
 
-    void initialize();
+    void getFields();
     void pathInit();
     void initUI();
     void clearTable();

@@ -555,6 +555,26 @@
         <source>CRLReason</source>
         <translation>폐기 사유</translation>
     </message>
+    <message>
+        <source>All</source>
+        <translation>전체</translation>
+    </message>
+    <message>
+        <source>Version1 Only</source>
+        <translation>버전1 필드만</translation>
+    </message>
+    <message>
+        <source>Extension Only</source>
+        <translation>확장 필드만</translation>
+    </message>
+    <message>
+        <source>Critical Extension Only</source>
+        <translation>중요 확장 필드만</translation>
+    </message>
+    <message>
+        <source>Attribute Only</source>
+        <translation>속성만</translation>
+    </message>
 </context>
 <context>
     <name>CheckCertDlg</name>
@@ -3845,7 +3865,19 @@
     </message>
 </context>
 <context>
-    <name>SearchMenu</name>
+    <name>SearchForm</name>
+    <message>
+        <source>Form</source>
+        <translation>형식</translation>
+    </message>
+    <message>
+        <source>&gt;&gt;</source>
+        <translation>&gt;&gt;</translation>
+    </message>
+    <message>
+        <source>&gt;</source>
+        <translation>&gt;</translation>
+    </message>
     <message>
         <source>0-0 of 0</source>
         <translation>0-0 중 0</translation>
@@ -3859,16 +3891,35 @@
         <translation>&lt;</translation>
     </message>
     <message>
+        <source>Search</source>
+        <translation>검색</translation>
+    </message>
+</context>
+<context>
+    <name>SearchMenu</name>
+    <message>
+        <source>0-0 of 0</source>
+        <translation type="vanished">0-0 중 0</translation>
+    </message>
+    <message>
+        <source>&lt;&lt;</source>
+        <translation type="vanished">&lt;&lt;</translation>
+    </message>
+    <message>
+        <source>&lt;</source>
+        <translation type="vanished">&lt;</translation>
+    </message>
+    <message>
         <source>&gt;&gt;</source>
-        <translation>&gt;&gt;</translation>
+        <translation type="vanished">&gt;&gt;</translation>
     </message>
     <message>
         <source>&gt;</source>
-        <translation>&gt;</translation>
+        <translation type="vanished">&gt;</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>검색</translation>
+        <translation type="vanished">검색</translation>
     </message>
 </context>
 <context>
