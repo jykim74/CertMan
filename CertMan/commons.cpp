@@ -1773,7 +1773,8 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JS_PKI_resetDSAKeyVal( &sDSAKey );
     }
 
-    JS_PKI_genHash( "SHA1", pPub, &binHash );
+//    JS_PKI_genHash( "SHA1", pPub, &binHash );
+    JS_PKI_getKeyIdentifier( pPub, &binHash );
     JS_BIN_copy( pPri, &binHash );
 
     rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uPriObj, CKA_ID, &binHash );
@@ -1781,8 +1782,6 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
 
     rv = JS_PKCS11_SetAttributeValue2( pP11CTX, uPubObj, CKA_ID, &binHash );
     if( rv != 0 ) goto end;
-
-    JS_BIN_copy( pPri, &binHash );
 
 end :
     JS_BIN_reset( &binLabel );
