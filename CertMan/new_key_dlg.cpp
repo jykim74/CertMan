@@ -93,32 +93,32 @@ void NewKeyDlg::accept()
     char *pPubHex = NULL;
 
     QString strMech = mMechCombo->currentText();
+    QString strParam = mOptionCombo->currentText();
 
     if( strMech == kMechRSA )
     {
-        int nKeySize = mOptionCombo->currentText().toInt();
+        int nKeySize = strParam.toInt();
         int nExponent = mExponentText->text().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
     else if( strMech == kMechDSA )
     {
-        int nKeySize = mOptionCombo->currentText().toInt();
+        int nKeySize = strParam.toInt();
 
         ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
     else if( strMech == kMechEC )
     {
-        int nGroupID = JS_PKI_getNidFromSN( mOptionCombo->currentText().toStdString().c_str() );
-        ret = JS_PKI_ECCGenKeyPair( nGroupID, &binPub, &binPri );
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
     else if( strMech == kMechEdDSA )
     {
         int nParam = 0;
 
-        if( mOptionCombo->currentText() == kMechEd25519 )
+        if( strParam == kMechEd25519 )
             nParam = JS_PKI_KEY_TYPE_ED25519;
-        else if( mOptionCombo->currentText() == kMechEd448 )
+        else if( strParam == kMechEd448 )
             nParam = JS_PKI_KEY_TYPE_ED448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );

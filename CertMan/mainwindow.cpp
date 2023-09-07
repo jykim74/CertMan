@@ -10,6 +10,7 @@
 #include "js_pkcs7.h"
 #include "js_scep.h"
 #include "js_pki_ext.h"
+#include "js_pki_tools.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -2942,9 +2943,13 @@ void MainWindow::renewSCEP()
     JS_PKI_getPubKeyInfo( &binPub, &nKeyType, &nOption );
 
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+    {
         ret = JS_PKI_RSAGenKeyPair( nOption, 63357, &binNPub, &binNPri );
+    }
     else if( nKeyType == JS_PKI_KEY_TYPE_RSA )
-        ret = JS_PKI_ECCGenKeyPair( nOption, &binNPub, &binNPri );
+    {
+        ret = JS_PKI_ECCGenKeyPair( JS_PKI_getSNFromNid( nOption ), &binNPub, &binNPri );
+    }
 
     if( ret != 0 )
     {
