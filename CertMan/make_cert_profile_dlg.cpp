@@ -382,15 +382,12 @@ void MakeCertProfileDlg::initUI()
     mKeyUsageCombo->addItems(kKeyUsageList);
     mEKUCombo->addItems(kExtKeyUsageList);
     mVersionCombo->addItems(kCertVersionList);
-//    mCRLDPCombo->addItems(kTypeList);
     mCRLDPCombo->addItem( "URI" );
     mAIATargetCombo->addItems( kAIATargetList );
-//    mAIATypeCombo->addItems(kTypeList);
     mAIATypeCombo->addItem( "URI" );
     mSANCombo->addItems(kTypeList);
     mIANCombo->addItems(kTypeList);
-    mNCTypeCombo->addItems(kTypeList);
-//    mNCTypeCombo->addItem( "URI" );
+    mNCTypeCombo->addItems(kNCTypeList);
     mNCSubCombo->addItems(kNCSubList);
     mBCCombo->addItems(kBCTypeList);
     mHashCombo->addItems(kHashList);

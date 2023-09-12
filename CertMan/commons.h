@@ -86,6 +86,7 @@ const QStringList kExtKeyUsageList = {
 
 const QStringList kCertVersionList = { "V1", "V2", "V3" };
 const QStringList kTypeList = { "URI", "email", "DNS" };
+const QStringList kNCTypeList = { "URI", "email", "DNS", "dirName" };
 const QStringList kAIATargetList = { "OCSP", "caIssuer" };
 const QStringList kNCSubList = { "permittedSubtrees", "excludedSubtrees" };
 const QStringList kBCTypeList = { "CA", "End Entity" };
