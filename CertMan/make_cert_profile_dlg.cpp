@@ -951,6 +951,12 @@ void MakeCertProfileDlg::addCRLDP()
     QString strType = mCRLDPCombo->currentText();
     QString strVal = mCRLDPText->text();
 
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert CRLDP value" ), this );
+        return;
+    }
+
     int row = mCRLDPTable->rowCount();
     mCRLDPTable->setRowCount( row + 1 );
 
@@ -964,6 +970,12 @@ void MakeCertProfileDlg::addAIA()
     QString strTarget = mAIATargetCombo->currentText();
     QString strType = mAIATypeCombo->currentText();
     QString strVal = mAIAText->text();
+
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert AIA value" ), this );
+        return;
+    }
 
     int row = mAIATable->rowCount();
 
@@ -980,6 +992,12 @@ void MakeCertProfileDlg::addSAN()
     QString strType = mSANCombo->currentText();
     QString strVal = mSANText->text();
 
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert Subject Alternative Name value" ), this );
+        return;
+    }
+
     int row = mSANTable->rowCount();
     mSANTable->setRowCount( row + 1 );
 
@@ -993,6 +1011,12 @@ void MakeCertProfileDlg::addIAN()
     QString strType = mIANCombo->currentText();
     QString strVal = mIANText->text();
 
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert Issuer Alternative Name value" ), this );
+        return;
+    }
+
     int row = mIANTable->rowCount();
     mIANTable->setRowCount( row + 1 );
 
@@ -1005,6 +1029,12 @@ void MakeCertProfileDlg::addPM()
 {
     QString strIDP = mPMIssuerDomainPolicyText->text();
     QString strSDP = mPMSubjectDomainPolicyText->text();
+
+    if( strIDP.length() < 1 || strSDP.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert issuerDomainPolicy and subjectDomainPolicy both"), this );
+        return;
+    }
 
     int row = mPMTable->rowCount();
     mPMTable->setRowCount( row + 1 );
@@ -1024,6 +1054,12 @@ void MakeCertProfileDlg::addNC()
     QString strMax = mNCMaxText->text();
     QString strMin = mNCMinText->text();
 
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert Name Constraints value" ), this );
+        return;
+    }
+
     int row = mNCTable->rowCount();
     mNCTable->setRowCount( row + 1 );
 
@@ -1041,6 +1077,12 @@ void MakeCertProfileDlg::addExtensions()
     QString strValue = mExtensionsValueText->toPlainText();
     bool bCrit = mExtensionsCriticalCheck->isChecked();
     QString strCrit;
+
+    if( strOID.length() < 1 || strValue.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert OID and Value both"), this );
+        return;
+    }
 
     if( bCrit )
         strCrit = "ture";

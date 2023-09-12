@@ -437,6 +437,12 @@ void MakeCRLProfileDlg::addIDP()
     QString strType = mIDPCombo->currentText();
     QString strVal = mIDPText->text();
 
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert Issuing Distribution Point value" ), this );
+        return;
+    }
+
     int row = mIDPTable->rowCount();
     mIDPTable->setRowCount( row + 1 );
 
@@ -449,6 +455,12 @@ void MakeCRLProfileDlg::addIAN()
 {
     QString strType = mIANCombo->currentText();
     QString strVal = mIANText->text();
+
+    if( strVal.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert Issuer Alternative Name value" ), this );
+        return;
+    }
 
     int row = mIANTable->rowCount();
     mIANTable->setRowCount( row + 1 );
@@ -464,6 +476,12 @@ void MakeCRLProfileDlg::addExtensions()
     QString strValue = mExtensionsValueText->toPlainText();
     bool bCrit = mExtensionsCriticalCheck->isChecked();
     QString strCrit;
+
+    if( strOID.length() < 1 || strValue.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to insert OID and Value both"), this );
+        return;
+    }
 
     if( bCrit )
         strCrit = "ture";

@@ -2416,6 +2416,18 @@
         <source>fail to make CRL profile</source>
         <translation>CRL 프로파일 만들기에 실패하였습니다</translation>
     </message>
+    <message>
+        <source>You have to insert Issuing Distribution Point value</source>
+        <translation>발급 배포 지점 값을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert Issuer Alternative Name value</source>
+        <translation>발급자 대체 이름을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert OID and Value both</source>
+        <translation>OID 와 값 둘다 입력하세요</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
@@ -3076,6 +3088,34 @@
     <message>
         <source>fail to make certificate profile</source>
         <translation>인증서 프로파일 만들기 실패</translation>
+    </message>
+    <message>
+        <source>You have to insert CRLDP value</source>
+        <translation>CRL 배포 지점을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert AIA value</source>
+        <translation>발급자 정보 접근 값을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert Subject Alternative Name value</source>
+        <translation>주체자 대체 이름을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert Issuer Alternative Name value</source>
+        <translation>발급자 대체 이름을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert issuerDomainPolicy and subjectDomainPolicy both</source>
+        <translation>IssuerDomainPolicy 와 SubjectDomainPolicy 값 둘다 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert Name Constraints value</source>
+        <translation>이름 제한 값을 입력하세요</translation>
+    </message>
+    <message>
+        <source>You have to insert OID and Value both</source>
+        <translation>OID 와 값 둘다 입력하세요</translation>
     </message>
 </context>
 <context>
