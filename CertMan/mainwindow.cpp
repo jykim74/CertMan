@@ -1031,9 +1031,10 @@ void MainWindow::makeRequest()
 
     DBMgr* dbMgr = manApplet->dbMgr();
 
-    if( dbMgr->getReqCount( 0 ) <= 0 )
+//    if( dbMgr->getReqCount( 0 ) <= 0 )
+    if( dbMgr->getKeyPairCount(0) <= 0 )
     {
-        manApplet->warningBox( tr( "There is no valid request"), this );
+        manApplet->warningBox( tr( "There is no valid key pair"), this );
         return;
     }
 
