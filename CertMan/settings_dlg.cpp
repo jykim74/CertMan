@@ -459,6 +459,8 @@ void SettingsDlg::initialize()
         mTabWidget->removeTab( 4 );
         mTabWidget->removeTab( 3 );
         mTabWidget->removeTab( 2 );
+
+        mServerStatusCheck->hide();
     }
 
     mTabWidget->setCurrentIndex(0);
