@@ -4880,22 +4880,35 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
     manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
     manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
-    manApplet->info( "======================= Extension Information ==========================\n" );
+
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
+
+    if( extList.size() > 0 )
+        manApplet->info( QString( "[ Extensions Informations ( Count: %1 ) ]\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
         ProfileExtRec extRec = extList.at(i);
-
-        manApplet->info( QString( "%1 || %2 || %3 || %4\n")
-                .arg(extRec.getSeq())
-                .arg(extRec.isCritical())
-                .arg(extRec.getSN())
-                .arg(extRec.getValue()) );
+        infoProfileExt( extRec );
     }
 
     infoCursorTop();
+}
+
+void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
+{
+    QString strValue = profileExt.getValue();
+
+    manApplet->info( "=============================================================\n" );
+    manApplet->info( QString( "| %1 | %2 | Seq: %3 |\n")
+                     .arg( profileExt.getSN(), 30 )
+                     .arg( profileExt.isCritical() ? "Critical" : "Normal", 8 )
+                     .arg( profileExt.getSeq(), 8 ));
+
+    manApplet->info( "-------------------------------------------------------------\n" );
+    manApplet->info( QString( "| %1\n" ).arg( strValue.length() ? strValue : "NA" ));
+    manApplet->info( "=============================================================\n" );
 }
 
 void MainWindow::infoCRL( int seq )
@@ -4912,7 +4925,6 @@ void MainWindow::infoCRL( int seq )
         strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
     else
         strIssuerName = "Unknown";
-
 
     manApplet->mainWindow()->infoClear();
     manApplet->info( "========================================================================\n" );
@@ -4974,20 +4986,17 @@ void MainWindow::infoCRLProfile( int seq )
     manApplet->info( QString("LastUpdate   : %1 - %2\n").arg(crlProfile.getLastUpdate()).arg(strLastUpdate));
     manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
     manApplet->info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
-    manApplet->info( "======================= Extension Information ==========================\n" );
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
 
+    if( extList.size() > 0 )
+        manApplet->info( QString( "[ Extensions Informations ( Count: %1 ) ]\n" ).arg( extList.size() ) );
+
     for( int i = 0; i < extList.size(); i++ )
     {
         ProfileExtRec extRec = extList.at(i);
-
-        manApplet->info( QString( "%1 || %2 || %3 || %4\n")
-                .arg(extRec.getSeq())
-                .arg(extRec.isCritical())
-                .arg(extRec.getSN())
-                .arg(extRec.getValue()));
+        infoProfileExt( extRec );
     }
 
     infoCursorTop();

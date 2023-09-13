@@ -18,6 +18,7 @@ class ManTreeItem;
 class SearchForm;
 class CertRec;
 class StatForm;
+class ProfileExtRec;
 
 namespace Ui {
 class MainWindow;
@@ -90,6 +91,7 @@ public:
     void infoRequest( int seq );
     void infoCertificate( int seq );
     void infoCertProfile( int seq );
+    void infoProfileExt( ProfileExtRec& profileExt );
     void infoCRL( int seq );
     void infoCRLProfile( int seq );
     void infoRevoke( int seq );
