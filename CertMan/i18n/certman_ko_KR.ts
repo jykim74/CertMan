@@ -2029,7 +2029,7 @@
     </message>
     <message>
         <source>There is no valid request</source>
-        <translation>요청서가 없습니다.</translation>
+        <translation type="vanished">요청서가 없습니다.</translation>
     </message>
     <message>
         <source>There is no certificate to be selected</source>
@@ -2054,6 +2054,10 @@
     <message>
         <source>You have changed license. Restart to apply it?</source>
         <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>There is no valid key pair</source>
+        <translation>유효한 키 쌍이 없습니다</translation>
     </message>
 </context>
 <context>

@@ -4911,8 +4911,12 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
                      .arg( profileExt.isCritical() ? "Critical" : "Normal", 8 )
                      .arg( profileExt.getSeq(), 8 ));
 
-    manApplet->info( "-------------------------------------------------------------\n" );
-    manApplet->info( QString( "| %1\n" ).arg( strValue.length() ? strValue : "NA" ));
+    if( strValue.length() > 0 )
+    {
+        manApplet->info( "-------------------------------------------------------------\n" );
+        manApplet->info( QString( "| %1\n" ).arg( strValue ) );
+    }
+
     manApplet->info( "=============================================================\n" );
 }
 
