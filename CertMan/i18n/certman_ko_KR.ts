@@ -2067,6 +2067,10 @@
         <source>ThisUpdate</source>
         <translation>이번 업데이트</translation>
     </message>
+    <message>
+        <source>Are you sure to close database?</source>
+        <translation>정말 데이타베이스를 닫겠습니까?</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>

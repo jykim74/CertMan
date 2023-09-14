@@ -84,7 +84,7 @@ void CSRInfoDlg::initialize()
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
     mFieldTable->setItem( i, 0, new QTableWidgetItem( tr("Version")));
-    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(sReqInfo.nVersion)));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("V%1").arg(sReqInfo.nVersion + 1)));
     i++;
 
     if( sReqInfo.pSubjectDN )
@@ -103,15 +103,6 @@ void CSRInfoDlg::initialize()
     mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Verify")));
     mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.bVerify ? "Verify" : "Not Verify")));
     i++;
-
-    if( sReqInfo.pSignature )
-    {
-        mFieldTable->insertRow(i);
-        mFieldTable->setRowHeight(i,10);
-        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Signature")));
-        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pSignature)));
-        i++;
-    }
 
     if( sReqInfo.pSignAlgorithm )
     {

@@ -676,7 +676,12 @@ void MakeCertDlg::accept()
     madeCertRec.setIssuerNum( nIssuerNum );
     madeCertRec.setSerial( sMadeCertInfo.pSerial );
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
-    if( pCRLDP ) madeCertRec.setCRLDP( pCRLDP );
+    if( pCRLDP )
+    {
+        QString strFirstCRLDP = getCRLDPFromInfo( pCRLDP );
+        madeCertRec.setCRLDP( strFirstCRLDP );
+    }
+
     JS_BIN_decodeHex( sMadeCertInfo.pPublicKey, &binPub );
     madeCertRec.setKeyHash( getHexString( &binKeyID ) );
 

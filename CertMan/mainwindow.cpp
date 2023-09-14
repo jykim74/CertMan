@@ -539,19 +539,23 @@ void MainWindow::showRightMenu(QPoint point)
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CERT )
         {
             menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
-            menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
+
 
             if( manApplet->isLicense() == true )
                 menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
 
             menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
-            menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
+
+            if( treeItem->getType() != CM_ITEM_TYPE_ROOTCA )
+            {
+                menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
+                menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
+            }
         }
 
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
-
 
         if( manApplet->isPRO() )
         {
@@ -999,6 +1003,9 @@ void MainWindow::logout()
     }
     else
     {
+        bool bVal = manApplet->yesOrNoBox( tr( "Are you sure to close database?"), this, false );
+        if( bVal == false ) return;
+
         dbMgr->close();
         removeAllRight();
         left_model_->clear();
@@ -3808,7 +3815,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Key"), tr("Name"), tr("Hash"), tr("Status"), tr("DN") };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Name"), tr("Status"), tr("DN") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3835,9 +3842,7 @@ void MainWindow::createRightRequestList()
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 140 );
-    right_table_->setColumnWidth( 3, 140 );
-    right_table_->setColumnWidth( 4, 60 );
-    right_table_->setColumnWidth( 5, 60 );
+    right_table_->setColumnWidth( 3, 60 );
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -3850,17 +3855,13 @@ void MainWindow::createRightRequestList()
 
         JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
 
-        QString strKeyName = manApplet->dbMgr()->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
-
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
-        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strKeyName ) ));
-        right_table_->setItem( i, 3, item );
-        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getHash() ));
-        right_table_->setItem( i, 5, new QTableWidgetItem( QString("%1").arg( getRecStatusName(reqRec.getStatus()) )));
-        right_table_->setItem( i, 6, new QTableWidgetItem( reqRec.getDN() ));
+        right_table_->setItem( i, 2, item );
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(reqRec.getStatus()) )));
+        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getDN() ));
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4236,7 +4237,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("Cert"), tr("Issuer"), tr("Serial"), tr("RevokeDate"), tr("Reason"), tr("CRLDP") };
+    QStringList headerList = { tr("Num"), tr("Cert"), tr("Serial"), tr("RevokeDate"), tr("CRLDP") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4262,18 +4263,14 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 120 );
-    right_table_->setColumnWidth( 2, 120 );
-    right_table_->setColumnWidth( 3, 60 );
-    right_table_->setColumnWidth( 4, 140 );
-    right_table_->setColumnWidth( 5, 120 );
+    right_table_->setColumnWidth( 2, 60 );
+    right_table_->setColumnWidth( 3, 140 );
 
     for( int i=0; i < revokeList.size(); i++ )
     {
         RevokeRec revoke = revokeList.at(i);
 
         QString strCertName = manApplet->dbMgr()->getNumName( revoke.getCertNum(), "TB_CERT", "SUBJECTDN" );
-        QString strIsserName = manApplet->dbMgr()->getNumName( revoke.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
-        QString strReason = JS_PKI_getRevokeReasonName( revoke.getReason() );
 
         QTableWidgetItem *item = new QTableWidgetItem( strCertName );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( revoke.getSeq() ));
@@ -4281,13 +4278,11 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, item );
-        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( strIsserName )));
-        right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg(getDateTime( revoke.getRevokeDate() ))));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( strReason )));
-        right_table_->setItem(i,6, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
+        right_table_->setItem(i, 0, seq );
+        right_table_->setItem(i, 1, item );
+        right_table_->setItem(i, 2, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
+        right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(getDateTime( revoke.getRevokeDate() ))));
+        right_table_->setItem(i, 4, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
     }
 
     search_form_->setTotalCount( nTotalCount );

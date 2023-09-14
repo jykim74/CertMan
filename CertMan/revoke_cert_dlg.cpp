@@ -72,6 +72,7 @@ void RevokeCertDlg::accept()
     dbMgr->addRevokeRec( revoke );
     dbMgr->modCertStatus( cert_num_, JS_CERT_STATUS_REVOKE );
 
+    manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
     QDialog::accept();
 }
 

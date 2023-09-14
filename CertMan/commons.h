@@ -179,6 +179,6 @@ const QString getExtensionUsageName( int nExtUsage );
 int getKeyType( const QString& strAlg, const QString& strParam );
 const QString getProfileType( int nProfileType );
 const QString getExtUsage( int nExtUsage );
-
+const QString getCRLDPFromInfo( const QString &strExtCRLDP );
 
 #endif // COMMONS_H

@@ -3376,3 +3376,28 @@ const QString getExtUsage( int nExtUsage )
 
     return strUsage;
 }
+
+const QString getCRLDPFromInfo( const QString &strExtCRLDP )
+{
+    QString strCRLDP;
+    QStringList strList = strExtCRLDP.split( "#" );
+
+    if( strList.size() < 1 )
+    {
+        strCRLDP.clear();
+        return strCRLDP;
+    }
+    else
+    {
+        QString strFirst = strList.at(0);
+        QStringList strParts = strFirst.split( "$" );
+        if( strParts.size() < 2 )
+        {
+            strCRLDP.clear();
+            return strCRLDP;
+        }
+
+        strCRLDP = QString( "%1=%2").arg( strParts.at(0) ).arg( strParts.at(1) );
+        return strCRLDP;
+    }
+}
