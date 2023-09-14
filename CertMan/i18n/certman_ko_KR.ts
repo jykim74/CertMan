@@ -972,6 +972,22 @@
         <source>Please enter the password for unlocking database</source>
         <translation>데이타를 풀기 위한 암호를 입력하세요.</translation>
     </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Login</source>
+        <translation>로그인</translation>
+    </message>
+    <message>
+        <source>Insert Password</source>
+        <translation>암호를 입력하세요</translation>
+    </message>
+    <message>
+        <source>Password is wrong</source>
+        <translation>암호가 틀렸습니다</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -1617,7 +1633,7 @@
     </message>
     <message>
         <source>Reason</source>
-        <translation>이유</translation>
+        <translation type="vanished">이유</translation>
     </message>
     <message>
         <source>SSN</source>
@@ -1913,7 +1929,7 @@
     </message>
     <message>
         <source>Password is wrong</source>
-        <translation>암호가 틀렸습니다</translation>
+        <translation type="vanished">암호가 틀렸습니다</translation>
     </message>
     <message>
         <source>The cert have certificates or crls to be issued</source>

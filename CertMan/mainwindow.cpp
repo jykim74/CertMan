@@ -876,19 +876,6 @@ int MainWindow::openDB( const QString dbPath )
         LoginDlg loginDlg;
         if( loginDlg.exec() != QDialog::Accepted )
             return -1;
-
-        QString strPasswd = loginDlg.getPasswd();
-
-        QString strHMAC = getPasswdHMAC( strPasswd );
-
-        if( strConf != strHMAC )
-        {
-            manApplet->warningBox( tr("Password is wrong"), this );
-            manApplet->dbMgr()->close();
-            return -1;
-        }
-
-        manApplet->setPasswdKey( strPasswd );
     }
 
     createTreeMenu();

@@ -19,10 +19,11 @@ public:
     const QString getPasswd() { return mPasswdText->text(); };
 
 private slots:
-    virtual void accept();
+    void clickLogin();
 
 private:
-
+    void initialize();
+    QString passwd_;
 };
 
 #endif // LOGIN_DLG_H

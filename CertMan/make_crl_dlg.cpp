@@ -446,6 +446,7 @@ void MakeCRLDlg::initialize()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    mCRLDPCombo->setEditable(true);
     ca_cert_list_.clear();
     mIssuerNameCombo->clear();
 

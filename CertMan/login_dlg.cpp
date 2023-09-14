@@ -1,9 +1,21 @@
 #include "login_dlg.h"
+#include "mainwindow.h"
+#include "man_applet.h"
+#include "commons.h"
+
+#include "js_gen.h"
 
 LoginDlg::LoginDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+
+    connect( mLoginBtn, SIGNAL(clicked()), this, SLOT(clickLogin()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+
+    initialize();
+
+    mLoginBtn->setDefault(true);
     mPasswdText->setFocus();
 }
 
@@ -12,7 +24,34 @@ LoginDlg::~LoginDlg()
 
 }
 
-void LoginDlg::accept()
+void LoginDlg::initialize()
 {
+    QString strConf;
+    manApplet->dbMgr()->getConfigValue( JS_GEN_KIND_CERTMAN, "Passwd", strConf );
+
+    passwd_ = strConf;
+}
+
+void LoginDlg::clickLogin()
+{
+    if( passwd_.length() < 1 ) return QDialog::reject();
+
+    QString strPasswd = mPasswdText->text();
+    if( strPasswd.length() < 1 )
+    {
+        manApplet->warningBox( tr("Insert Password"), this );
+        return;
+    }
+
+    QString strHMAC = getPasswdHMAC( strPasswd );
+
+    if( passwd_ != strHMAC )
+    {
+        manApplet->warningBox( tr("Password is wrong"), this );
+        manApplet->dbMgr()->close();
+        return;
+    }
+
+    manApplet->setPasswdKey( strPasswd );
     return QDialog::accept();
 }
