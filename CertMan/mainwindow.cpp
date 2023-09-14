@@ -395,13 +395,6 @@ void MainWindow::createActions()
     dataToolBar->addAction( importDataAct );
     importDataAct->setStatusTip(tr("Import data"));
 
-    const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
-    QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
-    connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
-    pubLDAPAct->setStatusTip(tr("Publish LDAP"));
-    dataMenu->addAction( pubLDAPAct );
-    dataToolBar->addAction( pubLDAPAct );
-
     const QIcon getLDAPIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
     QAction *getLDAPAct = new QAction( getLDAPIcon, tr("&GetLDAP"), this);
     connect( getLDAPAct, &QAction::triggered, this, &MainWindow::getLDAP);
@@ -411,6 +404,13 @@ void MainWindow::createActions()
 
     if( manApplet->isLicense() )
     {
+        const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
+        QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
+        connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
+        pubLDAPAct->setStatusTip(tr("Publish LDAP"));
+        dataMenu->addAction( pubLDAPAct );
+        dataToolBar->addAction( pubLDAPAct );
+
         const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
         QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
         connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
@@ -540,7 +540,10 @@ void MainWindow::showRightMenu(QPoint point)
         {
             menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
             menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
-            menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+
+            if( manApplet->isLicense() == true )
+                menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+
             menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
             menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
         }
@@ -573,7 +576,9 @@ void MainWindow::showRightMenu(QPoint point)
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CRL )
         {
             menu.addAction( tr( "Verify CRL" ), this, &MainWindow::verifyCRL );
-            menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
+
+            if( manApplet->isLicense() == true )
+                menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
         }
 
         menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );

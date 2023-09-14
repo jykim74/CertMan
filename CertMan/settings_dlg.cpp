@@ -85,9 +85,14 @@ void SettingsDlg::updateSettings()
     mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
     mgr->setSlotIndex( mSlotIndexText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
-    mgr->setLDAPHost( mLDAPHostText->text() );
-    mgr->setLDAPPort( mLDAPPortText->text().toInt() );
-    mgr->setBaseDN( mBaseDNText->text() );
+
+    if( manApplet->isLicense() == true )
+    {
+        mgr->setLDAPHost( mLDAPHostText->text() );
+        mgr->setLDAPPort( mLDAPPortText->text().toInt() );
+        mgr->setBaseDN( mBaseDNText->text() );
+    }
+
     mgr->setListCount( mListCountCombo->currentText().toInt() );
 
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
@@ -105,39 +110,43 @@ void SettingsDlg::updateSettings()
     if( language_changed && manApplet->yesOrNoBox(tr("You have changed language. Restart to apply it?"), this, true))
         manApplet->restartApp();
 
-    mgr->setKMIPUse( mUseKMIPCheck->checkState() == Qt::Checked );
-    mgr->setKMIPHost( mKMIPHostText->text() );
-    mgr->setKMIPPort( mKMIPPortText->text() );
-    mgr->setKMIPCACertPath( mKMIPCACertPathText->text() );
-    mgr->setKMIPCertPath( mKMIPCertPathText->text() );
-    mgr->setKMIPPrivateKeyPath( mKMIPPrivateKeyPathText->text() );
-    mgr->setKMIPUserName( mKMIPUserNameText->text() );
-    mgr->setKMIPPasswd( mKMIPPasswdText->text() );
+    if( manApplet->isPRO() )
+    {
+        mgr->setKMIPUse( mUseKMIPCheck->checkState() == Qt::Checked );
+        mgr->setKMIPHost( mKMIPHostText->text() );
+        mgr->setKMIPPort( mKMIPPortText->text() );
+        mgr->setKMIPCACertPath( mKMIPCACertPathText->text() );
+        mgr->setKMIPCertPath( mKMIPCertPathText->text() );
+        mgr->setKMIPPrivateKeyPath( mKMIPPrivateKeyPathText->text() );
+        mgr->setKMIPUserName( mKMIPUserNameText->text() );
+        mgr->setKMIPPasswd( mKMIPPasswdText->text() );
 
-    mgr->setOCSPUse( mUseOCSPCheck->checkState() == Qt::Checked );
-    mgr->setOCSPURI( mOCSPURIText->text() );
-    mgr->setOCSPSrvCertPath( mOCSPSrvCertPathText->text() );
-    mgr->setOCSPAttachSign( mOCSPAttachSignCheck->checkState() == Qt::Checked );
-    mgr->setOCSPSignerPriPath( mOCSPSignerPriPathText->text() );
-    mgr->setOCSPSignerCertPath( mOCSPSignerCertPathText->text() );
+        mgr->setOCSPUse( mUseOCSPCheck->checkState() == Qt::Checked );
+        mgr->setOCSPURI( mOCSPURIText->text() );
+        mgr->setOCSPSrvCertPath( mOCSPSrvCertPathText->text() );
+        mgr->setOCSPAttachSign( mOCSPAttachSignCheck->checkState() == Qt::Checked );
+        mgr->setOCSPSignerPriPath( mOCSPSignerPriPathText->text() );
+        mgr->setOCSPSignerCertPath( mOCSPSignerCertPathText->text() );
 
-    mgr->setREGUse( mUseREGCheck->checkState() == Qt::Checked );
-    mgr->setREGURI( mREGURIText->text() );
+        mgr->setREGUse( mUseREGCheck->checkState() == Qt::Checked );
+        mgr->setREGURI( mREGURIText->text() );
 
-    mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
-    mgr->setCMPURI( mCMPURIText->text() );
-    mgr->setCMPRootCACertPath( mCMPRootCACertPathText->text() );
-    mgr->setCMPCACertPath( mCMPCACertPathText->text() );
+        mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
+        mgr->setCMPURI( mCMPURIText->text() );
+        mgr->setCMPRootCACertPath( mCMPRootCACertPathText->text() );
+        mgr->setCMPCACertPath( mCMPCACertPathText->text() );
 
-    mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
-    mgr->setTSPURI( mTSPURIText->text() );
-    mgr->setTSPSrvCertPath( mTSPSrvCertPathText->text() );
+        mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
+        mgr->setTSPURI( mTSPURIText->text() );
+        mgr->setTSPSrvCertPath( mTSPSrvCertPathText->text() );
 
-    mgr->setSCEPUse( mUseSCEPCheck->checkState() == Qt::Checked );
-    mgr->setSCEPURI( mSCEPURIText->text() );
-    mgr->setSCEPMutualAuth( mSCEPMutualAuthCheck->checkState() == Qt::Checked );
-    mgr->setSCEPPriKeyPath( mSCEPPriKeyPathText->text() );
-    mgr->setSCEPCertPath( mSCEPCertPathText->text() );
+        mgr->setSCEPUse( mUseSCEPCheck->checkState() == Qt::Checked );
+        mgr->setSCEPURI( mSCEPURIText->text() );
+        mgr->setSCEPMutualAuth( mSCEPMutualAuthCheck->checkState() == Qt::Checked );
+        mgr->setSCEPPriKeyPath( mSCEPPriKeyPathText->text() );
+        mgr->setSCEPCertPath( mSCEPCertPathText->text() );
+    }
+
     mgr->setFontFamily( mFontFamilyCombo->currentText() );
 }
 
@@ -364,9 +373,19 @@ void SettingsDlg::initialize()
     mLibraryP11PathText->setText( mgr->PKCS11LibraryPath() );
     mPINText->setText( mgr->PKCS11Pin() );
     mListCountCombo->setCurrentText( QString("%1").arg( mgr->listCount()));
-    mLDAPHostText->setText( mgr->LDAPHost() );
-    mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
-    mBaseDNText->setText( mgr->baseDN() );
+
+    if( manApplet->isLicense() == true )
+    {
+        mLDAPHostText->setText( mgr->LDAPHost() );
+        mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
+        mBaseDNText->setText( mgr->baseDN() );
+    }
+    else
+    {
+        mLDAPHostText->hide();
+        mLDAPPortText->hide();
+        mBaseDNText->hide();
+    }
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {

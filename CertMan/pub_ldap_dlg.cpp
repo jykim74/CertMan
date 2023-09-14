@@ -90,7 +90,7 @@ void PubLDAPDlg::initUI()
     mLDAPHostText->setText( strHost );
     mLDAPPortText->setText( strPort );
     mBindDNText->setText( "cn=Manager,c=kr" );
-    mPasswordText->setText( "secret" );
+//    mPasswordText->setText( "secret" );
 
     connect( mTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
 }
