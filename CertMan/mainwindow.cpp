@@ -3960,7 +3960,7 @@ void MainWindow::createRightCRLProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("LastUpdate"), tr("NextUpdate"), tr("Hash") };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash") };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
@@ -3986,7 +3986,7 @@ void MainWindow::createRightCRLProfileList()
         CRLProfileRec crlProfile = crlProfileList.at(i);
 
         QString strVersion;
-        QString strLastUpdate;
+        QString strThisUpdate;
         QString strNextUpdate;
 
         QTableWidgetItem *item = new QTableWidgetItem( crlProfile.getName() );
@@ -3995,24 +3995,24 @@ void MainWindow::createRightCRLProfileList()
 
         strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
-        if( crlProfile.getLastUpdate() == 0 )
+        if( crlProfile.getThisUpdate() == 0 )
         {
-            strLastUpdate = "GenTime";
+            strThisUpdate = "GenTime";
             strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
         }
-        else if( crlProfile.getLastUpdate() == 1 )
+        else if( crlProfile.getThisUpdate() == 1 )
         {
-            strLastUpdate = "GenTime";
+            strThisUpdate = "GenTime";
             strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
         }
-        else if( crlProfile.getLastUpdate() == 2 )
+        else if( crlProfile.getThisUpdate() == 2 )
         {
-            strLastUpdate = "GenTime";
+            strThisUpdate = "GenTime";
             strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
         }
         else
         {
-            strLastUpdate = getDateTime( crlProfile.getLastUpdate() );
+            strThisUpdate = getDateTime( crlProfile.getThisUpdate() );
             strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
         }
 
@@ -4021,7 +4021,7 @@ void MainWindow::createRightCRLProfileList()
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, item );
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )) );
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strLastUpdate )) );
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strThisUpdate )) );
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
         right_table_->setItem( i, 5, new QTableWidgetItem( crlProfile.getHash()) );
     }
@@ -4885,12 +4885,13 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
     manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
     manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
+    manApplet->info( "========================================================================\n" );
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        manApplet->info( QString( "[ Extensions Informations ( Count: %1 ) ]\n" ).arg( extList.size() ) );
+        manApplet->info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -4905,19 +4906,19 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 {
     QString strValue = profileExt.getValue();
 
-    manApplet->info( "=============================================================\n" );
+    manApplet->info( "========================================================================\n" );
     manApplet->info( QString( "| %1 | %2 | Seq: %3 |\n")
-                     .arg( profileExt.getSN(), 30 )
-                     .arg( profileExt.isCritical() ? "Critical" : "Normal", 8 )
-                     .arg( profileExt.getSeq(), 8 ));
+                     .arg( profileExt.getSN(), 37 )
+                     .arg( profileExt.isCritical() ? "Critical" : "Normal", 10 )
+                     .arg( profileExt.getSeq(), 10 ));
 
     if( strValue.length() > 0 )
     {
-        manApplet->info( "-------------------------------------------------------------\n" );
+        manApplet->info( "------------------------------------------------------------------------\n" );
         manApplet->info( QString( "| %1\n" ).arg( strValue ) );
     }
 
-    manApplet->info( "=============================================================\n" );
+    manApplet->info( "========================================================================\n" );
 }
 
 void MainWindow::infoCRL( int seq )
@@ -4959,29 +4960,29 @@ void MainWindow::infoCRLProfile( int seq )
     manApplet->dbMgr()->getCRLProfileRec( seq, crlProfile );
 
     QString strVersion;
-    QString strLastUpdate;
+    QString strThisUpdate;
     QString strNextUpdate;
 
     strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
-    if( crlProfile.getLastUpdate() == 0 )
+    if( crlProfile.getThisUpdate() == 0 )
     {
-        strLastUpdate = "GenTime";
+        strThisUpdate = "GenTime";
         strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
     }
-    else if( crlProfile.getLastUpdate() == 1 )
+    else if( crlProfile.getThisUpdate() == 1 )
     {
-        strLastUpdate = "GenTime";
+        strThisUpdate = "GenTime";
         strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
     }
-    else if( crlProfile.getLastUpdate() == 2 )
+    else if( crlProfile.getThisUpdate() == 2 )
     {
-        strLastUpdate = "GenTime";
+        strThisUpdate = "GenTime";
         strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
     }
     else
     {
-        strLastUpdate = getDateTime( crlProfile.getLastUpdate() );
+        strThisUpdate = getDateTime( crlProfile.getThisUpdate() );
         strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
     }
 
@@ -4992,15 +4993,16 @@ void MainWindow::infoCRLProfile( int seq )
     manApplet->info( QString("Num          : %1\n").arg(crlProfile.getNum()));
     manApplet->info( QString("Name         : %1\n").arg(crlProfile.getName()));
     manApplet->info( QString("Version      : %1 - %2\n").arg(crlProfile.getVersion()).arg(strVersion));
-    manApplet->info( QString("LastUpdate   : %1 - %2\n").arg(crlProfile.getLastUpdate()).arg(strLastUpdate));
+    manApplet->info( QString("ThisUpdate   : %1 - %2\n").arg(crlProfile.getThisUpdate()).arg(strThisUpdate));
     manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
     manApplet->info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
+    manApplet->info( "========================================================================\n" );
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        manApplet->info( QString( "[ Extensions Informations ( Count: %1 ) ]\n" ).arg( extList.size() ) );
+        manApplet->info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {

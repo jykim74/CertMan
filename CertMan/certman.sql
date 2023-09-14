@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS "TB_CRL_PROFILE" (
 	"Num"	INTEGER,
 	"Name"	TEXT,
 	"Version"	INTEGER,
-	"LastUpdate"	INTEGER,
+        "ThisUpdate"	INTEGER,
 	"NextUpdate"	INTEGER,
 	"Hash"	TEXT,
 	PRIMARY KEY("Num")

@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS TB_CRL_PROFILE (
  Num INT,
  Name VARCHAR(256),
  Version INT,
- LastUpdate INT,
+ ThisUpdate INT,
  NextUpdate INT,
  Hash VARCHAR(256),
  PRIMARY KEY(Num)

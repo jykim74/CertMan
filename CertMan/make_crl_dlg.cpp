@@ -91,7 +91,7 @@ void MakeCRLDlg::accept()
     int issuerIdx = mIssuerNameCombo->currentIndex();
     int profileIdx = mProfileNameCombo->currentIndex();
 
-    long uLastUpdate = -1;
+    long uThisUpdate = -1;
     long uNextUpdate = -1;
     int nKeyType = -1;
 
@@ -166,37 +166,37 @@ void MakeCRLDlg::accept()
 
     now_t = time(NULL);
 
-    if( profile.getLastUpdate() == 0 )
+    if( profile.getThisUpdate() == 0 )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
-        uLastUpdate = 0;
+        uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
-    else if( profile.getLastUpdate() == 1 )
+    else if( profile.getThisUpdate() == 1 )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
 
-        uLastUpdate = 0;
+        uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
-    else if( profile.getLastUpdate() == 2 )
+    else if( profile.getThisUpdate() == 2 )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 
-        uLastUpdate = 0;
+        uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
     else
     {
-        uLastUpdate = profile.getLastUpdate() - now_t;
+        uThisUpdate = profile.getThisUpdate() - now_t;
         uNextUpdate = profile.getNextUpdate() - now_t;
     }
 
     JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
                        profile.getVersion(),
                        profile.getHash().toStdString().c_str(),
-                       uLastUpdate,
+                       uThisUpdate,
                        uNextUpdate );
 
     /* need to set revoked certificate information */

@@ -1446,7 +1446,7 @@ int DBMgr::_getCRLProfileList( QString strQuery, QList<CRLProfileRec>& crlProfil
     int nPosNum = SQL.record().indexOf( "NUM" );
     int nPosName = SQL.record().indexOf( "NAME" );
     int nPosVersion = SQL.record().indexOf( "VERSION" );
-    int nPosLastUpdate = SQL.record().indexOf( "LASTUPDATE" );
+    int nPosThisUpdate = SQL.record().indexOf( "THISUPDATE" );
     int nPosNextUpdate = SQL.record().indexOf( "NEXTUPDATE" );
     int nPosHash = SQL.record().indexOf( "HASH" );
 
@@ -1457,7 +1457,7 @@ int DBMgr::_getCRLProfileList( QString strQuery, QList<CRLProfileRec>& crlProfil
         crlProfile.setNum( SQL.value(nPosNum).toInt() );
         crlProfile.setName( SQL.value(nPosName).toString() );
         crlProfile.setVersion( SQL.value(nPosVersion).toInt() );
-        crlProfile.setLastUpdate( SQL.value(nPosLastUpdate).toInt() );
+        crlProfile.setThisUpdate( SQL.value(nPosThisUpdate).toInt() );
         crlProfile.setNextUpdate( SQL.value(nPosNextUpdate).toInt() );
         crlProfile.setHash( SQL.value(nPosHash).toString() );
 
@@ -2025,14 +2025,14 @@ int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
     sqlQuery.prepare( "UPDATE TB_CRL_PROFILE SET "
                       "NAME = ?, "
                       "VERSION = ?, "
-                      "LASTUPDATE = ?, "
+                      "THISUPDATE = ?, "
                       "NEXTUPDATE = ?, "
                       "HASH = ? "
                       "WHERE NUM = ?;" );
 
     sqlQuery.bindValue( i++, profileRec.getName() );
     sqlQuery.bindValue( i++, profileRec.getVersion() );
-    sqlQuery.bindValue( i++, (int)profileRec.getLastUpdate() );
+    sqlQuery.bindValue( i++, (int)profileRec.getThisUpdate() );
     sqlQuery.bindValue( i++, (int)profileRec.getNextUpdate() );
     sqlQuery.bindValue( i++, profileRec.getHash() );
     sqlQuery.bindValue( i++, nProfileNum );
@@ -2141,13 +2141,13 @@ int DBMgr::addCRLProfileRec( CRLProfileRec& crlProfileRec )
     QSqlQuery sqlQuery;
 
     sqlQuery.prepare( "INSERT INTO TB_CRL_PROFILE "
-                      "( NUM, NAME, VERSION, LASTUPDATE, NEXTUPDATE, HASH ) "
+                      "( NUM, NAME, VERSION, THISUPDATE, NEXTUPDATE, HASH ) "
                       "VALUES( ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, crlProfileRec.getNum() );
     sqlQuery.bindValue( i++, crlProfileRec.getName() );
     sqlQuery.bindValue( i++, crlProfileRec.getVersion() );
-    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getLastUpdate()));
+    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getThisUpdate()));
     sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getNextUpdate()));
     sqlQuery.bindValue( i++, crlProfileRec.getHash());
 

@@ -37,5 +37,5 @@ INSERT INTO TB_CERT_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES 
 INSERT INTO TB_CERT_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (29,5,1,'keyUsage','digitalSignature#nonRepudiation');
 INSERT INTO TB_CERT_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (30,5,1,'certificatePolicies','OID$1.2.3.4#CPS$http://ocsp.test.com/cps.html#UserNotice$This is test OCSP user notice#');
 INSERT INTO TB_CERT_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (31,5,0,'subjectKeyIdentifier','');
-INSERT INTO TB_CRL_PROFILE (Num,Name,Version,LastUpdate,NextUpdate,Hash) VALUES (1,'CRL Profile',1,0,10,'SHA256');
+INSERT INTO TB_CRL_PROFILE (Num,Name,Version,ThisUpdate,NextUpdate,Hash) VALUES (1,'CRL Profile',1,0,10,'SHA256');
 

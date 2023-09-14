@@ -7,7 +7,7 @@ CRLProfileRec::CRLProfileRec()
     m_nVersion = -1;
     m_strName = "";
     m_strHash = "";
-    m_tLastUpdate = -1;
+    m_tThisUpdate = -1;
     m_tNextUpdate = -1;
 }
 
@@ -31,9 +31,9 @@ void CRLProfileRec::setHash( QString strHash )
     m_strHash = strHash;
 }
 
-void CRLProfileRec::setLastUpdate( time_t tLastUpdate )
+void CRLProfileRec::setThisUpdate( time_t tThisUpdate )
 {
-    m_tLastUpdate = tLastUpdate;
+    m_tThisUpdate = tThisUpdate;
 }
 
 void CRLProfileRec::setNextUpdate( time_t tNextUpdate )

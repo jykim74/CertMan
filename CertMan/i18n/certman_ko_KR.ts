@@ -159,7 +159,7 @@
     </message>
     <message>
         <source>LastUpdate</source>
-        <translation>최근 업데이트</translation>
+        <translation type="vanished">최근 업데이트</translation>
     </message>
     <message>
         <source>NextUpdate</source>
@@ -252,6 +252,10 @@
     <message>
         <source>CRLReason</source>
         <translation>폐기 사유</translation>
+    </message>
+    <message>
+        <source>ThisUpdate</source>
+        <translation>이번 업데이트</translation>
     </message>
 </context>
 <context>
@@ -1573,7 +1577,7 @@
     </message>
     <message>
         <source>LastUpdate</source>
-        <translation>최근 업데이트</translation>
+        <translation type="vanished">최근 업데이트</translation>
     </message>
     <message>
         <source>NextUpdate</source>
@@ -2059,6 +2063,10 @@
         <source>There is no valid key pair</source>
         <translation>유효한 키 쌍이 없습니다</translation>
     </message>
+    <message>
+        <source>ThisUpdate</source>
+        <translation>이번 업데이트</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
@@ -2326,7 +2334,7 @@
     </message>
     <message>
         <source>Last Update</source>
-        <translation>마지막 갱신</translation>
+        <translation type="vanished">마지막 갱신</translation>
     </message>
     <message>
         <source>Extend</source>
@@ -2431,6 +2439,10 @@
     <message>
         <source>You have to insert OID and Value both</source>
         <translation>OID 와 값 둘다 입력하세요</translation>
+    </message>
+    <message>
+        <source>This Update</source>
+        <translation>이번 업데이트</translation>
     </message>
 </context>
 <context>

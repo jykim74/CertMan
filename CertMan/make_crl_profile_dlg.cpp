@@ -131,23 +131,23 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     mVersionCombo->setCurrentIndex( crlProfile.getVersion() );
     mHashCombo->setCurrentText( crlProfile.getHash() );
 
-    if( crlProfile.getLastUpdate() >= 0 && crlProfile.getLastUpdate() <= 2)
+    if( crlProfile.getThisUpdate() >= 0 && crlProfile.getThisUpdate() <= 2)
     {
         mUseFromNowCheck->setChecked(true);
-        mValidDaysTypeCombo->setCurrentIndex( crlProfile.getLastUpdate() );
+        mValidDaysTypeCombo->setCurrentIndex( crlProfile.getThisUpdate() );
         mValidDaysText->setText( QString("%1").arg(crlProfile.getNextUpdate()));
     }
     else
     {
-        QDateTime lastUpdate;
+        QDateTime thisUpdate;
         QDateTime nextUpdate;
 
         mUseFromNowCheck->setChecked(false);
 
-        lastUpdate.setTime_t( crlProfile.getLastUpdate() );
+        thisUpdate.setTime_t( crlProfile.getThisUpdate() );
         nextUpdate.setTime_t( crlProfile.getNextUpdate() );
 
-        mLastUpdateDateTime->setDateTime(lastUpdate);
+        mThisUpdateDateTime->setDateTime(thisUpdate);
         mNextUpdateDateTime->setDateTime(nextUpdate );
     }
 
@@ -237,16 +237,16 @@ void MakeCRLProfileDlg::accept()
 
     if( mUseFromNowCheck->isChecked() )
     {
-        crlProfileRec.setLastUpdate( mValidDaysTypeCombo->currentIndex() );
+        crlProfileRec.setThisUpdate( mValidDaysTypeCombo->currentIndex() );
         crlProfileRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
-        if( mLastUpdateDateTime->dateTime().toTime_t() <= 10 )
+        if( mThisUpdateDateTime->dateTime().toTime_t() <= 10 )
         {
-            manApplet->warningBox( QString( tr("Too early time : %1").arg( mLastUpdateDateTime->dateTime().toTime_t())), this );
+            manApplet->warningBox( QString( tr("Too early time : %1").arg( mThisUpdateDateTime->dateTime().toTime_t())), this );
             return;
         }
-        crlProfileRec.setLastUpdate( mLastUpdateDateTime->dateTime().toTime_t() );
+        crlProfileRec.setThisUpdate( mThisUpdateDateTime->dateTime().toTime_t() );
         crlProfileRec.setNextUpdate( mNextUpdateDateTime->dateTime().toTime_t() );
     }
 
@@ -312,7 +312,7 @@ void MakeCRLProfileDlg::initUI()
 
     QDateTime   now;
     now.setTime_t( time(NULL) );
-    mLastUpdateDateTime->setDateTime( now );
+    mThisUpdateDateTime->setDateTime( now );
     mNextUpdateDateTime->setDateTime( now );
 }
 
@@ -385,7 +385,7 @@ void MakeCRLProfileDlg::clickUseFromNow()
 
     mValidDaysText->setEnabled( bStatus );
     mValidDaysTypeCombo->setEnabled( bStatus );
-    mLastUpdateDateTime->setEnabled( !bStatus );
+    mThisUpdateDateTime->setEnabled( !bStatus );
     mNextUpdateDateTime->setEnabled( !bStatus );
 }
 

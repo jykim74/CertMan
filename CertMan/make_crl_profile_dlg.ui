@@ -182,7 +182,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="1">
-          <widget class="QDateTimeEdit" name="mLastUpdateDateTime"/>
+          <widget class="QDateTimeEdit" name="mThisUpdateDateTime"/>
          </item>
          <item row="0" column="2">
           <widget class="QLabel" name="label_10">
@@ -194,7 +194,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_9">
            <property name="text">
-            <string>Last Update</string>
+            <string>This Update</string>
            </property>
           </widget>
          </item>
@@ -597,7 +597,7 @@
   <tabstop>mUseFromNowCheck</tabstop>
   <tabstop>mValidDaysTypeCombo</tabstop>
   <tabstop>mValidDaysText</tabstop>
-  <tabstop>mLastUpdateDateTime</tabstop>
+  <tabstop>mThisUpdateDateTime</tabstop>
   <tabstop>mNextUpdateDateTime</tabstop>
   <tabstop>mExtensionsClearBtn</tabstop>
   <tabstop>mExtensionsAddBtn</tabstop>
