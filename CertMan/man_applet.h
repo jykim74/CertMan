@@ -59,6 +59,7 @@ public:
     bool isPasswd() { return is_passwd_; };
     const QString priPasswd() { return pri_passwd_; };
     void setPasswdKey( const QString strPasswd );
+    void clearPasswdKey();
 
     QString getEncPriHex( const BIN *pPri );
     int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );

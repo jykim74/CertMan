@@ -996,7 +996,7 @@ void MainWindow::logout()
         dbMgr->close();
         removeAllRight();
         left_model_->clear();
-
+        manApplet->clearPasswdKey();
         manApplet->messageBox( tr( "Database is closed"), this );
     }
 }

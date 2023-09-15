@@ -365,6 +365,12 @@ void ManApplet::setPasswdKey( const QString strPasswd )
     is_passwd_ = true;
 }
 
+void ManApplet::clearPasswdKey()
+{
+    pri_passwd_.clear();
+    is_passwd_ = false;
+}
+
 QString ManApplet::getEncPriHex( const BIN *pPri )
 {
     int ret = 0;
