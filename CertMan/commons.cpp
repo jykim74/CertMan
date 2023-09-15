@@ -117,6 +117,22 @@ static int _getKeyUsage( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getKeyUsageProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList valList = strVal.split( "#" );
+
+    for( int i = 0; i < valList.size(); i++ )
+    {
+        QString strOne = valList.at(i);
+
+        if( i != 0 ) strShow += ",";
+        strShow += strOne;
+    }
+
+    return strShow;
+}
+
 static int _setCRLNum( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -143,6 +159,13 @@ static int _getCRLNum( const BIN *pBinExt, bool bShow, QString& strVal )
     }
 
     return 0;
+}
+
+static const QString _getCRLNumProfile( const QString strVal )
+{
+    QString strShow = strVal;
+
+    return strShow;
 }
 
 static int _setCertPolicy( BIN *pBinExt, const QString strVal )
@@ -239,6 +262,45 @@ static int _getCertPolicy( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getCertPolicyProfile( const QString strVal )
+{
+    QString strShow;
+
+    QStringList valList = strVal.split( "%%" );
+
+    for( int i = 0; i < valList.size(); i++ )
+    {
+        QString infoVal = valList.at(i);
+        QStringList infoList = infoVal.split( "#" );
+
+        strShow += QString( "[%1]Certificate Policy:\n" ).arg(i+1);
+
+        for( int k = 0; k < infoList.size(); k++ )
+        {
+            QString oneVal = infoList.at(k);
+            QStringList oneList = oneVal.split( "$" );
+            if( oneList.size() < 2 ) continue;
+            QString strT = oneList.at(0);
+            QString strV = oneList.at(1);
+
+            if( strT == "OID" )
+            {
+                strShow += QString( " Policy Identifier=%1\n" ).arg( strV );
+            }
+            else if( strT == "CPS" )
+            {
+                strShow += QString( " [%1,1] CPS = %2\n" ).arg( i+1 ).arg( strV );
+            }
+            else if( strT == "UserNotice" )
+            {
+                strShow += QString( " [%1,2] UserNotice = %2\n" ).arg( i+1 ).arg( strV );
+            }
+        }
+    }
+
+    return strShow;
+}
+
 static int _setSKI( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -264,6 +326,12 @@ static int _getSKI( const BIN *pBinExt, bool bShow, QString& strVal )
     }
 
     return 0;
+}
+
+static const QString _getSKIProfile( const QString strVal )
+{
+    QString strShow = "keyIdentifier";
+    return strShow;
 }
 
 static int _setAKI( BIN *pBinExt, const QString strVal )
@@ -322,6 +390,27 @@ static int _getAKI( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getAKIProfile( const QString strVal )
+{
+    QString strShow;
+
+    QStringList valList = strVal.split( "#" );
+
+    strShow = "IssuerKeyIdentifier";
+
+    for( int i = 0; i < valList.size(); i++ )
+    {
+        QString strOne = valList.at(i);
+
+        if( strOne == "ISSUER" )
+            strShow += "\nCertificateIssuer";
+        else if( strOne == "SERIAL" )
+            strShow += "\nCertificateSerialNumber";
+    }
+
+    return strShow;
+}
+
 static int _setEKU( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -367,6 +456,22 @@ static int _getEKU( const BIN *pBinExt, bool bShow, QString& strVal )
 
     if( pEKUList ) JS_UTIL_resetStrList( &pEKUList );
     return 0;
+}
+
+static const QString _getEKUProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList valList = strVal.split( "#" );
+
+    for( int i = 0; i < valList.size(); i++ )
+    {
+        QString strOne = valList.at(i);
+
+        if( i != 0 ) strShow += ",";
+        strShow += strOne;
+    }
+
+    return strShow;
 }
 
 static int _setCRLDP( BIN *pBinExt, const QString strVal )
@@ -1317,6 +1422,79 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
     }
 
     JS_BIN_reset( &binExt );
+}
+
+const QString getProfileExtInfoValue( const QString strSN, const QString& strVal )
+{
+    QString strShowVal;
+
+    if( strSN == JS_PKI_ExtNameKeyUsage )
+    {
+        strShowVal = _getKeyUsageProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameCRLNum )
+    {
+        strShowVal = _getCRLNumProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNamePolicy )
+    {
+        strShowVal = _getCertPolicyProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameSKI )
+    {
+        strShowVal = _getSKIProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameAKI )
+    {
+        strShowVal = _getAKIProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameEKU )
+    {
+        strShowVal = _getEKUProfile( strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameCRLDP )
+    {
+//        strShowVal = _getCRLDP( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameBC )
+    {
+//        strShowVal = _getBC( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNamePC )
+    {
+//        strShowVal = _getPC( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameAIA )
+    {
+ //       strShowVal = _getAIA( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameIDP )
+    {
+//        strShowVal = _getIDP( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
+    {
+        int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
+//        strShowVal = _getAltName( &binExt, nNid, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNamePM )
+    {
+ //       strShowVal = _getPM( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameNC )
+    {
+//        strShowVal = _getNC( &binExt, true, strVal );
+    }
+    else if( strSN == JS_PKI_ExtNameCRLReason )
+    {
+//        strShowVal = _getCRLReason( &binExt, true, strVal );
+    }
+    else
+    {
+        strShowVal = strVal;
+    }
+
+    return strShowVal;
 }
 
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )

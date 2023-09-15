@@ -4886,7 +4886,9 @@ void MainWindow::infoCertProfile( int seq )
 
 void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 {
+    QString strSN = profileExt.getSN();
     QString strValue = profileExt.getValue();
+    QString strShowValue = getProfileExtInfoValue( strSN, strValue );
 
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString( "| %1 | %2 | Seq: %3 |\n")
@@ -4897,7 +4899,7 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
     if( strValue.length() > 0 )
     {
         manApplet->info( "------------------------------------------------------------------------\n" );
-        manApplet->info( QString( "| %1\n" ).arg( strValue ) );
+        manApplet->info( QString( "| %1\n" ).arg( strShowValue ) );
     }
 
     manApplet->info( "========================================================================\n" );
