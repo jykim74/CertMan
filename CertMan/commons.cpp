@@ -3397,7 +3397,7 @@ const QString getCRLDPFromInfo( const QString &strExtCRLDP )
             return strCRLDP;
         }
 
-        strCRLDP = QString( "%1=%2").arg( strParts.at(0) ).arg( strParts.at(1) );
+        strCRLDP = strParts.at(1);
         return strCRLDP;
     }
 }
