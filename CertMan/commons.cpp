@@ -130,6 +130,8 @@ static const QString _getKeyUsageProfile( const QString strVal )
         strShow += strOne;
     }
 
+    strShow += "\n";
+
     return strShow;
 }
 
@@ -163,7 +165,9 @@ static int _getCRLNum( const BIN *pBinExt, bool bShow, QString& strVal )
 
 static const QString _getCRLNumProfile( const QString strVal )
 {
-    QString strShow = strVal;
+    QString strShow;
+
+    strShow = QString( "%1\n" ).arg( strVal );
 
     return strShow;
 }
@@ -330,7 +334,7 @@ static int _getSKI( const BIN *pBinExt, bool bShow, QString& strVal )
 
 static const QString _getSKIProfile( const QString strVal )
 {
-    QString strShow = "keyIdentifier";
+    QString strShow = "keyIdentifier = [variable]\n";
     return strShow;
 }
 
@@ -396,16 +400,16 @@ static const QString _getAKIProfile( const QString strVal )
 
     QStringList valList = strVal.split( "#" );
 
-    strShow = "IssuerKeyIdentifier";
+    strShow = "IssuerKeyIdentifier = [variable]\n";
 
     for( int i = 0; i < valList.size(); i++ )
     {
         QString strOne = valList.at(i);
 
         if( strOne == "ISSUER" )
-            strShow += "\nCertificateIssuer";
+            strShow += " CertificateIssuer = [variable]\n";
         else if( strOne == "SERIAL" )
-            strShow += "\nCertificateSerialNumber";
+            strShow += " CertificateSerialNumber = [variable]\n";
     }
 
     return strShow;
@@ -470,6 +474,8 @@ static const QString _getEKUProfile( const QString strVal )
         if( i != 0 ) strShow += ",";
         strShow += strOne;
     }
+
+    strShow += "\n";
 
     return strShow;
 }
@@ -544,6 +550,24 @@ static int _getCRLDP( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getCRLDPProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+        if( partList.size() < 2 ) continue;
+
+        strShow += QString( "[%1] CRL Distribution Point\n" ).arg(i);
+        strShow += QString( " %1=%2\n" ).arg( partList.at(0) ).arg( partList.at(1) );
+    }
+
+    return strShow;
+}
+
 static int _setBC( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -602,6 +626,32 @@ static int _getBC( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getBCProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    if( infoList.size() < 1 ) return strShow;
+
+    QString strType = infoList.at(0);
+    strShow += QString( "SubjectType=%1\n").arg(strType);
+
+    if( strType == "CA" )
+    {
+        if( infoList.size() > 1 )
+        {
+            int nPathLen = infoList.at(1).toInt();
+            strShow += QString( "PathLengthConstraint=%1\n" ).arg(nPathLen);
+        }
+        else
+        {
+            strShow = QString( "PathLengthConstraint=None\n" );
+        }
+    }
+
+    return strShow;
+}
+
 static int _setPC( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -652,6 +702,30 @@ static int _getPC( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getPCProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 2 ) continue;
+
+        QString strType = partList.at(0);
+        QString strNum = partList.at(1);
+
+        if( strType == "REP" )
+            strShow += QString("RequiredExplicitPolicySkipCerts=%1\n").arg( strNum );
+        else if( strType == "IPM" )
+            strShow += QString("InhibitPolicyMappingSkipCerts=%1\n").arg( strNum );
+    }
+
+    return strShow;
+}
+
 static int _setAIA( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -680,12 +754,7 @@ static int _setAIA( BIN *pBinExt, const QString strVal )
         strType = subList.at(1);
         strName = subList.at(2);
 
-        if( strType == "URI" )
-            nType = JS_PKI_NAME_TYPE_URI;
-        else if( strType == "DNS" )
-            nType = JS_PKI_NAME_TYPE_DNS;
-        else if( strType == "email" )
-            nType = JS_PKI_NAME_TYPE_EMAIL;
+        nType = JS_PKI_getGenNameType( strType.toStdString().c_str() );
 
         if( strMethod.toUpper() == "CAISSUER" )
             strMethodOID = "1.3.6.1.5.5.7.48.2";
@@ -749,6 +818,31 @@ static int _getAIA( const BIN *pBinExt, bool bShow, QString& strVal )
 
     if( pAIAList ) JS_PKI_resetExtAuthorityInfoAccessList( &pAIAList );
     return 0;
+}
+
+static const QString _getAIAProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 3 ) continue;
+
+        QString strMethod = partList.at(0);
+        QString strType = partList.at(1);
+        QString strName = partList.at(2);
+
+        strShow += QString( "[%1]Authority Info Access\n" ).arg(i);
+        strShow += QString( " Access Method=%1\n").arg( strMethod );
+        strShow += QString( " Alternative Name:\n" );
+        strShow += QString( " %1=%2\n" ).arg(strType).arg( strName );
+    }
+
+    return strShow;
 }
 
 static int _setIDP( BIN *pBinExt, const QString strVal )
@@ -827,6 +921,28 @@ static int _getIDP( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getIDPProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 2 ) continue;
+
+        QString strType = partList.at(0);
+        QString strDP = partList.at(1);
+
+        strShow += QString("[%1] Issuing Distribution Point:\n" ).arg(i);
+        strShow += QString( " %1=%2\n" ).arg( strType ).arg( strDP );
+    }
+
+    return strShow;
+}
+
 static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
 {
     int ret = 0;
@@ -882,7 +998,7 @@ static int _getAltName( const BIN *pBinExt, int nNid, bool bShow, QString& strVa
         if( bShow )
         {
             if( pCurList->sNumVal.nNum == JS_PKI_NAME_TYPE_OTHERNAME )
-                strVal += QString( "%1:\n %2").arg( strType ).arg( pCurList->sNumVal.pValue );
+                strVal += QString( "%1: %2\n").arg( strType ).arg( pCurList->sNumVal.pValue );
             else
                 strVal += QString( "%1=%2\n" ).arg( strType ).arg( pCurList->sNumVal.pValue );
         }
@@ -896,6 +1012,27 @@ static int _getAltName( const BIN *pBinExt, int nNid, bool bShow, QString& strVa
 
     if( pAltNameList ) JS_UTIL_resetNumValList( &pAltNameList );
     return 0;
+}
+
+static const QString _getAltNameProfile( int nNid, const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 2 ) continue;
+
+        QString strType = partList.at(0);
+        QString strName = partList.at(1);
+
+        strShow += QString( "%1 : %2\n" ).arg( strType ).arg( strName );
+    }
+
+    return strShow;
 }
 
 static int _setPM( BIN *pBinExt, const QString strVal )
@@ -969,6 +1106,30 @@ static int _getPM( const BIN *pBinExt, bool bShow, QString& strVal )
 
     if( pPMList ) JS_PKI_resetExtPolicyMappingsList( &pPMList );
     return 0;
+}
+
+static const QString _getPMProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 2 ) continue;
+
+        QString strType = partList.at(0);
+        QString strOID = partList.at(1);
+
+        if( strType == "IDP" )
+            strShow += QString( "[%1]Issuer Domain=%2\n" ).arg(i).arg( strOID );
+        else if( strType == "SDP" )
+            strShow += QString( " Subject Domain=%1\n" ).arg( strOID );
+    }
+
+    return strShow;
 }
 
 static int _setNC( BIN *pBinExt, const QString strVal )
@@ -1075,6 +1236,53 @@ static int _getNC( const BIN *pBinExt, bool bShow, QString& strVal )
     return 0;
 }
 
+static const QString _getNCProfile( const QString strVal )
+{
+    QString strShow;
+    QStringList infoList = strVal.split( "#" );
+    int pi = 1;
+    int ei = 1;
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+
+        if( partList.size() < 3 ) continue;
+
+        QString strType = partList.at(0);
+        QString strKind = partList.at(1);
+        QString strData = partList.at(2);
+        QString strMin;
+        QString strMax;
+
+        if( partList.size() >= 5 )
+        {
+            strMin = partList.at(3);
+            strMax = partList.at(4);
+        }
+
+        if( strKind == "permittedSubtrees" )
+        {
+            if( pi == 1 ) strShow += QString( "Permitted\n" );
+            strShow += QString( " [%1]Subtrees(%2..%3)\n" ).arg( pi ).arg( strMax ).arg( strMin );
+            strShow += QString( "  %1 : %2\n" ).arg( strType ).arg( strData );
+
+            pi++;
+        }
+        else if( strKind == "excludedSubtrees" )
+        {
+            if( ei == 1 ) strShow += QString( "Excluded\n" );
+            strShow += QString( " [%1]Subtrees(%2..%3)\n" ).arg( ei ).arg( strMax ).arg( strMin );
+            strShow += QString( "  %1 : %2\n" ).arg( strType ).arg( strData );
+
+            ei++;
+        }
+    }
+
+    return strShow;
+}
+
 static int _setCRLReason( BIN *pBinExt, const QString strVal )
 {
     int ret = 0;
@@ -1095,6 +1303,15 @@ static int _getCRLReason( const BIN *pBinExt, bool bShow, QString& strVal )
     if( nReason >= 0 ) strVal = crl_reasons[nReason];
 
     return 0;
+}
+
+static const QString _getCRLReasonProfile( const QString strVal )
+{
+    QString strShow;
+
+    strShow = QString( "%1\n" ).arg( strVal );
+
+    return strShow;
 }
 
 static int _setOctet( BIN *pBinExt, const QString strVal )
@@ -1454,40 +1671,40 @@ const QString getProfileExtInfoValue( const QString strSN, const QString& strVal
     }
     else if( strSN == JS_PKI_ExtNameCRLDP )
     {
-//        strShowVal = _getCRLDP( &binExt, true, strVal );
+        strShowVal = _getCRLDPProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameBC )
     {
-//        strShowVal = _getBC( &binExt, true, strVal );
+        strShowVal = _getBCProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNamePC )
     {
-//        strShowVal = _getPC( &binExt, true, strVal );
+        strShowVal = _getPCProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameAIA )
     {
- //       strShowVal = _getAIA( &binExt, true, strVal );
+        strShowVal = _getAIAProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameIDP )
     {
-//        strShowVal = _getIDP( &binExt, true, strVal );
+        strShowVal = _getIDPProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
-//        strShowVal = _getAltName( &binExt, nNid, true, strVal );
+        strShowVal = _getAltNameProfile( nNid, strVal );
     }
     else if( strSN == JS_PKI_ExtNamePM )
     {
- //       strShowVal = _getPM( &binExt, true, strVal );
+        strShowVal = _getPMProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameNC )
     {
-//        strShowVal = _getNC( &binExt, true, strVal );
+        strShowVal = _getNCProfile( strVal );
     }
     else if( strSN == JS_PKI_ExtNameCRLReason )
     {
-//        strShowVal = _getCRLReason( &binExt, true, strVal );
+        strShowVal = _getCRLReasonProfile( strVal );
     }
     else
     {

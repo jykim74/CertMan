@@ -4896,10 +4896,10 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
                      .arg( profileExt.isCritical() ? "Critical" : "Normal", 10 )
                      .arg( profileExt.getSeq(), 10 ));
 
-    if( strValue.length() > 0 )
+    if( strShowValue.length() > 0 )
     {
         manApplet->info( "------------------------------------------------------------------------\n" );
-        manApplet->info( QString( "| %1\n" ).arg( strShowValue ) );
+        manApplet->info( QString( "%1" ).arg( strShowValue ) );
     }
 
     manApplet->info( "========================================================================\n" );
