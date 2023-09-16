@@ -33,14 +33,6 @@ static QStringList sExtNames = {
 
 static QStringList kPeriodTypes = { "Day", "Month", "Year" };
 
-static QStringList kExtUsageList = {
-    "The Certificate Extension Only",
-    "The CSR Extension Only",
-    "Both Certificate and CSR, and the The certificate first",
-    "Both Certificate and CSR and the CSR first"
-};
-
-
 MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -386,6 +378,13 @@ void MakeCertProfileDlg::changeDaysType( int index )
 
 void MakeCertProfileDlg::initUI()
 {
+    static QStringList kExtUsageList = {
+        tr("The Certificate Extension Only"),
+        tr("The CSR Extension Only"),
+        tr("Both Certificate and CSR and the The certificate first"),
+        tr("Both Certificate and CSR and the CSR first")
+    };
+
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 

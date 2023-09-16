@@ -3165,6 +3165,22 @@
         <source>IssuerDomainPolicy and SubjectDomainPolicy could not be the same</source>
         <translation>발급자 도메인 정책과 주체자 도메인 정책은 같을 수 없습니다</translation>
     </message>
+    <message>
+        <source>The Certificate Extension Only</source>
+        <translation>인증서 확장자만 사용</translation>
+    </message>
+    <message>
+        <source>The CSR Extension Only</source>
+        <translation>요청서 확장자만 사용</translation>
+    </message>
+    <message>
+        <source>Both Certificate and CSR and the The certificate first</source>
+        <translation>인증서 요청서 확장 둘다 사용 (인증서 우선)</translation>
+    </message>
+    <message>
+        <source>Both Certificate and CSR and the CSR first</source>
+        <translation>인증서 요청서 확장 둘다 사용 (요청서 우선)</translation>
+    </message>
 </context>
 <context>
     <name>MakeReqDlg</name>

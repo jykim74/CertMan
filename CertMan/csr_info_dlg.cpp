@@ -73,7 +73,7 @@ void CSRInfoDlg::initialize()
     dbMgr->getReqRec( csr_num_, req );
     JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
 
-    ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, &pExtInfoList );
+    ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 1, &pExtInfoList );
 
     if( ret != 0 )
     {

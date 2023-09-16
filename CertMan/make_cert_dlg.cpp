@@ -323,7 +323,7 @@ void MakeCertDlg::accept()
         JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
     }
 
-    JS_PKI_getReqInfo( &binCSR, &sReqInfo, &pCSRExtInfoList );
+    JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
 
     if( sReqInfo.bVerify == 0 )
     {
@@ -830,7 +830,7 @@ void MakeCertDlg::findCSRFile()
         ret = JS_BIN_fileRead( filePath.toLocal8Bit().toStdString().c_str(), &binCSR );
         if( ret <= 0 ) goto end;
 
-        ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, NULL );
+        ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 1, NULL );
         if( ret != 0 ) goto end;
 
         mCSRFilePathText->setText( filePath );

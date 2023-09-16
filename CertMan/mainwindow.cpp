@@ -3869,7 +3869,7 @@ void MainWindow::createRightCertProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBefore"), tr("NotAfter"), tr("Hash"), tr("Type") };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("NotBefore"), tr("NotAfter"), tr("Hash") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -3884,11 +3884,10 @@ void MainWindow::createRightCertProfileList()
     manApplet->dbMgr()->getCertProfileList( certProfileList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 200 );
+    right_table_->setColumnWidth( 1, 300 );
     right_table_->setColumnWidth( 2, 60 );
     right_table_->setColumnWidth( 3, 100 );
     right_table_->setColumnWidth( 4, 100 );
-    right_table_->setColumnWidth( 5, 60 );
 
     for( int i=0; i < certProfileList.size(); i++ )
     {
@@ -3944,7 +3943,6 @@ void MainWindow::createRightCertProfileList()
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
         right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNotAfter )));
         right_table_->setItem( i, 5, new QTableWidgetItem( certProfile.getHash() ));
-        right_table_->setItem( i, 6, new QTableWidgetItem( getProfileType( certProfile.getType() ) ));
     }
 }
 
@@ -4869,11 +4867,16 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->info( QString("Name        : %1\n").arg(certProfile.getName()));
     manApplet->info( QString("Type        : %1 - %2\n").arg(certProfile.getType()).arg( getProfileType( certProfile.getType())));
     manApplet->info( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
-    manApplet->info( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
-    manApplet->info( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
-    manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
+
+    if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CERT )
+    {
+        manApplet->info( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
+        manApplet->info( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
+        manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
+        manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
+    }
+
     manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
-    manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
     manApplet->info( "========================================================================\n" );
 
     QList<ProfileExtRec> extList;

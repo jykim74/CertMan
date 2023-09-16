@@ -650,7 +650,7 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     JExtensionInfoList *pExtInfoList = NULL;
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
-    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, &pExtInfoList );
+    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, 1, &pExtInfoList );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCSR, &pHexCSR );
