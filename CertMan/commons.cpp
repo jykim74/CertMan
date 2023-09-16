@@ -167,7 +167,10 @@ static const QString _getCRLNumProfile( const QString strVal )
 {
     QString strShow;
 
-    strShow = QString( "%1\n" ).arg( strVal );
+    if( strVal == "auto" )
+        strShow = QString( "CRLNumber = [variable]\n" );
+    else
+        strShow = QString( "CRLNumber = %1 (%2 Hex)\n" ).arg( strVal.toInt() ).arg( strVal.toInt(), 0, 16);
 
     return strShow;
 }
