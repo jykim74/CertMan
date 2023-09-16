@@ -1998,8 +1998,8 @@ int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
                       "WHERE NUM = ?;" );
 
     sqlQuery.bindValue( i++, profileRec.getName() );
-    sqlQuery.bindValue( i++, profileRec.getVersion() );
     sqlQuery.bindValue( i++, profileRec.getType() );
+    sqlQuery.bindValue( i++, profileRec.getVersion() );
     sqlQuery.bindValue( i++, (int)profileRec.getNotBefore() );
     sqlQuery.bindValue( i++, (int)profileRec.getNotAfter() );
     sqlQuery.bindValue( i++, profileRec.getExtUsage() );

@@ -102,7 +102,11 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     else
         mNameText->setText( certProfile.getName() );
 
-    mForCSRCheck->setChecked( certProfile.getType() );
+    if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
+        mForCSRCheck->setChecked( true );
+    else
+        mForCSRCheck->setChecked( false );
+
     mVersionCombo->setCurrentIndex( certProfile.getVersion() );
     mHashCombo->setCurrentText( certProfile.getHash() );
     mSubjectDNText->setText( certProfile.getDNTemplate() );
@@ -294,8 +298,13 @@ void MakeCertProfileDlg::accept()
     else
     {
         certProfileRec.setType( JS_PKI_PROFILE_TYPE_CERT );
+        QString strSubjectDN;
 
-        QString strSubjectDN = mSubjectDNText->text();
+        if( mUseCSRCheck->isChecked() )
+            strSubjectDN = "#CSR";
+        else
+            strSubjectDN = mSubjectDNText->text();
+
         if( strSubjectDN.isEmpty() )
         {
             manApplet->warningBox(tr( "You have to set subjec dn"), this );
@@ -1294,6 +1303,7 @@ void MakeCertProfileDlg::checkForCSR()
     mNotBeforeDateTime->setEnabled( !bVal );
     mUseDaysCheck->setEnabled( !bVal );
     mUseCSRCheck->setEnabled( !bVal );
+
     mDaysLabel->setEnabled( !bVal );
     mDaysTypeCombo->setEnabled( !bVal );
     mDaysText->setEnabled( !bVal );
@@ -1304,6 +1314,8 @@ void MakeCertProfileDlg::checkForCSR()
         mVersionCombo->setCurrentIndex(0);
     else
         mVersionCombo->setCurrentIndex(2);
+
+    clickUseCSR();
 }
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )

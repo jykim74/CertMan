@@ -2464,6 +2464,10 @@
         <source>This Update</source>
         <translation>이번 업데이트</translation>
     </message>
+    <message>
+        <source>%1 is already added</source>
+        <translation>%1 이 이미 추가 되었습니다.</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertDlg</name>
@@ -3152,6 +3156,10 @@
     <message>
         <source>You have to insert OID and Value both</source>
         <translation>OID 와 값 둘다 입력하세요</translation>
+    </message>
+    <message>
+        <source>%1 is already added</source>
+        <translation>%1 이 이미 추가 되었습니다.</translation>
     </message>
 </context>
 <context>
