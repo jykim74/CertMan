@@ -598,8 +598,11 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
 
         QTableWidgetItem* useitem = right_table_->item( row, 5 );
-        if( useitem->text() == "NotUsed" )
-            menu.addAction(tr("Make Request"), this, &MainWindow::makeRequestSetKeyName );
+        if( useitem != NULL )
+        {
+            if( useitem->text() == "NotUsed" )
+                menu.addAction(tr("Make Request"), this, &MainWindow::makeRequestSetKeyName );
+        }
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
@@ -608,9 +611,13 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Import CSR"), this, &MainWindow::importCSR );
         menu.addAction(tr("View CSR"), this, &MainWindow::viewCSR );
 
-        QTableWidgetItem* useitem = right_table_->item( row, 5 );
-        if( useitem->text() == "NotUsed" )
-            menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
+        QTableWidgetItem* useitem = right_table_->item( row, 3 );
+
+        if( useitem != NULL )
+        {
+            if( useitem->text() == "NotUsed" )
+                menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
+        }
 
         if( manApplet->isPRO() )
         {

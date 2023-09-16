@@ -1183,7 +1183,7 @@ void MakeCertProfileDlg::addExtensions()
 
     for( int i = 0; i < row; i++ )
     {
-        QTableWidgetItem *item = mExtensionsTable->item( i, 1 );
+        QTableWidgetItem *item = mExtensionsTable->item( i, 0 );
         if( item->text() == strOID )
         {
             manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
