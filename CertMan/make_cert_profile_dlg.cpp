@@ -917,6 +917,16 @@ void MakeCertProfileDlg::addKeyUsage()
 {
     QString strVal = mKeyUsageCombo->currentText();
 
+    for( int i = 0; i < mKeyUsageList->count(); i++ )
+    {
+        QListWidgetItem *item = mKeyUsageList->item(i);
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mKeyUsageList->addItem( strVal );
 }
 
@@ -939,6 +949,16 @@ void MakeCertProfileDlg::addPolicy()
 void MakeCertProfileDlg::addEKU()
 {
     QString strVal = mEKUCombo->currentText();
+
+    for( int i = 0; i < mEKUList->count(); i++ )
+    {
+        QListWidgetItem *item = mEKUList->item(i);
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
 
     mEKUList->addItem( strVal );
 }
