@@ -444,6 +444,16 @@ void MakeCRLProfileDlg::addIDP()
     }
 
     int row = mIDPTable->rowCount();
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mIDPTable->item( i, 1 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mIDPTable->setRowCount( row + 1 );
 
     mIDPTable->setRowHeight( row, 10 );
@@ -463,6 +473,16 @@ void MakeCRLProfileDlg::addIAN()
     }
 
     int row = mIANTable->rowCount();
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mIANTable->item( i, 1 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mIANTable->setRowCount( row + 1 );
 
     mIANTable->setRowHeight( row, 10 );
@@ -489,6 +509,17 @@ void MakeCRLProfileDlg::addExtensions()
         strCrit = "false";
 
     int row = mExtensionsTable->rowCount();
+
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mExtensionsTable->item( i, 1 );
+        if( item->text() == strOID )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            return;
+        }
+    }
+
     mExtensionsTable->setRowCount( row + 1 );
     mExtensionsTable->setRowHeight( row, 10 );
     mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));

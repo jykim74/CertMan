@@ -938,6 +938,16 @@ void MakeCertProfileDlg::addPolicy()
 
     int row = mPolicyTable->rowCount();
 
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mPolicyTable->item( i, 0 );
+        if( item->text() == strOID )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            return;
+        }
+    }
+
     mPolicyTable->setRowCount( row + 1 );
 
     mPolicyTable->setRowHeight( row, 10 );
@@ -975,6 +985,17 @@ void MakeCertProfileDlg::addCRLDP()
     }
 
     int row = mCRLDPTable->rowCount();
+
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mCRLDPTable->item( i, 1 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mCRLDPTable->setRowCount( row + 1 );
 
     mCRLDPTable->setRowHeight( row, 10 );
@@ -996,6 +1017,16 @@ void MakeCertProfileDlg::addAIA()
 
     int row = mAIATable->rowCount();
 
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mAIATable->item( i, 2 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mAIATable->setRowCount( row + 1 );
 
     mAIATable->setRowHeight( row, 10 );
@@ -1016,6 +1047,16 @@ void MakeCertProfileDlg::addSAN()
     }
 
     int row = mSANTable->rowCount();
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mSANTable->item( i, 1 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mSANTable->setRowCount( row + 1 );
 
     mSANTable->setRowHeight( row, 10 );
@@ -1035,6 +1076,17 @@ void MakeCertProfileDlg::addIAN()
     }
 
     int row = mIANTable->rowCount();
+
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mIANTable->item( i, 1 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mIANTable->setRowCount( row + 1 );
 
     mIANTable->setRowHeight( row, 10 );
@@ -1054,6 +1106,17 @@ void MakeCertProfileDlg::addPM()
     }
 
     int row = mPMTable->rowCount();
+
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mPMTable->item( i, 1 );
+        if( item->text() == strIDP )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strIDP ), this );
+            return;
+        }
+    }
+
     mPMTable->setRowCount( row + 1 );
 
     mPMTable->setRowHeight( row, 10 );
@@ -1078,6 +1141,16 @@ void MakeCertProfileDlg::addNC()
     }
 
     int row = mNCTable->rowCount();
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mNCTable->item( i, 2 );
+        if( item->text() == strVal )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            return;
+        }
+    }
+
     mNCTable->setRowCount( row + 1 );
 
     mNCTable->setRowHeight( row, 10 );
@@ -1107,6 +1180,17 @@ void MakeCertProfileDlg::addExtensions()
         strCrit = "false";
 
     int row = mExtensionsTable->rowCount();
+
+    for( int i = 0; i < row; i++ )
+    {
+        QTableWidgetItem *item = mExtensionsTable->item( i, 1 );
+        if( item->text() == strOID )
+        {
+            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            return;
+        }
+    }
+
     mExtensionsTable->setRowCount( row + 1 );
     mExtensionsTable->setRowHeight( row, 10 );
     mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
