@@ -75,6 +75,7 @@ void MakeCertProfileDlg::setEdit(int nProfileNum )
     is_edit_ = true;
     profile_num_ = nProfileNum;
     loadProfile( profile_num_ );
+    mForCSRCheck->setEnabled(false);
 }
 
 void MakeCertProfileDlg::initialize()
@@ -1111,6 +1112,12 @@ void MakeCertProfileDlg::addPM()
     if( strIDP.length() < 1 || strSDP.length() < 1 )
     {
         manApplet->warningBox( tr( "You have to insert issuerDomainPolicy and subjectDomainPolicy both"), this );
+        return;
+    }
+
+    if( strIDP == strSDP )
+    {
+        manApplet->warningBox( tr( "IssuerDomainPolicy and SubjectDomainPolicy could not be the same" ), this );
         return;
     }
 

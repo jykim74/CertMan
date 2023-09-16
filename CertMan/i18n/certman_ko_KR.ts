@@ -3161,6 +3161,10 @@
         <source>%1 is already added</source>
         <translation>%1 이 이미 추가 되었습니다.</translation>
     </message>
+    <message>
+        <source>IssuerDomainPolicy and SubjectDomainPolicy could not be the same</source>
+        <translation>발급자 도메인 정책과 주체자 도메인 정책은 같을 수 없습니다</translation>
+    </message>
 </context>
 <context>
     <name>MakeReqDlg</name>
