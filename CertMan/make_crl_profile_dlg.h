@@ -36,6 +36,8 @@ private slots:
     void slotExtensionsMenuRequested(QPoint pos);
     void deleteExtensionsMenu();
 
+    void clickCRLNumAuto();
+
     void clickUseFromNow();
     void clickCRLNum();
     void clickAKI();

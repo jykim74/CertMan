@@ -2374,11 +2374,11 @@
     </message>
     <message>
         <source>Number</source>
-        <translation>번호</translation>
+        <translation type="vanished">번호</translation>
     </message>
     <message>
         <source>Auto Number</source>
-        <translation>자동 번호</translation>
+        <translation type="vanished">자동 번호</translation>
     </message>
     <message>
         <source>Authority Key Identifier</source>
@@ -2467,6 +2467,14 @@
     <message>
         <source>%1 is already added</source>
         <translation>%1 이 이미 추가 되었습니다.</translation>
+    </message>
+    <message>
+        <source>FixedNumer</source>
+        <translation>고정된 번호</translation>
+    </message>
+    <message>
+        <source>Auto ( Use Sequence )</source>
+        <translation>자동 할당(시퀀스 사용)</translation>
     </message>
 </context>
 <context>

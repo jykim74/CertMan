@@ -28,6 +28,7 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
     profile_num_ = -1;
 
     connect( mValidDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValidDaysType(int)));
+    connect( mCRLNumAutoCheck, SIGNAL(clicked()), this, SLOT(clickCRLNumAuto()));
 
     initialize();
 }
@@ -50,6 +51,7 @@ void MakeCRLProfileDlg::initialize()
 {
     mCRLTab->setCurrentIndex(0);
     mValidDaysTypeCombo->addItems( kPeriodTypes );
+    clickCRLNumAuto();
 
     defaultProfile();
 }
@@ -377,6 +379,14 @@ void MakeCRLProfileDlg::setTableMenus()
     mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mExtensionsTable->setColumnWidth(0,180);
     mExtensionsTable->setColumnWidth(1,60);
+}
+
+void MakeCRLProfileDlg::clickCRLNumAuto()
+{
+    bool bStatus = mCRLNumAutoCheck->isChecked();
+
+    mCRLNumLabel->setEnabled( !bStatus );
+    mCRLNumText->setEnabled( !bStatus );
 }
 
 void MakeCRLProfileDlg::clickUseFromNow()
