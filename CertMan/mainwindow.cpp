@@ -882,7 +882,10 @@ int MainWindow::openDB( const QString dbPath )
     {
         LoginDlg loginDlg;
         if( loginDlg.exec() != QDialog::Accepted )
+        {
+            manApplet->dbMgr()->close();
             return -1;
+        }
     }
 
     createTreeMenu();
