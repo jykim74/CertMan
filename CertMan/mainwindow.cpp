@@ -3956,13 +3956,13 @@ void MainWindow::createRightCRLProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("Version"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash") };
+    QStringList headerList = { tr("Num"), tr("Name"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash") };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
     right_table_->horizontalHeader()->setStyleSheet( style );
 
-    right_table_->setColumnCount(6);
+    right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
     right_table_->verticalHeader()->setVisible(false);
 
@@ -3971,25 +3971,20 @@ void MainWindow::createRightCRLProfileList()
     manApplet->dbMgr()->getCRLProfileList( crlProfileList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 300 );
-    right_table_->setColumnWidth( 2, 50 );
+    right_table_->setColumnWidth( 1, 360 );
+    right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
-    right_table_->setColumnWidth( 4, 100 );
-    right_table_->setColumnWidth( 5, 60 );
 
     for( int i=0; i < crlProfileList.size(); i++ )
     {
         CRLProfileRec crlProfile = crlProfileList.at(i);
 
-        QString strVersion;
         QString strThisUpdate;
         QString strNextUpdate;
 
         QTableWidgetItem *item = new QTableWidgetItem( crlProfile.getName() );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crlProfile.getNum() ));
         seq->setIcon(QIcon(":/images/crl_profile.png"));
-
-        strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
         if( crlProfile.getThisUpdate() == 0 )
         {
@@ -4016,10 +4011,9 @@ void MainWindow::createRightCRLProfileList()
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, item );
-        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strVersion )) );
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strThisUpdate )) );
-        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
-        right_table_->setItem( i, 5, new QTableWidgetItem( crlProfile.getHash()) );
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strThisUpdate )) );
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
+        right_table_->setItem( i, 4, new QTableWidgetItem( crlProfile.getHash()) );
     }
 }
 
