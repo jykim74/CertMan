@@ -386,7 +386,10 @@ void ExportDlg::clickPEMSaveCheck()
     }
     else
     {
-        strExt = "der";
+        if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
+            strExt = "key";
+        else
+            strExt = "der";
     }
 
     strPathName += strExt;

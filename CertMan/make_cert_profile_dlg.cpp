@@ -477,9 +477,9 @@ void MakeCertProfileDlg::setTableMenus()
     mPMTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mPMTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mPMTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mPMTable->setColumnWidth(0,100);
-    mPMTable->setColumnWidth(1,100);
-    mPMTable->setColumnWidth(2,100);
+    mPMTable->setColumnWidth(0,160);
+    mPMTable->setColumnWidth(1,160);
+    mPMTable->setColumnWidth(2,160);
 
 
     QStringList sNCLabels = { tr("Type"), tr("Target"), tr("Value"), tr("Min"), tr("Max") };
