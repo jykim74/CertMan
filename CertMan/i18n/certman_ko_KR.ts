@@ -737,43 +737,138 @@
     <name>GetLDAPDlg</name>
     <message>
         <source>get data from ldap</source>
-        <translation>LDAP 서버에서 데이타 가져오기</translation>
+        <translation type="vanished">LDAP 서버에서 데이타 가져오기</translation>
     </message>
     <message>
         <source>Use URI</source>
-        <translation>URI 사용</translation>
+        <translation type="vanished">URI 사용</translation>
     </message>
     <message>
         <source>Port</source>
-        <translation>포트</translation>
+        <translation type="vanished">포트</translation>
+    </message>
+    <message>
+        <source>LDAP Host Information</source>
+        <translation type="vanished">LDAP 호스트 정보</translation>
+    </message>
+    <message>
+        <source>DN</source>
+        <translation type="vanished">DN</translation>
+    </message>
+    <message>
+        <source>Host</source>
+        <translation type="vanished">호스트</translation>
+    </message>
+    <message>
+        <source>Search condition</source>
+        <translation type="vanished">검색 조건</translation>
+    </message>
+    <message>
+        <source>LDAP Type</source>
+        <translation type="vanished">LDAP 타입</translation>
+    </message>
+    <message>
+        <source>URI address</source>
+        <translation type="vanished">URI 주소</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="vanished">필터</translation>
+    </message>
+</context>
+<context>
+    <name>GetURIDlg</name>
+    <message>
+        <source>get data from ldap</source>
+        <translation>LDAP 서버에서 데이타 가져오기</translation>
+    </message>
+    <message>
+        <source>URI Address</source>
+        <translation>URI 주소</translation>
+    </message>
+    <message>
+        <source>Clear Used URI</source>
+        <translation>사용된 URI 지우기</translation>
+    </message>
+    <message>
+        <source>Use LDAP Host</source>
+        <translation>LDAP 호스트 정보 사용</translation>
     </message>
     <message>
         <source>LDAP Host Information</source>
         <translation>LDAP 호스트 정보</translation>
     </message>
     <message>
-        <source>DN</source>
-        <translation>DN</translation>
-    </message>
-    <message>
         <source>Host</source>
         <translation>호스트</translation>
     </message>
     <message>
-        <source>Search condition</source>
-        <translation>검색 조건</translation>
+        <source>Port</source>
+        <translation>포트</translation>
     </message>
     <message>
-        <source>LDAP Type</source>
-        <translation>LDAP 타입</translation>
+        <source>DN</source>
+        <translation>DN</translation>
     </message>
     <message>
-        <source>URI address</source>
-        <translation>URI 주소</translation>
+        <source>LDAP Search Condition</source>
+        <translation>LDAP 검색 조건</translation>
     </message>
     <message>
         <source>Filter</source>
         <translation>필터</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>타입</translation>
+    </message>
+    <message>
+        <source>Scope</source>
+        <translation>범위</translation>
+    </message>
+    <message>
+        <source>Get</source>
+        <translation>가겨오기</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>Insert DN value</source>
+        <translation>DN 을 입력하세요</translation>
+    </message>
+    <message>
+        <source>Insert URI value</source>
+        <translation>URI 를 입력하세요</translation>
+    </message>
+    <message>
+        <source>CRL</source>
+        <translation>인증서 폐기 목록</translation>
+    </message>
+    <message>
+        <source>Certificate</source>
+        <translation>인증서</translation>
+    </message>
+    <message>
+        <source>Success to get URI %1</source>
+        <translation>%1 URI 가져오기 성공하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to get URI data: %1</source>
+        <translation>%1 URI 가져오기 실패 하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to connnect LDAP server</source>
+        <translation>LDAP 서버 연결에 실패하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to bind LDAP server</source>
+        <translation>LDAP 바인드 실패하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to get data from LDAP server</source>
+        <translation>LDAP 서버로 데이타 가져오기 실패하였습니다.</translation>
     </message>
 </context>
 <context>
@@ -1137,7 +1232,7 @@
     </message>
     <message>
         <source>Get LDAP</source>
-        <translation>LDAP 에서 가져오기</translation>
+        <translation type="vanished">LDAP 에서 가져오기</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -1341,7 +1436,7 @@
     </message>
     <message>
         <source>&amp;GetLDAP</source>
-        <translation>LDAP 가져오기 (&amp;G)</translation>
+        <translation type="vanished">LDAP 가져오기 (&amp;G)</translation>
     </message>
     <message>
         <source>&amp;TSP</source>
@@ -2086,6 +2181,14 @@
     <message>
         <source>Are you sure to close database?</source>
         <translation>정말 데이타베이스를 닫겠습니까?</translation>
+    </message>
+    <message>
+        <source>&amp;GetURI</source>
+        <translation>URI 가져오기(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Get URI</source>
+        <translation>URI 가져오기</translation>
     </message>
 </context>
 <context>

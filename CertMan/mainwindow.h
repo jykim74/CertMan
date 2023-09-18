@@ -174,7 +174,7 @@ public slots:
     void editAdmin();
 
     void publishLDAP();
-    void getLDAP();
+    void getURI();
     void expandMenu();
     void expandItem( ManTreeItem *item );
     void licenseInfo();

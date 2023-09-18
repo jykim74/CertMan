@@ -12,7 +12,7 @@
 #include "db_mgr.h"
 #include "about_dlg.h"
 #include "export_dlg.h"
-#include "get_ldap_dlg.h"
+#include "get_uri_dlg.h"
 #include "import_dlg.h"
 #include "make_cert_dlg.h"
 #include "make_cert_profile_dlg.h"

@@ -1,26 +1,28 @@
-#ifndef GET_LDAP_DLG_H
-#define GET_LDAP_DLG_H
+#ifndef GET_URI_DLG_H
+#define GET_URI_DLG_H
 
 #include <QDialog>
-#include "ui_get_ldap_dlg.h"
+#include "ui_get_uri_dlg.h"
 #include "js_bin.h"
 
 namespace Ui {
-class GetLDAPDlg;
+class GetURIDlg;
 }
 
-class GetLDAPDlg : public QDialog, public Ui::GetLDAPDlg
+class GetURIDlg : public QDialog, public Ui::GetURIDlg
 {
     Q_OBJECT
 
 public:
-    explicit GetLDAPDlg(QWidget *parent = nullptr);
-    ~GetLDAPDlg();
+    explicit GetURIDlg(QWidget *parent = nullptr);
+    ~GetURIDlg();
 
 private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
-    void clickUseURI();
+    void clickUseLDAPHost();
+    void clickClearUsedURI();
+    void clickGet();
 
 
 private:
@@ -32,6 +34,10 @@ private:
 
     QStringList getUsedURI();
     void saveUsedURI( const QString &strURL );
+
+    const QString getValidURL();
+    int getLDAP( BIN *pData );
+    int getHTTP( BIN *pData );
 };
 
 #endif // GET_LDAP_DLG_H

@@ -24,7 +24,7 @@
 
 #include "about_dlg.h"
 #include "export_dlg.h"
-#include "get_ldap_dlg.h"
+#include "get_uri_dlg.h"
 #include "import_dlg.h"
 #include "make_cert_dlg.h"
 #include "make_cert_profile_dlg.h"
@@ -395,12 +395,12 @@ void MainWindow::createActions()
     dataToolBar->addAction( importDataAct );
     importDataAct->setStatusTip(tr("Import data"));
 
-    const QIcon getLDAPIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
-    QAction *getLDAPAct = new QAction( getLDAPIcon, tr("&GetLDAP"), this);
-    connect( getLDAPAct, &QAction::triggered, this, &MainWindow::getLDAP);
-    getLDAPAct->setStatusTip(tr("Get LDAP"));
-    dataMenu->addAction( getLDAPAct );
-    dataToolBar->addAction( getLDAPAct );
+    const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
+    QAction *getURIAct = new QAction( getURIIcon, tr("&GetURI"), this);
+    connect( getURIAct, &QAction::triggered, this, &MainWindow::getURI);
+    getURIAct->setStatusTip(tr("Get URI"));
+    dataMenu->addAction( getURIAct );
+    dataToolBar->addAction( getURIAct );
 
     if( manApplet->isLicense() )
     {
@@ -414,7 +414,7 @@ void MainWindow::createActions()
         const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
         QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
         connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
-        getLDAPAct->setStatusTip(tr("Set PrivateKey Password"));
+        setPassAct->setStatusTip(tr("Set PrivateKey Password"));
         dataMenu->addAction( setPassAct );
         dataToolBar->addAction( setPassAct );
     }
@@ -1873,7 +1873,7 @@ void MainWindow::publishLDAP()
     pubLDAPDlg.exec();
 }
 
-void MainWindow::getLDAP()
+void MainWindow::getURI()
 {
     if( manApplet->isDBOpen() == false )
     {
@@ -1881,8 +1881,8 @@ void MainWindow::getLDAP()
         return;
     }
 
-    GetLDAPDlg getLDAPDlg;
-    getLDAPDlg.exec();
+    GetURIDlg getURIDlg;
+    getURIDlg.exec();
 }
 
 void MainWindow::about()

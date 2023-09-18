@@ -52,7 +52,7 @@ SOURCES += \
         csr_info_dlg.cpp \
         db_mgr.cpp \
         export_dlg.cpp \
-        get_ldap_dlg.cpp \
+        get_uri_dlg.cpp \
         i18n_helper.cpp \
         import_dlg.cpp \
         key_pair_rec.cpp \
@@ -115,7 +115,7 @@ HEADERS += \
         csr_info_dlg.h \
         db_mgr.h \
         export_dlg.h \
-        get_ldap_dlg.h \
+        get_uri_dlg.h \
         i18n_helper.h \
         import_dlg.h \
         key_pair_rec.h \
@@ -168,7 +168,7 @@ FORMS += \
         crl_info_dlg.ui \
         csr_info_dlg.ui \
         export_dlg.ui \
-        get_ldap_dlg.ui \
+        get_uri_dlg.ui \
         import_dlg.ui \
         lcn_info_dlg.ui \
         login_dlg.ui \
