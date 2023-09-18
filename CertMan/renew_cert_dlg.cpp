@@ -443,5 +443,6 @@ void RenewCertDlg::clickRevoke()
 {
     bool bVal = mRevokeCheck->isChecked();
 
-    mRevokeReasonCombo->setEnabled(!bVal);
+    mRevokeReasonLabel->setEnabled(bVal);
+    mRevokeReasonCombo->setEnabled(bVal);
 }

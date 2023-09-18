@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>384</height>
+    <width>441</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -174,32 +174,6 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Not After</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="minimumSize">
-        <size>
-         <width>90</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>90</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Not Before</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="mNotBeforeText">
        <property name="palette">
@@ -244,7 +218,33 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Not Before</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Not After</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
       <widget class="QLineEdit" name="mNotAfterText">
        <property name="palette">
         <palette>
@@ -340,6 +340,12 @@
          <height>0</height>
         </size>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item row="0" column="2">
@@ -369,17 +375,17 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="0" column="1">
+      <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
+     </item>
+     <item row="0" column="2">
       <widget class="QLabel" name="label_10">
        <property name="text">
         <string>Not After</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
-     </item>
-     <item row="1" column="1">
+     <item row="0" column="3">
       <widget class="QDateTimeEdit" name="mNotAfterDateTime"/>
      </item>
     </layout>
@@ -414,7 +420,7 @@
       <widget class="QComboBox" name="mRevokeReasonCombo"/>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label_11">
+      <widget class="QLabel" name="mRevokeReasonLabel">
        <property name="text">
         <string>Revoke Reason</string>
        </property>
@@ -448,12 +454,10 @@
   <tabstop>mCertDNText</tabstop>
   <tabstop>mSignKeyName</tabstop>
   <tabstop>mNotBeforeText</tabstop>
-  <tabstop>mNotAfterText</tabstop>
   <tabstop>mUseDayCheck</tabstop>
   <tabstop>mDayTypeCombo</tabstop>
   <tabstop>mDayText</tabstop>
   <tabstop>mNotBeforeDateTime</tabstop>
-  <tabstop>mNotAfterDateTime</tabstop>
   <tabstop>mKeepSerialCheck</tabstop>
   <tabstop>mSerialText</tabstop>
   <tabstop>mRevokeCheck</tabstop>
