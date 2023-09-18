@@ -469,6 +469,8 @@ void MakeCRLProfileDlg::addIDP()
     mIDPTable->setRowHeight( row, 10 );
     mIDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+
+    mIDPText->clear();
 }
 
 void MakeCRLProfileDlg::addIAN()
@@ -498,6 +500,8 @@ void MakeCRLProfileDlg::addIAN()
     mIANTable->setRowHeight( row, 10 );
     mIANTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mIANTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+
+    mIANText->clear();
 }
 
 void MakeCRLProfileDlg::addExtensions()
@@ -535,6 +539,9 @@ void MakeCRLProfileDlg::addExtensions()
     mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
     mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
     mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
+
+    mExtensionsOIDText->clear();
+    mExtensionsValueText->clear();
 }
 
 void MakeCRLProfileDlg::clearIDP()

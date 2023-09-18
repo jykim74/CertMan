@@ -968,6 +968,10 @@ void MakeCertProfileDlg::addPolicy()
     mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
     mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
     mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+
+    mPolicyOIDText->clear();
+    mPolicyCPSText->clear();
+    mPolicyUserNoticeText->clear();
 }
 
 void MakeCertProfileDlg::addEKU()
@@ -1015,6 +1019,8 @@ void MakeCertProfileDlg::addCRLDP()
     mCRLDPTable->setRowHeight( row, 10 );
     mCRLDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
     mCRLDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+
+    mCRLDPText->clear();
 }
 
 void MakeCertProfileDlg::addAIA()
@@ -1047,6 +1053,8 @@ void MakeCertProfileDlg::addAIA()
     mAIATable->setItem( row, 0, new QTableWidgetItem( strTarget ));
     mAIATable->setItem( row, 1, new QTableWidgetItem( strType) );
     mAIATable->setItem( row, 2, new QTableWidgetItem( strVal ));
+
+    mAIAText->clear();
 }
 
 void MakeCertProfileDlg::addSAN()
@@ -1076,6 +1084,8 @@ void MakeCertProfileDlg::addSAN()
     mSANTable->setRowHeight( row, 10 );
     mSANTable->setItem( row, 0, new QTableWidgetItem(strType));
     mSANTable->setItem( row, 1, new QTableWidgetItem(strVal));
+
+    mSANText->clear();
 }
 
 void MakeCertProfileDlg::addIAN()
@@ -1106,6 +1116,8 @@ void MakeCertProfileDlg::addIAN()
     mIANTable->setRowHeight( row, 10 );
     mIANTable->setItem( row, 0, new QTableWidgetItem(strType));
     mIANTable->setItem( row, 1, new QTableWidgetItem(strVal));
+
+    mIANText->clear();
 }
 
 void MakeCertProfileDlg::addPM()
@@ -1144,6 +1156,9 @@ void MakeCertProfileDlg::addPM()
     mPMTable->setItem( row, 1, new QTableWidgetItem( strIDP));
     mPMTable->setItem( row, 2, new QTableWidgetItem( "SubjectDomainPolicy"));
     mPMTable->setItem( row, 3, new QTableWidgetItem( strSDP));
+
+    mPMIssuerDomainPolicyText->clear();
+    mPMSubjectDomainPolicyText->clear();
 }
 
 void MakeCertProfileDlg::addNC()
@@ -1179,6 +1194,10 @@ void MakeCertProfileDlg::addNC()
     mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
     mNCTable->setItem( row, 3, new QTableWidgetItem(strMin));
     mNCTable->setItem( row, 4, new QTableWidgetItem(strMax));
+
+    mNCSubText->clear();
+    mNCMinText->clear();
+    mNCMaxText->clear();
 }
 
 void MakeCertProfileDlg::addExtensions()
@@ -1216,6 +1235,9 @@ void MakeCertProfileDlg::addExtensions()
     mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
     mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
     mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
+
+    mExtensionsOIDText->clear();
+    mExtensionsValueText->clear();
 }
 
 void MakeCertProfileDlg::clearKeyUsage()
