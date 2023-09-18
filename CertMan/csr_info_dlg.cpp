@@ -6,6 +6,7 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_ext.h"
+#include "js_pki_tools.h"
 
 CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
     QDialog(parent)
@@ -51,7 +52,8 @@ void CSRInfoDlg::initUI()
 void CSRInfoDlg::initialize()
 {
     int ret = 0;
-    BIN binCSR = {0, 0};
+    BIN binCSR = {0,0};
+    BIN binPub = {0,0};
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -103,6 +105,44 @@ void CSRInfoDlg::initialize()
     mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Verify")));
     mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.bVerify ? "Verify" : "Not Verify")));
     i++;
+
+    if( sReqInfo.pPublicKey )
+    {
+        int nKeyType = -1;
+        int nOption = -1;
+
+        QString strAlg;
+        QString strParam;
+
+        JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+        JS_PKI_getPubKeyInfo( &binPub, &nKeyType, &nOption );
+
+        strAlg = JS_PKI_getKeyAlgName( nKeyType );
+
+        if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+        {
+            strParam = JS_PKI_getSNFromNid( nOption );
+        }
+        else if( nKeyType == JS_PKI_KEY_TYPE_RSA || nKeyType == JS_PKI_KEY_TYPE_DSA )
+        {
+            strParam = QString( "%1" ).arg( nOption );
+        }
+
+        QTableWidgetItem *item = NULL;
+
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("PublicKey")));
+
+        if( strParam.length() > 0 )
+            item = new QTableWidgetItem(QString("%1 (%2)").arg( strAlg ).arg( strParam ));
+        else
+            item = new QTableWidgetItem(QString("%1").arg(strAlg));
+
+        item->setData( Qt::UserRole, QString( sReqInfo.pPublicKey ) );
+        mFieldTable->setItem( i, 1, item );
+        i++;
+    }
 
     if( sReqInfo.pSignAlgorithm )
     {
@@ -162,6 +202,7 @@ void CSRInfoDlg::initialize()
 
 end :
     JS_BIN_reset( &binCSR );
+    JS_BIN_reset( &binPub );
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 }
@@ -212,10 +253,18 @@ QTableWidgetItem* CSRInfoDlg::getExtNameItem( const QString strSN )
 void CSRInfoDlg::clickField(QModelIndex index)
 {
     int row = index.row();
-    int col = index.column();
+    QTableWidgetItem *item0 = mFieldTable->item( row, 0 );
+    QTableWidgetItem* item1 = mFieldTable->item( row, 1 );
 
-    QTableWidgetItem* item = mFieldTable->item( row, 1 );
-    if( item == NULL ) return;
+    if( item0 == NULL || item1 == NULL ) return;
 
-    mDetailText->setPlainText( item->text() );
+    if( item0->text() == tr( "PublicKey" ) )
+    {
+        QString strPub = item1->data(Qt::UserRole).toString();
+        mDetailText->setPlainText( strPub );
+    }
+    else
+    {
+        mDetailText->setPlainText( item1->text() );
+    }
 }

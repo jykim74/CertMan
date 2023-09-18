@@ -59,7 +59,7 @@ MakeCertDlg::~MakeCertDlg()
 
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
-//    initialize();
+
 }
 
 void MakeCertDlg::initialize()
@@ -130,14 +130,15 @@ void MakeCertDlg::initialize()
 
 void MakeCertDlg::setSubjectDN()
 {
+    if( mProfileNameCombo->currentIndex() < 0 || mProfileNameCombo->currentIndex() >= cert_profile_list_.size() ) return;
+
     CertProfileRec   profile = cert_profile_list_.at(mProfileNameCombo->currentIndex());
 
-    if( profile.getDNTemplate() == "#CSR" )
+    if( profile.getDNTemplate() == "#CSR" && mUseCSRFileCheck->isChecked() == false )
     {
         if( req_list_.size() > 0 )
         {
             ReqRec req = req_list_.at( mReqNameCombo->currentIndex() );
-
             mSubjectDNText->setText( req.getDN() );
         }
     }
@@ -316,14 +317,40 @@ void MakeCertDlg::accept()
     if( mUseCSRFileCheck->isChecked() )
     {
         JS_BIN_fileRead( mCSRFilePathText->text().toLocal8Bit().toStdString().c_str(), &binCSR );
+        ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
+
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr( "Invalid request file: %1" ).arg( ret ));
+            return;
+        }
+
+        if( mSubjectDNText->text() == "#CSR" )
+            mSubjectDNText->setText( sReqInfo.pSubjectDN );
+
+        if( mSaveToRequestCheck->isChecked() )
+        {
+            reqRec.setCSR( getHexString( &binCSR ));
+            reqRec.setDN( sReqInfo.pSubjectDN );
+            reqRec.setHash( sReqInfo.pSignAlgorithm );
+            reqRec.setName( QString( "[I] %1" ).arg(sReqInfo.pSubjectDN) );
+
+            dbMgr->addReqRec( reqRec );
+        }
     }
     else
     {
         reqRec = req_list_.at( reqIdx );
         JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
+        ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
+
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr( "Invalid request file: %1" ).arg( ret ));
+            return;
+        }
     }
 
-    JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
 
     if( sReqInfo.bVerify == 0 )
     {
@@ -688,7 +715,7 @@ void MakeCertDlg::accept()
     ret = dbMgr->addCertRec( madeCertRec );
     if( ret != 0 ) goto end;
 
-    dbMgr->modReqStatus( reqRec.getSeq(), 1 );
+    if( reqRec.getSeq() > 0 ) dbMgr->modReqStatus( reqRec.getSeq(), 1 );
 
     if( manApplet->isPRO() )
     {
@@ -703,7 +730,7 @@ void MakeCertDlg::accept()
     }
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
-        manApplet->mainWindow()->addRootCA( madeCertRec );        
+        manApplet->mainWindow()->addRootCA( madeCertRec );
 
 end :
     JS_BIN_reset( &binCSR );
@@ -728,6 +755,8 @@ end :
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
         manApplet->settingsMgr()->setCertProfileNum( mProfileNameCombo->currentIndex() );
         if( bSelf == false ) manApplet->settingsMgr()->setIssuerNum( mIssuerNameCombo->currentIndex() );
+
+
 
         QDialog::accept();
     }
@@ -757,12 +786,17 @@ void MakeCertDlg::issuerChanged( int index )
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    CertRec certRec = ca_cert_list_.at(index);
-    KeyPairRec keyPair;
-    dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    if( ca_cert_list_.size() > 0 && index < ca_cert_list_.size() )
+    {
+        CertRec certRec = ca_cert_list_.at(index);
+        KeyPairRec keyPair;
+        dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
-    mIssuerAlgorithmText->setText( keyPair.getAlg() );
-    mIssuerOptionText->setText( keyPair.getParam() );
+        mIssuerAlgorithmText->setText( keyPair.getAlg() );
+        mIssuerOptionText->setText( keyPair.getParam() );
+    }
+
+//    setSubjectDN();
 }
 
 void MakeCertDlg::profileChanged(int index )
@@ -789,6 +823,7 @@ void MakeCertDlg::clickSelfSign()
     mIssuerOptionText->setEnabled( !bStatus );
 */
 
+
     mSelfSignLabel->setEnabled( bStatus );
     mIssuerGroup->setEnabled( !bStatus );
 }
@@ -796,6 +831,8 @@ void MakeCertDlg::clickSelfSign()
 void MakeCertDlg::clickUseCSRFile()
 {
     bool bVal = mUseCSRFileCheck->isChecked();
+
+    mSaveToRequestCheck->setEnabled( bVal );
 
     mCSRFilePathText->setEnabled(bVal);
     mCSRFileFindBtn->setEnabled(bVal);
@@ -809,6 +846,7 @@ void MakeCertDlg::clickUseCSRFile()
         mSelfSignCheck->setChecked( false );
 
     mSelfSignCheck->setDisabled( bVal );
+    setSubjectDN();
 }
 
 void MakeCertDlg::findCSRFile()

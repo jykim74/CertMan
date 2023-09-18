@@ -380,6 +380,10 @@
         <source>CRLReason</source>
         <translation>폐기 사유</translation>
     </message>
+    <message>
+        <source>PublicKey</source>
+        <translation>공개키</translation>
+    </message>
 </context>
 <context>
     <name>CertInfoDlg</name>
@@ -2592,7 +2596,7 @@
     </message>
     <message>
         <source>Issuer Name</source>
-        <translation>발급자 이름</translation>
+        <translation type="vanished">발급자 이름</translation>
     </message>
     <message>
         <source>SelfSign</source>
@@ -2624,7 +2628,7 @@
     </message>
     <message>
         <source>Issuer Param</source>
-        <translation>발급자 파라미터</translation>
+        <translation type="vanished">발급자 파라미터</translation>
     </message>
     <message>
         <source>Issuer information</source>
@@ -2640,7 +2644,7 @@
     </message>
     <message>
         <source>Issuer Algorithm</source>
-        <translation>발급자 알고리즘</translation>
+        <translation type="vanished">발급자 알고리즘</translation>
     </message>
     <message>
         <source>Email</source>
@@ -2757,6 +2761,22 @@
     <message>
         <source>Request KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Save to Request</source>
+        <translation>요청서 저장</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <source>Param</source>
+        <translation>파라미터</translation>
+    </message>
+    <message>
+        <source>Invalid request file: %1</source>
+        <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
 </context>
 <context>

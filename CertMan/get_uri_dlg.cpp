@@ -164,6 +164,7 @@ void GetURIDlg::clickGet()
     JCertInfo sCertInfo;
     JCRLInfo sCRLInfo;
     QString strTarget;
+    QString strValidURI;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
@@ -189,10 +190,10 @@ void GetURIDlg::clickGet()
             return;
         }
 
-        QString strURI = getValidURL();
-        manApplet->log( QString( "Get Address: %1").arg( strURI ));
+        strValidURI = getValidURL();
+        manApplet->log( QString( "Get Address: %1").arg( strValidURI ));
 
-        QStringList strList = strURI.split( ":" );
+        QStringList strList = strValidURI.split( ":" );
         if( strList.size() < 2 )
         {
             ret = -1;
@@ -251,6 +252,8 @@ end :
 
     if( ret == 0 )
     {
+        if( mUseLDAPCheck->isChecked() == false ) saveUsedURI( strValidURI );
+
         if( bCRL == false )
             manApplet->mainWindow()->createRightCertList(-2);
         else

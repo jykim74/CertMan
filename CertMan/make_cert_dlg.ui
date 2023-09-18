@@ -33,16 +33,6 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="mCSRFileFindBtn">
-       <property name="text">
-        <string>Find</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mCSRFilePathText"/>
-     </item>
      <item row="0" column="0">
       <widget class="QCheckBox" name="mUseCSRFileCheck">
        <property name="minimumSize">
@@ -59,6 +49,23 @@
        </property>
        <property name="text">
         <string>Use CSR File</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mCSRFileFindBtn">
+       <property name="text">
+        <string>Find</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mCSRFilePathText"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mSaveToRequestCheck">
+       <property name="text">
+        <string>Save to Request</string>
        </property>
       </widget>
      </item>
@@ -397,12 +404,12 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>80</width>
+          <width>100</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>Issuer Name</string>
+         <string>Name</string>
         </property>
        </widget>
       </item>
@@ -458,7 +465,7 @@
         <item row="0" column="2">
          <widget class="QLabel" name="label_10">
           <property name="text">
-           <string>Issuer Param</string>
+           <string>Param</string>
           </property>
          </widget>
         </item>
@@ -471,7 +478,7 @@
            </size>
           </property>
           <property name="text">
-           <string>Issuer Algorithm</string>
+           <string>Algorithm</string>
           </property>
          </widget>
         </item>
