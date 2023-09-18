@@ -331,6 +331,7 @@ void MakeCertDlg::accept()
         if( mSaveToRequestCheck->isChecked() )
         {
             reqRec.setCSR( getHexString( &binCSR ));
+            reqRec.setRegTime( time(NULL) );
             reqRec.setDN( sReqInfo.pSubjectDN );
             reqRec.setHash( sReqInfo.pSignAlgorithm );
             reqRec.setName( QString( "[I] %1" ).arg(sReqInfo.pSubjectDN) );

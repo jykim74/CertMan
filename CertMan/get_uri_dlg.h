@@ -19,7 +19,6 @@ public:
 
 private slots:
     void showEvent(QShowEvent *event);
-    virtual void accept();
     void clickUseLDAPHost();
     void clickClearUsedURI();
     void clickGet();
@@ -29,7 +28,7 @@ private:
     void initUI();
     void initialize();
 
-    int ImportCRL( const BIN *pCRL );
+    int ImportCRL( const BIN *pCRL, const QString strURI );
     int ImportCert( const BIN *pCert );
 
     QStringList getUsedURI();

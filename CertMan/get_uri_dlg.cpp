@@ -41,59 +41,6 @@ void GetURIDlg::showEvent(QShowEvent *event)
     initialize();
 }
 
-void GetURIDlg::accept()
-{
-    int ret = -1;
-    int nType = -1;
-    BIN binData = {0,0};
-    LDAP *pLD = NULL;
-
-    if( mUseLDAPCheck->isChecked() == false )
-    {
-        char sHost[1024];
-        char sDN[1024];
-        int nPort = -1;
-        int nScope = -1;
-        char sFilter[256];
-        char sAttribute[256];
-
-        QString strURI = mURICombo->currentText();
-
-        ret = JS_LDAP_parseURI( strURI.toStdString().c_str(), sHost, &nPort, sDN, &nScope, sFilter, sAttribute );
-        nType = JS_LDAP_getType( sAttribute );
-
-        pLD = JS_LDAP_init( sHost, nPort );
-
-        ret = JS_LDAP_bind( pLD, NULL, NULL );
-        ret = JS_LDAP_getData( pLD, sDN, sFilter, nType, nScope, &binData );
-
-        saveUsedURI( strURI );
-    }
-    else
-    {
-        nType = JS_LDAP_getType( mTypeCombo->currentText().toStdString().c_str() );
-        pLD = JS_LDAP_init( mLDAPHostText->text().toStdString().c_str(), mLDAPPortText->text().toInt());
-        ret = JS_LDAP_bind( pLD, NULL, NULL );
-        ret = JS_LDAP_getData( pLD,
-                         mDNText->text().toStdString().c_str(),
-                         mFilterText->text().toStdString().c_str(),
-                         nType,
-                         LDAP_SCOPE_BASE,
-                         &binData );
-    }
-
-    if( nType == JS_LDAP_TYPE_CERTIFICATE_REVOCATION_LIST  ||
-            nType == JS_LDAP_TYPE_AUTHORITY_REVOCATION_LIST )
-        ret = ImportCRL( &binData );
-    else
-        ret = ImportCert( &binData );
-
-    if( pLD ) JS_LDAP_close( pLD );
-    JS_BIN_reset( &binData );
-
-    if( ret == 0 ) QDialog::accept();
-}
-
 void GetURIDlg::initUI()
 {
     mURICombo->setEditable( true );
@@ -111,6 +58,7 @@ void GetURIDlg::initUI()
 void GetURIDlg::initialize()
 {
     clickUseLDAPHost();
+    mURICombo->addItems( getUsedURI() );
 }
 
 QStringList GetURIDlg::getUsedURI()
@@ -171,13 +119,19 @@ void GetURIDlg::clickGet()
 
     if( mUseLDAPCheck->isChecked() )
     {
+        QString strHost = mLDAPHostText->text();
+        QString strPort = mLDAPPortText->text();
         QString strDN = mDNText->text();
+
         if( strDN.length() < 1 )
         {
             manApplet->warningBox( tr( "Insert DN value" ), this );
             return;
         }
 
+        if( strPort.length() < 1 ) strPort = "389";
+
+        strValidURI = QString( "ldap://%1:%2/%3" ).arg( strHost ).arg( strPort ).arg( strDN );
         ret = getLDAP( &binData );
         if( ret != 0 ) goto end;
     }
@@ -236,7 +190,7 @@ void GetURIDlg::clickGet()
 
     if( bCRL == true )
     {
-        ret = ImportCRL( &binData );
+        ret = ImportCRL( &binData, strValidURI );
         strTarget = tr( "CRL" );
     }
     else
@@ -387,6 +341,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     JS_BIN_encodeHex( pCert, &pHexCert );
 
     cert.setCert( pHexCert );
+    cert.setRegTime( time(NULL));
     cert.setSubjectDN( sCertInfo.pSubjectName );
     cert.setIssuerNum( -2 );
     cert.setSignAlg( sCertInfo.pSignAlgorithm );
@@ -407,7 +362,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     return 0;
 }
 
-int GetURIDlg::ImportCRL( const BIN *pCRL )
+int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
 {
     int ret = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
@@ -427,6 +382,8 @@ int GetURIDlg::ImportCRL( const BIN *pCRL )
     JS_BIN_encodeHex( pCRL, &pHexCRL );
 
     crl.setCRL( pHexCRL );
+    if( strURI.length() > 0 ) crl.setCRLDP( strURI );
+    crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
     crl.setIssuerNum( -2 );
 
