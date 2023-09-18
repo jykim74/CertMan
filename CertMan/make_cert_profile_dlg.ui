@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -33,7 +33,7 @@
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QCheckBox" name="mUseCSRCheck">
+          <widget class="QCheckBox" name="mUseCSR_DNCheck">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -1601,7 +1601,7 @@
   <tabstop>mDaysText</tabstop>
   <tabstop>mNotBeforeDateTime</tabstop>
   <tabstop>mNotAfterDateTime</tabstop>
-  <tabstop>mUseCSRCheck</tabstop>
+  <tabstop>mUseCSR_DNCheck</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mExtUsageCombo</tabstop>
   <tabstop>mExtensionsClearBtn</tabstop>

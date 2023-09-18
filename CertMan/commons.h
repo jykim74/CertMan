@@ -98,6 +98,8 @@ const QStringList kRevokeReasonList = {
     "keyTime","CAKeyTime"
 };
 
+static const QString kCSR_DN = "#CSR_DN";
+
 static QStringList kRSAOptionList = { "1024", "2048", "3072", "4096" };
 static QStringList kECCOptionList = { "prime256v1",
     "secp112r1", "secp112r2", "secp128r1", "secp128r2", "secp160k1",

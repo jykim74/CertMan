@@ -56,7 +56,7 @@ private slots:
     void slotExtensionsMenuRequested(QPoint pos);
     void deleteExtensionsMenu();
 
-    void clickUseCSR();
+    void clickUseCSR_DN();
     void clickUseDays();
 
     void clickAIAUse();

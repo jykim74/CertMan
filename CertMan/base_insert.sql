@@ -1,8 +1,8 @@
-INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (1,'ROOT_CA',0,2,0,3650,0,'SHA256','#CSR');
-INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (2,'SSL_CA',0,2,0,3000,0,'SHA256','#CSR');
-INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (3,'SSL_Server',0,2,0,365,0,'SHA256','#CSR');
-INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (4,'TSP Server',0,2,0,365,0,'SHA256','#CSR');
-INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (5,'OCSP Server',0,2,0,365,0,'SHA256','#CSR');
+INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (1,'ROOT_CA',0,2,0,3650,0,'SHA256','#CSR_DN');
+INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (2,'SSL_CA',0,2,0,3000,0,'SHA256','#CSR_DN');
+INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (3,'SSL_Server',0,2,0,365,0,'SHA256','#CSR_DN');
+INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (4,'TSP Server',0,2,0,365,0,'SHA256','#CSR_DN');
+INSERT INTO TB_CERT_PROFILE (NUM,Name,Type,Version,NotBefore,NotAfter,ExtUsage,Hash,DNTemplate) VALUES (5,'OCSP Server',0,2,0,365,0,'SHA256','#CSR_DN');
 INSERT INTO TB_CRL_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (1,1,0,'crlNumber','auto');
 INSERT INTO TB_CRL_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (2,1,1,'issuingDistributionPoint','URI$http://www.test.com/crl.crl');
 INSERT INTO TB_CRL_PROFILE_EXTENSION (Seq,ProfileNum,Critical,SN,Value) VALUES (3,1,0,'authorityKeyIdentifier','ISSUER#SERIAL#');

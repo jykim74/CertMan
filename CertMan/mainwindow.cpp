@@ -3930,13 +3930,6 @@ void MainWindow::createRightCertProfileList()
             strNotBefore = getDateTime( certProfile.getNotBefore() );
             strNotAfter = getDateTime( certProfile.getNotAfter() );
         }
-/*
-        if( certProfile.getDNTemplate() == "#CSR" )
-            strDNTemplate = "Use CSR DN";
-        else
-            strDNTemplate = certProfile.getDNTemplate();
-*/
-
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -4851,7 +4844,7 @@ void MainWindow::infoCertProfile( int seq )
         strNotAfter = getDateTime( certProfile.getNotAfter() );
     }
 
-    if( certProfile.getDNTemplate() == "#CSR" )
+    if( certProfile.getDNTemplate() == kCSR_DN )
         strDNTemplate = "Use CSR DN";
     else
         strDNTemplate = certProfile.getDNTemplate();

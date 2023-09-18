@@ -134,7 +134,7 @@ void MakeCertDlg::setSubjectDN()
 
     CertProfileRec   profile = cert_profile_list_.at(mProfileNameCombo->currentIndex());
 
-    if( profile.getDNTemplate() == "#CSR" && mUseCSRFileCheck->isChecked() == false )
+    if( profile.getDNTemplate() == kCSR_DN && mUseCSRFileCheck->isChecked() == false )
     {
         if( req_list_.size() > 0 )
         {
@@ -325,7 +325,7 @@ void MakeCertDlg::accept()
             return;
         }
 
-        if( mSubjectDNText->text() == "#CSR" )
+        if( mSubjectDNText->text() == kCSR_DN )
             mSubjectDNText->setText( sReqInfo.pSubjectDN );
 
         if( mSaveToRequestCheck->isChecked() )

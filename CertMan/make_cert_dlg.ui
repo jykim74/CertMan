@@ -307,8 +307,8 @@
           <colorrole role="Base">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>221</red>
-             <green>221</green>
+             <red>255</red>
+             <green>255</green>
              <blue>255</blue>
             </color>
            </brush>
@@ -318,8 +318,8 @@
           <colorrole role="Base">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>221</red>
-             <green>221</green>
+             <red>255</red>
+             <green>255</green>
              <blue>255</blue>
             </color>
            </brush>
@@ -339,7 +339,7 @@
         </palette>
        </property>
        <property name="readOnly">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

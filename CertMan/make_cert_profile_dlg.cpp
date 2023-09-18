@@ -122,11 +122,16 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
 
     clickUseDays();
 
-    if( certProfile.getDNTemplate() == "#CSR" )
+    if( certProfile.getDNTemplate() == kCSR_DN )
     {
-        mUseCSRCheck->setChecked(true);
-        clickUseCSR();
+        mUseCSR_DNCheck->setChecked(true);
     }
+    else
+    {
+        mUseCSR_DNCheck->setChecked( false );
+    }
+
+    clickUseCSR_DN();
 
     mExtUsageCombo->setCurrentIndex( certProfile.getExtUsage() );
 
@@ -166,8 +171,6 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         else
             setExtensionsUse( extProfile );
     }
-
-    checkForCSR();
 }
 
 void MakeCertProfileDlg::defaultProfile()
@@ -250,8 +253,9 @@ void MakeCertProfileDlg::defaultProfile()
     mSANUseCheck->setChecked(false);
     mSANCriticalCheck->setChecked(false);
 
-    mUseCSRCheck->setChecked(true);
-    clickUseCSR();
+    mUseCSR_DNCheck->setChecked(true);
+    mSubjectDNText->setText( kCSR_DN );
+    clickUseCSR_DN();
 
     mUseDaysCheck->setChecked(true);
     clickUseDays();
@@ -293,8 +297,8 @@ void MakeCertProfileDlg::accept()
         certProfileRec.setType( JS_PKI_PROFILE_TYPE_CERT );
         QString strSubjectDN;
 
-        if( mUseCSRCheck->isChecked() )
-            strSubjectDN = "#CSR";
+        if( mUseCSR_DNCheck->isChecked() )
+            strSubjectDN = kCSR_DN;
         else
             strSubjectDN = mSubjectDNText->text();
 
@@ -510,7 +514,7 @@ void MakeCertProfileDlg::setTableMenus()
 
 void MakeCertProfileDlg::connectExtends()
 {
-    connect( mUseCSRCheck, SIGNAL(clicked()), this, SLOT(clickUseCSR()));
+    connect( mUseCSR_DNCheck, SIGNAL(clicked()), this, SLOT(clickUseCSR_DN()));
     connect( mUseDaysCheck, SIGNAL(clicked()), this, SLOT(clickUseDays()));
 
     connect( mAIAUseCheck, SIGNAL(clicked()), this, SLOT(clickAIAUse()));
@@ -732,16 +736,17 @@ void MakeCertProfileDlg::deleteNCMenu()
     mNCTable->removeRow( idx.row() );
 }
 
-void MakeCertProfileDlg::clickUseCSR()
+void MakeCertProfileDlg::clickUseCSR_DN()
 {
-    bool bStatus = mUseCSRCheck->isChecked();
-
-    mSubjectDNText->setEnabled( !bStatus );
-
-    if( bStatus )
-        mSubjectDNText->setText( "#CSR" );
-    else {
-        mSubjectDNText->setText( "" );
+    if( mForCSRCheck->isChecked() == true )
+    {
+        mUseCSR_DNCheck->setEnabled( false );
+        mSubjectDNText->setEnabled( false );
+    }
+    else
+    {
+        bool bStatus = mUseCSR_DNCheck->isChecked();
+        mSubjectDNText->setEnabled( !bStatus );
     }
 }
 
@@ -757,7 +762,7 @@ void MakeCertProfileDlg::clickUseDays()
 
 void MakeCertProfileDlg::setExtends()
 {
-    clickUseCSR();
+    clickUseCSR_DN();
     clickUseDays();
 
     clickAIAUse();
@@ -1308,12 +1313,13 @@ void MakeCertProfileDlg::checkForCSR()
     mNotAfterDateTime->setEnabled( !bVal );
     mNotBeforeDateTime->setEnabled( !bVal );
     mUseDaysCheck->setEnabled( !bVal );
-    mUseCSRCheck->setEnabled( !bVal );
+    mUseCSR_DNCheck->setEnabled( !bVal );
+    clickUseCSR_DN();
 
     mDaysLabel->setEnabled( !bVal );
     mDaysTypeCombo->setEnabled( !bVal );
     mDaysText->setEnabled( !bVal );
-    mSubjectDNText->setEnabled( !bVal );
+
     mExtUsageCombo->setEnabled( !bVal );
 
     if( bVal )
@@ -1321,7 +1327,7 @@ void MakeCertProfileDlg::checkForCSR()
     else
         mVersionCombo->setCurrentIndex(2);
 
-    clickUseCSR();
+
 }
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
