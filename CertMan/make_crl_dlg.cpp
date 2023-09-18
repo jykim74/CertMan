@@ -450,7 +450,7 @@ void MakeCRLDlg::initialize()
     ca_cert_list_.clear();
     mIssuerNameCombo->clear();
 
-    dbMgr->getCACertList( ca_cert_list_ );
+    dbMgr->getIssuerCertList( ca_cert_list_ );
 
 
     for( int i=0; i < ca_cert_list_.size(); i++ )

@@ -77,6 +77,7 @@ public:
     int getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList );
     int getCertList( int nIssuerNum, QString strCRLDP, QList<CertRec>& certList );
     int getCACertList( QList<CertRec>& certList );
+    int getIssuerCertList( QList<CertRec>& certList );
     int getCACertList( int nIssuerNum, QList<CertRec>& certList );
     int getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList );
 

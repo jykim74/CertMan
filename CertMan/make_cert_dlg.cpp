@@ -87,7 +87,7 @@ void MakeCertDlg::initialize()
 
     ca_cert_list_.clear();
 
-    dbMgr->getCACertList( ca_cert_list_ );
+    dbMgr->getIssuerCertList( ca_cert_list_ );
     for( int i=0; i < ca_cert_list_.size(); i++ )
     {
         CertRec certRec = ca_cert_list_.at(i);
