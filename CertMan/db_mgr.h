@@ -157,6 +157,7 @@ public:
     int addAdminRec( AdminRec& adminRec );
 
     int modKeyPairStatus( int nNum, int nStatus );
+    int modKeyPairPrivate( int nNum, const QString strPrivate );
     int modReqStatus( int nSeq, int nStatus );
     int modCertStatus( int nNum, int nStatus );
     int modCertProfileRec( int nProfileNum, CertProfileRec profileRec );
@@ -187,6 +188,7 @@ public:
     int addConfigRec( ConfigRec& configRec );
     int delConfigRec( int nNum );
     int modConfigRec( int nNum, ConfigRec configRec );
+    int modConfigRec( int nKind, const QString strName, const QString strValue );
     int getConfigRec( int nNum, ConfigRec& configRec );
     int getConfigValue( int nKind, const QString& strName, QString& value );
     int getConfigList( QList<ConfigRec>& configList );

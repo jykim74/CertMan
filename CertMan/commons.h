@@ -184,4 +184,8 @@ const QString getProfileType( int nProfileType );
 const QString getExtUsage( int nExtUsage );
 const QString getCRLDPFromInfo( const QString &strExtCRLDP );
 
+bool isInternalPrivate( const QString strKeyMech );
+bool isPKCS11Private( const QString strKeyMech );
+bool isKMIPPrivate( const QString strKeyMech );
+
 #endif // COMMONS_H

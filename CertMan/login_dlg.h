@@ -23,7 +23,6 @@ private slots:
 
 private:
     void initialize();
-    QString passwd_;
 };
 
 #endif // LOGIN_DLG_H

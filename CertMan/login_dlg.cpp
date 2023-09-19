@@ -26,15 +26,15 @@ LoginDlg::~LoginDlg()
 
 void LoginDlg::initialize()
 {
-    QString strConf;
-    manApplet->dbMgr()->getConfigValue( JS_GEN_KIND_CERTMAN, "Passwd", strConf );
 
-    passwd_ = strConf;
 }
 
 void LoginDlg::clickLogin()
 {
-    if( passwd_.length() < 1 ) return QDialog::reject();
+    QString strConf;
+    manApplet->dbMgr()->getConfigValue( JS_GEN_KIND_CERTMAN, "Passwd", strConf );
+
+    if( strConf.length() < 1 ) return QDialog::reject();
 
     QString strPasswd = mPasswdText->text();
     if( strPasswd.length() < 1 )
@@ -45,7 +45,7 @@ void LoginDlg::clickLogin()
 
     QString strHMAC = getPasswdHMAC( strPasswd );
 
-    if( passwd_ != strHMAC )
+    if( strConf != strHMAC )
     {
         manApplet->warningBox( tr("Password is wrong"), this );
         manApplet->dbMgr()->close();

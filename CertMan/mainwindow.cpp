@@ -417,6 +417,13 @@ void MainWindow::createActions()
         setPassAct->setStatusTip(tr("Set PrivateKey Password"));
         dataMenu->addAction( setPassAct );
         dataToolBar->addAction( setPassAct );
+
+        const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
+        QAction *changePassAct = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
+        connect( changePassAct, &QAction::triggered, this, &MainWindow::changePasswd);
+        setPassAct->setStatusTip(tr("Change PrivateKey Password"));
+        dataMenu->addAction( changePassAct );
+        dataToolBar->addAction( changePassAct );
     }
 
 
@@ -1800,7 +1807,9 @@ void MainWindow::exportPFX()
 
 void MainWindow::setPasswd()
 {
-    if( manApplet->dbMgr()->isOpen() == false )
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    if( dbMgr->isOpen() == false )
     {
         manApplet->warningBox( tr( "Database is not opened" ), this );
         return;
@@ -1819,11 +1828,14 @@ void MainWindow::setPasswd()
     }
 
     int nKeyCount = manApplet->dbMgr()->getKeyPairCountAll();
+
+    /*
     if( nKeyCount > 0 )
     {
         manApplet->warningBox( tr( "KeyPair has to be empty"), this );
         return;
     }
+    */
 
     SetPassDlg setPassDlg;
     setPassDlg.mUsePasswdCheck->setEnabled(false);
@@ -1841,6 +1853,185 @@ void MainWindow::setPasswd()
 
     manApplet->dbMgr()->addConfigRec( config );
     manApplet->setPasswdKey( strPass );
+
+    manApplet->log( QString("Total KeyPair Count: %1").arg( nKeyCount) );
+    if( nKeyCount > 0 )
+    {
+        int ret = 0;
+        int nLeftCount = nKeyCount;
+        int nLimit = 10;
+        int nOffset = 0;
+        int nKMIPCount = 0;
+        int nPKCS11Count = 0;
+        int nCount = 0;
+        int nFail = 0;
+
+        while( nLeftCount > 0 )
+        {
+            QList<KeyPairRec> keyPairList;
+
+            ret = dbMgr->getKeyPairList( -1, nOffset, nLimit, keyPairList );
+
+            for( int i = 0; i < keyPairList.size(); i++ )
+            {
+                KeyPairRec keyPair = keyPairList.at(i);
+                QString strKeyAlg = keyPair.getAlg();
+
+                if( isKMIPPrivate( strKeyAlg ) )
+                {
+                    manApplet->log( QString( "KeyNum: %1 is KIMP Private and Skip" ).arg( keyPair.getNum() ));
+                    nKMIPCount++;
+                }
+                else if( isPKCS11Private( strKeyAlg ))
+                {
+                    manApplet->log( QString( "KeyNum: %1 is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
+                    nPKCS11Count++;
+                }
+                else if( isInternalPrivate( strKeyAlg ) )
+                {
+                    BIN binPri = {0,0};
+                    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri);
+                    QString strEncPri = manApplet->getEncPriHex( &binPri );
+                    if( strEncPri.length() < 1 )
+                    {
+                        nFail++;
+                    }
+                    else
+                    {
+                        ret = dbMgr->modKeyPairPrivate( keyPair.getNum(), strEncPri );
+                        nCount++;
+                    }
+
+                    JS_BIN_reset( &binPri );
+                }
+            }
+
+            nOffset += keyPairList.size();
+            nLeftCount -= keyPairList.size();
+            keyPairList.clear();
+        }
+
+        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fai: %5" )
+                        .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
+    }
+
+    manApplet->messageBox( tr( "Set Password successfully" ), this );
+}
+
+void MainWindow::changePasswd()
+{
+    QString strOldPass;
+    QString strNewPass;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    if( dbMgr->isOpen() == false )
+    {
+        manApplet->warningBox( tr( "Database is not opened" ), this );
+        return;
+    }
+
+    if( manApplet->isPasswd() == false )
+    {
+        manApplet->warningBox( tr( "The PrivateKeys are not encrypted."), this );
+        return;
+    }
+
+    if( manApplet->isLicense() == false )
+    {
+        manApplet->warningBox( tr( "There is no license"), this );
+        return;
+    }
+
+    LoginDlg loginDlg;
+    if( loginDlg.exec() != QDialog::Accepted )
+    {
+        manApplet->warningBox( tr( "fail to login" ), this );
+        return;
+    }
+
+    strOldPass = loginDlg.getPasswd();
+
+    SetPassDlg setPassDlg;
+    if( setPassDlg.exec() != QDialog::Accepted )
+    {
+        manApplet->warningBox( tr( "fail to set new password" ), this );
+        return;
+    }
+
+    strNewPass = setPassDlg.getPasswd();
+    QString strHMAC = getPasswdHMAC( strNewPass );
+    dbMgr->modConfigRec( JS_GEN_KIND_CERTMAN, "Passwd", strHMAC );
+
+    manApplet->setPasswdKey( strNewPass );
+
+    int nKeyCount = manApplet->dbMgr()->getKeyPairCountAll();
+
+    manApplet->log( QString("Total KeyPair Count: %1").arg( nKeyCount) );
+
+    if( nKeyCount > 0 )
+    {
+        int ret = 0;
+        int nLeftCount = nKeyCount;
+        int nLimit = 10;
+        int nOffset = 0;
+        int nKMIPCount = 0;
+        int nPKCS11Count = 0;
+        int nCount = 0;
+        int nFail = 0;
+
+        while( nLeftCount > 0 )
+        {
+            QList<KeyPairRec> keyPairList;
+
+            ret = dbMgr->getKeyPairList( -1, nOffset, nLimit, keyPairList );
+
+            for( int i = 0; i < keyPairList.size(); i++ )
+            {
+                KeyPairRec keyPair = keyPairList.at(i);
+                QString strKeyAlg = keyPair.getAlg();
+
+                if( isKMIPPrivate( strKeyAlg ) )
+                {
+                    manApplet->log( QString( "KeyNum: %1 is KIMP Private and Skip" ).arg( keyPair.getNum() ));
+                    nKMIPCount++;
+                }
+                else if( isPKCS11Private( strKeyAlg ))
+                {
+                    manApplet->log( QString( "KeyNum: %1 is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
+                    nPKCS11Count++;
+                }
+                else if( isInternalPrivate( strKeyAlg ) )
+                {
+                    BIN binPri = {0,0};
+                    ret = manApplet->getDecPriBIN( strOldPass, keyPair.getPrivateKey(), &binPri );
+
+                    QString strEncPri = manApplet->getEncPriHex( &binPri );
+                    if( ret != 0 || strEncPri.length() < 1 )
+                    {
+                        nFail++;
+                    }
+                    else
+                    {
+                        ret = dbMgr->modKeyPairPrivate( keyPair.getNum(), strEncPri );
+                        nCount++;
+                    }
+
+                    JS_BIN_reset( &binPri );
+                }
+            }
+
+            nOffset += keyPairList.size();
+            nLeftCount -= keyPairList.size();
+            keyPairList.clear();
+        }
+
+        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fai: %5" )
+                        .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
+    }
+
+    manApplet->messageBox( tr( "Change Password successfully" ), this );
+
 }
 
 void MainWindow::publishLDAP()

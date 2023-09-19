@@ -3799,3 +3799,32 @@ const QString getCRLDPFromInfo( const QString &strExtCRLDP )
         return strCRLDP;
     }
 }
+
+bool isInternalPrivate( const QString strKeyMech )
+{
+    if( strKeyMech == kMechRSA ) return true;
+    if( strKeyMech == kMechEC ) return true;
+    if( strKeyMech == kMechEdDSA  ) return true;
+    if( strKeyMech == kMechEd25519 ) return true;
+    if( strKeyMech == kMechEd448 ) return true;
+    if( strKeyMech == kMechDSA ) return true;
+
+    return false;
+}
+
+bool isPKCS11Private( const QString strKeyMech )
+{
+    if( strKeyMech == kMechPKCS11_RSA ) return true;
+    if( strKeyMech == kMechPKCS11_EC ) return true;
+    if( strKeyMech == kMechPKCS11_DSA ) return true;
+
+    return false;
+}
+
+bool isKMIPPrivate( const QString strKeyMech )
+{
+    if( strKeyMech == kMechKMIP_RSA ) return true;
+    if( strKeyMech == kMechKMIP_EC ) return true;
+
+    return false;
+}

@@ -2124,7 +2124,7 @@
     </message>
     <message>
         <source>KeyPair has to be empty</source>
-        <translation>키 쌍 정보가 없어야 합니다.</translation>
+        <translation type="vanished">키 쌍 정보가 없어야 합니다.</translation>
     </message>
     <message>
         <source>Bug or Issue Report</source>
@@ -2193,6 +2193,34 @@
     <message>
         <source>Get URI</source>
         <translation>URI 가져오기</translation>
+    </message>
+    <message>
+        <source>&amp;ChangePasswd</source>
+        <translation>패스워드 변경(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Change PrivateKey Password</source>
+        <translation>개인키 패스워드 변경</translation>
+    </message>
+    <message>
+        <source>Set Password successfully</source>
+        <translation>패스워드 설정에 성공하였습니다</translation>
+    </message>
+    <message>
+        <source>The PrivateKeys are not encrypted.</source>
+        <translation>개인키들이 암호화 되지 않았습니다</translation>
+    </message>
+    <message>
+        <source>fail to login</source>
+        <translation>로그인에 실패 하였습니다</translation>
+    </message>
+    <message>
+        <source>fail to set new password</source>
+        <translation>새로운 패스워드 설정에 실패하였습니다.</translation>
+    </message>
+    <message>
+        <source>Change Password successfully</source>
+        <translation>패스워드 변경에 성공 하였습니다</translation>
     </message>
 </context>
 <context>

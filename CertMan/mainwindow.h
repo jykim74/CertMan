@@ -159,6 +159,7 @@ public slots:
     void exportCRL();
     void exportPFX();
     void setPasswd();
+    void changePasswd();
 
     void deleteCertProfile();
     void deleteCRLProfile();

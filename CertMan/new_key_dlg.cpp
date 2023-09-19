@@ -123,7 +123,7 @@ void NewKeyDlg::accept()
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
-    else if( strMech == kMechPKCS11_RSA || strMech == kMechPKCS11_EC || strMech == kMechPKCS11_DSA )
+    else if( isPKCS11Private( strMech ) == true )
     {
         int ret = 0;
         int nIndex = manApplet->settingsMgr()->slotIndex();
@@ -148,7 +148,7 @@ void NewKeyDlg::accept()
         JS_PKCS11_Logout( (JP11_CTX *)manApplet->P11CTX() );
         JS_PKCS11_CloseSession( (JP11_CTX *)manApplet->P11CTX() );
     }
-    else if( mMechCombo->currentText() == kMechKMIP_RSA || mMechCombo->currentText() == kMechKMIP_EC )
+    else if( isKMIPPrivate( strMech ) == true )
     {
         ret = genKeyPairWithKMIP(
                     manApplet->settingsMgr(),
@@ -164,12 +164,7 @@ void NewKeyDlg::accept()
         goto end;
     }
 
-    if( strMech.contains( "KMIP") == true || strMech.contains( "PKCS11" ) == true )
-    {
-        JS_BIN_encodeHex( &binPri, &pPriHex );
-        keyPairRec.setPrivateKey( pPriHex );
-    }
-    else
+    if( isInternalPrivate( strMech ) == true )
     {
         if( manApplet->isPasswd() )
         {
@@ -181,6 +176,11 @@ void NewKeyDlg::accept()
             JS_BIN_encodeHex( &binPri, &pPriHex );
             keyPairRec.setPrivateKey( pPriHex );
         }
+    }
+    else
+    {
+        JS_BIN_encodeHex( &binPri, &pPriHex );
+        keyPairRec.setPrivateKey( pPriHex );
     }
 
     JS_BIN_encodeHex( &binPub, &pPubHex );

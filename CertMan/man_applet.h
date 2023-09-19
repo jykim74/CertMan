@@ -63,6 +63,7 @@ public:
 
     QString getEncPriHex( const BIN *pPri );
     int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );
+    int getDecPriBIN( const QString& strPasswd, const QString& strEncPriHex, BIN *pDecPri );
 
     QString curFile() { return cur_file_; };
     QString curFolder();

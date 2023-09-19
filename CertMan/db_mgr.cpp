@@ -1950,6 +1950,25 @@ int DBMgr::modKeyPairStatus( int nNum, int nStatus )
     return 0;
 }
 
+int DBMgr::modKeyPairPrivate( int nNum, const QString strPrivate )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_KEY_PAIR SET PRIVATE = ? WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( 0, strPrivate );
+    sqlQuery.bindValue( 1, nNum );
+
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+//        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
+    return 0;
+}
+
 int DBMgr::modReqStatus( int nSeq, int nStatus )
 {
     QSqlQuery sqlQuery;
@@ -2695,6 +2714,23 @@ int DBMgr::modConfigRec( int nNum, ConfigRec configRec )
     sqlQuery.bindValue( i++, configRec.getName() );
     sqlQuery.bindValue( i++, configRec.getValue() );
     sqlQuery.bindValue( i++, nNum );
+
+    sqlQuery.exec();
+    return 0;
+}
+
+int DBMgr::modConfigRec( int nKind, const QString strName, const QString strValue )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_CONFIG SET "
+                      "KIND = ?, "
+                      "VALUE = ? "
+                      "WHERE NAME = ?;" );
+
+    sqlQuery.bindValue( i++, nKind );
+    sqlQuery.bindValue( i++, strValue );
+    sqlQuery.bindValue( i++, strName );
 
     sqlQuery.exec();
     return 0;
