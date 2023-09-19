@@ -891,6 +891,7 @@ int MainWindow::openDB( const QString dbPath )
         if( loginDlg.exec() != QDialog::Accepted )
         {
             manApplet->dbMgr()->close();
+            manApplet->clearPasswdKey();
             return -1;
         }
     }
@@ -1911,7 +1912,7 @@ void MainWindow::setPasswd()
             keyPairList.clear();
         }
 
-        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fai: %5" )
+        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fail: %5" )
                         .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
     }
 
@@ -1953,6 +1954,8 @@ void MainWindow::changePasswd()
     strOldPass = loginDlg.getPasswd();
 
     SetPassDlg setPassDlg;
+    setPassDlg.mUsePasswdCheck->setEnabled(false);
+
     if( setPassDlg.exec() != QDialog::Accepted )
     {
         manApplet->warningBox( tr( "fail to set new password" ), this );
@@ -2026,7 +2029,7 @@ void MainWindow::changePasswd()
             keyPairList.clear();
         }
 
-        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fai: %5" )
+        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fail: %5" )
                         .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
     }
 

@@ -48,7 +48,6 @@ void LoginDlg::clickLogin()
     if( strConf != strHMAC )
     {
         manApplet->warningBox( tr("Password is wrong"), this );
-        manApplet->dbMgr()->close();
         return;
     }
 
