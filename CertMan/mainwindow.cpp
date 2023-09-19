@@ -1880,12 +1880,12 @@ void MainWindow::setPasswd()
 
                 if( isKMIPPrivate( strKeyAlg ) )
                 {
-                    manApplet->log( QString( "KeyNum: %1 is KIMP Private and Skip" ).arg( keyPair.getNum() ));
+                    manApplet->log( QString( "KeyNum(%1) is KIMP Private and Skip" ).arg( keyPair.getNum() ));
                     nKMIPCount++;
                 }
                 else if( isPKCS11Private( strKeyAlg ))
                 {
-                    manApplet->log( QString( "KeyNum: %1 is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
+                    manApplet->log( QString( "KeyNum(%1) is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
                     nPKCS11Count++;
                 }
                 else if( isInternalPrivate( strKeyAlg ) )
@@ -1895,11 +1895,13 @@ void MainWindow::setPasswd()
                     QString strEncPri = manApplet->getEncPriHex( &binPri );
                     if( strEncPri.length() < 1 )
                     {
+                        manApplet->elog( QString( "KeyNum(%1) is fail to encrypt").arg( keyPair.getNum() ));
                         nFail++;
                     }
                     else
                     {
                         ret = dbMgr->modKeyPairPrivate( keyPair.getNum(), strEncPri );
+                        manApplet->log( QString( "KeyNum(%1) is encrypted").arg( keyPair.getNum() ));
                         nCount++;
                     }
 
@@ -1912,7 +1914,7 @@ void MainWindow::setPasswd()
             keyPairList.clear();
         }
 
-        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fail: %5" )
+        manApplet->log( QString("Set Password KeyPair Total(%1) KMIP(%2) PKCS11(%3) Encrypt(%4) Fail(%5)" )
                         .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
     }
 
@@ -1996,27 +1998,38 @@ void MainWindow::changePasswd()
 
                 if( isKMIPPrivate( strKeyAlg ) )
                 {
-                    manApplet->log( QString( "KeyNum: %1 is KIMP Private and Skip" ).arg( keyPair.getNum() ));
+                    manApplet->log( QString( "KeyNum(%1) is KIMP Private and Skip" ).arg( keyPair.getNum() ));
                     nKMIPCount++;
                 }
                 else if( isPKCS11Private( strKeyAlg ))
                 {
-                    manApplet->log( QString( "KeyNum: %1 is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
+                    manApplet->log( QString( "KeyNum(%1) is PKCS11 Private and Skip" ).arg( keyPair.getNum() ));
                     nPKCS11Count++;
                 }
                 else if( isInternalPrivate( strKeyAlg ) )
                 {
                     BIN binPri = {0,0};
                     ret = manApplet->getDecPriBIN( strOldPass, keyPair.getPrivateKey(), &binPri );
+                    if( ret != 0 )
+                    {
+                        manApplet->elog( QString( "KeyNum(%1) is fail to decrypt" ).arg( keyPair.getNum() ));
+                        JS_BIN_reset( &binPri );
+                        nFail++;
+                        continue;
+                    }
 
                     QString strEncPri = manApplet->getEncPriHex( &binPri );
-                    if( ret != 0 || strEncPri.length() < 1 )
+                    if( strEncPri.length() < 1 )
                     {
+                        manApplet->elog( QString( "KeyNum(%1) is fail to encrypt" ).arg( keyPair.getNum() ));
+                        JS_BIN_reset( &binPri );
                         nFail++;
+                        continue;
                     }
                     else
                     {
                         ret = dbMgr->modKeyPairPrivate( keyPair.getNum(), strEncPri );
+                        manApplet->log( QString( "KeyNum(%1) is changed").arg( keyPair.getNum() ));
                         nCount++;
                     }
 
@@ -2029,7 +2042,7 @@ void MainWindow::changePasswd()
             keyPairList.clear();
         }
 
-        manApplet->log( QString("KeyPair Total: %1 KMIP: %2 PKCS11: %3 Internal: %4 Fail: %5" )
+        manApplet->log( QString("KeyPair Total(%1) KMIP(%2) PKCS11(%3) Change(%4) Fail(%5)" )
                         .arg( nKeyCount ).arg( nKMIPCount ).arg( nPKCS11Count ).arg( nCount ).arg( nFail ) );
     }
 
