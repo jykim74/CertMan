@@ -220,6 +220,7 @@ public slots:
 #endif
 
     void clearLog();
+    void toggleLog();
 
 
 private slots:
@@ -253,6 +254,7 @@ private:
     QStackedLayout  *stack_;
 
     StatForm        *stat_;
+    bool            log_halt_;
 
     int             openDB( const QString dbPath );
 };

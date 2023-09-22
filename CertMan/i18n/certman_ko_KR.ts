@@ -2222,6 +2222,14 @@
         <source>Change Password successfully</source>
         <translation>패스워드 변경에 성공 하였습니다</translation>
     </message>
+    <message>
+        <source>&amp;Log Halt</source>
+        <translation>로그 중지(&amp;L)</translation>
+    </message>
+    <message>
+        <source>Log Halt</source>
+        <translation>로그 중지</translation>
+    </message>
 </context>
 <context>
     <name>MakeCRLDlg</name>
