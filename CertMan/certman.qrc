@@ -73,5 +73,6 @@
         <file>qt-win.css</file>
         <file>images/pass_change.png</file>
         <file>images/log_halt.png</file>
+        <file>cm.rc</file>
     </qresource>
 </RCC>
