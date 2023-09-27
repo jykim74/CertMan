@@ -13,7 +13,6 @@
         <file>images/save.png</file>
         <file>images/trash.png</file>
         <file>i18n/certman_ko_KR.ts</file>
-        <file>images/certman.icns</file>
         <file>images/cert.png</file>
         <file>images/crl_profile.png</file>
         <file>images/man.png</file>
@@ -74,5 +73,7 @@
         <file>images/pass_change.png</file>
         <file>images/log_halt.png</file>
         <file>cm.rc</file>
+        <file>certman.icns</file>
+        <file>certman.ico</file>
     </qresource>
 </RCC>
