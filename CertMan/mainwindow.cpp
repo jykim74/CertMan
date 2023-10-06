@@ -2987,7 +2987,7 @@ void MainWindow::issueSCEP()
     KeyPairRec keyPair;
     manApplet->dbMgr()->getKeyPairRec( req.getKeyNum(), keyPair );
 
-    if( smgr->SCEPURI() == false ) return;
+    if( smgr->SCEPUse() == false ) return;
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;
@@ -3138,7 +3138,7 @@ void MainWindow::renewSCEP()
 
     int num = item->text().toInt();
 
-    if( smgr->SCEPURI() == false ) return;
+    if( smgr->SCEPUse() == false ) return;
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;
@@ -3337,7 +3337,7 @@ void MainWindow::getCRLSCEP()
 
     int num = item->text().toInt();
 
-    if( smgr->SCEPURI() == false ) return;
+    if( smgr->SCEPUse() == false ) return;
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;

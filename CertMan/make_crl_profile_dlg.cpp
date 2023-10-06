@@ -146,8 +146,8 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
 
         mUseFromNowCheck->setChecked(false);
 
-        thisUpdate.setTime_t( crlProfile.getThisUpdate() );
-        nextUpdate.setTime_t( crlProfile.getNextUpdate() );
+        thisUpdate.setSecsSinceEpoch( crlProfile.getThisUpdate() );
+        nextUpdate.setSecsSinceEpoch( crlProfile.getNextUpdate() );
 
         mThisUpdateDateTime->setDateTime(thisUpdate);
         mNextUpdateDateTime->setDateTime(nextUpdate );
@@ -243,13 +243,13 @@ void MakeCRLProfileDlg::accept()
         crlProfileRec.setNextUpdate(mValidDaysText->text().toLong());
     }
     else {
-        if( mThisUpdateDateTime->dateTime().toTime_t() <= 10 )
+        if( mThisUpdateDateTime->dateTime().toSecsSinceEpoch() <= 10 )
         {
-            manApplet->warningBox( QString( tr("Too early time : %1").arg( mThisUpdateDateTime->dateTime().toTime_t())), this );
+            manApplet->warningBox( QString( tr("Too early time : %1").arg( mThisUpdateDateTime->dateTime().toSecsSinceEpoch())), this );
             return;
         }
-        crlProfileRec.setThisUpdate( mThisUpdateDateTime->dateTime().toTime_t() );
-        crlProfileRec.setNextUpdate( mNextUpdateDateTime->dateTime().toTime_t() );
+        crlProfileRec.setThisUpdate( mThisUpdateDateTime->dateTime().toSecsSinceEpoch() );
+        crlProfileRec.setNextUpdate( mNextUpdateDateTime->dateTime().toSecsSinceEpoch() );
     }
 
     crlProfileRec.setHash( mHashCombo->currentText() );
@@ -313,7 +313,7 @@ void MakeCRLProfileDlg::initUI()
     mVersionCombo->addItems(sVersionList);
 
     QDateTime   now;
-    now.setTime_t( time(NULL) );
+    now.setSecsSinceEpoch( time(NULL) );
     mThisUpdateDateTime->setDateTime( now );
     mNextUpdateDateTime->setDateTime( now );
 }

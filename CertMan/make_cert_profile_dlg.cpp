@@ -1,5 +1,6 @@
 #include <QMenu>
 #include <QString>
+#include <QDateTime>
 
 #include "js_pki_ext.h"
 #include "make_cert_profile_dlg.h"
@@ -113,8 +114,8 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     else {
         mUseDaysCheck->setChecked(false);
 
-        notBefore.setTime_t( certProfile.getNotBefore() );
-        notAfter.setTime_t( certProfile.getNotAfter() );
+        notBefore.setSecsSinceEpoch( certProfile.getNotBefore() );
+        notAfter.setSecsSinceEpoch( certProfile.getNotAfter() );
 
         mNotBeforeDateTime->setDateTime( notBefore );
         mNotAfterDateTime->setDateTime( notAfter );
@@ -316,14 +317,14 @@ void MakeCertProfileDlg::accept()
             certProfileRec.setNotAfter( mDaysText->text().toLong());
         }
         else {
-            if( mNotBeforeDateTime->dateTime().toTime_t() <= 10 )
+            if( mNotBeforeDateTime->dateTime().toSecsSinceEpoch() <= 10 )
             {
-                manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toTime_t())), this );
+                manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toSecsSinceEpoch())), this );
                 return;
             }
 
-            certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toTime_t() );
-            certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toTime_t() );
+            certProfileRec.setNotBefore( mNotBeforeDateTime->dateTime().toSecsSinceEpoch() );
+            certProfileRec.setNotAfter( mNotAfterDateTime->dateTime().toSecsSinceEpoch() );
         }
 
         certProfileRec.setExtUsage( mExtUsageCombo->currentIndex() );
@@ -407,7 +408,7 @@ void MakeCertProfileDlg::initUI()
     mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     QDateTime nowDateTime;
-    nowDateTime.setTime_t(time(NULL));
+    nowDateTime.setSecsSinceEpoch(time(NULL));
     mNotBeforeDateTime->setDateTime(nowDateTime);
     mNotAfterDateTime->setDateTime(nowDateTime);
 

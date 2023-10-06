@@ -1,3 +1,5 @@
+#include <QtCore5Compat/QTextCodec>
+
 #include "renew_cert_dlg.h"
 #include "man_applet.h"
 #include "mainwindow.h"
@@ -88,8 +90,8 @@ void RenewCertDlg::showEvent(QShowEvent *event)
 
     JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
 
-    startDateTime.setTime_t( sCertInfo.uNotBefore );
-    endDateTime.setTime_t( sCertInfo.uNotAfter );
+    startDateTime.setSecsSinceEpoch( sCertInfo.uNotBefore );
+    endDateTime.setSecsSinceEpoch( sCertInfo.uNotAfter );
 
     mNotBeforeText->setText( startDateTime.toString( "yyyy-MM-dd HH:mm:ss" ) );
     mNotAfterText->setText( endDateTime.toString( "yyyy-MM-dd HH:mm:ss" ));
@@ -225,8 +227,8 @@ void RenewCertDlg::accept()
     }
     else
     {
-        notBefore = mNotBeforeDateTime->dateTime().toTime_t() - now_t;
-        notAfter = mNotAfterDateTime->dateTime().toTime_t() - now_t;
+        notBefore = mNotBeforeDateTime->dateTime().toSecsSinceEpoch() - now_t;
+        notAfter = mNotAfterDateTime->dateTime().toSecsSinceEpoch() - now_t;
     }
 
     if( uLimitBefore > 0 )
@@ -236,8 +238,8 @@ void RenewCertDlg::accept()
             QDateTime limitDateTime;
             QDateTime beforeDateTime;
 
-            limitDateTime.setTime_t( uLimitBefore );
-            beforeDateTime.setTime_t( notBefore + now_t );
+            limitDateTime.setSecsSinceEpoch( uLimitBefore );
+            beforeDateTime.setSecsSinceEpoch( notBefore + now_t );
 
             QString strErr = tr("It(%1) cannot be earlier than issuer time(%2).")
                     .arg( beforeDateTime.toString( "yyyy-MM-dd HH:mm:ss"))
@@ -257,8 +259,8 @@ void RenewCertDlg::accept()
             QDateTime limitDateTime;
             QDateTime afterDateTime;
 
-            limitDateTime.setTime_t( uLimitBefore );
-            afterDateTime.setTime_t( notAfter + now_t );
+            limitDateTime.setSecsSinceEpoch( uLimitBefore );
+            afterDateTime.setSecsSinceEpoch( notAfter + now_t );
 
             QString strErr = tr("It(%1) cannot be later than the issuer time(%2).")
                     .arg( afterDateTime.toString( "yyyy-MM-dd HH:mm:ss"))
@@ -385,7 +387,7 @@ void RenewCertDlg::accept()
         revoke.setIssuerNum( cert.getIssuerNum() );
         revoke.setSerial( QString("%1").arg(cert.getNum()));
         revoke.setReason( nReason );
-        revoke.setRevokeDate( QDateTime::currentDateTime().toTime_t() );
+        revoke.setRevokeDate( QDateTime::currentDateTime().toSecsSinceEpoch() );
         revoke.setCRLDP( cert.getCRLDP() );
 
         dbMgr->addRevokeRec( revoke );

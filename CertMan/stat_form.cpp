@@ -71,10 +71,10 @@ void StatForm::clickDay()
     time_t now_t = time(NULL);
 
     QDateTime startTime;
-    startTime.setTime_t( now_t - 86400 * 6 );
+    startTime.setSecsSinceEpoch( now_t - 86400 * 6 );
 
     QDateTime endTime;
-    endTime.setTime_t( now_t );
+    endTime.setSecsSinceEpoch( now_t );
 
     mStartDate->setDate( startTime.date() );
     mEndDate->setDate( endTime.date() );
@@ -94,7 +94,7 @@ void StatForm::clickMonth()
     time_t now_t = time(NULL);
 
     QDateTime dateTime;
-    dateTime.setTime_t( now_t );
+    dateTime.setSecsSinceEpoch( now_t );
 
     QDate endDate = dateTime.date();
     nYear = endDate.year();
@@ -120,7 +120,7 @@ void StatForm::clickYear()
     time_t now_t = time(NULL);
 
     QDateTime dateTime;
-    dateTime.setTime_t( now_t );
+    dateTime.setSecsSinceEpoch( now_t );
 
     QDate date = dateTime.date();
     nYear = date.year();
@@ -145,8 +145,8 @@ void StatForm::getData()
     QList<int> startList;
     QList<int> endList;
 
-    time_t end_t = mEndDate->dateTime().toTime_t();
-    time_t start_t = mStartDate->dateTime().toTime_t();
+    time_t end_t = mEndDate->dateTime().toSecsSinceEpoch();
+    time_t start_t = mStartDate->dateTime().toSecsSinceEpoch();
     time_t diff_t = end_t - start_t;
 
 
@@ -170,7 +170,7 @@ void StatForm::getData()
         for( int i = 0; i < nCount; i++ )
         {
             QDateTime dateTime;
-            dateTime.setTime_t( pos_t );
+            dateTime.setSecsSinceEpoch( pos_t );
             QString strDate = dateTime.toString( "MM-dd" );
 
             unit_list_ << strDate;
@@ -194,11 +194,11 @@ void StatForm::getData()
 
             unit_list_ << dateTime.toString( "yy-MM" );
 
-            startList << dateTime.toTime_t();
+            startList << dateTime.toSecsSinceEpoch();
 
             QDate tmpDate = posDate.addMonths(1);
             dateTime.setDate( tmpDate );
-            endList << dateTime.toTime_t() - 1;
+            endList << dateTime.toSecsSinceEpoch() - 1;
             posDate = tmpDate;
         }
     }
@@ -216,11 +216,11 @@ void StatForm::getData()
 
             unit_list_ << dateTime.toString( "yyyy" );
 
-            startList << dateTime.toTime_t();
+            startList << dateTime.toSecsSinceEpoch();
 
             QDate tmpDate = posDate.addYears(1);
             dateTime.setDate( tmpDate );
-            endList << dateTime.toTime_t() - 1;
+            endList << dateTime.toSecsSinceEpoch() - 1;
             posDate = tmpDate;
         }
     }

@@ -1,3 +1,5 @@
+#include <QtCore5Compat/QTextCodec>
+
 #include "make_cert_dlg.h"
 #include "man_applet.h"
 #include "mainwindow.h"

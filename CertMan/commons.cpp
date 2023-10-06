@@ -2,7 +2,7 @@
 #include <QString>
 #include <QtCore>
 #include <QFileDialog>
-
+#include <QRegularExpression>
 
 #include "commons.h"
 #include "db_mgr.h"
@@ -1926,7 +1926,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     if( keyType == CKK_RSA )
     {
         QString strDecimal = "";
-        strDecimal.sprintf( "%d", nExponent );
+        strDecimal.asprintf( "%d", nExponent );
         JS_PKI_decimalToBin( strDecimal.toStdString().c_str(), &binPubExponent );
 
         sPubTemplate[uPubCount].type = CKA_PUBLIC_EXPONENT;
@@ -3434,7 +3434,7 @@ void CMPSetTrustList( SettingsMgr *settingMgr, BINList **ppTrustList )
 QString getDateTime( time_t tTime )
 {
     QDateTime dateTime;
-    dateTime.setTime_t( tTime );
+    dateTime.setSecsSinceEpoch( tTime );
 
     if( tTime < 0 ) return "NA";
 
@@ -3577,12 +3577,12 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
 
     if( nType == DATA_HEX )
     {
-        srcString.remove( QRegExp("[\t\r\n\\s]") );
+        srcString.remove( QRegularExpression("[\t\r\n\\s]") );
         JS_BIN_decodeHex( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_BASE64 )
     {
-        srcString.remove( QRegExp("[\t\r\n\\s]") );
+        srcString.remove( QRegularExpression("[\t\r\n\\s]") );
         JS_BIN_decodeBase64( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_URL )
