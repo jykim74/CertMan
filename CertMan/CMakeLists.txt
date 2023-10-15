@@ -19,6 +19,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui)
 find_package(Qt${QT_VERSION_MAJOR} OPTIONAL_COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core5Compat)
 
 if(APPLE)
     SET(platform_specific_sources ${platform_specific_sources} mac_sparkle_support.mm)
@@ -239,6 +240,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
     Qt${QT_VERSION_MAJOR}::Charts
+    Qt${QT_VERSION_MAJOR}::Core5Compat
     PKILib crypto ssl ltdl ldap lber ws2_32 WinSparkle )
 
 target_compile_definitions( ${PROJECT_NAME} PRIVATE _AUTO_UPDATE )
@@ -265,14 +267,14 @@ elseif(APPLE)
 
     if(Debug)
         target_link_directories( ${PROJECT_NAME} PRIVATE
-        ../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Debug
+        ../../build-PKILib-Qt_6_5_3_for_macOS-Debug
         ../../PKILib/lib/mac/debug/openssl3/lib
         /usr/local/lib )
     endif()
 
     if(NOT Debug)
         target_link_directories( ${PROJECT_NAME} PRIVATE
-        ../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Release
+        ../../build-PKILib-Qt_6_5_3_for_macOS-Release
         ../../PKILib/lib/mac/openssl3/lib
         /usr/local/lib )
     endif()
@@ -281,6 +283,7 @@ elseif(APPLE)
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Sql
         Qt${QT_VERSION_MAJOR}::Charts
+        Qt${QT_VERSION_MAJOR}::Core5Compat
         PKILib crypto ssl ltdl ldap lber
         "-framework AppKit"
         "-framework Carbon"
@@ -315,6 +318,7 @@ elseif(LINUX)
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Sql
         Qt${QT_VERSION_MAJOR}::Charts
+        Qt${QT_VERSION_MAJOR}::Core5Compat
         PKILib crypto ssl ltdl ldap lber )
 endif()
 
