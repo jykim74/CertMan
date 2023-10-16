@@ -1,4 +1,4 @@
-#include <QtCore5Compat/QTextCodec>
+// #include <QtCore5Compat/QTextCodec>
 
 #include "renew_cert_dlg.h"
 #include "man_applet.h"
@@ -134,8 +134,8 @@ void RenewCertDlg::accept()
     long uLimitBefore = -1;
     long uLimitAfter = -1;
 
-    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
-    QByteArray ba;
+//    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
+//    QByteArray ba;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
@@ -360,8 +360,9 @@ void RenewCertDlg::accept()
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( getHexString( &binRenewCert) );
 
-    ba = sMadeCertInfo.pSubjectName;
-    madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
+//    ba = sMadeCertInfo.pSubjectName;
+//    madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
+    madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
 
     nRenewCertNum = dbMgr->getNextVal( "TB_CERT" );
     madeCertRec.setNum( nRenewCertNum );

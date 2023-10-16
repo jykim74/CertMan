@@ -1,4 +1,4 @@
-#include <QtCore5Compat/QTextCodec>
+//#include <QtCore5Compat/QTextCodec>
 
 #include "make_cert_dlg.h"
 #include "man_applet.h"
@@ -235,8 +235,8 @@ void MakeCertDlg::accept()
     JExtensionInfoList *pExtInfoList = NULL;
     JExtensionInfoList *pMadeExtInfoList = NULL;
 
-    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
-    QByteArray ba;
+//    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
+//    QByteArray ba;
 
     UserRec userRec;
 
@@ -694,8 +694,9 @@ void MakeCertDlg::accept()
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( pHexCert );
 
-    ba = sMadeCertInfo.pSubjectName;
-    madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
+ //   ba = sMadeCertInfo.pSubjectName;
+ //   madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
+    madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
 
     madeCertRec.setNum( nSeq );
 
