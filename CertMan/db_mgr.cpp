@@ -854,7 +854,7 @@ int DBMgr::getAdminList( QList<AdminRec>& adminList )
 {
     QString strSQL;
 
-    strSQL.asprintf( "SELECT * FROM TB_ADMIN " );
+    strSQL = QString( "SELECT * FROM TB_ADMIN " );
     strSQL += "ORDER BY SEQ DESC";
 
     return _getAdminList( strSQL, adminList );
@@ -1132,7 +1132,7 @@ int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
 {
     QString strSQL;
 
-    strSQL.asprintf( "SELECT * FROM TB_REQ" );
+    strSQL = QString( "SELECT * FROM TB_REQ" );
     if( nStatus >= 0 ) strSQL += QString( " WHERE STATUS = %1 " ).arg( nStatus );
 
     strSQL += "ORDER BY SEQ DESC";
@@ -1304,7 +1304,7 @@ int DBMgr::getCertProfileList( QList<CertProfileRec>& certProfileList )
 int DBMgr::getCertProfileListByType( int nType, QList<CertProfileRec>& certProfileList )
 {
     QString strSQL;
-    strSQL.asprintf( "SELECT * FROM TB_CERT_PROFILE WHERE TYPE = %d ORDER BY NUM DESC", nType );
+    strSQL = QString( "SELECT * FROM TB_CERT_PROFILE WHERE TYPE = %1 ORDER BY NUM DESC" ).arg( nType );
 
     return _getCertProfileList( strSQL, certProfileList );
 }
@@ -1313,7 +1313,7 @@ int DBMgr::getCertProfileListByType( int nType, QList<CertProfileRec>& certProfi
 int DBMgr::getCertProfileRec( int nNum, CertProfileRec& certProfile )
 {
     QString strSQL;
-    strSQL.asprintf( "SELECT * FROM TB_CERT_PROFILE WHERE NUM = %d", nNum );
+    strSQL = QString( "SELECT * FROM TB_CERT_PROFILE WHERE NUM = %1").arg( nNum );
 
     QList<CertProfileRec> certProfileList;
 
@@ -1328,7 +1328,7 @@ int DBMgr::getCertProfileRec( int nNum, CertProfileRec& certProfile )
 int DBMgr::getCRLProfileRec( int nNum, CRLProfileRec& crlProfile )
 {
     QString strSQL;
-    strSQL.asprintf( "SELECT * FROM TB_CRL_PROFILE WHERE NUM = %d", nNum );
+    strSQL = QString( "SELECT * FROM TB_CRL_PROFILE WHERE NUM = %1" ).arg( nNum );
 
     QList<CRLProfileRec> crlProfileList;
 
@@ -2186,7 +2186,7 @@ int DBMgr::getCertProfileNextNum()
     int nNextNum = -1;
 
     QString strSQL;
-    strSQL.asprintf( "SELECT MAX(num)+1 FROM TB_CERT_PROFILE" );
+    strSQL = QString( "SELECT MAX(num)+1 FROM TB_CERT_PROFILE" );
     QSqlQuery query( strSQL );
 
     while( query.next() )
@@ -2204,7 +2204,7 @@ int DBMgr::getCRLProfileNextNum()
     int nNextNum = -1;
 
     QString strSQL;
-    strSQL.asprintf( "SELECT MAX(num)+1 FROM TB_CRL_PROFILE" );
+    strSQL = QString( "SELECT MAX(num)+1 FROM TB_CRL_PROFILE" );
     QSqlQuery query( strSQL );
 
     while( query.next() )

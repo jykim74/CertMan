@@ -247,7 +247,7 @@ void MakeCRLDlg::accept()
             if( strVal.contains( "auto" ) )
             {
                 QString strSeq;
-                strSeq.asprintf( "%04x", nSeq );
+                strSeq = QString( "%1" ).arg( nSeq, 4, 16, QLatin1Char('0'));
                 profileExt.setValue( strSeq );
             }
         }

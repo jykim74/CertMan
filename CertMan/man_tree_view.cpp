@@ -1,11 +1,11 @@
 #include <QMenu>
 
-
 #include "man_tree_view.h"
 #include "man_tree_item.h"
 #include "man_tree_model.h"
 #include "mainwindow.h"
 #include "man_applet.h"
+#include "settings_mgr.h"
 
 ManTreeView::ManTreeView( QWidget *parent )
     : QTreeView (parent)
@@ -15,6 +15,16 @@ ManTreeView::ManTreeView( QWidget *parent )
 
 //    setRootIsDecorated(false);
     connect( this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
+
+    QFile qss(":/certman.qss");
+    qss.open( QFile::ReadOnly );
+    setStyleSheet(qss.readAll());
+    qss.close();
+
+    static QFont font;
+    QString strFont = manApplet->settingsMgr()->getFontFamily();
+    font.setFamily( strFont );
+    setFont(font);
 }
 
 void ManTreeView::showContextMenu(QPoint point)

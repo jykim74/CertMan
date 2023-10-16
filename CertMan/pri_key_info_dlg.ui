@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>523</height>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@
    <item>
     <widget class="QTabWidget" name="mKeyTab">
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -803,11 +803,6 @@
            </disabled>
           </palette>
          </property>
-         <property name="font">
-          <font>
-           <family>굴림체</family>
-          </font>
-         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -931,11 +926,6 @@
             </colorrole>
            </disabled>
           </palette>
-         </property>
-         <property name="font">
-          <font>
-           <family>굴림체</family>
-          </font>
          </property>
          <property name="readOnly">
           <bool>true</bool>

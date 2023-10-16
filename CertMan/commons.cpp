@@ -1926,7 +1926,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     if( keyType == CKK_RSA )
     {
         QString strDecimal = "";
-        strDecimal.asprintf( "%d", nExponent );
+        strDecimal = QString( "%1" ).arg( nExponent );
         JS_PKI_decimalToBin( strDecimal.toStdString().c_str(), &binPubExponent );
 
         sPubTemplate[uPubCount].type = CKA_PUBLIC_EXPONENT;
