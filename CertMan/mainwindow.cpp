@@ -5124,8 +5124,8 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString( "| %1 | %2 | Seq: %3 |\n")
-                     .arg( profileExt.getSN(), 37 )
-                     .arg( profileExt.isCritical() ? "Critical" : "Normal", 10 )
+                     .arg( profileExt.getSN(), -37 )
+                     .arg( profileExt.isCritical() ? "Critical" : "Normal", -10 )
                      .arg( profileExt.getSeq(), 10 ));
 
     if( strShowValue.length() > 0 )
