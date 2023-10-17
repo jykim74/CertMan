@@ -21,6 +21,12 @@
      </property>
      <item row="0" column="1">
       <widget class="QLabel" name="mVersionLabel">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Current Version</string>
        </property>
