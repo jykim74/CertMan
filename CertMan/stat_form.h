@@ -12,16 +12,29 @@ class StatForm;
 }
 
 
+#if QT_VERSION >= 0x060000
 QT_BEGIN_NAMESPACE
+#else
+QT_CHARTS_BEGIN_NAMESPACE
+#endif
 class QChartView;
 class QChart;
+
+#if QT_VERSION >= 0x060000
 QT_END_NAMESPACE
+#else
+QT_CHARTS_END_NAMESPACE
+#endif
 
 typedef QPair<QPointF, QString> Data;
 typedef QList<Data> DataList;
 typedef QList<DataList> DataTable;
 
+#if QT_VERSION >= 0x060000
 QT_USE_NAMESPACE
+#else
+QT_CHARTS_USE_NAMESPACE
+#endif
 
 class StatForm : public QWidget, public Ui::StatForm
 {
