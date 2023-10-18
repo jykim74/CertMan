@@ -2,7 +2,7 @@
 #include "man_applet.h"
 #include "auto_update_service.h"
 #include "js_gen.h"
-
+#include "settings_mgr.h"
 
 AboutDlg::AboutDlg(QWidget *parent) :
     QDialog(parent)
@@ -10,6 +10,7 @@ AboutDlg::AboutDlg(QWidget *parent) :
     setupUi(this);
     setWindowTitle(tr("About %1").arg(manApplet->getBrand()));
     setWindowFlags( (windowFlags() & ~Qt::WindowContextHelpButtonHint) | Qt::WindowStaysOnTopHint );
+    initialize();
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
@@ -82,6 +83,16 @@ QString AboutDlg::getBuild()
 {
     QString strBuild = QString( "Build Date: %1 %2").arg( __DATE__ ).arg( __TIME__ );
     return strBuild;
+}
+
+void AboutDlg::initialize()
+{
+    static QFont font;
+    QString strFont = manApplet->settingsMgr()->getFontFamily();
+    font.setFamily( strFont );
+    font.setBold(true);
+    font.setPointSize(15);
+    mVersionLabel->setFont(font);
 }
 
 #ifdef _AUTO_UPDATE
