@@ -259,6 +259,7 @@ void MakeReqDlg::accept()
 
     QString strName = mNameText->text();
     QString strChallenge = mChallengePassText->text();
+    QString strUnstructuredName = mUnstructuredNameText->text();
 
     if( strName.isEmpty() )
     {
@@ -367,6 +368,7 @@ void MakeReqDlg::accept()
                                    strHash.toStdString().c_str(),
                                    strDN.toStdString().c_str(),
                                    strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
+                                  strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
                                    &binID,
                                    &binPubKey,
                                    pExtInfoList,
@@ -398,6 +400,7 @@ void MakeReqDlg::accept()
                                         strHash.toStdString().c_str(),
                                         strDN.toStdString().c_str(),
                                         strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
+                                       strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
                                         &binID,
                                         &binPubKey,
                                         pExtInfoList,
@@ -426,6 +429,7 @@ void MakeReqDlg::accept()
                               mHashCombo->currentText().toStdString().c_str(),
                               strDN.toStdString().c_str(),
                               strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
+                             strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
                               &binPri,
                               pExtInfoList,
                               &binCSR );

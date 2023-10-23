@@ -656,9 +656,11 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     JS_BIN_encodeHex( pCSR, &pHexCSR );
 
     req.setCSR( pHexCSR );
+    req.setRegTime( time(NULL) );
     req.setDN( sReqInfo.pSubjectDN );
     req.setHash( sReqInfo.pSignAlgorithm );
     req.setName( mNameText->text() );
+    req.setStatus( 0 );
 
     dbMgr->addReqRec( req );
     if( pHexCSR ) JS_free( pHexCSR );

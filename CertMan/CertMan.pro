@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "1.5.1"
+PROJECT_VERSION = "1.5.3"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -66,6 +66,7 @@ SOURCES += \
         make_cert_profile_dlg.cpp \
         make_crl_dlg.cpp \
         make_crl_profile_dlg.cpp \
+        make_dn_dlg.cpp \
         make_req_dlg.cpp \
         man_applet.cpp \
         man_tray_icon.cpp \
@@ -128,6 +129,7 @@ HEADERS += \
         make_cert_profile_dlg.h \
         make_crl_dlg.h \
         make_crl_profile_dlg.h \
+        make_dn_dlg.h \
         make_req_dlg.h \
         man_applet.h \
         man_tray_icon.h \
@@ -179,6 +181,7 @@ FORMS += \
         make_crl_dlg.ui \
         make_crl_profile_dlg.ui \
         make_crl_profile_dlg.ui \
+        make_dn_dlg.ui \
         make_req_dlg.ui \
         new_key_dlg.ui \
         pin_dlg.ui \

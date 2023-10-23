@@ -171,6 +171,16 @@ void CSRInfoDlg::initialize()
         i++;
     }
 
+    if( sReqInfo.pUnstructuredName )
+    {
+        mFieldTable->insertRow(i);
+        mFieldTable->setRowHeight(i,10);
+        mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("UnstructuredName")));
+        mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.pUnstructuredName)));
+        i++;
+    }
+
+
     if( pExtInfoList )
     {
         JExtensionInfoList *pCurList = pExtInfoList;
