@@ -18,6 +18,10 @@ public:
     void setDN( const QString strDN );
     const QString getDN();
 
+private slots:
+    void clickOK();
+    void clickClear();
+
 private:
 
 };

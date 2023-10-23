@@ -16,6 +16,7 @@
 #include "js_pki_ext.h"
 #include "commons.h"
 #include "settings_mgr.h"
+#include "make_dn_dlg.h"
 
 #include "js_gen.h"
 #include "js_kms.h"
@@ -48,6 +49,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mSelfSignCheck, SIGNAL(clicked()), this, SLOT(clickSelfSign()));
     connect( mUseCSRFileCheck, SIGNAL(clicked()), this, SLOT(clickUseCSRFile()));
     connect( mCSRFileFindBtn, SIGNAL(clicked()), this, SLOT(findCSRFile()));
+    connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
 
     initialize();
 }
@@ -883,4 +885,18 @@ void MakeCertDlg::findCSRFile()
 end :
     JS_PKI_resetReqInfo( &sReqInfo );
     JS_BIN_reset( &binCSR );
+}
+
+void MakeCertDlg::clickMakeDN()
+{
+    QString strDN = mSubjectDNText->text();
+
+    MakeDNDlg makeDNDlg;
+    makeDNDlg.setDN( strDN );
+
+    if( makeDNDlg.exec() == QDialog::Accepted )
+    {
+        strDN = makeDNDlg.getDN();
+        mSubjectDNText->setText( strDN );
+    }
 }

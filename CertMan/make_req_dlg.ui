@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>499</width>
-    <height>466</height>
+    <height>657</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,30 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="2" column="0">
+     <item row="2" column="2">
+      <widget class="QPushButton" name="mMakeDNBtn">
+       <property name="text">
+        <string>Make DN</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_12">
+       <property name="text">
+        <string>UnstructuredName</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="3">
+      <widget class="QLineEdit" name="mDNText"/>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLineEdit" name="mNameText"/>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="mUnstructuredNameText"/>
+     </item>
+     <item row="5" column="0">
       <widget class="QLabel" name="label_7">
        <property name="minimumSize">
         <size>
@@ -53,31 +76,42 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>DN</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mNameText"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="mDNText"/>
-     </item>
      <item row="2" column="1">
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="5" column="1" colspan="2">
       <widget class="QLineEdit" name="mChallengePassText"/>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>UnstructuredName</string>
+     <item row="1" column="0" colspan="3">
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="mUnstructuredNameText"/>
+     <item row="4" column="0" colspan="3">
+      <widget class="Line" name="line_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -543,7 +577,6 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
-  <tabstop>mDNText</tabstop>
   <tabstop>mChallengePassText</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>

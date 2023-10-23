@@ -29,6 +29,7 @@ private slots:
     void newOptionChanged(int index );
     void checkGenKeyPair();
     void checkExtension();
+    void clickMakeDN();
 
 private:
     void initUI();

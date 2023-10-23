@@ -14,6 +14,7 @@
 #include "settings_mgr.h"
 #include "commons.h"
 #include "pin_dlg.h"
+#include "make_dn_dlg.h"
 
 static QStringList sMechList = { kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
 
@@ -28,6 +29,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
     connect( mNewOptionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newOptionChanged(int)));
     connect( mUseExtensionCheck, SIGNAL(clicked()), this, SLOT(checkExtension()));
+    connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
 
     initialize();
 #if defined(Q_OS_MAC)
@@ -584,6 +586,20 @@ void MakeReqDlg::checkExtension()
 
     mProfileNameCombo->setEnabled( bVal );
     mProfileNameLabel->setEnabled( bVal );
+}
+
+void MakeReqDlg::clickMakeDN()
+{
+    QString strDN = mDNText->text();
+
+    MakeDNDlg makeDNDlg;
+    makeDNDlg.setDN( strDN );
+
+    if( makeDNDlg.exec() == QDialog::Accepted )
+    {
+        QString strDN = makeDNDlg.getDN();
+        mDNText->setText( strDN );
+    }
 }
 
 void MakeReqDlg::initUI()

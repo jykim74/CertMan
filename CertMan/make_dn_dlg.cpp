@@ -9,6 +9,10 @@ MakeDNDlg::MakeDNDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+
+    connect( mClearBtn, SIGNAL(clicked()), this, SLOT(clickClear()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 MakeDNDlg::~MakeDNDlg()
@@ -26,17 +30,90 @@ void MakeDNDlg::setDN( const QString strDN )
         QStringList strNVList = strPart.split( "=" );
         if( strNVList.size() != 2 ) continue;
 
-        QString strName = strNVList.at(0);
+        QString strName = strNVList.at(0).toUpper();
         QString strValue = strNVList.at(1);
 
         if( strName == "CN" )
-        {
             mCNText->setText( strValue );
-        }
+        else if( strName == "EMAILADDRESS" )
+            mEmailAddressText->setText( strValue );
+        else if( strName == "O" )
+            mOText->setText( strValue );
+        else if( strName == "OU" )
+            mOUText->setText( strValue );
+        else if( strName == "L" )
+            mLText->setText( strValue );
+        else if( strName == "ST" )
+            mSTText->setText( strValue );
+        else if( strName == "C" )
+            mCText->setText( strValue );
     }
 }
 
 const QString MakeDNDlg::getDN()
 {
+    QString strEmailAddress = mEmailAddressText->text();
+    QString strCN = mCNText->text();
+    QString strO = mOText->text();
+    QString strOU = mOUText->text();
+    QString strL = mLText->text();
+    QString strST = mSTText->text();
+    QString strC = mCText->text();
+
+    QString strDN;
+
+    if( strEmailAddress.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "EmailAddress=%1").arg(strEmailAddress);
+    }
+    else if( strCN.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "CN=%1").arg( strCN );
+    }
+    else if( strO.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "O=%1").arg( strO );
+    }
+    else if( strOU.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "OU=%1").arg( strOU );
+    }
+    else if( strL.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "L=%1").arg( strL );
+    }
+    else if( strST.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "ST=%1").arg( strST );
+    }
+    else if( strC.length() > 0 )
+    {
+        if( strDN.length() > 0 ) strDN += ",";
+        strDN += QString( "C=%1" ).arg( strC );
+    }
+
+    return strDN;
+}
+
+void MakeDNDlg::clickOK()
+{
+    accept();
+}
+
+void MakeDNDlg::clickClear()
+{
+    mEmailAddressText->clear();
+    mCNText->clear();
+    mOText->clear();
+    mOUText->clear();
+    mSTText->clear();
+    mCText->clear();
+    mLText->clear();
 
 }

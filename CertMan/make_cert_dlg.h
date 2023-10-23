@@ -34,6 +34,7 @@ private slots:
     void clickSelfSign();
     void clickUseCSRFile();
     void findCSRFile();
+    void clickMakeDN();
 
 private:
     QList<ReqRec>           req_list_;
