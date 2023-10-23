@@ -65,34 +65,40 @@ const QString MakeDNDlg::getDN()
     if( strEmailAddress.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
-        strDN += QString( "EmailAddress=%1").arg(strEmailAddress);
+        strDN += QString( "emailAddress=%1").arg(strEmailAddress);
     }
-    else if( strCN.length() > 0 )
+
+    if( strCN.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "CN=%1").arg( strCN );
     }
-    else if( strO.length() > 0 )
+
+    if( strO.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "O=%1").arg( strO );
     }
-    else if( strOU.length() > 0 )
+
+    if( strOU.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "OU=%1").arg( strOU );
     }
-    else if( strL.length() > 0 )
+
+    if( strL.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "L=%1").arg( strL );
     }
-    else if( strST.length() > 0 )
+
+    if( strST.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "ST=%1").arg( strST );
     }
-    else if( strC.length() > 0 )
+
+    if( strC.length() > 0 )
     {
         if( strDN.length() > 0 ) strDN += ",";
         strDN += QString( "C=%1" ).arg( strC );
@@ -103,6 +109,14 @@ const QString MakeDNDlg::getDN()
 
 void MakeDNDlg::clickOK()
 {
+    QString strDN = getDN();
+
+    if( strDN.length() < 3 )
+    {
+        manApplet->warningBox( tr( "DN value is empty" ), this );
+        return;
+    }
+
     accept();
 }
 

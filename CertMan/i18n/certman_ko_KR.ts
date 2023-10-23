@@ -384,6 +384,10 @@
         <source>PublicKey</source>
         <translation>공개키</translation>
     </message>
+    <message>
+        <source>UnstructuredName</source>
+        <translation>구조화안된 이름</translation>
+    </message>
 </context>
 <context>
     <name>CertInfoDlg</name>
@@ -2814,6 +2818,10 @@
         <source>Invalid request file: %1</source>
         <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
+    <message>
+        <source>Make DN</source>
+        <translation>DN 만들기</translation>
+    </message>
 </context>
 <context>
     <name>MakeCertPolicyDlg</name>
@@ -3350,6 +3358,61 @@
     </message>
 </context>
 <context>
+    <name>MakeDNDlg</name>
+    <message>
+        <source>Make Distinguished Name</source>
+        <translation>고유 이름 만들기</translation>
+    </message>
+    <message>
+        <source>Distinguished Name</source>
+        <translation>고유 이름</translation>
+    </message>
+    <message>
+        <source>DN value</source>
+        <translation>고유 이름 값</translation>
+    </message>
+    <message>
+        <source>Common Name</source>
+        <translation>Common Name</translation>
+    </message>
+    <message>
+        <source>Organization (optional)</source>
+        <translation>Organization (옵션)</translation>
+    </message>
+    <message>
+        <source>Country or resion (optional)</source>
+        <translation>Country 또는 reason (옵션)</translation>
+    </message>
+    <message>
+        <source>State/ Province (optional)</source>
+        <translation>State / Province (옵션)</translation>
+    </message>
+    <message>
+        <source>Email (optional)</source>
+        <translation>Email (옵션)</translation>
+    </message>
+    <message>
+        <source>Locality (optional)</source>
+        <translation>Locality (옵션)</translation>
+    </message>
+    <message>
+        <source>Organizational Unit (optional)</source>
+        <translation>Organization Unit (옵션)</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>확인</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>지우기</translation>
+    </message>
+</context>
+<context>
     <name>MakeReqDlg</name>
     <message>
         <source>Make requester</source>
@@ -3466,6 +3529,14 @@
     <message>
         <source>fail to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
+    </message>
+    <message>
+        <source>Make DN</source>
+        <translation>DN 만들기</translation>
+    </message>
+    <message>
+        <source>UnstructuredName</source>
+        <translation>구조화 안된 이름</translation>
     </message>
 </context>
 <context>
