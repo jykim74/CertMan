@@ -235,15 +235,15 @@ if(WIN32)
         ../../PKILib/lib/win64/openssl3/lib64
         ../../PKILib/lib/win64/winsparkle/x64/Release
         "C:/msys64/mingw64/lib" )
-endif()
+    endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Sql
-    Qt${QT_VERSION_MAJOR}::Charts
-    PKILib crypto ssl ltdl ldap lber ws2_32 WinSparkle )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Sql
+        Qt${QT_VERSION_MAJOR}::Charts
+        PKILib crypto ssl ltdl ldap lber ws2_32 WinSparkle )
 
-target_compile_definitions( ${PROJECT_NAME} PRIVATE _AUTO_UPDATE )
+    target_compile_definitions( ${PROJECT_NAME} PRIVATE _AUTO_UPDATE )
 
 elseif(APPLE)
     set(CMAKE_MACOSX_BUNDLE ON)
