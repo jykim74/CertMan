@@ -36,6 +36,8 @@ private slots:
 
 public slots:
     void setKMIPCheck();
+    void checkUseFile();
+    void changeValue();
 
 private:
     void initUI();

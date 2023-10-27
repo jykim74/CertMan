@@ -15,6 +15,8 @@ static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
 };
 
+static QStringList sValueType = { "Hex", "Base64" };
+
 ImportDlg::ImportDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -41,6 +43,7 @@ void ImportDlg::accept()
 
     QString strPath = mPathText->text();
     QString strPass = mPasswordText->text();
+    QString strValue = mValueText->toPlainText();
 
     if( strPath.isEmpty() )
     {
@@ -61,11 +64,26 @@ void ImportDlg::accept()
     }
 
     BIN binSrc = {0,0};
-    ret = JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
-    if( ret <= 0 )
+
+    if( mUseFileCheck->isChecked() == true )
     {
-        manApplet->warningBox( tr( "fail to read : %1").arg( strPass ), this );
-        return;
+        ret = JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
+        if( ret <= 0 )
+        {
+            manApplet->warningBox( tr( "fail to read : %1").arg( strPass ), this );
+            return;
+        }
+    }
+    else
+    {
+        if( strValue.length() < 1 )
+        {
+            manApplet->warningBox( tr( "You have to insert value"), this );
+            mValueText->setFocus();
+            return;
+        }
+
+        getBINFromString( &binSrc, mValueTypeCombo->currentText(), strValue );
     }
 
     if( nSelType == IMPORT_TYPE_PRIKEY || nSelType == IMPORT_TYPE_ENC_PRIKEY )
@@ -170,8 +188,12 @@ void ImportDlg::initUI()
     mDataTypeCombo->addItems(sDataTypeList);
     dataTypeChanged(0);
 
+    mValueTypeCombo->addItems(sValueType);
+
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT( clickFind()));
     connect( mDataTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
+    connect( mUseFileCheck, SIGNAL(clicked()), this, SLOT(checkUseFile()));
+    connect( mValueText, SIGNAL(textChanged()), this, SLOT(changeValue()));
 }
 
 void ImportDlg::initialize()
@@ -181,6 +203,8 @@ void ImportDlg::initialize()
 
     if( manApplet->settingsMgr()->PKCS11Use() == false )
         mToPKCS11Check->hide();
+
+    checkUseFile();
 }
 
 
@@ -528,6 +552,23 @@ end :
 void ImportDlg::setKMIPCheck()
 {
     mToKMSCheck->setChecked(true);
+}
+
+void ImportDlg::checkUseFile()
+{
+    bool bVal = mUseFileCheck->isChecked();
+
+    mValueGroup->setEnabled( !bVal );
+    mPathText->setEnabled( bVal );
+    mFindBtn->setEnabled( bVal );
+}
+
+void ImportDlg::changeValue()
+{
+    QString strVal = mValueText->toPlainText();
+
+    int nLen = getDataLen( mValueTypeCombo->currentText(), strVal );
+    mValueLenText->setText( QString("%1").arg(nLen));
 }
 
 int ImportDlg::ImportCert( const BIN *pCert )

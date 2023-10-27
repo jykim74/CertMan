@@ -1092,19 +1092,34 @@
         <translation>데이타 가져오기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="57"/>
+        <location filename="../import_dlg.ui" line="56"/>
         <source>Data Type</source>
         <translation>데이타 타입</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="108"/>
+        <location filename="../import_dlg.ui" line="113"/>
         <source>Target Information</source>
         <translation>대상 정보</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="138"/>
+        <location filename="../import_dlg.ui" line="143"/>
         <source>Name</source>
         <translation>이름</translation>
+    </message>
+    <message>
+        <location filename="../import_dlg.ui" line="200"/>
+        <source>Use File</source>
+        <translation>파일 사용</translation>
+    </message>
+    <message>
+        <location filename="../import_dlg.ui" line="209"/>
+        <source>Data Value</source>
+        <translation>데이타 값</translation>
+    </message>
+    <message>
+        <location filename="../import_dlg.ui" line="282"/>
+        <source>Value Type</source>
+        <translation>값의 타입</translation>
     </message>
     <message>
         <source>Source Information</source>
@@ -1115,27 +1130,32 @@
         <translation type="vanished">경로</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="195"/>
+        <location filename="../import_dlg.ui" line="184"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="165"/>
+        <location filename="../import_dlg.ui" line="170"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="47"/>
+        <location filename="../import_dlg.cpp" line="50"/>
         <source>select file to import</source>
         <translation>가져올 파일을 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="57"/>
+        <location filename="../import_dlg.cpp" line="60"/>
         <source>insert password</source>
         <translation>패스워드를 입력하세요.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="215"/>
+        <location filename="../import_dlg.cpp" line="81"/>
+        <source>You have to insert value</source>
+        <translation>값을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../import_dlg.cpp" line="239"/>
         <source>Import files</source>
         <translation>가져올 파일</translation>
     </message>
@@ -1144,42 +1164,41 @@
         <translation type="vanished">KMS 에 주입하기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="110"/>
+        <location filename="../import_dlg.cpp" line="128"/>
         <source>KMS can not import CSR</source>
         <translation>KMS은 CSR 을 주입 할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="132"/>
+        <location filename="../import_dlg.cpp" line="150"/>
         <source>KMS can not import CRL</source>
         <translation>KMS는 CRL을 주입 할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="26"/>
+        <location filename="../import_dlg.ui" line="25"/>
         <source>Import Source Information</source>
         <translation>소스 정보 가져오기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="185"/>
         <source>Source Path</source>
-        <translation>소스 경로</translation>
+        <translation type="vanished">소스 경로</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="80"/>
+        <location filename="../import_dlg.ui" line="79"/>
         <source>To KMS</source>
         <translation>KMS 저장</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="87"/>
+        <location filename="../import_dlg.ui" line="86"/>
         <source>To PKCS11</source>
         <translation>PKCS11 저장</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="88"/>
+        <location filename="../import_dlg.cpp" line="106"/>
         <source>fail to decrypt private key: %1</source>
         <translation>개인키 복호화에 실패 하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="155"/>
+        <location filename="../import_dlg.cpp" line="173"/>
         <source>fail to import: %1</source>
         <translation>가져오기 실패: %1</translation>
     </message>
@@ -1188,12 +1207,12 @@
         <translation type="vanished">EdDSA 알고리즘은 가져오기 할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="162"/>
+        <location filename="../import_dlg.cpp" line="180"/>
         <source>Import is successful</source>
         <translation>가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="67"/>
+        <location filename="../import_dlg.cpp" line="73"/>
         <source>fail to read : %1</source>
         <translation>파일 읽기 실패 : %1</translation>
     </message>
@@ -4304,17 +4323,17 @@
         <translation>Organization Unit (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="126"/>
+        <location filename="../make_dn_dlg.ui" line="139"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="133"/>
+        <location filename="../make_dn_dlg.ui" line="146"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="153"/>
+        <location filename="../make_dn_dlg.ui" line="166"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>

@@ -170,6 +170,9 @@ int createDSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *
 
 QString getHexString( const BIN *pBin );
 
+int getDataLen( int nType, const QString strData );
+int getDataLen( const QString strType, const QString strData );
+
 void getBINFromString( BIN *pBin, const QString& strType, const QString& strString );
 void getBINFromString( BIN *pBin, int nType, const QString& strString );
 QString getStringFromBIN( const BIN *pBin, const QString& strType, bool bSeenOnly = false );
