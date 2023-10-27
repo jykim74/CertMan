@@ -97,6 +97,8 @@ private slots:
 
     void clickPolicySetAnyOID();
     void checkForCSR();
+    void clickMakeDN();
+
 private:
     void initUI();
     void connectExtends();

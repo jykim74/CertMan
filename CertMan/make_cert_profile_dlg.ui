@@ -27,13 +27,20 @@
        <property name="spacing">
         <number>5</number>
        </property>
-       <item row="11" column="0">
-        <layout class="QGridLayout" name="gridLayout_11">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Valid Periods</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <layout class="QGridLayout" name="gridLayout_10">
          <property name="topMargin">
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QCheckBox" name="mUseCSR_DNCheck">
+          <widget class="QLabel" name="label_7">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -47,12 +54,22 @@
             </size>
            </property>
            <property name="text">
-            <string>Use CSR DN</string>
+            <string>NotBefore</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>NotAfter</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="mSubjectDNText"/>
+          <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
+         </item>
+         <item row="0" column="3">
+          <widget class="QDateTimeEdit" name="mNotAfterDateTime"/>
          </item>
         </layout>
        </item>
@@ -120,143 +137,14 @@
          </item>
         </layout>
        </item>
-       <item row="0" column="0">
-        <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Profile Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mNameText"/>
-         </item>
-        </layout>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>Subject DN Template</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="Line" name="line_12">
+       <item row="5" column="0">
+        <widget class="Line" name="line_11">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
        <item row="16" column="0">
-        <layout class="QGridLayout" name="gridLayout_26">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_34">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>OID</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="mExtensionsOIDText"/>
-         </item>
-         <item row="0" column="3">
-          <widget class="QCheckBox" name="mExtensionsCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
-        <layout class="QGridLayout" name="gridLayout_27">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="2">
-          <widget class="QCheckBox" name="mForCSRCheck">
-           <property name="text">
-            <string>For CSR</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Base Information</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer_17">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Valid Periods</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="Line" name="line_14">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
         <layout class="QGridLayout" name="gridLayout_25">
          <property name="topMargin">
           <number>0</number>
@@ -309,7 +197,39 @@
          </item>
         </layout>
        </item>
-       <item row="13" column="0">
+       <item row="18" column="0">
+        <widget class="QPlainTextEdit" name="mExtensionsValueText"/>
+       </item>
+       <item row="12" column="0">
+        <layout class="QGridLayout" name="gridLayout_11">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="mUseCSR_DNCheck">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Use CSR DN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="mSubjectDNText"/>
+         </item>
+        </layout>
+       </item>
+       <item row="14" column="0">
         <layout class="QGridLayout" name="gridLayout_28">
          <property name="topMargin">
           <number>0</number>
@@ -348,13 +268,31 @@
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
-        <layout class="QGridLayout" name="gridLayout_10">
-         <property name="topMargin">
-          <number>0</number>
+       <item row="15" column="0">
+        <widget class="Line" name="line_14">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="Line" name="line_13">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QTableWidget" name="mExtensionsTable">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <layout class="QGridLayout" name="gridLayout_6">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -368,22 +306,12 @@
             </size>
            </property>
            <property name="text">
-            <string>NotBefore</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>NotAfter</string>
+            <string>Profile Name</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QDateTimeEdit" name="mNotBeforeDateTime"/>
-         </item>
-         <item row="0" column="3">
-          <widget class="QDateTimeEdit" name="mNotAfterDateTime"/>
+          <widget class="QLineEdit" name="mNameText"/>
          </item>
         </layout>
        </item>
@@ -393,30 +321,6 @@
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QTableWidget" name="mExtensionsTable">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="Line" name="line_13">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="Line" name="line_11">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QPlainTextEdit" name="mExtensionsValueText"/>
        </item>
        <item row="7" column="0">
         <layout class="QGridLayout" name="gridLayout_9">
@@ -486,6 +390,129 @@
          </item>
          <item row="0" column="2">
           <widget class="QComboBox" name="mDaysTypeCombo"/>
+         </item>
+        </layout>
+       </item>
+       <item row="9" column="0">
+        <widget class="Line" name="line_12">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <layout class="QGridLayout" name="gridLayout_27">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="mForCSRCheck">
+           <property name="text">
+            <string>For CSR</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Base Information</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_17">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="17" column="0">
+        <layout class="QGridLayout" name="gridLayout_26">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_34">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>OID</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLineEdit" name="mExtensionsOIDText"/>
+         </item>
+         <item row="0" column="3">
+          <widget class="QCheckBox" name="mExtensionsCriticalCheck">
+           <property name="text">
+            <string>Critical</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="10" column="0">
+        <layout class="QGridLayout" name="gridLayout_8">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="mMakeDNBtn">
+           <property name="text">
+            <string>Make DN</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Subject DN Template</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>

@@ -11,6 +11,7 @@
 #include "db_mgr.h"
 #include "commons.h"
 #include "settings_mgr.h"
+#include "make_dn_dlg.h"
 
 
 static QStringList sExtNames = {
@@ -42,6 +43,7 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     connect( mPolicySetAnyOIDBtn, SIGNAL(clicked()), this, SLOT(clickPolicySetAnyOID()));
     connect( mDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDaysType(int)));
     connect( mForCSRCheck, SIGNAL(clicked()), this, SLOT(checkForCSR()));
+    connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
 
     initUI();
     connectExtends();
@@ -743,11 +745,13 @@ void MakeCertProfileDlg::clickUseCSR_DN()
     {
         mUseCSR_DNCheck->setEnabled( false );
         mSubjectDNText->setEnabled( false );
+        mMakeDNBtn->setEnabled( false );
     }
     else
     {
         bool bStatus = mUseCSR_DNCheck->isChecked();
         mSubjectDNText->setEnabled( !bStatus );
+        mMakeDNBtn->setEnabled( !bStatus );
     }
 }
 
@@ -1351,6 +1355,20 @@ void MakeCertProfileDlg::checkForCSR()
         mVersionCombo->setCurrentIndex(2);
 
 
+}
+
+void MakeCertProfileDlg::clickMakeDN()
+{
+    QString strDN = mSubjectDNText->text();
+
+    MakeDNDlg makeDNDlg;
+    makeDNDlg.setDN( strDN );
+
+    if( makeDNDlg.exec() == QDialog::Accepted )
+    {
+        QString strDN = makeDNDlg.getDN();
+        mSubjectDNText->setText( strDN );
+    }
 }
 
 void MakeCertProfileDlg::saveAIAUse(int nProfileNum )
