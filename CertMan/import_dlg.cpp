@@ -45,12 +45,6 @@ void ImportDlg::accept()
     QString strPass = mPasswordText->text();
     QString strValue = mValueText->toPlainText();
 
-    if( strPath.isEmpty() )
-    {
-        manApplet->warningBox( tr( "select file to import"), this );
-        return;
-    }
-
     int nSelType = mDataTypeCombo->currentIndex();
 
     if( nSelType == IMPORT_TYPE_ENC_PRIKEY || nSelType == IMPORT_TYPE_PFX )
@@ -67,6 +61,12 @@ void ImportDlg::accept()
 
     if( mUseFileCheck->isChecked() == true )
     {
+        if( strPath.isEmpty() )
+        {
+            manApplet->warningBox( tr( "select file to import"), this );
+            return;
+        }
+
         ret = JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
         if( ret <= 0 )
         {
