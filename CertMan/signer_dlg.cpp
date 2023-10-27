@@ -41,6 +41,7 @@ void SignerDlg::findCert()
 
 void SignerDlg::accept()
 {
+    int ret = 0;
     BIN binCert = {0,0};
     JCertInfo   sCertInfo;
     JExtensionInfoList  *pExtInfoList = NULL;
@@ -54,13 +55,17 @@ void SignerDlg::accept()
 
     QString strCertPath = mCertPathText->text();
 
-    JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binCert );
-    JS_BIN_encodeHex( &binCert, &pCert );
-
-    JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
-
     int nType = mTypeCombo->currentIndex();
     time_t now_t = time(NULL);
+
+    JS_BIN_fileReadBER( strCertPath.toLocal8Bit().toStdString().c_str(), &binCert );
+    JS_BIN_encodeHex( &binCert, &pCert );
+
+    ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
+    if( ret != 0 )
+    {
+        goto end;
+    }
 
     signer.setRegTime( now_t );
     signer.setType( nType );
@@ -72,13 +77,22 @@ void SignerDlg::accept()
 
     dbMgr->addSignerRec( signer );
 
+end :
     if( pCert ) JS_free( pCert );
     JS_BIN_reset( &binCert );
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
-    QDialog::accept();
-    manApplet->mainWindow()->createRightSignerList(nType);
+    if( ret == 0 )
+    {
+        QDialog::accept();
+        manApplet->mainWindow()->createRightSignerList(nType);
+    }
+    else
+    {
+        manApplet->warningBox( tr( "fail to register signer"), this );
+        return;
+    }
 }
 
 void SignerDlg::initialize()

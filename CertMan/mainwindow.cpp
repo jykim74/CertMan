@@ -2785,7 +2785,7 @@ void MainWindow::updateCMP()
    strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
-   JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
+   JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
    ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
    if( ret != 0 ) goto end;
@@ -2867,7 +2867,7 @@ void MainWindow::revokeCMP()
    strURL += "/CMP";
    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
-   JS_BIN_fileRead( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
+   JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
    ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason );
 
@@ -2943,7 +2943,7 @@ void MainWindow::verifyTSMessage()
     {
         if( smgr->TSPUse() )
         {
-            JS_BIN_fileRead( smgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binCert );
+            JS_BIN_fileReadBER( smgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binCert );
         }
     }
 
@@ -2997,8 +2997,8 @@ void MainWindow::issueSCEP()
         QString strCertPath = smgr->SCEPCertPath();
         QString strPriPath = smgr->SCEPPriKeyPath();
 
-        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
-        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
+        JS_BIN_fileReadBER( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileReadBER( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
     }
 
     JS_PKI_genRandom( 16, &binSenderNonce );
@@ -3201,8 +3201,8 @@ void MainWindow::renewSCEP()
         QString strCertPath = smgr->SCEPCertPath();
         QString strPriPath = smgr->SCEPPriKeyPath();
 
-        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
-        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
+        JS_BIN_fileReadBER( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileReadBER( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
     }
 
     JS_PKI_genRandom( 16, &binSenderNonce );
@@ -3363,8 +3363,8 @@ void MainWindow::getCRLSCEP()
         QString strCertPath = smgr->SCEPCertPath();
         QString strPriPath = smgr->SCEPPriKeyPath();
 
-        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
-        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
+        JS_BIN_fileReadBER( strCertPath.toLocal8Bit().toStdString().c_str(), &binSSLCert );
+        JS_BIN_fileReadBER( strPriPath.toLocal8Bit().toStdString().c_str(), &binSSLPri );
     }
 
     JS_PKI_genRandom( 16, &binSenderNonce );
@@ -3690,8 +3690,8 @@ void MainWindow::checkOCSP()
         QString strCertPath = manApplet->settingsMgr()->OCSPSignerCertPath();
         QString strPriPath = manApplet->settingsMgr()->OCSPSignerPriPath();
 
-        JS_BIN_fileRead( strCertPath.toLocal8Bit().toStdString().c_str(), &binSignerCert );
-        JS_BIN_fileRead( strPriPath.toLocal8Bit().toStdString().c_str(), &binSignerPri );
+        JS_BIN_fileReadBER( strCertPath.toLocal8Bit().toStdString().c_str(), &binSignerCert );
+        JS_BIN_fileReadBER( strPriPath.toLocal8Bit().toStdString().c_str(), &binSignerPri );
 
         ret = JS_OCSP_encodeRequest( &binCert, &binCA, "SHA1", &binSignerPri, &binSignerCert, &binReq );
     }
@@ -3710,7 +3710,7 @@ void MainWindow::checkOCSP()
     strURL += "/OCSP";
     strOCSPSrvCert = manApplet->settingsMgr()->OCSPSrvCertPath();
 
-    JS_BIN_fileRead( strOCSPSrvCert.toLocal8Bit().toStdString().c_str(), &binSrvCert );
+    JS_BIN_fileReadBER( strOCSPSrvCert.toLocal8Bit().toStdString().c_str(), &binSrvCert );
 
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/ocsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )
@@ -4518,7 +4518,7 @@ void MainWindow::createRightUserList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Name"), tr("SSN"), tr("Email"), tr("Status") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Status"), tr("Name"), tr("Email") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4544,10 +4544,8 @@ void MainWindow::createRightUserList()
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
-    right_table_->setColumnWidth( 2, 180 );
-    right_table_->setColumnWidth( 3, 100 );
-    right_table_->setColumnWidth( 4, 180 );
-    right_table_->setColumnWidth( 5, 60 );
+    right_table_->setColumnWidth( 2, 60 );
+    right_table_->setColumnWidth( 3, 180 );
 
 
     for( int i = 0; i < userList.size(); i++ )
@@ -4565,10 +4563,9 @@ void MainWindow::createRightUserList()
 
         right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
-        right_table_->setItem(i,2, item);
-        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( user.getSSN() )));
+        right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getUserStatusName( user.getStatus() ) )));
+        right_table_->setItem(i,3, item);
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
-        right_table_->setItem(i,5, new QTableWidgetItem(QString("%1").arg( getUserStatusName( user.getStatus() ) )));
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4671,7 +4668,7 @@ void MainWindow::createRightSignerList(int nType)
     manApplet->dbMgr()->getSignerList( nType, signerList );
 
 
-    right_table_->setColumnWidth( 0, 40 );
+    right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 140 );
     right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 200 );

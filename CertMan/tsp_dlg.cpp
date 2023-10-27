@@ -60,7 +60,7 @@ void TSPDlg::clickSend()
     strURL = mgr->TSPURI();
     strURL += "/TSP";
 
-    JS_BIN_fileRead( mgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binTSPCert );
+    JS_BIN_fileReadBER( mgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binTSPCert );
 
     if( mSrcStringCheck->isChecked() )
         JS_BIN_set( &binSrc, (unsigned char*)strSrc.toStdString().c_str(), strSrc.length());

@@ -320,7 +320,7 @@ void MakeCertDlg::accept()
     CertProfileRec profileRec = cert_profile_list_.at( profileIdx );
     if( mUseCSRFileCheck->isChecked() )
     {
-        JS_BIN_fileRead( mCSRFilePathText->text().toLocal8Bit().toStdString().c_str(), &binCSR );
+        JS_BIN_fileReadBER( mCSRFilePathText->text().toLocal8Bit().toStdString().c_str(), &binCSR );
         ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
 
         if( ret != 0 )
@@ -871,7 +871,7 @@ void MakeCertDlg::findCSRFile()
     QString filePath = findFile( this, nType, strPath );
     if( filePath.length() > 0 )
     {
-        ret = JS_BIN_fileRead( filePath.toLocal8Bit().toStdString().c_str(), &binCSR );
+        ret = JS_BIN_fileReadBER( filePath.toLocal8Bit().toStdString().c_str(), &binCSR );
         if( ret <= 0 ) goto end;
 
         ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 1, NULL );
