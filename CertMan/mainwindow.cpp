@@ -3526,6 +3526,8 @@ void MainWindow::expandItem( ManTreeItem *item )
         pSubCAItem->setDataNum( certRec.getNum() );
         pCAItem->appendRow( pSubCAItem );
 
+        left_tree_->expand( pCAItem->index() );
+
 //        left_tree_->expand( pCAItem->index() );
     }
 
@@ -5024,8 +5026,8 @@ void MainWindow::infoCertificate( int seq )
 
     manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
     manApplet->info( QString("Certificate   : %1\n").arg(certRec.getCert()));
-    manApplet->info( QString("IsCA          : %1\n").arg(certRec.isCA()));
-    manApplet->info( QString("IsSelf        : %1\n").arg(certRec.isSelf()));
+    manApplet->info( QString("IsCA          : %1 - %2\n").arg(certRec.isCA()).arg( certRec.isCA() ? "Yes" : "No" ));
+    manApplet->info( QString("IsSelf        : %1 - %2\n").arg(certRec.isSelf()).arg( certRec.isSelf() ? "Yes" : "No" ));
     manApplet->info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
     manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIssuerName ));
     manApplet->info( QString("Status        : %1 - %2\n").arg(certRec.getStatus()).arg( getCertStatusName( certRec.getStatus() )));
