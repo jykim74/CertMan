@@ -7,6 +7,7 @@
 #include "signer_rec.h"
 #include "commons.h"
 
+#include "js_gen.h"
 #include "js_bin.h"
 #include "js_pki_x509.h"
 
@@ -86,6 +87,10 @@ end :
     if( ret == 0 )
     {
         QDialog::accept();
+
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_SIGNER, "" );
+
         manApplet->mainWindow()->createRightSignerList(nType);
     }
     else

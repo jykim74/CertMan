@@ -2,6 +2,7 @@
 #include "man_applet.h"
 #include "db_mgr.h"
 
+#include "js_gen.h"
 #include "js_bin.h"
 #include "js_pki.h"
 #include "js_json.h"
@@ -12,6 +13,7 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "settings_mgr.h"
+#include "commons.h"
 
 const QStringList kUserStatus = { "Invalid", "Register", "Issue", "Stop" };
 
@@ -66,6 +68,10 @@ void UserDlg::accept()
 
     JS_BIN_reset( &binRef );
     if( pHexRef ) JS_free( pHexRef );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REG_USER, "" );
+
 
     QDialog::accept();
     manApplet->mainWindow()->createRightUserList();

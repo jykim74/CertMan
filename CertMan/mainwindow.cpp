@@ -2137,6 +2137,10 @@ void MainWindow::deleteCertProfile()
 
     manApplet->dbMgr()->delCertProfile( num );
     manApplet->dbMgr()->delCertProfileExtensionList( num );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CERT_PROFILE, "" );
+
     createRightCertProfileList();
 }
 
@@ -2158,6 +2162,10 @@ void MainWindow::deleteCRLProfile()
 
     manApplet->dbMgr()->delCRLProfile( num );
     manApplet->dbMgr()->delCRLProfileExtensionList( num );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CRL_PROFILE, "" );
+
     createRightCRLProfileList();
 }
 
@@ -2317,6 +2325,10 @@ void MainWindow::deleteUser()
     manApplet->dbMgr()->delUserRec( num );
     manApplet->log( QString("UserNum:%1 is deleted").arg(num));
 
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_USER, "" );
+
+
     createRightUserList();
 }
 
@@ -2339,6 +2351,10 @@ void MainWindow::deleteSigner()
     SignerRec signer;
     manApplet->dbMgr()->getSignerRec( num, signer );
     manApplet->dbMgr()->delSignerRec( num );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_SIGNER, "" );
+
 
     createRightSignerList( signer.getType() );
 }

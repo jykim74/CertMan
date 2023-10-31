@@ -2,6 +2,7 @@
 #include <QString>
 #include <QDateTime>
 
+#include "js_gen.h"
 #include "js_pki_ext.h"
 #include "make_cert_profile_dlg.h"
 #include "mainwindow.h"
@@ -340,11 +341,19 @@ void MakeCertProfileDlg::accept()
 
         dbMgr->delCertProfileExtensionList( profile_num_ );
         nProfileNum = profile_num_;
+
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_MOD_CERT_PROFILE, "" );
+
     }
     else
     {
         ret = dbMgr->addCertProfileRec( certProfileRec );
         if( ret != 0 ) goto end;
+
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_CERT_PROFILE, "" );
+
     }
 
     /* need to set extend fields here */
