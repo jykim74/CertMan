@@ -2,7 +2,12 @@
 
 AdminRec::AdminRec()
 {
-
+    m_nSeq = -1;
+    m_nStatus = -1;
+    m_nType = -1;
+    m_strName = "";
+    m_strPassword = "";
+    m_strEmail = "";
 }
 
 void AdminRec::setSeq( int nSeq )

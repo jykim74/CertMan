@@ -92,6 +92,7 @@ void AdminDlg::clickRegister()
     QString strEmail = mEmailText->text();
     int nStatus = mStatusCombo->currentIndex();
     int nType = mTypeCombo->currentIndex();
+    int nSeq = dbMgr->getNextVal( "TB_ADMIN" );
 
     if( strName.isEmpty() )
     {
@@ -111,6 +112,7 @@ void AdminDlg::clickRegister()
         return;
     }
 
+    admin.setSeq( nSeq );
     admin.setName( strName );
     admin.setPassword( strPassword );
     admin.setEmail( strEmail );
