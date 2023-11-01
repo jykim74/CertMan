@@ -719,30 +719,36 @@ void MainWindow::createTreeMenu()
 
     if( manApplet->isPRO() )
     {
+        ManTreeItem *pManItem = new ManTreeItem( QString(tr("Manage")));
+        pManItem->setIcon(QIcon(":/images/manage.png"));
+        pTopItem->appendRow( pManItem );
+
         ManTreeItem *pAdminItem = new ManTreeItem( QString(tr("Admin")) );
         pAdminItem->setIcon(QIcon(":/images/admin.png"));
         pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
-        pTopItem->appendRow( pAdminItem );
+        pManItem->appendRow( pAdminItem );
 
         ManTreeItem *pConfigItem = new ManTreeItem( QString(tr("Config")));
         pConfigItem->setIcon(QIcon(":/images/config.png"));
         pConfigItem->setType( CM_ITEM_TYPE_CONFIG );
-        pTopItem->appendRow( pConfigItem );
+        pManItem->appendRow( pConfigItem );
+
+        ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
+        pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
+        pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
+        pManItem->appendRow( pRegSignerItem );
+
+        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString(tr("OCSPSigner")) );
+        pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
+        pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
+        pManItem->appendRow( pOCSPSignerItem );
+
+        left_tree_->expand( pManItem->index() );
 
         ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
         pUserItem->setIcon(QIcon(":/images/user.png"));
         pUserItem->setType( CM_ITEM_TYPE_USER );
         pTopItem->appendRow( pUserItem );
-
-        ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
-        pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
-        pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
-        pTopItem->appendRow( pRegSignerItem );
-
-        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString(tr("OCSPSigner")) );
-        pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
-        pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
-        pTopItem->appendRow( pOCSPSignerItem );
     }
 
 
@@ -776,15 +782,21 @@ void MainWindow::createTreeMenu()
 
     if( manApplet->isPRO() )
     {
+        ManTreeItem *pServiceItem = new ManTreeItem( QString( tr("Service") ));
+        pServiceItem->setIcon(QIcon(":/images/group.png"));
+        pTopItem->appendRow( pServiceItem );
+
         ManTreeItem *pKMSItem = new ManTreeItem( QString( tr("KMS") ));
         pKMSItem->setIcon(QIcon(":/images/kms.png"));
         pKMSItem->setType( CM_ITEM_TYPE_KMS );
-        pTopItem->appendRow( pKMSItem );
+        pServiceItem->appendRow( pKMSItem );
 
         ManTreeItem *pTSPItem = new ManTreeItem( QString( tr("TSP") ));
         pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
         pTSPItem->setType( CM_ITEM_TYPE_TSP );
-        pTopItem->appendRow( pTSPItem );
+        pServiceItem->appendRow( pTSPItem );
+
+        left_tree_->expand( pServiceItem->index() );
 
         ManTreeItem *pStatisticsItem = new ManTreeItem( QString( tr("Statistics") ));
         pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
@@ -1025,6 +1037,10 @@ void MainWindow::logout()
         left_model_->clear();
         manApplet->clearPasswdKey();
         manApplet->messageBox( tr( "Database is closed"), this );
+
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_LOGOUT, "" );
+
     }
 }
 
@@ -1399,6 +1415,10 @@ void MainWindow::deleteConfig()
     int num = item->text().toInt();
 
     manApplet->dbMgr()->delConfigRec( num );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CONFIG, "" );
+
     createRightConfigList();
 }
 

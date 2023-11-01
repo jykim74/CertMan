@@ -730,7 +730,11 @@ void MakeCertDlg::accept()
         userRec.setEmail( mEmailText->text() );
         userRec.setRegTime( time(NULL));
         userRec.setStatus( JS_USER_STATUS_REGISTER );
-        if( userRec.getName().length() > 0 ) dbMgr->addUserRec( userRec );
+        if( userRec.getName().length() > 0 )
+        {
+            dbMgr->addUserRec( userRec );
+            addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_REG_USER, "" );
+        }
 
         addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
     }

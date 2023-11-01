@@ -73,5 +73,7 @@
         <file>cm.rc</file>
         <file>certman.icns</file>
         <file>certman.ico</file>
+        <file>images/group.png</file>
+        <file>images/manage.png</file>
     </qresource>
 </RCC>

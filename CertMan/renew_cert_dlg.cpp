@@ -1,4 +1,4 @@
-// #include <QtCore5Compat/QTextCodec>
+#include "js_gen.h"
 
 #include "renew_cert_dlg.h"
 #include "man_applet.h"
@@ -393,7 +393,15 @@ void RenewCertDlg::accept()
 
         dbMgr->addRevokeRec( revoke );
         dbMgr->modCertStatus( cert_num_, JS_CERT_STATUS_REVOKE );
+
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REVOKE_CERT, "" );
+
     }
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_RENEW_CERT, "" );
+
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );

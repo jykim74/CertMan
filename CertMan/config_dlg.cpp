@@ -1,8 +1,11 @@
+#include "js_gen.h"
+
 #include "config_dlg.h"
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "db_mgr.h"
 #include "config_rec.h"
+#include "commons.h"
 
 ConfigDlg::ConfigDlg(QWidget *parent) :
     QDialog(parent)
@@ -54,9 +57,18 @@ void ConfigDlg::clickOK()
     config.setValue( strValue );
 
     if( cur_num_ > 0 )
+    {
         dbMgr->modConfigRec( cur_num_, config );
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_MOD_CONFIG, "" );
+
+    }
     else
+    {
         dbMgr->addConfigRec( config );
+        if( manApplet->isPRO() )
+            addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_CONFIG, "" );
+    }
 
     manApplet->mainWindow()->createRightConfigList();
     close();

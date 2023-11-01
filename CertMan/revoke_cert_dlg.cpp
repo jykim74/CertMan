@@ -1,3 +1,5 @@
+#include "js_gen.h"
+
 #include "revoke_cert_dlg.h"
 #include "mainwindow.h"
 #include "man_applet.h"
@@ -71,6 +73,9 @@ void RevokeCertDlg::accept()
 
     dbMgr->addRevokeRec( revoke );
     dbMgr->modCertStatus( cert_num_, JS_CERT_STATUS_REVOKE );
+
+    if( manApplet->isPRO() )
+        addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REVOKE_CERT, "" );
 
     manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
     QDialog::accept();
