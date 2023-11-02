@@ -237,9 +237,6 @@ void MakeCertDlg::accept()
     JExtensionInfoList *pExtInfoList = NULL;
     JExtensionInfoList *pMadeExtInfoList = NULL;
 
-//    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
-//    QByteArray ba;
-
     UserRec userRec;
 
     DBMgr* dbMgr = manApplet->dbMgr();
@@ -613,7 +610,7 @@ void MakeCertDlg::accept()
         }
     }
 
-    if( signKeyPair.getAlg() == kMechPKCS11_RSA || signKeyPair.getAlg() == kMechPKCS11_EC || signKeyPair.getAlg() == kMechPKCS11_DSA )
+    if( isPKCS11Private( signKeyPair.getAlg() ) == true )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
@@ -634,7 +631,7 @@ void MakeCertDlg::accept()
         JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
-    else if( signKeyPair.getAlg() == kMechKMIP_RSA || signKeyPair.getAlg() == kMechKMIP_EC )
+    else if( isKMIPPrivate( signKeyPair.getAlg() ) == true )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;
