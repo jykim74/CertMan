@@ -201,7 +201,7 @@ void SettingsDlg::findP11Path()
     QString strPath = mLibraryP11PathText->text();
 
 #ifdef Q_OS_MAC
-    QString strPath = "/usr/local/lib";
+    if( strPath.length() < 1 ) strPath = "/usr/local/lib";
 #else
     if( strPath.length() < 1 ) strPath = manApplet->curFolder();
 #endif
