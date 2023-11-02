@@ -60,7 +60,12 @@ void TSPDlg::clickSend()
     strURL = mgr->TSPURI();
     strURL += "/TSP";
 
-    JS_BIN_fileReadBER( mgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binTSPCert );
+    ret = JS_BIN_fileReadBER( mgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binTSPCert );
+    if( ret <= 0 )
+    {
+        manApplet->warningBox( tr( "fail to read TSP Server certificate"), this );
+        return;
+    }
 
     if( mSrcStringCheck->isChecked() )
         JS_BIN_set( &binSrc, (unsigned char*)strSrc.toStdString().c_str(), strSrc.length());
@@ -70,8 +75,25 @@ void TSPDlg::clickSend()
         JS_BIN_decodeBase64( strSrc.toStdString().c_str(), &binSrc );
 
     ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), pPolicy, &binReq );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString("fail to encode request: %1").arg( ret ));
+        goto end;
+    }
+
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/tsp-request", &binReq, &nStatus, &binRsp );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to post request: %1").arg( ret ));
+        goto end;
+    }
+
     ret = JS_TSP_decodeResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to decode response: %1").arg(ret));
+        goto end;
+    }
 
     JS_BIN_encodeHex( &binData, &pHex );
     if( pHex )
@@ -80,6 +102,7 @@ void TSPDlg::clickSend()
         JS_free( pHex );
     }
 
+end :
     JS_BIN_reset( &binSrc );
     JS_BIN_reset( &binTSPCert );
     JS_BIN_reset( &binData );

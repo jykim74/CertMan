@@ -165,7 +165,9 @@ void SettingsDlg::checkKMIPUse()
 
 void SettingsDlg::findCACert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mKMIPCACertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -174,7 +176,9 @@ void SettingsDlg::findCACert()
 
 void SettingsDlg::findCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mKMIPCertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -183,7 +187,9 @@ void SettingsDlg::findCert()
 
 void SettingsDlg::findPrivateKey()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mKMIPPrivateKeyPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -192,10 +198,12 @@ void SettingsDlg::findPrivateKey()
 
 void SettingsDlg::findP11Path()
 {
+    QString strPath = mLibraryP11PathText->text();
+
 #ifdef Q_OS_MAC
     QString strPath = "/usr/local/lib";
 #else
-    QString strPath = manApplet->curFolder();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
 #endif
 
     QString fileName = findFile( this, JS_FILE_TYPE_DLL, strPath );
@@ -223,7 +231,9 @@ void SettingsDlg::checkOCSPAttachSign()
 
 void SettingsDlg::findOCSPSrvCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mOCSPSrvCertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -232,7 +242,9 @@ void SettingsDlg::findOCSPSrvCert()
 
 void SettingsDlg::findOCSPPri()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mOCSPSignerPriPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -241,7 +253,9 @@ void SettingsDlg::findOCSPPri()
 
 void SettingsDlg::findOCSPCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mOCSPSignerCertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -263,7 +277,9 @@ void SettingsDlg::checkCMPUse()
 
 void SettingsDlg::findCMPRootCACert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mCMPRootCACertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -272,7 +288,9 @@ void SettingsDlg::findCMPRootCACert()
 
 void SettingsDlg::findCMPCACert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mCMPCACertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -287,7 +305,9 @@ void SettingsDlg::checkTSPUse()
 
 void SettingsDlg::findTSPSrvCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mTSPSrvCertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -314,7 +334,9 @@ void SettingsDlg::checkSCEPMutualAuth()
 
 void SettingsDlg::findSCEPPriKey()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mSCEPPriKeyPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
 
@@ -323,7 +345,9 @@ void SettingsDlg::findSCEPPriKey()
 
 void SettingsDlg::findSCEPCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = mSCEPCertPathText->text();
+    if( strPath.length() < 1 ) strPath = manApplet->curFolder();
+
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 
