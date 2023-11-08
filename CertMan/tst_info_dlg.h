@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_tst_info_dlg.h"
+#include "js_bin.h"
 
 namespace Ui {
 class TSTInfoDlg;
@@ -15,13 +16,13 @@ class TSTInfoDlg : public QDialog, public Ui::TSTInfoDlg
 public:
     explicit TSTInfoDlg(QWidget *parent = nullptr);
     ~TSTInfoDlg();
-    void setSeq( int nSeq );
+    void setTST( const BIN *pTST );
 
 private slots:
     void showEvent(QShowEvent *event);
 
 private:
-    int seq_;
+    BIN bin_tst_;
     void initialize();
     void initUI();
     void clearTable();

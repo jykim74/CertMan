@@ -2950,10 +2950,22 @@ void MainWindow::viewTSTInfo()
     int ret = 0;
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
+    if( item == NULL ) return;
 
     int num = item->text().toInt();
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    TSPRec tspRec;
+    BIN binTST = {0,0};
+    dbMgr->getTSPRec( num, tspRec );
+    JS_BIN_decodeHex( tspRec.getTSTInfo().toStdString().c_str(), &binTST );
+
+
     TSTInfoDlg tstInfoDlg;
-    tstInfoDlg.setSeq( num );
+    tstInfoDlg.setTST( &binTST );
+    JS_BIN_reset( &binTST );
     tstInfoDlg.exec();
 }
 

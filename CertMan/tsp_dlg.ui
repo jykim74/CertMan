@@ -128,13 +128,6 @@
       <number>0</number>
      </property>
      <item row="0" column="1">
-      <widget class="QPushButton" name="mCloseBtn">
-       <property name="text">
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -146,6 +139,20 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mCloseBtn">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mViewTSTInfoBtn">
+       <property name="text">
+        <string>View TST Infomation</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -11,19 +11,14 @@
 TSTInfoDlg::TSTInfoDlg(QWidget *parent) :
     QDialog(parent)
 {
-    seq_ = -1;
+    memset( &bin_tst_, 0x00, sizeof(BIN));
     setupUi(this);
     initUI();
 }
 
 TSTInfoDlg::~TSTInfoDlg()
 {
-
-}
-
-void TSTInfoDlg::setSeq(int nSeq)
-{
-    seq_ = nSeq;
+    JS_BIN_reset( &bin_tst_);
 }
 
 void TSTInfoDlg::showEvent(QShowEvent *event)
@@ -31,38 +26,31 @@ void TSTInfoDlg::showEvent(QShowEvent *event)
     initialize();
 }
 
+void TSTInfoDlg::setTST( const BIN *pTST )
+{
+    if( pTST == NULL ) return;
+
+    JS_BIN_reset( &bin_tst_ );
+    JS_BIN_copy( &bin_tst_, pTST );
+}
+
 void TSTInfoDlg::initialize()
 {
     int i = 0;
     int ret = 0;
-    BIN binTST = {0,0};
+
     JTSTInfo    sTSTInfo;
     QString strAccuracy;
     QString strMsgImprint;
 
     memset( &sTSTInfo, 0x00, sizeof(sTSTInfo));
 
-    DBMgr* dbMgr = manApplet->dbMgr();
-    if( dbMgr == NULL ) return;
-
-    if( seq_ < 0 )
-    {
-        manApplet->warningBox( tr( "You have to set TST sequece"), this );
-        this->hide();
-        return;
-    }
-
     clearTable();
 
-    TSPRec tspRec;
-    dbMgr->getTSPRec( seq_, tspRec );
-
-    JS_BIN_decodeHex( tspRec.getTSTInfo().toStdString().c_str(), &binTST );
-
-    ret = JS_TSP_decodeTSTInfo( &binTST, &sTSTInfo );
+    ret = JS_TSP_decodeTSTInfo( &bin_tst_, &sTSTInfo );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "Fail to decode TST message"), this );
+        manApplet->warningBox( tr( "Fail to decode TST message(%1)").arg(ret), this );
         this->hide();
         goto end;
     }
@@ -147,7 +135,6 @@ void TSTInfoDlg::initialize()
 
 end :
     JS_TSP_resetTSTInfo( &sTSTInfo );
-    JS_BIN_reset( &binTST );
 }
 
 void TSTInfoDlg::initUI()

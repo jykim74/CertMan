@@ -6,6 +6,7 @@
 #include "commons.h"
 #include "man_applet.h"
 #include "mainwindow.h"
+#include "tst_info_dlg.h"
 
 static QStringList sHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" };
 
@@ -18,6 +19,7 @@ TSPDlg::TSPDlg(QWidget *parent) :
 
     connect( mSendBtn, SIGNAL(clicked()), this, SLOT(clickSend()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
+    connect( mViewTSTInfoBtn, SIGNAL(clicked()), this, SLOT(clickViewTSTInfo()));
 
     mCloseBtn->setFocus();
 }
@@ -88,19 +90,22 @@ void TSPDlg::clickSend()
         goto end;
     }
 
-    ret = JS_TSP_decodeResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
+    ret = JS_TSP_verifyResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to decode response: %1").arg(ret));
+        manApplet->elog( QString( "fail to verify response: %1").arg(ret));
         goto end;
     }
 
+    mOutputText->setPlainText( getHexString( &binRsp ) );
+/*
     JS_BIN_encodeHex( &binData, &pHex );
     if( pHex )
     {
         mOutputText->setPlainText( pHex );
         JS_free( pHex );
     }
+*/
 
 end :
     JS_BIN_reset( &binSrc );
@@ -113,4 +118,38 @@ end :
 void TSPDlg::clickClose()
 {
     close();
+}
+
+void TSPDlg::clickViewTSTInfo()
+{
+    int ret = 0;
+    BIN binData = {0,0};
+    BIN binTST = {0,0};
+    BIN binRsp = {0,0};
+
+    TSTInfoDlg tstInfoDlg;
+
+    QString strOut = mOutputText->toPlainText();
+    if( strOut.length() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no TSP response" ), this );
+        return;
+    }
+
+    JS_BIN_decodeHex( strOut.toStdString().c_str(), &binRsp );
+    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
+    if( ret != 0 )
+    {
+        manApplet->warningBox(tr( "fail to decode TSP response"), this );
+        goto end;
+    }
+
+
+    tstInfoDlg.setTST( &binTST );
+    tstInfoDlg.exec();
+
+end :
+    JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binData );
+    JS_BIN_reset( &binTST );
 }
