@@ -20,6 +20,7 @@ private slots:
     void clickSend();
     void clickClose();
     void clickViewTSTInfo();
+    void clickVerifyTSP();
 
 private:
 

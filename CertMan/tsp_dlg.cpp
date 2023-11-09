@@ -2,6 +2,7 @@
 #include "js_bin.h"
 #include "js_tsp.h"
 #include "js_http.h"
+#include "js_pkcs7.h"
 
 #include "commons.h"
 #include "man_applet.h"
@@ -20,6 +21,7 @@ TSPDlg::TSPDlg(QWidget *parent) :
     connect( mSendBtn, SIGNAL(clicked()), this, SLOT(clickSend()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
     connect( mViewTSTInfoBtn, SIGNAL(clicked()), this, SLOT(clickViewTSTInfo()));
+    connect( mVerifyTSPBtn, SIGNAL(clicked()), this, SLOT(clickVerifyTSP()));
 
     mCloseBtn->setFocus();
 }
@@ -152,4 +154,52 @@ end :
     JS_BIN_reset( &binRsp );
     JS_BIN_reset( &binData );
     JS_BIN_reset( &binTST );
+}
+
+void TSPDlg::clickVerifyTSP()
+{
+    int ret = 0;
+    BIN binData = {0,0};
+    BIN binTST = {0,0};
+    BIN binRsp = {0,0};
+    BIN binCert = {0,0};
+
+    SettingsMgr *smgr = manApplet->settingsMgr();
+    QString strVerify;
+
+    QString strOut = mOutputText->toPlainText();
+    if( strOut.length() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no TSP response" ), this );
+        return;
+    }
+
+    JS_BIN_decodeHex( strOut.toStdString().c_str(), &binRsp );
+    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
+    if( ret != 0 )
+    {
+        manApplet->warningBox(tr( "fail to decode TSP response"), this );
+        goto end;
+    }
+
+    if( smgr->TSPUse() )
+    {
+        ret = JS_BIN_fileReadBER( smgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binCert );
+        if( ret <= 0 )
+        {
+            manApplet->warningBox( tr( "fail to read TSP Server certificate" ), this );
+            goto end;
+        }
+    }
+
+    ret = JS_PKCS7_verifySignedData( &binData, &binCert, &binData );
+    strVerify = QString( "Verify val:%1" ).arg( ret );
+
+    manApplet->messageBox( strVerify, this );
+
+end :
+    JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binData );
+    JS_BIN_reset( &binTST );
+    JS_BIN_reset( &binCert );
 }

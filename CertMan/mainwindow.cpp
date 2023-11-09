@@ -2978,6 +2978,7 @@ void MainWindow::verifyTSMessage()
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
+    if( item == NULL ) return;
 
     int num = item->text().toInt();
 
