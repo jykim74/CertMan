@@ -19,7 +19,7 @@ PROJECT_VERSION = "1.5.3"
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 # DEFINES += JS_PRO
-DEFINES += _AUTO_UPDATE
+
 
 DEFINES += USE_SCEP
 DEFINES += USE_CMP
@@ -214,6 +214,7 @@ TRANSLATIONS += i18n/certman_ko_KR.ts
 INCLUDEPATH += "../../PKILib"
 
 mac {
+    DEFINES += _AUTO_UPDATE
     QMAKE_INFO_PLIST = info.plist
     ICON = images/certman.icns
 
@@ -246,6 +247,7 @@ mac {
 }
 
 win32 {
+    DEFINES += _AUTO_UPDATE
     RC_ICONS = certman.ico
 
     contains(QT_ARCH, i386) {
