@@ -987,6 +987,8 @@ QString SettingsMgr::getFontFamily()
 
 #ifdef Q_OS_MAC
     QString strDefault = "Monaco";
+#elif Q_OS_LINUX
+    QString strDefault = "Monospaced";
 #else
     QString strDefault = "Consolas";
 #endif
