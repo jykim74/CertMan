@@ -44,18 +44,18 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 #endif
 
     main_win_ = nullptr;
+    tray_icon_ = nullptr;
+    db_mgr_ = nullptr;
     p11_ctx_ = NULL;
 
-    tray_icon_ = new ManTrayIcon;
     settings_mgr_ = new SettingsMgr;
-    db_mgr_ = new DBMgr;
-
     is_license_ = false;
 
     memset( &license_info_, 0x00, sizeof(license_info_));
 
     is_passwd_ = false;
     pri_passwd_.clear();
+    cur_file_.clear();
 
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
@@ -64,8 +64,12 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
 #endif
 
     loadPKCS11();
-    if( settings_mgr_->serverStatus() )
-        ServerStatusService::instance()->start(settings_mgr_);
+
+    if( is_pro_ == true )
+    {
+        if( settings_mgr_->serverStatus() )
+            ServerStatusService::instance()->start(settings_mgr_);
+    }
 }
 
 ManApplet::~ManApplet()
@@ -104,7 +108,14 @@ void ManApplet::start()
 
     main_win_ = new MainWindow;
     main_win_->show();
-    tray_icon_->show();
+
+    db_mgr_ = new DBMgr;
+
+    if( is_pro_ == true )
+    {
+        tray_icon_ = new ManTrayIcon;
+        tray_icon_->show();
+    }
 
     if( isLicense() )
     {
