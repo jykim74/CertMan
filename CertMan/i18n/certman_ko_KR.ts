@@ -1884,12 +1884,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="722"/>
         <source>Manage</source>
-        <translation type="unfinished"></translation>
+        <translation>관리</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="785"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>서비스</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2631"/>
@@ -3962,7 +3962,7 @@
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="493"/>
         <source>Make DN</source>
-        <translation type="unfinished">DN 만들기</translation>
+        <translation>DN 만들기</translation>
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="677"/>
@@ -5873,7 +5873,7 @@
     <message>
         <location filename="../signer_dlg.cpp" line="98"/>
         <source>fail to register signer</source>
-        <translation type="unfinished"></translation>
+        <translation>서명자 등록 실패</translation>
     </message>
 </context>
 <context>
@@ -5972,7 +5972,7 @@
     <message>
         <location filename="../tsp_dlg.ui" line="146"/>
         <source>View TST Infomation</source>
-        <translation type="unfinished"></translation>
+        <translation>TST 정보 보기</translation>
     </message>
     <message>
         <location filename="../tsp_dlg.ui" line="153"/>
@@ -5982,7 +5982,7 @@
     <message>
         <location filename="../tsp_dlg.ui" line="160"/>
         <source>VerifyTSP</source>
-        <translation type="unfinished"></translation>
+        <translation>TSP 검증</translation>
     </message>
     <message>
         <location filename="../tsp_dlg.ui" line="56"/>
@@ -5998,19 +5998,19 @@
         <location filename="../tsp_dlg.cpp" line="70"/>
         <location filename="../tsp_dlg.cpp" line="190"/>
         <source>fail to read TSP Server certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>TSP 서버 인증서 읽기 실패</translation>
     </message>
     <message>
         <location filename="../tsp_dlg.cpp" line="137"/>
         <location filename="../tsp_dlg.cpp" line="173"/>
         <source>There is no TSP response</source>
-        <translation type="unfinished"></translation>
+        <translation>TSP 응답이 없습니다</translation>
     </message>
     <message>
         <location filename="../tsp_dlg.cpp" line="145"/>
         <location filename="../tsp_dlg.cpp" line="181"/>
         <source>fail to decode TSP response</source>
-        <translation type="unfinished"></translation>
+        <translation>TSP 응답 디코딩에 실패하였습니다</translation>
     </message>
 </context>
 <context>
@@ -6031,7 +6031,7 @@
     <message>
         <location filename="../tst_info_dlg.cpp" line="53"/>
         <source>Fail to decode TST message(%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>TST 메세지 디코딩 실패 (%1)</translation>
     </message>
     <message>
         <location filename="../tst_info_dlg.cpp" line="142"/>

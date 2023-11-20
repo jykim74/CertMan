@@ -289,4 +289,5 @@ linux {
     LIBS += -lltdl -lldap -llber
 }
 
-DISTFILES +=
+DISTFILES += \
+    i18n/certman_ko_KR.qm
