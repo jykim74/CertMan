@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain( "jssoft.com" );
     QCoreApplication::setApplicationName( "CertMan" );
 
+    QGuiApplication::setWindowIcon(QIcon(":/images/certman.png"));
+
     QCommandLineParser parser;
     parser.setApplicationDescription( QCoreApplication::applicationName() );
     parser.addHelpOption();
