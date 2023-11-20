@@ -21,9 +21,9 @@ DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 # DEFINES += JS_PRO
 
 
-DEFINES += USE_SCEP
-DEFINES += USE_CMP
-DEFINES += USE_OCSP
+# DEFINES += USE_SCEP
+# DEFINES += USE_CMP
+# DEFINES += USE_OCSP
 
 CONFIG += sdk_no_version_check
 
@@ -284,8 +284,14 @@ win32 {
 }
 
 linux {
-    LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
-    LIBS += -L"../../PKILib/lib/linux/debug/openssl3/lib64" -lcrypto -lssl
+    Debug {
+        LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
+        LIBS += -L"../../PKILib/lib/linux/debug/openssl3/lib64" -lcrypto -lssl
+    } else {
+        LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Release" -lPKILib
+        LIBS += -L"../../PKILib/lib/linux/openssl3/lib64" -lcrypto -lssl
+    }
+
     LIBS += -lltdl -lldap -llber
 }
 
