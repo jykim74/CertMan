@@ -52,5 +52,5 @@ void LoginDlg::clickLogin()
     }
 
     manApplet->setPasswdKey( strPasswd );
-    return QDialog::accept();
+    QDialog::accept();
 }

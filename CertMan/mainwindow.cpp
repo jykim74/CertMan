@@ -919,8 +919,11 @@ int MainWindow::openDB( const QString dbPath )
 
     createTreeMenu();
 
-    if( manApplet->trayIcon()->supportsMessages() )
-        manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+    if( manApplet->isPRO() == true )
+    {
+        if( manApplet->trayIcon()->supportsMessages() )
+            manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+    }
 
     if( ret == 0 )
     {

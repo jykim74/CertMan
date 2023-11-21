@@ -113,8 +113,11 @@ void RemoteDBDlg::clickConnect()
 
     manApplet->mainWindow()->createTreeMenu();
 
-    if( manApplet->trayIcon()->supportsMessages() )
-        manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+    if( manApplet->isPRO() == true )
+    {
+        if( manApplet->trayIcon()->supportsMessages() )
+            manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+    }
 
     QString strTitle = QString( "RemoteDB[%1] : %2").arg( strType ).arg( strHost );
     manApplet->mainWindow()->setTitle( strTitle );

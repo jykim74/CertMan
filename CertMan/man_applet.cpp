@@ -63,7 +63,8 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     }
 #endif
 
-    loadPKCS11();
+    if( settings_mgr_->PKCS11Use() == true )
+        loadPKCS11();
 
     if( is_pro_ == true )
     {
@@ -88,18 +89,29 @@ ManApplet::~ManApplet()
 
 int ManApplet::loadPKCS11()
 {
-    bool bval = settings_mgr_->PKCS11Use();
+    int rv = 0;
 
-    if( bval )
+    QString strLibPath = settings_mgr_->PKCS11LibraryPath();
+    if( strLibPath.length() < 1) return -1;
+
+    rv = JS_PKCS11_LoadLibrary( (JP11_CTX **)&p11_ctx_, strLibPath.toStdString().c_str() );
+    if( rv != CKR_OK )
     {
-        QString strLibPath = settings_mgr_->PKCS11LibraryPath();
-        int rv = JS_PKCS11_LoadLibrary( (JP11_CTX **)&p11_ctx_, strLibPath.toStdString().c_str() );
-        if( rv == CKR_OK ) JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_, NULL );
+        return rv;
     }
+
+    rv = JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_, NULL );
+    if( rv != CKR_OK )
+    {
+        if( p11_ctx_ ) JS_PKCS11_ReleaseLibrry( (JP11_CTX **)&p11_ctx_ );
+    }
+
+    if( rv == CKR_OK )
+        manApplet->log( "PKCS11 Load successfully" );
     else
-    {
-        p11_ctx_ = NULL;
-    }
+        manApplet->elog( QString("PKCS11 fail to load: %1").arg(rv) );
+
+    return rv;
 }
 
 void ManApplet::start()
