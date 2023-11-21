@@ -63,8 +63,7 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     }
 #endif
 
-    if( settings_mgr_->PKCS11Use() == true )
-        loadPKCS11();
+
 
     if( is_pro_ == true )
     {
@@ -148,6 +147,9 @@ void ManApplet::start()
         log( QString( "== Start CertMan Version: %1" ).arg( strVersion ));
 
     log( "======================================================");
+
+    if( settings_mgr_->PKCS11Use() == true )
+        loadPKCS11();
 }
 
 void ManApplet::setCurFile( const QString& strFile )
