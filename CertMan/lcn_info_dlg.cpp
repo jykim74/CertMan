@@ -207,11 +207,8 @@ void LCNInfoDlg::clickGet()
     if( mUseFileCheck->isChecked() )
     {
         QString strFile = findFile( this, JS_FILE_TYPE_CERT, manApplet->curFolder() );
-
-        if( strFile.length() > 0 )
-        {
-            JS_LCN_fileRead( strFile.toLocal8Bit().toStdString().c_str(), &binLCN );
-        }
+        if( strFile.length() < 1 ) return;
+        JS_LCN_fileRead( strFile.toLocal8Bit().toStdString().c_str(), &binLCN );
     }
     else
     {
