@@ -16,11 +16,14 @@ AboutDlg::AboutDlg(QWidget *parent) :
 
     if( manApplet->isPRO() )
     {
-        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan PRO").arg(STRINGIZE(CERTMAN_VERSION));
+        version_label_ = tr( "%1 [Ver %2]").arg( "CertMan PRO").arg(STRINGIZE(CERTMAN_VERSION));
     }
     else
     {
-        version_label_ = tr( "About %1 [Ver %2]").arg( "CertMan").arg(STRINGIZE(CERTMAN_VERSION));
+        if( manApplet->isLicense() )
+            version_label_ = tr( "%1 [Ver %2]").arg(manApplet->getBrand()).arg(STRINGIZE(CERTMAN_VERSION));
+        else
+            version_label_ = tr( "%1 (Unlicensed Version) [Ver %2]").arg(manApplet->getBrand()).arg(STRINGIZE(CERTMAN_VERSION));
     }
 
 

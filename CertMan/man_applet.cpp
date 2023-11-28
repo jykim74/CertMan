@@ -180,6 +180,12 @@ int ManApplet::checkLicense()
     QString strEmail = settings_mgr_->getEmail();
     QString strLicense = settings_mgr_->getLicense();
 
+    if( is_pro_ == true )
+    {
+        is_license_ = true;
+        return is_license_;
+    }
+
     JS_BIN_decodeHex( strLicense.toStdString().c_str(), &binEncLCN );
     if( binEncLCN.nLen > 0 ) JS_LCN_dec( strEmail.toStdString().c_str(), &binEncLCN, &binLCN );
 
