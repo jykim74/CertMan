@@ -31,10 +31,19 @@ private slots:
     void checkExtension();
     void clickMakeDN();
 
+    void clickRSA();
+    void clickECDSA();
+    void clickDSA();
+    void clickEdDSA();
+
+    void checkPKCS11();
+    void checkKMIP();
+
 private:
     void initUI();
     void initialize();
     int genKeyPair( KeyPairRec& keyPair );
+    const QString getMechanism();
 
     QList<KeyPairRec> key_list_;
     QList<CertProfileRec> cert_profile_list_;

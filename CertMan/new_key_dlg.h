@@ -21,12 +21,18 @@ private slots:
     virtual void accept();
     void mechChanged(int index);
 
+    void clickRSA();
+    void clickECDSA();
+    void clickDSA();
+    void clickEdDSA();
+
+    void checkPKCS11();
+    void checkKMIP();
 
 private:
     void initUI();
     void initialize();
-//    int genKeyPairWithP11( QString strPin, BIN *pPri, BIN *pPub );
-
+    const QString getMechanism();
 };
 
 #endif // NEW_KEY_DLG_H

@@ -31,6 +31,14 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mUseExtensionCheck, SIGNAL(clicked()), this, SLOT(checkExtension()));
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
 
+    connect( mRSARadio, SIGNAL(clicked()), this, SLOT(clickRSA()));
+    connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
+    connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
+    connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
+
+    connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
+    connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
+
     initialize();
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -48,10 +56,67 @@ void MakeReqDlg::setKeyName( const QString strName )
     mKeyNameCombo->setCurrentText( strName );
 }
 
+
+const QString MakeReqDlg::getMechanism()
+{
+    QString strMech;
+
+    if( mRSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_RSA;
+        else if( mKMIPCheck->isChecked() )
+            strMech = kMechKMIP_RSA;
+        else
+            strMech = kMechRSA;
+    }
+    else if( mECDSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_EC;
+        else if( mKMIPCheck->isChecked() )
+            strMech = kMechKMIP_EC;
+        else
+            strMech = kMechEC;
+    }
+    else if( mDSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_DSA;
+        else
+            strMech = kMechDSA;
+    }
+    else if( mEdDSARadio->isChecked() )
+    {
+        strMech = kMechEdDSA;
+    }
+
+    return strMech;
+}
+
 void MakeReqDlg::initialize()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
+
+    if( manApplet->isPRO() == false )
+    {
+        mKMIPCheck->hide();
+    }
+
+    if( manApplet->settingsMgr()->PKCS11Use() == false )
+    {
+        mPKCS11Check->setEnabled( false );
+    }
+
+    if( manApplet->isLicense() == false )
+    {
+        mRSARadio->setChecked(true);
+
+        mECDSARadio->setEnabled(false);
+        mDSARadio->setEnabled(false);
+        mEdDSARadio->setEnabled(false);
+    }
 
     mHashCombo->addItems(kHashList);
     mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
@@ -553,6 +618,66 @@ void MakeReqDlg::newAlgChanged(int index )
         mNewExponentLabel->setEnabled(false);
         mNewOptionLabel->setText( "Named Curve" );
         mHashCombo->setEnabled(false);
+    }
+}
+
+void MakeReqDlg::clickRSA()
+{
+    mNewOptionCombo->addItems( kRSAOptionList );
+    mNewOptionCombo->setCurrentText( "2048" );
+    mNewExponentText->setEnabled(true);
+    mNewExponentLabel->setEnabled(true);
+    mNewOptionLabel->setText( "Key Length" );
+    mHashCombo->setEnabled(true);
+}
+
+void MakeReqDlg::clickECDSA()
+{
+    mNewOptionCombo->addItems( kECCOptionList );
+    mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( "Named Curve" );
+    mHashCombo->setEnabled(true);
+}
+
+void MakeReqDlg::clickDSA()
+{
+    mNewOptionCombo->addItems( kDSAOptionList );
+    mNewOptionCombo->setCurrentText( "2048" );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( "Key Length" );
+    mHashCombo->setEnabled(true);
+}
+
+void MakeReqDlg::clickEdDSA()
+{
+    mNewOptionCombo->addItems( kEdDSAOptionList );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( "Named Curve" );
+    mHashCombo->setEnabled(false);
+}
+
+void MakeReqDlg::checkPKCS11()
+{
+    if( manApplet->isLicense() == true )
+    {
+        bool bVal = mPKCS11Check->isChecked();
+
+        mEdDSARadio->setEnabled( !bVal );
+    }
+}
+
+void MakeReqDlg::checkKMIP()
+{
+    if( manApplet->isLicense() == true )
+    {
+        bool bVal = mKMIPCheck->isChecked();
+
+        mDSARadio->setEnabled( !bVal );
+        mEdDSARadio->setEnabled( !bVal );
     }
 }
 

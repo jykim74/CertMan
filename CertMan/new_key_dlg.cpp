@@ -22,7 +22,20 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     setupUi(this);
     initUI();
     connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
+
+    connect( mRSARadio, SIGNAL(clicked()), this, SLOT(clickRSA()));
+    connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
+    connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
+    connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
+
+    connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
+    connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
+
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 NewKeyDlg::~NewKeyDlg()
@@ -32,7 +45,24 @@ NewKeyDlg::~NewKeyDlg()
 
 void NewKeyDlg::initialize()
 {
+    if( manApplet->isPRO() == false )
+    {
+        mKMIPCheck->hide();
+    }
 
+    if( manApplet->settingsMgr()->PKCS11Use() == false )
+    {
+        mPKCS11Check->setEnabled( false );
+    }
+
+    if( manApplet->isLicense() == false )
+    {
+        mRSARadio->setChecked(true);
+
+        mECDSARadio->setEnabled(false);
+        mDSARadio->setEnabled(false);
+        mEdDSARadio->setEnabled(false);
+    }
 }
 
 void NewKeyDlg::initUI()
@@ -57,6 +87,42 @@ void NewKeyDlg::initUI()
     mExponentText->setText( QString( "65537" ) );
 }
 
+const QString NewKeyDlg::getMechanism()
+{
+    QString strMech;
+
+    if( mRSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_RSA;
+        else if( mKMIPCheck->isChecked() )
+            strMech = kMechKMIP_RSA;
+        else
+            strMech = kMechRSA;
+    }
+    else if( mECDSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_EC;
+        else if( mKMIPCheck->isChecked() )
+            strMech = kMechKMIP_EC;
+        else
+            strMech = kMechEC;
+    }
+    else if( mDSARadio->isChecked() )
+    {
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_DSA;
+        else
+            strMech = kMechDSA;
+    }
+    else if( mEdDSARadio->isChecked() )
+    {
+        strMech = kMechEdDSA;
+    }
+
+    return strMech;
+}
 
 void NewKeyDlg::accept()
 {
@@ -258,5 +324,69 @@ void NewKeyDlg::mechChanged(int index )
         mExponentLabel->setEnabled(false);
         mExponentText->setEnabled(false);
         mOptionLabel->setText( "Key size");
+    }
+}
+
+void NewKeyDlg::clickRSA()
+{
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems(kRSAOptionList);
+    mOptionCombo->setCurrentText( "2048" );
+    mExponentLabel->setEnabled(true);
+    mExponentText->setEnabled(true);
+    mOptionLabel->setText( "Key size");
+}
+
+void NewKeyDlg::clickECDSA()
+{
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems(kECCOptionList);
+    mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText("NamedCurve");
+}
+
+void NewKeyDlg::clickDSA()
+{
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems(kDSAOptionList);
+    mOptionCombo->setCurrentText( "2048" );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText( "Key size");
+}
+
+void NewKeyDlg::clickEdDSA()
+{
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems( kEdDSAOptionList );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText( "NamedCurve" );
+}
+
+void NewKeyDlg::checkPKCS11()
+{
+    if( manApplet->isLicense() == true )
+    {
+        bool bVal = mPKCS11Check->isChecked();
+
+        mEdDSARadio->setEnabled( !bVal );
+    }
+}
+
+void NewKeyDlg::checkKMIP()
+{
+    if( manApplet->isLicense() == true )
+    {
+        bool bVal = mKMIPCheck->isChecked();
+
+        mDSARadio->setEnabled( !bVal );
+        mEdDSARadio->setEnabled( !bVal );
     }
 }

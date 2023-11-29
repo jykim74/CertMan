@@ -579,15 +579,24 @@ void MainWindow::showRightMenu(QPoint point)
             menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
 
 
-            if( manApplet->isLicense() == true )
-                menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+            QAction* pPubCertAct = menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
+
+            if( manApplet->isLicense() == false )
+            {
+                pPubCertAct->setEnabled(false);
+            }
 
             menu.addAction( tr("Status Certificate"), this, &MainWindow::certStatus );
 
             if( treeItem->getType() != CM_ITEM_TYPE_ROOTCA )
             {
                 menu.addAction( tr("Revoke Certificate"), this, &MainWindow::revokeCertificate );
-                menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
+
+                QAction *pRenewAct = menu.addAction( tr( "Renew Certificate"), this, &MainWindow::renewCert );
+                if( manApplet->isLicense() == false )
+                {
+                    pRenewAct->setEnabled(false);
+                }
             }
         }
 
@@ -619,8 +628,12 @@ void MainWindow::showRightMenu(QPoint point)
         {
             menu.addAction( tr( "Verify CRL" ), this, &MainWindow::verifyCRL );
 
-            if( manApplet->isLicense() == true )
-                menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
+//            if( manApplet->isLicense() == true )
+            QAction* pPubCRLAct = menu.addAction( tr("Publish CRL"), this, &MainWindow::publishLDAP );
+            if( manApplet->isLicense() == false )
+            {
+                pPubCRLAct->setEnabled(false);
+            }
         }
 
         menu.addAction( tr("Export CRL"), this, &MainWindow::exportCRL );
@@ -850,12 +863,15 @@ void MainWindow::newFile()
     }
 
     SetPassDlg setPassDlg;
-
+    if( setPassDlg.exec() != QDialog::Accepted )
+        return;
+/*
     if( manApplet->isLicense() )
     {
         if( setPassDlg.exec() != QDialog::Accepted )
             return;
     }
+*/
 
     QFile resFile( ":/certman.db" );
     resFile.open(QIODevice::ReadOnly);
