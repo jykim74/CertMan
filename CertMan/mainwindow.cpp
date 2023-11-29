@@ -140,12 +140,13 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::setTitle(const QString strName)
 {
-    QString strTitle;
+    QString strTitle = manApplet->getBrand();
 
-    if( manApplet->isLicense() )
-        strTitle = QString( "%1 - %2" ).arg( manApplet->getBrand() ).arg( strName );
-    else
-        strTitle = QString( "%1 (Unlicensed Version) - %2" ).arg( manApplet->getBrand() ).arg( strName );
+    if( manApplet->isLicense() == false )
+        strTitle += " (Unlicensed version)";
+
+    if( strName.length() >= 1 )
+        strTitle += QString( " - %1" ).arg( strName );
 
     setWindowTitle( strTitle );
 }
@@ -235,6 +236,8 @@ void MainWindow::initialize()
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
     connect( right_table_, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showRightMenu(QPoint)));
+
+    setTitle("");
 }
 
 

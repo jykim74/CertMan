@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>489</width>
-    <height>350</height>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,86 +32,82 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_14">
-         <property name="topMargin">
-          <number>0</number>
+        <widget class="QGroupBox" name="mLDAPGroup">
+         <property name="title">
+          <string>LDAP Information</string>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_23">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>LDAP Host</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_24">
-           <property name="text">
-            <string>LDAP Port</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mLDAPHostText"/>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLineEdit" name="mLDAPPortText">
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>BaseDN</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mBaseDNText"/>
-         </item>
-        </layout>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_30">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>LDAP Port</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="mLDAPHostText"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_23">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>LDAP Host</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLineEdit" name="mLDAPPortText">
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_14">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_4">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>BaseDN</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="mBaseDNText"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_17">
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ListCount</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="mListCountCombo"/>
-         </item>
          <item row="0" column="2">
           <spacer name="horizontalSpacer">
            <property name="orientation">
@@ -124,6 +120,22 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="mListCountCombo"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ListCount</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -146,15 +158,20 @@
          <item row="0" column="3">
           <widget class="QComboBox" name="mDefaultECCParamCombo"/>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_29">
-           <property name="text">
-            <string>Default ECCParam</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_28">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>Default Hash</string>
            </property>
@@ -163,18 +180,12 @@
          <item row="0" column="1">
           <widget class="QComboBox" name="mDefaultHashCombo"/>
          </item>
-         <item row="0" column="4">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+         <item row="0" column="2">
+          <widget class="QLabel" name="mDefaultECCParamLabel">
+           <property name="text">
+            <string>Default ECCParam</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
         </layout>
        </item>
@@ -1133,9 +1144,6 @@
  <tabstops>
   <tabstop>mTabWidget</tabstop>
   <tabstop>mCheckLatestVersionCheck</tabstop>
-  <tabstop>mLDAPHostText</tabstop>
-  <tabstop>mLDAPPortText</tabstop>
-  <tabstop>mBaseDNText</tabstop>
   <tabstop>mListCountCombo</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
   <tabstop>mShowLogTabCheck</tabstop>

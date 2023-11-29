@@ -73,6 +73,12 @@ void SettingsDlg::updateSettings()
 
         mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
         manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
+
+        mgr->setLDAPHost( mLDAPHostText->text() );
+        mgr->setLDAPPort( mLDAPPortText->text().toInt() );
+        mgr->setBaseDN( mBaseDNText->text() );
+
+        mgr->setDefaultECCParam( mDefaultECCParamCombo->currentText() );
     }
 
 #ifdef _AUTO_UPDATE
@@ -86,17 +92,9 @@ void SettingsDlg::updateSettings()
     mgr->setSlotIndex( mSlotIndexText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
 
-    if( manApplet->isLicense() == true )
-    {
-        mgr->setLDAPHost( mLDAPHostText->text() );
-        mgr->setLDAPPort( mLDAPPortText->text().toInt() );
-        mgr->setBaseDN( mBaseDNText->text() );
-    }
-
     mgr->setListCount( mListCountCombo->currentText().toInt() );
-
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
-    mgr->setDefaultECCParam( mDefaultECCParamCombo->currentText() );
+
     mgr->setPKCS11Pin( mPINText->text() );
 
     bool language_changed = false;
@@ -377,11 +375,22 @@ void SettingsDlg::initialize()
 
         state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
         mShowLogTabCheck->setCheckState(state);
+
+        mLDAPHostText->setText( mgr->LDAPHost() );
+        mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
+        mBaseDNText->setText( mgr->baseDN() );
+
+        mDefaultECCParamCombo->addItems( kECCOptionList );
+        mDefaultECCParamCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     }
     else
     {
         mSaveRemoteInfoCheck->hide();
         mShowLogTabCheck->hide();
+
+        mDefaultECCParamLabel->hide();
+        mDefaultECCParamCombo->hide();
+        mLDAPGroup->hide();
     }
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
@@ -398,19 +407,6 @@ void SettingsDlg::initialize()
     mPINText->setText( mgr->PKCS11Pin() );
     mListCountCombo->setCurrentText( QString("%1").arg( mgr->listCount()));
 
-    if( manApplet->isLicense() == true )
-    {
-        mLDAPHostText->setText( mgr->LDAPHost() );
-        mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
-        mBaseDNText->setText( mgr->baseDN() );
-    }
-    else
-    {
-        mLDAPHostText->hide();
-        mLDAPPortText->hide();
-        mBaseDNText->hide();
-    }
-
 #ifdef _AUTO_UPDATE
     if( AutoUpdateService::instance()->shouldSupportAutoUpdate()) {
         state = AutoUpdateService::instance()->autoUpdateEnabled() ? Qt::Checked : Qt::Unchecked;
@@ -422,9 +418,6 @@ void SettingsDlg::initialize()
 
     mDefaultHashCombo->addItems( kHashList );
     mDefaultHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
-
-    mDefaultECCParamCombo->addItems( kECCOptionList );
-    mDefaultECCParamCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
 
     mFontFamilyCombo->setCurrentText( manApplet->settingsMgr()->getFontFamily() );
 
