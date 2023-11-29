@@ -7,7 +7,7 @@ namespace  {
     const char *kSaveRemoteInfo = "saveRemoteInfo";
     const char *kRemoteInfo = "remoteInfo";
     const char *kServerStatus = "serverStatus";
-    const char *kShowLogTab = "showLogTab";
+    const char *kUseLogTab = "useLogTab";
     const char *kPKCS11Use = "PKCS11Use";
     const char *kSlotIndex = "SlotIndex";
     const char *kP11LibPath = "PKCS11LibPath";
@@ -143,23 +143,23 @@ bool SettingsMgr::serverStatus()
     return val;
 }
 
-void SettingsMgr::setShowLogTab( bool bVal )
+void SettingsMgr::setUseLogTab( bool bVal )
 {
     QSettings settings;
 
     settings.beginGroup( kBehaviorGroup );
-    settings.setValue( kShowLogTab, bVal );
+    settings.setValue( kUseLogTab, bVal );
     settings.endGroup();
 }
 
-bool SettingsMgr::showLogTab()
+bool SettingsMgr::getUseLogTab()
 {
     QSettings settings;
 
     bool val;
 
     settings.beginGroup(kBehaviorGroup);
-    val = settings.value( kShowLogTab, false).toBool();
+    val = settings.value( kUseLogTab, false).toBool();
     settings.endGroup();
 
     return val;

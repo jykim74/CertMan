@@ -130,8 +130,7 @@ void ManApplet::start()
 
     if( isLicense() )
     {
-        if( settingsMgr()->showLogTab() )
-            main_win_->logView(true);
+        main_win_->useLog( settingsMgr()->getUseLogTab() );
     }
     else
     {

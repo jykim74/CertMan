@@ -211,6 +211,12 @@ void MainWindow::initialize()
     vsplitter_->addWidget(text_tab_);
     text_tab_->setTabPosition( QTabWidget::South );
     text_tab_->addTab( info_text_, tr( "Information" ));
+    text_tab_->addTab( log_text_, tr( "Log" ));
+
+    if( manApplet->isLicense() == false )
+    {
+        text_tab_->setTabEnabled( 1, false );
+    }
 
     QList <int> vsizes;
 #ifdef Q_OS_MAC
@@ -412,28 +418,32 @@ void MainWindow::createActions()
     dataMenu->addAction( getURIAct );
     dataToolBar->addAction( getURIAct );
 
-    if( manApplet->isLicense() )
+    const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
+    QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
+    connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
+    pubLDAPAct->setStatusTip(tr("Publish LDAP"));
+    dataMenu->addAction( pubLDAPAct );
+    dataToolBar->addAction( pubLDAPAct );
+
+    const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
+    QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
+    connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
+    setPassAct->setStatusTip(tr("Set PrivateKey Password"));
+    dataMenu->addAction( setPassAct );
+    dataToolBar->addAction( setPassAct );
+
+    const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
+    QAction *changePassAct = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
+    connect( changePassAct, &QAction::triggered, this, &MainWindow::changePasswd);
+    setPassAct->setStatusTip(tr("Change PrivateKey Password"));
+    dataMenu->addAction( changePassAct );
+    dataToolBar->addAction( changePassAct );
+
+    if( manApplet->isLicense() == false )
     {
-        const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
-        QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
-        connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
-        pubLDAPAct->setStatusTip(tr("Publish LDAP"));
-        dataMenu->addAction( pubLDAPAct );
-        dataToolBar->addAction( pubLDAPAct );
-
-        const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
-        QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
-        connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
-        setPassAct->setStatusTip(tr("Set PrivateKey Password"));
-        dataMenu->addAction( setPassAct );
-        dataToolBar->addAction( setPassAct );
-
-        const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
-        QAction *changePassAct = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
-        connect( changePassAct, &QAction::triggered, this, &MainWindow::changePasswd);
-        setPassAct->setStatusTip(tr("Change PrivateKey Password"));
-        dataMenu->addAction( changePassAct );
-        dataToolBar->addAction( changePassAct );
+        pubLDAPAct->setEnabled( false );
+        setPassAct->setEnabled( false );
+        changePassAct->setEnabled( false );
     }
 
 
@@ -474,22 +484,25 @@ void MainWindow::createActions()
     helpMenu->addAction( settingsAct );
     helpToolBar->addAction( settingsAct );
 
-    if( manApplet->isLicense() )
-    {
-        const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
-        QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
-        connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
-        clearAct->setStatusTip(tr("clear information and log"));
-        helpMenu->addAction( clearAct );
-        helpToolBar->addAction( clearAct );
+    const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
+    QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
+    connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
+    clearAct->setStatusTip(tr("clear information and log"));
+    helpMenu->addAction( clearAct );
+    helpToolBar->addAction( clearAct );
 
-        QIcon logIcon = QIcon::fromTheme( "log-halt", QIcon(":/images/log_halt.png" ));
-        QAction *logAct = new QAction( logIcon, tr( "&Log Halt" ), this );
-        connect( logAct, &QAction::triggered, this, &MainWindow::toggleLog );
-        logAct->setCheckable(true);
-        logAct->setStatusTip( tr( "Log Halt" ));
-        helpMenu->addAction( logAct );
-        helpToolBar->addAction( logAct );
+    QIcon logIcon = QIcon::fromTheme( "log-halt", QIcon(":/images/log_halt.png" ));
+    QAction *logAct = new QAction( logIcon, tr( "&Log Halt" ), this );
+    connect( logAct, &QAction::triggered, this, &MainWindow::toggleLog );
+    logAct->setCheckable(true);
+    logAct->setStatusTip( tr( "Log Halt" ));
+    helpMenu->addAction( logAct );
+    helpToolBar->addAction( logAct );
+
+    if( manApplet->isLicense() == false )
+    {
+        clearAct->setEnabled( false );
+        logAct->setEnabled( false );
     }
 
     const QIcon lcnIcon = QIcon::fromTheme("berview-license", QIcon(":/images/license.png"));
@@ -2430,25 +2443,17 @@ void MainWindow::showWindow()
     activateWindow();
 }
 
-void MainWindow::logView( bool bShow )
+void MainWindow::useLog( bool bEnable )
 {
-    if( bShow == true )
-    {
-        if( text_tab_->count() <= 1 )
-            text_tab_->addTab( log_text_, tr("log") );
-    }
-    else
-    {
-        if( text_tab_->count() == 2 )
-            text_tab_->removeTab(1);
-    }
+    text_tab_->setTabEnabled( 1, bEnable );
 }
 
 void MainWindow::log( const QString strLog, QColor cr )
 {
     if( log_halt_ == true ) return;
 
-    if( text_tab_->count() <= 1 ) return;
+//    if( text_tab_->count() <= 1 ) return;
+    if( text_tab_->isTabEnabled( 1 ) == false ) return;
 
     QTextCursor cursor = log_text_->textCursor();
 //    cursor.movePosition( QTextCursor::End );

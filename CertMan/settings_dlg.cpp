@@ -71,8 +71,8 @@ void SettingsDlg::updateSettings()
     {
         mgr->setSaveRemoteInfo( mSaveRemoteInfoCheck->checkState() == Qt::Checked );
 
-        mgr->setShowLogTab( mShowLogTabCheck->checkState() == Qt::Checked );
-        manApplet->mainWindow()->logView( mShowLogTabCheck->checkState() == Qt::Checked );
+        mgr->setUseLogTab( mUseLogTabCheck->checkState() == Qt::Checked );
+        manApplet->mainWindow()->useLog( mUseLogTabCheck->checkState() == Qt::Checked );
 
         mgr->setLDAPHost( mLDAPHostText->text() );
         mgr->setLDAPPort( mLDAPPortText->text().toInt() );
@@ -373,8 +373,8 @@ void SettingsDlg::initialize()
         state = mgr->saveRemoteInfo() ? Qt::Checked : Qt::Unchecked;
         mSaveRemoteInfoCheck->setCheckState( state );
 
-        state = mgr->showLogTab() ? Qt::Checked : Qt::Unchecked;
-        mShowLogTabCheck->setCheckState(state);
+        state = mgr->getUseLogTab() ? Qt::Checked : Qt::Unchecked;
+        mUseLogTabCheck->setCheckState(state);
 
         mLDAPHostText->setText( mgr->LDAPHost() );
         mLDAPPortText->setText( QString("%1").arg( mgr->LDAPPort() ));
@@ -385,12 +385,12 @@ void SettingsDlg::initialize()
     }
     else
     {
-        mSaveRemoteInfoCheck->hide();
-        mShowLogTabCheck->hide();
+        mSaveRemoteInfoCheck->setEnabled(false);
+        mUseLogTabCheck->setEnabled(false);
 
-        mDefaultECCParamLabel->hide();
-        mDefaultECCParamCombo->hide();
-        mLDAPGroup->hide();
+        mDefaultECCParamLabel->setEnabled(false);
+        mDefaultECCParamCombo->setEnabled(false);
+        mLDAPGroup->setEnabled(false);
     }
 
     state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;

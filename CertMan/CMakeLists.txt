@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CertMan
-    VERSION 1.5.6
+    VERSION 1.5.7
     DESCRIPTION "CertMan Application"
     LANGUAGES CXX )
 
@@ -214,6 +214,7 @@ add_executable(${PROJECT_NAME}
     ${RESOURCE_ADDED}
     cm.rc
     certman.icns
+    CertMan.pro
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

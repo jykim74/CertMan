@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>489</width>
-    <height>388</height>
+    <height>386</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -147,9 +147,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="mShowLogTabCheck">
+        <widget class="QCheckBox" name="mUseLogTabCheck">
          <property name="text">
-          <string>Show log view tab at startup</string>
+          <string>Use log tab at startup</string>
          </property>
         </widget>
        </item>
@@ -1146,7 +1146,7 @@
   <tabstop>mCheckLatestVersionCheck</tabstop>
   <tabstop>mListCountCombo</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
-  <tabstop>mShowLogTabCheck</tabstop>
+  <tabstop>mUseLogTabCheck</tabstop>
   <tabstop>mDefaultHashCombo</tabstop>
   <tabstop>mDefaultECCParamCombo</tabstop>
   <tabstop>mFontFamilyCombo</tabstop>

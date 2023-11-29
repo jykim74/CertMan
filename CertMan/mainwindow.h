@@ -55,7 +55,7 @@ public:
     void showWindow();
     void setTitle( const QString strName );
 
-    void logView( bool bShow = true );
+    void useLog( bool bEnable = true );
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
