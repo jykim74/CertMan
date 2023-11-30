@@ -118,6 +118,8 @@ void MakeReqDlg::initialize()
         mEdDSARadio->setEnabled(false);
     }
 
+    mRSARadio->click();
+
     mHashCombo->addItems(kHashList);
     mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 

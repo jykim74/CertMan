@@ -123,7 +123,14 @@ const QString kTableStyle = "QHeaderView::section {background-color:#404040;colo
 static QStringList kPBEv1List = { "PBE-SHA1-3DES", "PBE-SHA1-2DES" };
 static QStringList kPBEv2List = { "AES-128-CBC", "AES-256-CBC", "ARIA-128-CBC", "ARIA-256-CBC" };
 
-enum { JS_FILE_TYPE_CERT, JS_FILE_TYPE_PRIKEY, JS_FILE_TYPE_TXT, JS_FILE_TYPE_BER, JS_FILE_TYPE_DB, JS_FILE_TYPE_DLL };
+enum {
+    JS_FILE_TYPE_CERT,
+    JS_FILE_TYPE_PRIKEY,
+    JS_FILE_TYPE_TXT,
+    JS_FILE_TYPE_BER,
+    JS_FILE_TYPE_DB,
+    JS_FILE_TYPE_DLL,
+    JS_FILE_TYPE_LCN };
 
 static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Connectivity(ODBC)" };
 

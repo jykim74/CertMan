@@ -63,6 +63,8 @@ void NewKeyDlg::initialize()
         mDSARadio->setEnabled(false);
         mEdDSARadio->setEnabled(false);
     }
+
+    mRSARadio->click();
 }
 
 void NewKeyDlg::initUI()
