@@ -26,7 +26,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
     connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
     connect( mGenKeyPairCheck, SIGNAL(clicked()), this, SLOT(checkGenKeyPair()));
-    connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
+//    connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
     connect( mNewOptionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newOptionChanged(int)));
     connect( mUseExtensionCheck, SIGNAL(clicked()), this, SLOT(checkExtension()));
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
@@ -134,8 +134,8 @@ void MakeReqDlg::initialize()
     mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
+/*
     mNewAlgorithmCombo->clear();
-
     mNewAlgorithmCombo->addItems( sMechList );
 
     if( manApplet->settingsMgr()->PKCS11Use() )
@@ -150,6 +150,7 @@ void MakeReqDlg::initialize()
         mNewAlgorithmCombo->addItem( kMechKMIP_RSA );
         mNewAlgorithmCombo->addItem( kMechKMIP_EC );
     }
+*/
 
     if( key_list_.size() > 0 )
     {
@@ -184,11 +185,12 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     int nSeq = 0;
 
 
-    QString strAlg = mNewAlgorithmCombo->currentText();
+//    QString strAlg = mNewAlgorithmCombo->currentText();
+    QString strAlg = getMechanism();
     QString strName = mNewKeyNameText->text();
     int nExponent = mNewExponentText->text().toInt();
     QString strParam = mNewOptionCombo->currentText();
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = manApplet->dbMgr()->getKeyPairCountAll();
@@ -200,7 +202,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
             return -1;
         }
     }
-
+*/
     if( strAlg == kMechRSA )
     {
         int nKeySize = strParam.toInt();
@@ -334,7 +336,7 @@ void MakeReqDlg::accept()
         mNameText->setFocus();
         return;
     }
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = dbMgr->getReqCountAll();
@@ -346,7 +348,7 @@ void MakeReqDlg::accept()
             return;
         }
     }
-
+*/
     QString strDN = mDNText->text();
 
     if( strDN.isEmpty() )
@@ -365,7 +367,7 @@ void MakeReqDlg::accept()
         ret = genKeyPair( keyRec );
         if( ret != 0 ) goto end;
 
-        strAlg = mNewAlgorithmCombo->currentText();
+        strAlg = getMechanism();
         strParam = mNewOptionCombo->currentText();
     }
     else
@@ -579,6 +581,7 @@ void MakeReqDlg::keyNameChanged(int index)
     mDNText->setText( strDN );
 }
 
+/*
 void MakeReqDlg::newAlgChanged(int index )
 {
     QString strAlg = mNewAlgorithmCombo->currentText();
@@ -620,6 +623,7 @@ void MakeReqDlg::newAlgChanged(int index )
         mHashCombo->setEnabled(false);
     }
 }
+*/
 
 void MakeReqDlg::clickRSA()
 {

@@ -140,7 +140,7 @@ void RenewCertDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = dbMgr->getCertCountAll();
@@ -152,8 +152,11 @@ void RenewCertDlg::accept()
             return;
         }
     }
+*/
 
     dbMgr->getCertRec( cert_num_, cert );
+
+/*
     if( cert.isCA() && manApplet->isLicense() == false )
     {
         int nCACnt = dbMgr->getCACount();
@@ -165,9 +168,11 @@ void RenewCertDlg::accept()
             return;
         }
     }
+*/
 
     if( cert.isSelf() )
     {
+/*
         if( manApplet->isLicense() == false )
         {
             int nSelfCount = dbMgr->getCertCount( -1 );
@@ -178,6 +183,7 @@ void RenewCertDlg::accept()
                 return;
             }
         }
+*/
 
         nKeyNum = cert.getKeyNum();
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binSignCert );

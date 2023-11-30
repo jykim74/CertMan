@@ -21,7 +21,7 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
 {
     setupUi(this);
     initUI();
-    connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
+//    connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
 
     connect( mRSARadio, SIGNAL(clicked()), this, SLOT(clickRSA()));
     connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
@@ -67,10 +67,11 @@ void NewKeyDlg::initialize()
 
 void NewKeyDlg::initUI()
 {
-    mMechCombo->addItems(sMechList);
+    // mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
 
+    /*
     if( manApplet->settingsMgr()->PKCS11Use() )
     {
         mMechCombo->addItem( kMechPKCS11_RSA );
@@ -83,6 +84,7 @@ void NewKeyDlg::initUI()
         mMechCombo->addItem( kMechKMIP_RSA );
         mMechCombo->addItem( kMechKMIP_EC );
     }
+    */
 
     mExponentText->setText( QString( "65537" ) );
 }
@@ -138,7 +140,7 @@ void NewKeyDlg::accept()
         mNameText->setFocus();
         return;
     }
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = dbMgr->getKeyPairCountAll();
@@ -150,6 +152,7 @@ void NewKeyDlg::accept()
             return;
         }
     }
+*/
 
     BIN binPri = {0,0};
     BIN binPub = {0,0};
@@ -157,7 +160,8 @@ void NewKeyDlg::accept()
     char *pPriHex = NULL;
     char *pPubHex = NULL;
 
-    QString strMech = mMechCombo->currentText();
+//    QString strMech = mMechCombo->currentText();
+    QString strMech = getMechanism();
     QString strParam = mOptionCombo->currentText();
 
     if( strMech == kMechRSA )
@@ -204,7 +208,7 @@ void NewKeyDlg::accept()
 
         ret = genKeyPairWithP11( (JP11_CTX *)manApplet->P11CTX(),
                                  mNameText->text(),
-                                 mMechCombo->currentText(),
+                                 strMech,
                                  mOptionCombo->currentText(),
                                  mExponentText->text().toInt(),
                                  &binPri,
@@ -217,7 +221,7 @@ void NewKeyDlg::accept()
     {
         ret = genKeyPairWithKMIP(
                     manApplet->settingsMgr(),
-                    mMechCombo->currentText(),
+                    strMech,
                     mOptionCombo->currentText(),
                     &binPri,
                     &binPub );
@@ -250,7 +254,7 @@ void NewKeyDlg::accept()
 
     JS_BIN_encodeHex( &binPub, &pPubHex );
 
-    keyPairRec.setAlg( mMechCombo->currentText() );
+    keyPairRec.setAlg( strMech );
     keyPairRec.setRegTime( time(NULL) );
     keyPairRec.setName( strName );
     keyPairRec.setParam( mOptionCombo->currentText() );
@@ -282,6 +286,7 @@ end:
     }
 }
 
+/*
 void NewKeyDlg::mechChanged(int index )
 {
     mOptionCombo->clear();
@@ -326,6 +331,7 @@ void NewKeyDlg::mechChanged(int index )
         mOptionLabel->setText( "Key size");
     }
 }
+*/
 
 void NewKeyDlg::clickRSA()
 {

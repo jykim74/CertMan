@@ -246,7 +246,7 @@ void MakeCertDlg::accept()
     memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = dbMgr->getCertCountAll();
@@ -258,7 +258,7 @@ void MakeCertDlg::accept()
             return;
         }
     }
-
+*/
     if( mUseCSRFileCheck->isChecked() )
     {
         if( mCSRFilePathText->text().length() <= 0 )
@@ -292,6 +292,7 @@ void MakeCertDlg::accept()
     }
     else
     {
+/*
         if( manApplet->isLicense() == false )
         {
             int nSelfCount = dbMgr->getCertCount( -1 );
@@ -302,6 +303,7 @@ void MakeCertDlg::accept()
                 return;
             }
         }
+*/
     }
 
     int reqIdx =  mReqNameCombo->currentIndex();
@@ -598,6 +600,7 @@ void MakeCertDlg::accept()
 
     JS_PKI_getExtensionUsageList( profileRec.getExtUsage(), pCertExtInfoList, pCSRExtInfoList, &pExtInfoList );
 
+/*
     if( bCA && manApplet->isLicense() == false)
     {
         int nCACnt = dbMgr->getCACount();
@@ -609,6 +612,7 @@ void MakeCertDlg::accept()
             goto end;
         }
     }
+*/
 
     if( isPKCS11Private( signKeyPair.getAlg() ) == true )
     {

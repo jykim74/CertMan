@@ -19,7 +19,7 @@ public:
 
 private slots:
     virtual void accept();
-    void mechChanged(int index);
+//    void mechChanged(int index);
 
     void clickRSA();
     void clickECDSA();

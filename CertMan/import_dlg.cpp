@@ -301,6 +301,16 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
 
     nKeyType = JS_PKI_getPriKeyType( pPriKey );
 
+    if( manApplet->isLicense() == false )
+    {
+        if( nKeyType != JS_PKI_KEY_TYPE_RSA )
+        {
+            manApplet->elog( QString("Unlicense version support only RSA private key: %1").arg( nKeyType ));
+            ret = -1;
+            goto end;
+        }
+    }
+
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
         JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );

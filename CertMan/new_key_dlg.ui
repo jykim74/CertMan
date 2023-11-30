@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>298</height>
+    <height>224</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,30 +69,14 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>0</height>
-        </size>
-       </property>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mKMIPCheck">
        <property name="text">
-        <string>Mechanism</string>
+        <string>KMIP</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QComboBox" name="mMechCombo">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -105,17 +89,23 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="mPKCS11Check">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
-        <string>PKCS#11</string>
+        <string>Use Device</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="4">
-      <widget class="QCheckBox" name="mKMIPCheck">
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="mPKCS11Check">
        <property name="text">
-        <string>KMIP</string>
+        <string>PKCS#11</string>
        </property>
       </widget>
      </item>
@@ -133,13 +123,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QRadioButton" name="mECDSARadio">
-       <property name="text">
-        <string>ECDSA</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="1">
       <widget class="QRadioButton" name="mRSARadio">
        <property name="text">
@@ -147,10 +130,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
+     <item row="0" column="2">
+      <widget class="QRadioButton" name="mECDSARadio">
        <property name="text">
-        <string>Mechanism</string>
+        <string>ECDSA</string>
        </property>
       </widget>
      </item>
@@ -158,6 +141,25 @@
       <widget class="QRadioButton" name="mEdDSARadio">
        <property name="text">
         <string>EdDSA</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Mechanism</string>
        </property>
       </widget>
      </item>
@@ -264,7 +266,6 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
-  <tabstop>mMechCombo</tabstop>
   <tabstop>mExponentText</tabstop>
   <tabstop>mOptionCombo</tabstop>
  </tabstops>

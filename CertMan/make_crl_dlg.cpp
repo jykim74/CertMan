@@ -98,7 +98,7 @@ void MakeCRLDlg::accept()
     CertRec caCert = ca_cert_list_.at(issuerIdx);
     CRLProfileRec profile = crl_profile_list_.at(profileIdx);
     KeyPairRec caKeyPair;
-
+/*
     if( manApplet->isLicense() == false )
     {
         int nTotalCnt = dbMgr->getCRLCountAll();
@@ -110,7 +110,7 @@ void MakeCRLDlg::accept()
             return;
         }
     }
-
+*/
     if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
     {
         QString strMsg = tr( "The CA certificate is revoked. continue?" );
