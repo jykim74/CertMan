@@ -222,6 +222,10 @@ public slots:
     void clearLog();
     void toggleLog();
 
+    void OCSPSrv();
+    void TSPSrv();
+    void CMPSrv();
+    void RegSrv();
 
 private slots:
     void showRightMenu( QPoint point );

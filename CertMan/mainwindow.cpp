@@ -75,6 +75,11 @@
 #include "csr_info_dlg.h"
 #include "remote_db_dlg.h"
 
+#include "cmp_srv_dlg.h"
+#include "ocsp_srv_dlg.h"
+#include "tsp_srv_dlg.h"
+#include "reg_srv_dlg.h"
+
 const int kMaxRecentFiles = 10;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -455,6 +460,33 @@ void MainWindow::createActions()
         tspAct->setStatusTip(tr("TimeStampProtocol Service"));
         dataMenu->addAction( tspAct );
         dataToolBar->addAction( tspAct );
+
+        QMenu *serverMenu = menuBar()->addMenu(tr("&Server"));
+        QToolBar *serverToolBar = addToolBar(tr("Server"));
+
+        QAction *ocspSrvAct = new QAction( timeIcon, tr("&OCSP Server"), this);
+        connect( ocspSrvAct, &QAction::triggered, this, &MainWindow::OCSPSrv);
+        ocspSrvAct->setStatusTip(tr("OCSP Server Service"));
+        serverMenu->addAction( ocspSrvAct );
+        serverToolBar->addAction( ocspSrvAct );
+
+        QAction *tspSrvAct = new QAction( timeIcon, tr("&TSP Server"), this);
+        connect( tspSrvAct, &QAction::triggered, this, &MainWindow::TSPSrv);
+        tspSrvAct->setStatusTip(tr("TSP Server Service"));
+        serverMenu->addAction( tspSrvAct );
+        serverToolBar->addAction( tspSrvAct );
+
+        QAction *cmpSrvAct = new QAction( timeIcon, tr("&CMP Server"), this);
+        connect( cmpSrvAct, &QAction::triggered, this, &MainWindow::CMPSrv);
+        cmpSrvAct->setStatusTip(tr("CMP Server Service"));
+        serverMenu->addAction( cmpSrvAct );
+        serverToolBar->addAction( cmpSrvAct );
+
+        QAction *regSrvAct = new QAction( timeIcon, tr("&REG Server"), this);
+        connect( regSrvAct, &QAction::triggered, this, &MainWindow::RegSrv);
+        regSrvAct->setStatusTip(tr("Reg Server Service"));
+        serverMenu->addAction( regSrvAct );
+        serverToolBar->addAction( regSrvAct );
     }
 
 
@@ -3561,6 +3593,30 @@ void MainWindow::toggleLog()
         log( "Log is halt" );
         log_halt_ = true;
     }
+}
+
+void MainWindow::OCSPSrv()
+{
+    OCSPSrvDlg ocspSrvDlg;
+    ocspSrvDlg.exec();
+}
+
+void MainWindow::TSPSrv()
+{
+    TSPSrvDlg tspSrvDlg;
+    tspSrvDlg.exec();
+}
+
+void MainWindow::CMPSrv()
+{
+    CMPSrvDlg cmpSrvDlg;
+    cmpSrvDlg.exec();
+}
+
+void MainWindow::RegSrv()
+{
+    RegSrvDlg regSrvDlg;
+    regSrvDlg.exec();
 }
 
 void MainWindow::expandMenu()
