@@ -23,11 +23,22 @@
         <translation>%1 에 대해서</translation>
     </message>
     <message>
+        <location filename="../about_dlg.cpp" line="19"/>
+        <location filename="../about_dlg.cpp" line="24"/>
+        <source>%1 [Ver %2]</source>
+        <translation>%1 [버전 %2]</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="26"/>
+        <source>%1 (Unlicensed Version) [Ver %2]</source>
+        <translation>%1 (Unlicensed 버전) [버전 %2]</translation>
+    </message>
+    <message>
         <source>About %1 (%2)</source>
         <translation type="vanished">%1(%2) 에 대해서</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="39"/>
+        <location filename="../about_dlg.cpp" line="42"/>
         <source>This is freeware tool to make certificate, CRL and CSR If you do not use this for commercial purposes, you can use it freely If you have any opinions on this tool, please send me a mail</source>
         <translation>이 툴은 인증서, CRL 및 CSR을 만드는 프리웨어 툴입니다. 상업적 목적이 아니면 자유롭게 이용 할 수 있습니다. 요청 이나 문의 사항은 메일로 연락 주세요.</translation>
     </message>
@@ -46,10 +57,8 @@
         <translation>CertMan에 대해</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="19"/>
-        <location filename="../about_dlg.cpp" line="23"/>
         <source>About %1 [Ver %2]</source>
-        <translation>%1 에 대해 [Ver %2]</translation>
+        <translation type="vanished">%1 에 대해 [Ver %2]</translation>
     </message>
 </context>
 <context>
@@ -1225,12 +1234,12 @@
         <translation>라이선스 정보 창</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="26"/>
+        <location filename="../lcn_info_dlg.ui" line="25"/>
         <source>License Information</source>
         <translation>라이센스 정보</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="40"/>
+        <location filename="../lcn_info_dlg.ui" line="39"/>
         <source>Current License</source>
         <translation>현재 라이선스</translation>
     </message>
@@ -1239,89 +1248,89 @@
         <translation type="vanished">발급 일자</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="147"/>
-        <location filename="../lcn_info_dlg.ui" line="220"/>
+        <location filename="../lcn_info_dlg.ui" line="146"/>
+        <location filename="../lcn_info_dlg.ui" line="219"/>
         <source>Email</source>
         <translation>이메일</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="154"/>
+        <location filename="../lcn_info_dlg.ui" line="153"/>
         <source>Expire Date</source>
         <translation>만료 일자</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="208"/>
+        <location filename="../lcn_info_dlg.ui" line="207"/>
         <source>Request License</source>
         <translation>요청 라이선스</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="227"/>
+        <location filename="../lcn_info_dlg.ui" line="229"/>
         <source>License Key</source>
         <translation>라이선스 키</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="258"/>
+        <location filename="../lcn_info_dlg.ui" line="244"/>
         <source>Get</source>
         <translation>가겨오기</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="265"/>
+        <location filename="../lcn_info_dlg.ui" line="251"/>
         <source>Use License File</source>
         <translation>파일 라이선스 사용</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="312"/>
+        <location filename="../lcn_info_dlg.ui" line="308"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="319"/>
+        <location filename="../lcn_info_dlg.ui" line="315"/>
         <source>Update</source>
         <translation>갱신</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="236"/>
+        <location filename="../lcn_info_dlg.cpp" line="234"/>
         <source>fail to get license:%1</source>
         <translation>라이선스 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="248"/>
+        <location filename="../lcn_info_dlg.cpp" line="246"/>
         <source>fail to parse license:%1</source>
         <translation>라이선스 파싱 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="257"/>
+        <location filename="../lcn_info_dlg.cpp" line="255"/>
         <source>license is not valid:%1</source>
         <translation>라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="312"/>
+        <location filename="../lcn_info_dlg.cpp" line="310"/>
         <source>There is no current license</source>
         <translation>현재 라이선스가 없습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.ui" line="46"/>
+        <location filename="../lcn_info_dlg.ui" line="45"/>
         <source>Issued Date</source>
         <translation>발급 일자</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="323"/>
+        <location filename="../lcn_info_dlg.cpp" line="321"/>
         <source>fail to renew license:%1</source>
         <translation>라이선스 갱신 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="271"/>
-        <location filename="../lcn_info_dlg.cpp" line="335"/>
+        <location filename="../lcn_info_dlg.cpp" line="269"/>
+        <location filename="../lcn_info_dlg.cpp" line="333"/>
         <source>The current license is longer period</source>
         <translation>현재 라이선스가 더 긴 기간의 라이선스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="223"/>
+        <location filename="../lcn_info_dlg.cpp" line="221"/>
         <source>You have to input email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="229"/>
+        <location filename="../lcn_info_dlg.cpp" line="227"/>
         <source>You have to input license key</source>
         <translation>라이선스 키를 입력하세요</translation>
     </message>
@@ -1373,37 +1382,37 @@
         <translation>CAMan</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="237"/>
+        <location filename="../mainwindow.cpp" line="252"/>
         <source>&amp;File</source>
         <translation>파일(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="238"/>
+        <location filename="../mainwindow.cpp" line="253"/>
         <source>File</source>
         <translation>파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="246"/>
+        <location filename="../mainwindow.cpp" line="261"/>
         <source>&amp;New</source>
         <translation>새 파일(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="248"/>
+        <location filename="../mainwindow.cpp" line="263"/>
         <source>Create a new file</source>
         <translation>새로운 파일 생성</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="254"/>
+        <location filename="../mainwindow.cpp" line="269"/>
         <source>&amp;Open...</source>
         <translation>열기(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
+        <location filename="../mainwindow.cpp" line="271"/>
         <source>Open an existing ca db file</source>
         <translation>CA 데이타베이스 파일 열기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="296"/>
+        <location filename="../mainwindow.cpp" line="311"/>
         <source>&amp;Quit</source>
         <translation>끝내기(&amp;Q)</translation>
     </message>
@@ -1412,22 +1421,22 @@
         <translation type="vanished">CA매니저 끝내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="301"/>
+        <location filename="../mainwindow.cpp" line="316"/>
         <source>&amp;Tools</source>
         <translation>도구(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="302"/>
+        <location filename="../mainwindow.cpp" line="317"/>
         <source>Tools</source>
         <translation>도구</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="310"/>
+        <location filename="../mainwindow.cpp" line="325"/>
         <source>&amp;NewKey</source>
         <translation>새 키(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="311"/>
+        <location filename="../mainwindow.cpp" line="326"/>
         <source>Generate new key pair</source>
         <translation>새로운 키 쌍 생성</translation>
     </message>
@@ -1436,8 +1445,8 @@
         <translation type="vanished">요청서 만들기(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="318"/>
-        <location filename="../mainwindow.cpp" line="620"/>
+        <location filename="../mainwindow.cpp" line="333"/>
+        <location filename="../mainwindow.cpp" line="655"/>
         <source>Make Request</source>
         <translation>요청서 만들기</translation>
     </message>
@@ -1446,7 +1455,7 @@
         <translation type="vanished">사용자 등록(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="335"/>
+        <location filename="../mainwindow.cpp" line="350"/>
         <source>Register User</source>
         <translation>사용자 등록</translation>
     </message>
@@ -1455,7 +1464,7 @@
         <translation type="vanished">서명자 등록(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="342"/>
+        <location filename="../mainwindow.cpp" line="357"/>
         <source>Register Signer</source>
         <translation>서명자 등록</translation>
     </message>
@@ -1480,7 +1489,7 @@
         <translation type="vanished">인증서 만들기(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="367"/>
+        <location filename="../mainwindow.cpp" line="382"/>
         <source>Make certificate</source>
         <translation>인증서 만들기</translation>
     </message>
@@ -1489,7 +1498,7 @@
         <translation type="vanished">CRL 만들기(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="375"/>
+        <location filename="../mainwindow.cpp" line="390"/>
         <source>Make CRL</source>
         <translation>CRL 만들기</translation>
     </message>
@@ -1498,27 +1507,27 @@
         <translation type="vanished">인증서 폐기(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="382"/>
+        <location filename="../mainwindow.cpp" line="397"/>
         <source>Revoke certificate</source>
         <translation>인증서 폐기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="384"/>
+        <location filename="../mainwindow.cpp" line="399"/>
         <source>&amp;Data</source>
         <translation>데이타(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="385"/>
+        <location filename="../mainwindow.cpp" line="400"/>
         <source>Data</source>
         <translation>데이타</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="393"/>
+        <location filename="../mainwindow.cpp" line="408"/>
         <source>&amp;ImportData</source>
         <translation>데이타 가져오기(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="397"/>
+        <location filename="../mainwindow.cpp" line="412"/>
         <source>Import data</source>
         <translation>데이타 가져오기</translation>
     </message>
@@ -1527,7 +1536,7 @@
         <translation type="vanished">LDAP 게시하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="411"/>
+        <location filename="../mainwindow.cpp" line="424"/>
         <source>Publish LDAP</source>
         <translation>LDAP 게시하기</translation>
     </message>
@@ -1540,12 +1549,12 @@
         <translation type="vanished">LDAP 에서 가져오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="442"/>
+        <location filename="../mainwindow.cpp" line="461"/>
         <source>&amp;Help</source>
         <translation>도움(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="443"/>
+        <location filename="../mainwindow.cpp" line="462"/>
         <source>Help</source>
         <translation>도움</translation>
     </message>
@@ -1562,7 +1571,7 @@
         <translation type="vanished">서버 상태</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="474"/>
         <source>Server Status Information</source>
         <translation>서버 상태 정보</translation>
     </message>
@@ -1575,27 +1584,27 @@
         <translation type="vanished">CAMan 설정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="514"/>
+        <location filename="../mainwindow.cpp" line="536"/>
         <source>Ready</source>
         <translation>준비</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="572"/>
+        <location filename="../mainwindow.cpp" line="603"/>
         <source>Export Certificate</source>
         <translation>인증서 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="573"/>
+        <location filename="../mainwindow.cpp" line="604"/>
         <source>View Certificate</source>
         <translation>인증서 보기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="574"/>
+        <location filename="../mainwindow.cpp" line="605"/>
         <source>Delete Certificate</source>
         <translation>인증서 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="567"/>
+        <location filename="../mainwindow.cpp" line="593"/>
         <source>Revoke Certificate</source>
         <translation>인증서 폐기</translation>
     </message>
@@ -1604,62 +1613,62 @@
         <translation type="vanished">인증서 체크</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="561"/>
+        <location filename="../mainwindow.cpp" line="582"/>
         <source>Publish Certificate</source>
         <translation>인증서 배포하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="563"/>
+        <location filename="../mainwindow.cpp" line="589"/>
         <source>Status Certificate</source>
         <translation>인증서 상태</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="604"/>
+        <location filename="../mainwindow.cpp" line="639"/>
         <source>Export CRL</source>
         <translation>CRL 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="605"/>
+        <location filename="../mainwindow.cpp" line="640"/>
         <source>View CRL</source>
         <translation>CRL 보기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="606"/>
+        <location filename="../mainwindow.cpp" line="641"/>
         <source>Delete CRL</source>
         <translation>CRL 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="601"/>
+        <location filename="../mainwindow.cpp" line="632"/>
         <source>Publish CRL</source>
         <translation>CLR 배포하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="611"/>
+        <location filename="../mainwindow.cpp" line="646"/>
         <source>Export PrivateKey</source>
         <translation>개인 키 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="612"/>
+        <location filename="../mainwindow.cpp" line="647"/>
         <source>Export EncryptedPrivate</source>
         <translation>암호화된 개인키 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="613"/>
+        <location filename="../mainwindow.cpp" line="648"/>
         <source>Delete KeyPair</source>
         <translation>키 쌍 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="625"/>
+        <location filename="../mainwindow.cpp" line="660"/>
         <source>Export Request</source>
         <translation>요청서 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="626"/>
+        <location filename="../mainwindow.cpp" line="661"/>
         <source>Delete Request</source>
         <translation>요청서 삭제하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="635"/>
+        <location filename="../mainwindow.cpp" line="670"/>
         <source>Make Certificate</source>
         <translation>인증서 만들기</translation>
     </message>
@@ -1680,12 +1689,12 @@
         <translation type="vanished">CRL 정책 편집하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="668"/>
+        <location filename="../mainwindow.cpp" line="703"/>
         <source>Delete User</source>
         <translation>사용자 삭제하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="679"/>
+        <location filename="../mainwindow.cpp" line="714"/>
         <source>Delete Signer</source>
         <translation>서명자 삭제 하기</translation>
     </message>
@@ -1694,14 +1703,14 @@
         <translation type="vanished">새로운 CA DB 파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="871"/>
-        <location filename="../mainwindow.cpp" line="901"/>
-        <location filename="../mainwindow.cpp" line="995"/>
+        <location filename="../mainwindow.cpp" line="909"/>
+        <location filename="../mainwindow.cpp" line="939"/>
+        <location filename="../mainwindow.cpp" line="1036"/>
         <source>fail to open database</source>
         <translation>데이타 베이스 파일 열기 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="923"/>
+        <location filename="../mainwindow.cpp" line="963"/>
         <source>DB file is opened</source>
         <translation>데이타 베이스 파일을 열었습니다</translation>
     </message>
@@ -1710,29 +1719,29 @@
         <translation type="vanished">CA 데이타 베이스 파일 열기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3665"/>
+        <location filename="../mainwindow.cpp" line="3700"/>
         <source>fail to get certificate information</source>
         <translation>인증서 정보 가져오기에 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3674"/>
+        <location filename="../mainwindow.cpp" line="3709"/>
         <source>fail to get revoke information</source>
         <translation>폐기 정보 가져오기에 실패</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="128"/>
-        <location filename="../mainwindow.cpp" line="984"/>
-        <location filename="../mainwindow.cpp" line="1004"/>
+        <location filename="../mainwindow.cpp" line="1025"/>
+        <location filename="../mainwindow.cpp" line="1045"/>
         <source>Database has already opened</source>
         <translation>데이타 베이스 파일이 이미 열었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="826"/>
+        <location filename="../mainwindow.cpp" line="861"/>
         <source>Database has already openend</source>
         <translation>데이타 베이스 파일이 이미 열었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="286"/>
+        <location filename="../mainwindow.cpp" line="301"/>
         <source>Recent Files</source>
         <translation>최근 파일 들</translation>
     </message>
@@ -1741,17 +1750,17 @@
         <translation type="vanished">새로운 키 (&amp;K)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="317"/>
+        <location filename="../mainwindow.cpp" line="332"/>
         <source>Make&amp;Request</source>
         <translation>요청서 만들기(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="349"/>
         <source>Register&amp;User</source>
         <translation>사용자 등록(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="341"/>
+        <location filename="../mainwindow.cpp" line="356"/>
         <source>Register&amp;Signer</source>
         <translation>서명자 등록(&amp;S)</translation>
     </message>
@@ -1764,17 +1773,17 @@
         <translation type="vanished">CRL 정책 만들기(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="363"/>
+        <location filename="../mainwindow.cpp" line="378"/>
         <source>Make&amp;Certificate</source>
         <translation>인증서 만들기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="378"/>
+        <location filename="../mainwindow.cpp" line="393"/>
         <source>Revo&amp;keCert</source>
         <translation>인증서 폐기(&amp;K)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="409"/>
+        <location filename="../mainwindow.cpp" line="422"/>
         <source>&amp;PublishLDAP</source>
         <translation>LDAP 게시 (&amp;P)</translation>
     </message>
@@ -1783,12 +1792,12 @@
         <translation type="vanished">LDAP 가져오기 (&amp;G)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="434"/>
+        <location filename="../mainwindow.cpp" line="453"/>
         <source>&amp;TSP</source>
         <translation>타임스탬프(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="436"/>
+        <location filename="../mainwindow.cpp" line="455"/>
         <source>TimeStampProtocol Service</source>
         <translation>타임스탬프 서비스</translation>
     </message>
@@ -1797,170 +1806,170 @@
         <translation type="vanished">CAMan에 대해 (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
+        <location filename="../mainwindow.cpp" line="472"/>
         <source>ServerS&amp;tatus</source>
         <translation>서버 상태 (&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="462"/>
+        <location filename="../mainwindow.cpp" line="481"/>
         <source>&amp;Settings</source>
         <translation>설정(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="557"/>
+        <location filename="../mainwindow.cpp" line="579"/>
         <source>Export PFX</source>
         <translation>PFX 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="579"/>
+        <location filename="../mainwindow.cpp" line="610"/>
         <source>Check OCSP</source>
         <translation>OCSP 체크</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="583"/>
+        <location filename="../mainwindow.cpp" line="614"/>
         <source>UpdateCMP</source>
         <translation>CMP 갱신</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="584"/>
+        <location filename="../mainwindow.cpp" line="615"/>
         <source>RevokeCMP</source>
         <translation>CMP 폐기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="586"/>
+        <location filename="../mainwindow.cpp" line="617"/>
         <source>StatusByReg</source>
         <translation>REG에게 상태 얻기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="587"/>
+        <location filename="../mainwindow.cpp" line="618"/>
         <source>RevokeByReg</source>
         <translation>REG에게 폐기 요청</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="589"/>
+        <location filename="../mainwindow.cpp" line="620"/>
         <source>RenewSCEP</source>
         <translation>SCEP 갱신</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="641"/>
+        <location filename="../mainwindow.cpp" line="676"/>
         <source>Issue SCEP</source>
         <translation>SCEP 발급</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="659"/>
+        <location filename="../mainwindow.cpp" line="694"/>
         <source>Edit Admin</source>
         <translation>관리자 수정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="673"/>
+        <location filename="../mainwindow.cpp" line="708"/>
         <source>Issue CMP</source>
         <translation>CMP 발급</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="683"/>
+        <location filename="../mainwindow.cpp" line="718"/>
         <source>Activate Key</source>
         <translation>키 활성화</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="684"/>
+        <location filename="../mainwindow.cpp" line="719"/>
         <source>Delete Key</source>
         <translation>키 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="688"/>
+        <location filename="../mainwindow.cpp" line="723"/>
         <source>Verify Audit</source>
         <translation>감사로그 검증</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="692"/>
+        <location filename="../mainwindow.cpp" line="727"/>
         <source>View TSTInfo</source>
         <translation>TST 정보 보기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="693"/>
+        <location filename="../mainwindow.cpp" line="728"/>
         <source>VerifyTSMessage</source>
         <translation>타임스탬프 메세지 검증</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="722"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Manage</source>
         <translation>관리</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="785"/>
+        <location filename="../mainwindow.cpp" line="820"/>
         <source>Service</source>
         <translation>서비스</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2631"/>
+        <location filename="../mainwindow.cpp" line="2666"/>
         <source>Fail to activate key</source>
         <translation>키 활성 화 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2634"/>
+        <location filename="../mainwindow.cpp" line="2669"/>
         <source>success to activate key</source>
         <translation>키 활성화 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2687"/>
+        <location filename="../mainwindow.cpp" line="2722"/>
         <source>Fail to delete key</source>
         <translation>키 삭제 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2690"/>
+        <location filename="../mainwindow.cpp" line="2725"/>
         <source>success to delete key</source>
         <translation>키 삭제 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2717"/>
-        <location filename="../mainwindow.cpp" line="2800"/>
-        <location filename="../mainwindow.cpp" line="2882"/>
+        <location filename="../mainwindow.cpp" line="2752"/>
+        <location filename="../mainwindow.cpp" line="2835"/>
+        <location filename="../mainwindow.cpp" line="2917"/>
         <source>CMPServer is not set</source>
         <translation>CMP 서버가 설정이 안되었습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2763"/>
+        <location filename="../mainwindow.cpp" line="2798"/>
         <source>CMP Issue OK</source>
         <translation>CMP 발급 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2767"/>
+        <location filename="../mainwindow.cpp" line="2802"/>
         <source>CMP Issue Fail</source>
         <translation>CMP 발급 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2810"/>
-        <location filename="../mainwindow.cpp" line="2893"/>
+        <location filename="../mainwindow.cpp" line="2845"/>
+        <location filename="../mainwindow.cpp" line="2928"/>
         <source>KeyPair information is not set</source>
         <translation>키 쌍 정보가 설정 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2847"/>
+        <location filename="../mainwindow.cpp" line="2882"/>
         <source>CMP Update OK</source>
         <translation>CMP 갱신 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2852"/>
+        <location filename="../mainwindow.cpp" line="2887"/>
         <source>CMP Update Fail</source>
         <translation>CMP 갱신 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2912"/>
+        <location filename="../mainwindow.cpp" line="2947"/>
         <source>CMP Revoke OK</source>
         <translation>CMP 폐기 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2917"/>
+        <location filename="../mainwindow.cpp" line="2952"/>
         <source>CMP Revoke Fail</source>
         <translation>CMP 폐기 실패</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2943"/>
+        <location filename="../mainwindow.cpp" line="2978"/>
         <source>MAC Verify OK</source>
         <translation>MAC 검증 성공</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2945"/>
+        <location filename="../mainwindow.cpp" line="2980"/>
         <source>MAC is not valid</source>
         <translation>MAC 값이 잘못 되었습니다</translation>
     </message>
@@ -1969,7 +1978,7 @@
         <translation type="vanished">구현 되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3706"/>
+        <location filename="../mainwindow.cpp" line="3741"/>
         <source>OCSP settinsg is not set</source>
         <translation>OCSP 가 설정 되지 않았습니다</translation>
     </message>
@@ -1978,7 +1987,7 @@
         <translation type="vanished">요청서 만들기 실패 하였습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3770"/>
+        <location filename="../mainwindow.cpp" line="3805"/>
         <source>fail to request</source>
         <translation>요청 하기 실패</translation>
     </message>
@@ -1987,18 +1996,18 @@
         <translation type="vanished">응답을 열기 실패 하였습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3859"/>
-        <location filename="../mainwindow.cpp" line="3913"/>
+        <location filename="../mainwindow.cpp" line="3894"/>
+        <location filename="../mainwindow.cpp" line="3948"/>
         <source>REGServer is not set</source>
         <translation>REG 서버가 설정 되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3943"/>
+        <location filename="../mainwindow.cpp" line="3978"/>
         <source>Revoke is success</source>
         <translation>폐기에 성공 하였습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="371"/>
+        <location filename="../mainwindow.cpp" line="386"/>
         <source>MakeCR&amp;L</source>
         <translation>CRL 만들기 (&amp;L)</translation>
     </message>
@@ -2007,118 +2016,118 @@
         <translation type="vanished">CRL 정책 만들기 (&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="590"/>
+        <location filename="../mainwindow.cpp" line="621"/>
         <source>getCRLSCEP</source>
         <translation>SCEP CRL 가져오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3204"/>
-        <location filename="../mainwindow.cpp" line="3401"/>
+        <location filename="../mainwindow.cpp" line="3239"/>
+        <location filename="../mainwindow.cpp" line="3436"/>
         <source>The certificate has not keypair in this tool</source>
         <translation>키 쌍이 저장 되어 있어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3215"/>
+        <location filename="../mainwindow.cpp" line="3250"/>
         <source>fail to decode certificate</source>
         <translation>인증서 디코딩에 실패하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3233"/>
+        <location filename="../mainwindow.cpp" line="3268"/>
         <source>fail to generate keypair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3242"/>
+        <location filename="../mainwindow.cpp" line="3277"/>
         <source>fail to make csr</source>
         <translation>CSR 만들기에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
-        <location filename="../mainwindow.cpp" line="4159"/>
-        <location filename="../mainwindow.cpp" line="4236"/>
-        <location filename="../mainwindow.cpp" line="4308"/>
-        <location filename="../mainwindow.cpp" line="4433"/>
-        <location filename="../mainwindow.cpp" line="4506"/>
-        <location filename="../mainwindow.cpp" line="4573"/>
-        <location filename="../mainwindow.cpp" line="4708"/>
-        <location filename="../mainwindow.cpp" line="4807"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
+        <location filename="../mainwindow.cpp" line="4271"/>
+        <location filename="../mainwindow.cpp" line="4343"/>
+        <location filename="../mainwindow.cpp" line="4468"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
+        <location filename="../mainwindow.cpp" line="4608"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
+        <location filename="../mainwindow.cpp" line="4842"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
-        <location filename="../mainwindow.cpp" line="4099"/>
-        <location filename="../mainwindow.cpp" line="4308"/>
-        <location filename="../mainwindow.cpp" line="4433"/>
-        <location filename="../mainwindow.cpp" line="4573"/>
-        <location filename="../mainwindow.cpp" line="4642"/>
-        <location filename="../mainwindow.cpp" line="4708"/>
-        <location filename="../mainwindow.cpp" line="4860"/>
-        <location filename="../mainwindow.cpp" line="4932"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4134"/>
+        <location filename="../mainwindow.cpp" line="4343"/>
+        <location filename="../mainwindow.cpp" line="4468"/>
+        <location filename="../mainwindow.cpp" line="4608"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
         <source>RegTime</source>
         <translation>등록시간</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
-        <location filename="../mainwindow.cpp" line="4308"/>
-        <location filename="../mainwindow.cpp" line="4642"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4343"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
-        <location filename="../mainwindow.cpp" line="4099"/>
-        <location filename="../mainwindow.cpp" line="4159"/>
-        <location filename="../mainwindow.cpp" line="4236"/>
-        <location filename="../mainwindow.cpp" line="4573"/>
-        <location filename="../mainwindow.cpp" line="4761"/>
-        <location filename="../mainwindow.cpp" line="4807"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4134"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
+        <location filename="../mainwindow.cpp" line="4271"/>
+        <location filename="../mainwindow.cpp" line="4608"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
+        <location filename="../mainwindow.cpp" line="4842"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
         <source>Param</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4022"/>
-        <location filename="../mainwindow.cpp" line="4099"/>
-        <location filename="../mainwindow.cpp" line="4573"/>
-        <location filename="../mainwindow.cpp" line="4642"/>
-        <location filename="../mainwindow.cpp" line="4708"/>
-        <location filename="../mainwindow.cpp" line="4761"/>
+        <location filename="../mainwindow.cpp" line="4057"/>
+        <location filename="../mainwindow.cpp" line="4134"/>
+        <location filename="../mainwindow.cpp" line="4608"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
         <source>Status</source>
         <translation>상태</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4099"/>
-        <location filename="../mainwindow.cpp" line="4642"/>
-        <location filename="../mainwindow.cpp" line="4761"/>
-        <location filename="../mainwindow.cpp" line="4860"/>
-        <location filename="../mainwindow.cpp" line="4932"/>
+        <location filename="../mainwindow.cpp" line="4134"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
         <source>Seq</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4308"/>
+        <location filename="../mainwindow.cpp" line="4343"/>
         <source>Key</source>
         <translation>키</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4159"/>
-        <location filename="../mainwindow.cpp" line="4236"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
+        <location filename="../mainwindow.cpp" line="4271"/>
         <source>Hash</source>
         <translation>해쉬</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4099"/>
-        <location filename="../mainwindow.cpp" line="4708"/>
+        <location filename="../mainwindow.cpp" line="4134"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
         <source>DN</source>
         <translation>DN</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4159"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
@@ -2127,7 +2136,7 @@
         <translation type="vanished">유효기간(시작)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4159"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
         <source>NotAfter</source>
         <translation>유효기간(끝)</translation>
     </message>
@@ -2140,49 +2149,49 @@
         <translation type="vanished">최근 업데이트</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4236"/>
+        <location filename="../mainwindow.cpp" line="4271"/>
         <source>NextUpdate</source>
         <translation>다음 업데이트</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="748"/>
+        <location filename="../mainwindow.cpp" line="783"/>
         <source>User</source>
         <translation>사용자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4433"/>
+        <location filename="../mainwindow.cpp" line="4468"/>
         <source>SignAlg</source>
         <translation>서명알고리즘</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4433"/>
+        <location filename="../mainwindow.cpp" line="4468"/>
         <source>Issuer</source>
         <translation>발급자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4308"/>
+        <location filename="../mainwindow.cpp" line="4343"/>
         <source>SubjectDN</source>
         <translation>주체자 DN</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4433"/>
-        <location filename="../mainwindow.cpp" line="4506"/>
+        <location filename="../mainwindow.cpp" line="4468"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
         <source>CRLDP</source>
         <translation>CRLDP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4506"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
         <source>Cert</source>
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4506"/>
-        <location filename="../mainwindow.cpp" line="4932"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
         <source>Serial</source>
         <translation>일련번호</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4506"/>
+        <location filename="../mainwindow.cpp" line="4541"/>
         <source>RevokeDate</source>
         <translation>폐기날짜</translation>
     </message>
@@ -2195,52 +2204,52 @@
         <translation type="vanished">SSN</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4573"/>
-        <location filename="../mainwindow.cpp" line="4761"/>
+        <location filename="../mainwindow.cpp" line="4608"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
         <source>Email</source>
         <translation>이메일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4642"/>
-        <location filename="../mainwindow.cpp" line="4708"/>
-        <location filename="../mainwindow.cpp" line="4761"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
         <source>Type</source>
         <translation>타입</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4642"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4642"/>
-        <location filename="../mainwindow.cpp" line="4860"/>
+        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
         <source>Info</source>
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4708"/>
+        <location filename="../mainwindow.cpp" line="4743"/>
         <source>DNHash</source>
         <translation>DN해쉬</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4761"/>
+        <location filename="../mainwindow.cpp" line="4796"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4807"/>
-        <location filename="../mainwindow.cpp" line="4860"/>
+        <location filename="../mainwindow.cpp" line="4842"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
         <source>Kind</source>
         <translation>종류</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4860"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
         <source>Operation</source>
         <translation>기능</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4860"/>
+        <location filename="../mainwindow.cpp" line="4895"/>
         <source>UserName</source>
         <translation>사용자 이름</translation>
     </message>
@@ -2249,490 +2258,494 @@
         <translation type="vanished">MAC</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4932"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
         <source>SrcHash</source>
         <translation>소스해쉬</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4932"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
         <source>Policy</source>
         <translation>정책</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="349"/>
+        <location filename="../mainwindow.cpp" line="364"/>
         <source>MakeCert&amp;Profile</source>
         <translation>인증서 프로파일 만들기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="350"/>
+        <location filename="../mainwindow.cpp" line="365"/>
         <source>Make certificate profile</source>
         <translation>인증서 프로파일 만들기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="356"/>
+        <location filename="../mainwindow.cpp" line="371"/>
         <source>MakeC&amp;RLProfile</source>
         <translation>CRL 프로파일 만들기(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="360"/>
+        <location filename="../mainwindow.cpp" line="375"/>
         <source>Make CRL Profile</source>
         <translation>CRL 프로파일 만들기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="647"/>
+        <location filename="../mainwindow.cpp" line="682"/>
         <source>Delete CertProfile</source>
         <translation>인증서 프로파일 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="648"/>
+        <location filename="../mainwindow.cpp" line="683"/>
         <source>Edit CertProfile</source>
         <translation>인증서 프로파일 편집</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="653"/>
+        <location filename="../mainwindow.cpp" line="688"/>
         <source>Delete CRLProfile</source>
         <translation>CRL 프로파일 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="654"/>
+        <location filename="../mainwindow.cpp" line="689"/>
         <source>Edit CRLProfile</source>
         <translation>CRL 프로파일 편집</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="851"/>
+        <location filename="../mainwindow.cpp" line="889"/>
         <source>Save As ...</source>
         <translation>다른 이름으로 저장</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1058"/>
-        <location filename="../mainwindow.cpp" line="1070"/>
-        <location filename="../mainwindow.cpp" line="1091"/>
-        <location filename="../mainwindow.cpp" line="1113"/>
-        <location filename="../mainwindow.cpp" line="1125"/>
-        <location filename="../mainwindow.cpp" line="1138"/>
-        <location filename="../mainwindow.cpp" line="1157"/>
-        <location filename="../mainwindow.cpp" line="1175"/>
-        <location filename="../mainwindow.cpp" line="1193"/>
-        <location filename="../mainwindow.cpp" line="1211"/>
-        <location filename="../mainwindow.cpp" line="1256"/>
-        <location filename="../mainwindow.cpp" line="1287"/>
-        <location filename="../mainwindow.cpp" line="1308"/>
-        <location filename="../mainwindow.cpp" line="1337"/>
-        <location filename="../mainwindow.cpp" line="1349"/>
-        <location filename="../mainwindow.cpp" line="1362"/>
-        <location filename="../mainwindow.cpp" line="1375"/>
-        <location filename="../mainwindow.cpp" line="1387"/>
+        <location filename="../mainwindow.cpp" line="1099"/>
+        <location filename="../mainwindow.cpp" line="1111"/>
+        <location filename="../mainwindow.cpp" line="1134"/>
+        <location filename="../mainwindow.cpp" line="1156"/>
+        <location filename="../mainwindow.cpp" line="1168"/>
+        <location filename="../mainwindow.cpp" line="1181"/>
+        <location filename="../mainwindow.cpp" line="1200"/>
+        <location filename="../mainwindow.cpp" line="1218"/>
+        <location filename="../mainwindow.cpp" line="1236"/>
+        <location filename="../mainwindow.cpp" line="1254"/>
+        <location filename="../mainwindow.cpp" line="1299"/>
+        <location filename="../mainwindow.cpp" line="1330"/>
+        <location filename="../mainwindow.cpp" line="1351"/>
+        <location filename="../mainwindow.cpp" line="1380"/>
+        <location filename="../mainwindow.cpp" line="1392"/>
         <location filename="../mainwindow.cpp" line="1405"/>
-        <location filename="../mainwindow.cpp" line="1429"/>
+        <location filename="../mainwindow.cpp" line="1418"/>
+        <location filename="../mainwindow.cpp" line="1430"/>
         <location filename="../mainwindow.cpp" line="1448"/>
-        <location filename="../mainwindow.cpp" line="1471"/>
-        <location filename="../mainwindow.cpp" line="1515"/>
-        <location filename="../mainwindow.cpp" line="1548"/>
-        <location filename="../mainwindow.cpp" line="1567"/>
-        <location filename="../mainwindow.cpp" line="1580"/>
-        <location filename="../mainwindow.cpp" line="1593"/>
-        <location filename="../mainwindow.cpp" line="1606"/>
-        <location filename="../mainwindow.cpp" line="1619"/>
-        <location filename="../mainwindow.cpp" line="1632"/>
-        <location filename="../mainwindow.cpp" line="1645"/>
-        <location filename="../mainwindow.cpp" line="1683"/>
-        <location filename="../mainwindow.cpp" line="1721"/>
-        <location filename="../mainwindow.cpp" line="1741"/>
-        <location filename="../mainwindow.cpp" line="1761"/>
-        <location filename="../mainwindow.cpp" line="1781"/>
-        <location filename="../mainwindow.cpp" line="1801"/>
-        <location filename="../mainwindow.cpp" line="2086"/>
-        <location filename="../mainwindow.cpp" line="2116"/>
-        <location filename="../mainwindow.cpp" line="2146"/>
-        <location filename="../mainwindow.cpp" line="2171"/>
-        <location filename="../mainwindow.cpp" line="2198"/>
-        <location filename="../mainwindow.cpp" line="2255"/>
-        <location filename="../mainwindow.cpp" line="2280"/>
-        <location filename="../mainwindow.cpp" line="2313"/>
-        <location filename="../mainwindow.cpp" line="2334"/>
-        <location filename="../mainwindow.cpp" line="2359"/>
-        <location filename="../mainwindow.cpp" line="2386"/>
-        <location filename="../mainwindow.cpp" line="2398"/>
+        <location filename="../mainwindow.cpp" line="1472"/>
+        <location filename="../mainwindow.cpp" line="1491"/>
+        <location filename="../mainwindow.cpp" line="1514"/>
+        <location filename="../mainwindow.cpp" line="1558"/>
+        <location filename="../mainwindow.cpp" line="1591"/>
+        <location filename="../mainwindow.cpp" line="1610"/>
+        <location filename="../mainwindow.cpp" line="1623"/>
+        <location filename="../mainwindow.cpp" line="1636"/>
+        <location filename="../mainwindow.cpp" line="1649"/>
+        <location filename="../mainwindow.cpp" line="1662"/>
+        <location filename="../mainwindow.cpp" line="1675"/>
+        <location filename="../mainwindow.cpp" line="1688"/>
+        <location filename="../mainwindow.cpp" line="1726"/>
+        <location filename="../mainwindow.cpp" line="1764"/>
+        <location filename="../mainwindow.cpp" line="1784"/>
+        <location filename="../mainwindow.cpp" line="1804"/>
+        <location filename="../mainwindow.cpp" line="1824"/>
+        <location filename="../mainwindow.cpp" line="1844"/>
+        <location filename="../mainwindow.cpp" line="2129"/>
+        <location filename="../mainwindow.cpp" line="2159"/>
+        <location filename="../mainwindow.cpp" line="2189"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
+        <location filename="../mainwindow.cpp" line="2241"/>
+        <location filename="../mainwindow.cpp" line="2298"/>
+        <location filename="../mainwindow.cpp" line="2323"/>
+        <location filename="../mainwindow.cpp" line="2356"/>
+        <location filename="../mainwindow.cpp" line="2377"/>
+        <location filename="../mainwindow.cpp" line="2402"/>
+        <location filename="../mainwindow.cpp" line="2429"/>
+        <location filename="../mainwindow.cpp" line="2441"/>
         <source>You have to open database</source>
         <translation>데이타 베이스를 열어야 합니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="297"/>
+        <location filename="../mainwindow.cpp" line="312"/>
         <source>Quit CertMan</source>
         <translation>CertMan 끝내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="464"/>
+        <location filename="../mainwindow.cpp" line="483"/>
         <source>Settings CertMan</source>
         <translation>CertMan 설정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="504"/>
+        <location filename="../mainwindow.cpp" line="526"/>
         <source>&amp;About CertMan</source>
         <translation>CertMan에 대해(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="508"/>
+        <location filename="../mainwindow.cpp" line="530"/>
         <source>About CertMan</source>
         <translation>CertMan에 대해</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2150"/>
+        <location filename="../mainwindow.cpp" line="2193"/>
         <source>Are you sure to delete this certificate profile?</source>
         <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2175"/>
+        <location filename="../mainwindow.cpp" line="2218"/>
         <source>Are you sure to delete this CRL profile?</source>
         <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2202"/>
+        <location filename="../mainwindow.cpp" line="2245"/>
         <source>Are you sure to delete this certificate?</source>
         <translation>이 인증서를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2259"/>
+        <location filename="../mainwindow.cpp" line="2302"/>
         <source>Are you sure to delete this CRL?</source>
         <translation>이 CRL을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2284"/>
+        <location filename="../mainwindow.cpp" line="2327"/>
         <source>Are you sure to delete this key pair?</source>
         <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2317"/>
+        <location filename="../mainwindow.cpp" line="2360"/>
         <source>Are you sure to delete this request?</source>
         <translation>이 요청서를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2338"/>
+        <location filename="../mainwindow.cpp" line="2381"/>
         <source>Are you sure to delete this user?</source>
         <translation>이 사용자를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2363"/>
+        <location filename="../mainwindow.cpp" line="2406"/>
         <source>Are you sure to delete this signer?</source>
         <translation>이 서명자를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="326"/>
+        <location filename="../mainwindow.cpp" line="341"/>
         <source>Make Config</source>
         <translation>설정 만들기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="327"/>
+        <location filename="../mainwindow.cpp" line="342"/>
         <source>Make Configuration</source>
         <translation>설정 하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="598"/>
+        <location filename="../mainwindow.cpp" line="629"/>
         <source>Verify CRL</source>
         <translation>CRL 검증</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="649"/>
+        <location filename="../mainwindow.cpp" line="684"/>
         <source>Copy CertProfile</source>
         <translation>인증서 프로파일 복사</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="655"/>
+        <location filename="../mainwindow.cpp" line="690"/>
         <source>Copy CRLProfile</source>
         <translation>CRL 프로파일 복사</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="663"/>
+        <location filename="../mainwindow.cpp" line="698"/>
         <source>Edit Config</source>
         <translation>설정 편집</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="664"/>
+        <location filename="../mainwindow.cpp" line="699"/>
         <source>Delete Config</source>
         <translation>설정 삭제</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1409"/>
+        <location filename="../mainwindow.cpp" line="1452"/>
         <source>Are you sure to delete this config?</source>
         <translation>정말로 이 설정을 지우겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1487"/>
+        <location filename="../mainwindow.cpp" line="1530"/>
         <source>There is no ca certificate</source>
         <translation>해당 인증서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2727"/>
+        <location filename="../mainwindow.cpp" line="2762"/>
         <source>AuthNum is empty</source>
         <translation>인증번호가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3757"/>
+        <location filename="../mainwindow.cpp" line="3792"/>
         <source>fail to encode request: %1</source>
         <translation>요청 인코딩 실패: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3778"/>
+        <location filename="../mainwindow.cpp" line="3813"/>
         <source>fail to decode respose:%1</source>
         <translation>응답 디코딩 실패: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3846"/>
-        <location filename="../mainwindow.cpp" line="3924"/>
+        <location filename="../mainwindow.cpp" line="3881"/>
+        <location filename="../mainwindow.cpp" line="3959"/>
         <source>There is no user</source>
         <translation>사용자가 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4807"/>
+        <location filename="../mainwindow.cpp" line="4842"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="706"/>
+        <location filename="../mainwindow.cpp" line="741"/>
         <source>CertMan</source>
         <translation>인증서 관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="710"/>
+        <location filename="../mainwindow.cpp" line="214"/>
+        <source>Log</source>
+        <translation>로그</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="745"/>
         <source>KeyPair</source>
         <translation>키 쌍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="715"/>
+        <location filename="../mainwindow.cpp" line="750"/>
         <source>Request</source>
         <translation>요청서</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="726"/>
+        <location filename="../mainwindow.cpp" line="761"/>
         <source>Admin</source>
         <translation>관리자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="731"/>
+        <location filename="../mainwindow.cpp" line="766"/>
         <source>Config</source>
         <translation>설정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="736"/>
+        <location filename="../mainwindow.cpp" line="771"/>
         <source>REGSigner</source>
         <translation>REG 서명자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="741"/>
+        <location filename="../mainwindow.cpp" line="776"/>
         <source>OCSPSigner</source>
         <translation>OCSP 서명자</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="755"/>
+        <location filename="../mainwindow.cpp" line="790"/>
         <source>CertProfile</source>
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="760"/>
+        <location filename="../mainwindow.cpp" line="795"/>
         <source>CRLProfile</source>
         <translation>CRL 프로파일</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="765"/>
+        <location filename="../mainwindow.cpp" line="800"/>
         <source>RootCA</source>
         <translation>최상위 인증기관</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="773"/>
+        <location filename="../mainwindow.cpp" line="808"/>
         <source>Import Cert</source>
         <translation>가져온 인증서</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="778"/>
+        <location filename="../mainwindow.cpp" line="813"/>
         <source>Import CRL</source>
         <translation>가져온 CRL</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="789"/>
+        <location filename="../mainwindow.cpp" line="824"/>
         <source>KMS</source>
         <translation>키 관리 시스템</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="829"/>
         <source>TSP</source>
         <translation>타임스탬프</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="801"/>
+        <location filename="../mainwindow.cpp" line="836"/>
         <source>Statistics</source>
         <translation>통계</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="806"/>
+        <location filename="../mainwindow.cpp" line="841"/>
         <source>Audit</source>
         <translation>감사 로그</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3554"/>
-        <location filename="../mainwindow.cpp" line="3619"/>
+        <location filename="../mainwindow.cpp" line="3589"/>
+        <location filename="../mainwindow.cpp" line="3654"/>
         <source>Certificate</source>
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3560"/>
-        <location filename="../mainwindow.cpp" line="3625"/>
+        <location filename="../mainwindow.cpp" line="3595"/>
+        <location filename="../mainwindow.cpp" line="3660"/>
         <source>CRL</source>
         <translation>인증서 폐기 목록</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3566"/>
-        <location filename="../mainwindow.cpp" line="3631"/>
+        <location filename="../mainwindow.cpp" line="3601"/>
+        <location filename="../mainwindow.cpp" line="3666"/>
         <source>Revoke</source>
         <translation>폐기 인증서</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3572"/>
-        <location filename="../mainwindow.cpp" line="3637"/>
+        <location filename="../mainwindow.cpp" line="3607"/>
+        <location filename="../mainwindow.cpp" line="3672"/>
         <source>CA</source>
         <translation>인증 기관</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="206"/>
+        <location filename="../mainwindow.cpp" line="213"/>
         <source>Information</source>
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="471"/>
+        <location filename="../mainwindow.cpp" line="488"/>
         <source>&amp;Clear Log</source>
         <translation>로그 지우기(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="473"/>
+        <location filename="../mainwindow.cpp" line="490"/>
         <source>clear information and log</source>
         <translation>정보 및 로그 지우기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2426"/>
         <source>log</source>
-        <translation>로그</translation>
+        <translation type="vanished">로그</translation>
     </message>
     <message>
         <source>Password is wrong</source>
         <translation type="vanished">암호가 틀렸습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2222"/>
+        <location filename="../mainwindow.cpp" line="2265"/>
         <source>The cert have certificates or crls to be issued</source>
         <translation>해당 인증서는 발급한 인증서 또는 CRL이 있습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2299"/>
+        <location filename="../mainwindow.cpp" line="2342"/>
         <source>The KeyNum(%1) has already used in Req or Cert</source>
         <translation>키 번호(%1) 은 요청서 또는 인증서에서 이미 사용 되고 있습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="614"/>
+        <location filename="../mainwindow.cpp" line="649"/>
         <source>View PrivateKey</source>
         <translation>개인키 보기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="595"/>
         <source>Renew Certificate</source>
         <translation>인증서 갱신</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1529"/>
+        <location filename="../mainwindow.cpp" line="1572"/>
         <source>can not view PKCS11 private key:%1</source>
         <translation>PKCS11 개인키는 볼수 없습니다:%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1535"/>
+        <location filename="../mainwindow.cpp" line="1578"/>
         <source>can not view KMIP private key:%1</source>
         <translation>KMIP 공개키는 볼수 없습니다:%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="610"/>
+        <location filename="../mainwindow.cpp" line="645"/>
         <source>Export PublicKey</source>
         <translation>공개키 내보내기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1663"/>
-        <location filename="../mainwindow.cpp" line="1701"/>
-        <location filename="../mainwindow.cpp" line="1822"/>
+        <location filename="../mainwindow.cpp" line="1706"/>
+        <location filename="../mainwindow.cpp" line="1744"/>
+        <location filename="../mainwindow.cpp" line="1865"/>
         <source>can not read PKCS11 private key:%1</source>
         <translation>PKCS11 개인키는 읽을 수 없습니다:%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1669"/>
-        <location filename="../mainwindow.cpp" line="1707"/>
-        <location filename="../mainwindow.cpp" line="1828"/>
+        <location filename="../mainwindow.cpp" line="1712"/>
+        <location filename="../mainwindow.cpp" line="1750"/>
+        <location filename="../mainwindow.cpp" line="1871"/>
         <source>can not read KMIP private key:%1</source>
         <translation>KMIP 개인키는 읽을 수 없습니다:%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="627"/>
+        <location filename="../mainwindow.cpp" line="662"/>
         <source>Import CSR</source>
         <translation>CSR 가져오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="628"/>
+        <location filename="../mainwindow.cpp" line="663"/>
         <source>View CSR</source>
         <translation>CSR 보기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4159"/>
+        <location filename="../mainwindow.cpp" line="4194"/>
         <source>NotBefore</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="262"/>
+        <location filename="../mainwindow.cpp" line="277"/>
         <source>&amp;Remote Database</source>
         <translation>원격 데이타베이스(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="263"/>
+        <location filename="../mainwindow.cpp" line="278"/>
         <source>Connect Remote Database</source>
         <translation>원격 데이타베이스 연결</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="269"/>
+        <location filename="../mainwindow.cpp" line="284"/>
         <source>&amp;Logout</source>
         <translation>로그아웃(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="271"/>
+        <location filename="../mainwindow.cpp" line="286"/>
         <source>Logout current db</source>
         <translation>현재 데이타 베이스를 로그아웃</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="416"/>
+        <location filename="../mainwindow.cpp" line="429"/>
         <source>&amp;SetPasswd</source>
         <translation>패스워드 설정(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="418"/>
+        <location filename="../mainwindow.cpp" line="431"/>
         <source>Set PrivateKey Password</source>
         <translation>개인키 패스워드 설정</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1028"/>
+        <location filename="../mainwindow.cpp" line="1069"/>
         <source>DB is not connected</source>
         <translation>데이타 베이스가 연결 되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1039"/>
+        <location filename="../mainwindow.cpp" line="1080"/>
         <source>Database is closed</source>
         <translation>데이타베이스가 종료되었습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1844"/>
-        <location filename="../mainwindow.cpp" line="1962"/>
+        <location filename="../mainwindow.cpp" line="1887"/>
+        <location filename="../mainwindow.cpp" line="2005"/>
         <source>Database is not opened</source>
         <translation>데이타베이스가 열려 있지 않습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1850"/>
+        <location filename="../mainwindow.cpp" line="1893"/>
         <source>The PrivateKeys are already encrypted.</source>
         <translation>개인키가 암호화 설정이 이미 되었습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1856"/>
-        <location filename="../mainwindow.cpp" line="1974"/>
+        <location filename="../mainwindow.cpp" line="1899"/>
+        <location filename="../mainwindow.cpp" line="2017"/>
         <source>There is no license</source>
         <translation>라이센스가 없습니다</translation>
     </message>
@@ -2741,28 +2754,28 @@
         <translation type="vanished">키 쌍 정보가 없어야 합니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="494"/>
-        <location filename="../mainwindow.cpp" line="497"/>
+        <location filename="../mainwindow.cpp" line="516"/>
+        <location filename="../mainwindow.cpp" line="519"/>
         <source>Bug or Issue Report</source>
         <translation>버그 또는 이슈 보고</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="521"/>
         <source>Q and A</source>
         <translation>문의하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="502"/>
+        <location filename="../mainwindow.cpp" line="524"/>
         <source>Question and Answer</source>
         <translation>질문과 답변하기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1220"/>
+        <location filename="../mainwindow.cpp" line="1263"/>
         <source>There is no certificate profile</source>
         <translation>인증서 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1265"/>
+        <location filename="../mainwindow.cpp" line="1308"/>
         <source>There is no CRL profile</source>
         <translation>CRL 프로파일이 없습니다</translation>
     </message>
@@ -2771,103 +2784,102 @@
         <translation type="vanished">요청서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1315"/>
+        <location filename="../mainwindow.cpp" line="1358"/>
         <source>There is no certificate to be selected</source>
         <translation>선택 된 인증서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1321"/>
+        <location filename="../mainwindow.cpp" line="1364"/>
         <source>You have to select certificate</source>
         <translation>인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2093"/>
+        <location filename="../mainwindow.cpp" line="2136"/>
         <source>A item is not selected</source>
         <translation>아이템이 선택 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2099"/>
+        <location filename="../mainwindow.cpp" line="2142"/>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="487"/>
-        <location filename="../mainwindow.cpp" line="490"/>
+        <location filename="../mainwindow.cpp" line="509"/>
+        <location filename="../mainwindow.cpp" line="512"/>
         <source>License Information</source>
         <translation>라이선스 정보</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3591"/>
+        <location filename="../mainwindow.cpp" line="3626"/>
         <source>You have changed license. Restart to apply it?</source>
         <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1079"/>
         <source>There is no valid key pair</source>
-        <translation>유효한 키 쌍이 없습니다</translation>
+        <translation type="vanished">유효한 키 쌍이 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4236"/>
+        <location filename="../mainwindow.cpp" line="4271"/>
         <source>ThisUpdate</source>
         <translation>이번 업데이트</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1032"/>
+        <location filename="../mainwindow.cpp" line="1073"/>
         <source>Are you sure to close database?</source>
         <translation>정말 데이타베이스를 닫겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="400"/>
+        <location filename="../mainwindow.cpp" line="415"/>
         <source>&amp;GetURI</source>
         <translation>URI 가져오기(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="402"/>
+        <location filename="../mainwindow.cpp" line="417"/>
         <source>Get URI</source>
         <translation>URI 가져오기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="423"/>
+        <location filename="../mainwindow.cpp" line="436"/>
         <source>&amp;ChangePasswd</source>
         <translation>패스워드 변경(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="425"/>
+        <location filename="../mainwindow.cpp" line="438"/>
         <source>Change PrivateKey Password</source>
         <translation>개인키 패스워드 변경</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1950"/>
+        <location filename="../mainwindow.cpp" line="1993"/>
         <source>Set Password successfully</source>
         <translation>패스워드 설정에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1968"/>
+        <location filename="../mainwindow.cpp" line="2011"/>
         <source>The PrivateKeys are not encrypted.</source>
         <translation>개인키들이 암호화 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1981"/>
+        <location filename="../mainwindow.cpp" line="2024"/>
         <source>fail to login</source>
         <translation>로그인에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1992"/>
+        <location filename="../mainwindow.cpp" line="2035"/>
         <source>fail to set new password</source>
         <translation>새로운 패스워드 설정에 실패하였습니다.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2078"/>
+        <location filename="../mainwindow.cpp" line="2121"/>
         <source>Change Password successfully</source>
         <translation>패스워드 변경에 성공 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="478"/>
+        <location filename="../mainwindow.cpp" line="495"/>
         <source>&amp;Log Halt</source>
         <translation>로그 중지(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="481"/>
+        <location filename="../mainwindow.cpp" line="498"/>
         <source>Log Halt</source>
         <translation>로그 중지</translation>
     </message>
@@ -2987,9 +2999,8 @@
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="108"/>
         <source>You can not make CRL more than %1 CRLs in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 CRL을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CRL을 만들 수 없습니다.</translation>
     </message>
     <message>
         <location filename="../make_crl_dlg.cpp" line="471"/>
@@ -3433,17 +3444,17 @@
         <translation>CA 인증서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="359"/>
+        <location filename="../make_cert_dlg.cpp" line="361"/>
         <source>Request is not verified</source>
         <translation>요청서 검증에 실패 하였습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="674"/>
+        <location filename="../make_cert_dlg.cpp" line="678"/>
         <source>fail to make certificate(%1)</source>
         <translation>인증서(%1) 만들기 실패</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="682"/>
+        <location filename="../make_cert_dlg.cpp" line="686"/>
         <source>fail to get certificate information(%1)</source>
         <translation>인증서 정보(%1) 가져오기 실패</translation>
     </message>
@@ -3474,12 +3485,12 @@
         <translation>인증서 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="374"/>
+        <location filename="../make_cert_dlg.cpp" line="376"/>
         <source>In case of using csr file, You can not make selfsign certificate.</source>
         <translation>CSR파일 사용 시 셀프 사인 인증서를 만들 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="822"/>
+        <location filename="../make_cert_dlg.cpp" line="826"/>
         <source>can not check selfsign when use csr file</source>
         <translation>CSR 파일 사용 시 SelfSign 옵션을 사용 할 수 없습니다</translation>
     </message>
@@ -3512,12 +3523,12 @@
         <translation>발급자 인증서 정보</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="391"/>
+        <location filename="../make_cert_dlg.cpp" line="393"/>
         <source>The CA certificate is revoked. continue?</source>
         <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="425"/>
+        <location filename="../make_cert_dlg.cpp" line="427"/>
         <source>Profile Hash(%1) has to be SM3. Are you change certificate hash as SM3?</source>
         <translation>프로파일 해쉬(%1)가 SM3이어야 합니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
     </message>
@@ -3526,32 +3537,29 @@
         <translation type="vanished">SM3 해시는 사용 할 수 없습니다(%1)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="442"/>
+        <location filename="../make_cert_dlg.cpp" line="444"/>
         <source>Profile SM3 hash can not be used (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="256"/>
         <source>You can not make certificate more than %1 certificates in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="300"/>
         <source>You can not make more than %1 selfsign certificate in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="606"/>
         <source>You can not make more than %1 CA certificates in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="772"/>
+        <location filename="../make_cert_dlg.cpp" line="776"/>
         <source>fail to make certificate</source>
         <translation>인증서 만들기에 실패하였습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="466"/>
+        <location filename="../make_cert_dlg.cpp" line="468"/>
         <source>Request KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
     </message>
@@ -3571,8 +3579,8 @@
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="325"/>
-        <location filename="../make_cert_dlg.cpp" line="351"/>
+        <location filename="../make_cert_dlg.cpp" line="327"/>
+        <location filename="../make_cert_dlg.cpp" line="353"/>
         <source>Invalid request file: %1</source>
         <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
@@ -4365,8 +4373,8 @@
         <translation>요청서 만들기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="186"/>
-        <location filename="../make_req_dlg.ui" line="363"/>
+        <location filename="../make_req_dlg.ui" line="189"/>
+        <location filename="../make_req_dlg.ui" line="375"/>
         <source>Key Name</source>
         <translation>키 이름</translation>
     </message>
@@ -4380,13 +4388,12 @@
         <translation type="vanished">해쉬</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="219"/>
+        <location filename="../make_req_dlg.ui" line="222"/>
         <source>Key size</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="212"/>
-        <location filename="../make_req_dlg.ui" line="402"/>
+        <location filename="../make_req_dlg.ui" line="215"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
@@ -4401,17 +4408,17 @@
         <translation>키 정보</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="268"/>
+        <location filename="../make_req_dlg.cpp" line="337"/>
         <source>You have to insert name</source>
         <translation>이름을 입력하세요.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="289"/>
+        <location filename="../make_req_dlg.cpp" line="358"/>
         <source>You have to insert DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="443"/>
+        <location filename="../make_req_dlg.cpp" line="512"/>
         <source>fail to make request</source>
         <translation>요청서 만들기 실패</translation>
     </message>
@@ -4421,7 +4428,7 @@
         <translation>도전 암호</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="540"/>
+        <location filename="../make_req_dlg.ui" line="617"/>
         <source>Signature Hash</source>
         <translation>서명 해쉬</translation>
     </message>
@@ -4436,23 +4443,59 @@
         <translation>키 선택</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="343"/>
+        <location filename="../make_req_dlg.ui" line="346"/>
         <source>Key Generate</source>
         <translation>키 생성</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="409"/>
+        <location filename="../make_req_dlg.ui" line="401"/>
+        <source>Use Device</source>
+        <translation>장치 사용</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="408"/>
+        <source>PKCS#11</source>
+        <translation>PKCS#11</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="428"/>
+        <source>KMIP</source>
+        <translation>KMIP</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="442"/>
+        <source>ECDSA</source>
+        <translation>ECDSA</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="456"/>
+        <source>DSA</source>
+        <translation>DSA</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="475"/>
+        <source>Mechanism</source>
+        <translation>메커니즘</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="482"/>
+        <source>EdDSA</source>
+        <translation>EdDSA</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="493"/>
         <source>Key Size</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="456"/>
+        <location filename="../make_req_dlg.ui" line="510"/>
         <source>Public Exponent</source>
         <translation>Public Exponent</translation>
     </message>
     <message>
+        <location filename="../make_req_dlg.ui" line="449"/>
         <source>RSA</source>
-        <translation type="vanished">RSA</translation>
+        <translation>RSA</translation>
     </message>
     <message>
         <source>You could not make key pair than max key count(%1) in no license</source>
@@ -4468,37 +4511,35 @@
         <translation>CSR 만들기 정보</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="527"/>
+        <location filename="../make_req_dlg.ui" line="604"/>
         <source>This is for CSR signature hash algorithm</source>
         <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="133"/>
         <source>You can not make key pair more than %1 key pairs in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="279"/>
         <source>You can not make CSR more than %1 CSRs in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="469"/>
+        <location filename="../make_req_dlg.ui" line="546"/>
         <source>Use Extension</source>
         <translation>확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="493"/>
+        <location filename="../make_req_dlg.ui" line="570"/>
         <source>Profile Name</source>
         <translation>프로파일 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="479"/>
+        <location filename="../make_req_dlg.cpp" line="548"/>
         <source>fail to generate CSR</source>
         <translation>요청서 만들기에 실패하였습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="233"/>
+        <location filename="../make_req_dlg.cpp" line="302"/>
         <source>fail to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
@@ -4516,29 +4557,29 @@
 <context>
     <name>ManApplet</name>
     <message>
-        <location filename="../man_applet.cpp" line="263"/>
-        <location filename="../man_applet.cpp" line="278"/>
+        <location filename="../man_applet.cpp" line="298"/>
+        <location filename="../man_applet.cpp" line="313"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="289"/>
-        <location filename="../man_applet.cpp" line="303"/>
-        <location filename="../man_applet.cpp" line="319"/>
-        <location filename="../man_applet.cpp" line="343"/>
+        <location filename="../man_applet.cpp" line="324"/>
+        <location filename="../man_applet.cpp" line="338"/>
+        <location filename="../man_applet.cpp" line="354"/>
+        <location filename="../man_applet.cpp" line="378"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="290"/>
-        <location filename="../man_applet.cpp" line="320"/>
-        <location filename="../man_applet.cpp" line="344"/>
+        <location filename="../man_applet.cpp" line="325"/>
+        <location filename="../man_applet.cpp" line="355"/>
+        <location filename="../man_applet.cpp" line="379"/>
         <source>No</source>
         <translation>아니오</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="304"/>
-        <location filename="../man_applet.cpp" line="321"/>
+        <location filename="../man_applet.cpp" line="339"/>
+        <location filename="../man_applet.cpp" line="356"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
@@ -4681,12 +4722,47 @@
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="81"/>
+        <location filename="../new_key_dlg.ui" line="75"/>
+        <source>KMIP</source>
+        <translation>KMIP</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="101"/>
+        <source>Use Device</source>
+        <translation>장치 사용</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="108"/>
+        <source>PKCS#11</source>
+        <translation>PKCS#11</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="122"/>
+        <source>DSA</source>
+        <translation>DSA</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="129"/>
+        <source>RSA</source>
+        <translation>RSA</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="136"/>
+        <source>ECDSA</source>
+        <translation>ECDSA</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="143"/>
+        <source>EdDSA</source>
+        <translation>EdDSA</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="162"/>
         <source>Mechanism</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="157"/>
+        <location filename="../new_key_dlg.ui" line="215"/>
         <source>Exponent</source>
         <translation>Exponent</translation>
     </message>
@@ -4696,22 +4772,22 @@
         <translation>키 정보</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="171"/>
+        <location filename="../new_key_dlg.ui" line="229"/>
         <source>Parameter</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="164"/>
+        <location filename="../new_key_dlg.ui" line="222"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="72"/>
+        <location filename="../new_key_dlg.cpp" line="141"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="163"/>
+        <location filename="../new_key_dlg.cpp" line="234"/>
         <source>fail to generate key pairs</source>
         <translation>키 쌍 생성 실패</translation>
     </message>
@@ -4720,12 +4796,11 @@
         <translation type="vanished">라이센스가 없을 경우 최대 키 쌍 개수(%1) 이상 키 쌍을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="83"/>
         <source>You can not make key pair more than %1 key pairs in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 키쌍을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="215"/>
+        <location filename="../new_key_dlg.cpp" line="286"/>
         <source>fail to make key pair</source>
         <translation>키 쌍 만들기 실패</translation>
     </message>
@@ -5068,18 +5143,18 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../commons.cpp" line="3398"/>
+        <location filename="../commons.cpp" line="3400"/>
         <source>Key Files (*.key);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3400"/>
+        <location filename="../commons.cpp" line="3402"/>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="1376"/>
-        <location filename="../commons.cpp" line="3403"/>
+        <location filename="../commons.cpp" line="1378"/>
+        <location filename="../commons.cpp" line="3405"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
@@ -5105,7 +5180,16 @@
     </message>
     <message>
         <location filename="../commons.cpp" line="1371"/>
-        <location filename="../mainwindow.cpp" line="845"/>
+        <source>DB Files (*.db *.db3 *.xdb);;All Files(*.*)</source>
+        <translation>DB 파일들 (*.db *.db3 *.xdb);;모든 파일들 (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../commons.cpp" line="1375"/>
+        <source>License Files (*.lcn *.txt);;All Files (*.*)</source>
+        <translation>라이선스 파일들 (*.lcn *.txt);;모든 파일들 (*.*)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="883"/>
         <source>DB Files (*.db *db3 *.xdb);;All Files(*.*)</source>
         <translation></translation>
     </message>
@@ -5173,7 +5257,7 @@
         <translation>암호가 틀렸습니다</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.cpp" line="117"/>
+        <location filename="../remote_db_dlg.cpp" line="119"/>
         <source>DB file is opened</source>
         <translation>데이타 베이스 파일을 열었습니다</translation>
     </message>
@@ -5253,42 +5337,39 @@
         <translation>폐기 이유</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="346"/>
+        <location filename="../renew_cert_dlg.cpp" line="352"/>
         <source>fail to make certificate(%1)</source>
         <translation>인증서(%1) 만들기 실패</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="354"/>
+        <location filename="../renew_cert_dlg.cpp" line="360"/>
         <source>fail to get certificate information(%1)</source>
         <translation>인증서 정보(%1) 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="244"/>
+        <location filename="../renew_cert_dlg.cpp" line="250"/>
         <source>It(%1) cannot be earlier than issuer time(%2).</source>
         <translation>시작 시간(%1)은 발급자 시간(%2) 보다 빠를 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="265"/>
+        <location filename="../renew_cert_dlg.cpp" line="271"/>
         <source>It(%1) cannot be later than the issuer time(%2).</source>
         <translation>종료 시간(%1)은 발급자 시간(%2) 보다 늦을 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="150"/>
         <source>You can not make certificate more than %1 certificates in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="162"/>
         <source>You can not make more than %1 CA certificates in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CA인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="176"/>
         <source>You can not make more than %1 selfsign certificate in no license</source>
-        <translation>라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
+        <translation type="vanished">라이센스가 없을 경우 %1 개 이상 셀프서명 인증서을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../renew_cert_dlg.cpp" line="425"/>
+        <location filename="../renew_cert_dlg.cpp" line="431"/>
         <source>fail to renew certificate</source>
         <translation>인증서 갱신에 실패하였습니다</translation>
     </message>
@@ -5486,7 +5567,7 @@
         <translation>자동 업데이트 체크</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="85"/>
+        <location filename="../settings_dlg.ui" line="94"/>
         <source>BaseDN</source>
         <translation>BaseDN</translation>
     </message>
@@ -5495,17 +5576,17 @@
         <translation type="vanished">데이타 베이스 폴더 저장</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="108"/>
+        <location filename="../settings_dlg.ui" line="136"/>
         <source>ListCount</source>
         <translation>리스트 개수</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="241"/>
+        <location filename="../settings_dlg.ui" line="252"/>
         <source>Advanced</source>
         <translation>고급</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="252"/>
+        <location filename="../settings_dlg.ui" line="263"/>
         <source>Language(need restart)</source>
         <translation>언어(재시작 필요)</translation>
     </message>
@@ -5514,7 +5595,7 @@
         <translation type="vanished">PKCS11</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="344"/>
+        <location filename="../settings_dlg.ui" line="355"/>
         <source>Library Path</source>
         <translation>라이브러리 경로</translation>
     </message>
@@ -5523,28 +5604,28 @@
         <translation type="vanished">슬롯 ID</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="277"/>
+        <location filename="../settings_dlg.ui" line="288"/>
         <source>Use PKCS11</source>
         <translation>PKCS11 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="354"/>
-        <location filename="../settings_dlg.ui" line="474"/>
-        <location filename="../settings_dlg.ui" line="481"/>
-        <location filename="../settings_dlg.ui" line="524"/>
-        <location filename="../settings_dlg.ui" line="666"/>
-        <location filename="../settings_dlg.ui" line="697"/>
-        <location filename="../settings_dlg.ui" line="727"/>
-        <location filename="../settings_dlg.ui" line="816"/>
-        <location filename="../settings_dlg.ui" line="833"/>
-        <location filename="../settings_dlg.ui" line="975"/>
-        <location filename="../settings_dlg.ui" line="1078"/>
-        <location filename="../settings_dlg.ui" line="1095"/>
+        <location filename="../settings_dlg.ui" line="365"/>
+        <location filename="../settings_dlg.ui" line="485"/>
+        <location filename="../settings_dlg.ui" line="492"/>
+        <location filename="../settings_dlg.ui" line="535"/>
+        <location filename="../settings_dlg.ui" line="677"/>
+        <location filename="../settings_dlg.ui" line="708"/>
+        <location filename="../settings_dlg.ui" line="738"/>
+        <location filename="../settings_dlg.ui" line="827"/>
+        <location filename="../settings_dlg.ui" line="844"/>
+        <location filename="../settings_dlg.ui" line="986"/>
+        <location filename="../settings_dlg.ui" line="1089"/>
+        <location filename="../settings_dlg.ui" line="1106"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.cpp" line="110"/>
+        <location filename="../settings_dlg.cpp" line="108"/>
         <source>You have changed language. Restart to apply it?</source>
         <translation>언어를 바꾸었습니다. 다시 시작 할까요?</translation>
     </message>
@@ -5557,217 +5638,227 @@
         <translation type="vanished">DLL 파일 (*.dll);;SO 파일 (*.so);;모든 파일 (*.*)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="133"/>
+        <location filename="../settings_dlg.ui" line="145"/>
         <source>Sever status check</source>
         <translation>서버 상태 체크</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="48"/>
+        <location filename="../settings_dlg.ui" line="64"/>
         <source>LDAP Host</source>
         <translation>LDAP 서버</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="55"/>
+        <location filename="../settings_dlg.ui" line="48"/>
         <source>LDAP Port</source>
         <translation>LDAP 포트</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="410"/>
+        <location filename="../settings_dlg.ui" line="421"/>
         <source>KMIP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="416"/>
+        <location filename="../settings_dlg.ui" line="427"/>
         <source>Use KMIP</source>
         <translation>KMIP 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="423"/>
+        <location filename="../settings_dlg.ui" line="434"/>
         <source>KMIP Information</source>
         <translation>KMIP 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="514"/>
+        <location filename="../settings_dlg.ui" line="525"/>
         <source>Private Key</source>
         <translation>개인키</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="551"/>
+        <location filename="../settings_dlg.ui" line="562"/>
         <source>UserName</source>
         <translation>사용자 이름</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="447"/>
+        <location filename="../settings_dlg.ui" line="458"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="507"/>
+        <location filename="../settings_dlg.ui" line="518"/>
         <source>Certificate</source>
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="500"/>
+        <location filename="../settings_dlg.ui" line="511"/>
         <source>CA cert</source>
         <translation>CA 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="440"/>
+        <location filename="../settings_dlg.ui" line="451"/>
         <source>Host</source>
         <translation>호스트</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="574"/>
+        <location filename="../settings_dlg.ui" line="585"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="603"/>
+        <location filename="../settings_dlg.ui" line="614"/>
         <source>OCSP</source>
         <translation>OCSP</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="609"/>
+        <location filename="../settings_dlg.ui" line="620"/>
         <source>Use OCSP</source>
         <translation>OCSP 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="616"/>
+        <location filename="../settings_dlg.ui" line="627"/>
         <source>OCSP Information</source>
         <translation>OCSP 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="682"/>
+        <location filename="../settings_dlg.ui" line="693"/>
         <source>Attatch Signature</source>
         <translation>서명 추가하기</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="717"/>
+        <location filename="../settings_dlg.ui" line="728"/>
         <source>Signer PriKey</source>
         <translation>서명자 개인키</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="656"/>
+        <location filename="../settings_dlg.ui" line="667"/>
         <source>OCSP SrvCert</source>
         <translation>OCSP 서버 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="633"/>
+        <location filename="../settings_dlg.ui" line="644"/>
         <source>OCSP URI</source>
         <translation>OCSP 주소(URI)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="710"/>
+        <location filename="../settings_dlg.ui" line="721"/>
         <source>Signer Cert</source>
         <translation>서명자 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="753"/>
+        <location filename="../settings_dlg.ui" line="764"/>
         <source>CMP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="759"/>
+        <location filename="../settings_dlg.ui" line="770"/>
         <source>Use CMP</source>
         <translation>CMP 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="766"/>
+        <location filename="../settings_dlg.ui" line="777"/>
         <source>CMP Server Information</source>
         <translation>CMP 서버 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="783"/>
+        <location filename="../settings_dlg.ui" line="794"/>
         <source>CMP URI</source>
         <translation>CMP 주소(URI)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="823"/>
+        <location filename="../settings_dlg.ui" line="834"/>
         <source>CA Cert</source>
         <translation>CA 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="809"/>
+        <location filename="../settings_dlg.ui" line="820"/>
         <source>RootCA Cert</source>
         <translation>루트 CA 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="859"/>
+        <location filename="../settings_dlg.ui" line="37"/>
+        <source>LDAP Information</source>
+        <translation>LDAP 정보</translation>
+    </message>
+    <message>
+        <location filename="../settings_dlg.ui" line="152"/>
+        <source>Use log tab at startup</source>
+        <translation>시작시 로그탭 사용</translation>
+    </message>
+    <message>
+        <location filename="../settings_dlg.ui" line="870"/>
         <source>REG</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="865"/>
+        <location filename="../settings_dlg.ui" line="876"/>
         <source>Use REG</source>
         <translation>REG 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="872"/>
+        <location filename="../settings_dlg.ui" line="883"/>
         <source>RegServer Information</source>
         <translation>REG 서버 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="883"/>
+        <location filename="../settings_dlg.ui" line="894"/>
         <source>RegServer URI</source>
         <translation>REG 주소(URI)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="912"/>
+        <location filename="../settings_dlg.ui" line="923"/>
         <source>TSP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="918"/>
+        <location filename="../settings_dlg.ui" line="929"/>
         <source>Use TSP</source>
         <translation>TSP 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="925"/>
+        <location filename="../settings_dlg.ui" line="936"/>
         <source>TSP Information</source>
         <translation>TSP 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="942"/>
+        <location filename="../settings_dlg.ui" line="953"/>
         <source>TSP URI</source>
         <translation>TSP 주소(URI)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="968"/>
+        <location filename="../settings_dlg.ui" line="979"/>
         <source>TSP SrvCert</source>
         <translation>TSP 서버 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1001"/>
+        <location filename="../settings_dlg.ui" line="1012"/>
         <source>SCEP</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1007"/>
+        <location filename="../settings_dlg.ui" line="1018"/>
         <source>Use SCEP</source>
         <translation>SCEP 사용</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1014"/>
+        <location filename="../settings_dlg.ui" line="1025"/>
         <source>SCEP Information</source>
         <translation>SCEP 정보</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1071"/>
+        <location filename="../settings_dlg.ui" line="1082"/>
         <source>SSL PrivateKey</source>
         <translation>SSL 개인키</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1085"/>
+        <location filename="../settings_dlg.ui" line="1096"/>
         <source>SSL Certificate</source>
         <translation>SSL 인증서</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1031"/>
+        <location filename="../settings_dlg.ui" line="1042"/>
         <source>SCEP URI</source>
         <translation>SCEP 주소(URI)</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="1050"/>
+        <location filename="../settings_dlg.ui" line="1061"/>
         <source>SSL Mutual Auth</source>
         <translation>SSL 상호 인증</translation>
     </message>
@@ -5784,47 +5875,46 @@
         <translation type="vanished">개인키 파일</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="140"/>
         <source>Show log view tab at startup</source>
-        <translation>시작 시 로그탭 보이기</translation>
+        <translation type="vanished">시작 시 로그탭 보이기</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="152"/>
+        <location filename="../settings_dlg.ui" line="186"/>
         <source>Default ECCParam</source>
         <translation>초기 ECC 파라미터</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="159"/>
+        <location filename="../settings_dlg.ui" line="176"/>
         <source>Default Hash</source>
         <translation>초기 해쉬</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="204"/>
+        <location filename="../settings_dlg.ui" line="215"/>
         <source>Font Family</source>
         <translation>폰트 패밀리</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="211"/>
+        <location filename="../settings_dlg.ui" line="222"/>
         <source>Need to restart</source>
         <translation>재 실행 필요함</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="304"/>
+        <location filename="../settings_dlg.ui" line="315"/>
         <source>Slot Index</source>
         <translation>슬롯 인덱스</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="327"/>
+        <location filename="../settings_dlg.ui" line="338"/>
         <source>Slot position index to use</source>
         <translation>사용할 슬롯 위치의 인덱스</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="377"/>
+        <location filename="../settings_dlg.ui" line="388"/>
         <source>PIN</source>
         <translation>핀값</translation>
     </message>
     <message>
-        <location filename="../settings_dlg.ui" line="220"/>
+        <location filename="../settings_dlg.ui" line="231"/>
         <source>Save Remote Information</source>
         <translation>원격 정보 저장 하기</translation>
     </message>
