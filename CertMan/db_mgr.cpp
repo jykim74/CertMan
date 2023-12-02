@@ -2771,6 +2771,13 @@ int DBMgr::getConfigList( QList<ConfigRec>& configList )
     return _getConfigList( strQuery, configList );
 }
 
+int DBMgr::getConfigList( int nKind, QList<ConfigRec>& configList )
+{
+    QString strQuery = QString("SELECT * FROM TB_CONFIG WHERE KIND = %1 ORDER BY NUM DESC" ).arg(nKind);
+
+    return _getConfigList( strQuery, configList );
+}
+
 int DBMgr::getKeyCountReq( int nKeyNum )
 {
     int nCount = -1;

@@ -77,7 +77,7 @@ public:
     void createRightCRLList(int nIssuerNum);
     void createRightRevokeList( int nIssuerNum );
     void createRightAdminList();
-    void createRightConfigList();
+    void createRightConfigList( int nKind = -1 );
     void createRightUserList();
     void createRightKMSList();
     void createRightSignerList(int nType);

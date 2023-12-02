@@ -464,29 +464,34 @@ void MainWindow::createActions()
         QMenu *serverMenu = menuBar()->addMenu(tr("&Server"));
         QToolBar *serverToolBar = addToolBar(tr("Server"));
 
+#ifdef Q_OS_MAC
+        serverToolBar->setIconSize( QSize(24,24));
+        serverToolBar->layout()->setSpacing(0);
+#endif
+
         QAction *ocspSrvAct = new QAction( timeIcon, tr("&OCSP Server"), this);
         connect( ocspSrvAct, &QAction::triggered, this, &MainWindow::OCSPSrv);
         ocspSrvAct->setStatusTip(tr("OCSP Server Service"));
         serverMenu->addAction( ocspSrvAct );
-        serverToolBar->addAction( ocspSrvAct );
+//        serverToolBar->addAction( ocspSrvAct );
 
         QAction *tspSrvAct = new QAction( timeIcon, tr("&TSP Server"), this);
         connect( tspSrvAct, &QAction::triggered, this, &MainWindow::TSPSrv);
         tspSrvAct->setStatusTip(tr("TSP Server Service"));
         serverMenu->addAction( tspSrvAct );
-        serverToolBar->addAction( tspSrvAct );
+//        serverToolBar->addAction( tspSrvAct );
 
         QAction *cmpSrvAct = new QAction( timeIcon, tr("&CMP Server"), this);
         connect( cmpSrvAct, &QAction::triggered, this, &MainWindow::CMPSrv);
         cmpSrvAct->setStatusTip(tr("CMP Server Service"));
         serverMenu->addAction( cmpSrvAct );
-        serverToolBar->addAction( cmpSrvAct );
+//        serverToolBar->addAction( cmpSrvAct );
 
         QAction *regSrvAct = new QAction( timeIcon, tr("&REG Server"), this);
         connect( regSrvAct, &QAction::triggered, this, &MainWindow::RegSrv);
         regSrvAct->setStatusTip(tr("Reg Server Service"));
         serverMenu->addAction( regSrvAct );
-        serverToolBar->addAction( regSrvAct );
+//        serverToolBar->addAction( regSrvAct );
     }
 
 
@@ -798,7 +803,32 @@ void MainWindow::createTreeMenu()
         ManTreeItem *pConfigItem = new ManTreeItem( QString(tr("Config")));
         pConfigItem->setIcon(QIcon(":/images/config.png"));
         pConfigItem->setType( CM_ITEM_TYPE_CONFIG );
+        pConfigItem->setDataNum( -1 );
         pManItem->appendRow( pConfigItem );
+
+        ManTreeItem *pOCSPSrvItem = new ManTreeItem( QString( tr( "OCSP Server" )));
+        pOCSPSrvItem->setIcon(QIcon(":/images/config.png"));
+        pOCSPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pOCSPSrvItem->setDataNum( JS_GEN_KIND_OCSP_SRV );
+        pConfigItem->appendRow( pOCSPSrvItem );
+
+        ManTreeItem *pTSPSrvItem = new ManTreeItem( QString( tr( "TSP Server" )));
+        pTSPSrvItem->setIcon(QIcon(":/images/config.png"));
+        pTSPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pTSPSrvItem->setDataNum( JS_GEN_KIND_TSP_SRV );
+        pConfigItem->appendRow( pTSPSrvItem );
+
+        ManTreeItem *pCMPSrvItem = new ManTreeItem( QString( tr( "CMP Server" )));
+        pCMPSrvItem->setIcon(QIcon(":/images/config.png"));
+        pCMPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pCMPSrvItem->setDataNum( JS_GEN_KIND_CMP_SRV );
+        pConfigItem->appendRow( pCMPSrvItem );
+
+        ManTreeItem *pRegSrvItem = new ManTreeItem( QString( tr( "Reg Server" )));
+        pRegSrvItem->setIcon(QIcon(":/images/config.png"));
+        pRegSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pRegSrvItem->setDataNum( JS_GEN_KIND_REG_SRV );
+        pConfigItem->appendRow( pRegSrvItem );
 
         ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
         pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
@@ -874,6 +904,7 @@ void MainWindow::createTreeMenu()
         pAuditItem->setIcon( QIcon(":/images/audit.png"));
         pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
         pTopItem->appendRow( pAuditItem );
+
     }
 
 
@@ -4080,7 +4111,7 @@ void MainWindow::createRightList( int nType, int nNum )
     else if( nType == CM_ITEM_TYPE_ADMIN )
         createRightAdminList();
     else if( nType == CM_ITEM_TYPE_CONFIG )
-        createRightConfigList();
+        createRightConfigList( nNum );
     else if( nType == CM_ITEM_TYPE_REG_SIGNER )
         createRightSignerList( SIGNER_TYPE_REG );
     else if( nType == CM_ITEM_TYPE_OCSP_SIGNER )
@@ -4889,7 +4920,7 @@ void MainWindow::createRightAdminList()
     }
 }
 
-void MainWindow::createRightConfigList()
+void MainWindow::createRightConfigList( int nKind )
 {
     search_form_->hide();
     removeAllRight();
@@ -4907,7 +4938,11 @@ void MainWindow::createRightConfigList()
     right_table_->verticalHeader()->setVisible(false);
 
     QList<ConfigRec> configList;
-    manApplet->dbMgr()->getConfigList( configList );
+
+    if( nKind >= 0 )
+        manApplet->dbMgr()->getConfigList( nKind, configList );
+    else
+        manApplet->dbMgr()->getConfigList( configList );
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 60 );

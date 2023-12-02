@@ -192,6 +192,7 @@ public:
     int getConfigRec( int nNum, ConfigRec& configRec );
     int getConfigValue( int nKind, const QString& strName, QString& value );
     int getConfigList( QList<ConfigRec>& configList );
+    int getConfigList( int nKind, QList<ConfigRec>& configList );
 
     int getKeyCountReq( int nKeyNum );
     int getKeyCountCert( int nKeyNum );

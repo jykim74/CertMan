@@ -27,6 +27,7 @@
 
 
 
+
 class ManTreeItem : public QStandardItem
 {
 public:
