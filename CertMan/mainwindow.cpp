@@ -4945,8 +4945,8 @@ void MainWindow::createRightConfigList( int nKind )
         manApplet->dbMgr()->getConfigList( configList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 60 );
-    right_table_->setColumnWidth( 2, 60 );
+    right_table_->setColumnWidth( 1, 100 );
+    right_table_->setColumnWidth( 2, 180 );
 
 
     for( int i = 0; i < configList.size(); i++ )
@@ -4955,12 +4955,13 @@ void MainWindow::createRightConfigList( int nKind )
 
         QTableWidgetItem *item = new QTableWidgetItem( config.getName() );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( config.getNum() ));
+        QTableWidgetItem *kind = new QTableWidgetItem( QString("%1").arg( JS_GEN_getKindName( config.getKind() )));
         seq->setIcon(QIcon(":/images/config.png"));
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( config.getKind() )));
+        right_table_->setItem(i,1, kind );
         right_table_->setItem(i,2, item);
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( config.getValue() )));
     }
@@ -5486,7 +5487,7 @@ void MainWindow::infoConfig( int seq )
     manApplet->info( "== Config Information\n" );
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Num          : %1\n").arg(configRec.getNum()));
-    manApplet->info( QString("Kind         : %1\n").arg(configRec.getKind()));
+    manApplet->info( QString("Kind         : %1 - %2\n").arg(configRec.getKind()).arg( JS_GEN_getKindName( configRec.getKind())));
     manApplet->info( QString("Name         : %1\n").arg(configRec.getName()));
     manApplet->info( QString("Value        : %1\n").arg(configRec.getValue()));
 

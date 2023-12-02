@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>485</width>
-    <height>363</height>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,13 +71,6 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="mAddBtn">
-       <property name="text">
-        <string>Add</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QComboBox" name="mNameCombo"/>
      </item>
@@ -93,6 +86,20 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mAddBtn">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mFileFindBtn">
+       <property name="text">
+        <string>File</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -38,6 +38,7 @@ public:
     int remoteOpen( const QString strType, const QString strHost, const QString strUserName, const QString strPasswd, const QString strDBName );
     void close();
     bool isOpen();
+    const QString getDBPath() { return db_path_; };
 
     QString getNumName( int nNum, QString strTable, QString strColName );
 //    QString getSeqName( int nSeq, QString strTable, QString strColName );
@@ -218,6 +219,7 @@ private:
 private:
     QSqlDatabase    db_;
     QString         db_type_;
+    QString         db_path_;
 };
 
 #endif // DB_MGR_H

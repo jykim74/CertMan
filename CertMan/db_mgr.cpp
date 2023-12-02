@@ -39,6 +39,8 @@ int DBMgr::open(const QString dbPath)
         return -1;
 
     db_type_ = "QSQLITE";
+    db_path_ = dbPath;
+
     return 0;
 }
 
@@ -83,6 +85,8 @@ int DBMgr::remoteOpen( const QString strType, const QString strHost, const QStri
         return -4;
 
     db_type_ = strType;
+    db_path_ = QString( "%1:%2:%3:%4:%5" ).arg( strDBHost ).arg( nPort ).arg( strDBName ).arg( strUserName ).arg( strPasswd );
+
     return 0;
 }
 

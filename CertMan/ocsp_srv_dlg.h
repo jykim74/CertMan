@@ -19,7 +19,8 @@ public:
 private slots:
     void clickDel();
     void clickAdd();
-    void clickFind();
+    void clickFindFile();
+    void clickFindServer();
     void clickCheck();
     void clickStart();
 
