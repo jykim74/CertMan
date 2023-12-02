@@ -16,8 +16,16 @@ public:
     explicit OCSPSrvDlg(QWidget *parent = nullptr);
     ~OCSPSrvDlg();
 
-private:
+private slots:
+    void clickAdd();
+    void clickFind();
+    void clickCheck();
+    void clickStart();
 
+private:
+    void initialize();
+    void clearTable();
+    void loadTable();
 };
 
 #endif // OCSP_SRV_DLG_H
