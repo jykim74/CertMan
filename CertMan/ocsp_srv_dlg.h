@@ -17,10 +17,14 @@ public:
     ~OCSPSrvDlg();
 
 private slots:
+    void clickDel();
     void clickAdd();
     void clickFind();
     void clickCheck();
     void clickStart();
+
+    void slotConfigMenuRequested(QPoint pos);
+    void deleteConfigMenu();
 
 private:
     void initialize();

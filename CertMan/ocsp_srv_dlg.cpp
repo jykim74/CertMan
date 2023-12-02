@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "js_gen.h"
 #include "ocsp_srv_dlg.h"
 #include "commons.h"
@@ -20,10 +22,14 @@ OCSPSrvDlg::OCSPSrvDlg(QWidget *parent) :
     setupUi(this);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mDelBtn, SIGNAL(clicked()), this, SLOT(clickDel()));
     connect( mAddBtn, SIGNAL(clicked()), this, SLOT(clickAdd()));
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFind()));
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
+
+
+    connect( mConfigTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotConfigMenuRequested(QPoint)));
 
     initialize();
 }
@@ -83,6 +89,11 @@ void OCSPSrvDlg::loadTable()
     }
 }
 
+void OCSPSrvDlg::clickDel()
+{
+
+}
+
 void OCSPSrvDlg::clickAdd()
 {
     ConfigRec config;
@@ -116,4 +127,20 @@ void OCSPSrvDlg::clickCheck()
 void OCSPSrvDlg::clickStart()
 {
 
+}
+
+void OCSPSrvDlg::slotConfigMenuRequested(QPoint pos)
+{
+    QMenu *menu = new QMenu(this);
+    QAction *delAct = new QAction( tr("Delete"), this );
+    connect( delAct, SIGNAL(triggered()), this, SLOT(deleteConfigMenu()));
+
+    menu->addAction( delAct );
+    menu->popup( mConfigTable->viewport()->mapToGlobal(pos));
+}
+
+void OCSPSrvDlg::deleteConfigMenu()
+{
+    QModelIndex idx = mConfigTable->currentIndex();
+    mConfigTable->removeRow(idx.row());
 }
