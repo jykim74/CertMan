@@ -1,4 +1,4 @@
-#include <QDateTime>
+﻿#include <QDateTime>
 
 #include "lcn_info_dlg.h"
 #include "commons.h"
@@ -55,10 +55,12 @@ void LCNInfoDlg::initialize()
     int ret = 0;
     mUpdateBtn->setEnabled( false );
 
+    JS_LICENSE_INFO sLicenseInfo = manApplet->LicenseInfo();
+
     if( manApplet->isLicense() )
     {
         QString strExt;
-        JS_LICENSE_INFO sLicenseInfo = manApplet->LicenseInfo();
+
 
         QDateTime issueTime = QDateTime::fromString( sLicenseInfo.sIssued, JS_LCN_TIME_FORMAT);
         QDateTime expireTime = QDateTime::fromString( sLicenseInfo.sExpire, JS_LCN_TIME_FORMAT );
@@ -83,16 +85,32 @@ void LCNInfoDlg::initialize()
         {
             mCurGroup->setEnabled( false );
         }
+
+        mMessageLabel->setText( tr("This CertMan is licensed version") );
     }
     else
     {
+        QString strMsg = tr( "This CertMan is unlicensed version.\r\n" );
+        QString strAppend;
+
+        if( sLicenseInfo.nVersion > 0 )
+        {
+            strAppend = tr( "Expired Date: %1").arg( sLicenseInfo.sExpire );
+        }
+        else
+        {
+            strAppend = tr( "The license is not issued." );
+        }
+
+        strMsg += strAppend;
+        mMessageLabel->setText( strMsg );
+
         mCurGroup->setEnabled( false );
     }
 
     mUpdateBtn->setEnabled( mCurGroup->isEnabled() );
     mUseFileCheck->click();
-
-//    tabWidget->setTabEnabled(1, false);
+    tabWidget->setCurrentIndex(0);
 }
 
 void LCNInfoDlg::settingsLCN( const QString strSID, const BIN *pLCN )

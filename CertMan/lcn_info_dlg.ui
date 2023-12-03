@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>444</width>
     <height>445</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>License Information</string>
+      <string>CertMan License Information</string>
      </property>
     </widget>
    </item>
@@ -219,16 +219,9 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="mMessabeLabel">
+        <widget class="QLabel" name="mMessageLabel">
          <property name="text">
           <string>The CertMan </string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="mStopWarnCheck">
-         <property name="text">
-          <string>Do not show this message for one week</string>
          </property>
         </widget>
        </item>
