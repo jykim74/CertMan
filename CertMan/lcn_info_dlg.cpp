@@ -30,6 +30,11 @@ LCNInfoDlg::~LCNInfoDlg()
 
 }
 
+void LCNInfoDlg::setCurTab(int index)
+{
+    tabWidget->setCurrentIndex(index);
+}
+
 QString LCNInfoDlg::getLicenseURI()
 {
     QString url_from_env = qgetenv("JS_INC_LICENSE_URI");
@@ -84,9 +89,10 @@ void LCNInfoDlg::initialize()
         mCurGroup->setEnabled( false );
     }
 
-//    mReqGroup->setEnabled( !mCurGroup->isEnabled() );
     mUpdateBtn->setEnabled( mCurGroup->isEnabled() );
     mUseFileCheck->click();
+
+//    tabWidget->setTabEnabled(1, false);
 }
 
 void LCNInfoDlg::settingsLCN( const QString strSID, const BIN *pLCN )

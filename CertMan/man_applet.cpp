@@ -32,6 +32,7 @@
 #include "js_gen.h"
 #include "commons.h"
 #include "js_net.h"
+#include "lcn_info_dlg.h"
 
 ManApplet *manApplet;
 
@@ -135,6 +136,9 @@ void ManApplet::start()
     else
     {
         info( "The CertMan is not licensed" );
+        LCNInfoDlg lcnInfo;
+        lcnInfo.setCurTab(1);
+        lcnInfo.exec();
     }
 
     QString strVersion = STRINGIZE(CERTMAN_VERSION);
