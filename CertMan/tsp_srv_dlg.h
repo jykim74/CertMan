@@ -16,7 +16,21 @@ public:
     explicit TSPSrvDlg(QWidget *parent = nullptr);
     ~TSPSrvDlg();
 
+private slots:
+    void clickDel();
+    void clickAdd();
+    void clickFindFile();
+    void clickFindServer();
+    void clickCheck();
+    void clickStart();
+
+    void slotConfigMenuRequested(QPoint pos);
+    void deleteConfigMenu();
+
 private:
+    void initialize();
+    void clearTable();
+    void loadTable();
 
 };
 

@@ -10,7 +10,7 @@
 
 static QStringList sNameList = {
     "LOG_PATH", "LOG_LEVEL", "OCSP_HSM_LIB_PATH", "OCSP_HSM_SLOT_ID"
-    "OCSP_HSM_PIN", "OCSP_HSM_KEY_ID", "OCSP_SRV_PRIKEY_NUM"
+    "OCSP_HSM_PIN", "OCSP_HSM_KEY_ID", "OCSP_SRV_PRIKEY_NUM",
     "OCSP_SRV_PRIKEY_ENC", "OCSP_SRV_PRIKEY_PASSWD", "OCSP_SRV_CERT_NUM",
     "OCSP_HSM_USE", "OCSP_NEED_SIGN", "OCSP_MSG_DUMP",
     "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
@@ -27,7 +27,7 @@ OCSPSrvDlg::OCSPSrvDlg(QWidget *parent) :
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFindServer()));
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
-
+    connect( mFileFindBtn, SIGNAL(clicked()), this, SLOT(clickFindFile()));
 
     connect( mConfigTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotConfigMenuRequested(QPoint)));
 
@@ -43,6 +43,7 @@ void OCSPSrvDlg::initialize()
 {
     mNameCombo->setEnabled( true );
     mNameCombo->addItems( sNameList );
+    mNameCombo->setEditable( true );
 
     QStringList sConfigLabes = { tr( "Num" ), tr("Name"), tr("Value" ) };
 
@@ -130,6 +131,7 @@ void OCSPSrvDlg::clickAdd()
     manApplet->dbMgr()->addConfigRec( config );
 
     loadTable();
+    mValueText->clear();
 }
 
 void OCSPSrvDlg::clickFindFile()
@@ -138,7 +140,11 @@ void OCSPSrvDlg::clickFindFile()
 
     QString strFileName = findFile( this, JS_FILE_TYPE_BER, strPath );
 
-    if( strFileName.length() > 0 ) mValueText->setText( strFileName );
+    if( strFileName.length() > 0 )
+    {
+        mValueText->setText( strFileName );
+        manApplet->setCurFile( strFileName );
+    }
 }
 
 void OCSPSrvDlg::clickFindServer()

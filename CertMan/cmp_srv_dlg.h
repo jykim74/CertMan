@@ -16,8 +16,22 @@ public:
     explicit CMPSrvDlg(QWidget *parent = nullptr);
     ~CMPSrvDlg();
 
-private:
+private slots:
+    void clickDel();
+    void clickAdd();
+    void clickFindFile();
+    void clickFindServer();
+    void clickCheck();
+    void clickStart();
 
+    void slotConfigMenuRequested(QPoint pos);
+    void deleteConfigMenu();
+
+
+private:
+    void initialize();
+    void clearTable();
+    void loadTable();
 };
 
 #endif // CMP_SRV_DLG_H

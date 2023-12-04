@@ -142,7 +142,7 @@ public:
     void setLicense( const QString strLicense );
     QString getLicense();
 
-    void setStopMessage( time_t tLastTime );
+    void setStopMessage( const time_t tLastTime );
     time_t getStopMessage();
 
     void setCertProfileNum( int num );
