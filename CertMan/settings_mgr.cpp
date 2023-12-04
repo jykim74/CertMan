@@ -50,6 +50,7 @@ namespace  {
     const char *kMisc = "Misc";
     const char *kEmail = "email";
     const char *kLicense = "license";
+    const char *kStopMessage = "stopMessage";
     const char *kCertProfileNum = "certProfileNum";
     const char *kCRLProfileNum = "CRLProfileNum";
     const char *kIssuerNum = "issuerNum";
@@ -1038,6 +1039,25 @@ QString SettingsMgr::getLicense()
     sets.endGroup();
 
     return strLicense;
+}
+
+void SettingsMgr::setStopMessage( time_t tLastTime )
+{
+    QSettings sets;
+    sets.beginGroup( kMisc );
+    sets.setValue( kStopMessage, tLastTime );
+    sets.endGroup();
+}
+
+time_t SettingsMgr::getStopMessage()
+{
+    QSettings sets;
+
+    sets.beginGroup( kMisc );
+    time_t tLastTime = sets.value( kStopMessage, -1 ).toInt();
+    sets.endGroup();
+
+    return tLastTime;
 }
 
 
