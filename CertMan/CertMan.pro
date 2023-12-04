@@ -96,7 +96,11 @@ SOURCES += \
         tsp_rec.cpp \
         tst_info_dlg.cpp \
         user_dlg.cpp \
-        user_rec.cpp
+        user_rec.cpp \
+        ocsp_srv_dlg.cpp \
+        tsp_srv_dlg.cpp \
+        cmp_srv_dlg.cpp \
+        reg_srv_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -160,7 +164,11 @@ HEADERS += \
         tsp_rec.h \
         tst_info_dlg.h \
         user_dlg.h \
-        user_rec.h
+        user_rec.h \
+        ocsp_srv_dlg.h \
+        tsp_srv_dlg.h \
+        cmp_srv_dlg.h \
+        reg_srv_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -199,7 +207,11 @@ FORMS += \
         statistics_form.ui \
         tsp_dlg.ui \
         tst_info_dlg.ui \
-        user_dlg.ui
+        user_dlg.ui \
+        ocsp_srv_dlg.ui \
+        tsp_srv_dlg.ui \
+        cmp_srv_dlg.ui \
+        reg_srv_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
