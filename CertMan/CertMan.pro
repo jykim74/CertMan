@@ -296,7 +296,7 @@ win32 {
 }
 
 linux {
-    Debug {
+    CONFIG( debug, debug | release ) {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
         LIBS += -L"../../PKILib/lib/linux/debug/openssl3/lib64" -lcrypto -lssl
     } else {
