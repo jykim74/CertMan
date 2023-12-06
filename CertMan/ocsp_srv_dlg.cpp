@@ -1,6 +1,7 @@
 #include <QMenu>
 
 #include "js_gen.h"
+#include "js_http.h"
 #include "ocsp_srv_dlg.h"
 #include "commons.h"
 #include "man_applet.h"
@@ -55,6 +56,7 @@ void OCSPSrvDlg::initialize()
     mConfigTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mConfigTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mConfigTable->setColumnWidth(0, 60);
+    mConfigTable->setColumnWidth(1, 200);
 
 
     loadTable();
@@ -158,13 +160,45 @@ void OCSPSrvDlg::clickFindServer()
 
 void OCSPSrvDlg::clickCheck()
 {
+    int ret = 0;
+    int nPort = JS_OCSP_PORT;
+    QString strURL;
+    QString strValue;
 
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    ret = dbMgr->getConfigValue( JS_GEN_KIND_OCSP_SRV, "OCSP_PORT", strValue );
+    if( ret == 1 ) nPort = strValue.toInt();
+
+    strURL = QString("http://localhost:%1/PING").arg( nPort );
+
+    ret = JS_HTTP_ping( strURL.toStdString().c_str() );
+    if( ret == 0 )
+    {
+        manApplet->log( "OCSP Server is started" );
+    }
+    else
+    {
+        manApplet->elog( "OCSP Server is not working" );
+    }
 }
 
 void OCSPSrvDlg::clickStart()
 {
-    QString strCmd = QString( "%1 -d %2").arg(mServerPathText->text()).arg( manApplet->dbMgr()->getDBPath() );
+    QString strCmd;
+    QString strServerPath = mServerPathText->text();
 
+    if( strServerPath.length() < 1 )
+    {
+        manApplet->warningBox( tr( "You have to find OCSP Server file" ), this );
+        return;
+    }
+
+    strCmd = strServerPath;
+    strCmd += " -d ";
+    strCmd += manApplet->dbMgr()->getDBPath();
+
+    manApplet->log( QString( "Run Cmd: %1").arg( strCmd ));
 
     QProcess *process = new QProcess();
     process->setProgram( strCmd );

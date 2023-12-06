@@ -56,6 +56,7 @@ void TSPSrvDlg::initialize()
     mConfigTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mConfigTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mConfigTable->setColumnWidth(0, 60);
+    mConfigTable->setColumnWidth(1, 200);
 
 
     loadTable();
