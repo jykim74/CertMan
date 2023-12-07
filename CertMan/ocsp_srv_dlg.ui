@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>485</width>
-    <height>375</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -118,8 +118,12 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mServerPathText"/>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mFindBtn">
+       <property name="text">
+        <string>Find</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
@@ -128,10 +132,76 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="mFindBtn">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mServerPathText"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mStartBtn">
        <property name="text">
-        <string>Find</string>
+        <string>Start</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_6">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mGetProcBtn">
+       <property name="text">
+        <string>GetProc</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="mListPidBtn">
+       <property name="text">
+        <string>ListPid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mGetServiceBtn">
+       <property name="text">
+        <string>GetService</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mConnectBtn">
+       <property name="text">
+        <string>Connect</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="mGetThreadBtn">
+       <property name="text">
+        <string>GetThread</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="mListThreadBtn">
+       <property name="text">
+        <string>ListThread</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton" name="mResizeBtn">
+       <property name="text">
+        <string>Resize</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="mStopBtn">
+       <property name="text">
+        <string>Stop</string>
        </property>
       </widget>
      </item>
@@ -153,13 +223,6 @@
       <widget class="QPushButton" name="mCloseBtn">
        <property name="text">
         <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="mStartBtn">
-       <property name="text">
-        <string>Start</string>
        </property>
       </widget>
      </item>

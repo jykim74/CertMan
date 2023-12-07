@@ -27,10 +27,21 @@ private slots:
     void slotConfigMenuRequested(QPoint pos);
     void deleteConfigMenu();
 
+    void clickConnect();
+    void clickListPid();
+    void clickGetProc();
+    void clickGetService();
+    void clickListThread();
+    void clickGetThread();
+    void clickResize();
+    void clickStop();
+
 private:
     void initialize();
     void clearTable();
     void loadTable();
+
+    int sockfd_;
 };
 
 #endif // OCSP_SRV_DLG_H
