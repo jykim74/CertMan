@@ -149,21 +149,7 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="mCheckBtn">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="3">
-      <widget class="QPushButton" name="mCloseBtn">
-       <property name="text">
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
       <widget class="QPushButton" name="mStartBtn">
        <property name="text">
         <string>Start</string>
@@ -171,6 +157,20 @@
       </widget>
      </item>
      <item row="0" column="1">
+      <widget class="QPushButton" name="mCheckBtn">
+       <property name="text">
+        <string>Check</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="mCloseBtn">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -183,10 +183,26 @@
        </property>
       </spacer>
      </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mOnBtn">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/on.png</normaloff>:/images/on.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>

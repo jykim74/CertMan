@@ -58,7 +58,7 @@ void RegSrvDlg::initialize()
     mConfigTable->setColumnWidth(0, 60);
     mConfigTable->setColumnWidth(1, 200);
 
-
+    mOnBtn->setDisabled(true);
     loadTable();
 }
 

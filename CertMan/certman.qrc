@@ -75,5 +75,6 @@
         <file>certman.ico</file>
         <file>images/group.png</file>
         <file>images/manage.png</file>
+        <file>images/on.png</file>
     </qresource>
 </RCC>
