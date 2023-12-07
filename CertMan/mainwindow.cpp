@@ -3628,24 +3628,48 @@ void MainWindow::toggleLog()
 
 void MainWindow::OCSPSrv()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     OCSPSrvDlg ocspSrvDlg;
     ocspSrvDlg.exec();
 }
 
 void MainWindow::TSPSrv()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     TSPSrvDlg tspSrvDlg;
     tspSrvDlg.exec();
 }
 
 void MainWindow::CMPSrv()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     CMPSrvDlg cmpSrvDlg;
     cmpSrvDlg.exec();
 }
 
 void MainWindow::RegSrv()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
     RegSrvDlg regSrvDlg;
     regSrvDlg.exec();
 }
