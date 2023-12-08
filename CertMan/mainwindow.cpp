@@ -75,10 +75,7 @@
 #include "csr_info_dlg.h"
 #include "remote_db_dlg.h"
 
-#include "cmp_srv_dlg.h"
-#include "ocsp_srv_dlg.h"
-#include "tsp_srv_dlg.h"
-#include "reg_srv_dlg.h"
+#include "pki_srv_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -3634,8 +3631,9 @@ void MainWindow::OCSPSrv()
         return;
     }
 
-    OCSPSrvDlg ocspSrvDlg;
-    ocspSrvDlg.exec();
+    PKISrvDlg pkiSrvDlg;
+    pkiSrvDlg.setSrvKind( JS_GEN_KIND_OCSP_SRV );
+    pkiSrvDlg.exec();
 }
 
 void MainWindow::TSPSrv()
@@ -3646,8 +3644,9 @@ void MainWindow::TSPSrv()
         return;
     }
 
-    TSPSrvDlg tspSrvDlg;
-    tspSrvDlg.exec();
+    PKISrvDlg pkiSrvDlg;
+    pkiSrvDlg.setSrvKind( JS_GEN_KIND_TSP_SRV );
+    pkiSrvDlg.exec();
 }
 
 void MainWindow::CMPSrv()
@@ -3658,8 +3657,9 @@ void MainWindow::CMPSrv()
         return;
     }
 
-    CMPSrvDlg cmpSrvDlg;
-    cmpSrvDlg.exec();
+    PKISrvDlg pkiSrvDlg;
+    pkiSrvDlg.setSrvKind( JS_GEN_KIND_CMP_SRV );
+    pkiSrvDlg.exec();
 }
 
 void MainWindow::RegSrv()
@@ -3670,8 +3670,9 @@ void MainWindow::RegSrv()
         return;
     }
 
-    RegSrvDlg regSrvDlg;
-    regSrvDlg.exec();
+    PKISrvDlg pkiSrvDlg;
+    pkiSrvDlg.setSrvKind( JS_GEN_KIND_REG_SRV );
+    pkiSrvDlg.exec();
 }
 
 void MainWindow::expandMenu()

@@ -215,10 +215,10 @@ add_executable(${PROJECT_NAME}
     cm.rc
     certman.icns
     CertMan.pro
-    ocsp_srv_dlg.h ocsp_srv_dlg.cpp ocsp_srv_dlg.ui
-    tsp_srv_dlg.h tsp_srv_dlg.cpp tsp_srv_dlg.ui
-    cmp_srv_dlg.h cmp_srv_dlg.cpp cmp_srv_dlg.ui
-    reg_srv_dlg.h reg_srv_dlg.cpp reg_srv_dlg.ui
+    pki_srv_dlg.h pki_srv_dlg.cpp pki_srv_dlg.ui
+
+
+
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

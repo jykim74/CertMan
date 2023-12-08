@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OCSPSrvDlg</class>
- <widget class="QDialog" name="OCSPSrvDlg">
+ <class>PKISrvDlg</class>
+ <widget class="QDialog" name="PKISrvDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>OCSP Server Windows</string>
+   <string>PKI Server Manager</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="mTitleLabel">
      <property name="text">
       <string>OCSP Server Information</string>
      </property>

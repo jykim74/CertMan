@@ -3,14 +3,16 @@
 #include "js_gen.h"
 #include "js_adm.h"
 #include "js_http.h"
-#include "ocsp_srv_dlg.h"
+#include "pki_srv_dlg.h"
 #include "commons.h"
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "db_mgr.h"
 #include "config_rec.h"
 
-static QStringList sNameList = {
+static QStringList sNameList;
+
+static QStringList sOCSPNameList = {
     "LOG_PATH", "LOG_LEVEL", "OCSP_HSM_LIB_PATH", "OCSP_HSM_SLOT_ID"
     "OCSP_HSM_PIN", "OCSP_HSM_KEY_ID", "OCSP_SRV_PRIKEY_NUM",
     "OCSP_SRV_PRIKEY_ENC", "OCSP_SRV_PRIKEY_PASSWD", "OCSP_SRV_CERT_NUM",
@@ -18,9 +20,34 @@ static QStringList sNameList = {
     "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
     "OCSP_PORT", "OCSP_SSL_PORT" };
 
-OCSPSrvDlg::OCSPSrvDlg(QWidget *parent) :
+static QStringList sCMPNameList = {
+    "LOG_PATH", "LOG_LEVEL", "CMP_HSM_LIB_PATH", "CMP_HSM_SLOT_ID"
+    "CMP_HSM_PIN", "CMP_HSM_KEY_ID", "CMP_SRV_PRIKEY_NUM",
+    "CMP_SRV_PRIKEY_ENC", "CMP_SRV_PRIKEY_PASSWD", "CMP_SRV_CERT_NUM",
+    "CMP_HSM_USE", "CMP_NEED_SIGN", "CMP_MSG_DUMP",
+    "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
+    "CMP_PORT", "CMP_SSL_PORT" };
+
+static QStringList sRegNameList = {
+    "LOG_PATH", "LOG_LEVEL", "REG_HSM_LIB_PATH", "REG_HSM_SLOT_ID"
+    "REG_HSM_PIN", "REG_HSM_KEY_ID", "REG_SRV_PRIKEY_NUM",
+    "REG_SRV_PRIKEY_ENC", "REG_SRV_PRIKEY_PASSWD", "REG_SRV_CERT_NUM",
+    "REG_HSM_USE", "REG_NEED_SIGN", "REG_MSG_DUMP",
+    "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
+    "REG_PORT", "REG_SSL_PORT" };
+
+static QStringList sTSPNameList = {
+    "LOG_PATH", "LOG_LEVEL", "TSP_HSM_LIB_PATH", "TSP_HSM_SLOT_ID"
+    "TSP_HSM_PIN", "TSP_HSM_KEY_ID", "TSP_SRV_PRIKEY_NUM",
+    "TSP_SRV_PRIKEY_ENC", "TSP_SRV_PRIKEY_PASSWD", "TSP_SRV_CERT_NUM",
+    "TSP_HSM_USE", "TSP_NEED_SIGN", "TSP_MSG_DUMP",
+    "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
+    "TSP_PORT", "TSP_SSL_PORT" };
+
+PKISrvDlg::PKISrvDlg(QWidget *parent) :
     QDialog(parent)
 {
+    kind_ = -1;
     setupUi(this);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
@@ -42,16 +69,52 @@ OCSPSrvDlg::OCSPSrvDlg(QWidget *parent) :
     connect( mResizeBtn, SIGNAL(clicked()), this, SLOT(clickResize()));
     connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
 
+}
+
+PKISrvDlg::~PKISrvDlg()
+{
+
+}
+
+void PKISrvDlg::setSrvKind( int nKind )
+{
+    kind_ = nKind;
+
+    if( kind_ == JS_GEN_KIND_OCSP_SRV )
+        sNameList = sOCSPNameList;
+    else if( kind_ == JS_GEN_KIND_TSP_SRV )
+        sNameList = sTSPNameList;
+    else if( kind_ == JS_GEN_KIND_CMP_SRV )
+        sNameList = sCMPNameList;
+    else if( kind_ == JS_GEN_KIND_REG_SRV )
+        sNameList = sRegNameList;
+}
+
+void PKISrvDlg::showEvent(QShowEvent *event)
+{
     initialize();
 }
 
-OCSPSrvDlg::~OCSPSrvDlg()
+const QString PKISrvDlg::getName()
 {
+    if( kind_ == JS_GEN_KIND_OCSP_SRV )
+        return "OCSP";
+    else if( kind_ == JS_GEN_KIND_TSP_SRV )
+        return "TSP";
+    else if( kind_ == JS_GEN_KIND_CMP_SRV )
+        return "CMP";
+    else if( kind_ == JS_GEN_KIND_REG_SRV )
+        return "Reg";
 
+    return "Service";
 }
 
-void OCSPSrvDlg::initialize()
+void PKISrvDlg::initialize()
 {
+    QString strTitle = QString( "%1 Server Information").arg( getName() );
+
+    mTitleLabel->setText( strTitle );
+
     mNameCombo->setEnabled( true );
     mNameCombo->addItems( sNameList );
     mNameCombo->setEditable( true );
@@ -73,7 +136,7 @@ void OCSPSrvDlg::initialize()
     loadTable();
 }
 
-void OCSPSrvDlg::clearTable()
+void PKISrvDlg::clearTable()
 {
     int nRows = mConfigTable->rowCount();
 
@@ -83,14 +146,14 @@ void OCSPSrvDlg::clearTable()
     }
 }
 
-void OCSPSrvDlg::loadTable()
+void PKISrvDlg::loadTable()
 {
     DBMgr *dbMgr = manApplet->dbMgr();
     QList<ConfigRec> configList;
 
     clearTable();
 
-    dbMgr->getConfigList( JS_GEN_KIND_OCSP_SRV, configList );
+    dbMgr->getConfigList( kind_, configList );
 
     for( int i = 0; i < configList.size(); i++ )
     {
@@ -104,7 +167,7 @@ void OCSPSrvDlg::loadTable()
     }
 }
 
-void OCSPSrvDlg::clickDel()
+void PKISrvDlg::clickDel()
 {
     QTableWidgetItem *item = mConfigTable->selectedItems().at(0);
 
@@ -113,7 +176,7 @@ void OCSPSrvDlg::clickDel()
     mConfigTable->removeRow(item->row());
 }
 
-void OCSPSrvDlg::clickAdd()
+void PKISrvDlg::clickAdd()
 {
     ConfigRec config;
 
@@ -139,7 +202,7 @@ void OCSPSrvDlg::clickAdd()
 
     config.setValue( strValue );
     config.setName( strName );
-    config.setKind( JS_GEN_KIND_OCSP_SRV );
+    config.setKind( kind_ );
 
     manApplet->dbMgr()->addConfigRec( config );
 
@@ -147,7 +210,7 @@ void OCSPSrvDlg::clickAdd()
     mValueText->clear();
 }
 
-void OCSPSrvDlg::clickFindFile()
+void PKISrvDlg::clickFindFile()
 {
     QString strPath = manApplet->curFile();
 
@@ -160,7 +223,7 @@ void OCSPSrvDlg::clickFindFile()
     }
 }
 
-void OCSPSrvDlg::clickFindServer()
+void PKISrvDlg::clickFindServer()
 {
     QString strPath = mServerPathText->text();
 
@@ -169,16 +232,27 @@ void OCSPSrvDlg::clickFindServer()
     if( strFileName.length() > 0 ) mServerPathText->setText( strFileName );
 }
 
-void OCSPSrvDlg::clickCheck()
+void PKISrvDlg::clickCheck()
 {
     int ret = 0;
-    int nPort = JS_OCSP_PORT;
+    int nPort = 0;
     QString strURL;
     QString strValue;
 
     DBMgr* dbMgr = manApplet->dbMgr();
+    QString strPKI = getName();
+    QString strName = QString( "%1_PORT" ).arg( strPKI );
 
-    ret = dbMgr->getConfigValue( JS_GEN_KIND_OCSP_SRV, "OCSP_PORT", strValue );
+    if( kind_ == JS_GEN_KIND_OCSP_SRV )
+        nPort = JS_OCSP_PORT;
+    else if( kind_ == JS_GEN_KIND_TSP_SRV )
+        nPort = JS_TSP_PORT;
+    else if( kind_ == JS_GEN_KIND_CMP_SRV )
+        nPort = JS_CMP_PORT;
+    else if( kind_ == JS_GEN_KIND_REG_SRV )
+        nPort = JS_REG_PORT;
+
+    ret = dbMgr->getConfigValue( kind_, strName, strValue );
     if( ret == 1 ) nPort = strValue.toInt();
 
     strURL = QString("http://localhost:%1/PING").arg( nPort );
@@ -186,24 +260,25 @@ void OCSPSrvDlg::clickCheck()
     ret = JS_HTTP_ping( strURL.toStdString().c_str() );
     if( ret == 0 )
     {
-        manApplet->log( "OCSP Server is started" );
+        manApplet->log( QString("%1 Server is started" ).arg( strPKI ));
         mOnBtn->setEnabled( true );
     }
     else
     {
-        manApplet->elog( "OCSP Server is not working" );
+        manApplet->elog( QString("%1 Server is not working" ).arg( strPKI ));
         mOnBtn->setEnabled(false);
     }
 }
 
-void OCSPSrvDlg::clickStart()
+void PKISrvDlg::clickStart()
 {
     QString strCmd;
     QString strServerPath = mServerPathText->text();
+    QString strPKI = getName();
 
     if( strServerPath.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to find OCSP Server file" ), this );
+        manApplet->warningBox( tr( "You have to find %1 Server file" ).arg( strPKI ), this );
         return;
     }
 
@@ -218,7 +293,7 @@ void OCSPSrvDlg::clickStart()
     process->start();
 }
 
-void OCSPSrvDlg::slotConfigMenuRequested(QPoint pos)
+void PKISrvDlg::slotConfigMenuRequested(QPoint pos)
 {
     QMenu *menu = new QMenu(this);
     QAction *delAct = new QAction( tr("Delete"), this );
@@ -228,7 +303,7 @@ void OCSPSrvDlg::slotConfigMenuRequested(QPoint pos)
     menu->popup( mConfigTable->viewport()->mapToGlobal(pos));
 }
 
-void OCSPSrvDlg::deleteConfigMenu()
+void PKISrvDlg::deleteConfigMenu()
 {
     QModelIndex idx = mConfigTable->currentIndex();
 
@@ -239,10 +314,20 @@ void OCSPSrvDlg::deleteConfigMenu()
     mConfigTable->removeRow(idx.row());
 }
 
-void OCSPSrvDlg::clickConnect()
+void PKISrvDlg::clickConnect()
 {
     const char *pHost = "localhost";
-    int nPort = JS_OCSP_PORT + 10;
+    int nPort = -1;
+
+    if( kind_ == JS_GEN_KIND_OCSP_SRV )
+        nPort = JS_OCSP_PORT + 10;
+    else if( kind_ == JS_GEN_KIND_TSP_SRV )
+        nPort = JS_TSP_PORT + 10;
+    else if( kind_ == JS_GEN_KIND_CMP_SRV )
+        nPort = JS_CMP_PORT + 10;
+    else if( kind_ == JS_GEN_KIND_REG_SRV )
+        nPort = JS_REG_PORT + 10;
+
 
     int ret = JS_ADM_Connect( pHost, nPort );
     if( ret < 0 )
@@ -257,7 +342,7 @@ void OCSPSrvDlg::clickConnect()
     }
 }
 
-void OCSPSrvDlg::clickListPid()
+void PKISrvDlg::clickListPid()
 {
     int iRes = -1;
     int nSockFd = mSockText->text().toInt();
@@ -280,7 +365,7 @@ void OCSPSrvDlg::clickListPid()
     JS_UTIL_resetNumList( &pNumList );
 }
 
-void OCSPSrvDlg::clickGetProc()
+void PKISrvDlg::clickGetProc()
 {
     int iRes = 0;
 
@@ -306,7 +391,7 @@ void OCSPSrvDlg::clickGetProc()
     JS_ADM_resetProcInfoList( &pstProcInfo );
 }
 
-void OCSPSrvDlg::clickGetService()
+void PKISrvDlg::clickGetService()
 {
     int iRes = 0;
     int nSockFd = mSockText->text().toInt();
@@ -329,7 +414,7 @@ void OCSPSrvDlg::clickGetService()
     JS_ADM_resetServiceInfoList( &pstServiceInfo );
 }
 
-void OCSPSrvDlg::clickListThread()
+void PKISrvDlg::clickListThread()
 {
     int iRes = 0;
     int nSockFd = mSockText->text().toInt();
@@ -353,7 +438,7 @@ void OCSPSrvDlg::clickListThread()
     JS_ADM_resetThreadInfoList( &pstThInfo );
 }
 
-void OCSPSrvDlg::clickGetThread()
+void PKISrvDlg::clickGetThread()
 {
     int iRes = 0;
     int nSockFd = mSockText->text().toInt();
@@ -378,7 +463,7 @@ void OCSPSrvDlg::clickGetThread()
     JS_ADM_resetThreadInfoList( &pstThInfo );
 }
 
-void OCSPSrvDlg::clickResize()
+void PKISrvDlg::clickResize()
 {
     int iRes = 0;
 
@@ -404,7 +489,7 @@ void OCSPSrvDlg::clickResize()
     JS_UTIL_resetNumList( &pNumList );
 }
 
-void OCSPSrvDlg::clickStop()
+void PKISrvDlg::clickStop()
 {
     int nSockFd = mSockText->text().toInt();
     int ret = JS_ADM_StopService( nSockFd );

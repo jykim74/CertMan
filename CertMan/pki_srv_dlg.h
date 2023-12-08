@@ -1,22 +1,25 @@
-#ifndef OCSP_SRV_DLG_H
-#define OCSP_SRV_DLG_H
+#ifndef PKI_SRV_DLG_H
+#define PKI_SRV_DLG_H
 
 #include <QDialog>
-#include "ui_ocsp_srv_dlg.h"
+#include "ui_pki_srv_dlg.h"
 
 namespace Ui {
-class OCSPSrvDlg;
+class PKISrvDlg;
 }
 
-class OCSPSrvDlg : public QDialog, public Ui::OCSPSrvDlg
+class PKISrvDlg : public QDialog, public Ui::PKISrvDlg
 {
     Q_OBJECT
 
 public:
-    explicit OCSPSrvDlg(QWidget *parent = nullptr);
-    ~OCSPSrvDlg();
+    explicit PKISrvDlg(QWidget *parent = nullptr);
+    ~PKISrvDlg();
+    void setSrvKind( int nKind );
 
 private slots:
+    void showEvent(QShowEvent *event);
+
     void clickDel();
     void clickAdd();
     void clickFindFile();
@@ -40,6 +43,10 @@ private:
     void initialize();
     void clearTable();
     void loadTable();
+
+    const QString getName();
+
+    int kind_;
 };
 
-#endif // OCSP_SRV_DLG_H
+#endif // PKI_SRV_DLG_H
