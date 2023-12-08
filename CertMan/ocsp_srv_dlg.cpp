@@ -248,93 +248,167 @@ void OCSPSrvDlg::clickConnect()
     if( ret < 0 )
     {
         manApplet->elog( QString("fail to connect admin server: %1").arg(ret));
-        sockfd_ = -1;
+        mSockText->clear();
     }
     else
     {
         manApplet->log( QString("admin service is connected:%1").arg( ret ));
-        sockfd_ = ret;
+        mSockText->setText( QString("%1").arg(ret));
     }
 }
 
 void OCSPSrvDlg::clickListPid()
 {
     int iRes = -1;
-    JNumList *pNumList = NULL;
-    JNumList *pCurList = NULL;
-    JNumList *pTmpList = NULL;
+    int nSockFd = mSockText->text().toInt();
 
-    int ret = JS_ADM_ListPid( sockfd_, &iRes, &pNumList );
+    JNumList *pNumList = NULL;
+
+    int ret = JS_ADM_ListPid( nSockFd, &iRes, &pNumList );
 
     if( ret != 0 )
     {
         manApplet->elog( QString( "fail to list pid: %1").arg(ret));
+        mResText->clear();
     }
     else
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
-        pCurList = pNumList;
-
-        while( pCurList )
-        {
-            manApplet->log( QString( "Pid : %1").arg( pCurList->nNum ));
-            pTmpList = pCurList;
-            JS_free( pTmpList );
-
-            pCurList = pCurList->pNext;
-        }
+        mResText->setText( QString("%1").arg( iRes ) );
     }
+
+    JS_UTIL_resetNumList( &pNumList );
 }
 
 void OCSPSrvDlg::clickGetProc()
 {
     int iRes = 0;
-    int nIndex = 0;
+
     JProcInfo *pstProcInfo = NULL;
 
-    int ret = JS_ADM_GetProc( sockfd_, &iRes, nIndex, &pstProcInfo );
+    int nSockFd = mSockText->text().toInt();
+    int nProcIndex = mProcText->text().toInt();
+
+    int ret = JS_ADM_GetProc( nSockFd, &iRes, nProcIndex, &pstProcInfo );
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to get proc: %1").arg(ret));
+        mResText->clear();
+    }
+    else
+    {
+        manApplet->log( QString( "Result:%1").arg( iRes ));
+        mResText->setText( QString("%1").arg( iRes ) );
+    }
+
+
+    JS_ADM_resetProcInfoList( &pstProcInfo );
 }
 
 void OCSPSrvDlg::clickGetService()
 {
     int iRes = 0;
-    int nIndex = 0;
+    int nSockFd = mSockText->text().toInt();
+    int nProcIndex = mProcText->text().toInt();
 
     JServiceInfo *pstServiceInfo = NULL;
-    int ret = JS_ADM_GetService( sockfd_, &iRes, nIndex, &pstServiceInfo );
+    int ret = JS_ADM_GetService( nSockFd, &iRes, nProcIndex, &pstServiceInfo );
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to get service: %1").arg(ret));
+        mResText->clear();
+    }
+    else
+    {
+        manApplet->log( QString( "Result:%1").arg( iRes ));
+        mResText->setText( QString("%1").arg( iRes ) );
+    }
+
+    JS_ADM_resetServiceInfoList( &pstServiceInfo );
 }
 
 void OCSPSrvDlg::clickListThread()
 {
     int iRes = 0;
-    int nIndex = 0;
+    int nSockFd = mSockText->text().toInt();
+    int nProcIndex = mProcText->text().toInt();
+
     JThreadInfo *pstThInfo = NULL;
 
-    int ret = JS_ADM_ListThread( sockfd_, &iRes, nIndex, &pstThInfo );
+    int ret = JS_ADM_ListThread( nSockFd, &iRes, nProcIndex, &pstThInfo );
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to list thread: %1").arg(ret));
+        mResText->clear();
+    }
+    else
+    {
+        manApplet->log( QString( "Result:%1").arg( iRes ));
+        mResText->setText( QString("%1").arg( iRes ) );
+    }
+
+    JS_ADM_resetThreadInfoList( &pstThInfo );
 }
 
 void OCSPSrvDlg::clickGetThread()
 {
     int iRes = 0;
-    int nProcIndex = 0;
-    int nIndex = 0;
+    int nSockFd = mSockText->text().toInt();
+    int nProcIndex = mProcText->text().toInt();
+    int nIndex = mIndexText->text().toInt();
+
     JThreadInfo *pstThInfo = NULL;
 
-    int ret = JS_ADM_GetThread( sockfd_, &iRes, nProcIndex, nIndex, &pstThInfo );
+    int ret = JS_ADM_GetThread( nSockFd, &iRes, nProcIndex, nIndex, &pstThInfo );
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to get thread: %1").arg(ret));
+        mResText->clear();
+    }
+    else
+    {
+        manApplet->log( QString( "Result:%1").arg( iRes ));
+        mResText->setText( QString("%1").arg( iRes ) );
+    }
+
+    JS_ADM_resetThreadInfoList( &pstThInfo );
 }
 
 void OCSPSrvDlg::clickResize()
 {
     int iRes = 0;
-    int nSize = 0;
-    int nProcIndex = 0;
+
+    int nSockFd = mSockText->text().toInt();
+    int nProcIndex = mProcText->text().toInt();
+    int nSize = mIndexText->text().toInt();
 
     JNumList *pNumList = NULL;
 
-    int ret = JS_ADM_Resize( sockfd_, &iRes, nProcIndex, nSize, &pNumList );
+    int ret = JS_ADM_Resize( nSockFd, &iRes, nProcIndex, nSize, &pNumList );
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to resize: %1").arg(ret));
+        mResText->clear();
+    }
+    else
+    {
+        manApplet->log( QString( "Result:%1").arg( iRes ));
+        mResText->setText( QString("%1").arg( iRes ) );
+    }
+
+    JS_UTIL_resetNumList( &pNumList );
 }
 
 void OCSPSrvDlg::clickStop()
 {
-    int ret = JS_ADM_StopService( sockfd_ );
+    int nSockFd = mSockText->text().toInt();
+    int ret = JS_ADM_StopService( nSockFd );
+
+    mSockText->clear();
+    mResText->clear();
 }

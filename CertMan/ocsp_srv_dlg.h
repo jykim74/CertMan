@@ -40,8 +40,6 @@ private:
     void initialize();
     void clearTable();
     void loadTable();
-
-    int sockfd_;
 };
 
 #endif // OCSP_SRV_DLG_H
