@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "ui_pki_srv_dlg.h"
+#include "js_thread.h"
+#include "js_process.h"
 
 namespace Ui {
 class PKISrvDlg;
@@ -45,6 +47,10 @@ private:
     void loadTable();
 
     const QString getName();
+
+    void logProcInfo( const JProcInfo *pProcInfo );
+    void logServiceInfo( const JServiceInfo *pServiceInfo );
+    void logThreadInfo( const JThreadInfo *pThInfo );
 
     int kind_;
 };

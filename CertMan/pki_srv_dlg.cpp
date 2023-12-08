@@ -360,6 +360,14 @@ void PKISrvDlg::clickListPid()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JNumList *pCurList = pNumList;
+
+        while( pCurList )
+        {
+            manApplet->log( QString( "Pid : %1" ).arg( pCurList->nNum ));
+            pCurList = pCurList->pNext;
+        }
     }
 
     JS_UTIL_resetNumList( &pNumList );
@@ -385,6 +393,14 @@ void PKISrvDlg::clickGetProc()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JProcInfo *pCurList = pstProcInfo;
+
+        while( pCurList )
+        {
+            logProcInfo( pCurList );
+            pCurList = pCurList->pNext;
+        }
     }
 
 
@@ -409,6 +425,14 @@ void PKISrvDlg::clickGetService()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JServiceInfo *pCurList = pstServiceInfo;
+
+        while( pCurList )
+        {
+            logServiceInfo( pCurList );
+            pCurList = pCurList->pNext;
+        }
     }
 
     JS_ADM_resetServiceInfoList( &pstServiceInfo );
@@ -433,6 +457,14 @@ void PKISrvDlg::clickListThread()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JThreadInfo *pCurList = pstThInfo;
+
+        while( pCurList )
+        {
+            logThreadInfo( pCurList );
+            pCurList = pCurList->pNext;
+        }
     }
 
     JS_ADM_resetThreadInfoList( &pstThInfo );
@@ -458,6 +490,14 @@ void PKISrvDlg::clickGetThread()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JThreadInfo *pCurList = pstThInfo;
+
+        while( pCurList )
+        {
+            logThreadInfo( pCurList );
+            pCurList = pCurList->pNext;
+        }
     }
 
     JS_ADM_resetThreadInfoList( &pstThInfo );
@@ -484,6 +524,14 @@ void PKISrvDlg::clickResize()
     {
         manApplet->log( QString( "Result:%1").arg( iRes ));
         mResText->setText( QString("%1").arg( iRes ) );
+
+        JNumList *pCurList = pNumList;
+
+        while( pCurList )
+        {
+            manApplet->log( QString( "Pid : %1" ).arg( pCurList->nNum ));
+            pCurList = pCurList->pNext;
+        }
     }
 
     JS_UTIL_resetNumList( &pNumList );
@@ -496,4 +544,59 @@ void PKISrvDlg::clickStop()
 
     mSockText->clear();
     mResText->clear();
+}
+
+void PKISrvDlg::logProcInfo( const JProcInfo *pProcInfo )
+{
+    manApplet->log( "========================================================================\n" );
+    manApplet->log( "== Proc Information\n" );
+    manApplet->log( "========================================================================\n" );
+    if( pProcInfo == NULL ) return;
+
+    manApplet->log( QString( "ListenFd          : %1").arg( pProcInfo->nListenFd ));
+    manApplet->log( QString( "Port              : %1").arg( pProcInfo->nPort ));
+    manApplet->log( QString( "InitThreadCnt     : %1").arg( pProcInfo->nInitThreadCnt ));
+    manApplet->log( QString( "ServiceName       : %1").arg( pProcInfo->pServiceName ));
+    manApplet->log( QString( "BindAddress       : %1").arg( pProcInfo->pBindAddress ? pProcInfo->pBindAddress : "" ));
+}
+
+void PKISrvDlg::logServiceInfo( const JServiceInfo *pServiceInfo )
+{
+    manApplet->log( "========================================================================\n" );
+    manApplet->log( "== Service Information\n" );
+    manApplet->log( "========================================================================\n" );
+
+    if( pServiceInfo == NULL ) return;
+
+    manApplet->log( QString( "ServiceID         : %1").arg( pServiceInfo->nServiceID ) );
+    manApplet->log( QString( "ServiceName       : %1").arg( pServiceInfo->pServiceName ) );
+    manApplet->log( QString( "StartTime         : %1").arg( pServiceInfo->tStartTime ) );
+    manApplet->log( QString( "ProcessID         : %1").arg( pServiceInfo->nProcessID ) );
+    manApplet->log( QString( "BindAddress       : %1").arg( pServiceInfo->pBindAddress ? pServiceInfo->pBindAddress : "" ) );
+    manApplet->log( QString( "Port              : %1").arg( pServiceInfo->nPort ) );
+    manApplet->log( QString( "PoolSize          : %1").arg( pServiceInfo->nPoolSize ) );
+    manApplet->log( QString( "WaitPoolCnt       : %1").arg( pServiceInfo->nWaitPoolCnt ) );
+    manApplet->log( QString( "QueuedCnt         : %1").arg( pServiceInfo->nQueuedCnt ) );
+    manApplet->log( QString( "ListenFd          : %1").arg( pServiceInfo->nListenFd ) );
+}
+
+void PKISrvDlg::logThreadInfo( const JThreadInfo *pThInfo )
+{
+    manApplet->log( "========================================================================\n" );
+    manApplet->log( "== Thread Information\n" );
+    manApplet->log( "========================================================================\n" );
+
+    if( pThInfo == NULL ) return;
+
+    manApplet->log( QString( "Index            : %1" ).arg( pThInfo->nIndex ));
+    manApplet->log( QString( "ThreadID         : %1" ).arg( pThInfo->nThreadID));
+    manApplet->log( QString( "State            : %1" ).arg( pThInfo->cState ));
+    manApplet->log( QString( "IsQuit           : %1" ).arg( pThInfo->nIsQuit ));
+    manApplet->log( QString( "WorkCnt          : %1" ).arg( pThInfo->nWorkCnt ));
+    manApplet->log( QString( "StartTime        : %1" ).arg( pThInfo->tStartTime ));
+    manApplet->log( QString( "WorkTime         : %1" ).arg( pThInfo->tWorkTime ));
+    manApplet->log( QString( "SockFd           : %1" ).arg( pThInfo->nSockFd ));
+    manApplet->log( QString( "ServiceID        : %1" ).arg( pThInfo->nServiceID ));
+    manApplet->log( QString( "ConnFlag         : %1" ).arg( pThInfo->nConnFlag ));
+    manApplet->log( QString( "ClientIP         : %1" ).arg( pThInfo->sClientIP ));
 }
