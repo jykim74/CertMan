@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>480</height>
+    <width>504</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -156,8 +156,19 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="mProcText"/>
+     <item row="0" column="6">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Result</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Index or Size</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLineEdit" name="mSockText">
@@ -193,7 +204,17 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="mIndexText"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>SockFD</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="6">
       <widget class="QLineEdit" name="mResText">
        <property name="palette">
         <palette>
@@ -228,33 +249,33 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLineEdit" name="mIndexText"/>
+      <widget class="QLineEdit" name="mProcText"/>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>SockFD</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+     <item row="0" column="2">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Proc Index</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Index or Size</string>
+     <item row="0" column="1" rowspan="2">
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Result</string>
+     <item row="0" column="3" rowspan="2">
+      <widget class="Line" name="line_6">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5" rowspan="2">
+      <widget class="Line" name="line_7">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
@@ -272,38 +293,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="mListPidBtn">
-       <property name="text">
-        <string>ListPid</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="mGetServiceBtn">
-       <property name="text">
-        <string>GetService</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="mConnectBtn">
-       <property name="text">
-        <string>Connect</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QPushButton" name="mGetThreadBtn">
        <property name="text">
         <string>GetThread</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="mListThreadBtn">
-       <property name="text">
-        <string>ListThread</string>
        </property>
       </widget>
      </item>
@@ -314,10 +307,38 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mConnectBtn">
+       <property name="text">
+        <string>Connect</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="3">
       <widget class="QPushButton" name="mStopBtn">
        <property name="text">
         <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mGetServiceBtn">
+       <property name="text">
+        <string>GetService</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="mListPidBtn">
+       <property name="text">
+        <string>ListPid</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="mListThreadBtn">
+       <property name="text">
+        <string>ListThread</string>
        </property>
       </widget>
      </item>

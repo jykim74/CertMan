@@ -70,6 +70,9 @@ PKISrvDlg::PKISrvDlg(QWidget *parent) :
     connect( mResizeBtn, SIGNAL(clicked()), this, SLOT(clickResize()));
     connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
 
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 PKISrvDlg::~PKISrvDlg()
@@ -324,6 +327,7 @@ void PKISrvDlg::deleteConfigMenu()
 
 void PKISrvDlg::clickConnect()
 {
+    int sockfd = -1;
     const char *pHost = "localhost";
     int nPort = -1;
 
@@ -336,6 +340,16 @@ void PKISrvDlg::clickConnect()
     else if( kind_ == JS_GEN_KIND_REG_SRV )
         nPort = JS_REG_PORT + 10;
 
+    sockfd = mSockText->text().toInt();
+
+    if( sockfd > 0 )
+    {
+        JS_NET_close( sockfd );
+        mConnectBtn->setText( tr("Connect" ));
+        manApplet->log( "Admin is disconnected" );
+        mSockText->clear();
+        return;
+    }
 
     int ret = JS_ADM_Connect( pHost, nPort );
     if( ret < 0 )
@@ -347,6 +361,7 @@ void PKISrvDlg::clickConnect()
     {
         manApplet->log( QString("admin service(%1:%2) is connected:%3").arg( pHost ).arg( nPort ).arg( ret ));
         mSockText->setText( QString("%1").arg(ret));
+        mConnectBtn->setText( tr("Disconnect"));
     }
 }
 
