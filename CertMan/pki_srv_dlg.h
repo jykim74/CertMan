@@ -21,6 +21,7 @@ public:
 
 private slots:
     void showEvent(QShowEvent *event);
+    void closeEvent(QCloseEvent *event);
 
     void clickDel();
     void clickAdd();

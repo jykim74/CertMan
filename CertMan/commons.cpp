@@ -1373,6 +1373,8 @@ QString findFile( QWidget *parent, int nType, const QString strPath )
         strType = QObject::tr( "DLL Files (*.dll);;SO Files (*.so);;All Files (*.*)" );
     else if( nType == JS_FILE_TYPE_LCN )
         strType = QObject::tr( "License Files (*.lcn *.txt);;All Files (*.*)" );
+    else if( nType == JS_FILE_TYPE_ALL )
+        strType = QObject::tr( "All Files (*)" );
 
     QString fileName = QFileDialog::getOpenFileName( parent,
                                                      QObject::tr( "Open File" ),

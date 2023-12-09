@@ -130,6 +130,7 @@ enum {
     JS_FILE_TYPE_BER,
     JS_FILE_TYPE_DB,
     JS_FILE_TYPE_DLL,
+    JS_FILE_TYPE_ALL,
     JS_FILE_TYPE_LCN };
 
 static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Connectivity(ODBC)" };

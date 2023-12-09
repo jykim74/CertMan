@@ -1,6 +1,7 @@
 #include <QMenu>
 
 #include "js_gen.h"
+#include "js_net.h"
 #include "js_adm.h"
 #include "js_http.h"
 #include "pki_srv_dlg.h"
@@ -93,6 +94,13 @@ void PKISrvDlg::setSrvKind( int nKind )
 void PKISrvDlg::showEvent(QShowEvent *event)
 {
     initialize();
+}
+
+void PKISrvDlg::closeEvent(QCloseEvent *event)
+{
+    int nSockFd = mSockText->text().toInt();
+
+    if( nSockFd > 0 ) JS_NET_close( nSockFd );
 }
 
 const QString PKISrvDlg::getName()
@@ -227,7 +235,7 @@ void PKISrvDlg::clickFindServer()
 {
     QString strPath = mServerPathText->text();
 
-    QString strFileName = findFile( this, JS_FILE_TYPE_BER, strPath );
+    QString strFileName = findFile( this, JS_FILE_TYPE_ALL, strPath );
 
     if( strFileName.length() > 0 ) mServerPathText->setText( strFileName );
 }
@@ -332,12 +340,12 @@ void PKISrvDlg::clickConnect()
     int ret = JS_ADM_Connect( pHost, nPort );
     if( ret < 0 )
     {
-        manApplet->elog( QString("fail to connect admin server: %1").arg(ret));
+        manApplet->elog( QString("fail to connect admin server(%1:%2): %3").arg( pHost ).arg( nPort ).arg(ret));
         mSockText->clear();
     }
     else
     {
-        manApplet->log( QString("admin service is connected:%1").arg( ret ));
+        manApplet->log( QString("admin service(%1:%2) is connected:%3").arg( pHost ).arg( nPort ).arg( ret ));
         mSockText->setText( QString("%1").arg(ret));
     }
 }
