@@ -53,6 +53,9 @@ private:
     void logServiceInfo( const JServiceInfo *pServiceInfo );
     void logThreadInfo( const JThreadInfo *pThInfo );
 
+    void setBinPath( const QString strPath );
+    const QString getBinPath();
+
     int kind_;
 };
 

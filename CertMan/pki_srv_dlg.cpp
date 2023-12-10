@@ -123,6 +123,8 @@ const QString PKISrvDlg::getName()
 void PKISrvDlg::initialize()
 {
     QString strTitle = QString( "%1 Server Information").arg( getName() );
+    QString strPath = getBinPath();
+    mServerPathText->setText( strPath );
 
     mTitleLabel->setText( strTitle );
 
@@ -143,6 +145,7 @@ void PKISrvDlg::initialize()
     mConfigTable->setColumnWidth(1, 200);
 
     mOnBtn->setDisabled(true);
+
 
     mProcText->setText( "0" );
     mIndexText->setText( "0" );
@@ -296,6 +299,12 @@ void PKISrvDlg::clickStart()
         return;
     }
 
+    if( QFile::exists( strServerPath ) == false )
+    {
+        manApplet->warningBox( tr( "The file %1 is not exist" ).arg( strServerPath ), this );
+        return;
+    }
+
     strCmd = strServerPath;
     strCmd += " -d ";
     strCmd += manApplet->dbMgr()->getDBPath();
@@ -305,6 +314,8 @@ void PKISrvDlg::clickStart()
     QProcess *process = new QProcess();
     process->setProgram( strCmd );
     process->start();
+
+    setBinPath( strServerPath );
 }
 
 void PKISrvDlg::slotConfigMenuRequested(QPoint pos)
@@ -628,4 +639,37 @@ void PKISrvDlg::logThreadInfo( const JThreadInfo *pThInfo )
     manApplet->log( QString( "ConnFlag         : %1" ).arg( pThInfo->nConnFlag ));
     manApplet->log( QString( "ClientIP         : %1" ).arg( pThInfo->sClientIP ));
     manApplet->log( "========================================================================" );
+}
+
+
+void PKISrvDlg::setBinPath( const QString strPath )
+{
+    QString strName = getName();
+    QSettings   settings;
+
+    QString strTarget = QString( "%1SrvPath" ).arg( strName );
+
+    settings.beginGroup( "ServerBehavior" );
+    settings.setValue( strTarget, strPath );
+    settings.endGroup();
+}
+
+const QString PKISrvDlg::getBinPath()
+{
+    QString strPath;
+    QString strName = getName();
+    QString strTarget = QString( "%1SrvPath" ).arg( strName );
+
+#if defined( Q_OS_WIN32 )
+    QString strDefault = QString( "%1_srv.exe" ).arg( strName ).toLower();
+#else
+    QString strDefault = QString( "%1_srv" ).arg( strName ).toLower();
+#endif
+
+    QSettings   settings;
+    settings.beginGroup( "ServerBehavior" );
+    strPath = settings.value( strTarget, strDefault ).toString();
+    settings.endGroup();
+
+    return strPath;
 }
