@@ -70,6 +70,10 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     initUI();
     cert_num_ = -1;
     tabWidget->setCurrentIndex(0);
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 CertInfoDlg::~CertInfoDlg()

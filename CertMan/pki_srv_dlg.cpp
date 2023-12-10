@@ -571,9 +571,9 @@ void PKISrvDlg::clickStop()
 
 void PKISrvDlg::logProcInfo( const JProcInfo *pProcInfo )
 {
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Proc Information\n" );
-    manApplet->log( "========================================================================\n" );
+    manApplet->log( "========================================================================" );
+    manApplet->log( "== Proc Information" );
+    manApplet->log( "========================================================================" );
     if( pProcInfo == NULL ) return;
 
     manApplet->log( QString( "ListenFd          : %1").arg( pProcInfo->nListenFd ));
@@ -585,9 +585,9 @@ void PKISrvDlg::logProcInfo( const JProcInfo *pProcInfo )
 
 void PKISrvDlg::logServiceInfo( const JServiceInfo *pServiceInfo )
 {
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Service Information\n" );
-    manApplet->log( "========================================================================\n" );
+    manApplet->log( "========================================================================" );
+    manApplet->log( "== Service Information" );
+    manApplet->log( "========================================================================" );
 
     if( pServiceInfo == NULL ) return;
 
@@ -605,9 +605,9 @@ void PKISrvDlg::logServiceInfo( const JServiceInfo *pServiceInfo )
 
 void PKISrvDlg::logThreadInfo( const JThreadInfo *pThInfo )
 {
-    manApplet->log( "========================================================================\n" );
-    manApplet->log( "== Thread Information\n" );
-    manApplet->log( "========================================================================\n" );
+    manApplet->log( "========================================================================" );
+    manApplet->log( "== Thread Information" );
+    manApplet->log( "========================================================================" );
 
     if( pThInfo == NULL ) return;
 
