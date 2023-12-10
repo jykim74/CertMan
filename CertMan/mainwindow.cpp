@@ -84,7 +84,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     initialize();
 
-    pki_srv_ = new PKISrvDlg;
+    if( manApplet->isPRO() == true )
+        pki_srv_ = new PKISrvDlg;
+    else
+        pki_srv_ = NULL;
 
     createActions();
     createStatusBar();
@@ -107,7 +110,7 @@ MainWindow::~MainWindow()
     delete left_tree_;
     delete left_model_;
 
-    delete pki_srv_;
+    if( pki_srv_ ) delete pki_srv_;
 
     delete log_text_;
     delete info_text_;
@@ -3635,6 +3638,7 @@ void MainWindow::OCSPSrv()
         return;
     }
 
+    if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_OCSP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -3649,6 +3653,7 @@ void MainWindow::TSPSrv()
         return;
     }
 
+    if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_TSP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -3663,6 +3668,7 @@ void MainWindow::CMPSrv()
         return;
     }
 
+    if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_CMP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -3677,6 +3683,7 @@ void MainWindow::RegSrv()
         return;
     }
 
+    if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_REG_SRV );
     pki_srv_->show();
     pki_srv_->raise();
