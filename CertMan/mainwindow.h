@@ -20,6 +20,8 @@ class CertRec;
 class StatForm;
 class ProfileExtRec;
 
+class PKISrvDlg;
+
 namespace Ui {
 class MainWindow;
 }
@@ -237,6 +239,7 @@ private:
 
     void adjustForCurrentFile( const QString& filePath );
     void updateRecentActionList();
+    int             openDB( const QString dbPath );
 
 
     QList<QAction *>  recent_file_list_;
@@ -250,7 +253,6 @@ private:
     QTabWidget      *text_tab_;
     QTextEdit       *log_text_;
     QTextEdit       *info_text_;
-//    SearchMenu      *search_menu_;
     SearchForm      *search_form_;
 
     int             right_type_;
@@ -260,7 +262,7 @@ private:
     StatForm        *stat_;
     bool            log_halt_;
 
-    int             openDB( const QString dbPath );
+    PKISrvDlg       *pki_srv_;
 };
 
 #endif // MAINWINDOW_H

@@ -144,6 +144,9 @@ void PKISrvDlg::initialize()
 
     mOnBtn->setDisabled(true);
 
+    mProcText->setText( "0" );
+    mIndexText->setText( "0" );
+
     loadTable();
 }
 
@@ -581,6 +584,7 @@ void PKISrvDlg::logProcInfo( const JProcInfo *pProcInfo )
     manApplet->log( QString( "InitThreadCnt     : %1").arg( pProcInfo->nInitThreadCnt ));
     manApplet->log( QString( "ServiceName       : %1").arg( pProcInfo->pServiceName ));
     manApplet->log( QString( "BindAddress       : %1").arg( pProcInfo->pBindAddress ? pProcInfo->pBindAddress : "" ));
+    manApplet->log( "========================================================================" );
 }
 
 void PKISrvDlg::logServiceInfo( const JServiceInfo *pServiceInfo )
@@ -601,6 +605,7 @@ void PKISrvDlg::logServiceInfo( const JServiceInfo *pServiceInfo )
     manApplet->log( QString( "WaitPoolCnt       : %1").arg( pServiceInfo->nWaitPoolCnt ) );
     manApplet->log( QString( "QueuedCnt         : %1").arg( pServiceInfo->nQueuedCnt ) );
     manApplet->log( QString( "ListenFd          : %1").arg( pServiceInfo->nListenFd ) );
+    manApplet->log( "========================================================================" );
 }
 
 void PKISrvDlg::logThreadInfo( const JThreadInfo *pThInfo )
@@ -622,4 +627,5 @@ void PKISrvDlg::logThreadInfo( const JThreadInfo *pThInfo )
     manApplet->log( QString( "ServiceID        : %1" ).arg( pThInfo->nServiceID ));
     manApplet->log( QString( "ConnFlag         : %1" ).arg( pThInfo->nConnFlag ));
     manApplet->log( QString( "ClientIP         : %1" ).arg( pThInfo->sClientIP ));
+    manApplet->log( "========================================================================" );
 }

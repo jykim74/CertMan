@@ -84,6 +84,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     initialize();
 
+    pki_srv_ = new PKISrvDlg;
+
     createActions();
     createStatusBar();
 
@@ -104,6 +106,8 @@ MainWindow::~MainWindow()
 
     delete left_tree_;
     delete left_model_;
+
+    delete pki_srv_;
 
     delete log_text_;
     delete info_text_;
@@ -3631,9 +3635,10 @@ void MainWindow::OCSPSrv()
         return;
     }
 
-    PKISrvDlg pkiSrvDlg;
-    pkiSrvDlg.setSrvKind( JS_GEN_KIND_OCSP_SRV );
-    pkiSrvDlg.exec();
+    pki_srv_->setSrvKind( JS_GEN_KIND_OCSP_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
 }
 
 void MainWindow::TSPSrv()
@@ -3644,9 +3649,10 @@ void MainWindow::TSPSrv()
         return;
     }
 
-    PKISrvDlg pkiSrvDlg;
-    pkiSrvDlg.setSrvKind( JS_GEN_KIND_TSP_SRV );
-    pkiSrvDlg.exec();
+    pki_srv_->setSrvKind( JS_GEN_KIND_TSP_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
 }
 
 void MainWindow::CMPSrv()
@@ -3657,9 +3663,10 @@ void MainWindow::CMPSrv()
         return;
     }
 
-    PKISrvDlg pkiSrvDlg;
-    pkiSrvDlg.setSrvKind( JS_GEN_KIND_CMP_SRV );
-    pkiSrvDlg.exec();
+    pki_srv_->setSrvKind( JS_GEN_KIND_CMP_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
 }
 
 void MainWindow::RegSrv()
@@ -3670,9 +3677,10 @@ void MainWindow::RegSrv()
         return;
     }
 
-    PKISrvDlg pkiSrvDlg;
-    pkiSrvDlg.setSrvKind( JS_GEN_KIND_REG_SRV );
-    pkiSrvDlg.exec();
+    pki_srv_->setSrvKind( JS_GEN_KIND_REG_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
 }
 
 void MainWindow::expandMenu()
