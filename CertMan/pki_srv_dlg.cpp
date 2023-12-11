@@ -292,6 +292,7 @@ void PKISrvDlg::clickStart()
     QString strCmd;
     QString strServerPath = mServerPathText->text();
     QString strPKI = getName();
+    QStringList strArgList;
 
     if( strServerPath.length() < 1 )
     {
@@ -305,15 +306,19 @@ void PKISrvDlg::clickStart()
         return;
     }
 
+    /*
+    strArgList << "-d" << manApplet->dbMgr()->getDBPath();
+    manApplet->log( QString( "Run Cmd: %1").arg( strServerPath ));
+    */
+
     strCmd = strServerPath;
     strCmd += " -d ";
     strCmd += manApplet->dbMgr()->getDBPath();
 
-    manApplet->log( QString( "Run Cmd: %1").arg( strCmd ));
-
-    QProcess *process = new QProcess();
-    process->setProgram( strCmd );
-    process->start();
+    QProcess process;
+//    process.startDetached( strServerPath, strArgList );
+    process.startDetached( strCmd );
+//    process.execute( strCmd );
 
     setBinPath( strServerPath );
 }
