@@ -17,6 +17,7 @@ public:
     ~ConfigDlg();
 
     void setCurNum( int nNum );
+    void setFixKind( int nKind );
 
 private slots:
     void clickOK();

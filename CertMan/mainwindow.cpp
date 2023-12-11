@@ -1486,7 +1486,12 @@ void MainWindow::makeConfig()
         return;
     }
 
+    int nNum = -1;
+    ManTreeItem* item = currentTreeItem();
+    if( item ) nNum = item->getDataNum();
+
     ConfigDlg configDlg;
+    if( nNum > 0 ) configDlg.setFixKind( nNum );
     configDlg.exec();
 }
 
@@ -1530,6 +1535,28 @@ void MainWindow::deleteConfig()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CONFIG, "" );
 
     createRightConfigList();
+}
+
+void MainWindow::serverConfig()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    int nNum = -1;
+    ManTreeItem* item = currentTreeItem();
+    if( item ) nNum = item->getDataNum();
+
+    if( nNum == JS_GEN_KIND_OCSP_SRV )
+        OCSPSrv();
+    else if( nNum == JS_GEN_KIND_TSP_SRV )
+        TSPSrv();
+    else if( nNum == JS_GEN_KIND_CMP_SRV )
+        CMPSrv();
+    else if( nNum == JS_GEN_KIND_REG_SRV )
+        RegSrv();
 }
 
 void MainWindow::viewCertificate()

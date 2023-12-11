@@ -140,6 +140,7 @@ public slots:
     void makeConfig();
     void editConfig();
     void deleteConfig();
+    void serverConfig();
 
     void viewCertificate();
     void viewCRL();

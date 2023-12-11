@@ -27,6 +27,12 @@ void ConfigDlg::setCurNum(int nNum)
     cur_num_ = nNum;
 }
 
+void ConfigDlg::setFixKind( int nKind )
+{
+    mKindText->setText( QString("%1").arg( nKind ));
+    mKindText->setReadOnly(true);
+}
+
 void ConfigDlg::showEvent(QShowEvent *event)
 {
     if( cur_num_ > 0 )

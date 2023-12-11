@@ -84,6 +84,8 @@ void ManTreeView::showContextMenu(QPoint point)
     else if( item->getType() == CM_ITEM_TYPE_CONFIG )
     {
         menu.addAction(tr("Make Config"), manApplet->mainWindow(), &MainWindow::makeConfig );
+        if( manApplet->isPRO() == true && item->getDataNum() > 0 )
+            menu.addAction( tr("Server Config" ), manApplet->mainWindow(), &MainWindow::serverConfig );
     }
     else if( item->getType() == CM_ITEM_TYPE_USER )
     {
