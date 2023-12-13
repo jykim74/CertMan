@@ -1824,7 +1824,7 @@ int getKMIPConnection( SettingsMgr* settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Au
     JS_SSL_setClientCACert( pCTX, &binCACert );
     JS_SSL_setCertAndPriKey( pCTX, &binPriKey, &binCert );
 
-    JS_SSL_connect( pCTX, strHost.toStdString().c_str(), strPort.toInt(), &pSSL );
+    JS_SSL_initConnect( pCTX, strHost.toStdString().c_str(), strPort.toInt(), &pSSL );
     if( pSSL == NULL )
     {
         ret = -1;
