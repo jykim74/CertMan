@@ -331,9 +331,13 @@ void CertInfoDlg::pathInit()
         item->setText( 0, cert.getSubjectDN() );
 
         if( i == 0 )
+        {
+            item->setIcon( 0, QIcon(":/images/root_cert.png"));
             mCertPathTree->insertTopLevelItem(0, item );
+        }
         else
         {
+            item->setIcon( 0, QIcon(":/images/cert.png"));
             pPrevItem->addChild( item );
         }
 

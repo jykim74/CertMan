@@ -76,5 +76,6 @@
         <file>images/group.png</file>
         <file>images/manage.png</file>
         <file>images/on.png</file>
+        <file>images/root_cert.png</file>
     </qresource>
 </RCC>

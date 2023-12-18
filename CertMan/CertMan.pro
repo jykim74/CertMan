@@ -97,10 +97,7 @@ SOURCES += \
         tst_info_dlg.cpp \
         user_dlg.cpp \
         user_rec.cpp \
-        ocsp_srv_dlg.cpp \
-        tsp_srv_dlg.cpp \
-        cmp_srv_dlg.cpp \
-        reg_srv_dlg.cpp
+        pki_srv_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -165,10 +162,7 @@ HEADERS += \
         tst_info_dlg.h \
         user_dlg.h \
         user_rec.h \
-        ocsp_srv_dlg.h \
-        tsp_srv_dlg.h \
-        cmp_srv_dlg.h \
-        reg_srv_dlg.h
+        pki_srv_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -208,10 +202,7 @@ FORMS += \
         tsp_dlg.ui \
         tst_info_dlg.ui \
         user_dlg.ui \
-        ocsp_srv_dlg.ui \
-        tsp_srv_dlg.ui \
-        cmp_srv_dlg.ui \
-        reg_srv_dlg.ui
+        pki_srv_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -268,10 +259,10 @@ win32 {
         INCLUDEPATH += "C:\msys64\mingw32\include"
 
         Debug {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug" -lPKILib
             LIBS += -L"../../PKILib/lib/win32/debug/openssl3/lib" -lcrypto -lssl
         } else {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release/release" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release" -lPKILib
             LIBS += -L"../../PKILib/lib/win32/openssl3/lib" -lcrypto -lssl
         }
 
@@ -283,10 +274,10 @@ win32 {
         INCLUDEPATH += "C:\msys64\mingw64\include"
 
         Debug {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug/debug" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug" -lPKILib
             LIBS += -L"../../PKILib/lib/win64/debug/openssl3/lib64" -lcrypto -lssl
         } else {
-            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release/release" -lPKILib
+            LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release" -lPKILib
             LIBS += -L"../../PKILib/lib/win64/openssl3/lib64" -lcrypto -lssl
         }
 

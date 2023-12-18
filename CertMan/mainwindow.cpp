@@ -864,7 +864,7 @@ void MainWindow::createTreeMenu()
     pTopItem->appendRow( pCRLProfileItem );
 
     ManTreeItem *pRootCAItem = new ManTreeItem( QString(tr("RootCA")) );
-    pRootCAItem->setIcon( QIcon(":/images/cert.png") );
+    pRootCAItem->setIcon( QIcon(":/images/root_cert.png") );
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
     pRootCAItem->setDataNum(-1);
     pTopItem->appendRow( pRootCAItem );
