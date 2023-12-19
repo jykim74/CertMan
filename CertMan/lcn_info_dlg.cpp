@@ -187,6 +187,11 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     JCC_NameVal sNameVal;
     QString strProduct = manApplet->getBrand();
 
+#ifndef _USE_LCN_SRV
+    manApplet->warningBox( tr( "This service is not yet supported." ), this );
+    return -1;
+#endif
+
     memset( &sNameVal, 0x00, sizeof(sNameVal));
     strProduct.remove( "Lite" );
 
@@ -243,6 +248,11 @@ void LCNInfoDlg::clickGet()
     {
         QString strEmail = mEmailText->text();
         QString strKey = mKeyText->text();
+
+#ifndef _USE_LCN_SRV
+        manApplet->warningBox( tr( "This service is not yet supported." ), this );
+        return;
+#endif
 
         if( strEmail.length() < 1 )
         {

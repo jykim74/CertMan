@@ -1308,22 +1308,22 @@
         <translation>갱신</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="262"/>
+        <location filename="../lcn_info_dlg.cpp" line="272"/>
         <source>fail to get license:%1</source>
         <translation>라이선스 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="274"/>
+        <location filename="../lcn_info_dlg.cpp" line="284"/>
         <source>fail to parse license:%1</source>
         <translation>라이선스 파싱 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="283"/>
+        <location filename="../lcn_info_dlg.cpp" line="293"/>
         <source>license is not valid:%1</source>
         <translation>라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="338"/>
+        <location filename="../lcn_info_dlg.cpp" line="348"/>
         <source>There is no current license</source>
         <translation>현재 라이선스가 없습니다</translation>
     </message>
@@ -1333,13 +1333,13 @@
         <translation>발급 일자</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="349"/>
+        <location filename="../lcn_info_dlg.cpp" line="359"/>
         <source>fail to renew license:%1</source>
         <translation>라이선스 갱신 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="297"/>
-        <location filename="../lcn_info_dlg.cpp" line="361"/>
+        <location filename="../lcn_info_dlg.cpp" line="307"/>
+        <location filename="../lcn_info_dlg.cpp" line="371"/>
         <source>The current license is longer period</source>
         <translation>현재 라이선스가 더 긴 기간의 라이선스 입니다</translation>
     </message>
@@ -1365,12 +1365,18 @@
         <translation>라이선스가 발급 되지 못했습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="249"/>
+        <location filename="../lcn_info_dlg.cpp" line="191"/>
+        <location filename="../lcn_info_dlg.cpp" line="253"/>
+        <source>This service is not yet supported.</source>
+        <translation>아직 지원하지 않는 서비스 입니다</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="259"/>
         <source>You have to input email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="255"/>
+        <location filename="../lcn_info_dlg.cpp" line="265"/>
         <source>You have to input license key</source>
         <translation>라이선스 키를 입력하세요</translation>
     </message>

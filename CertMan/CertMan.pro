@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = CertMan
 TEMPLATE = app
-PROJECT_VERSION = "1.5.7"
+PROJECT_VERSION = "1.6.0"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
@@ -18,9 +18,9 @@ PROJECT_VERSION = "1.5.7"
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
+
+DEFINES += _USE_RC_LCN
 # DEFINES += JS_PRO
-
-
 # DEFINES += USE_SCEP
 # DEFINES += USE_CMP
 # DEFINES += USE_OCSP
