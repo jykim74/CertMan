@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CertMan
-    VERSION 1.6.0
+    VERSION 1.6.1
     DESCRIPTION "CertMan Application"
     LANGUAGES CXX )
 
@@ -219,7 +219,7 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )
-add_definitions( -D_USE_RC_LCN )
+# add_definitions( -D_USE_RC_LCN )
 #target_compile_definitions( ${PROJECT_NAME} PRIVATE JS_PRO USE_CMP USE_SCEP USE_OCSP )
 
 if(WIN32)
