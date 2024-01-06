@@ -76,6 +76,6 @@ void ConfigDlg::clickOK()
             addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_CONFIG, "" );
     }
 
-    manApplet->mainWindow()->createRightConfigList();
+    manApplet->mainWindow()->createRightConfigList( nKind );
     close();
 }
