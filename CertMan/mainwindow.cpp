@@ -688,6 +688,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
+        menu.addAction(tr("New Key"), this, &MainWindow::newKey );
 
         QTableWidgetItem* useitem = right_table_->item( row, 5 );
         if( useitem != NULL )
@@ -702,6 +703,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
         menu.addAction(tr("Import CSR"), this, &MainWindow::importCSR );
         menu.addAction(tr("View CSR"), this, &MainWindow::viewCSR );
+        menu.addAction(tr("Make Request"), this, &MainWindow::makeRequest );
 
         QTableWidgetItem* useitem = right_table_->item( row, 3 );
 
