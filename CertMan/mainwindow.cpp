@@ -744,6 +744,7 @@ void MainWindow::showRightMenu(QPoint point)
     else if( right_type_ == RightType::TYPE_USER )
     {
         menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
+        menu.addAction( tr( "Register User"), this, &MainWindow::registerUser );
 
         if( manApplet->isPRO() )
         {
