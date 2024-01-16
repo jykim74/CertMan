@@ -170,6 +170,7 @@ void SettingsDlg::findCACert()
     if( fileName.length() < 1 ) return;
 
     mKMIPCACertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findCert()
@@ -181,6 +182,7 @@ void SettingsDlg::findCert()
     if( fileName.length() < 1 ) return;
 
     mKMIPCertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findPrivateKey()
@@ -192,6 +194,7 @@ void SettingsDlg::findPrivateKey()
     if( fileName.length() < 1 ) return;
 
     mKMIPPrivateKeyPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findP11Path()
@@ -208,6 +211,7 @@ void SettingsDlg::findP11Path()
     if( fileName.length() < 1 ) return;
 
     mLibraryP11PathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::checkOCSPUse()
@@ -236,6 +240,7 @@ void SettingsDlg::findOCSPSrvCert()
     if( fileName.length() < 1 ) return;
 
     mOCSPSrvCertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findOCSPPri()
@@ -247,6 +252,7 @@ void SettingsDlg::findOCSPPri()
     if( fileName.length() < 1 ) return;
 
     mOCSPSignerPriPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findOCSPCert()
@@ -258,6 +264,7 @@ void SettingsDlg::findOCSPCert()
     if( fileName.length() < 1 ) return;
 
     mOCSPSignerCertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::checkREGUse()
@@ -282,6 +289,7 @@ void SettingsDlg::findCMPRootCACert()
     if( fileName.length() < 1 ) return;
 
     mCMPRootCACertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findCMPCACert()
@@ -293,6 +301,7 @@ void SettingsDlg::findCMPCACert()
     if( fileName.length() < 1 ) return;
 
     mCMPCACertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::checkTSPUse()
@@ -310,6 +319,7 @@ void SettingsDlg::findTSPSrvCert()
     if( fileName.length() < 1 ) return;
 
     mTSPSrvCertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::checkSCEPUse()
@@ -339,6 +349,7 @@ void SettingsDlg::findSCEPPriKey()
     if( fileName.length() < 1 ) return;
 
     mSCEPPriKeyPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::findSCEPCert()
@@ -350,6 +361,7 @@ void SettingsDlg::findSCEPCert()
     if( fileName.length() < 1 ) return;
 
     mSCEPCertPathText->setText( fileName );
+    manApplet->setCurFile( fileName );
 }
 
 void SettingsDlg::accept()
