@@ -15,6 +15,7 @@
 #include "pin_dlg.h"
 #include "audit_rec.h"
 #include "js_gen.h"
+#include "js_define.h"
 
 
 static int _setKeyUsage( BIN *pBinExt, const QString strVal )
