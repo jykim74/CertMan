@@ -10,6 +10,7 @@
 #include "js_pki_x509.h"
 #include "commons.h"
 #include "js_pki_eddsa.h"
+#include "js_define.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"

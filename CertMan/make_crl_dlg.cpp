@@ -13,6 +13,7 @@
 #include "js_pki_tools.h"
 #include "js_pki_ext.h"
 #include "js_util.h"
+#include "js_define.h"
 #include "commons.h"
 #include "settings_mgr.h"
 

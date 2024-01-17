@@ -11,6 +11,7 @@
 #include "js_pki_tools.h"
 #include "js_pki_eddsa.h"
 #include "js_pki_ext.h"
+#include "js_define.h"
 #include "settings_mgr.h"
 #include "commons.h"
 #include "pin_dlg.h"

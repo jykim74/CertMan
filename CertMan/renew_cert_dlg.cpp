@@ -6,6 +6,7 @@
 #include "db_mgr.h"
 #include "settings_mgr.h"
 #include "js_pki_x509.h"
+#include "js_define.h"
 #include "commons.h"
 
 static QStringList kPeriodTypes = { "Day", "Month", "Year" };

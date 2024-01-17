@@ -12,6 +12,7 @@
 #include "js_pkcs11.h"
 #include "js_kms.h"
 #include "js_gen.h"
+#include "js_define.h"
 #include "commons.h"
 
 static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA, kMechDSA };

@@ -20,7 +20,7 @@
 
 #include "js_gen.h"
 #include "js_kms.h"
-
+#include "js_define.h"
 
 
 QString getSignAlg( const QString strAlg, const QString strHash )

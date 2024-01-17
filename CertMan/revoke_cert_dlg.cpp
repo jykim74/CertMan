@@ -1,4 +1,5 @@
 #include "js_gen.h"
+#include "js_define.h"
 
 #include "revoke_cert_dlg.h"
 #include "mainwindow.h"
