@@ -152,6 +152,8 @@ void PKISrvDlg::initialize()
     mIndexText->setText( "0" );
 
     loadTable();
+
+    setEnableAdmin( false );
 }
 
 void PKISrvDlg::clearTable()
@@ -162,6 +164,17 @@ void PKISrvDlg::clearTable()
     {
         mConfigTable->removeRow(0);
     }
+}
+
+void PKISrvDlg::setEnableAdmin( bool bVal )
+{
+    mListPidBtn->setEnabled( bVal );
+    mGetProcBtn->setEnabled( bVal );
+    mGetServiceBtn->setEnabled( bVal );
+    mListThreadBtn->setEnabled( bVal );
+    mGetThreadBtn->setEnabled( bVal );
+    mResizeBtn->setEnabled( bVal );
+    mStopBtn->setEnabled( bVal );
 }
 
 void PKISrvDlg::loadTable()
@@ -382,6 +395,7 @@ void PKISrvDlg::clickConnect()
         manApplet->log( QString("admin service(%1:%2) is connected:%3").arg( pHost ).arg( nPort ).arg( ret ));
         mSockText->setText( QString("%1").arg(ret));
         mConnectBtn->setText( tr("Disconnect"));
+        setEnableAdmin( true );
     }
 }
 

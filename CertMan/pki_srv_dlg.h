@@ -47,6 +47,8 @@ private:
     void clearTable();
     void loadTable();
 
+    void setEnableAdmin( bool bVal );
+
     const QString getName();
 
     void logProcInfo( const JProcInfo *pProcInfo );
