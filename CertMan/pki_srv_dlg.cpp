@@ -335,6 +335,8 @@ void PKISrvDlg::clickStart()
 //    process.execute( strCmd );
 
     setBinPath( strServerPath );
+
+    clickCheck();
 }
 
 void PKISrvDlg::slotConfigMenuRequested(QPoint pos)
@@ -381,6 +383,7 @@ void PKISrvDlg::clickConnect()
         mConnectBtn->setText( tr("Connect" ));
         manApplet->log( "Admin is disconnected" );
         mSockText->clear();
+        setEnableAdmin( false );
         return;
     }
 

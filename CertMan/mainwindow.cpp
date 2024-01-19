@@ -148,6 +148,11 @@ void MainWindow::dropEvent(QDropEvent *event)
     }
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    exit(0);
+}
+
 void MainWindow::setTitle(const QString strName)
 {
     QString strTitle = manApplet->getBrand();
