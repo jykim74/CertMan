@@ -362,6 +362,17 @@ bool ManApplet::yesOrCancelBox(const QString& msg, QWidget *parent, bool default
     return box.clickedButton() == yes_btn;
 }
 
+void ManApplet::messageLog( const QString strLog, QWidget *parent )
+{
+    messageBox( strLog, parent );
+    log( strLog );
+}
+
+void ManApplet::warnLog( const QString strLog, QWidget *parent )
+{
+    warningBox( strLog, parent );
+    elog( strLog );
+}
 
 QMessageBox::StandardButton
 ManApplet::yesNoCancelBox(const QString& msg, QWidget *parent, QMessageBox::StandardButton default_btn)
