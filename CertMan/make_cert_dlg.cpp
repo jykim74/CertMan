@@ -670,7 +670,7 @@ void MakeCertDlg::accept()
         else
             JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-        ret = JS_PKI_makeCertificate( bSelf, &sIssueCertInfo, pExtInfoList, nKeyType, &binSignPri, &binSignCert, &binCert );
+        ret = JS_PKI_makeCertificate( bSelf, &sIssueCertInfo, pExtInfoList, &binSignPri, &binSignCert, &binCert );
     }
 
     if( ret != 0 )

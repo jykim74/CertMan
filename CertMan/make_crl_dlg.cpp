@@ -94,7 +94,7 @@ void MakeCRLDlg::accept()
 
     long uThisUpdate = -1;
     long uNextUpdate = -1;
-    int nKeyType = -1;
+//    int nKeyType = -1;
 
     CertRec caCert = ca_cert_list_.at(issuerIdx);
     CRLProfileRec profile = crl_profile_list_.at(profileIdx);
@@ -160,7 +160,7 @@ void MakeCRLDlg::accept()
         }
     }
 
-    nKeyType = getKeyType( caKeyPair.getAlg(), caKeyPair.getParam() );
+//    nKeyType = getKeyType( caKeyPair.getAlg(), caKeyPair.getParam() );
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
 
@@ -355,7 +355,7 @@ void MakeCRLDlg::accept()
         else
             JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-        ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, nKeyType, &binSignPri, &binSignCert, &binCRL );
+        ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binSignPri, &binSignCert, &binCRL );
     }
 
     if( ret != 0 )

@@ -314,7 +314,7 @@ end :
 
 void MakeReqDlg::accept()
 {
-    int nAlg = -1;
+//    int nAlg = -1;
     int ret = 0;
     BIN binPri = {0,0};
     BIN binCSR = {0,0};
@@ -416,7 +416,7 @@ void MakeReqDlg::accept()
         }
     }
 
-    nAlg = getKeyType( strAlg, strParam );
+ //   nAlg = getKeyType( strAlg, strParam );
 
     if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
     {
@@ -436,7 +436,7 @@ void MakeReqDlg::accept()
 
         manApplet->log( QString( "ID : %1").arg( getHexString(&binID)));
 
-        ret = JS_PKI_makeCSRByP11( nAlg,
+        ret = JS_PKI_makeCSRByP11(
                                    strHash.toStdString().c_str(),
                                    strDN.toStdString().c_str(),
                                    strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
@@ -468,7 +468,7 @@ void MakeReqDlg::accept()
 
         if( ret == 0 )
         {
-            ret = JS_PKI_makeCSRByKMIP( nAlg,
+            ret = JS_PKI_makeCSRByKMIP(
                                         strHash.toStdString().c_str(),
                                         strDN.toStdString().c_str(),
                                         strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
@@ -497,8 +497,7 @@ void MakeReqDlg::accept()
         else
             JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
 
-        ret = JS_PKI_makeCSR( nAlg,
-                              mHashCombo->currentText().toStdString().c_str(),
+        ret = JS_PKI_makeCSR( mHashCombo->currentText().toStdString().c_str(),
                               strDN.toStdString().c_str(),
                               strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
                              strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,

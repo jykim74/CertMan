@@ -130,7 +130,7 @@ void RenewCertDlg::accept()
     const char *pSerial = NULL;
     QString strKeyAlg;
 
-    int nKeyType = -1;
+//    int nKeyType = -1;
     int nRenewCertNum = -1;
     long uLimitBefore = -1;
     long uLimitAfter = -1;
@@ -286,7 +286,7 @@ void RenewCertDlg::accept()
 
     strKeyAlg = keyPair.getAlg();
 
-    nKeyType = getKeyType( strKeyAlg, keyPair.getParam() );
+//    nKeyType = getKeyType( strKeyAlg, keyPair.getParam() );
 
     if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechPKCS11_DSA )
     {
@@ -304,7 +304,7 @@ void RenewCertDlg::accept()
 
         JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binID  );
 
-        ret = JS_PKI_renewCertificateByP11( &binCert, nKeyType, &binSignCert, &binID, pP11CTX, notBefore, notAfter, pSerial, &binRenewCert );
+        ret = JS_PKI_renewCertificateByP11( &binCert, &binSignCert, &binID, pP11CTX, notBefore, notAfter, pSerial, &binRenewCert );
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
@@ -326,7 +326,7 @@ void RenewCertDlg::accept()
 
         if( ret == 0 )
         {
-            ret = JS_PKI_renewCertificateByKMIP( &binCert, nKeyType, &binSignCert, &binID, pSSL, pAuth, notBefore, notAfter, pSerial, &binRenewCert );
+            ret = JS_PKI_renewCertificateByKMIP( &binCert, &binSignCert, &binID, pSSL, pAuth, notBefore, notAfter, pSerial, &binRenewCert );
         }
 
         if( pSSL ) JS_SSL_clear( pSSL );
@@ -345,7 +345,7 @@ void RenewCertDlg::accept()
         else
             JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
 
-        ret = JS_PKI_renewCertificate( &binCert, nKeyType, &binSignPri, notBefore, notAfter, pSerial, &binRenewCert );
+        ret = JS_PKI_renewCertificate( &binCert, &binSignPri, notBefore, notAfter, pSerial, &binRenewCert );
     }
 
     if( ret != 0 )

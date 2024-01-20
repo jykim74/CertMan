@@ -3374,7 +3374,7 @@ void MainWindow::renewSCEP()
 
     nKeyNum = writeKeyPairDB( manApplet->dbMgr(), sCertInfo.pSubjectName, &binNPub, &binNPri );
 
-    ret = JS_PKI_makeCSR( nKeyType, "SHA256", sCertInfo.pSubjectName, pChallengePass, NULL, &binNPri, NULL, &binCSR );
+    ret = JS_PKI_makeCSR( "SHA256", sCertInfo.pSubjectName, pChallengePass, NULL, &binNPri, NULL, &binCSR );
     if( ret != 0 )
     {
         manApplet->warningBox( tr( "fail to make csr"), this );
