@@ -3358,10 +3358,25 @@ int writeKeyPairDB( DBMgr *dbMgr, const char *pName, const BIN *pPub, const BIN 
         strAlg = "RSA";
         strParam = QString( "%1" ).arg( nOption );
     }
-    else if( nType == JS_PKI_KEY_TYPE_ECC )
+    else if( nType == JS_PKI_KEY_TYPE_ECC || nType == JS_PKI_KEY_TYPE_SM2 )
     {
         strAlg = "ECC";
         strParam = JS_PKI_getSNFromNid( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_DSA )
+    {
+        strAlg = "DSA";
+        strParam = QString( "%1" ).arg( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ED25519 )
+    {
+        strAlg = "EdDSA";
+        strParam = "Ed255192";
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        strAlg = "EdDSA";
+        strParam = "Ed448";
     }
     else {
         return -1;

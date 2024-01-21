@@ -2843,7 +2843,11 @@ void MainWindow::issueCMP()
 
     BIN binCert = {0,0};
     JNameValList    *pInfoList = NULL;
+    JNameValList    *pCurList = NULL;
 
+    QString strAlg;
+    QString strParam;
+    QString strKeyGen;
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
@@ -2879,7 +2883,48 @@ void MainWindow::issueCMP()
    ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
    if( ret != 0 ) goto end;
 
-   ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binPri );
+   pCurList = pInfoList;
+
+   while( pCurList )
+   {
+       QString strName = pCurList->sNameVal.pName;
+       QString strValue = pCurList->sNameVal.pValue;
+
+       manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
+
+       if( strName == "alg" )
+           strAlg = strValue;
+       else if( strName == "param" )
+           strParam = strValue;
+       else if( strName == "keygen" )
+           strKeyGen = strValue;
+
+       pCurList = pCurList->pNext;
+   }
+
+   if( strAlg == "RSA" )
+   {
+       ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
+   }
+   else if( strAlg == "ECDSA" || strAlg == "SM2" )
+   {
+       ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+   }
+   else if( strAlg == "DSA" )
+   {
+       ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
+   }
+   else if( strAlg == "EdDSA" )
+   {
+       int nParam = 0;
+       if( strParam == "Ed448" )
+           nParam = JS_PKI_KEY_TYPE_ED448;
+       else
+           nParam = JS_PKI_KEY_TYPE_ED25519;
+
+       ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+   }
+
    if( ret != 0 ) goto end;
 
    writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
@@ -2919,6 +2964,11 @@ void MainWindow::updateCMP()
     int ret = 0;
     BINList *pTrustList = NULL;
     JNameValList    *pInfoList = NULL;
+    JNameValList    *pCurList = NULL;
+
+    QString strAlg;
+    QString strParam;
+    QString strKeyGen;
 
     BIN binCert = {0,0};
     BIN binPri = {0,0};
@@ -2964,8 +3014,47 @@ void MainWindow::updateCMP()
    ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
    if( ret != 0 ) goto end;
 
-   ret = JS_PKI_RSAGenKeyPair( 2048, 65537, &binPub, &binNewPri );
-   if( ret != 0 ) goto end;
+   pCurList = pInfoList;
+
+   while( pCurList )
+   {
+       QString strName = pCurList->sNameVal.pName;
+       QString strValue = pCurList->sNameVal.pValue;
+
+       manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
+
+       if( strName == "alg" )
+           strAlg = strValue;
+       else if( strName == "param" )
+           strParam = strValue;
+       else if( strName == "keygen" )
+           strKeyGen = strValue;
+
+       pCurList = pCurList->pNext;
+   }
+
+   if( strAlg == "RSA" )
+   {
+       ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
+   }
+   else if( strAlg == "ECDSA" || strAlg == "SM2" )
+   {
+       ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+   }
+   else if( strAlg == "DSA" )
+   {
+       ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
+   }
+   else if( strAlg == "EdDSA" )
+   {
+       int nParam = 0;
+       if( strParam == "Ed448" )
+           nParam = JS_PKI_KEY_TYPE_ED448;
+       else
+           nParam = JS_PKI_KEY_TYPE_ED25519;
+
+       ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+   }
 
    writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
 

@@ -28,7 +28,7 @@ static QStringList sCMPNameList = {
     "ROOTCA_CERT_NUM", "CA_CERT_NUM",
     "CA_HSM_USE", "CMP_MSG_DUMP", "ISSUER_NUM", "CERT_PROFILE",
     "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
-    "CMP_PORT", "CMP_SSL_PORT" };
+    "CMP_PORT", "CMP_SSL_PORT", "CA_KEY_GEN", "CA_PARAM" };
 
 static QStringList sRegNameList = {
     "LOG_PATH", "LOG_LEVEL", "REG_HSM_LIB_PATH", "REG_HSM_SLOT_ID"
