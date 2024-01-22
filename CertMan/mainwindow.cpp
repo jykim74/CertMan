@@ -2854,85 +2854,104 @@ void MainWindow::issueCMP()
 
     int num = item->text().toInt();
 
-   if( manApplet->settingsMgr()->CMPUse() == false )
-   {
-       manApplet->warningBox( tr( "CMPServer is not set" ), this );
-       return;
-   }
+    if( manApplet->settingsMgr()->CMPUse() == false )
+    {
+        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        return;
+    }
 
-   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
-   UserRec userRec;
-   manApplet->dbMgr()->getUserRec( num, userRec );
+    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+    UserRec userRec;
+    manApplet->dbMgr()->getUserRec( num, userRec );
 
-   if( userRec.getAuthCode().length() < 1 )
-   {
-       manApplet->warningBox( tr( "AuthNum is empty" ), this );
-       return;
-   }
+    if( userRec.getAuthCode().length() < 1 )
+    {
+        manApplet->warningBox( tr( "AuthNum is empty" ), this );
+        return;
+    }
 
-   JS_BIN_set( &binRefNum, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
-   JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
+    JS_BIN_set( &binRefNum, (unsigned char *)userRec.getRefNum().toStdString().c_str(), userRec.getRefNum().length() );
+    JS_BIN_set( &binAuthCode, (unsigned char *)userRec.getAuthCode().toStdString().c_str(), userRec.getAuthCode().length() );
 
-   QString strURL = manApplet->settingsMgr()->CMPURI();
-   strURL += "/CMP";
+    QString strURL = manApplet->settingsMgr()->CMPURI();
+    strURL += "/CMP";
 
-   QString strDN = "CN=";
-   strDN += userRec.getName();
-   strDN += manApplet->settingsMgr()->baseDN();
+    QString strDN = "CN=";
+    strDN += userRec.getName();
+    strDN += manApplet->settingsMgr()->baseDN();
 
-   ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
-   if( ret != 0 ) goto end;
+    ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
+    if( ret != 0 ) goto end;
 
-   pCurList = pInfoList;
+    pCurList = pInfoList;
 
-   while( pCurList )
-   {
-       QString strName = pCurList->sNameVal.pName;
-       QString strValue = pCurList->sNameVal.pValue;
+    while( pCurList )
+    {
+        QString strName = pCurList->sNameVal.pName;
+        QString strValue = pCurList->sNameVal.pValue;
 
-       manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
+        manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
 
-       if( strName == "alg" )
-           strAlg = strValue;
-       else if( strName == "param" )
-           strParam = strValue;
-       else if( strName == "keygen" )
-           strKeyGen = strValue;
+        if( strName == "FreeText" )
+        {
+            QStringList freeList = strValue.split( "&" );
 
-       pCurList = pCurList->pNext;
-   }
+            for( int i = 0; i < freeList.size(); i++ )
+            {
+                QString strOne = freeList.at(i);
+                QStringList typeVal = strOne.split( "=" );
+                if( typeVal.size() < 2 ) continue;
 
-   if( strAlg == "RSA" )
-   {
-       ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
-   }
-   else if( strAlg == "ECDSA" || strAlg == "SM2" )
-   {
-       ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
-   }
-   else if( strAlg == "DSA" )
-   {
-       ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
-   }
-   else if( strAlg == "EdDSA" )
-   {
-       int nParam = 0;
-       if( strParam == "Ed448" )
-           nParam = JS_PKI_KEY_TYPE_ED448;
-       else
-           nParam = JS_PKI_KEY_TYPE_ED25519;
+                QString strType = typeVal.at(0);
+                QString strVal = typeVal.at(1);
 
-       ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
-   }
+                if( strType == "alg" )
+                    strAlg = strVal;
+                else if( strType == "param" )
+                    strParam = strVal;
+                else if( strType == "keygen" )
+                    strKeyGen = strVal;
+            }
+        }
+        else
+        {
 
-   if( ret != 0 ) goto end;
+        }
 
-   writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+        pCurList = pCurList->pNext;
+    }
 
-   ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, 0, &binCert );
-   if( ret != 0 ) goto end;
+    if( strAlg == "RSA" )
+    {
+        ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
+    }
+    else if( strAlg == "ECDSA" || strAlg == "SM2" )
+    {
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+    }
+    else if( strAlg == "DSA" )
+    {
+        ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
+    }
+    else if( strAlg == "EdDSA" )
+    {
+        int nParam = 0;
+        if( strParam == "Ed448" )
+            nParam = JS_PKI_KEY_TYPE_ED448;
+        else
+            nParam = JS_PKI_KEY_TYPE_ED25519;
 
-   writeCertDB( manApplet->dbMgr(), &binCert );
+        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+    }
+
+    if( ret != 0 ) goto end;
+
+    writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+
+    ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, 0, &binCert );
+    if( ret != 0 ) goto end;
+
+    writeCertDB( manApplet->dbMgr(), &binCert );
 
 /*
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binRefNum, &binAuthCode );
@@ -2941,22 +2960,22 @@ void MainWindow::issueCMP()
 
 end:
 
-   if( ret == 0 )
-   {
-       manApplet->messageBox( tr("CMP Issue OK" ), this );
-   }
-   else
-   {
-       manApplet->warningBox( tr( "CMP Issue Fail" ), this );
-   }
+    if( ret == 0 )
+    {
+        manApplet->messageBox( tr("CMP Issue OK" ), this );
+    }
+    else
+    {
+        manApplet->warningBox( tr( "CMP Issue Fail" ), this );
+    }
 
-   JS_BIN_reset( &binRefNum );
-   JS_BIN_reset( &binAuthCode );
-   JS_BIN_reset( &binPri );
-   JS_BIN_reset( &binPub );
-   JS_BIN_reset( &binCert );
-   if( pTrustList ) JS_BIN_resetList( &pTrustList );
-   if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
+    JS_BIN_reset( &binRefNum );
+    JS_BIN_reset( &binAuthCode );
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binCert );
+    if( pTrustList ) JS_BIN_resetList( &pTrustList );
+    if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
 }
 
 void MainWindow::updateCMP()
@@ -2983,85 +3002,104 @@ void MainWindow::updateCMP()
 
     int num = item->text().toInt();
 
-   if( manApplet->settingsMgr()->CMPUse() == false )
-   {
-       manApplet->warningBox( tr( "CMPServer is not set" ), this );
-       return;
+    if( manApplet->settingsMgr()->CMPUse() == false )
+    {
+        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        return;
+    }
+
+    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+    CertRec certRec;
+    manApplet->dbMgr()->getCertRec( num, certRec );
+
+    if( certRec.getKeyNum() <= 0 )
+    {
+        manApplet->warningBox( tr("KeyPair information is not set"), this );
+        return;
+    }
+
+    KeyPairRec keyPair;
+    manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    QString strURL = manApplet->settingsMgr()->CMPURI();
+    strURL += "/CMP";
+    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
+
+    JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
+
+    ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
+    if( ret != 0 ) goto end;
+
+    pCurList = pInfoList;
+
+    while( pCurList )
+    {
+        QString strName = pCurList->sNameVal.pName;
+        QString strValue = pCurList->sNameVal.pValue;
+
+        manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
+
+        if( strName == "FreeText" )
+        {
+            QStringList freeList = strValue.split( "&" );
+
+            for( int i = 0; i < freeList.size(); i++ )
+            {
+                QString strOne = freeList.at(i);
+                QStringList typeVal = strOne.split( "=" );
+                if( typeVal.size() < 2 ) continue;
+
+                QString strType = typeVal.at(0);
+                QString strVal = typeVal.at(1);
+
+                if( strType == "alg" )
+                    strAlg = strVal;
+                else if( strType == "param" )
+                    strParam = strVal;
+                else if( strType == "keygen" )
+                    strKeyGen = strVal;
+            }
+        }
+        else
+        {
+
+        }
+
+        pCurList = pCurList->pNext;
    }
 
-   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
-   CertRec certRec;
-   manApplet->dbMgr()->getCertRec( num, certRec );
+    if( strAlg == "RSA" )
+    {
+        ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
+    }
+    else if( strAlg == "ECDSA" || strAlg == "SM2" )
+    {
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+    }
+    else if( strAlg == "DSA" )
+    {
+        ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
+    }
+    else if( strAlg == "EdDSA" )
+    {
+        int nParam = 0;
+        if( strParam == "Ed448" )
+            nParam = JS_PKI_KEY_TYPE_ED448;
+        else
+            nParam = JS_PKI_KEY_TYPE_ED25519;
 
-   if( certRec.getKeyNum() <= 0 )
-   {
-       manApplet->warningBox( tr("KeyPair information is not set"), this );
-       return;
-   }
+        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+    }
 
-   KeyPairRec keyPair;
-   manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
 
-   JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
-   JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
+    if( ret != 0 ) goto end;
 
-   QString strURL = manApplet->settingsMgr()->CMPURI();
-   strURL += "/CMP";
-   QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
-
-   JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
-
-   ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
-   if( ret != 0 ) goto end;
-
-   pCurList = pInfoList;
-
-   while( pCurList )
-   {
-       QString strName = pCurList->sNameVal.pName;
-       QString strValue = pCurList->sNameVal.pValue;
-
-       manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
-
-       if( strName == "alg" )
-           strAlg = strValue;
-       else if( strName == "param" )
-           strParam = strValue;
-       else if( strName == "keygen" )
-           strKeyGen = strValue;
-
-       pCurList = pCurList->pNext;
-   }
-
-   if( strAlg == "RSA" )
-   {
-       ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
-   }
-   else if( strAlg == "ECDSA" || strAlg == "SM2" )
-   {
-       ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
-   }
-   else if( strAlg == "DSA" )
-   {
-       ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
-   }
-   else if( strAlg == "EdDSA" )
-   {
-       int nParam = 0;
-       if( strParam == "Ed448" )
-           nParam = JS_PKI_KEY_TYPE_ED448;
-       else
-           nParam = JS_PKI_KEY_TYPE_ED25519;
-
-       ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
-   }
-
-   writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
-
-   ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
-   if( ret != 0 ) goto end;
-
-   writeCertDB( manApplet->dbMgr(), &binNewCert );
+    writeCertDB( manApplet->dbMgr(), &binNewCert );
 
    /*
    ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
@@ -3069,24 +3107,24 @@ void MainWindow::updateCMP()
    */
 
 end :
-   if( ret == 0 )
-   {
-       manApplet->messageBox( tr("CMP Update OK" ), this );
-       manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
-   }
-   else
-   {
-       manApplet->warningBox( tr( "CMP Update Fail" ), this );
-   }
+    if( ret == 0 )
+    {
+        manApplet->messageBox( tr("CMP Update OK" ), this );
+        manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
+    }
+    else
+    {
+        manApplet->warningBox( tr( "CMP Update Fail" ), this );
+    }
 
-   JS_BIN_reset( &binPri );
-   JS_BIN_reset( &binCert );
-   JS_BIN_reset( &binPub );
-   JS_BIN_reset( &binCACert );
-   JS_BIN_reset( &binNewPri );
-   JS_BIN_reset( &binNewCert );
-   if( pTrustList ) JS_BIN_resetList( &pTrustList );
-   if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binCACert );
+    JS_BIN_reset( &binNewPri );
+    JS_BIN_reset( &binNewCert );
+    if( pTrustList ) JS_BIN_resetList( &pTrustList );
+    if( pInfoList ) JS_UTIL_resetNameValList( &pInfoList );
 }
 
 void MainWindow::revokeCMP()
