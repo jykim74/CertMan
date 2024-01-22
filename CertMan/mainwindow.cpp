@@ -3119,7 +3119,11 @@ void MainWindow::updateCMP()
     JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
     ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to run CMP GENM: %1").arg( ret ));
+        goto end;
+    }
 
     pCurList = pInfoList;
 
@@ -3161,15 +3165,15 @@ void MainWindow::updateCMP()
 
     if( strAlg == "RSA" )
     {
-        ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binPri );
+        ret = JS_PKI_RSAGenKeyPair( strParam.toInt(), 65537, &binPub, &binNewPri );
     }
     else if( strAlg == "ECDSA" || strAlg == "SM2" )
     {
-        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binNewPri );
     }
     else if( strAlg == "DSA" )
     {
-        ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binPri );
+        ret = JS_PKI_DSA_GenKeyPair( strParam.toInt(), &binPub, &binNewPri );
     }
     else if( strAlg == "EdDSA" )
     {
@@ -3179,15 +3183,30 @@ void MainWindow::updateCMP()
         else
             nParam = JS_PKI_KEY_TYPE_ED25519;
 
-        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+        ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binNewPri );
+    }
+
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to generate key pair: %1" ).arg(ret ));
+        goto end;
     }
 
     nKeySeq = saveKeyPair( certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
+    if( nKeySeq < 0 )
+    {
+        manApplet->elog( QString( "fail to save keypair: %1").arg( nKeySeq ));
+        goto end;
+    }
 
     ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to run CMP KUR: %1").arg( ret ));
+        goto end;
+    }
 
-    writeCertDB( manApplet->dbMgr(), &binNewCert );
+    ret = writeCertDB( manApplet->dbMgr(), &binNewCert );
 
    /*
    ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
@@ -3230,55 +3249,61 @@ void MainWindow::revokeCMP()
 
     int num = item->text().toInt();
 
-   if( manApplet->settingsMgr()->CMPUse() == false )
-   {
-       manApplet->warningBox( tr( "CMPServer is not set" ), this );
-       return;
-   }
+    if( manApplet->settingsMgr()->CMPUse() == false )
+    {
+        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        return;
+    }
 
-   CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
-   CertRec certRec;
-   manApplet->dbMgr()->getCertRec( num, certRec );
-   KeyPairRec keyPair;
+    CMPSetTrustList( manApplet->settingsMgr(), &pTrustList );
+    CertRec certRec;
+    manApplet->dbMgr()->getCertRec( num, certRec );
+    KeyPairRec keyPair;
 
-   if( certRec.getKeyNum() <= 0 )
-   {
-       manApplet->warningBox(tr("KeyPair information is not set"), this );
-       return;
-   }
+    if( certRec.getKeyNum() <= 0 )
+    {
+        manApplet->warningBox(tr("KeyPair information is not set"), this );
+        return;
+    }
 
-   manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
+    manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
-   JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
 
-   if( manApplet->isPasswd() )
-       manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-   else
-       JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
-   QString strURL = manApplet->settingsMgr()->CMPURI();
-   strURL += "/CMP";
-   QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
+    QString strURL = manApplet->settingsMgr()->CMPURI();
+    strURL += "/CMP";
+    QString strCAPath = manApplet->settingsMgr()->CMPCACertPath();
 
-   JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
+    JS_BIN_fileReadBER( strCAPath.toLocal8Bit().toStdString().c_str(), &binCACert );
 
-   ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason );
+    ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to run CMP RR: %1").arg( ret ));
+        goto end;
+    }
 
-   if( ret == 0 )
-   {
-       manApplet->messageBox( tr("CMP Revoke OK" ), this );
-       manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
-   }
-   else
-   {
-       manApplet->warningBox( tr( "CMP Revoke Fail" ), this );
-   }
+end :
+    if( ret == 0 )
+    {
+        manApplet->messageBox( tr("CMP Revoke OK" ), this );
+        manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
+    }
+    else
+    {
+        manApplet->warningBox( tr( "CMP Revoke Fail" ), this );
+    }
 
-   JS_BIN_reset( &binPri );
-   JS_BIN_reset( &binCert );
-   JS_BIN_reset( &binCACert );
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binCACert );
 
-   if( pTrustList ) JS_BIN_resetList( &pTrustList );
+    if( pTrustList ) JS_BIN_resetList( &pTrustList );
 }
 
 #endif

@@ -492,15 +492,10 @@ void MakeReqDlg::accept()
     }
     else
     {
-        QString strHash;
-
         if( manApplet->isPasswd() )
             manApplet->getDecPriBIN( keyRec.getPrivateKey(), &binPri );
         else
             JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
-
-        if( mHashCombo->isEditable() == true )
-            strHash = mHashCombo->currentText();
 
         ret = JS_PKI_makeCSR( strHash.length() ? strHash.toStdString().c_str() : NULL,
                               strDN.toStdString().c_str(),
