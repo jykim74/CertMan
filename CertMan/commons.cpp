@@ -3260,7 +3260,7 @@ int writeCertDB( DBMgr *dbMgr, const BIN *pCert )
     certRec.setSubjectDN( sCertInfo.pSubjectName );
     certRec.setIssuerNum( -2 );
     certRec.setSignAlg( sCertInfo.pSignAlgorithm );
-    dbMgr->addCertRec( certRec );
+    nRet = dbMgr->addCertRec( certRec );
 
 end :
     JS_PKI_resetCertInfo( &sCertInfo );
@@ -3289,7 +3289,6 @@ int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL )
     }
 
     nSeq = dbMgr->getNextVal( "TB_CRL" );
-//    nSeq++;
 
     JS_BIN_encodeHex( pCRL, &pHex );
 
@@ -3299,7 +3298,7 @@ int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL )
     crlRec.setSignAlg( sCRLInfo.pSignAlgorithm );
     crlRec.setCRL( pHex );
 
-    dbMgr->addCRLRec( crlRec );
+    nRet = dbMgr->addCRLRec( crlRec );
 
 end:
     JS_PKI_resetCRLInfo( &sCRLInfo );
@@ -3330,75 +3329,6 @@ int writeCSRDB( DBMgr *dbMgr, int nKeyNum, const char *pName, const char *pDN, c
 
     dbMgr->addReqRec( req );
     if( pHexCSR ) JS_free( pHexCSR );
-
-    return seq;
-}
-
-int writeKeyPairDB( DBMgr *dbMgr, const char *pName, const BIN *pPub, const BIN *pPri )
-{
-    int ret = 0;
-    int seq = -1;
-    int nType = -1;
-    int nOption = -1;
-    QString strAlg;
-    QString strParam;
-    char *pPubHex = NULL;
-    char *pPriHex = NULL;
-
-    KeyPairRec  keyPair;
-
-    seq = dbMgr->getNextVal( "TB_KEY_PAIR" );
-    //seq++;
-
-    ret = JS_PKI_getPubKeyInfo( pPub, &nType, &nOption );
-    if( ret != 0 ) return -1;
-
-    if( nType == JS_PKI_KEY_TYPE_RSA )
-    {
-        strAlg = "RSA";
-        strParam = QString( "%1" ).arg( nOption );
-    }
-    else if( nType == JS_PKI_KEY_TYPE_ECC || nType == JS_PKI_KEY_TYPE_SM2 )
-    {
-        strAlg = "ECC";
-        strParam = JS_PKI_getSNFromNid( nOption );
-    }
-    else if( nType == JS_PKI_KEY_TYPE_DSA )
-    {
-        strAlg = "DSA";
-        strParam = QString( "%1" ).arg( nOption );
-    }
-    else if( nType == JS_PKI_KEY_TYPE_ED25519 )
-    {
-        strAlg = "EdDSA";
-        strParam = "Ed255192";
-    }
-    else if( nType == JS_PKI_KEY_TYPE_ED448 )
-    {
-        strAlg = "EdDSA";
-        strParam = "Ed448";
-    }
-    else {
-        return -1;
-    }
-
-    JS_BIN_encodeHex( pPub, &pPubHex );
-    JS_BIN_encodeHex( pPri, &pPriHex );
-
-    keyPair.setNum( seq );
-    keyPair.setAlg( strAlg );
-    keyPair.setParam( strParam );
-    keyPair.setName( pName );
-    keyPair.setRegTime( time(NULL) );
-    keyPair.setStatus( 0 );
-
-    keyPair.setPublicKey( pPubHex );
-    keyPair.setPrivateKey( pPriHex );
-
-    dbMgr->addKeyPairRec( keyPair );
-
-    if( pPubHex ) JS_free( pPubHex );
-    if( pPriHex ) JS_free( pPriHex );
 
     return seq;
 }

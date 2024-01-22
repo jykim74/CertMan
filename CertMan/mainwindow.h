@@ -9,6 +9,7 @@
 #include <QtSql>
 #include <QStackedLayout>
 
+#include "js_bin.h"
 
 
 class ManTreeView;
@@ -241,8 +242,9 @@ private:
 
     void adjustForCurrentFile( const QString& filePath );
     void updateRecentActionList();
-    int             openDB( const QString dbPath );
+    int openDB( const QString dbPath );
 
+    int saveKeyPair( const QString strName, const BIN *pPubInfo, const BIN *pPri );
 
     QList<QAction *>  recent_file_list_;
 

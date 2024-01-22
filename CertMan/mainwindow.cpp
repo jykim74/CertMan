@@ -13,6 +13,7 @@
 #include "js_pki_tools.h"
 #include "js_define.h"
 
+
 #include "commons.h"
 #include "mainwindow.h"
 //#include "ui_mainwindow.h"
@@ -1050,6 +1051,70 @@ int MainWindow::openDB( const QString dbPath )
     return ret;
 }
 
+int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const BIN *pPri )
+{
+    int ret = 0;
+    int seq = -1;
+    int nType = -1;
+    int nOption = -1;
+    QString strAlg;
+    QString strParam;
+    QString strPriHex;
+
+    KeyPairRec  keyPair;
+    seq = manApplet->dbMgr()->getNextVal( "TB_KEY_PAIR" );
+
+    ret = JS_PKI_getPubKeyInfo( pPubInfo, &nType, &nOption );
+    if( ret != 0 ) return -1;
+
+    if( nType == JS_PKI_KEY_TYPE_RSA )
+    {
+        strAlg = "RSA";
+        strParam = QString( "%1" ).arg( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ECC || nType == JS_PKI_KEY_TYPE_SM2 )
+    {
+        strAlg = "ECC";
+        strParam = JS_PKI_getSNFromNid( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_DSA )
+    {
+        strAlg = "DSA";
+        strParam = QString( "%1" ).arg( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ED25519 )
+    {
+        strAlg = "EdDSA";
+        strParam = "Ed255192";
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        strAlg = "EdDSA";
+        strParam = "Ed448";
+    }
+    else {
+        return -1;
+    }
+
+    if( manApplet->isPasswd() )
+        strPriHex = manApplet->getEncPriHex( pPri );
+    else
+        strPriHex = getHexString( pPri );
+
+    keyPair.setNum( seq );
+    keyPair.setAlg( strAlg );
+    keyPair.setParam( strParam );
+    keyPair.setName( strName );
+    keyPair.setRegTime( time(NULL) );
+    keyPair.setStatus( 0 );
+
+    keyPair.setPublicKey( getHexString( pPubInfo ) );
+    keyPair.setPrivateKey( strPriHex );
+
+    manApplet->dbMgr()->addKeyPairRec( keyPair );
+
+    return seq;
+}
 
 void MainWindow::adjustForCurrentFile( const QString& filePath )
 {
@@ -2835,6 +2900,7 @@ end :
 void MainWindow::issueCMP()
 {
     int ret = 0;
+    int nKeySeq = 0;
     BINList *pTrustList = NULL;
     BIN binRefNum = {0,0};
     BIN binAuthCode = {0,0};
@@ -2881,7 +2947,11 @@ void MainWindow::issueCMP()
     strDN += manApplet->settingsMgr()->baseDN();
 
     ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to run CMP GENM: %1").arg( ret ));
+        goto end;
+    }
 
     pCurList = pInfoList;
 
@@ -2944,14 +3014,27 @@ void MainWindow::issueCMP()
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
 
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to generate key pair: %1" ).arg(ret ));
+        goto end;
+    }
 
-    writeKeyPairDB( manApplet->dbMgr(), userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+    nKeySeq = saveKeyPair( userRec.getName().toStdString().c_str(), &binPub, &binPri  );
+    if( nKeySeq < 0 )
+    {
+        manApplet->elog( QString( "fail to save keypair: %1").arg( nKeySeq ));
+        goto end;
+    }
 
     ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, 0, &binCert );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to run CMP IR: %1").arg( ret ));
+        goto end;
+    }
 
-    writeCertDB( manApplet->dbMgr(), &binCert );
+    ret = writeCertDB( manApplet->dbMgr(), &binCert );
 
 /*
    ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binRefNum, &binAuthCode );
@@ -2981,6 +3064,7 @@ end:
 void MainWindow::updateCMP()
 {
     int ret = 0;
+    int nKeySeq = 0;
     BINList *pTrustList = NULL;
     JNameValList    *pInfoList = NULL;
     JNameValList    *pCurList = NULL;
@@ -3022,7 +3106,11 @@ void MainWindow::updateCMP()
     manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
-    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     QString strURL = manApplet->settingsMgr()->CMPURI();
     strURL += "/CMP";
@@ -3094,7 +3182,7 @@ void MainWindow::updateCMP()
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
 
-    writeKeyPairDB( manApplet->dbMgr(), certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
+    nKeySeq = saveKeyPair( certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
 
     ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
     if( ret != 0 ) goto end;
@@ -3162,7 +3250,11 @@ void MainWindow::revokeCMP()
    manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
-   JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+   if( manApplet->isPasswd() )
+       manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+   else
+       JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
    QString strURL = manApplet->settingsMgr()->CMPURI();
    strURL += "/CMP";
@@ -3499,7 +3591,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    nKeyNum = writeKeyPairDB( manApplet->dbMgr(), sCertInfo.pSubjectName, &binNPub, &binNPri );
+    nKeyNum = saveKeyPair( sCertInfo.pSubjectName, &binNPub, &binNPri );
 
     ret = JS_PKI_makeCSR( "SHA256", sCertInfo.pSubjectName, pChallengePass, NULL, &binNPri, NULL, &binCSR );
     if( ret != 0 )
