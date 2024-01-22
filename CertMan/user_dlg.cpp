@@ -149,12 +149,18 @@ void UserDlg::regServer()
 
     JS_JSON_encodeRegUserReq( &sUserReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    if( ret != 0 )
+    {
+        manApplet->warnLog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
+        goto end;
+    }
 
     JS_JSON_decodeRegUserRsp( pRsp, &sUserRsp );
 
     if( strcasecmp( sUserRsp.pResCode, "0000" ) == 0 )
     {
+        manApplet->messageBox( tr( "User registered successfully" ), this );
         manApplet->mainWindow()->createRightUserList();
         ret = 0;
     }
@@ -164,6 +170,7 @@ void UserDlg::regServer()
         ret = -1;
     }
 
+end :
     if( pReq ) JS_free( pReq );
     if( pRsp ) JS_free( pRsp );
     JS_JSON_resetRegUserReq( &sUserReq );

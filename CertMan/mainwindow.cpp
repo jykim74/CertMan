@@ -3513,7 +3513,11 @@ void MainWindow::issueSCEP()
         goto end;
     }
 
-    writeCertDB( manApplet->dbMgr(), &binNewCert );
+    nRet = writeCertDB( manApplet->dbMgr(), &binNewCert );
+    if( nRet == 0 )  manApplet->dbMgr()->modReqStatus( num, 1 );
+
+    if( nRet == 0 )
+        manApplet->messageLog( tr( "SCEP issued successfully"), this );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -3608,6 +3612,14 @@ void MainWindow::renewSCEP()
     else if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
         ret = JS_PKI_ECCGenKeyPair( JS_PKI_getSNFromNid( nOption ), &binNPub, &binNPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+    {
+        ret = JS_PKI_DSA_GenKeyPair( nOption, &binPub, &binPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
+    {
+        ret = JS_PKI_EdDSA_GenKeyPair( nKeyType, &binPub, &binPri );
     }
 
     if( ret != 0 )
