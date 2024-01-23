@@ -3435,7 +3435,7 @@ void MainWindow::issueSCEP()
     JS_PKI_genRandom( 16, &binSenderNonce );
     JS_SCEP_makeTransID( &binCSR, &pTransID );
 
-    strURL = QString( "%1?operation=GetCACert" ).arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=GetCACert" ).arg( strSCEPURL );
 
     nRet = JS_HTTP_requestGetBin2(
                 strURL.toStdString().c_str(),
@@ -3470,7 +3470,7 @@ void MainWindow::issueSCEP()
         goto end;
     }
 
-    strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=PKIOperation").arg( strSCEPURL );
 
     nRet = JS_HTTP_requestPostBin2(
                 strURL.toStdString().c_str(),
@@ -3651,7 +3651,7 @@ void MainWindow::renewSCEP()
     JS_PKI_genRandom( 16, &binSenderNonce );
     JS_SCEP_makeTransID( &binCSR, &pTransID );
 
-    strURL = QString( "%1?operation=GetCACert" ).arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=GetCACert" ).arg( strSCEPURL );
 
     ret = JS_HTTP_requestGetBin2(
                 strURL.toStdString().c_str(),
@@ -3684,7 +3684,7 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=PKIOperation").arg( strSCEPURL );
 
     ret = JS_HTTP_requestPostBin2(
                 strURL.toStdString().c_str(),
@@ -3813,7 +3813,7 @@ void MainWindow::getCRLSCEP()
     JS_PKI_genRandom( 16, &binSenderNonce );
 
 
-    strURL = QString( "%1?operation=GetCACert" ).arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=GetCACert" ).arg( strSCEPURL );
 
     ret = JS_HTTP_requestGetBin2(
                 strURL.toStdString().c_str(),
@@ -3839,7 +3839,7 @@ void MainWindow::getCRLSCEP()
         goto end;
     }
 
-    strURL = QString( "%1?operation=PKIOperation").arg( strSCEPURL );
+    strURL = QString( "%1/pkiclient.exe?operation=PKIOperation").arg( strSCEPURL );
 
     ret = JS_HTTP_requestPostBin2(
                 strURL.toStdString().c_str(),
