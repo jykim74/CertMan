@@ -3523,7 +3523,6 @@ void MainWindow::issueSCEP()
     if( nRet == 0 )  manApplet->dbMgr()->modReqStatus( num, 1 );
 
     if( nRet == 0 ) manApplet->messageLog( tr( "SCEP issued successfully"), this );
-
     manApplet->mainWindow()->createRightCertList(-2);
 
 end :
@@ -3546,6 +3545,8 @@ void MainWindow::renewSCEP()
 {
     int ret = 0;
     int nKeyNum = -1;
+    int nCSRNum = -1;
+
     int nKeyType = -1;
     int nOption = -1;
     BIN binCert = {0,0};
@@ -3642,6 +3643,11 @@ void MainWindow::renewSCEP()
     }
 
     nKeyNum = saveKeyPair( sCertInfo.pSubjectName, &binNPub, &binNPri );
+    if( nKeyNum < 0 )
+    {
+        manApplet->warnLog( tr( "fail to save keypair" ), this );
+        goto end;
+    }
 
     ret = JS_PKI_makeCSR( "SHA256", sCertInfo.pSubjectName, pChallengePass, NULL, &binNPri, NULL, &binCSR );
     if( ret != 0 )
@@ -3650,7 +3656,14 @@ void MainWindow::renewSCEP()
         goto end;
     }
 
-    writeCSRDB( manApplet->dbMgr(), nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
+    nCSRNum = writeCSRDB( manApplet->dbMgr(), nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
+    if( nCSRNum < 0 )
+    {
+        manApplet->warnLog( tr( "fail to save CSR" ), this );
+        goto end;
+    }
+
+    manApplet->dbMgr()->modKeyPairStatus( nKeyNum, 1 );
 
     if( smgr->SCEPMutualAuth() )
     {
@@ -3737,6 +3750,8 @@ void MainWindow::renewSCEP()
     }
 
     writeCertDB( manApplet->dbMgr(), &binNCert );
+    manApplet->dbMgr()->modReqStatus( nCSRNum, 1 );
+
     if( ret == 0 ) manApplet->messageLog( tr( "SCEP renew successfully"), this );
 
     manApplet->mainWindow()->createRightCertList(-2);
