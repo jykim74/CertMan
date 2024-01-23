@@ -3418,7 +3418,11 @@ void MainWindow::issueSCEP()
     KeyPairRec keyPair;
     manApplet->dbMgr()->getKeyPairRec( req.getKeyNum(), keyPair );
 
-    if( smgr->SCEPUse() == false ) return;
+    if( smgr->SCEPUse() == false )
+    {
+        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        return;
+    }
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;
@@ -3452,7 +3456,10 @@ void MainWindow::issueSCEP()
     }
 
     JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
-    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     nRet = JS_SCEP_makePKIReq(
                 &binCSR,
@@ -3465,8 +3472,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 )
     {
-        elog( QString("fail to make PKIReq : %1").arg( nRet ));
-        manApplet->warningBox( "fail to make PKIReq", this );
+        manApplet->warnLog( QString("fail to make PKIReq: %1").arg(nRet), this );
         goto end;
     }
 
@@ -3516,8 +3522,7 @@ void MainWindow::issueSCEP()
     nRet = writeCertDB( manApplet->dbMgr(), &binNewCert );
     if( nRet == 0 )  manApplet->dbMgr()->modReqStatus( num, 1 );
 
-    if( nRet == 0 )
-        manApplet->messageLog( tr( "SCEP issued successfully"), this );
+    if( nRet == 0 ) manApplet->messageLog( tr( "SCEP issued successfully"), this );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -3592,7 +3597,11 @@ void MainWindow::renewSCEP()
     }
 
     manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
-    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
@@ -3697,8 +3706,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog(QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus));
-        manApplet->warningBox( "fail to request Post", this );
+        manApplet->warningBox( QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus), this );
         goto end;
     }
 
@@ -3712,8 +3720,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        elog(QString("fail to parse CertRsp : %1").arg(ret));
-        manApplet->warningBox( "fail to parse CertRsp", this );
+        manApplet->warnLog( QString("fail to parse CertRsp : %1").arg(ret), this );
         goto end;
     }
 
@@ -3726,6 +3733,7 @@ void MainWindow::renewSCEP()
     }
 
     writeCertDB( manApplet->dbMgr(), &binNCert );
+    if( ret == 0 ) manApplet->messageLog( tr( "SCEP renew successfully"), this );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -3797,7 +3805,11 @@ void MainWindow::getCRLSCEP()
     }
 
     manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
-    JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
 
@@ -3824,18 +3836,15 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog(QString("fail to request Get [%1:%2]").arg(ret).arg( nStatus ));
-        manApplet->warningBox( "fail to request Get", this );
+        manApplet->warnLog( QString("fail to request Get [%1:%2]").arg(ret).arg( nStatus ), this );
         goto end;
     }
 
     ret = JS_SCEP_makeGetCRL( &binCert, &binPri, &binCert, &binCACert, &binSenderNonce, pTransID, &binReq );
 
-
     if( ret != 0 )
     {
-        elog(QString("fail to make getCRL : %1").arg(ret));
-        manApplet->warningBox( "fail to make PKIReq", this );
+        manApplet->warnLog( QString( "fail to make GetCRL: %1" ).arg( ret ), this );
         goto end;
     }
 
@@ -3882,13 +3891,14 @@ void MainWindow::getCRLSCEP()
 
     writeCRLDB( manApplet->dbMgr(), &binCRL );
 
+    if( ret == 0 ) manApplet->messageLog( tr( "SCEP getCRL successfully"), this );
+
     manApplet->mainWindow()->createRightCRLList(-2);
 
 end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPub );
     JS_BIN_reset( &binPri );
-
 
     JS_BIN_reset( &binSSLCert );
     JS_BIN_reset( &binSSLPri );
