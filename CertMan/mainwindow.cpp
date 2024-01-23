@@ -2922,7 +2922,7 @@ void MainWindow::issueCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
         return;
     }
 
@@ -3088,7 +3088,7 @@ void MainWindow::updateCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
         return;
     }
 
@@ -3251,7 +3251,7 @@ void MainWindow::revokeCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "CMPServer is not set" ), this );
+        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
         return;
     }
 
@@ -3578,7 +3578,11 @@ void MainWindow::renewSCEP()
 
     int num = item->text().toInt();
 
-    if( smgr->SCEPUse() == false ) return;
+    if( smgr->SCEPUse() == false )
+    {
+        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        return;
+    }
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;
@@ -3788,7 +3792,11 @@ void MainWindow::getCRLSCEP()
 
     int num = item->text().toInt();
 
-    if( smgr->SCEPUse() == false ) return;
+    if( smgr->SCEPUse() == false )
+    {
+        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        return;
+    }
 
     QString strSCEPURL = smgr->SCEPURI();
     QString strURL;
