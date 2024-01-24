@@ -367,7 +367,12 @@ void MakeCertDlg::accept()
     manApplet->log( QString( "PublicKey : %1").arg( sReqInfo.pPublicKey ));
 
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
-    JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
+    ret = JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "fail to get KeyIdentifier: %1").arg( ret ));
+        return;
+    }
 
     if( bSelf )
     {
@@ -566,6 +571,7 @@ void MakeCertDlg::accept()
                 ret = JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
                 if( ret != 0 )
                 {
+                    manApplet->elog( QString( "fail to get AuthorityKeyIdentifier: %1").arg( ret ));
                     JS_BIN_reset( &binCert );
                     goto end;
                 }
