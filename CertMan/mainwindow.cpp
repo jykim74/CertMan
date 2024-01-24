@@ -503,6 +503,12 @@ void MainWindow::createActions()
         regSrvAct->setStatusTip(tr("Reg Server Service"));
         serverMenu->addAction( regSrvAct );
 //        serverToolBar->addAction( regSrvAct );
+
+        QAction *ccSrvAct = new QAction( timeIcon, tr("&CC Server"), this);
+        connect( ccSrvAct, &QAction::triggered, this, &MainWindow::CCSrv);
+        ccSrvAct->setStatusTip(tr("CC Server Service"));
+        serverMenu->addAction( ccSrvAct );
+        //        serverToolBar->addAction( ccSrvAct );
     }
 
 
@@ -843,6 +849,12 @@ void MainWindow::createTreeMenu()
         pRegSrvItem->setType( CM_ITEM_TYPE_CONFIG );
         pRegSrvItem->setDataNum( JS_GEN_KIND_REG_SRV );
         pConfigItem->appendRow( pRegSrvItem );
+
+        ManTreeItem *pCCSrvItem = new ManTreeItem( QString( tr( "CC Server" )));
+        pCCSrvItem->setIcon(QIcon(":/images/config.png"));
+        pCCSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pCCSrvItem->setDataNum( JS_GEN_KIND_CC_SRV );
+        pConfigItem->appendRow( pCCSrvItem );
 
         ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
         pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
@@ -4010,6 +4022,21 @@ void MainWindow::RegSrv()
 
     if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_REG_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
+}
+
+void MainWindow::CCSrv()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("You have to open database"), this );
+        return;
+    }
+
+    if( pki_srv_ == NULL ) return;
+    pki_srv_->setSrvKind( JS_GEN_KIND_CC_SRV );
     pki_srv_->show();
     pki_srv_->raise();
     pki_srv_->activateWindow();

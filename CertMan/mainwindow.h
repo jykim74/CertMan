@@ -230,6 +230,7 @@ public slots:
     void TSPSrv();
     void CMPSrv();
     void RegSrv();
+    void CCSrv();
 
 private slots:
     void showRightMenu( QPoint point );

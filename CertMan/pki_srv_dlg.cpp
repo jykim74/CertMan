@@ -46,6 +46,15 @@ static QStringList sTSPNameList = {
     "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
     "TSP_PORT", "TSP_SSL_PORT" };
 
+static QStringList sCCNameList = {
+    "LOG_PATH", "LOG_LEVEL", "CC_DB_PATH",
+    "CA_CERT_PATH", "CA_PRIVATE_KEY_ENC", "CA_PRIVATE_KEY_NUM",
+    "CA_PRIVATE_KEY_PASSWD", "CA_HSM_USER", "CA_HSM_LIB_PATH",
+    "CA_HSM_SLOT_ID", "CA_HSM_PIN", "CA_HSM_KEY_ID",
+    "LDAP_USE", "LDAP_HOST", "LDAP_PORT",
+    "LDAP_BINDDN", "LDAP_SECRET",
+};
+
 PKISrvDlg::PKISrvDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -93,6 +102,8 @@ void PKISrvDlg::setSrvKind( int nKind )
         sNameList = sCMPNameList;
     else if( kind_ == JS_GEN_KIND_REG_SRV )
         sNameList = sRegNameList;
+    else if( kind_ == JS_GEN_KIND_CC_SRV )
+        sNameList = sCCNameList;
 }
 
 void PKISrvDlg::showEvent(QShowEvent *event)
@@ -117,6 +128,8 @@ const QString PKISrvDlg::getName()
         return "CMP";
     else if( kind_ == JS_GEN_KIND_REG_SRV )
         return "Reg";
+    else if( kind_ == JS_GEN_KIND_CC_SRV )
+        return "CC";
 
     return "Service";
 }
@@ -282,6 +295,8 @@ void PKISrvDlg::clickCheck()
         nPort = JS_CMP_PORT;
     else if( kind_ == JS_GEN_KIND_REG_SRV )
         nPort = JS_REG_PORT;
+    else if( kind_ == JS_GEN_KIND_CC_SRV )
+        nPort = JS_CC_PORT;
 
     ret = dbMgr->getConfigValue( kind_, strName, strValue );
     if( ret == 1 ) nPort = strValue.toInt();
@@ -374,6 +389,8 @@ void PKISrvDlg::clickConnect()
         nPort = JS_CMP_PORT + 10;
     else if( kind_ == JS_GEN_KIND_REG_SRV )
         nPort = JS_REG_PORT + 10;
+    else if( kind_ == JS_GEN_KIND_CC_SRV )
+        nPort = JS_CC_PORT + 10;
 
     sockfd = mSockText->text().toInt();
 
