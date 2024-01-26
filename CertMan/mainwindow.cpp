@@ -4375,7 +4375,7 @@ void MainWindow::statusByReg()
     }
 
     strURL = mgr->REGURI();
-    strURL += "/certstatus";
+    strURL += JS_REG_PATH_CERT_STATUS;
 
     JS_JSON_encodeRegCertStatusReq( &sStatusReq, &pReq );
 
@@ -4442,7 +4442,7 @@ void MainWindow::revokeByReg()
     manApplet->dbMgr()->getUserRec( cert.getUserNum(), user );
 
     strURL = mgr->REGURI();
-    strURL += "/certrevoke";
+    strURL += JS_REG_PATH_CERT_REVOKE;
 
     JS_JSON_setRegCertRevokeReq( &sRevokeReq, "name", cert.getSubjectDN().toStdString().c_str(), "1" );
 

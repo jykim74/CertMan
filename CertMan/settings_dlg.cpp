@@ -128,6 +128,8 @@ void SettingsDlg::updateSettings()
 
         mgr->setREGUse( mUseREGCheck->checkState() == Qt::Checked );
         mgr->setREGURI( mREGURIText->text() );
+        mgr->setREGAdminName( mREGAdminNameText->text() );
+        mgr->setREGPassword( mREGPasswordText->text() );
 
         mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
         mgr->setCMPURI( mCMPURIText->text() );
@@ -470,6 +472,8 @@ void SettingsDlg::initialize()
         mUseREGCheck->setCheckState( state );
 
         mREGURIText->setText( mgr->REGURI() );
+        mREGAdminNameText->setText( mgr->REGAdminName() );
+        mREGPasswordText->setText( mgr->REGPassword() );
 
         checkREGUse();
 

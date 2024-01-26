@@ -32,6 +32,8 @@ namespace  {
     const char *kOCSPSignerCertPath = "OCSPSignerCertPath";
     const char *kREGUse = "REGUse";
     const char *kREGURI = "REGURI";
+    const char *kREGAdminName = "REGAdminName";
+    const char *kREGPassword = "REGPassword";
     const char *kCMPUse = "CMPUse";
     const char *kCMPURI = "CMPURI";
     const char *kCMPRootCACertPath = "CMPRootCACertPath";
@@ -674,6 +676,48 @@ QString SettingsMgr::REGURI()
     settings.endGroup();
 
     return strURI;
+}
+
+void SettingsMgr::setREGAdminName( const QString strName )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kREGAdminName, strName );
+    settings.endGroup();
+}
+
+QString SettingsMgr::REGAdminName()
+{
+    QString strName;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strName = settings.value( kREGAdminName, "").toString();
+    settings.endGroup();
+
+    return strName;
+}
+
+void SettingsMgr::setREGPassword( const QString strPassword )
+{
+    QSettings   settings;
+
+    settings.beginGroup( kBehaviorGroup );
+    settings.setValue( kREGPassword, strPassword );
+    settings.endGroup();
+}
+
+QString SettingsMgr::REGPassword()
+{
+    QString strPassword;
+
+    QSettings   settings;
+    settings.beginGroup( kBehaviorGroup );
+    strPassword = settings.value( kREGPassword, "").toString();
+    settings.endGroup();
+
+    return strPassword;
 }
 
 void SettingsMgr::setCMPUse( bool val )

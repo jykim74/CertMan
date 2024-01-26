@@ -93,6 +93,11 @@ public:
     void setREGURI( QString strURI );
     QString REGURI();
 
+    void setREGAdminName( const QString strName );
+    QString REGAdminName();
+    void setREGPassword( const QString strPassword );
+    QString REGPassword();
+
     void setCMPUse( bool val );
     bool CMPUse();
 

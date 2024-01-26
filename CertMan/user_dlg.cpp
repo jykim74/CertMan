@@ -140,7 +140,7 @@ void UserDlg::regServer()
     }
 
     strURL = mgr->REGURI();
-    strURL += "/user";
+    strURL += JS_REG_PATH_USER;
 
     JS_JSON_setRegUserReq( &sUserReq,
                            strName.toStdString().c_str(),
