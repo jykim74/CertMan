@@ -217,7 +217,7 @@ int ManApplet::loignRegServer( QString& strToken )
     ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
-        manApplet->warnLog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
+        manApplet->elog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
         goto end;
     }
 

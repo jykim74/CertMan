@@ -4368,6 +4368,15 @@ void MainWindow::statusByReg()
     SettingsMgr *mgr = manApplet->settingsMgr();
     QString strURL;
 
+    QString strToken;
+
+    ret = manApplet->loignRegServer( strToken );
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        return;
+    }
+
     if( mgr->REGUse() == false )
     {
         manApplet->warningBox( tr( "REGServer is not set" ), this );
@@ -4379,7 +4388,10 @@ void MainWindow::statusByReg()
 
     JS_JSON_encodeRegCertStatusReq( &sStatusReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    JS_HTTP_requestTokenPost( strURL.toStdString().c_str(),
+                            "application/json",
+                            strToken.toStdString().c_str(),
+                            pReq, &nStatus, &pRsp );
 
     JS_JSON_decodeRegCertStatusRsp( pRsp, &sStatusRsp );
 
@@ -4422,6 +4434,15 @@ void MainWindow::revokeByReg()
     SettingsMgr *mgr = manApplet->settingsMgr();
     QString strURL;
 
+    QString strToken;
+
+    ret = manApplet->loignRegServer( strToken );
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        return;
+    }
+
     if( mgr->REGUse() == false )
     {
         manApplet->warningBox( tr( "REGServer is not set" ), this );
@@ -4448,7 +4469,10 @@ void MainWindow::revokeByReg()
 
     JS_JSON_encodeRegCertRevokeReq( &sRevokeReq, &pReq );
 
-    JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    JS_HTTP_requestTokenPost( strURL.toStdString().c_str(),
+                            "application/json",
+                             strToken.toStdString().c_str(),
+                            pReq, &nStatus, &pRsp );
 
     JS_JSON_decodeRegRsp( pRsp, &sRevokeRsp );
 

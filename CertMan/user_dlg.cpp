@@ -132,6 +132,15 @@ void UserDlg::regServer()
     QString strEmail = mEmailText->text();
 
     SettingsMgr *mgr = manApplet->settingsMgr();
+    QString strToken;
+
+    ret = manApplet->loignRegServer( strToken );
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        return;
+    }
+
     QString strURL;
 
     if( mgr->REGUse() == false )
@@ -150,7 +159,10 @@ void UserDlg::regServer()
 
     JS_JSON_encodeRegUserReq( &sUserReq, &pReq );
 
-    ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    ret = JS_HTTP_requestTokenPost( strURL.toStdString().c_str(),
+                                   "application/json",
+                                   strToken.toStdString().c_str(),
+                                   pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
         manApplet->warnLog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
