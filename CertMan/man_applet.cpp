@@ -33,6 +33,8 @@
 #include "commons.h"
 #include "js_net.h"
 #include "lcn_info_dlg.h"
+#include "js_json.h"
+#include "js_http.h"
 
 ManApplet *manApplet;
 
@@ -184,6 +186,59 @@ QString ManApplet::curFolder()
     QDir folder = file.dir();
 
     return folder.path();
+}
+
+int ManApplet::loignRegServer( QString& strToken )
+{
+    int ret = 0;
+    int nStatus = 0;
+    char *pReq = NULL;
+    char *pRsp = NULL;
+
+    JRegAdminLoginReq   sLoginReq;
+    JRegAdminLoginRsp   sLoginRsp;
+
+    if( settings_mgr_->REGUse() == false )
+        return -1;
+
+    QString strAdminName = settings_mgr_->REGAdminName();
+    QString strPassword = settings_mgr_->REGPassword();
+
+    QString strURL = settings_mgr_->REGURI();
+    strURL += JS_REG_PATH_ADMIN_LOGIN;
+
+    memset( &sLoginReq, 0x00, sizeof(sLoginReq));
+    memset( &sLoginRsp, 0x00, sizeof(sLoginRsp));
+
+    JS_JSON_setRegAdminLoginReq( &sLoginReq, strAdminName.toStdString().c_str(), strAdminName.toStdString().c_str() );
+
+    JS_JSON_encodeRegAdminLoginReq( &sLoginReq, &pReq );
+
+    ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
+    if( ret != 0 )
+    {
+        manApplet->warnLog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
+        goto end;
+    }
+
+    JS_JSON_decodeRegAdminLoginRsp( pRsp, &sLoginRsp );
+    if( strcasecmp( sLoginRsp.pResCode, "0000" ) == 0 )
+    {
+        strToken = sLoginRsp.pToken;
+        ret = 0;
+    }
+    else
+    {
+        ret = -1;
+    }
+
+end :
+    if( pReq ) JS_free( pReq );
+    if( pRsp ) JS_free( pRsp );
+    JS_JSON_resetRegAdminLoginReq( &sLoginReq );
+    JS_JSON_resetRegAdminLoginRsp( &sLoginRsp );
+
+    return ret;
 }
 
 int ManApplet::checkLicense()

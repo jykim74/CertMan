@@ -114,19 +114,6 @@ void UserDlg::initialize()
     mStatusCombo->setCurrentIndex(1);
 }
 
-int UserDlg::loginREG()
-{
-    SettingsMgr *mgr = manApplet->settingsMgr();
-    QString strURL;
-
-    if( mgr->REGUse() == false )
-    {
-        manApplet->warningBox( tr( "REGServer is not set" ), this );
-        return -1;
-    }
-
-    return 0;
-}
 
 void UserDlg::regServer()
 {

@@ -27,7 +27,7 @@ private slots:
 private:
     void initUI();
     void initialize();
-    int loginREG();
+
 };
 
 #endif // USER_DLG_H

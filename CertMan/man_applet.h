@@ -73,6 +73,8 @@ public:
     QString curFolder();
     void setCurFile( const QString& strFile );
 
+    int loignRegServer( QString& strToken );
+
 private:
     int loadPKCS11();
 
