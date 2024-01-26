@@ -23,9 +23,11 @@ private slots:
     void getRefNum();
     void getAuthCode();
     void regServer();
+
 private:
     void initUI();
     void initialize();
+    int loginREG();
 };
 
 #endif // USER_DLG_H
