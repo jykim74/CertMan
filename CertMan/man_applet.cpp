@@ -199,13 +199,22 @@ int ManApplet::loignRegServer( QString& strToken )
     JRegAdminLoginRsp   sLoginRsp;
 
     if( settings_mgr_->REGUse() == false )
+    {
+        manApplet->elog( "REG Server is not set" );
         return -1;
+    }
 
     QString strAdminName = settings_mgr_->REGAdminName();
     QString strPassword = settings_mgr_->REGPassword();
 
     QString strURL = settings_mgr_->REGURI();
     strURL += JS_REG_PATH_ADMIN_LOGIN;
+
+    if( strAdminName.length() < 1 )
+    {
+        manApplet->elog( "There is no admin name" );
+        return -1;
+    }
 
     memset( &sLoginReq, 0x00, sizeof(sLoginReq));
     memset( &sLoginRsp, 0x00, sizeof(sLoginRsp));
@@ -217,7 +226,7 @@ int ManApplet::loignRegServer( QString& strToken )
     ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
+        manApplet->elog( QString( "fail to request HTTP Post: %1 (ret:%2)" ).arg( strURL ).arg( ret ));
         goto end;
     }
 
@@ -229,6 +238,7 @@ int ManApplet::loignRegServer( QString& strToken )
     }
     else
     {
+        manApplet->elog( QString( "Error ResCode: %1").arg( sLoginRsp.pResCode ));
         ret = -1;
     }
 

@@ -107,6 +107,14 @@ void AdminDlg::clickRegister()
         return;
     }
 
+    if( mGenPasswordMACCheck->isChecked() )
+    {
+        BIN binMAC = {0,0};
+        JS_GEN_genPasswdHMAC( strPassword.toStdString().c_str(), &binMAC );
+        strPassword = getHexString( &binMAC );
+        JS_BIN_reset( &binMAC );
+    }
+
     if( strEmail.isEmpty() )
     {
         manApplet->warningBox( tr( "You have to set email" ), this );
@@ -174,6 +182,14 @@ void AdminDlg::clickModify()
     {
         manApplet->warningBox( tr( "You have to set password" ), this );
         return;
+    }
+
+    if( mGenPasswordMACCheck->isChecked() )
+    {
+        BIN binMAC = {0,0};
+        JS_GEN_genPasswdHMAC( strPassword.toStdString().c_str(), &binMAC );
+        strPassword = getHexString( &binMAC );
+        JS_BIN_reset( &binMAC );
     }
 
     if( strEmail.isEmpty() )
