@@ -12,7 +12,7 @@
 #include "js_pki_ext.h"
 #include "js_pki_tools.h"
 #include "js_define.h"
-
+#include "js_error.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -1186,7 +1186,7 @@ void MainWindow::open()
     int ret = openDB( fileName );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to open database" ), this );
+        manApplet->warningBox( tr( "fail to open database[%1]" ).arg( JSR_DB_OPEN_FAIL ), this );
         return;
     }
 }
