@@ -66,8 +66,6 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     }
 #endif
 
-
-
     if( is_pro_ == true )
     {
         if( settings_mgr_->serverStatus() )
