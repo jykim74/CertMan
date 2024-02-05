@@ -224,7 +224,8 @@ void PKISrvDlg::clickDel()
 
 void PKISrvDlg::clickEnc()
 {
-    BIN binEnc = {0,0};
+    int ret = 0;
+    char    sEncPasswd[1024];
     QString strValue = mValueText->text();
 
     if( strValue.length() < 1 )
@@ -233,18 +234,15 @@ void PKISrvDlg::clickEnc()
         return;
     }
 
-    JS_GEN_encPassword( strValue.toStdString().c_str(), &binEnc );
-    strValue = "{ENC}";
-    strValue += getHexString( &binEnc );
-    mValueText->setText( strValue );
-
-    JS_BIN_reset( &binEnc );
+    ret = JS_GEN_encPassword( strValue.toStdString().c_str(), sEncPasswd );
+    if( ret == 0 )
+        mValueText->setText( sEncPasswd );
 }
 
 void PKISrvDlg::clickDec()
 {
-    BIN binEnc = {0,0};
-    char *pPasswd = NULL;
+    int ret = 0;
+    char    sPasswd[1024];
     QString strValue = mValueText->text();
 
     if( strValue.length() < 5 )
@@ -260,15 +258,10 @@ void PKISrvDlg::clickDec()
         return;
     }
 
-    QString strEnc = strValue.mid( 5 );
-    JS_BIN_decodeHex( strEnc.toStdString().c_str(), &binEnc );
+    ret = JS_GEN_decPassword( strValue.toStdString().c_str(), sPasswd );
 
-    JS_GEN_decPassword( &binEnc, &pPasswd );
-
-    mValueText->setText( pPasswd );
-
-    JS_BIN_reset( &binEnc );
-    if( pPasswd ) JS_free( pPasswd );
+    if( ret == 0 )
+        mValueText->setText( sPasswd );
 }
 
 void PKISrvDlg::clickAdd()
