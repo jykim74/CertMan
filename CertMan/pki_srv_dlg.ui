@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
+    <width>555</width>
     <height>550</height>
    </rect>
   </property>
@@ -71,8 +71,12 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QComboBox" name="mNameCombo"/>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mEncBtn">
+       <property name="text">
+        <string>Encrypt</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
       <spacer name="horizontalSpacer_2">
@@ -87,10 +91,13 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="mAddBtn">
-       <property name="text">
-        <string>Add</string>
+     <item row="0" column="0">
+      <widget class="QComboBox" name="mNameCombo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
       </widget>
      </item>
@@ -98,6 +105,20 @@
       <widget class="QPushButton" name="mFileFindBtn">
        <property name="text">
         <string>File</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QPushButton" name="mAddBtn">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="mDecBtn">
+       <property name="text">
+        <string>Decrypt</string>
        </property>
       </widget>
      </item>

@@ -24,6 +24,8 @@ private slots:
     void closeEvent(QCloseEvent *event);
 
     void clickDel();
+    void clickEnc();
+    void clickDec();
     void clickAdd();
     void clickFindFile();
     void clickFindServer();

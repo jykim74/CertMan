@@ -14,7 +14,7 @@
 static QStringList sNameList;
 
 static QStringList sOCSPNameList = {
-    "LOG_PATH", "LOG_LEVEL", "OCSP_HSM_LIB_PATH", "OCSP_HSM_SLOT_ID"
+    "LOG_PATH", "LOG_LEVEL", "OCSP_HSM_LIB_PATH", "OCSP_HSM_SLOT_ID",
     "OCSP_HSM_PIN", "OCSP_HSM_KEY_ID", "OCSP_SRV_PRIKEY_NUM",
     "OCSP_SRV_PRIKEY_ENC", "OCSP_SRV_PRIKEY_PASSWD", "OCSP_SRV_CERT_NUM",
     "OCSP_HSM_USE", "OCSP_NEED_SIGN", "OCSP_MSG_DUMP",
@@ -22,7 +22,7 @@ static QStringList sOCSPNameList = {
     "OCSP_PORT", "OCSP_SSL_PORT" };
 
 static QStringList sCMPNameList = {
-    "LOG_PATH", "LOG_LEVEL", "CA_HSM_LIB_PATH", "CA_HSM_SLOT_ID"
+    "LOG_PATH", "LOG_LEVEL", "CA_HSM_LIB_PATH", "CA_HSM_SLOT_ID",
     "CA_HSM_PIN", "CA_HSM_KEY_ID", "CA_PRIKEY_NUM",
     "CA_PRIKEY_ENC", "CA_PRIKEY_PASSWD",
     "ROOTCA_CERT_NUM", "CA_CERT_NUM",
@@ -31,7 +31,7 @@ static QStringList sCMPNameList = {
     "CMP_PORT", "CMP_SSL_PORT", "CA_KEY_GEN", "CA_PARAM" };
 
 static QStringList sRegNameList = {
-    "LOG_PATH", "LOG_LEVEL", "REG_HSM_LIB_PATH", "REG_HSM_SLOT_ID"
+    "LOG_PATH", "LOG_LEVEL", "REG_HSM_LIB_PATH", "REG_HSM_SLOT_ID",
     "REG_HSM_PIN", "REG_HSM_KEY_ID", "REG_SRV_PRIKEY_NUM",
     "REG_SRV_PRIKEY_ENC", "REG_SRV_PRIKEY_PASSWD", "REG_SRV_CERT_NUM",
     "REG_HSM_USE", "REG_NEED_SIGN", "REG_MSG_DUMP",
@@ -39,7 +39,7 @@ static QStringList sRegNameList = {
     "REG_PORT", "REG_SSL_PORT" };
 
 static QStringList sTSPNameList = {
-    "LOG_PATH", "LOG_LEVEL", "TSP_HSM_LIB_PATH", "TSP_HSM_SLOT_ID"
+    "LOG_PATH", "LOG_LEVEL", "TSP_HSM_LIB_PATH", "TSP_HSM_SLOT_ID",
     "TSP_HSM_PIN", "TSP_HSM_KEY_ID", "TSP_SRV_PRIKEY_NUM",
     "TSP_SRV_PRIKEY_ENC", "TSP_SRV_PRIKEY_PASSWD", "TSP_SRV_CERT_NUM",
     "TSP_HSM_USE", "TSP_NEED_SIGN", "TSP_MSG_DUMP",
@@ -63,6 +63,8 @@ PKISrvDlg::PKISrvDlg(QWidget *parent) :
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mDelBtn, SIGNAL(clicked()), this, SLOT(clickDel()));
+    connect( mEncBtn, SIGNAL(clicked()), this, SLOT(clickEnc()));
+    connect( mDecBtn, SIGNAL(clicked()), this, SLOT(clickDec()));
     connect( mAddBtn, SIGNAL(clicked()), this, SLOT(clickAdd()));
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT(clickFindServer()));
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
@@ -218,6 +220,55 @@ void PKISrvDlg::clickDel()
     manApplet->dbMgr()->delConfigRec( item->text().toInt() );
 
     mConfigTable->removeRow(item->row());
+}
+
+void PKISrvDlg::clickEnc()
+{
+    BIN binEnc = {0,0};
+    QString strValue = mValueText->text();
+
+    if( strValue.length() < 1 )
+    {
+        manApplet->warningBox( tr("There is no value"), this );
+        return;
+    }
+
+    JS_GEN_encPassword( strValue.toStdString().c_str(), &binEnc );
+    strValue = "{ENC}";
+    strValue += getHexString( &binEnc );
+    mValueText->setText( strValue );
+
+    JS_BIN_reset( &binEnc );
+}
+
+void PKISrvDlg::clickDec()
+{
+    BIN binEnc = {0,0};
+    char *pPasswd = NULL;
+    QString strValue = mValueText->text();
+
+    if( strValue.length() < 5 )
+    {
+        manApplet->warningBox( tr("There is no value"), this );
+        return;
+    }
+
+    QString strPost = strValue.mid( 0, 5 );
+    if( strPost != "{ENC}" )
+    {
+        manApplet->warningBox( tr( "Value is not encrypted" ), this );
+        return;
+    }
+
+    QString strEnc = strValue.mid( 5 );
+    JS_BIN_decodeHex( strEnc.toStdString().c_str(), &binEnc );
+
+    JS_GEN_decPassword( &binEnc, &pPasswd );
+
+    mValueText->setText( pPasswd );
+
+    JS_BIN_reset( &binEnc );
+    if( pPasswd ) JS_free( pPasswd );
 }
 
 void PKISrvDlg::clickAdd()
