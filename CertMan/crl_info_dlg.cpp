@@ -88,7 +88,7 @@ void CRLInfoDlg::clickVerifyCRL()
     BIN binCA = {0,0};
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("You need to open the database"), this );
         return;
     }
 
@@ -98,7 +98,7 @@ void CRLInfoDlg::clickVerifyCRL()
     manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no ca certificate" ), this );
+        manApplet->warningBox( tr( "There is no CA information" ), this );
         return;
     }
 
@@ -110,11 +110,11 @@ void CRLInfoDlg::clickVerifyCRL()
     ret = JS_PKI_verifyCRL( &binCRL, &binCA );
     if( ret == 1 )
     {
-        manApplet->messageBox( "Verify CRL OK", this );
+        manApplet->messageBox( "CRL Verification is successfull", this );
     }
     else
     {
-        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret), this);
+        manApplet->warningBox( QString( "CRL Verification failed [%1]" ).arg(ret), this);
     }
 
 end :
@@ -147,7 +147,7 @@ void CRLInfoDlg::initialize()
 
     if( crl_num_ < 0 )
     {
-        manApplet->warningBox( tr("Select CRL"), this );
+        manApplet->warningBox( tr("Select a CRL"), this );
         return;
     }
 
@@ -163,7 +163,7 @@ void CRLInfoDlg::initialize()
     ret = JS_PKI_getCRLInfo( &binCRL, &crl_info_, &ext_info_list_, &revoke_info_list_ );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to get CRL information"), this );
+        manApplet->warningBox( tr("fail to obtain CRL information"), this );
         JS_BIN_reset( &binCRL );
         close();
         return;

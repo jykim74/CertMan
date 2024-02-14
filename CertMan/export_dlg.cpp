@@ -59,7 +59,7 @@ void ExportDlg::accept()
 
     if( strPath.isEmpty() )
     {
-        manApplet->warningBox( tr( "select folder path to save"), this );
+        manApplet->warningBox( tr( "select a directory to save"), this );
         return;
     }
 
@@ -67,7 +67,7 @@ void ExportDlg::accept()
     {
         if( strPass.isEmpty() )
         {
-            manApplet->warningBox( tr("insert password" ), this );
+            manApplet->warningBox( tr("Please enter a password" ), this );
             mPasswordText->setFocus();
             return;
         }
@@ -100,7 +100,7 @@ void ExportDlg::accept()
                 nPEMType = JS_PEM_TYPE_PRIVATE_KEY;
             else
             {
-                QString strMsg = tr( "not support algorithm: %1").arg( strAlg );
+                QString strMsg = tr( "This algorithm [%1] is not supported").arg( strAlg );
                 manApplet->warningBox( strMsg, this );
                 QDialog::reject();
                 return;
@@ -158,7 +158,7 @@ void ExportDlg::accept()
             }
             else
             {
-                manApplet->warningBox( QString( "Not support %1 algorithm to export").arg( keyPair.getAlg()));
+                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
                 ret = -1;
                 return;
             }
@@ -170,7 +170,7 @@ void ExportDlg::accept()
 
             if( ret != 0 )
             {
-                manApplet->warningBox( tr( "fail to encrypt private key"), this );
+                manApplet->warningBox( tr( "failed to encrypt the private key [%1]").arg(ret), this );
                 QDialog::reject();
                 return;
             }
@@ -231,7 +231,7 @@ void ExportDlg::accept()
         }
         else
         {
-            QString strMsg = tr( "not support algorithm: %1").arg( strAlg );
+            QString strMsg = tr( "This algorithm [%1] is not supported").arg( strAlg );
             manApplet->warningBox( strMsg, this );
             QDialog::reject();
             return;
@@ -251,7 +251,7 @@ void ExportDlg::accept()
 
         if( ret != 0 )
         {
-            QString strMsg = tr( "fail to encode PFX: %1" ).arg(ret);
+            QString strMsg = tr( "failed to create PFX file [%1]" ).arg(ret);
             manApplet->warningBox( strMsg, this );
             manApplet->elog( strMsg );
 
@@ -269,7 +269,7 @@ void ExportDlg::accept()
 
     JS_BIN_reset( &binData );
 
-    manApplet->messageBox( tr("Export successfully"), this );
+    manApplet->messageBox( tr("Export was successful"), this );
     QDialog::accept();
 }
 
@@ -375,7 +375,7 @@ void ExportDlg::clickPEMSaveCheck()
     }
     else
     {
-        manApplet->warningBox( "Invalid Path Name", this );
+        manApplet->warningBox( "Invalid directory name", this );
         return;
     }
 
@@ -428,7 +428,7 @@ void ExportDlg::initialize()
 
     if( data_num_ < 0 || export_type_ < 0 )
     {
-        manApplet->warningBox( tr( "There is no data to be selected" ), this );
+        manApplet->warningBox( tr( "No data selected" ), this );
         return;
     }
 
@@ -441,18 +441,18 @@ void ExportDlg::initialize()
 
         if( export_type_ == EXPORT_TYPE_PRIKEY )
         {
-            strLabel = "Export PrivateKey";
+            strLabel = "Export private key";
             strPath += "_pri.der";
         }
         else if( export_type_ == EXPORT_TYPE_ENC_PRIKEY )
         {
             mPasswordText->setEnabled(true);
-            strLabel = "Export Encrypted PrivateKey";
+            strLabel = "Export encrypted private key";
             strPath += "_enc_pri.key";
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
         {
-            strLabel = "Export PublicKey";
+            strLabel = "Export public key";
             strPath += "_pub.der";
         }
 
@@ -470,7 +470,7 @@ void ExportDlg::initialize()
 
         if( export_type_ == EXPORT_TYPE_CERTIFICATE )
         {
-            strLabel = "Export Certificate";
+            strLabel = "Export certificate";
             strPath += "_cert.der";
         }
         else if( export_type_ == EXPORT_TYPE_PFX )

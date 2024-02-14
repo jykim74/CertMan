@@ -49,9 +49,9 @@ AboutDlg::AboutDlg(QWidget *parent) :
     strAbout += "<br>Apache 2.0 License";
 
 #ifdef Q_OS_MACOS
-    strAbout += "<br>QT Version 5.15.2";
+    strAbout += "<br><br>QT Version 5.15.2";
 #else
-    strAbout += "<br>QT Version 5.13.2";
+    strAbout += "<br><br>QT Version 5.13.2";
 #endif
     strAbout += "<br>https://www.qt.io";
     strAbout += "<br>LGPL 3.0 License";

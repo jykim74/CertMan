@@ -60,7 +60,7 @@ void CSRInfoDlg::initialize()
 
     if( csr_num_ < 0 )
     {
-        manApplet->warningBox( tr( "Select CSR"), this );
+        manApplet->warningBox( tr( "Select a CSR"), this );
         this->hide();
         return;
     }
@@ -79,7 +79,7 @@ void CSRInfoDlg::initialize()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to get CSR information"), this );
+        manApplet->warningBox( tr("fail to obtain CSR information [%1]").arg(ret), this );
         goto end;
     }
 
@@ -103,7 +103,7 @@ void CSRInfoDlg::initialize()
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
     mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("Verify")));
-    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.bVerify ? "Verify" : "Not Verify")));
+    mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sReqInfo.bVerify ? "Verify" : "No verify")));
     i++;
 
     if( sReqInfo.pPublicKey )

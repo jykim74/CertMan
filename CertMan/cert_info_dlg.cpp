@@ -113,7 +113,7 @@ void CertInfoDlg::getFields()
 
     if( cert_num_ < 0 )
     {
-        manApplet->warningBox( tr( "Select certificate"), this );
+        manApplet->warningBox( tr( "Select a certificate"), this );
         this->hide();
         return;
     }
@@ -129,7 +129,7 @@ void CertInfoDlg::getFields()
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to get certificate information"), this );
+        manApplet->warningBox( tr("fail to obtain certificate information [%1]").arg(ret), this );
         JS_BIN_reset( &binCert );
         this->hide();
         return;
@@ -461,13 +461,13 @@ void CertInfoDlg::clickVerifyCert()
     manApplet->log( QString( "PVDCertValid : %1").arg(ret));
     if( ret == JS_VALID )
     {
-        QString strOK = "The PathValidation of the target certificate is OK";
+        QString strOK = "Path Validation is successfull";
         manApplet->log( strOK );
         manApplet->messageBox( strOK, this );
     }
     else
     {
-        QString strErr = QString( "Verify fail: %1" ).arg(sRes);
+        QString strErr = QString( "Verification failed [%1]" ).arg(sRes);
         manApplet->elog( strErr );
         manApplet->warningBox( strErr, this );
     }
@@ -523,13 +523,13 @@ void CertInfoDlg::clickPathValidation()
     manApplet->log( QString( "PVDCertValid : %1").arg(ret));
     if( ret == 1 )
     {
-        QString strOK = "The PathValidation of the target certificate is OK";
+        QString strOK = "Path Validation is successfull";
         manApplet->log( strOK );
         manApplet->messageBox( strOK, this );
     }
     else
     {
-        QString strErr = QString( "Verify fail: %1" ).arg(sRes);
+        QString strErr = QString( "Verification failed [%1]" ).arg(sRes);
         manApplet->elog( strErr );
         manApplet->warningBox( strErr, this );
     }
