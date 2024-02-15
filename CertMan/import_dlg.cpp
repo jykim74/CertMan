@@ -52,7 +52,7 @@ void ImportDlg::accept()
     {
         if( strPass.length() < 1 )
         {
-            manApplet->warningBox( tr("insert password"), this );
+            manApplet->warningBox( tr("Please enter a password"), this );
             mPasswordText->setFocus();
             return;
         }
@@ -64,7 +64,7 @@ void ImportDlg::accept()
     {
         if( strPath.isEmpty() )
         {
-            manApplet->warningBox( tr( "select file to import"), this );
+            manApplet->warningBox( tr( "Select the file to import"), this );
             return;
         }
 
@@ -79,7 +79,7 @@ void ImportDlg::accept()
     {
         if( strValue.length() < 1 )
         {
-            manApplet->warningBox( tr( "You have to insert value"), this );
+            manApplet->warningBox( tr( "Please enter a value"), this );
             mValueText->setFocus();
             return;
         }
@@ -104,7 +104,7 @@ void ImportDlg::accept()
             else
             {
                 JS_BIN_reset( &binSrc );
-                QString strMsg = tr("fail to decrypt private key: %1").arg( ret );
+                QString strMsg = tr("Private key decryption failed [%1]").arg( ret );
                 manApplet->warningBox( strMsg, this );
                 manApplet->elog( strMsg );
                 QDialog::reject();
@@ -126,7 +126,7 @@ void ImportDlg::accept()
     {
         if( mToKMSCheck->isChecked() )
         {
-            manApplet->warningBox( tr( "KMS can not import CSR" ), this );
+            manApplet->warningBox( tr( "Key management server does not support importing CSR" ), this );
             return;
         }
 
@@ -148,7 +148,7 @@ void ImportDlg::accept()
     {
         if( mToKMSCheck->isChecked() )
         {
-            manApplet->warningBox( tr( "KMS can not import CRL" ), this );
+            manApplet->warningBox( tr( "Key management server does not support importing CRL" ), this );
             JS_BIN_reset( &binSrc );
             return;
         }
@@ -171,14 +171,14 @@ void ImportDlg::accept()
     if( ret != 0 )
     {
         JS_BIN_reset( &binSrc );
-        QString strMsg = tr( "fail to import: %1").arg( ret );
+        QString strMsg = tr( "import failed [%1]").arg( ret );
         manApplet->warningBox( strMsg, this );
         manApplet->elog( strMsg );
         QDialog::reject();
         return;
     }
 
-    manApplet->messageBox( tr( "Import is successful"), this );
+    manApplet->messageBox( tr( "import success"), this );
     manApplet->setCurFile( strPath );
     JS_BIN_reset( &binSrc );
     QDialog::accept();
@@ -381,7 +381,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to import PrivateKey: %1").arg(ret));
+        manApplet->elog( QString( "failed to import PrivateKey: %1").arg(ret));
         ret = -1;
         goto end;
     }
@@ -396,7 +396,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     ret = dbMgr->addKeyPairRec( keyPair );
 
  end :
-    if( ret == 0 ) manApplet->log( "The key pair is imported successfully" );
+    if( ret == 0 ) manApplet->log( "Keypair import successful" );
     JS_PKI_resetRSAKeyVal( &sRSAKey );
     JS_PKI_resetECKeyVal( &sECKey );
     JS_PKI_resetDSAKeyVal( &sDSAKey );
@@ -508,7 +508,7 @@ int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN
 
     if( hSession < 0 )
     {
-        manApplet->elog( "fail to get P11Session" );
+        manApplet->elog( "failed to get P11Session" );
         goto end;
     }
 
@@ -645,7 +645,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
     }
 
 end :
-    if( ret == 0 ) manApplet->log( "The request is imported successfully" );
+    if( ret == 0 ) manApplet->log( "Certificate import successful" );
 
     if( pHexCert ) JS_free( pHexCert );
     JS_PKI_resetCertInfo( &sCertInfo );
@@ -685,7 +685,7 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
-    manApplet->log( "The CRL is imported successfully" );
+    manApplet->log( "CRL import successful" );
 
     return 0;
 }
@@ -719,7 +719,7 @@ int ImportDlg::ImportRequest( const BIN *pCSR )
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
-    manApplet->log( "The request is imported successfully" );
+    manApplet->log( "CSR import successful" );
 
     return 0;
 }
@@ -738,21 +738,21 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
     ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to decode pfx:%1").arg(ret));
+        manApplet->elog( QString( "failed to decode pfx:%1").arg(ret));
         goto end;
     }
 
     ret = ImportCert( &binCert );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to import certificate:%1").arg( ret ));
+        manApplet->elog( QString( "failed to import certificate:%1").arg( ret ));
         goto end;
     }
 
     ret = ImportKeyPair( &binPri, JS_REC_STATUS_USED );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to import key pair:%1").arg( ret ));
+        manApplet->elog( QString( "failed to import key pair:%1").arg( ret ));
         goto end;
     }
 

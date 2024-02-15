@@ -125,7 +125,7 @@ void GetURIDlg::clickGet()
 
         if( strDN.length() < 1 )
         {
-            manApplet->warningBox( tr( "Insert DN value" ), this );
+            manApplet->warningBox( tr( "Please enter DN value" ), this );
             return;
         }
 
@@ -140,7 +140,7 @@ void GetURIDlg::clickGet()
         QString strURL = mURICombo->currentText();
         if( strURL.length() < 1 )
         {
-            manApplet->warningBox( tr( "Insert URI value" ), this );
+            manApplet->warningBox( tr( "Please enter URL value" ), this );
             return;
         }
 
@@ -213,12 +213,12 @@ end :
         else
             manApplet->mainWindow()->createRightCRLList(-2);
 
-        manApplet->messageBox( tr( "Success to get URI %1" ).arg( strTarget ), this );
+        manApplet->messageBox( tr( "URL retrieval successful: %1" ).arg( strTarget ), this );
         QDialog::accept();
     }
     else
     {
-        manApplet->warningBox( tr( "fail to get URI data: %1" ).arg( ret ), this );
+        manApplet->warningBox( tr( "Failed to get URL [%1]" ).arg( ret ), this );
         QDialog::reject();
     }
 }
@@ -285,21 +285,21 @@ int GetURIDlg::getLDAP( BIN *pData )
     pLD = JS_LDAP_init( strHost.toStdString().c_str(), nPort );
     if( pLD == NULL )
     {
-        manApplet->warningBox( tr("fail to connnect LDAP server" ), this );
+        manApplet->warningBox( tr("Failed to connect to LDAP server" ), this );
         return -1;
     }
 
     ret = JS_LDAP_bind( pLD, NULL, NULL );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to bind LDAP server"), this );
+        manApplet->warningBox( tr("Failed to bind to LDAP server"), this );
         goto end;
     }
 
     ret = JS_LDAP_getData( pLD, strDN.toStdString().c_str(), strFilter.toStdString().c_str(), nType, nScope, pData );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to get data from LDAP server"), this );
+        manApplet->warningBox( tr( "Failed to retrieve data from LDAP server[%1]").arg(ret), this );
         goto end;
     }
 
@@ -316,7 +316,7 @@ int GetURIDlg::getHTTP( BIN *pData )
     QString strURI = getValidURL();
 
     ret = JS_HTTP_requestGetBin2( strURI.toStdString().c_str(), NULL, NULL, &nStatus, pData );
-    if( ret != 0 ) manApplet->log( QString( "fail to get http: %1").arg(ret));
+    if( ret != 0 ) manApplet->log( QString( "HTTP data fetch failure [%1]").arg(ret));
 
     return ret;
 }
