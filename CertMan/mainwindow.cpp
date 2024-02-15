@@ -675,7 +675,7 @@ void MainWindow::showRightMenu(QPoint point)
             menu.addAction( tr( "getCRLWitSCEP"), this, &MainWindow::getCRLSCEP );
 #endif
         }
-    }h
+    }
     else if( right_type_ == RightType::TYPE_CRL )
     {
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CRL )
@@ -729,7 +729,7 @@ void MainWindow::showRightMenu(QPoint point)
         if( manApplet->isPRO() )
         {
 #ifdef USE_SCEP
-            menu.addAction(tr("Issue SCEP"), this, &MainWindow::issueSCEP );
+            menu.addAction(tr("Issue with SCEP"), this, &MainWindow::issueSCEP );
 #endif
         }
     }
@@ -947,20 +947,13 @@ void MainWindow::newFile()
 
     if( manApplet->dbMgr()->isOpen() )
     {
-        manApplet->warningBox( tr("Database has already openend"), this );
+        manApplet->warningBox( tr("Database is already open"), this );
         return;
     }
 
     SetPassDlg setPassDlg;
     if( setPassDlg.exec() != QDialog::Accepted )
         return;
-/*
-    if( manApplet->isLicense() )
-    {
-        if( setPassDlg.exec() != QDialog::Accepted )
-            return;
-    }
-*/
 
     QFile resFile( ":/certman.db" );
     resFile.open(QIODevice::ReadOnly);
@@ -995,7 +988,7 @@ void MainWindow::newFile()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to open database"), this );
+        manApplet->warningBox( tr( "failed to open database"), this );
         return;
     }
 
@@ -1025,7 +1018,7 @@ int MainWindow::openDB( const QString dbPath )
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to open database"), this );
+        manApplet->warningBox( tr( "failed to open database"), this );
         return ret;
     }
 
@@ -1049,7 +1042,7 @@ int MainWindow::openDB( const QString dbPath )
     if( manApplet->isPRO() == true )
     {
         if( manApplet->trayIcon()->supportsMessages() )
-            manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+            manApplet->trayIcon()->showMessage( "CertMan", tr("The CertMan is open"), QSystemTrayIcon::Information, 10000 );
     }
 
     if( ret == 0 )
@@ -1175,7 +1168,7 @@ void MainWindow::open()
 {
     if( manApplet->dbMgr()->isOpen() )
     {
-        manApplet->warningBox( tr("Database has already opened"), this );
+        manApplet->warningBox( tr("Database is already open"), this );
         return;
     }
 
@@ -1186,7 +1179,7 @@ void MainWindow::open()
     int ret = openDB( fileName );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to open database[%1]" ).arg( JSR_DB_OPEN_FAIL ), this );
+        manApplet->warningBox( tr( "failed to open database[%1]" ).arg( JSR_DB_OPEN_FAIL ), this );
         return;
     }
 }
@@ -1195,7 +1188,7 @@ void MainWindow::remoteDB()
 {
     if( manApplet->dbMgr()->isOpen() )
     {
-        manApplet->warningBox( tr("Database has already opened"), this );
+        manApplet->warningBox( tr("Database is already open"), this );
         return;
     }
 
@@ -1219,7 +1212,7 @@ void MainWindow::logout()
 
     if( dbMgr->isOpen() == false )
     {
-        manApplet->warningBox( tr( "DB is not connected"), this );
+        manApplet->warningBox( tr( "Database is not connected"), this );
     }
     else
     {
@@ -1240,7 +1233,6 @@ void MainWindow::logout()
 
 void MainWindow::quit()
 {
-//    QCoreApplication::exit();
     manApplet->exitApp();
 }
 
@@ -1249,7 +1241,7 @@ void MainWindow::newKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1261,20 +1253,11 @@ void MainWindow::makeRequest()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
     DBMgr* dbMgr = manApplet->dbMgr();
-
-//    if( dbMgr->getReqCount( 0 ) <= 0 )
-/*
-    if( dbMgr->getKeyPairCount(0) <= 0 )
-    {
-        manApplet->warningBox( tr( "There is no valid key pair"), this );
-        return;
-    }
-*/
 
     MakeReqDlg makeReqDlg;
     makeReqDlg.exec();
@@ -1284,7 +1267,7 @@ void MainWindow::makeRequestSetKeyName()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1306,7 +1289,7 @@ void MainWindow::makeCertProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1318,7 +1301,7 @@ void MainWindow::makeCRLProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1331,7 +1314,7 @@ void MainWindow::editCertProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1350,7 +1333,7 @@ void MainWindow::copyCertProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1368,7 +1351,7 @@ void MainWindow::editCRLProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1386,7 +1369,7 @@ void MainWindow::copyCRLProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1404,7 +1387,7 @@ void MainWindow::makeCertificate()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1449,7 +1432,7 @@ void MainWindow::makeCRL()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1480,7 +1463,7 @@ void MainWindow::renewCert()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1501,20 +1484,20 @@ void MainWindow::revokeCertificate()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
     int row = right_table_->currentRow();
     if( row < 0 )
     {
-        manApplet->warningBox( tr( "There is no certificate to be selected" ), this );
+        manApplet->warningBox( tr( "There is no certificate selected" ), this );
         return;
     }
 
     if( right_type_ != RightType::TYPE_CERTIFICATE )
     {
-        manApplet->warningBox( tr( "You have to select certificate" ), this );
+        manApplet->warningBox( tr( "Select a certificate" ), this );
         return;
     }
 
@@ -1530,7 +1513,7 @@ void MainWindow::registerUser()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1542,7 +1525,7 @@ void MainWindow::registerREGSigner()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1555,7 +1538,7 @@ void MainWindow::registerOCSPSigner()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1568,7 +1551,7 @@ void MainWindow::makeConfig()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1585,7 +1568,7 @@ void MainWindow::editConfig()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1603,7 +1586,7 @@ void MainWindow::deleteConfig()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1627,7 +1610,7 @@ void MainWindow::serverConfig()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1649,7 +1632,7 @@ void MainWindow::viewCertificate()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1668,7 +1651,7 @@ void MainWindow::viewCRL()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1691,7 +1674,7 @@ void MainWindow::verifyCRL()
     BIN binCA = {0,0};
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1707,7 +1690,7 @@ void MainWindow::verifyCRL()
     manApplet->dbMgr()->getCRLRec( num, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no ca certificate" ), this );
+        manApplet->warningBox( tr( "There is no CA certificate" ), this );
         return;
     }
 
@@ -1719,11 +1702,11 @@ void MainWindow::verifyCRL()
     ret = JS_PKI_verifyCRL( &binCRL, &binCA );
     if( ret == 1 )
     {
-        manApplet->messageBox( "Verify CRL OK", this );
+        manApplet->messageBox( "CRL verification successful", this );
     }
     else
     {
-        manApplet->warningBox( QString( "Verify CRL fail: %1" ).arg(ret), this );
+        manApplet->warningBox( QString( "CRL verification failed [%1]" ).arg(ret), this );
     }
 
 end :
@@ -1735,7 +1718,7 @@ void MainWindow::viewPriKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1749,13 +1732,13 @@ void MainWindow::viewPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not view PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not view KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("Private key for KMS is not visible [%1]").arg(strAlg));
         return;
     }
 
@@ -1768,7 +1751,7 @@ void MainWindow::viewCSR()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1787,7 +1770,7 @@ void MainWindow::importData()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1800,7 +1783,7 @@ void MainWindow::importCert()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1813,7 +1796,7 @@ void MainWindow::importCRL()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1826,7 +1809,7 @@ void MainWindow::importCSR()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1839,7 +1822,7 @@ void MainWindow::importPriKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1852,7 +1835,7 @@ void MainWindow::importEncPriKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1865,7 +1848,7 @@ void MainWindow::exportPriKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1883,13 +1866,13 @@ void MainWindow::exportPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr( "Private key for KMS is unreadable [%1]").arg(strAlg));
         return;
     }
 
@@ -1903,7 +1886,7 @@ void MainWindow::exportEncPriKey()
 {   
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1921,13 +1904,13 @@ void MainWindow::exportEncPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg));
         return;
     }
 
@@ -1941,7 +1924,7 @@ void MainWindow::exportPubKey()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1961,7 +1944,7 @@ void MainWindow::exportRequest()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -1981,7 +1964,7 @@ void MainWindow::exportCertificate()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2001,7 +1984,7 @@ void MainWindow::exportCRL()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2021,7 +2004,7 @@ void MainWindow::exportPFX()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2306,7 +2289,7 @@ void MainWindow::publishLDAP()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2336,7 +2319,7 @@ void MainWindow::getURI()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2366,7 +2349,7 @@ void MainWindow::deleteCertProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2391,7 +2374,7 @@ void MainWindow::deleteCRLProfile()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2418,7 +2401,7 @@ void MainWindow::deleteCertificate()
 
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2475,7 +2458,7 @@ void MainWindow::deleteCRL()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2500,7 +2483,7 @@ void MainWindow::deleteKeyPair()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2533,7 +2516,7 @@ void MainWindow::deleteRequest()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2554,7 +2537,7 @@ void MainWindow::deleteUser()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2579,7 +2562,7 @@ void MainWindow::deleteSigner()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2606,7 +2589,7 @@ void MainWindow::registerAdmin()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2618,7 +2601,7 @@ void MainWindow::editAdmin()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -2650,11 +2633,9 @@ void MainWindow::log( const QString strLog, QColor cr )
 {
     if( log_halt_ == true ) return;
 
-//    if( text_tab_->count() <= 1 ) return;
     if( text_tab_->isTabEnabled( 1 ) == false ) return;
 
     QTextCursor cursor = log_text_->textCursor();
-//    cursor.movePosition( QTextCursor::End );
 
     QTextCharFormat format;
     format.setForeground( cr );
@@ -2843,10 +2824,10 @@ end :
     if( pAuth ) JS_KMS_resetAuthentication( pAuth );
 
     if( ret != 0 )
-        manApplet->warningBox( tr("Fail to activate key" ), this );
+        manApplet->warningBox( tr("Key activation failed" ), this );
     else
     {
-        manApplet->messageBox( tr( "success to activate key" ), this );
+        manApplet->messageBox( tr( "Key activation was successful" ), this );
         createRightKMSList();
     }
 
@@ -2899,10 +2880,10 @@ end :
     if( pAuth ) JS_KMS_resetAuthentication( pAuth );
 
     if( ret != 0 )
-        manApplet->warningBox( tr("Fail to delete key" ), this );
+        manApplet->warningBox( tr("Failed to delete key" ), this );
     else
     {
-        manApplet->messageBox( tr( "success to delete key" ), this );
+        manApplet->messageBox( tr( "Key deletion was successful." ), this );
         createRightKMSList();
     }
 }
@@ -2934,7 +2915,7 @@ void MainWindow::issueCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
+        manApplet->warningBox( tr( "There are no CMP settings" ), this );
         return;
     }
 
@@ -2944,7 +2925,7 @@ void MainWindow::issueCMP()
 
     if( userRec.getAuthCode().length() < 1 )
     {
-        manApplet->warningBox( tr( "AuthNum is empty" ), this );
+        manApplet->warningBox( tr( "There is no AuthNum" ), this );
         return;
     }
 
@@ -2961,7 +2942,7 @@ void MainWindow::issueCMP()
     ret = JS_CMP_clientIssueGENM( strURL.toStdString().c_str(), pTrustList, &binRefNum, &binAuthCode, &pInfoList );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to run CMP GENM: %1").arg( ret ));
+        manApplet->elog( QString( "CMP's GENM execution fails [%1]").arg( ret ));
         goto end;
     }
 
@@ -3028,40 +3009,34 @@ void MainWindow::issueCMP()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to generate key pair: %1" ).arg(ret ));
+        manApplet->elog( QString( "failed to generate key pair: %1" ).arg(ret ));
         goto end;
     }
 
     nKeySeq = saveKeyPair( userRec.getName().toStdString().c_str(), &binPub, &binPri  );
     if( nKeySeq < 0 )
     {
-        manApplet->elog( QString( "fail to save keypair: %1").arg( nKeySeq ));
+        manApplet->elog( QString( "failed to save keypair: %1").arg( nKeySeq ));
         goto end;
     }
 
     ret = JS_CMP_clientIR( strURL.toStdString().c_str(), pTrustList, strDN.toStdString().c_str(), &binRefNum, &binAuthCode, &binPri, 0, &binCert );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to run CMP IR: %1").arg( ret ));
+        manApplet->elog( QString( "CMP's IR execution fails [%1]").arg( ret ));
         goto end;
     }
 
     ret = writeCertDB( manApplet->dbMgr(), &binCert );
 
-/*
-   ret = JS_CMP_clientIssueCertConf( strURL.toStdString().c_str(), pTrustList, &binCert, &binRefNum, &binAuthCode );
-   if( ret != 0 ) goto end;
-*/
-
 end:
-
     if( ret == 0 )
     {
-        manApplet->messageBox( tr("CMP Issue OK" ), this );
+        manApplet->messageBox( tr("The certificate was issued by CMP." ), this );
     }
     else
     {
-        manApplet->warningBox( tr( "CMP Issue Fail" ), this );
+        manApplet->warningBox( tr( "The certificate could not be issued through CMP [%1]" ).arg(ret), this );
     }
 
     JS_BIN_reset( &binRefNum );
@@ -3100,7 +3075,7 @@ void MainWindow::updateCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
+        manApplet->warningBox( tr( "There are no CMP settings" ), this );
         return;
     }
 
@@ -3110,7 +3085,7 @@ void MainWindow::updateCMP()
 
     if( certRec.getKeyNum() <= 0 )
     {
-        manApplet->warningBox( tr("KeyPair information is not set"), this );
+        manApplet->warningBox( tr("There is no key pair information."), this );
         return;
     }
 
@@ -3133,7 +3108,7 @@ void MainWindow::updateCMP()
     ret = JS_CMP_clientUpdateGENM( strURL.toStdString().c_str(), pTrustList, &binCert, &binPri, &pInfoList );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to run CMP GENM: %1").arg( ret ));
+        manApplet->elog( QString( "CMP's GENM execution fails [%1]").arg( ret ));
         goto end;
     }
 
@@ -3200,40 +3175,35 @@ void MainWindow::updateCMP()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to generate key pair: %1" ).arg(ret ));
+        manApplet->elog( QString( "failed to generate key pair: %1" ).arg(ret ));
         goto end;
     }
 
     nKeySeq = saveKeyPair( certRec.getSubjectDN().toStdString().c_str(), &binPub, &binNewPri );
     if( nKeySeq < 0 )
     {
-        manApplet->elog( QString( "fail to save keypair: %1").arg( nKeySeq ));
+        manApplet->elog( QString( "failed to save keypair: %1").arg( nKeySeq ));
         goto end;
     }
 
     ret = JS_CMP_clientKUR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, &binNewPri, 0, &binNewCert );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to run CMP KUR: %1").arg( ret ));
+        manApplet->elog( QString( "CMP's KUR execution fails [%1]").arg( ret ));
         goto end;
     }
 
     ret = writeCertDB( manApplet->dbMgr(), &binNewCert );
 
-   /*
-   ret = JS_CMP_clientUpdateCertConf( strURL.toStdString().c_str(), pTrustList, &binNewCert, &binNewPri );
-   if( ret != 0 ) goto end;
-   */
-
 end :
     if( ret == 0 )
     {
-        manApplet->messageBox( tr("CMP Update OK" ), this );
+        manApplet->messageBox( tr("The certificate was updated by CMP." ), this );
         manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
     }
     else
     {
-        manApplet->warningBox( tr( "CMP Update Fail" ), this );
+        manApplet->warningBox( tr( "The certificate could not be updated through CMP [%1]" ).arg(ret), this );
     }
 
     JS_BIN_reset( &binPri );
@@ -3263,7 +3233,7 @@ void MainWindow::revokeCMP()
 
     if( manApplet->settingsMgr()->CMPUse() == false )
     {
-        manApplet->warningBox( tr( "You have to set CMP settings" ), this );
+        manApplet->warningBox( tr( "There are no CMP settings" ), this );
         return;
     }
 
@@ -3274,7 +3244,7 @@ void MainWindow::revokeCMP()
 
     if( certRec.getKeyNum() <= 0 )
     {
-        manApplet->warningBox(tr("KeyPair information is not set"), this );
+        manApplet->warningBox(tr("There is no key pair information."), this );
         return;
     }
 
@@ -3296,19 +3266,19 @@ void MainWindow::revokeCMP()
     ret = JS_CMP_clientRR( strURL.toStdString().c_str(), pTrustList, &binCACert, &binCert, &binPri, nReason );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to run CMP RR: %1").arg( ret ));
+        manApplet->elog( QString( "CMP's RR execution fails [%1]").arg( ret ));
         goto end;
     }
 
 end :
     if( ret == 0 )
     {
-        manApplet->messageBox( tr("CMP Revoke OK" ), this );
+        manApplet->messageBox( tr("The certificate was revoked by CMP." ), this );
         manApplet->mainWindow()->createRightCertList( certRec.getIssuerNum() );
     }
     else
     {
-        manApplet->warningBox( tr( "CMP Revoke Fail" ), this );
+        manApplet->warningBox( tr( "The certificate could not be revoked through CMP [%1]" ).arg(ret), this );
     }
 
     JS_BIN_reset( &binPri );
@@ -3334,9 +3304,9 @@ void MainWindow::verifyAudit()
 
     ret = verifyAuditRec( audit );
     if( ret == 0 )
-        manApplet->messageBox( tr( "MAC Verify OK" ), this );
+        manApplet->messageBox( tr( "MAC verification successful" ), this );
     else
-        manApplet->warningBox( tr( "MAC is not valid" ), this );
+        manApplet->warningBox( tr( "MAC verification failed" ), this );
 }
 
 void MainWindow::viewTSTInfo()
@@ -3391,7 +3361,7 @@ void MainWindow::verifyTSMessage()
     }
 
     ret = JS_PKCS7_verifySignedData( &binTS, &binCert, &binData );
-    QString strVerify = QString( "Verify val:%1" ).arg( ret );
+    QString strVerify = QString( "SignedData verification result : %1" ).arg( ret );
 
     manApplet->messageBox( strVerify, this );
 
@@ -3432,7 +3402,7 @@ void MainWindow::issueSCEP()
 
     if( smgr->SCEPUse() == false )
     {
-        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        manApplet->warnLog( tr( "There are no SCEP settings" ), this );
         return;
     }
 
@@ -3462,8 +3432,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog( QString( "fail to request Get [%1:%2]" ).arg(nRet).arg(nStatus));
-        manApplet->warningBox( "fail to request Get", this );
+        manApplet->warnLog( QString( "failed to request HTTP get [%1:%2]").arg(nRet).arg(nStatus));
         goto end;
     }
 
@@ -3484,7 +3453,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 )
     {
-        manApplet->warnLog( QString("fail to make PKIReq: %1").arg(nRet), this );
+        manApplet->warnLog( QString("failed to make PKIReq [%1]").arg(nRet), this );
         goto end;
     }
 
@@ -3501,8 +3470,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog(QString( "fail to request Post [%1:%2]" ).arg( nRet ).arg( nStatus ));
-        manApplet->warningBox( "fail to request Post", this );
+        manApplet->warnLog( QString( "failed to request HTTP post [%1:%2]" ).arg( nRet ).arg( nStatus ), this );
         goto end;
     }
 
@@ -3516,25 +3484,21 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 )
     {
-        elog(QString("fail to parse CertRsp : %1").arg( nRet ));
-        manApplet->warningBox( "fail to parse CertRsp", this );
+        manApplet->warnLog( QString( "failed to parse CertRsp" ), this );
         goto end;
     }
-
-//    JS_BIN_fileWrite( &binSignedData, "D:/jsca/res_signeddata.ber" );
 
     nRet = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNewCert );
     if( nRet != 0 )
     {
-        elog(QString("fail to get sign certificate in reply: %1").arg( nRet ));
-        manApplet->warningBox( "fail to get sign certificate in reply", this );
+        manApplet->warnLog( QString("failed to get sign certificate with SCEP [%1]").arg( nRet ), this );
         goto end;
     }
 
     nRet = writeCertDB( manApplet->dbMgr(), &binNewCert );
     if( nRet == 0 )  manApplet->dbMgr()->modReqStatus( num, 1 );
 
-    if( nRet == 0 ) manApplet->messageLog( tr( "SCEP issued successfully"), this );
+    if( nRet == 0 ) manApplet->messageLog( tr( "The certificate was issued by SCEP."), this );
     manApplet->mainWindow()->createRightCertList(-2);
 
 end :
@@ -3593,7 +3557,7 @@ void MainWindow::renewSCEP()
 
     if( smgr->SCEPUse() == false )
     {
-        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        manApplet->warnLog( tr( "There are no SCEP settings" ), this );
         return;
     }
 
@@ -3609,7 +3573,7 @@ void MainWindow::renewSCEP()
 
     if( certRec.getKeyNum() < 0 )
     {
-        manApplet->warningBox( tr( "The certificate has not keypair in this tool"), this );
+        manApplet->warningBox( tr( "The certificate has not keypair data"), this );
         goto end;
     }
 
@@ -3624,7 +3588,7 @@ void MainWindow::renewSCEP()
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
     if( ret !=  0)
     {
-        manApplet->warningBox( tr("fail to decode certificate"), this );
+        manApplet->warningBox( tr("failed to decode a certificate [%1]").arg(ret), this );
         goto end;
     }
 
@@ -3650,28 +3614,28 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to generate keypair"), this );
+        manApplet->warningBox( tr( "failed to generate keypair [%1]").arg(ret), this );
         goto end;
     }
 
     nKeyNum = saveKeyPair( sCertInfo.pSubjectName, &binNPub, &binNPri );
     if( nKeyNum < 0 )
     {
-        manApplet->warnLog( tr( "fail to save keypair" ), this );
+        manApplet->warnLog( tr( "failed to save keypair [%1]" ).arg(ret), this );
         goto end;
     }
 
     ret = JS_PKI_makeCSR( "SHA256", sCertInfo.pSubjectName, pChallengePass, NULL, &binNPri, NULL, &binCSR );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to make csr"), this );
+        manApplet->warningBox( tr( "failed to make CSR [%1]").arg(ret), this );
         goto end;
     }
 
     nCSRNum = writeCSRDB( manApplet->dbMgr(), nKeyNum, "SCEP Update", sCertInfo.pSubjectName, "SHA256", &binCSR );
     if( nCSRNum < 0 )
     {
-        manApplet->warnLog( tr( "fail to save CSR" ), this );
+        manApplet->warnLog( tr( "failed to save CSR" ), this );
         goto end;
     }
 
@@ -3700,8 +3664,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog(QString("fail to request Get [%1:%2]").arg(ret).arg(nStatus));
-        manApplet->warningBox( "fail to request Get", this );
+        manApplet->warnLog( QString("failed to request HTTP get [%1:%2]").arg(ret).arg(nStatus), this );
         goto end;
     }
 
@@ -3717,8 +3680,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        elog(QString("fail to make PKIReq : %1").arg( ret ));
-        manApplet->warningBox( "fail to make PKIReq", this );
+        manApplet->warnLog( QString("failed to make PKIReq : %1").arg( ret ), this );
         goto end;
     }
 
@@ -3735,7 +3697,7 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        manApplet->warningBox( QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus), this );
+        manApplet->warningBox( QString("failed to request HTTP post [%1:%2]").arg(ret).arg(nStatus), this );
         goto end;
     }
 
@@ -3749,22 +3711,21 @@ void MainWindow::renewSCEP()
 
     if( ret != 0 )
     {
-        manApplet->warnLog( QString("fail to parse CertRsp : %1").arg(ret), this );
+        manApplet->warnLog( QString("failed to parse CertRsp : %1").arg(ret), this );
         goto end;
     }
 
     ret = JS_SCEP_getSignCert( &binSignedData, &binCSR, &binNCert );
     if( ret != 0 )
     {
-        elog(QString("fail to get sign certificate in reply: %1").arg(ret));
-        manApplet->warningBox( "fail to get sign certificate in reply", this );
+        manApplet->warnLog( QString("failed to get sign certificate in reply: %1").arg(ret), this );
         goto end;
     }
 
     writeCertDB( manApplet->dbMgr(), &binNCert );
     manApplet->dbMgr()->modReqStatus( nCSRNum, 1 );
 
-    if( ret == 0 ) manApplet->messageLog( tr( "SCEP renew successfully"), this );
+    if( ret == 0 ) manApplet->messageLog( tr( "The certificate was renewed by SCEP"), this );
 
     manApplet->mainWindow()->createRightCertList(-2);
 
@@ -3821,7 +3782,7 @@ void MainWindow::getCRLSCEP()
 
     if( smgr->SCEPUse() == false )
     {
-        manApplet->warnLog( tr( "You have to set SCEP settings" ), this );
+        manApplet->warnLog( tr( "There are no SCEP settings" ), this );
         return;
     }
 
@@ -3835,7 +3796,7 @@ void MainWindow::getCRLSCEP()
 
     if( certRec.getKeyNum() < 0 )
     {
-        manApplet->warningBox( tr( "The certificate has not keypair in this tool"), this );
+        manApplet->warningBox( tr( "The certificate has not keypair data"), this );
         goto end;
     }
 
@@ -3871,7 +3832,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        manApplet->warnLog( QString("fail to request Get [%1:%2]").arg(ret).arg( nStatus ), this );
+        manApplet->warnLog( QString("failed to request HTTP get [%1:%2]").arg(ret).arg( nStatus ), this );
         goto end;
     }
 
@@ -3879,7 +3840,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 )
     {
-        manApplet->warnLog( QString( "fail to make GetCRL: %1" ).arg( ret ), this );
+        manApplet->warnLog( QString( "failed to make GetCRL: %1" ).arg( ret ), this );
         goto end;
     }
 
@@ -3896,8 +3857,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        elog(QString("fail to request Post [%1:%2]").arg(ret).arg(nStatus));
-        manApplet->warningBox( "fail to request Post", this );
+        manApplet->warningBox( QString("fail to request HTTP post [%1:%2]").arg(ret).arg(nStatus), this );
         goto end;
     }
 
@@ -3911,22 +3871,20 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 )
     {
-        elog(QString("fail to parse CertRsp : %1").arg(ret));
-        manApplet->warningBox( "fail to parse CertRsp", this );
+        manApplet->warnLog( QString("failed to parse CertRsp : %1").arg(ret), this );
         goto end;
     }
 
     ret = JS_SCEP_getCRL( &binSignedData, &binCRL );
     if( ret != 0 )
     {
-        elog(QString("fail to get crl in reply: %1").arg(ret));
-        manApplet->warningBox( "fail to get crl in reply", this );
+        manApplet->warningBox( QString("failed to get CRL with SCEP: %1").arg(ret), this );
         goto end;
     }
 
     writeCRLDB( manApplet->dbMgr(), &binCRL );
 
-    if( ret == 0 ) manApplet->messageLog( tr( "SCEP getCRL successfully"), this );
+    if( ret == 0 ) manApplet->messageLog( tr( "The getCRL was successful with SCEP"), this );
 
     manApplet->mainWindow()->createRightCRLList(-2);
 
@@ -3958,7 +3916,7 @@ void MainWindow::toggleLog()
     if( log_halt_ == true )
     {
         log_halt_ = false;
-        log( "Log is enable" );
+        log( "Log is activated" );
     }
     else
     {
@@ -3971,7 +3929,7 @@ void MainWindow::OCSPSrv()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -3986,7 +3944,7 @@ void MainWindow::TSPSrv()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -4001,7 +3959,7 @@ void MainWindow::CMPSrv()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -4016,7 +3974,7 @@ void MainWindow::RegSrv()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -4031,7 +3989,7 @@ void MainWindow::CCSrv()
 {
     if( manApplet->isDBOpen() == false )
     {
-        manApplet->warningBox( tr("You have to open database"), this );
+        manApplet->warningBox( tr("The database is not connected."), this );
         return;
     }
 
@@ -4102,7 +4060,7 @@ void MainWindow::licenseInfo()
     LCNInfoDlg lcnInfoDlg;
     if( lcnInfoDlg.exec() == QDialog::Accepted )
     {
-        if( manApplet->yesOrNoBox(tr("You have changed license. Restart to apply it?"), this, true))
+        if( manApplet->yesOrNoBox(tr("The license has been changed. Restart to apply it?"), this, true))
             manApplet->restartApp();
     }
 }
@@ -4176,7 +4134,7 @@ void MainWindow::certStatus()
 
     if( certRec.getNum() <= 0 )
     {
-        manApplet->warningBox( tr("fail to get certificate information"), this );
+        manApplet->warningBox( tr("failed to get certificate information"), this );
         return;
     }
 
@@ -4185,7 +4143,7 @@ void MainWindow::certStatus()
         manApplet->dbMgr()->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
         if( revokeRec.getSeq() <= 0 )
         {
-            manApplet->warningBox( tr("fail to get revoke information"), this );
+            manApplet->warningBox( tr("failed to get revoke information"), this );
             return;
         }
     }
@@ -4217,7 +4175,7 @@ void MainWindow::checkOCSP()
     bool bVal = manApplet->settingsMgr()->OCSPUse();
     if( bVal == false )
     {
-        manApplet->warningBox( tr( "OCSP settinsg is not set" ), this );
+        manApplet->warningBox( tr( "There are no OCSP settinsgs" ), this );
         return;
     }
 
@@ -4268,7 +4226,7 @@ void MainWindow::checkOCSP()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( QString(tr("fail to encode request: %1")).arg(ret), this );
+        manApplet->warningBox( QString(tr("failed to encode request: %1")).arg(ret), this );
         goto end;
     }
 
@@ -4281,7 +4239,7 @@ void MainWindow::checkOCSP()
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/ocsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to request"), this );
+        manApplet->warningBox( tr( "failed to request [%1]").arg(ret), this );
         goto end;
     }
 
@@ -4289,7 +4247,7 @@ void MainWindow::checkOCSP()
     ret = JS_OCSP_decodeResponse( &binRsp, &binSrvCert, &sIDInfo, &sStatusInfo );
     if( ret != 0 )
     {
-        manApplet->warningBox( QString(tr( "fail to decode respose:%1" )).arg(ret), this );
+        manApplet->warningBox( QString(tr( "failed to decode response:%1" )).arg(ret), this );
         goto end;
     }
 
@@ -4373,13 +4331,13 @@ void MainWindow::statusByReg()
     ret = manApplet->loignRegServer( strToken );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        manApplet->warnLog( tr( "failed to login RegServer" ), this );
         return;
     }
 
     if( mgr->REGUse() == false )
     {
-        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        manApplet->warningBox( tr( "There are no REG settings" ), this );
         return;
     }
 
@@ -4403,7 +4361,7 @@ void MainWindow::statusByReg()
     }
     else
     {
-        manApplet->warningBox( "fail to get certificate status by REGServer", this );
+        manApplet->warningBox( "failed to get certificate status by REGServer", this );
         ret = -1;
     }
 
@@ -4439,13 +4397,13 @@ void MainWindow::revokeByReg()
     ret = manApplet->loignRegServer( strToken );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        manApplet->warnLog( tr( "failed to login RegServer" ), this );
         return;
     }
 
     if( mgr->REGUse() == false )
     {
-        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        manApplet->warningBox( tr( "There are no REG settings" ), this );
         return;
     }
 
@@ -4478,12 +4436,12 @@ void MainWindow::revokeByReg()
 
     if( strcasecmp( sRevokeRsp.pResCode, "0000" ) == 0 )
     {
-        manApplet->messageBox( tr("Revoke is success"), this );
+        manApplet->messageBox( tr("The certificate is revoked"), this );
         ret = 0;
     }
     else
     {
-        manApplet->warningBox( "fail to revoke certificate by REGServer", this );
+        manApplet->warningBox( "failed to revoke certificate by REGServer", this );
         ret = -1;
     }
 
