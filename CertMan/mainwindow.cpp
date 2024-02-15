@@ -136,7 +136,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 {
     if( manApplet->dbMgr()->isOpen() )
     {
-        manApplet->warningBox( tr("Database has already opened"), this );
+        manApplet->warningBox( tr("Database is already open"), this );
         return;
     }
 
@@ -284,14 +284,14 @@ void MainWindow::createActions()
     const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
     QAction *openAct = new QAction( openIcon, tr("&Open..."), this );
     openAct->setShortcut(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing ca db file"));
+    openAct->setStatusTip(tr("Open an existing certman database file"));
     connect( openAct, &QAction::triggered, this, &MainWindow::open);
     fileMenu->addAction(openAct);
     fileToolBar->addAction(openAct);
 
     const QIcon remotedbIcon = QIcon::fromTheme("remotedb", QIcon(":/images/remotedb.png"));
     QAction *remoteDBAct = new QAction( remotedbIcon, tr("&Remote Database"), this );
-    remoteDBAct->setStatusTip(tr("Connect Remote Database"));
+    remoteDBAct->setStatusTip(tr("Connect remote database"));
     connect( remoteDBAct, &QAction::triggered, this, &MainWindow::remoteDB);
     fileMenu->addAction(remoteDBAct);
     fileToolBar->addAction(remoteDBAct);
@@ -299,7 +299,7 @@ void MainWindow::createActions()
     const QIcon logoutIcon = QIcon::fromTheme("logout", QIcon(":/images/logout.png"));
     QAction *logoutAct = new QAction( logoutIcon, tr("&Logout"), this );
     logoutAct->setShortcut(QKeySequence::Close);
-    logoutAct->setStatusTip(tr("Logout current db"));
+    logoutAct->setStatusTip(tr("Logout current database"));
     connect( logoutAct, &QAction::triggered, this, &MainWindow::logout);
     fileMenu->addAction(logoutAct);
     fileToolBar->addAction(logoutAct);
@@ -325,7 +325,7 @@ void MainWindow::createActions()
     fileMenu->addSeparator();
 
     QAction *quitAct = new QAction(tr("&Quit"), this );
-    quitAct->setStatusTip( tr("Quit CertMan") );
+    quitAct->setStatusTip( tr("Quit the CertMan") );
     connect( quitAct, &QAction::triggered, this, &MainWindow::quit);
     fileMenu->addAction( quitAct );
 
@@ -363,14 +363,14 @@ void MainWindow::createActions()
 
         const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
         QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
-        regUserAct->setStatusTip(tr( "Register User"));
+        regUserAct->setStatusTip(tr( "Register a user"));
         connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
         toolsMenu->addAction( regUserAct );
         toolsToolBar->addAction( regUserAct );
 
         const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
         QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
-        regSignerAct->setStatusTip(tr( "Register Signer"));
+        regSignerAct->setStatusTip(tr( "Register a signer"));
         connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
         toolsMenu->addAction( regSignerAct );
         toolsToolBar->addAction( regSignerAct );
@@ -437,21 +437,21 @@ void MainWindow::createActions()
     const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
     QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
     connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
-    pubLDAPAct->setStatusTip(tr("Publish LDAP"));
+    pubLDAPAct->setStatusTip(tr("Publish to LDAP"));
     dataMenu->addAction( pubLDAPAct );
     dataToolBar->addAction( pubLDAPAct );
 
     const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
     QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
     connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
-    setPassAct->setStatusTip(tr("Set PrivateKey Password"));
+    setPassAct->setStatusTip(tr("Set private key password"));
     dataMenu->addAction( setPassAct );
     dataToolBar->addAction( setPassAct );
 
     const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
     QAction *changePassAct = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
     connect( changePassAct, &QAction::triggered, this, &MainWindow::changePasswd);
-    setPassAct->setStatusTip(tr("Change PrivateKey Password"));
+    setPassAct->setStatusTip(tr("Change private key password"));
     dataMenu->addAction( changePassAct );
     dataToolBar->addAction( changePassAct );
 
@@ -534,7 +534,7 @@ void MainWindow::createActions()
     const QIcon settingIcon = QIcon::fromTheme("setting", QIcon(":/images/setting.png"));
     QAction *settingsAct = new QAction( settingIcon, tr("&Settings"), this);
     connect( settingsAct, &QAction::triggered, this, &MainWindow::settings);
-    settingsAct->setStatusTip(tr("Settings CertMan"));
+    settingsAct->setStatusTip(tr("Settings the CertMan"));
     helpMenu->addAction( settingsAct );
     helpToolBar->addAction( settingsAct );
 
@@ -581,7 +581,7 @@ void MainWindow::createActions()
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
     helpMenu->addAction( aboutAct );
     helpToolBar->addAction( aboutAct );
-    aboutAct->setStatusTip(tr("About CertMan"));
+    aboutAct->setStatusTip(tr("About the CertMan"));
 
 }
 
@@ -665,17 +665,17 @@ void MainWindow::showRightMenu(QPoint point)
 #endif
 
 #ifdef USE_CMP
-            menu.addAction( tr("UpdateCMP"), this, &MainWindow::updateCMP );
-            menu.addAction( tr("RevokeCMP"), this, &MainWindow::revokeCMP );
+            menu.addAction( tr("UpdateWithCMP"), this, &MainWindow::updateCMP );
+            menu.addAction( tr("RevokeWithCMP"), this, &MainWindow::revokeCMP );
 #endif
-            menu.addAction( tr("StatusByReg"), this, &MainWindow::statusByReg );
-            menu.addAction( tr("RevokeByReg"), this, &MainWindow::revokeByReg );
+            menu.addAction( tr("StatusWithReg"), this, &MainWindow::statusByReg );
+            menu.addAction( tr("RevokeWithReg"), this, &MainWindow::revokeByReg );
 #ifdef USE_SCEP
-            menu.addAction( tr( "RenewSCEP" ), this, &MainWindow::renewSCEP );
-            menu.addAction( tr( "getCRLSCEP"), this, &MainWindow::getCRLSCEP );
+            menu.addAction( tr( "RenewWithSCEP" ), this, &MainWindow::renewSCEP );
+            menu.addAction( tr( "getCRLWitSCEP"), this, &MainWindow::getCRLSCEP );
 #endif
         }
-    }
+    }h
     else if( right_type_ == RightType::TYPE_CRL )
     {
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CRL )
@@ -698,7 +698,7 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export PublicKey"), this, &MainWindow::exportPubKey );
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
-        menu.addAction(tr("Export EncryptedPrivate"), this, &MainWindow::exportEncPriKey );
+        menu.addAction(tr("Export With EncryptedPrivateKey"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
         menu.addAction(tr("New Key"), this, &MainWindow::newKey );
@@ -762,7 +762,7 @@ void MainWindow::showRightMenu(QPoint point)
         if( manApplet->isPRO() )
         {
 #ifdef USE_CMP
-            menu.addAction(tr("Issue CMP"), this, &MainWindow::issueCMP );
+            menu.addAction(tr("Issue whit CMP"), this, &MainWindow::issueCMP );
 #endif
         }
     }
