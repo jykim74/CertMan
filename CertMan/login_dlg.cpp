@@ -39,7 +39,7 @@ void LoginDlg::clickLogin()
     QString strPasswd = mPasswdText->text();
     if( strPasswd.length() < 1 )
     {
-        manApplet->warningBox( tr("Insert Password"), this );
+        manApplet->warningBox( tr("Plaes enter a assword"), this );
         return;
     }
 
@@ -47,7 +47,7 @@ void LoginDlg::clickLogin()
 
     if( strConf != strHMAC )
     {
-        manApplet->warningBox( tr("Password is wrong"), this );
+        manApplet->warningBox( tr("Password is incorrect"), this );
         return;
     }
 
