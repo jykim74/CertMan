@@ -63,9 +63,6 @@ void MakeCRLDlg::setFixIssuer(QString strIssuerName )
     qDebug() << "IssuerName: " << strIssuerName;
 
     mIssuerNameCombo->setCurrentText( strIssuerName );
-//    mIssuerNameCombo->setDisabled(true);
-//    mAlgorithmText->setDisabled(true);
-//    mOptionText->setDisabled(true);
 }
 
 void MakeCRLDlg::accept()
@@ -99,22 +96,10 @@ void MakeCRLDlg::accept()
     CertRec caCert = ca_cert_list_.at(issuerIdx);
     CRLProfileRec profile = crl_profile_list_.at(profileIdx);
     KeyPairRec caKeyPair;
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = dbMgr->getCRLCountAll();
 
-        if( nTotalCnt >= JS_NO_LICENSE_CRL_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make CRL more than %1 CRLs in no license")
-                                   .arg( JS_NO_LICENSE_CRL_LIMIT_COUNT ), this );
-            return;
-        }
-    }
-*/
     if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
     {
-        QString strMsg = tr( "The CA certificate is revoked. continue?" );
+        QString strMsg = tr( "The CA certificate has been revoked. continue?" );
         bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
         if( bVal == false ) return;
     }
@@ -134,7 +119,7 @@ void MakeCRLDlg::accept()
     {
         if( profile.getHash() != "SM3" )
         {
-            QString strMsg = tr( "Profile Hash(%1) has to be SM3. Are you change CRL hash as SM3?" ).arg( profile.getHash() );
+            QString strMsg = tr( "The hash(%1) in the profile is not SM3. Would you like to change to SM3?" ).arg( profile.getHash() );
             bool bVal = manApplet->yesOrNoBox( strMsg, this, true );
 
             if( bVal )
@@ -151,7 +136,7 @@ void MakeCRLDlg::accept()
     {
         if( profile.getHash() == "SM3" )
         {
-            QString strMsg = tr( "Profile SM3 hash can not be used(%1:%2)" )
+            QString strMsg = tr( "SM3 hash cannot be used in profiles (%1:%2)" )
                     .arg( caKeyPair.getAlg() )
                     .arg( caKeyPair.getParam() );
 
@@ -159,8 +144,6 @@ void MakeCRLDlg::accept()
             goto end;
         }
     }
-
-//    nKeyType = getKeyType( caKeyPair.getAlg(), caKeyPair.getParam() );
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
 
@@ -360,14 +343,14 @@ void MakeCRLDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to make CRL(%1)").arg(ret), this );
+        manApplet->warningBox( tr("failed to make CRL [%1]").arg(ret), this );
         goto end;
     }
 
     ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pMadeExtInfoList, &pMadeRevokeInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to get CRL information(%1)").arg(ret), this );
+        manApplet->warningBox( tr("failed to get CRL information [%1]").arg(ret), this );
         goto end;
     }
 
@@ -407,7 +390,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to make CRL" ), this );
+        manApplet->warningBox( tr( "failed to make CRL [%1]" ).arg(ret), this );
         QDialog::reject();
     }
 }

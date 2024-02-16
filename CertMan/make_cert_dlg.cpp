@@ -186,10 +186,6 @@ QString MakeCertDlg::getReplacedValue( QString &strVal )
 void MakeCertDlg::setFixIssuer(QString strIssuerName)
 {
     mIssuerNameCombo->setCurrentText( strIssuerName );
-//    mIssuerNameCombo->setDisabled(true);
-//    mIssuerAlgorithmText->setDisabled(true);
-//    mIssuerOptionText->setDisabled(true);
-//    mSelfSignCheck->setDisabled(true);
 }
 
 void MakeCertDlg::setReqNum( int nReqNum )

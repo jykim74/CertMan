@@ -91,7 +91,6 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
     QDateTime notBefore;
     QDateTime notAfter;
 
-//    dbMgr->getCertProfileRec( profile_num_, certProfile );
     dbMgr->getCertProfileRec( nProfileNum, certProfile );
 
     if( bCopy == true )
@@ -279,7 +278,7 @@ void MakeCertProfileDlg::accept()
 
     if( strName.isEmpty() )
     {
-        manApplet->warningBox( tr( "You have to insert name"), this );
+        manApplet->warningBox( tr( "Please enter a name"), this );
         mNameText->setFocus();
         return;
     }
@@ -308,7 +307,7 @@ void MakeCertProfileDlg::accept()
 
         if( strSubjectDN.isEmpty() )
         {
-            manApplet->warningBox(tr( "You have to set subjec dn"), this );
+            manApplet->warningBox(tr( "Please enter a subject DN"), this );
             return;
         }
 
@@ -322,7 +321,7 @@ void MakeCertProfileDlg::accept()
         else {
             if( mNotBeforeDateTime->dateTime().toSecsSinceEpoch() <= 10 )
             {
-                manApplet->warningBox( QString( tr("Too early time : %1").arg( mNotBeforeDateTime->dateTime().toSecsSinceEpoch())), this );
+                manApplet->warningBox( QString( tr("Time not supported : %1").arg( mNotBeforeDateTime->dateTime().toSecsSinceEpoch())), this );
                 return;
             }
 
@@ -380,7 +379,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to make certificate profile"), this );
+        manApplet->warningBox( tr( "failed to make certificate profile"), this );
         QDialog::reject();
     }
 }
@@ -950,7 +949,7 @@ void MakeCertProfileDlg::addKeyUsage()
         QListWidgetItem *item = mKeyUsageList->item(i);
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -971,7 +970,7 @@ void MakeCertProfileDlg::addPolicy()
         QTableWidgetItem *item = mPolicyTable->item( i, 0 );
         if( item->text() == strOID )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strOID ), this );
             return;
         }
     }
@@ -997,7 +996,7 @@ void MakeCertProfileDlg::addEKU()
         QListWidgetItem *item = mEKUList->item(i);
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1012,7 +1011,7 @@ void MakeCertProfileDlg::addCRLDP()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert CRLDP value" ), this );
+        manApplet->warningBox( tr( "Enter CRLDP value" ), this );
         return;
     }
 
@@ -1023,7 +1022,7 @@ void MakeCertProfileDlg::addCRLDP()
         QTableWidgetItem *item = mCRLDPTable->item( i, 1 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1045,7 +1044,7 @@ void MakeCertProfileDlg::addAIA()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert AIA value" ), this );
+        manApplet->warningBox( tr( "Enter AuthorityInfoAccess value" ), this );
         return;
     }
 
@@ -1056,7 +1055,7 @@ void MakeCertProfileDlg::addAIA()
         QTableWidgetItem *item = mAIATable->item( i, 2 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1078,7 +1077,7 @@ void MakeCertProfileDlg::addSAN()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert Subject Alternative Name value" ), this );
+        manApplet->warningBox( tr( "Enter Subject Alternative Name value" ), this );
         return;
     }
 
@@ -1088,7 +1087,7 @@ void MakeCertProfileDlg::addSAN()
         QTableWidgetItem *item = mSANTable->item( i, 1 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1109,7 +1108,7 @@ void MakeCertProfileDlg::addIAN()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert Issuer Alternative Name value" ), this );
+        manApplet->warningBox( tr( "Enter Issuer Alternative Name value" ), this );
         return;
     }
 
@@ -1120,7 +1119,7 @@ void MakeCertProfileDlg::addIAN()
         QTableWidgetItem *item = mIANTable->item( i, 1 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1141,13 +1140,13 @@ void MakeCertProfileDlg::addPM()
 
     if( strIDP.length() < 1 || strSDP.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert issuerDomainPolicy and subjectDomainPolicy both"), this );
+        manApplet->warningBox( tr( "Enter issuerDomainPolicy and subjectDomainPolicy both"), this );
         return;
     }
 
     if( strIDP == strSDP )
     {
-        manApplet->warningBox( tr( "IssuerDomainPolicy and SubjectDomainPolicy could not be the same" ), this );
+        manApplet->warningBox( tr( "IssuerDomainPolicy and SubjectDomainPolicy must have different values" ), this );
         return;
     }
 
@@ -1158,7 +1157,7 @@ void MakeCertProfileDlg::addPM()
         QTableWidgetItem *item = mPMTable->item( i, 1 );
         if( item->text() == strIDP )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strIDP ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strIDP ), this );
             return;
         }
     }
@@ -1185,7 +1184,7 @@ void MakeCertProfileDlg::addNC()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert Name Constraints value" ), this );
+        manApplet->warningBox( tr( "Enter Name Constraints value" ), this );
         return;
     }
 
@@ -1195,7 +1194,7 @@ void MakeCertProfileDlg::addNC()
         QTableWidgetItem *item = mNCTable->item( i, 2 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -1223,7 +1222,7 @@ void MakeCertProfileDlg::addExtensions()
 
     if( strOID.length() < 1 || strValue.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert OID and Value both"), this );
+        manApplet->warningBox( tr( "Enter OID and Value both"), this );
         return;
     }
 
@@ -1239,7 +1238,7 @@ void MakeCertProfileDlg::addExtensions()
         QTableWidgetItem *item = mExtensionsTable->item( i, 0 );
         if( item->text() == strOID )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strOID ), this );
             return;
         }
     }
