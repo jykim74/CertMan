@@ -75,14 +75,6 @@ void MakeCertDlg::initialize()
 
     dbMgr->getReqList( 0, req_list_ );
 
-    /*
-    if( req_list_.size() <= 0 )
-    {
-        manApplet->warningBox( tr( "There is no request"), this );
-        return;
-    }
-    */
-
     for( int i = 0; i < req_list_.size(); i++ )
     {
         ReqRec reqRec = req_list_.at(i);
@@ -246,24 +238,12 @@ void MakeCertDlg::accept()
     memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = dbMgr->getCertCountAll();
 
-        if( nTotalCnt >= JS_NO_LICENSE_CERT_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make certificate more than %1 certificates in no license")
-                                   .arg( JS_NO_LICENSE_CERT_LIMIT_COUNT ), this );
-            return;
-        }
-    }
-*/
     if( mUseCSRFileCheck->isChecked() )
     {
         if( mCSRFilePathText->text().length() <= 0 )
         {
-            manApplet->warningBox( tr( "You have to find CSR file"), this );
+            manApplet->warningBox( tr( "Find a CSR file"), this );
             return;
         }
     }
@@ -271,7 +251,7 @@ void MakeCertDlg::accept()
     {
         if( req_list_.size() <= 0 )
         {
-            manApplet->warningBox( tr("There is no request"), this );
+            manApplet->warningBox( tr("There is no CSR selected"), this );
             return;
         }
     }
@@ -289,21 +269,6 @@ void MakeCertDlg::accept()
             manApplet->warningBox(tr("There is no CA certificate"), this );
             return;
         }
-    }
-    else
-    {
-/*
-        if( manApplet->isLicense() == false )
-        {
-            int nSelfCount = dbMgr->getCertCount( -1 );
-            if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
-            {
-                manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
-                                  .arg( JS_NO_LICENSE_SELF_LIMIT_COUNT ), this );
-                return;
-            }
-        }
-*/
     }
 
     int reqIdx =  mReqNameCombo->currentIndex();
@@ -324,7 +289,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid request file: %1" ).arg( ret ));
+            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ));
             return;
         }
 
@@ -350,7 +315,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid request file: %1" ).arg( ret ));
+            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ));
             return;
         }
     }
@@ -358,7 +323,7 @@ void MakeCertDlg::accept()
 
     if( sReqInfo.bVerify == 0 )
     {
-        manApplet->warningBox(tr("Request is not verified"), this );
+        manApplet->warningBox(tr("CSR verification failed"), this );
         JS_PKI_resetReqInfo( &sReqInfo );
         JS_BIN_reset( &binCSR );
         return;
@@ -370,7 +335,7 @@ void MakeCertDlg::accept()
     ret = JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to get KeyIdentifier: %1").arg( ret ));
+        manApplet->elog( QString( "failed to get KeyIdentifier: %1").arg( ret ));
         return;
     }
 
@@ -378,7 +343,7 @@ void MakeCertDlg::accept()
     {
         if( mUseCSRFileCheck->isChecked() )
         {
-            manApplet->warningBox(tr("In case of using csr file, You can not make selfsign certificate."), this );
+            manApplet->warningBox(tr("You cannot create a Self-Sign certificate using CSR"), this );
             JS_BIN_reset( &binCSR );
             JS_PKI_resetReqInfo( &sReqInfo );
             JS_BIN_reset( &binCSR );
@@ -395,7 +360,7 @@ void MakeCertDlg::accept()
 
         if( issuerCert.getStatus() == JS_CERT_STATUS_REVOKE )
         {
-            QString strMsg = tr( "The CA certificate is revoked. continue?" );
+            QString strMsg = tr( "The CA certificate has been revoked. continue?" );
             bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
             if( bVal == false )
             {
@@ -429,7 +394,7 @@ void MakeCertDlg::accept()
     {
         if( profileRec.getHash() != "SM3" )
         {
-            QString strMsg = tr( "Profile Hash(%1) has to be SM3. Are you change certificate hash as SM3?" ).arg( profileRec.getHash());
+            QString strMsg = tr( "The hash(%1) in the profile is not SM3. Would you like to change to SM3?" ).arg( profileRec.getHash());
             bool bVal = manApplet->yesOrNoBox( strMsg, this, true );
 
             if( bVal )
@@ -446,7 +411,7 @@ void MakeCertDlg::accept()
     {
         if( profileRec.getHash() == "SM3" )
         {
-            QString strMsg = tr( "Profile SM3 hash can not be used (%1:%2)" )
+            QString strMsg = tr( "SM3 hash cannot be used in profiles (%1:%2)" )
                     .arg( signKeyPair.getAlg() )
                     .arg( signKeyPair.getParam() );
 
@@ -470,7 +435,7 @@ void MakeCertDlg::accept()
 
     if( nKeyType != sReqInfo.nKeyAlg )
     {
-        bool bVal = manApplet->yesOrNoBox( tr( "Request KeyAlg[%1] and SignKey Alg[%2] are different. Continue?" )
+        bool bVal = manApplet->yesOrNoBox( tr( "CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?" )
                                            .arg( JS_PKI_getKeyTypeName( sReqInfo.nKeyAlg ) )
                                            .arg( JS_PKI_getKeyTypeName( nKeyType )), this, false );
         if( bVal == false )
@@ -571,7 +536,7 @@ void MakeCertDlg::accept()
                 ret = JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
                 if( ret != 0 )
                 {
-                    manApplet->elog( QString( "fail to get AuthorityKeyIdentifier: %1").arg( ret ));
+                    manApplet->elog( QString( "failed to get AuthorityKeyIdentifier: %1").arg( ret ));
                     JS_BIN_reset( &binCert );
                     goto end;
                 }
@@ -605,20 +570,6 @@ void MakeCertDlg::accept()
     /* need to support extensions end */
 
     JS_PKI_getExtensionUsageList( profileRec.getExtUsage(), pCertExtInfoList, pCSRExtInfoList, &pExtInfoList );
-
-/*
-    if( bCA && manApplet->isLicense() == false)
-    {
-        int nCACnt = dbMgr->getCACount();
-        if( nCACnt >= JS_NO_LICENSE_CA_LIMIT_COUNT )
-        {
-            manApplet->warningBox(tr("You can not make more than %1 CA certificates in no license")
-                                  .arg( JS_NO_LICENSE_CA_LIMIT_COUNT), this );
-            ret = -1;
-            goto end;
-        }
-    }
-*/
 
     if( isPKCS11Private( signKeyPair.getAlg() ) == true )
     {
@@ -681,7 +632,7 @@ void MakeCertDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
+        manApplet->warningBox( tr("failed to make certificate [%1]").arg(ret), this );
         goto end;
 
     }
@@ -689,7 +640,7 @@ void MakeCertDlg::accept()
     ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pMadeExtInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr("fail to get certificate information(%1)").arg(ret), this );
+        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(ret), this );
         goto end;
     }
 
@@ -779,7 +730,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to make certificate" ), this );
+        manApplet->warningBox( tr( "failed to make certificate [%1]" ).arg(ret), this );
         QDialog::reject();
     }
 }
@@ -829,17 +780,11 @@ void MakeCertDlg::clickSelfSign()
     {
         if( mUseCSRFileCheck->isChecked() )
         {
-            manApplet->warningBox( tr("can not check selfsign when use csr file"), this );
+            manApplet->warningBox( tr("You cannot create a Self-Sign certificate using CSR"), this );
             mSelfSignCheck->setChecked(false);
             return;
         }
     }
-/*
-    mIssuerNameCombo->setEnabled( !bStatus );
-    mIssuerAlgorithmText->setEnabled( !bStatus );
-    mIssuerOptionText->setEnabled( !bStatus );
-*/
-
 
     mSelfSignLabel->setEnabled( bStatus );
     mIssuerGroup->setEnabled( !bStatus );
