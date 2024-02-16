@@ -137,7 +137,7 @@ void UserDlg::regServer()
     ret = manApplet->loignRegServer( strToken );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr( "fail to login RegServer" ), this );
+        manApplet->warnLog( tr( "Registration server login failure [%1]" ).arg(ret), this );
         return;
     }
 
@@ -145,7 +145,7 @@ void UserDlg::regServer()
 
     if( mgr->REGUse() == false )
     {
-        manApplet->warningBox( tr( "REGServer is not set" ), this );
+        manApplet->warningBox( tr( "There are no REG settings" ), this );
         return;
     }
 
@@ -165,7 +165,7 @@ void UserDlg::regServer()
                                    pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
-        manApplet->warnLog( QString( "fail to request HTTP Post: %1" ).arg( ret ));
+        manApplet->warnLog( QString( "failed to request HTTP post [%1]" ).arg( ret ));
         goto end;
     }
 
@@ -173,13 +173,13 @@ void UserDlg::regServer()
 
     if( strcasecmp( sUserRsp.pResCode, "0000" ) == 0 )
     {
-        manApplet->messageBox( tr( "User registered successfully" ), this );
+        manApplet->messageBox( tr( "User registration successful" ), this );
         manApplet->mainWindow()->createRightUserList();
         ret = 0;
     }
     else
     {
-        manApplet->warningBox( "fail to regiser user by REGServer", this );
+        manApplet->warningBox( tr("User registration faile [%1]").arg(ret), this );
         ret = -1;
     }
 

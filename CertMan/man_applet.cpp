@@ -107,9 +107,9 @@ int ManApplet::loadPKCS11()
     }
 
     if( rv == CKR_OK )
-        manApplet->log( "PKCS11 Load successfully" );
+        manApplet->log( "Cryptoki library loaded successfully" );
     else
-        manApplet->elog( QString("PKCS11 fail to load: %1").arg(rv) );
+        manApplet->elog( QString("Failed to load Cryptoki library [%1]").arg(rv) );
 
     return rv;
 }
@@ -135,7 +135,7 @@ void ManApplet::start()
     }
     else
     {
-        info( "The CertMan is not licensed" );
+        info( "The CertMan is unlicensed" );
         time_t tLastTime = manApplet->settings_mgr_->getStopMessage();
         if( tLastTime > 0 )
         {
@@ -198,7 +198,7 @@ int ManApplet::loignRegServer( QString& strToken )
 
     if( settings_mgr_->REGUse() == false )
     {
-        manApplet->elog( "REG Server is not set" );
+        manApplet->elog( "There are no REG settings" );
         return -1;
     }
 
@@ -224,7 +224,7 @@ int ManApplet::loignRegServer( QString& strToken )
     ret = JS_HTTP_requestPost( strURL.toStdString().c_str(), "application/json", pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to request HTTP Post: %1 (ret:%2)" ).arg( strURL ).arg( ret ));
+        manApplet->elog( QString( "failed to request HTTP post: %1 (ret:%2)" ).arg( strURL ).arg( ret ));
         goto end;
     }
 

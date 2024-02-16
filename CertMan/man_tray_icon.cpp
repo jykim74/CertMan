@@ -55,6 +55,6 @@ void ManTrayIcon::refreshTrayIcon()
 {
     if( !ServerStatusService::instance()->allServersConnected() )
     {
-        showMessage( "CertMan", tr("Some servers are not connected"), QSystemTrayIcon::Warning, 10000 );
+        showMessage( "CertMan", tr("Connection fails to some servers"), QSystemTrayIcon::Warning, 10000 );
     }
 }

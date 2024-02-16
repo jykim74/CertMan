@@ -78,7 +78,7 @@ void RenewCertDlg::showEvent(QShowEvent *event)
 
         if( caCert.getKeyNum() <= 0 )
         {
-            manApplet->elog( QString("Key Num is wrong").arg( caCert.getKeyNum() ));
+            manApplet->elog( QString("Key number is incorrect").arg( caCert.getKeyNum() ));
             return;
         }
         is_self_ = false;
@@ -141,51 +141,11 @@ void RenewCertDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = dbMgr->getCertCountAll();
-
-        if( nTotalCnt >= JS_NO_LICENSE_CERT_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make certificate more than %1 certificates in no license")
-                                   .arg( JS_NO_LICENSE_CERT_LIMIT_COUNT ), this );
-            return;
-        }
-    }
-*/
 
     dbMgr->getCertRec( cert_num_, cert );
 
-/*
-    if( cert.isCA() && manApplet->isLicense() == false )
-    {
-        int nCACnt = dbMgr->getCACount();
-        if( nCACnt >= JS_NO_LICENSE_CA_LIMIT_COUNT )
-        {
-            manApplet->warningBox(tr("You can not make more than %1 CA certificates in no license")
-                                  .arg( JS_NO_LICENSE_CA_LIMIT_COUNT), this );
-
-            return;
-        }
-    }
-*/
-
     if( cert.isSelf() )
     {
-/*
-        if( manApplet->isLicense() == false )
-        {
-            int nSelfCount = dbMgr->getCertCount( -1 );
-            if( nSelfCount >= JS_NO_LICENSE_SELF_LIMIT_COUNT )
-            {
-                manApplet->warningBox(tr("You can not make more than %1 selfsign certificate in no license")
-                                      .arg( JS_NO_LICENSE_SELF_LIMIT_COUNT ), this );
-                return;
-            }
-        }
-*/
-
         nKeyNum = cert.getKeyNum();
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binSignCert );
     }
@@ -199,7 +159,7 @@ void RenewCertDlg::accept()
 
         if( caCert.getKeyNum() <= 0 )
         {
-            manApplet->elog( QString("Key Num is wrong").arg( caCert.getKeyNum() ));
+            manApplet->elog( QString("Key number is incorrect").arg( caCert.getKeyNum() ));
             return;
         }
 
@@ -286,7 +246,6 @@ void RenewCertDlg::accept()
 
     strKeyAlg = keyPair.getAlg();
 
-//    nKeyType = getKeyType( strKeyAlg, keyPair.getParam() );
 
     if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechPKCS11_DSA )
     {
@@ -350,7 +309,7 @@ void RenewCertDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to make certificate(%1)").arg(ret), this );
+        manApplet->warningBox( tr("failed to make certificate [%1]").arg(ret), this );
         goto end;
 
     }
@@ -358,7 +317,7 @@ void RenewCertDlg::accept()
     ret = JS_PKI_getCertInfo( &binRenewCert, &sMadeCertInfo, NULL );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr("fail to get certificate information(%1)").arg(ret), this );
+        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(ret), this );
         goto end;
     }
 
@@ -429,7 +388,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to renew certificate" ), this );
+        manApplet->warningBox( tr( "failed to renew certificate" ), this );
         QDialog::reject();
     }
 }

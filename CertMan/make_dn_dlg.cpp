@@ -113,7 +113,7 @@ void MakeDNDlg::clickOK()
 
     if( strDN.length() < 3 )
     {
-        manApplet->warningBox( tr( "DN value is empty" ), this );
+        manApplet->warningBox( tr( "Enter DN value" ), this );
         return;
     }
 

@@ -321,7 +321,7 @@ void MakeCertProfileDlg::accept()
         else {
             if( mNotBeforeDateTime->dateTime().toSecsSinceEpoch() <= 10 )
             {
-                manApplet->warningBox( QString( tr("Time not supported : %1").arg( mNotBeforeDateTime->dateTime().toSecsSinceEpoch())), this );
+                manApplet->warningBox( QString( tr("time is too early : %1").arg( mNotBeforeDateTime->dateTime().toSecsSinceEpoch())), this );
                 return;
             }
 

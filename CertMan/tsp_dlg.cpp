@@ -54,7 +54,7 @@ void TSPDlg::clickSend()
 
     if( mgr->TSPUse() == false )
     {
-        manApplet->warningBox( tr( "TSP service is not set" ), this );
+        manApplet->warningBox( tr( "There are no TSP settings" ), this );
         return;
     }
 
@@ -67,7 +67,7 @@ void TSPDlg::clickSend()
     ret = JS_BIN_fileReadBER( mgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binTSPCert );
     if( ret <= 0 )
     {
-        manApplet->warningBox( tr( "fail to read TSP Server certificate"), this );
+        manApplet->warningBox( tr( "failed to read TSP Server certificate"), this );
         return;
     }
 
@@ -81,33 +81,25 @@ void TSPDlg::clickSend()
     ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), pPolicy, &binReq );
     if( ret != 0 )
     {
-        manApplet->elog( QString("fail to encode request: %1").arg( ret ));
+        manApplet->elog( QString("failed to encode request [%1]").arg( ret ));
         goto end;
     }
 
     ret = JS_HTTP_requestPostBin( strURL.toStdString().c_str(), "application/tsp-request", &binReq, &nStatus, &binRsp );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to post request: %1").arg( ret ));
+        manApplet->elog( QString( "failed to request HTTP post [%1]").arg( ret ));
         goto end;
     }
 
     ret = JS_TSP_verifyResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to verify response: %1").arg(ret));
+        manApplet->elog( QString( "failed to verify response message [%1]").arg(ret));
         goto end;
     }
 
     mOutputText->setPlainText( getHexString( &binRsp ) );
-/*
-    JS_BIN_encodeHex( &binData, &pHex );
-    if( pHex )
-    {
-        mOutputText->setPlainText( pHex );
-        JS_free( pHex );
-    }
-*/
 
 end :
     JS_BIN_reset( &binSrc );
@@ -142,7 +134,7 @@ void TSPDlg::clickViewTSTInfo()
     ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr( "fail to decode TSP response"), this );
+        manApplet->warningBox(tr( "failed to decode TSP response"), this );
         goto end;
     }
 
@@ -178,7 +170,7 @@ void TSPDlg::clickVerifyTSP()
     ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr( "fail to decode TSP response"), this );
+        manApplet->warningBox(tr( "failed to decode TSP response"), this );
         goto end;
     }
 
@@ -187,13 +179,13 @@ void TSPDlg::clickVerifyTSP()
         ret = JS_BIN_fileReadBER( smgr->TSPSrvCertPath().toLocal8Bit().toStdString().c_str(), &binCert );
         if( ret <= 0 )
         {
-            manApplet->warningBox( tr( "fail to read TSP Server certificate" ), this );
+            manApplet->warningBox( tr( "failed to read TSP Server certificate" ), this );
             goto end;
         }
     }
 
     ret = JS_PKCS7_verifySignedData( &binData, &binCert, &binData );
-    strVerify = QString( "Verify val:%1" ).arg( ret );
+    strVerify = QString( "Verification result value : %1" ).arg( ret );
 
     manApplet->messageBox( strVerify, this );
 

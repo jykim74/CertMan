@@ -254,7 +254,7 @@ void PKISrvDlg::clickDec()
     QString strPost = strValue.mid( 0, 5 );
     if( strPost != "{ENC}" )
     {
-        manApplet->warningBox( tr( "Value is not encrypted" ), this );
+        manApplet->warningBox( tr( "The value is not encrypted" ), this );
         return;
     }
 
@@ -273,7 +273,7 @@ void PKISrvDlg::clickAdd()
 
     if( strValue.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert value" ), this );
+        manApplet->warningBox( tr( "Please enter a value" ), this );
         return;
     }
 
@@ -283,7 +283,7 @@ void PKISrvDlg::clickAdd()
 
         if( item->text().toLower() == strName.toLower() )
         {
-            manApplet->warningBox( tr( "%1 has already inserted" ).arg( strName ));
+            manApplet->warningBox( tr( "%1 has already been added." ).arg( strName ));
             return;
         }
     }
@@ -350,7 +350,7 @@ void PKISrvDlg::clickCheck()
     ret = JS_HTTP_ping( strURL.toStdString().c_str() );
     if( ret == 0 )
     {
-        manApplet->log( QString("%1 Server is started" ).arg( strPKI ));
+        manApplet->log( QString("%1 Server has started" ).arg( strPKI ));
         mOnBtn->setEnabled( true );
     }
     else
@@ -369,20 +369,15 @@ void PKISrvDlg::clickStart()
 
     if( strServerPath.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to find %1 Server file" ).arg( strPKI ), this );
+        manApplet->warningBox( tr( "Select %1 Server file" ).arg( strPKI ), this );
         return;
     }
 
     if( QFile::exists( strServerPath ) == false )
     {
-        manApplet->warningBox( tr( "The file %1 is not exist" ).arg( strServerPath ), this );
+        manApplet->warningBox( tr( "The file(%1) does not exist" ).arg( strServerPath ), this );
         return;
     }
-
-    /*
-    strArgList << "-d" << manApplet->dbMgr()->getDBPath();
-    manApplet->log( QString( "Run Cmd: %1").arg( strServerPath ));
-    */
 
     strCmd = strServerPath;
     strCmd += " -d ";
@@ -442,7 +437,7 @@ void PKISrvDlg::clickConnect()
     {
         JS_NET_close( sockfd );
         mConnectBtn->setText( tr("Connect" ));
-        manApplet->log( "Admin is disconnected" );
+        manApplet->log( "Admin connection has been lost." );
         mSockText->clear();
         setEnableAdmin( false );
         return;
@@ -451,12 +446,12 @@ void PKISrvDlg::clickConnect()
     int ret = JS_ADM_Connect( pHost, nPort );
     if( ret < 0 )
     {
-        manApplet->elog( QString("fail to connect admin server(%1:%2): %3").arg( pHost ).arg( nPort ).arg(ret));
+        manApplet->elog( QString("failed to connect admin server(%1:%2): %3").arg( pHost ).arg( nPort ).arg(ret));
         mSockText->clear();
     }
     else
     {
-        manApplet->log( QString("admin service(%1:%2) is connected:%3").arg( pHost ).arg( nPort ).arg( ret ));
+        manApplet->log( QString("admin service(%1:%2) connected:%3").arg( pHost ).arg( nPort ).arg( ret ));
         mSockText->setText( QString("%1").arg(ret));
         mConnectBtn->setText( tr("Disconnect"));
         setEnableAdmin( true );
@@ -474,7 +469,7 @@ void PKISrvDlg::clickListPid()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to list pid: %1").arg(ret));
+        manApplet->elog( QString( "failed to get list PID [%1]").arg(ret));
         mResText->clear();
     }
     else
@@ -507,7 +502,7 @@ void PKISrvDlg::clickGetProc()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to get proc: %1").arg(ret));
+        manApplet->elog( QString( "failed to get Proc [%1]").arg(ret));
         mResText->clear();
     }
     else
@@ -539,7 +534,7 @@ void PKISrvDlg::clickGetService()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to get service: %1").arg(ret));
+        manApplet->elog( QString( "failed to get service [%1]").arg(ret));
         mResText->clear();
     }
     else
@@ -571,7 +566,7 @@ void PKISrvDlg::clickListThread()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to list thread: %1").arg(ret));
+        manApplet->elog( QString( "failed to get list thread [%1]").arg(ret));
         mResText->clear();
     }
     else
@@ -604,7 +599,7 @@ void PKISrvDlg::clickGetThread()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to get thread: %1").arg(ret));
+        manApplet->elog( QString( "failed to get thread [%1]").arg(ret));
         mResText->clear();
     }
     else
@@ -638,7 +633,7 @@ void PKISrvDlg::clickResize()
 
     if( ret != 0 )
     {
-        manApplet->elog( QString( "fail to resize: %1").arg(ret));
+        manApplet->elog( QString( "failed to resize [%1]").arg(ret));
         mResText->clear();
     }
     else

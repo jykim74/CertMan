@@ -379,7 +379,7 @@ void PriKeyInfoDlg::clickGetPrivateKey()
     }
     else
     {
-        manApplet->warningBox( tr("Can not view private key algorithm: %1").arg( strAlg ));
+        manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( strAlg ));
     }
 
     JS_BIN_reset( &binPri );
@@ -420,7 +420,7 @@ void PriKeyInfoDlg::clickGetPublicKey()
     }
     else
     {
-        manApplet->warningBox( tr("Can not view public key algorithm: %1").arg( strAlg ));
+        manApplet->warningBox( tr("Public key algorithm(%1) not supported").arg( strAlg ));
     }
 
     JS_BIN_reset( &binPub );
@@ -455,7 +455,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
     if( hSession < 0 )
     {
-        manApplet->elog( "fail to get P11Session" );
+        manApplet->elog( "failed to get PKCS11 Session" );
         goto end;
     }
 
@@ -505,7 +505,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
     if( ret == 0 )
     {
-        QString strMsg = "The private key and public key are inserted to HSM successfully";
+        QString strMsg = tr("Successfully added private key and public key to HSM");
         manApplet->messageBox( strMsg, this );
         manApplet->log( strMsg );
 
@@ -520,7 +520,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
     }
     else
     {
-        QString strMsg = "fail to insert private key and public key to HSM";
+        QString strMsg = tr("Failed to add private key and public key to HSM [%1]").arg(ret);
         manApplet->warningBox( strMsg, this );
         manApplet->elog( strMsg );
     }

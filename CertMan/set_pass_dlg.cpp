@@ -39,13 +39,13 @@ void SetPassDlg::accept()
 
     if( strPasswd.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert password"), this );
+        manApplet->warningBox( tr( "Please enter a password"), this );
         return;
     }
 
     if( strPasswd != strPasswdConf )
     {
-        manApplet->warningBox( tr( "Password and Confirm are different"), this );
+        manApplet->warningBox( tr( "Password and confirm values are different"), this );
         return;
 
     }

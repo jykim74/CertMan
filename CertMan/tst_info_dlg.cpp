@@ -50,7 +50,7 @@ void TSTInfoDlg::initialize()
     ret = JS_TSP_decodeTSTInfo( &bin_tst_, &sTSTInfo );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "Fail to decode TST message(%1)").arg(ret), this );
+        manApplet->warningBox( tr( "Failed to decode TST message [%1]").arg(ret), this );
         this->hide();
         goto end;
     }

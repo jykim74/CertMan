@@ -123,7 +123,6 @@ void MakeCRLProfileDlg::loadProfile( int nProfileNum, bool bCopy )
 
     CRLProfileRec crlProfile;
 
-//    dbMgr->getCRLProfileRec( profile_num_, crlProfile );
     dbMgr->getCRLProfileRec( nProfileNum, crlProfile );
 
     if( bCopy == true )
@@ -225,7 +224,7 @@ void MakeCRLProfileDlg::accept()
 
     if( strName.isEmpty() )
     {
-        manApplet->warningBox( tr( "You have to insert name"), this );
+        manApplet->warningBox( tr( "Enter a name"), this );
         mNameText->setFocus();
         return;
     }
@@ -246,7 +245,7 @@ void MakeCRLProfileDlg::accept()
     else {
         if( mThisUpdateDateTime->dateTime().toSecsSinceEpoch() <= 10 )
         {
-            manApplet->warningBox( QString( tr("Too early time : %1").arg( mThisUpdateDateTime->dateTime().toSecsSinceEpoch())), this );
+            manApplet->warningBox( QString( tr("time is too early : %1").arg( mThisUpdateDateTime->dateTime().toSecsSinceEpoch())), this );
             return;
         }
         crlProfileRec.setThisUpdate( mThisUpdateDateTime->dateTime().toSecsSinceEpoch() );
@@ -295,7 +294,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to make CRL profile"), this );
+        manApplet->warningBox( tr( "failed to make CRL profile"), this );
         QDialog::reject();
     }
 }
@@ -457,7 +456,7 @@ void MakeCRLProfileDlg::addIDP()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert Issuing Distribution Point value" ), this );
+        manApplet->warningBox( tr( "Enter Issuing Distribution Point value" ), this );
         return;
     }
 
@@ -467,7 +466,7 @@ void MakeCRLProfileDlg::addIDP()
         QTableWidgetItem *item = mIDPTable->item( i, 1 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -488,7 +487,7 @@ void MakeCRLProfileDlg::addIAN()
 
     if( strVal.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert Issuer Alternative Name value" ), this );
+        manApplet->warningBox( tr( "Enter Issuer Alternative Name value" ), this );
         return;
     }
 
@@ -498,7 +497,7 @@ void MakeCRLProfileDlg::addIAN()
         QTableWidgetItem *item = mIANTable->item( i, 1 );
         if( item->text() == strVal )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strVal ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strVal ), this );
             return;
         }
     }
@@ -521,7 +520,7 @@ void MakeCRLProfileDlg::addExtensions()
 
     if( strOID.length() < 1 || strValue.length() < 1 )
     {
-        manApplet->warningBox( tr( "You have to insert OID and Value both"), this );
+        manApplet->warningBox( tr( "Enter OID and Value both"), this );
         return;
     }
 
@@ -537,7 +536,7 @@ void MakeCRLProfileDlg::addExtensions()
         QTableWidgetItem *item = mExtensionsTable->item( i, 0 );
         if( item->text() == strOID )
         {
-            manApplet->warningBox( tr( "%1 is already added").arg( strOID ), this );
+            manApplet->warningBox( tr( "%1 has already been added.").arg( strOID ), this );
             return;
         }
     }

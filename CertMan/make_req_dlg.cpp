@@ -137,23 +137,6 @@ void MakeReqDlg::initialize()
     mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
-/*
-    mNewAlgorithmCombo->clear();
-    mNewAlgorithmCombo->addItems( sMechList );
-
-    if( manApplet->settingsMgr()->PKCS11Use() )
-    {
-        mNewAlgorithmCombo->addItem( kMechPKCS11_RSA );
-        mNewAlgorithmCombo->addItem( kMechPKCS11_EC );
-        mNewAlgorithmCombo->addItem( kMechPKCS11_DSA );
-    }
-
-    if( manApplet->settingsMgr()->KMIPUse() )
-    {
-        mNewAlgorithmCombo->addItem( kMechKMIP_RSA );
-        mNewAlgorithmCombo->addItem( kMechKMIP_EC );
-    }
-*/
 
     if( key_list_.size() > 0 )
     {
@@ -187,25 +170,11 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     char *pPubHex = NULL;
     int nSeq = 0;
 
-
-//    QString strAlg = mNewAlgorithmCombo->currentText();
     QString strAlg = getMechanism();
     QString strName = mNewKeyNameText->text();
     int nExponent = mNewExponentText->text().toInt();
     QString strParam = mNewOptionCombo->currentText();
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = manApplet->dbMgr()->getKeyPairCountAll();
 
-        if( nTotalCnt >= JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make key pair more than %1 key pairs in no license")
-                                   .arg( JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT ), this );
-            return -1;
-        }
-    }
-*/
     if( strAlg == kMechRSA )
     {
         int nKeySize = strParam.toInt();
@@ -242,7 +211,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
         if( hSession < 0 )
         {
-            manApplet->elog( "fail to get P11Session" );
+            manApplet->elog( "failed to get PKCS11 Session" );
             goto end;
         }
 
@@ -300,7 +269,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
     else
     {
-        manApplet->warningBox( tr( "fail to generate key pair"), this );
+        manApplet->warningBox( tr( "failed to generate key pair"), this );
     }
 
 end :
@@ -335,28 +304,16 @@ void MakeReqDlg::accept()
 
     if( strName.isEmpty() )
     {
-        manApplet->warningBox( tr("You have to insert name"), this );
+        manApplet->warningBox( tr("Please enter a name"), this );
         mNameText->setFocus();
         return;
     }
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = dbMgr->getReqCountAll();
 
-        if( nTotalCnt >= JS_NO_LICENSE_CSR_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make CSR more than %1 CSRs in no license")
-                                   .arg( JS_NO_LICENSE_CSR_LIMIT_COUNT ), this );
-            return;
-        }
-    }
-*/
     QString strDN = mDNText->text();
 
     if( strDN.isEmpty() )
     {
-        manApplet->warningBox( tr("You have to insert DN"), this );
+        manApplet->warningBox( tr("Please enter a DN"), this );
         mDNText->setFocus();
         return;
     }
@@ -509,7 +466,7 @@ void MakeReqDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to make request"), this );
+        manApplet->warningBox( tr("failed to create CSR"), this );
         goto end;
     }
 
@@ -545,7 +502,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to generate CSR" ), this );
+        manApplet->warningBox( tr( "failed to create CSR" ), this );
         QDialog::reject();
     }
 }
@@ -582,50 +539,6 @@ void MakeReqDlg::keyNameChanged(int index)
     QString strDN = QString( "CN=%1,%2").arg( keyRec.getName() ).arg( manApplet->settingsMgr()->baseDN() );
     mDNText->setText( strDN );
 }
-
-/*
-void MakeReqDlg::newAlgChanged(int index )
-{
-    QString strAlg = mNewAlgorithmCombo->currentText();
-    mNewOptionCombo->clear();
-
-    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
-    {
-        mNewOptionCombo->addItems( kRSAOptionList );
-        mNewOptionCombo->setCurrentText( "2048" );
-        mNewExponentText->setEnabled(true);
-        mNewExponentLabel->setEnabled(true);
-        mNewOptionLabel->setText( "Key Length" );
-        mHashCombo->setEnabled(true);
-    }
-    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
-    {
-        mNewOptionCombo->addItems( kDSAOptionList );
-        mNewOptionCombo->setCurrentText( "2048" );
-        mNewExponentText->setEnabled(false);
-        mNewExponentLabel->setEnabled(false);
-        mNewOptionLabel->setText( "Key Length" );
-        mHashCombo->setEnabled(true);
-    }
-    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
-    {
-       mNewOptionCombo->addItems( kECCOptionList );
-       mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
-       mNewExponentText->setEnabled(false);
-       mNewExponentLabel->setEnabled(false);
-       mNewOptionLabel->setText( "Named Curve" );
-       mHashCombo->setEnabled(true);
-    }
-    else if( strAlg == kMechEdDSA )
-    {
-        mNewOptionCombo->addItems( kEdDSAOptionList );
-        mNewExponentText->setEnabled(false);
-        mNewExponentLabel->setEnabled(false);
-        mNewOptionLabel->setText( "Named Curve" );
-        mHashCombo->setEnabled(false);
-    }
-}
-*/
 
 void MakeReqDlg::clickRSA()
 {

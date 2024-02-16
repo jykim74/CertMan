@@ -143,19 +143,6 @@ void NewKeyDlg::accept()
         mNameText->setFocus();
         return;
     }
-/*
-    if( manApplet->isLicense() == false )
-    {
-        int nTotalCnt = dbMgr->getKeyPairCountAll();
-
-        if( nTotalCnt >= JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT )
-        {
-            manApplet->warningBox( tr( "You can not make key pair more than %1 key pairs in no license")
-                                   .arg( JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT ), this );
-            return;
-        }
-    }
-*/
 
     BIN binPri = {0,0};
     BIN binPub = {0,0};
@@ -205,7 +192,7 @@ void NewKeyDlg::accept()
 
         if( hSession < 0 )
         {
-            manApplet->elog( "fail to get P11Session" );
+            manApplet->elog( "failed to get PKCS11 Session" );
             goto end;
         }
 
@@ -232,7 +219,7 @@ void NewKeyDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to generate key pairs"), this );
+        manApplet->warningBox( tr("failed to generate key pairs"), this );
         goto end;
     }
 
@@ -284,57 +271,10 @@ end:
     }
     else
     {
-        manApplet->warningBox( tr( "fail to make key pair" ), this );
+        manApplet->warningBox( tr( "failed to generate key pair" ), this );
         QDialog::reject();
     }
 }
-
-/*
-void NewKeyDlg::mechChanged(int index )
-{
-    mOptionCombo->clear();
-    QString strMech = mMechCombo->currentText();
-
-    if( strMech == kMechRSA || strMech == kMechPKCS11_RSA || strMech == kMechKMIP_RSA )
-    {
-        mOptionCombo->addItems(kRSAOptionList);
-        mOptionCombo->setCurrentText( "2048" );
-        mExponentLabel->setEnabled(true);
-        mExponentText->setEnabled(true);
-        mOptionLabel->setText( "Key size");
-    }
-    else if( strMech == kMechEC || strMech == kMechPKCS11_EC )
-    {
-        mOptionCombo->addItems(kECCOptionList);
-        mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
-        mExponentLabel->setEnabled(false);
-        mExponentText->setEnabled(false);
-        mOptionLabel->setText("NamedCurve");
-    }
-    else if( strMech == kMechKMIP_EC)
-    {
-        mOptionCombo->addItem( "prime256v1" );
-        mExponentLabel->setEnabled(false);
-        mExponentText->setEnabled(false);
-        mOptionLabel->setText("NamedCurve");
-    }
-    else if( strMech == kMechEdDSA )
-    {
-        mOptionCombo->addItems( kEdDSAOptionList );
-        mExponentLabel->setEnabled(false);
-        mExponentText->setEnabled(false);
-        mOptionLabel->setText( "NamedCurve" );
-    }
-    else if( strMech == kMechDSA || strMech == kMechPKCS11_DSA )
-    {
-        mOptionCombo->addItems(kDSAOptionList);
-        mOptionCombo->setCurrentText( "2048" );
-        mExponentLabel->setEnabled(false);
-        mExponentText->setEnabled(false);
-        mOptionLabel->setText( "Key size");
-    }
-}
-*/
 
 void NewKeyDlg::clickRSA()
 {

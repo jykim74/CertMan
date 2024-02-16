@@ -95,7 +95,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "fail to register signer"), this );
+        manApplet->warningBox( tr( "failed to register a signer"), this );
         return;
     }
 }

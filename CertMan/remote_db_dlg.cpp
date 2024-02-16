@@ -83,7 +83,7 @@ void RemoteDBDlg::clickConnect()
     ret = dbMgr->remoteOpen( strType, strHost, strUserName, strPasswd, strDBName );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to open database"), this );
+        manApplet->warningBox( tr( "failed to connect database"), this );
         return;
     }
 
@@ -103,7 +103,7 @@ void RemoteDBDlg::clickConnect()
 
         if( strConf != strHMAC )
         {
-            manApplet->warningBox( tr("Password is wrong"), this );
+            manApplet->warningBox( tr("Password is incorrect"), this );
             dbMgr->close();
             return;
         }
@@ -116,7 +116,7 @@ void RemoteDBDlg::clickConnect()
     if( manApplet->isPRO() == true )
     {
         if( manApplet->trayIcon()->supportsMessages() )
-            manApplet->trayIcon()->showMessage( "CertMan", tr("DB file is opened"), QSystemTrayIcon::Information, 10000 );
+            manApplet->trayIcon()->showMessage( "CertMan", tr("Database connection successful"), QSystemTrayIcon::Information, 10000 );
     }
 
     QString strTitle = QString( "RemoteDB[%1] : %2").arg( strType ).arg( strHost );
