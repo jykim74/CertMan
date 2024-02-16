@@ -97,13 +97,13 @@ void AdminDlg::clickRegister()
 
     if( strName.isEmpty() )
     {
-        manApplet->warningBox( tr("Please set a name"), this );
+        manApplet->warningBox( tr("Please enter a name"), this );
         return;
     }
 
     if( strPassword.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please set a password" ), this );
+        manApplet->warningBox( tr( "Please enter a password" ), this );
         return;
     }
 
@@ -117,7 +117,7 @@ void AdminDlg::clickRegister()
 
     if( strEmail.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please set a email" ), this );
+        manApplet->warningBox( tr( "Please enter a email" ), this );
         return;
     }
 
@@ -141,7 +141,7 @@ void AdminDlg::clickDelete()
 {
     if( seq_ < 0 )
     {
-        manApplet->warningBox( tr("No admin is selected"), this );
+        manApplet->warningBox( tr("No admin selected"), this );
         return;
     }
 
@@ -159,7 +159,7 @@ void AdminDlg::clickModify()
 {
     if( seq_ < 0 )
     {
-        manApplet->warningBox( tr("No admin is selected"), this );
+        manApplet->warningBox( tr("No admin selected"), this );
         return;
     }
 
@@ -174,13 +174,13 @@ void AdminDlg::clickModify()
 
     if( strName.isEmpty() )
     {
-        manApplet->warningBox( tr("Please set a name"), this );
+        manApplet->warningBox( tr("Please enter a name"), this );
         return;
     }
 
     if( strPassword.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please set a password" ), this );
+        manApplet->warningBox( tr( "Please enter a password" ), this );
         return;
     }
 
@@ -194,7 +194,7 @@ void AdminDlg::clickModify()
 
     if( strEmail.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please set a email" ), this );
+        manApplet->warningBox( tr( "Please enter a email" ), this );
         return;
     }
 

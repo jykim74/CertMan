@@ -179,7 +179,7 @@ void UserDlg::regServer()
     }
     else
     {
-        manApplet->warningBox( tr("User registration faile [%1]").arg(ret), this );
+        manApplet->warningBox( tr("User registration fail [%1]").arg(ret), this );
         ret = -1;
     }
 
