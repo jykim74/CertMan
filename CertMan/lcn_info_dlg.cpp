@@ -290,7 +290,7 @@ void LCNInfoDlg::clickGet()
     ret = JS_LCN_IsValid( &sInfo, JS_LCN_PRODUCT_CERTMAN_NAME, sInfo.sSID, time(NULL) );
     if( ret != JS_LCN_VALID )
     {
-        strErr = tr("The license is not valid:%1").arg(ret);
+        strErr = tr("The license is not valid [%1]").arg(ret);
 
         manApplet->elog( strErr );
         manApplet->warningBox( strErr, this );

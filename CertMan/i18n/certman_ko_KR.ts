@@ -1533,8 +1533,17 @@
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="272"/>
+        <source>failed to get license [%1]</source>
+        <translation>라이센스 가져오기 실패 [%1]</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="293"/>
+        <source>The license is not valid [%1]</source>
+        <translation>라이선스가 유효하지 않습니다 [%1]</translation>
+    </message>
+    <message>
         <source>failed to get license:%1</source>
-        <translation>라이센스 가져오기 실패: %1</translation>
+        <translation type="vanished">라이센스 가져오기 실패: %1</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="284"/>
@@ -1542,9 +1551,8 @@
         <translation>라이센스 파일 파싱에 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="293"/>
         <source>The license is not valid:%1</source>
-        <translation>라이선스가 유효하지 않습니다: %1</translation>
+        <translation type="vanished">라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="307"/>
