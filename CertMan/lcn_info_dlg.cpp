@@ -269,7 +269,7 @@ void LCNInfoDlg::clickGet()
         ret = getLCN( strEmail, strKey, &binLCN );
         if( ret != 0 )
         {
-            strErr = tr( "failed to get license:%1").arg( ret );
+            strErr = tr( "failed to get license [%1]").arg( ret );
             manApplet->elog( strErr );
             manApplet->warningBox( strErr, this );
             goto end;
