@@ -107,7 +107,6 @@ MainWindow::~MainWindow()
     recent_file_list_.clear();
 
     delete root_ca_;
-    delete stat_;
 
     delete left_tree_;
     delete left_model_;
@@ -118,7 +117,12 @@ MainWindow::~MainWindow()
     delete info_text_;
 
     delete search_form_;
+
+#ifdef _ENABLE_CHARTS
+    delete stat_;
     delete stack_;
+#endif
+
     delete right_table_;
     delete text_tab_;
     delete vsplitter_;
@@ -210,15 +214,22 @@ void MainWindow::initialize()
 
     QWidget *rightWidget = new QWidget;
 
+
+
+    hsplitter_->addWidget(left_tree_);
+
+#ifdef _ENABLE_CHARTS
     stack_ = new QStackedLayout();
     stat_ = new StatForm;
 
     stack_->addWidget( vsplitter_ );
     stack_->addWidget( stat_ );
     rightWidget->setLayout(stack_);
-
-    hsplitter_->addWidget(left_tree_);
     hsplitter_->addWidget( rightWidget );
+#else
+    hsplitter_->addWidget( vsplitter_ );
+#endif
+
 
     vsplitter_->addWidget(right_table_);
     vsplitter_->addWidget( search_form_ );
@@ -921,10 +932,12 @@ void MainWindow::createTreeMenu()
 
         left_tree_->expand( pServiceItem->index() );
 
+#ifdef _ENABLE_CHARTS
         ManTreeItem *pStatisticsItem = new ManTreeItem( QString( tr("Statistics") ));
         pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
         pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
         pTopItem->appendRow( pStatisticsItem );
+#endif
 
         ManTreeItem *pAuditItem = new ManTreeItem( QString( tr("Audit")) );
         pAuditItem->setIcon( QIcon(":/images/audit.png"));
@@ -4454,7 +4467,9 @@ void MainWindow::revokeByReg()
 
 void MainWindow::createRightList( int nType, int nNum )
 {
+#ifdef _ENABLE_CHARTS
     stack_->setCurrentIndex(0);
+#endif
 
     if( nType == CM_ITEM_TYPE_KEYPAIR )
         createRightKeyPairList();
@@ -4492,8 +4507,10 @@ void MainWindow::createRightList( int nType, int nNum )
         createRightSignerList( SIGNER_TYPE_OCSP );
     else if( nType == CM_ITEM_TYPE_KMS )
         createRightKMSList();
+#ifdef _ENABLE_CHARTS
     else if( nType == CM_ITEM_TYPE_STATISTICS )
         createRightStatistics();
+#endif
     else if( nType == CM_ITEM_TYPE_AUDIT )
         createRightAuditList();
     else if( nType == CM_ITEM_TYPE_TSP )
@@ -5481,12 +5498,14 @@ void MainWindow::createRightTSPList()
     search_form_->updatePageLabel();
 }
 
+#ifdef _ENABLE_CHARTS
 void MainWindow::createRightStatistics()
 {
     printf( "Set Statistics\n" );
     //stack_->addWidget( statistics_ );
     stack_->setCurrentIndex(1);
 }
+#endif
 
 void MainWindow::infoKeyPair(int seq)
 {

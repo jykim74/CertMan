@@ -159,3 +159,4 @@ void SearchForm::search()
 
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
+

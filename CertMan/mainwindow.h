@@ -15,10 +15,13 @@
 class ManTreeView;
 class ManTreeModel;
 class ManTreeItem;
-// class SearchMenu;
 class SearchForm;
 class CertRec;
+
+#ifdef _ENABLE_CHARTS
 class StatForm;
+#endif
+
 class ProfileExtRec;
 
 class PKISrvDlg;
@@ -84,7 +87,9 @@ public:
     void createRightUserList();
     void createRightKMSList();
     void createRightSignerList(int nType);
+#ifdef _ENABLE_CHARTS
     void createRightStatistics();
+#endif
     void createRightAuditList();
     void createRightTSPList();
 
@@ -262,9 +267,12 @@ private:
 
     int             right_type_;
     ManTreeItem     *root_ca_;
-    QStackedLayout  *stack_;
 
+#ifdef _ENABLE_CHARTS
+    QStackedLayout  *stack_;
     StatForm        *stat_;
+#endif
+
     bool            log_halt_;
 
     PKISrvDlg       *pki_srv_;

@@ -1,6 +1,8 @@
 #ifndef STAT_FORM_H
 #define STAT_FORM_H
 
+#ifdef _ENABLE_CHARTS
+
 #include <QWidget>
 #include <QTableWidget>
 #include <QtCharts/QChartGlobal>
@@ -73,5 +75,6 @@ private:
     QChartView          *bar_view_;
     qreal       max_num_;
 };
+#endif
 
 #endif // STAT_FORM_H
