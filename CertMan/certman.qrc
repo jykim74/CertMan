@@ -77,5 +77,6 @@
         <file>images/manage.png</file>
         <file>images/on.png</file>
         <file>images/root_cert.png</file>
+        <file>../LICENSE</file>
     </qresource>
 </RCC>
