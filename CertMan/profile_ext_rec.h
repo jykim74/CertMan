@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef PROFILE_EXT_REC_H
 #define PROFILE_EXT_REC_H
 

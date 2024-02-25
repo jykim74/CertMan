@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "server_status_service.h"
 #include "settings_mgr.h"
 #include "man_applet.h"

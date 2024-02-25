@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "tsp_rec.h"
 
 TSPRec::TSPRec()

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "server_status_dlg.h"
 #include "server_status_service.h"
 

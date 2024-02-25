@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "make_crl_dlg.h"
 #include "man_applet.h"
 #include "mainwindow.h"

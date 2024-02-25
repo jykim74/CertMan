@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef LOGIN_DLG_H
 #define LOGIN_DLG_H
 

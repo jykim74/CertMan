@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef SIGNER_DLG_H
 #define SIGNER_DLG_H
 

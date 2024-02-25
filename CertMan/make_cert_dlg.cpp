@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 //#include <QtCore5Compat/QTextCodec>
 
 #include "make_cert_dlg.h"

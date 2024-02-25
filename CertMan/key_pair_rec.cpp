@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "key_pair_rec.h"
 
 KeyPairRec::KeyPairRec()

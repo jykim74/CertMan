@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef SERVER_STATUS_DLG_H
 #define SERVER_STATUS_DLG_H
 

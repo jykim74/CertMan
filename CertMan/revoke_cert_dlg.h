@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef REVOKE_CERT_DLG_H
 #define REVOKE_CERT_DLG_H
 

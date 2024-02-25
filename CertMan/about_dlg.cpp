@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "about_dlg.h"
 #include "man_applet.h"
 #include "auto_update_service.h"

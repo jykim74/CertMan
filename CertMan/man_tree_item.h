@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef MAN_TREE_ITEM_H
 #define MAN_TREE_ITEM_H
 

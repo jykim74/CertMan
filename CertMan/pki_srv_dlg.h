@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef PKI_SRV_DLG_H
 #define PKI_SRV_DLG_H
 

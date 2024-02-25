@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "make_req_dlg.h"
 #include "ui_make_req_dlg.h"
 #include "man_applet.h"

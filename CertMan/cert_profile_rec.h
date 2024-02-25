@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef CERT_PROFILE_REC_H
 #define CERT_PROFILE_REC_H
 

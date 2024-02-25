@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef PUB_LDAP_DLG_H
 #define PUB_LDAP_DLG_H
 

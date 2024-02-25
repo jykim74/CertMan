@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #include "tsp_dlg.h"
 #include "js_bin.h"
 #include "js_tsp.h"

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
 #ifndef NEW_KEY_DLG_H
 #define NEW_KEY_DLG_H
 

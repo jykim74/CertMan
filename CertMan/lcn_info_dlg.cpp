@@ -1,4 +1,9 @@
-﻿#include <QDateTime>
+﻿/*
+ * Copyright (C) 2024 JayKim <jykim74@gmail.com>
+ *
+ * All rights reserved.
+ */
+#include <QDateTime>
 
 #include "lcn_info_dlg.h"
 #include "commons.h"
