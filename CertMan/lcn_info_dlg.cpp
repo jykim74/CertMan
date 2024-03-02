@@ -14,6 +14,7 @@
 #include "js_license.h"
 #include "js_http.h"
 #include "js_cc.h"
+#include "js_error.h"
 
 const QString kLicenseURI = "http://34.64.56.160";
 
@@ -82,7 +83,7 @@ void LCNInfoDlg::initialize()
         mCurExpireDateText->setText( expireTime.toString( "yyyy-MM-dd HH:mm:ss") );
 
         ret = JS_LCN_IsValid( &sLicenseInfo, JS_LCN_PRODUCT_CERTMAN_NAME, sLicenseInfo.sSID, time(NULL) );
-        if( ret == JS_LCN_VALID )
+        if( ret == JSR_VALID )
         {
             mCurGroup->setEnabled( true );
             mUpdateBtn->setEnabled( true );
@@ -293,7 +294,7 @@ void LCNInfoDlg::clickGet()
     }
 
     ret = JS_LCN_IsValid( &sInfo, JS_LCN_PRODUCT_CERTMAN_NAME, sInfo.sSID, time(NULL) );
-    if( ret != JS_LCN_VALID )
+    if( ret != JSR_VALID )
     {
         strErr = tr("The license is not valid [%1]").arg(ret);
 

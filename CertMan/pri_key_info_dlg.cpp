@@ -15,6 +15,7 @@
 #include "mainwindow.h"
 #include "js_pkcs11.h"
 #include "js_pki_tools.h"
+#include "js_error.h"
 #include "commons.h"
 
 
@@ -559,7 +560,7 @@ void PriKeyInfoDlg::clickKeyPairCheck()
 
     ret = JS_PKI_IsValidKeyPair( &binPri, &binPub );
 
-    if( ret == JS_VALID )
+    if( ret == JSR_VALID )
         manApplet->messageBox( tr( "KeyPair is valid"), this );
     else
         manApplet->warningBox( tr( "KeyPair is invalid"), this );

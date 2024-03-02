@@ -13,6 +13,7 @@
 #include "js_pki_tools.h"
 #include "js_util.h"
 #include "js_pki_pvd.h"
+#include "js_error.h"
 #include "commons.h"
 
 enum {
@@ -464,7 +465,7 @@ void CertInfoDlg::clickVerifyCert()
     ret = JS_PKI_verifyCert( &binCA, NULL, &binCert, sRes );
 
     manApplet->log( QString( "PVDCertValid : %1").arg(ret));
-    if( ret == JS_VALID )
+    if( ret == JSR_VALID )
     {
         QString strOK = "Path Validation is successfull";
         manApplet->log( strOK );
