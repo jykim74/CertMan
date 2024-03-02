@@ -218,6 +218,7 @@ add_executable(${PROJECT_NAME}
     certman.icns
     CertMan.pro
     pki_srv_dlg.h pki_srv_dlg.cpp pki_srv_dlg.ui
+    copy_right_dlg.h copy_right_dlg.cpp copy_right_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

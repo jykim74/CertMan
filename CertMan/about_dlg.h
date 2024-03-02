@@ -25,6 +25,9 @@ private slots:
     void checkUpdate();
 #endif
 
+private slots:
+    void anchorClick( const QUrl& url );
+
 private:
 //    Ui::AboutDlg *ui;
     Q_DISABLE_COPY(AboutDlg)

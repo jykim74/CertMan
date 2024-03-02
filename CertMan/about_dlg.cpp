@@ -8,6 +8,7 @@
 #include "auto_update_service.h"
 #include "js_gen.h"
 #include "settings_mgr.h"
+#include "copy_right_dlg.h"
 
 AboutDlg::AboutDlg(QWidget *parent) :
     QDialog(parent)
@@ -18,6 +19,7 @@ AboutDlg::AboutDlg(QWidget *parent) :
     initialize();
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mCopyRightText, SIGNAL(anchorClicked(QUrl)), this, SLOT(anchorClick(QUrl)));
 
     if( manApplet->isPRO() )
     {
@@ -43,6 +45,7 @@ AboutDlg::AboutDlg(QWidget *parent) :
 #endif
 
     mAboutText->setOpenExternalLinks(true);
+    mCopyRightText->setOpenExternalLinks(true);
 
     showInfo();
     showCopyright();
@@ -77,6 +80,17 @@ void AboutDlg::initialize()
     mVersionLabel->setFont(font);
 
     tabWidget->setCurrentIndex(0);
+}
+
+void AboutDlg::anchorClick( const QUrl& url )
+{
+    CopyRightDlg copyRight;
+    copyRight.setURL( url );
+    copyRight.exec();
+
+    mCopyRightText->clear();
+    showInfo();
+    return;
 }
 
 void AboutDlg::showInfo()
