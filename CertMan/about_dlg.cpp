@@ -95,10 +95,55 @@ void AboutDlg::anchorClick( const QUrl& url )
 
 void AboutDlg::showInfo()
 {
+#if 0
     QString strAbout = tr("This program is a freeware tool created using open source."
                           "If you do not use this for commercial purposes, you can use it freely " );
 
     strAbout += "<br><br>Copyright (C) 2024 JayKim &lt;jykim74@gmail.com&gt;";
+#else
+
+    QString strAbout = "Copyright (C) 2024 JayKim &lt;jykim74@gmail.com&gt;";
+    strAbout += "<br><br>";
+    strAbout += "All rights reserved.";
+    strAbout += "<br><br>";
+
+    strAbout += " Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:";
+    strAbout += "<br><br>";
+
+    strAbout += " - Redistributions of source code must retain the above copyright notice,this list of conditions and the following disclaimer.";
+    strAbout += "<br><br>";
+
+    strAbout += " - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.";
+    strAbout += "<br><br>";
+
+    strAbout += " - Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.";
+    strAbout += "<br><br>";
+
+    strAbout +=
+        "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "
+        "\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT "
+        "LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS "
+        " FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE "
+        " COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, "
+        " INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES ";
+        " (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR "
+        " SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) "
+        " HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, "
+        " STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) "
+        " ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF "
+        " ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+
+
+    strAbout +=
+        "This program links to software with different licenses from: "
+        "<br><br>"
+        " - https://www.openssl.org ( Apache-2.0 )<br>"
+        "- https://www.qt.io ( LGPLv3 )<br>"
+        "- https://www.openldap.org ( The OpenLDAP Public )<br>"
+        "- https://www.gnu.org/software/libtool ( LGPLv3 )";
+
+#endif
+
 
     QString strLibVersion = JS_GEN_getBuildInfo();
 
@@ -130,6 +175,14 @@ void AboutDlg::showCopyright()
     strCopyRight += "<br>- https://www.qt.io";
     strCopyRight += "<br>- <a href=https://www.qt.io/licensing/open-source-lgpl-obligations>LGPL 3.0 License</a>";
 
+    strCopyRight += "<br><br><b>OpenLDAP</b>";
+    strCopyRight += "<br>- https://www.openldap.org";
+    strCopyRight += "<br>- <a href=https://www.openldap.org/doc/admin20/license.html>The OpenLDAP Public License</a>";
+
+    strCopyRight += "<br><br><b>ltdl</b>";
+    strCopyRight += "<br>- https://www.gnu.org/software/libtool";
+    strCopyRight += "<br>- <a href=https://www.gnu.org/licenses/lgpl-3.0.en.html>LGPL 3.0 Licese</a>";
+
 #ifdef Q_OS_WIN
     strAbout += "<br><br><b>WinSparkle</b>";
     strAbout += "<br>- https://winsparkle.org";
@@ -144,15 +197,20 @@ void AboutDlg::showCopyright()
 
     strCopyRight += "<br><br><b>jsmn</b>";
     strCopyRight += "<br>- https://zserge.com/jsmn";
-    strCopyRight += "<br>- <a href=https://github.com/zserge/jsmn?tab=MIT-1-ov-file>MIT License</a>";
+    strCopyRight += "<br>- <a href=https://github.com/zserge/jsmn/blob/master/LICENSE>MIT License</a>";
 
     strCopyRight += "<br><br><b>shamir-secret</b>";
     strCopyRight += "<br>- https://github.com/KPN-CISO/shamir-secret";
     strCopyRight += "<br>- <a href=https://github.com/KPN-CISO/shamir-secret?tab=MIT-1-ov-file>MIT License</a>";
 
+    strCopyRight += "<br><br><b>sscep</b>";
+    strCopyRight += "<br>- https://github.com/certnanny/sscep";
+    strCopyRight += "<br>- <a href=https://github.com/certnanny/sscep/blob/master/COPYING>OpenSSL License</a>";
+
+
     strCopyRight += "<br><br><b>OpenKMIP</b>";
     strCopyRight += "<br>- https://github.com/OpenKMIP/libkmip";
-    strCopyRight += "<br>- <a href=https://github.com/OpenKMIP/libkmip?tab=Apache-2.0-2-ov-file>Apache 2.0 License</a>";
+    strCopyRight += "<br>- <a href=https://github.com/OpenKMIP/libkmip/blob/master/LICENSE>Apache 2.0 License</a>";
 
     mCopyRightText->setText( strCopyRight );
 }
