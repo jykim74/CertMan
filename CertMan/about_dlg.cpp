@@ -201,7 +201,7 @@ void AboutDlg::showCopyright()
 
     strCopyRight += "<br><br><b>shamir-secret</b>";
     strCopyRight += "<br>- https://github.com/KPN-CISO/shamir-secret";
-    strCopyRight += "<br>- <a href=https://github.com/KPN-CISO/shamir-secret?tab=MIT-1-ov-file>MIT License</a>";
+    strCopyRight += "<br>- <a href=https://github.com/KPN-CISO/shamir-secret/blob/master/LICENSE>MIT License</a>";
 
     strCopyRight += "<br><br><b>sscep</b>";
     strCopyRight += "<br>- https://github.com/certnanny/sscep";
