@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CertMan
-    VERSION 1.6.1
+    VERSION 1.6.3
     DESCRIPTION "CertMan Application"
     LANGUAGES CXX )
 
@@ -228,7 +228,7 @@ target_compile_definitions( ${PROJECT_NAME} PRIVATE JS_PRO USE_CMP USE_SCEP )
 if(WIN32)
     include_directories( ../../PKILib
     "c:/msys64/mingw64/include"
-    ../../lib/win64/winsparkle/include )
+    ../../PKILib/lib/win64/winsparkle/include )
 
     if( CMAKE_BUILD_TYPE STREQUAL "Debug" )
         target_link_directories( ${PROJECT_NAME} PRIVATE
