@@ -13,12 +13,12 @@
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../about_dlg.ui" line="81"/>
+        <location filename="../about_dlg.ui" line="109"/>
         <source>Copyright</source>
         <translation>저작권</translation>
     </message>
     <message>
-        <location filename="../about_dlg.ui" line="106"/>
+        <location filename="../about_dlg.ui" line="162"/>
         <source>Check For Update</source>
         <translation>업데이트 확인</translation>
     </message>
@@ -49,7 +49,42 @@
         <translation>본 프로그램은 오픈소스를 이용하여 제작된 프리웨어 도구입니다. 상업적인 목적으로 사용하지 않으시면 자유롭게 사용하셔도 됩니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="164"/>
+        <location filename="../about_dlg.cpp" line="107"/>
+        <source>All rights reserved.</source>
+        <translation>All rights reserved.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="110"/>
+        <source> Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</source>
+        <translation>다음 조건이 충족되는 경우 수정 여부에 관계없이 소스 및 바이너리 형식으로 재배포 및 사용이 허용됩니다 :</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="113"/>
+        <source> - Redistributions of source code must retain the above copyright notice,this list of conditions and the following disclaimer.</source>
+        <translation>- 소스 코드를 재배포할 경우 위의 저작권 고지, 이 조건 목록 및 다음 면책 조항을 유지해야 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="116"/>
+        <source> - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</source>
+        <translation>- 바이너리 형식으로 재배포하는 경우 배포와 함께 제공되는 문서 및/또는 기타 자료에 위의 저작권 고지, 이 조건 목록 및 다음 면책 조항을 재현해야 합니다.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="119"/>
+        <source> - Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</source>
+        <translation>- 구체적인 사전 서면 승인 없이는 작성자의 이름이나 기여자의 이름을 이 소프트웨어에서 파생된 제품을 보증하거나 홍보하는 데 사용할 수 없습니다.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="123"/>
+        <source>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</source>
+        <translation>이 소프트웨어는 저작권 보유자 및 기여자에 의해 &quot;있는 그대로&quot; 제공되며, 상품성 및 특정 목적에의 적합성에 대한 묵시적인 보증을 포함하되 이에 국한되지 않는 모든 명시적 또는 묵시적 보증은 부인됩니다. 어떠한 경우에도 저작권 소유자나 기여자는 직접적, 간접적, 부수적, 특별, 예시적 또는 결과적 손해(대체 상품이나 서비스의 조달, 사용, 데이터 또는 이익의 손실을 포함하되 이에 국한되지 않음)에 대해 책임을 지지 않습니다. 또는 사업 중단), 계약상, 엄격 책임, 또는 이 소프트웨어의 사용으로 인해 발생하는 불법 행위(과실 또는 기타 포함) 등의 책임 이론에 따라, 그러한 손해의 가능성이 통보된 경우에도 마찬가지입니다.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="137"/>
+        <source>This program links to software with different licenses from: </source>
+        <translation>이 프로그램은 다음과 다른 라이센스를 가진 소프트웨어에 연결됩니다.</translation>
+    </message>
+    <message>
+        <location filename="../about_dlg.cpp" line="165"/>
         <source>Third party software that may be contained in this application.</source>
         <translation>이 애플리케이션에 포함될 수 있는 타사 소프트웨어.</translation>
     </message>
@@ -74,7 +109,7 @@
         <translation type="vanished">메일: jykim74@gmail.com</translation>
     </message>
     <message>
-        <location filename="../about_dlg.ui" line="99"/>
+        <location filename="../about_dlg.ui" line="155"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
