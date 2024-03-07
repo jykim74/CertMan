@@ -914,6 +914,20 @@
     </message>
 </context>
 <context>
+    <name>CopyRightDlg</name>
+    <message>
+        <location filename="../copy_right_dlg.ui" line="14"/>
+        <location filename="../copy_right_dlg.ui" line="22"/>
+        <source>CopyRight</source>
+        <translation>저작권</translation>
+    </message>
+    <message>
+        <location filename="../copy_right_dlg.ui" line="29"/>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+</context>
+<context>
     <name>ExportDlg</name>
     <message>
         <location filename="../export_dlg.ui" line="14"/>

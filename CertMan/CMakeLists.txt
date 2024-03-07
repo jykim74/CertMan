@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CertMan
-    VERSION 1.6.3
+    VERSION 1.7.0
     DESCRIPTION "CertMan Application"
     LANGUAGES CXX )
 
@@ -223,7 +223,8 @@ add_executable(${PROJECT_NAME}
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )
 # add_definitions( -D_USE_RC_LCN )
-target_compile_definitions( ${PROJECT_NAME} PRIVATE JS_PRO USE_CMP USE_SCEP )
+# add_definitions( -DJS_PRO )
+target_compile_definitions( ${PROJECT_NAME} PRIVATE USE_CMP USE_SCEP )
 
 if(WIN32)
     include_directories( ../../PKILib
