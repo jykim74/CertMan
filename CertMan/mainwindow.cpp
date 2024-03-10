@@ -3035,6 +3035,7 @@ void MainWindow::issueCMP()
     if( nKeySeq < 0 )
     {
         manApplet->elog( QString( "failed to save keypair: %1").arg( nKeySeq ));
+        ret = -1;
         goto end;
     }
 
