@@ -2973,7 +2973,7 @@ void MainWindow::issueCMP()
 
         manApplet->log( QString( "%1 = %2" ).arg( strName ).arg( strValue ));
 
-        if( strName == "FreeText" )
+        if( strName == OBJ_nid2sn( NID_id_regInfo) )
         {
             QStringList freeList = strValue.split( "&" );
 
