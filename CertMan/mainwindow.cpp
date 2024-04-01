@@ -557,6 +557,7 @@ void MainWindow::createActions()
     const QIcon clearIcon = QIcon::fromTheme( "clear-log", QIcon(":/images/clear.png"));
     QAction *clearAct = new QAction( clearIcon, tr("&Clear Log"), this );
     connect( clearAct, &QAction::triggered, this, &MainWindow::clearLog );
+    clearAct->setShortcut( QKeySequence(Qt::Key_F9));
     clearAct->setStatusTip(tr("clear information and log"));
     helpMenu->addAction( clearAct );
     helpToolBar->addAction( clearAct );
@@ -565,6 +566,7 @@ void MainWindow::createActions()
     QAction *logAct = new QAction( logIcon, tr( "&Log Halt" ), this );
     connect( logAct, &QAction::triggered, this, &MainWindow::toggleLog );
     logAct->setCheckable(true);
+    logAct->setShortcut( QKeySequence(Qt::Key_F10));
     logAct->setStatusTip( tr( "Log Halt" ));
     helpMenu->addAction( logAct );
     helpToolBar->addAction( logAct );
@@ -597,6 +599,7 @@ void MainWindow::createActions()
     connect( aboutAct, &QAction::triggered, this, &MainWindow::about);
     helpMenu->addAction( aboutAct );
     helpToolBar->addAction( aboutAct );
+    aboutAct->setShortcut( QKeySequence(Qt::Key_F1));
     aboutAct->setStatusTip(tr("About the CertMan"));
 
 }
