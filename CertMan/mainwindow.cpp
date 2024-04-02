@@ -309,6 +309,7 @@ void MainWindow::createActions()
 
     const QIcon remotedbIcon = QIcon::fromTheme("remotedb", QIcon(":/images/remotedb.png"));
     QAction *remoteDBAct = new QAction( remotedbIcon, tr("&Remote Database"), this );
+    remoteDBAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
     remoteDBAct->setStatusTip(tr("Connect remote database"));
     connect( remoteDBAct, &QAction::triggered, this, &MainWindow::remoteDB);
     fileMenu->addAction(remoteDBAct);
