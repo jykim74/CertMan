@@ -356,7 +356,7 @@ void MainWindow::createActions()
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
-    newKeyAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F1 ));
+    newKeyAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F1 ));
     newKeyAct->setStatusTip(tr("Generate new key pair"));
     connect( newKeyAct, &QAction::triggered, this, &MainWindow::newKey );
     toolsMenu->addAction( newKeyAct );
@@ -364,7 +364,7 @@ void MainWindow::createActions()
 
     const QIcon csrIcon = QIcon::fromTheme("certificate-request", QIcon(":/images/csr.png"));
     QAction *makeReqAct = new QAction( csrIcon, tr("Make&Request"), this );
-    makeReqAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F2 ));
+    makeReqAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F2 ));
     makeReqAct->setStatusTip(tr( "Make Request"));
     connect( makeReqAct, &QAction::triggered, this, &MainWindow::makeRequest );
     toolsMenu->addAction( makeReqAct );
@@ -374,7 +374,7 @@ void MainWindow::createActions()
     {
         const QIcon configIcon = QIcon::fromTheme( "make config", QIcon(":/images/config.png"));
         QAction *configAct = new QAction( configIcon, tr( "Make Config"), this );
-        configAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F3 ));
+        configAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F3 ));
         configAct->setStatusTip(tr( "Make Configuration" ));
         connect( configAct, &QAction::triggered, this, &MainWindow::makeConfig );
         toolsMenu->addAction( configAct );
@@ -383,7 +383,7 @@ void MainWindow::createActions()
 
         const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
         QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
-        regUserAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F4 ));
+        regUserAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F4 ));
         regUserAct->setStatusTip(tr( "Register a user"));
         connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
         toolsMenu->addAction( regUserAct );
@@ -391,7 +391,7 @@ void MainWindow::createActions()
 
         const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
         QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
-        regSignerAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F5 ));
+        regSignerAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F5 ));
         regSignerAct->setStatusTip(tr( "Register a signer"));
         connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
         toolsMenu->addAction( regSignerAct );
@@ -400,7 +400,7 @@ void MainWindow::createActions()
 
     const QIcon certProfileIcon = QIcon::fromTheme("cert-profile", QIcon(":/images/cert_profile.png"));
     QAction *makeCertProfileAct = new QAction( certProfileIcon, tr("MakeCert&Profile"), this );
-    makeCertProfileAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F6 ));
+    makeCertProfileAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F6 ));
     makeCertProfileAct->setStatusTip(tr( "Make certificate profile"));
     connect( makeCertProfileAct, &QAction::triggered, this, &MainWindow::makeCertProfile );
     toolsMenu->addAction( makeCertProfileAct );
@@ -408,7 +408,7 @@ void MainWindow::createActions()
 
     const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
     QAction *makeCRLProfileAct = new QAction( crlProfileIcon, tr("MakeC&RLProfile"), this );
-    makeCRLProfileAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F7 ));
+    makeCRLProfileAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F7 ));
     connect( makeCRLProfileAct, &QAction::triggered, this, &MainWindow::makeCRLProfile);
     toolsMenu->addAction( makeCRLProfileAct );
     toolsToolBar->addAction( makeCRLProfileAct );
@@ -416,7 +416,7 @@ void MainWindow::createActions()
 
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
     QAction* makeCertAct = new QAction( certIcon, tr("Make&Certificate"), this );
-    makeCertAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F8 ));
+    makeCertAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F8 ));
     connect( makeCertAct, &QAction::triggered, this, &MainWindow::makeCertificate );
     toolsMenu->addAction( makeCertAct );
     toolsToolBar->addAction( makeCertAct );
@@ -425,7 +425,7 @@ void MainWindow::createActions()
 
     const QIcon crlIcon = QIcon::fromTheme("make-crl", QIcon(":/images/crl.png"));
     QAction* makeCRLAct = new QAction( crlIcon, tr("MakeCR&L"), this );
-    makeCRLAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F9 ));
+    makeCRLAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F9 ));
     connect( makeCRLAct, &QAction::triggered, this, &MainWindow::makeCRL );
     toolsMenu->addAction( makeCRLAct );
     toolsToolBar->addAction( makeCRLAct );
@@ -433,7 +433,7 @@ void MainWindow::createActions()
 
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
     QAction* revokeCertAct = new QAction( revokeIcon, tr("Revo&keCert"), this );
-    revokeCertAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F10 ));
+    revokeCertAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F10 ));
     connect( revokeCertAct, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revokeCertAct );
     toolsToolBar->addAction( revokeCertAct );
