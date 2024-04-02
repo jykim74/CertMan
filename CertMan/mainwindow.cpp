@@ -314,7 +314,7 @@ void MainWindow::createActions()
 
     const QIcon logoutIcon = QIcon::fromTheme("logout", QIcon(":/images/logout.png"));
     QAction *logoutAct = new QAction( logoutIcon, tr("&Logout"), this );
-    logoutAct->setShortcut(QKeySequence::Close);
+    logoutAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_T));
     logoutAct->setStatusTip(tr("Logout current database"));
     connect( logoutAct, &QAction::triggered, this, &MainWindow::logout);
     fileMenu->addAction(logoutAct);
@@ -341,6 +341,7 @@ void MainWindow::createActions()
     fileMenu->addSeparator();
 
     QAction *quitAct = new QAction(tr("&Quit"), this );
+    quitAct->setShortcut(QKeySequence::Quit);
     quitAct->setStatusTip( tr("Quit the CertMan") );
     connect( quitAct, &QAction::triggered, this, &MainWindow::quit);
     fileMenu->addAction( quitAct );
@@ -355,6 +356,7 @@ void MainWindow::createActions()
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
+    newKeyAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F1 ));
     newKeyAct->setStatusTip(tr("Generate new key pair"));
     connect( newKeyAct, &QAction::triggered, this, &MainWindow::newKey );
     toolsMenu->addAction( newKeyAct );
@@ -362,6 +364,7 @@ void MainWindow::createActions()
 
     const QIcon csrIcon = QIcon::fromTheme("certificate-request", QIcon(":/images/csr.png"));
     QAction *makeReqAct = new QAction( csrIcon, tr("Make&Request"), this );
+    makeReqAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F2 ));
     makeReqAct->setStatusTip(tr( "Make Request"));
     connect( makeReqAct, &QAction::triggered, this, &MainWindow::makeRequest );
     toolsMenu->addAction( makeReqAct );
@@ -371,6 +374,7 @@ void MainWindow::createActions()
     {
         const QIcon configIcon = QIcon::fromTheme( "make config", QIcon(":/images/config.png"));
         QAction *configAct = new QAction( configIcon, tr( "Make Config"), this );
+        configAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F3 ));
         configAct->setStatusTip(tr( "Make Configuration" ));
         connect( configAct, &QAction::triggered, this, &MainWindow::makeConfig );
         toolsMenu->addAction( configAct );
@@ -379,6 +383,7 @@ void MainWindow::createActions()
 
         const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
         QAction *regUserAct = new QAction( userRegIcon, tr("Register&User"), this );
+        regUserAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F4 ));
         regUserAct->setStatusTip(tr( "Register a user"));
         connect( regUserAct, &QAction::triggered, this, &MainWindow::registerUser );
         toolsMenu->addAction( regUserAct );
@@ -386,6 +391,7 @@ void MainWindow::createActions()
 
         const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
         QAction *regSignerAct = new QAction( signerRegIcon, tr("Register&Signer"), this );
+        regSignerAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F5 ));
         regSignerAct->setStatusTip(tr( "Register a signer"));
         connect( regSignerAct, &QAction::triggered, this, &MainWindow::registerREGSigner );
         toolsMenu->addAction( regSignerAct );
@@ -394,6 +400,7 @@ void MainWindow::createActions()
 
     const QIcon certProfileIcon = QIcon::fromTheme("cert-profile", QIcon(":/images/cert_profile.png"));
     QAction *makeCertProfileAct = new QAction( certProfileIcon, tr("MakeCert&Profile"), this );
+    makeCertProfileAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F6 ));
     makeCertProfileAct->setStatusTip(tr( "Make certificate profile"));
     connect( makeCertProfileAct, &QAction::triggered, this, &MainWindow::makeCertProfile );
     toolsMenu->addAction( makeCertProfileAct );
@@ -401,6 +408,7 @@ void MainWindow::createActions()
 
     const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
     QAction *makeCRLProfileAct = new QAction( crlProfileIcon, tr("MakeC&RLProfile"), this );
+    makeCRLProfileAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F7 ));
     connect( makeCRLProfileAct, &QAction::triggered, this, &MainWindow::makeCRLProfile);
     toolsMenu->addAction( makeCRLProfileAct );
     toolsToolBar->addAction( makeCRLProfileAct );
@@ -408,6 +416,7 @@ void MainWindow::createActions()
 
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
     QAction* makeCertAct = new QAction( certIcon, tr("Make&Certificate"), this );
+    makeCertAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F8 ));
     connect( makeCertAct, &QAction::triggered, this, &MainWindow::makeCertificate );
     toolsMenu->addAction( makeCertAct );
     toolsToolBar->addAction( makeCertAct );
@@ -416,6 +425,7 @@ void MainWindow::createActions()
 
     const QIcon crlIcon = QIcon::fromTheme("make-crl", QIcon(":/images/crl.png"));
     QAction* makeCRLAct = new QAction( crlIcon, tr("MakeCR&L"), this );
+    makeCRLAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F9 ));
     connect( makeCRLAct, &QAction::triggered, this, &MainWindow::makeCRL );
     toolsMenu->addAction( makeCRLAct );
     toolsToolBar->addAction( makeCRLAct );
@@ -423,6 +433,7 @@ void MainWindow::createActions()
 
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
     QAction* revokeCertAct = new QAction( revokeIcon, tr("Revo&keCert"), this );
+    revokeCertAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F10 ));
     connect( revokeCertAct, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revokeCertAct );
     toolsToolBar->addAction( revokeCertAct );
@@ -438,6 +449,7 @@ void MainWindow::createActions()
 
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
     QAction* importDataAct = new QAction( diskIcon, tr("&ImportData"), this );
+    importDataAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I ));
     connect( importDataAct, &QAction::triggered, this, &MainWindow::importData );
     dataMenu->addAction( importDataAct );
     dataToolBar->addAction( importDataAct );
@@ -445,6 +457,7 @@ void MainWindow::createActions()
 
     const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
     QAction *getURIAct = new QAction( getURIIcon, tr("&GetURI"), this);
+    getURIAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_U ));
     connect( getURIAct, &QAction::triggered, this, &MainWindow::getURI);
     getURIAct->setStatusTip(tr("Get URI"));
     dataMenu->addAction( getURIAct );
@@ -452,6 +465,7 @@ void MainWindow::createActions()
 
     const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
     QAction *pubLDAPAct = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
+    pubLDAPAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_L ));
     connect( pubLDAPAct, &QAction::triggered, this, &MainWindow::publishLDAP);
     pubLDAPAct->setStatusTip(tr("Publish to LDAP"));
     dataMenu->addAction( pubLDAPAct );
@@ -459,6 +473,7 @@ void MainWindow::createActions()
 
     const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
     QAction *setPassAct = new QAction( setPassIcon, tr("&SetPasswd"), this);
+    setPassAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P ));
     connect( setPassAct, &QAction::triggered, this, &MainWindow::setPasswd);
     setPassAct->setStatusTip(tr("Set private key password"));
     dataMenu->addAction( setPassAct );
@@ -466,6 +481,7 @@ void MainWindow::createActions()
 
     const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
     QAction *changePassAct = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
+    changePassAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_C ));
     connect( changePassAct, &QAction::triggered, this, &MainWindow::changePasswd);
     setPassAct->setStatusTip(tr("Change private key password"));
     dataMenu->addAction( changePassAct );
@@ -483,6 +499,7 @@ void MainWindow::createActions()
     {
         const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.png"));
         QAction *tspAct = new QAction( timeIcon, tr("&TSP"), this);
+        tspAct->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_T ));
         connect( tspAct, &QAction::triggered, this, &MainWindow::tsp);
         tspAct->setStatusTip(tr("TimeStampProtocol Service"));
         dataMenu->addAction( tspAct );
@@ -497,30 +514,35 @@ void MainWindow::createActions()
 #endif
 
         QAction *ocspSrvAct = new QAction( timeIcon, tr("&OCSP Server"), this);
+        ocspSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_O));
         connect( ocspSrvAct, &QAction::triggered, this, &MainWindow::OCSPSrv);
         ocspSrvAct->setStatusTip(tr("OCSP Server Service"));
         serverMenu->addAction( ocspSrvAct );
 //        serverToolBar->addAction( ocspSrvAct );
 
         QAction *tspSrvAct = new QAction( timeIcon, tr("&TSP Server"), this);
+        tspSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_T));
         connect( tspSrvAct, &QAction::triggered, this, &MainWindow::TSPSrv);
         tspSrvAct->setStatusTip(tr("TSP Server Service"));
         serverMenu->addAction( tspSrvAct );
 //        serverToolBar->addAction( tspSrvAct );
 
         QAction *cmpSrvAct = new QAction( timeIcon, tr("&CMP Server"), this);
+        cmpSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_C));
         connect( cmpSrvAct, &QAction::triggered, this, &MainWindow::CMPSrv);
         cmpSrvAct->setStatusTip(tr("CMP Server Service"));
         serverMenu->addAction( cmpSrvAct );
 //        serverToolBar->addAction( cmpSrvAct );
 
         QAction *regSrvAct = new QAction( timeIcon, tr("&REG Server"), this);
+        regSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_R));
         connect( regSrvAct, &QAction::triggered, this, &MainWindow::RegSrv);
         regSrvAct->setStatusTip(tr("Reg Server Service"));
         serverMenu->addAction( regSrvAct );
 //        serverToolBar->addAction( regSrvAct );
 
         QAction *ccSrvAct = new QAction( timeIcon, tr("&CC Server"), this);
+        ccSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_A));
         connect( ccSrvAct, &QAction::triggered, this, &MainWindow::CCSrv);
         ccSrvAct->setStatusTip(tr("CC Server Service"));
         serverMenu->addAction( ccSrvAct );
