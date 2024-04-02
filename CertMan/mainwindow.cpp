@@ -281,13 +281,15 @@ void MainWindow::initialize()
 
 void MainWindow::createActions()
 {
+    int nWidth = 24;
+    int nHeight = 24;
+    int nSpacing = 0;
+
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     QToolBar *fileToolBar = addToolBar(tr("File"));
 
-#ifdef Q_OS_MAC
-    fileToolBar->setIconSize( QSize(24,24));
-    fileToolBar->layout()->setSpacing(0);
-#endif
+    fileToolBar->setIconSize( QSize(nWidth, nHeight));
+    fileToolBar->layout()->setSpacing(nSpacing);
 
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
     QAction *newAct = new QAction( newIcon, tr("&New"), this);
@@ -349,10 +351,8 @@ void MainWindow::createActions()
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     QToolBar *toolsToolBar = addToolBar(tr("Tools"));
 
-#ifdef Q_OS_MAC
-    toolsToolBar->setIconSize( QSize(24,24));
-    toolsToolBar->layout()->setSpacing(0);
-#endif
+    toolsToolBar->setIconSize( QSize(nWidth, nHeight));
+    toolsToolBar->layout()->setSpacing(nSpacing);
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     QAction *newKeyAct = new QAction( newKeyIcon, tr("&NewKey"), this );
@@ -442,10 +442,8 @@ void MainWindow::createActions()
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     QToolBar *dataToolBar = addToolBar(tr("Data"));
 
-#ifdef Q_OS_MAC
-    dataToolBar->setIconSize( QSize(24,24));
-    dataToolBar->layout()->setSpacing(0);
-#endif
+    dataToolBar->setIconSize( QSize(nWidth, nHeight));
+    dataToolBar->layout()->setSpacing(nSpacing);
 
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
     QAction* importDataAct = new QAction( diskIcon, tr("&ImportData"), this );
@@ -508,10 +506,8 @@ void MainWindow::createActions()
         QMenu *serverMenu = menuBar()->addMenu(tr("&Server"));
         QToolBar *serverToolBar = addToolBar(tr("Server"));
 
-#ifdef Q_OS_MAC
-        serverToolBar->setIconSize( QSize(24,24));
-        serverToolBar->layout()->setSpacing(0);
-#endif
+        serverToolBar->setIconSize( QSize(nWidth, nHeight));
+        serverToolBar->layout()->setSpacing(nSpacing);
 
         QAction *ocspSrvAct = new QAction( timeIcon, tr("&OCSP Server"), this);
         ocspSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_O));
@@ -553,10 +549,8 @@ void MainWindow::createActions()
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     QToolBar *helpToolBar = addToolBar(tr("Help"));
 
-#ifdef Q_OS_MAC
-    helpToolBar->setIconSize( QSize(24,24));
-    helpToolBar->layout()->setSpacing(0);
-#endif
+    helpToolBar->setIconSize( QSize(nWidth, nHeight));
+    helpToolBar->layout()->setSpacing(nSpacing);
 
     if( manApplet->isPRO() )
     {
