@@ -3508,6 +3508,61 @@ QString getHexString( const BIN *pBin )
     return strHex;
 }
 
+QString getHexString( unsigned char *pData, int nDataLen )
+{
+    BIN binData = {0,0};
+    char *pHex = NULL;
+    JS_BIN_set( &binData, pData, nDataLen );
+    JS_BIN_encodeHex( &binData, &pHex );
+
+    QString strHex = pHex;
+
+    JS_BIN_reset( &binData );
+    if(pHex) JS_free( pHex );
+
+    return strHex;
+}
+
+const QString getHexStringArea( unsigned char *pData, int nDataLen, int nWidth  )
+{
+    QString strMsg = getHexString( pData, nDataLen );
+
+    return getHexStringArea( strMsg, nWidth );
+}
+
+const QString getHexStringArea( const BIN *pData, int nWidth )
+{
+    QString strMsg = getHexString( pData );
+
+    return getHexStringArea( strMsg, nWidth );
+}
+
+const QString getHexStringArea( const QString strMsg, int nWidth )
+{
+    int nBlock = 0;
+    int nPos = 0;
+    QString strAreaMsg = nullptr;
+
+    int nLen = strMsg.length();
+    if( nWidth <= 0 ) return strMsg;
+
+    while( nLen > 0 )
+    {
+        if( nLen >= nWidth )
+            nBlock = nWidth;
+        else
+            nBlock = nLen;
+
+        strAreaMsg += strMsg.mid( nPos, nBlock );
+        strAreaMsg += "\n";
+
+        nLen -= nBlock;
+        nPos += nBlock;
+    }
+
+    return strAreaMsg;
+}
+
 int getDataLen( int nType, const QString strData )
 {
     int nLen = 0;

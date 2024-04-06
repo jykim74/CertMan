@@ -167,6 +167,10 @@ public:
     int getIssuerNum();
     int issuerNum() { return issuer_num_; };
 
+    void setHexAreaWidth( int width );
+    int getHexAreaWidth();
+    int hexAreaWidth() { return hex_area_width_; };
+
     void loadSettings();
 
 private:
@@ -175,6 +179,7 @@ private:
     int cert_profile_num_;
     int crl_profile_num_;
     int issuer_num_;
+    int hex_area_width_;
 
 private:
     Q_DISABLE_COPY(SettingsMgr)

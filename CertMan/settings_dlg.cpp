@@ -99,6 +99,7 @@ void SettingsDlg::updateSettings()
 
     mgr->setListCount( mListCountCombo->currentText().toInt() );
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
+    mgr->setHexAreaWidth( mHexAreaWidthCombo->currentText().toInt());
 
     mgr->setPKCS11Pin( mPINText->text() );
 
@@ -382,7 +383,10 @@ void SettingsDlg::initialize()
     SettingsMgr *mgr = manApplet->settingsMgr();
 
     Qt::CheckState state;
+    const QStringList sHexWidthList = { "", "8", "16", "32", "64", "80" };
 
+    mHexAreaWidthCombo->addItems(sHexWidthList);
+    mHexAreaWidthCombo->setCurrentText( QString("%1").arg( mgr->getHexAreaWidth() ));
 
     state = mgr->serverStatus() ? Qt::Checked : Qt::Unchecked;
     mServerStatusCheck->setCheckState( state );

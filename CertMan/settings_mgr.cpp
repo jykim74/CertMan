@@ -61,6 +61,7 @@ namespace  {
     const char *kCertProfileNum = "certProfileNum";
     const char *kCRLProfileNum = "CRLProfileNum";
     const char *kIssuerNum = "issuerNum";
+    const char *kHexAreaWidth = "hexAreaWidth";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -84,6 +85,8 @@ void SettingsMgr::loadSettings()
 
     getCertProfileNum();
     getCRLProfileNum();
+
+    getHexAreaWidth();
 }
 
 void SettingsMgr::setSaveRemoteInfo( bool val )
@@ -1173,4 +1176,25 @@ int SettingsMgr::getIssuerNum()
     sets.endGroup();
 
     return issuer_num_;
+}
+
+void SettingsMgr::setHexAreaWidth( int width )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kHexAreaWidth, width );
+    sets.endGroup();
+
+    hex_area_width_ = width;
+}
+
+int SettingsMgr::getHexAreaWidth()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    hex_area_width_ = sets.value( kHexAreaWidth, -1 ).toInt();
+    sets.endGroup();
+
+    return hex_area_width_;
 }

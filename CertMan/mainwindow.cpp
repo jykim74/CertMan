@@ -5537,6 +5537,7 @@ void MainWindow::infoKeyPair(int seq)
 {
     if( manApplet->dbMgr() == NULL ) return;
     KeyPairRec keyPair;
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
     manApplet->dbMgr()->getKeyPairRec( seq, keyPair );
 
@@ -5547,8 +5548,8 @@ void MainWindow::infoKeyPair(int seq)
     manApplet->info( QString("Num        : %1\n").arg( keyPair.getNum() ));
     manApplet->info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     manApplet->info( QString("Name       : %1\n").arg(keyPair.getName()));
-    manApplet->info( QString("PublicKey  : %1\n").arg(keyPair.getPublicKey()));
-    manApplet->info( QString("PrivateKey : %1\n").arg(keyPair.getPrivateKey()));
+    manApplet->info( QString("PublicKey  : \n%1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
+    manApplet->info( QString("PrivateKey : \n%1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
     manApplet->info( QString("Param      : %1\n").arg(keyPair.getParam()));
     manApplet->info( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
 
@@ -5558,6 +5559,7 @@ void MainWindow::infoKeyPair(int seq)
 void MainWindow::infoRequest( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
     ReqRec reqRec;
     manApplet->dbMgr()->getReqRec( seq, reqRec );
@@ -5572,7 +5574,7 @@ void MainWindow::infoRequest( int seq )
     manApplet->info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
     manApplet->info( QString("Name     : %1\n").arg(reqRec.getName()));
     manApplet->info( QString("DN       : %1\n").arg(reqRec.getDN()));
-    manApplet->info( QString("Request  : %1\n").arg(reqRec.getCSR()));
+    manApplet->info( QString("Request  : \n%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
     manApplet->info( QString("Hash     : %1\n").arg(reqRec.getHash()));
     manApplet->info( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
 
@@ -5587,6 +5589,7 @@ void MainWindow::infoCertificate( int seq )
 
     CertRec certRec;
     manApplet->dbMgr()->getCertRec( seq, certRec );
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
     QString strKeyName;
     QString strUserName;
@@ -5621,7 +5624,7 @@ void MainWindow::infoCertificate( int seq )
         manApplet->info( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
 
     manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    manApplet->info( QString("Certificate   : %1\n").arg(certRec.getCert()));
+    manApplet->info( QString("Certificate   : \n%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
     manApplet->info( QString("IsCA          : %1 - %2\n").arg(certRec.isCA()).arg( certRec.isCA() ? "Yes" : "No" ));
     manApplet->info( QString("IsSelf        : %1 - %2\n").arg(certRec.isSelf()).arg( certRec.isSelf() ? "Yes" : "No" ));
     manApplet->info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
@@ -5738,6 +5741,7 @@ void MainWindow::infoCRL( int seq )
 
     CRLRec crlRec;
     char    sRegTime[64];
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
     manApplet->dbMgr()->getCRLRec( seq, crlRec );
     QString strIssuerName;
@@ -5757,7 +5761,7 @@ void MainWindow::infoCRL( int seq )
     manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(crlRec.getIssuerNum()).arg( strIssuerName ));
     manApplet->info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
     manApplet->info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
-    manApplet->info( QString("CRL           : %1\n").arg(crlRec.getCRL()));
+    manApplet->info( QString("CRL           : \n%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
 
     infoCursorTop();
 }
@@ -5980,6 +5984,8 @@ void MainWindow::infoTSP( int seq )
 {
     if( manApplet->dbMgr() == NULL ) return;
 
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
+
     TSPRec tspRec;
     manApplet->dbMgr()->getTSPRec( seq, tspRec );
 
@@ -5991,8 +5997,8 @@ void MainWindow::infoTSP( int seq )
     manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
     manApplet->info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
     manApplet->info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
-    manApplet->info( QString("TSTInfo      : %1\n").arg(tspRec.getTSTInfo()));
-    manApplet->info( QString("Data         : %1\n").arg(tspRec.getData()));
+    manApplet->info( QString("TSTInfo      : \n%1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
+    manApplet->info( QString("Data         : \n%1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
 
     infoCursorTop();
 }
@@ -6001,6 +6007,7 @@ void MainWindow::infoSigner(int seq)
 {
     if( manApplet->dbMgr() == NULL ) return;
 
+    int nWidth = manApplet->settingsMgr()->hexAreaWidth();
     SignerRec signerRec;
     manApplet->dbMgr()->getSignerRec( seq, signerRec );
 
@@ -6013,7 +6020,7 @@ void MainWindow::infoSigner(int seq)
     manApplet->info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
     manApplet->info( QString("DN           : %1\n").arg(signerRec.getDN()));
     manApplet->info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    manApplet->info( QString("Cert         : %1\n").arg(signerRec.getCert()));
+    manApplet->info( QString("Cert         : \n%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
     manApplet->info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
     manApplet->info( QString("Info         : %1\n").arg(signerRec.getInfo()));
 
