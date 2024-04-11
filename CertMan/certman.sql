@@ -1,4 +1,30 @@
 BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "TB_CRL_PROFILE" (
+	"Num"	INTEGER,
+	"Name"	TEXT,
+	"Version"	INTEGER,
+	"ThisUpdate"	INTEGER,
+	"NextUpdate"	INTEGER,
+	"Hash"	TEXT,
+	PRIMARY KEY("Num")
+);
+CREATE TABLE IF NOT EXISTS "TB_LICENSE" (
+	"Seq"	INTEGER,
+	"RegTime"	INTEGER,
+	"Status"	INTEGER,
+	"Type"	NUMERIC,
+	"QTY"	INTEGER,
+	"SID"	TEXT,
+	"User"	TEXT,
+	"Issued"	TEXT,
+	"Expire"	TEXT,
+	"Product"	TEXT,
+	"Ref"	TEXT,
+	"Ext"	TEXT,
+	"AuthKey"	TEXT,
+	"License"	TEXT,
+	PRIMARY KEY("Seq")
+);
 CREATE TABLE IF NOT EXISTS "TB_SEQ" (
 	"seq"	INTEGER,
 	"name"	TEXT NOT NULL,
@@ -158,15 +184,6 @@ CREATE TABLE IF NOT EXISTS "TB_CERT_PROFILE" (
 	"Hash"	TEXT,
 	"DNTemplate"	TEXT,
 	PRIMARY KEY("NUM")
-);
-CREATE TABLE IF NOT EXISTS "TB_CRL_PROFILE" (
-	"Num"	INTEGER,
-	"Name"	TEXT,
-	"Version"	INTEGER,
-        "ThisUpdate"	INTEGER,
-	"NextUpdate"	INTEGER,
-	"Hash"	TEXT,
-	PRIMARY KEY("Num")
 );
 CREATE TABLE IF NOT EXISTS "TB_AUTH" (
 	"Token"	TEXT,
