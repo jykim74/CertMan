@@ -150,7 +150,8 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
     strProduct.remove( "Lite" );
 
     strURL = getLicenseURI();
-    strURL += JS_CC_PATH_LICENSE;
+//    strURL += JS_CC_PATH_LICENSE;
+    strURL += "/jsinc/lcn.php";
 
     JS_UTIL_createNameValList2( "email", strEmail.toStdString().c_str(), &pParamList );
     JS_UTIL_appendNameValList2( pParamList, "key", strKey.toStdString().c_str() );
@@ -160,7 +161,7 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
                 strURL.toStdString().c_str(),
                 NULL,
                 NULL,
-                JS_HTTP_METHOD_GET,
+                JS_HTTP_METHOD_POST,
                 pParamList,
                 NULL,
                 NULL,
@@ -202,7 +203,8 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     strProduct.remove( "Lite" );
 
     strURL = getLicenseURI();
-    strURL += JS_CC_PATH_LCN_RENEW;
+//    strURL += JS_CC_PATH_LCN_RENEW;
+    strURL += "/jsinc/lcn_update.php";
 
     JS_UTIL_createNameValList2( "email", strEmail.toStdString().c_str(), &pParamList );
     JS_UTIL_appendNameValList2( pParamList, "key", strKey.toStdString().c_str() );
@@ -212,7 +214,7 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
                 strURL.toStdString().c_str(),
                 NULL,
                 NULL,
-                JS_HTTP_METHOD_GET,
+                JS_HTTP_METHOD_POST,
                 pParamList,
                 NULL,
                 NULL,
@@ -362,7 +364,7 @@ void LCNInfoDlg::clickUpdate()
 
     if( JS_LCN_ParseBIN( &binLCN, &sInfo ) == 0 )
     {
-        ret = updateLCN( sInfo.sSID, sInfo.sKey, &binNewLCN );
+        ret = updateLCN( sInfo.sSID, sInfo.sAuthKey, &binNewLCN );
         if( ret != 0 )
         {
             strErr = tr( "failed to renew the license [%1]").arg( ret );
