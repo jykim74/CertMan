@@ -119,7 +119,7 @@ void LCNInfoDlg::initialize()
     }
 
     mUpdateBtn->setEnabled( mCurGroup->isEnabled() );
-    mUseFileCheck->click();
+//    mUseFileCheck->click();
     tabWidget->setCurrentIndex(0);
 }
 
@@ -140,48 +140,62 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
     int ret = 0;
     int status = 0;
     QString strURL;
-    JNameValList *pParamList = NULL;
     char *pRsp = NULL;
     JCC_NameVal sNameVal;
 
     QString strProduct = manApplet->getBrand();
+    QString strSID = GetSystemID();
 
     memset( &sNameVal, 0x00, sizeof(sNameVal));
     strProduct.remove( "Lite" );
 
     strURL = getLicenseURI();
-//    strURL += JS_CC_PATH_LICENSE;
     strURL += "/jsinc/lcn.php";
 
-    JS_UTIL_createNameValList2( "email", strEmail.toStdString().c_str(), &pParamList );
-    JS_UTIL_appendNameValList2( pParamList, "key", strKey.toStdString().c_str() );
-    JS_UTIL_appendNameValList2( pParamList, "product", strProduct.toStdString().c_str() );
+    QString strBody = QString( "email=%1&key=%2&product=%3&sid=%4")
+                          .arg( strEmail )
+                          .arg( strKey )
+                          .arg(strProduct).arg( strSID );
 
-    ret = JS_HTTP_requestResponse(
-                strURL.toStdString().c_str(),
-                NULL,
-                NULL,
-                JS_HTTP_METHOD_POST,
-                pParamList,
-                NULL,
-                NULL,
-                &status,
-                &pRsp );
+    manApplet->log( QString( "Body: %1" ).arg( strBody ));
+
+    ret = JS_HTTP_requestPost2(
+        strURL.toStdString().c_str(),
+        NULL,
+        NULL,
+        "application/x-www-form-urlencoded",
+        strBody.toStdString().c_str(),
+        &status,
+        &pRsp );
 
     if( status != JS_HTTP_STATUS_OK)
     {
         manApplet->elog( QString("HTTP get ret:%1 status: %2").arg( ret ).arg( status ));
-        return -1;
+        ret = JSR_HTTP_STATUS_FAIL;
+        goto end;
     }
+
+    manApplet->log( QString( "Rsp : %1").arg( pRsp ));
 
     JS_CC_decodeNameVal( pRsp, &sNameVal );
 
-    if( sNameVal.pValue )
+    if( sNameVal.pValue && strcasecmp( sNameVal.pName, "LICENSE") == 0 )
     {
-        JS_BIN_decodeHex( sNameVal.pValue, pLCN );
+        int nType = -1;
+        JS_BIN_decodePEM( sNameVal.pValue, &nType, pLCN );
+    }
+    else
+    {
+        manApplet->elog( QString("HTTP Rsp Name: %1 Value: %2").arg( sNameVal.pName ).arg( sNameVal.pValue ));
+        ret = JSR_HTTP_BODY_ERROR;
+        goto end;
     }
 
-    return 0;
+end :
+    if( pRsp ) JS_free( pRsp );
+    JS_UTIL_resetNameVal( &sNameVal );
+
+    return ret;
 }
 
 int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pLCN )
@@ -189,10 +203,11 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     int ret = 0;
     int status = 0;
     QString strURL;
-    JNameValList *pParamList = NULL;
+
     char *pRsp = NULL;
     JCC_NameVal sNameVal;
     QString strProduct = manApplet->getBrand();
+    QString strSID = GetSystemID();
 
 #ifndef _USE_LCN_SRV
     manApplet->warningBox( tr( "This service is not yet supported." ), this );
@@ -203,38 +218,48 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     strProduct.remove( "Lite" );
 
     strURL = getLicenseURI();
-//    strURL += JS_CC_PATH_LCN_RENEW;
     strURL += "/jsinc/lcn_update.php";
 
-    JS_UTIL_createNameValList2( "email", strEmail.toStdString().c_str(), &pParamList );
-    JS_UTIL_appendNameValList2( pParamList, "key", strKey.toStdString().c_str() );
-    JS_UTIL_appendNameValList2( pParamList, "product", strProduct.toStdString().c_str() );
+    QString strBody = QString( "email=%1&key=%2&product=%3&sid=%4")
+                          .arg( strEmail )
+                          .arg( strKey )
+                          .arg(strProduct).arg( strSID );
 
-    ret = JS_HTTP_requestResponse(
-                strURL.toStdString().c_str(),
-                NULL,
-                NULL,
-                JS_HTTP_METHOD_POST,
-                pParamList,
-                NULL,
-                NULL,
-                &status,
-                &pRsp );
+    ret = JS_HTTP_requestPost2(
+        strURL.toStdString().c_str(),
+        NULL,
+        NULL,
+        "application/x-www-form-urlencoded",
+        strBody.toStdString().c_str(),
+        &status,
+        &pRsp );
 
     if( status != JS_HTTP_STATUS_OK)
     {
         manApplet->elog( QString("HTTP get ret:%1 status: %2").arg( ret ).arg( status ));
-        return -1;
+        ret = JSR_HTTP_STATUS_FAIL;
+        goto end;
     }
 
     JS_CC_decodeNameVal( pRsp, &sNameVal );
 
-    if( sNameVal.pValue )
+    if( sNameVal.pValue && strcasecmp( sNameVal.pName, "LICENSE") == 0 )
     {
-        JS_BIN_decodeHex( sNameVal.pValue, pLCN );
+        int nType = -1;
+        JS_BIN_decodePEM( sNameVal.pValue, &nType, pLCN );
+    }
+    else
+    {
+        manApplet->elog( QString("HTTP Rsp Name: %1 Value: %2").arg( sNameVal.pName ).arg( sNameVal.pValue ));
+        ret = JSR_HTTP_BODY_ERROR;
+        goto end;
     }
 
-    return 0;
+end :
+    if( pRsp ) JS_free( pRsp );
+    JS_UTIL_resetNameVal( &sNameVal );
+
+    return ret;
 }
 
 void LCNInfoDlg::clickGet()

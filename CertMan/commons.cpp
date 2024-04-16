@@ -8,6 +8,8 @@
 #include <QtCore>
 #include <QFileDialog>
 #include <QRegularExpression>
+#include <QProcess>
+#include <QNetworkInterface>
 
 #include "commons.h"
 #include "db_mgr.h"
@@ -1346,6 +1348,45 @@ static int _getOctet( const BIN *pBinExt, QString& strVal )
     }
 
     return 0;
+}
+
+const QString GetSystemID()
+{
+    QString strID;
+
+#ifdef Q_OS_MACOS
+    QProcess proc;
+    QStringList args;
+    args << "-c" << "ioreg -rd1 -c IOPlatformExpertDevice |  awk '/IOPlatformSerialNumber/ { print $3; }'";
+    proc.start( "/bin/bash", args );
+    proc.waitForFinished();
+    QString uID = proc.readAll();
+    uID.replace( "\"", "" );
+
+    strID = uID.trimmed();
+#else
+
+    foreach( QNetworkInterface netIFT, QNetworkInterface::allInterfaces() )
+    {
+        if( !(netIFT.flags() & QNetworkInterface::IsLoopBack) )
+        {
+            if( netIFT.flags() & QNetworkInterface::IsUp )
+            {
+                if( netIFT.flags() & QNetworkInterface::Ethernet || netIFT.flags() & QNetworkInterface::Wifi )
+                {
+                    if( strID.isEmpty() )
+                        strID = netIFT.hardwareAddress();
+                    else
+                    {
+                        strID += QString( ":%1" ).arg( netIFT.hardwareAddress() );
+                    }
+                }
+            }
+        }
+    }
+#endif
+
+    return strID;
 }
 
 QString findFile( QWidget *parent, int nType, const QString strPath )

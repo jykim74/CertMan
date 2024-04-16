@@ -117,6 +117,8 @@ enum {
 
 static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Connectivity(ODBC)" };
 
+const QString GetSystemID();
+
 QString findFile( QWidget *parent, int nType, const QString strPath );
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec );
