@@ -22,14 +22,12 @@ public:
     ~LoginDlg();
 
     const QString getPasswd() { return mPasswdText->text(); };
-    const QString getSID() { return SID_; };
 
 private slots:
     void clickLogin();
 
 private:
     void initialize();
-    QString SID_;
 };
 
 #endif // LOGIN_DLG_H

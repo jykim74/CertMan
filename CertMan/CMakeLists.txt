@@ -224,7 +224,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )
 # add_definitions( -D_USE_RC_LCN )
-add_definitions( -DJS_PRO )
+# add_definitions( -DJS_PRO )
 target_compile_definitions( ${PROJECT_NAME} PRIVATE USE_CMP USE_SCEP )
 
 if(WIN32)

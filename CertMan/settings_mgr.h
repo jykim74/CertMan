@@ -14,6 +14,7 @@ class SettingsMgr : public QObject
 
 public:
     SettingsMgr( QObject *parent = nullptr );
+    void removeSet( const QString& group, const QString& name );
 
     void setSaveRemoteInfo( bool val );
     bool saveRemoteInfo();
