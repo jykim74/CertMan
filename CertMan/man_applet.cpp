@@ -303,7 +303,14 @@ int ManApplet::checkLicense()
     ret = JS_LCN_IsValid( &license_info_, strEmail.toStdString().c_str(), JS_LCN_PRODUCT_CERTMAN_NAME, strSID.toStdString().c_str(), ntp_t );
 
     if( ret == JSR_VALID )
+    {
         is_license_ = true;
+    }
+    else
+    {
+        QString strMsg = tr( "License is invalid: %1" ).arg(ret);
+        manApplet->warningBox( strMsg, nullptr );
+    }
 
 end :
     JS_BIN_reset( &binLCN );
