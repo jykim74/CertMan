@@ -173,6 +173,10 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
                           .arg(strProduct).arg( SID_.simplified() )
                           .arg(strInfo.simplified());
 
+#ifdef QT_DEBUG
+    manApplet->log( QString( "Body: %1" ).arg( strBody ));
+#endif
+
     manApplet->log( QString( "Body: %1" ).arg( strBody ));
 
     ret = JS_HTTP_requestPost2(
@@ -191,7 +195,9 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
         goto end;
     }
 
+#ifdef QT_DEBUG
     manApplet->log( QString( "Rsp : %1").arg( pRsp ));
+#endif
 
     JS_CC_decodeNameVal( pRsp, &sNameVal );
 
