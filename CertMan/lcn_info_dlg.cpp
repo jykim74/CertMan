@@ -168,10 +168,10 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
     strURL += "/jsinc/lcn.php";
 
     QString strBody = QString( "email=%1&key=%2&product=%3&sid=%4&sysinfo=%5")
-                          .arg( strEmail )
-                          .arg( strKey )
-                          .arg(strProduct).arg( SID_ )
-                          .arg(strInfo);
+                          .arg( strEmail.simplified() )
+                          .arg( strKey.simplified() )
+                          .arg(strProduct).arg( SID_.simplified() )
+                          .arg(strInfo.simplified());
 
     manApplet->log( QString( "Body: %1" ).arg( strBody ));
 
@@ -243,10 +243,10 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     strURL += "/jsinc/lcn_update.php";
 
     QString strBody = QString( "email=%1&key=%2&product=%3&sid=%4&sysinfo=%5")
-                          .arg( strEmail )
-                          .arg( strKey )
-                          .arg(strProduct).arg( SID_ )
-                          .arg(strInfo);
+                          .arg( strEmail.simplified() )
+                          .arg( strKey.simplified() )
+                          .arg(strProduct).arg( SID_.simplified() )
+                          .arg(strInfo.simplified());
 
     ret = JS_HTTP_requestPost2(
         strURL.toStdString().c_str(),
@@ -454,6 +454,9 @@ end :
 
     if( ret == 0 )
     {
+        if( manApplet->yesOrNoBox(tr("You have changed license. Restart to apply it?"), this, true))
+            manApplet->restartApp();
+
         QDialog::accept();
     }
     else
