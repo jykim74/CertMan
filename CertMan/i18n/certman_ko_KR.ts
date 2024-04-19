@@ -1576,64 +1576,77 @@
         <translation type="vanished">라이선스가 발급 되지 못했습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="105"/>
+        <location filename="../lcn_info_dlg.cpp" line="106"/>
         <source>The CertMan is licensed version</source>
         <translation>CertMan 은 라이센스 버전입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="110"/>
+        <location filename="../lcn_info_dlg.cpp" line="111"/>
         <source>The CertMan is unlicensed version.<byte value="xd"/>
 </source>
         <translation>CertMan은 라이센스가 없는 버전입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="115"/>
+        <location filename="../lcn_info_dlg.cpp" line="116"/>
         <source>Expiration date: %1</source>
         <translation>만료일자: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="119"/>
+        <location filename="../lcn_info_dlg.cpp" line="120"/>
         <source>The license is not a valid license.</source>
         <translation>라이센스가 유효 하지 않은 라이센스입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="241"/>
-        <location filename="../lcn_info_dlg.cpp" line="317"/>
+        <location filename="../lcn_info_dlg.cpp" line="244"/>
+        <location filename="../lcn_info_dlg.cpp" line="322"/>
         <source>This service is not yet supported.</source>
         <translation>아직 지원하지 않는 서비스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="323"/>
+        <location filename="../lcn_info_dlg.cpp" line="328"/>
         <source>Please enter a email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="329"/>
+        <location filename="../lcn_info_dlg.cpp" line="334"/>
         <source>Please enter a license key</source>
         <translation>라이센스 키를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="336"/>
-        <source>failed to get license [%1]</source>
-        <translation>라이센스 가져오기 실패 [%1]</translation>
+        <location filename="../lcn_info_dlg.cpp" line="341"/>
+        <source>failed to get license %1 : %2</source>
+        <translation>라이센스 가져오기 실패 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="357"/>
-        <source>The license is not valid [%1]</source>
+        <location filename="../lcn_info_dlg.cpp" line="362"/>
+        <source>The license is not valid :[%1]</source>
         <translation>라이선스가 유효하지 않습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="452"/>
+        <location filename="../lcn_info_dlg.cpp" line="429"/>
+        <source>failed to renew the license %1 : %2</source>
+        <translation>라이센스 갱신에 실패하였습니다 %1 : %2</translation>
+    </message>
+    <message>
+        <source>failed to get license [%1]</source>
+        <translation type="vanished">라이센스 가져오기 실패 [%1]</translation>
+    </message>
+    <message>
+        <source>The license is not valid [%1]</source>
+        <translation type="vanished">라이선스가 유효하지 않습니다 [%1]</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="453"/>
         <source>License is invalid : %1</source>
         <translation>라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="476"/>
+        <location filename="../lcn_info_dlg.cpp" line="473"/>
         <source>Are you sure you want to remove invalid license information?</source>
         <translation>유효하지 않는 라이선스 정보를 제거 하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="483"/>
+        <location filename="../lcn_info_dlg.cpp" line="480"/>
         <source>Remove invalid license settings</source>
         <translation>유효하지 않는 라이선스 설정 제거</translation>
     </message>
@@ -1642,7 +1655,7 @@
         <translation type="vanished">라이센스 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="348"/>
+        <location filename="../lcn_info_dlg.cpp" line="353"/>
         <source>failed to parse license file [%1]</source>
         <translation>라이센스 파일 파싱에 실패 [%1]</translation>
     </message>
@@ -1651,26 +1664,25 @@
         <translation type="vanished">라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="371"/>
-        <location filename="../lcn_info_dlg.cpp" line="439"/>
+        <location filename="../lcn_info_dlg.cpp" line="376"/>
+        <location filename="../lcn_info_dlg.cpp" line="440"/>
         <source>Your current license has a longer usage period.</source>
         <translation>현재 라이선스가 사용기간이 더 긴 라이선스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="388"/>
-        <location filename="../lcn_info_dlg.cpp" line="463"/>
+        <location filename="../lcn_info_dlg.cpp" line="393"/>
+        <location filename="../lcn_info_dlg.cpp" line="464"/>
         <source>You have changed license. Restart to apply it?</source>
         <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="416"/>
+        <location filename="../lcn_info_dlg.cpp" line="417"/>
         <source>There is currently no license.</source>
         <translation>현재 라이선스가 없습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="428"/>
         <source>failed to renew the license [%1]</source>
-        <translation>라이센스 갱신에 실패하였습니다 [%1]</translation>
+        <translation type="vanished">라이센스 갱신에 실패하였습니다 [%1]</translation>
     </message>
     <message>
         <source>You have to input email</source>
