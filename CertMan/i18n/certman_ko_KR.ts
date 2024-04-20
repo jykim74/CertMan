@@ -1492,7 +1492,7 @@
     <message>
         <location filename="../lcn_info_dlg.ui" line="261"/>
         <source>Do stop showing this message for the time being</source>
-        <translation>당분가 이 메세지를 나타내지 않음</translation>
+        <translation>당분간 이 메세지를 나타내지 않음</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.ui" line="272"/>
@@ -1507,7 +1507,7 @@
     <message>
         <location filename="../lcn_info_dlg.ui" line="309"/>
         <source>Get</source>
-        <translation>가겨오기</translation>
+        <translation>가져오기</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.ui" line="316"/>
@@ -1581,20 +1581,32 @@
         <translation>CertMan 은 라이센스 버전입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="111"/>
         <source>The CertMan is unlicensed version.<byte value="xd"/>
 </source>
+        <translation type="vanished">CertMan은 라이센스가 없는 버전입니다</translation>
+    </message>
+    <message>
+        <source>Expiration date: %1</source>
+        <translation type="vanished">만료일자: %1</translation>
+    </message>
+    <message>
+        <source>The license is not a valid license.</source>
+        <translation type="vanished">라이센스가 유효 하지 않은 라이센스입니다</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="111"/>
+        <source>The CertMan is unlicensed version</source>
         <translation>CertMan은 라이센스가 없는 버전입니다</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="116"/>
-        <source>Expiration date: %1</source>
-        <translation>만료일자: %1</translation>
+        <source>[Expired:%1]</source>
+        <translation>[만료일: %1]</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="120"/>
-        <source>The license is not a valid license.</source>
-        <translation>라이센스가 유효 하지 않은 라이센스입니다</translation>
+        <source>[No license]</source>
+        <translation>[라이선스 없음]</translation>
     </message>
     <message>
         <location filename="../lcn_info_dlg.cpp" line="244"/>
@@ -2675,9 +2687,8 @@
         <translation>CRL 가져오기가 SCEP로 성공 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4102"/>
         <source>The license has been changed. Restart to apply it?</source>
-        <translation>라이센스가 변경 되었습니다. 적용을 위해 다시 시작 하겠습니까?</translation>
+        <translation type="vanished">라이센스가 변경 되었습니다. 적용을 위해 다시 시작 하겠습니까?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4176"/>

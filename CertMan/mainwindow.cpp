@@ -4099,8 +4099,8 @@ void MainWindow::licenseInfo()
     LCNInfoDlg lcnInfoDlg;
     if( lcnInfoDlg.exec() == QDialog::Accepted )
     {
-        if( manApplet->yesOrNoBox(tr("The license has been changed. Restart to apply it?"), this, true))
-            manApplet->restartApp();
+//        if( manApplet->yesOrNoBox(tr("The license has been changed. Restart to apply it?"), this, true))
+//            manApplet->restartApp();
     }
 }
 
