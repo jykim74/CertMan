@@ -11,7 +11,7 @@
 #include "js_ocsp.h"
 #include "js_http.h"
 #include "js_cmp.h"
-#include "js_json.h"
+#include "js_json_msg.h".h"
 #include "js_pkcs7.h"
 #include "js_scep.h"
 #include "js_pki_ext.h"

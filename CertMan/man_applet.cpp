@@ -38,7 +38,7 @@
 #include "commons.h"
 #include "js_net.h"
 #include "lcn_info_dlg.h"
-#include "js_json.h"
+#include "js_json_msg.h".h"
 #include "js_http.h"
 #include "js_error.h"
 

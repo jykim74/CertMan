@@ -10,7 +10,7 @@
 #include "js_gen.h"
 #include "js_bin.h"
 #include "js_pki.h"
-#include "js_json.h"
+#include "js_json_msg.h".h"
 #include "js_http.h"
 
 #include "user_dlg.h"
