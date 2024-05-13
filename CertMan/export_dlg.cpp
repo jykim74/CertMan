@@ -80,7 +80,8 @@ void ExportDlg::accept()
 
     BIN binData = {0,0};
 
-    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY || export_type_ == EXPORT_TYPE_PUBKEY )
+    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY
+        || export_type_ == EXPORT_TYPE_PUBKEY || export_type_ == EXPORT_TYPE_INFO_PRIKEY )
     {
         QString strAlg;
         KeyPairRec keyPair;
@@ -107,6 +108,54 @@ void ExportDlg::accept()
             {
                 QString strMsg = tr( "This algorithm [%1] is not supported").arg( strAlg );
                 manApplet->warningBox( strMsg, this );
+                QDialog::reject();
+                return;
+            }
+        }
+        else if( export_type_ == EXPORT_TYPE_INFO_PRIKEY )
+        {
+            int nKeyType = -1;
+            BIN binSrc = {0,0};
+
+            if( manApplet->isPasswd() )
+                manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binSrc );
+            else
+                JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSrc );
+
+            if( strAlg == kMechRSA )
+            {
+                nKeyType = JS_PKI_KEY_TYPE_RSA;
+            }
+            else if( strAlg == kMechEC )
+            {
+                nKeyType = JS_PKI_KEY_TYPE_ECC;
+            }
+            else if( strAlg == kMechDSA )
+            {
+                nKeyType = JS_PKI_KEY_TYPE_DSA;
+            }
+            else if( strAlg == kMechEdDSA )
+            {
+                nKeyType = JS_PKI_KEY_TYPE_ED25519;
+
+                if( keyPair.getParam() == "Ed448" )
+                    nKeyType = JS_PKI_KEY_TYPE_ED448;
+            }
+            else
+            {
+                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
+                JS_BIN_reset( &binSrc );
+                ret = -1;
+                return;
+            }
+
+            ret = JS_PKI_encodePrivateKeyInfo( nKeyType, &binSrc, &binData );
+
+            JS_BIN_reset( &binSrc );
+
+            if( ret != 0 )
+            {
+                manApplet->warningBox( tr( "failed to encrypt the private key [%1]").arg(ret), this );
                 QDialog::reject();
                 return;
             }

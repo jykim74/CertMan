@@ -166,6 +166,7 @@ public slots:
     void importPriKey();
     void importEncPriKey();
     void exportPriKey();
+    void exportInfoPriKey();
     void exportEncPriKey();
     void exportPubKey();
     void exportRequest();

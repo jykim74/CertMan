@@ -734,6 +734,7 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export PublicKey"), this, &MainWindow::exportPubKey );
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
+        menu.addAction(tr("Export With PrivateKeyInfo"), this, &MainWindow::exportInfoPriKey );
         menu.addAction(tr("Export With EncryptedPrivateKey"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
@@ -1955,6 +1956,44 @@ void MainWindow::exportEncPriKey()
     ExportDlg exportDlg;
     exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_ENC_PRIKEY );
+    exportDlg.exec();
+}
+
+void MainWindow::exportInfoPriKey()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    KeyPairRec keyPair;
+
+    dbMgr->getKeyPairRec( num, keyPair );
+    QString strAlg = keyPair.getAlg();
+
+    if( strAlg.contains( "PKCS11" ) )
+    {
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
+        return;
+    }
+
+    if( strAlg.contains( "KMIP" ) )
+    {
+        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg));
+        return;
+    }
+
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( num );
+    exportDlg.setExportType( EXPORT_TYPE_INFO_PRIKEY );
     exportDlg.exec();
 }
 
