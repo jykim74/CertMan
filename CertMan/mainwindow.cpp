@@ -693,6 +693,8 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
+        menu.addAction( tr( "Export FullChain" ), this, &MainWindow::exportFullChain );
+        menu.addAction( tr( "Export Chain" ), this, &MainWindow::exportChain );
 
         if( manApplet->isPRO() )
         {
@@ -2116,6 +2118,37 @@ void MainWindow::exportPFX()
     exportDlg.setDataNum( num );
     exportDlg.setExportType( EXPORT_TYPE_PFX );
     exportDlg.exec();
+}
+
+void MainWindow::exportFullChain()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+}
+
+void MainWindow::exportChain()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
 }
 
 void MainWindow::setPasswd()

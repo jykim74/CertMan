@@ -173,6 +173,8 @@ public slots:
     void exportCertificate();
     void exportCRL();
     void exportPFX();
+    void exportFullChain();
+    void exportChain();
     void setPasswd();
     void changePasswd();
 
