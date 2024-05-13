@@ -486,7 +486,8 @@ void ExportDlg::initialize()
         return;
     }
 
-    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY || export_type_ == EXPORT_TYPE_PUBKEY )
+    if( export_type_ == EXPORT_TYPE_PRIKEY || export_type_ == EXPORT_TYPE_ENC_PRIKEY
+        || export_type_ == EXPORT_TYPE_PUBKEY || export_type_ == EXPORT_TYPE_INFO_PRIKEY )
     {
         KeyPairRec keyPair;
         dbMgr->getKeyPairRec( data_num_, keyPair );
@@ -508,6 +509,11 @@ void ExportDlg::initialize()
         {
             strLabel = "Export public key";
             strPath += "_pub.der";
+        }
+        else if( export_type_ == EXPORT_TYPE_INFO_PRIKEY )
+        {
+            strLabel = "Export private key info";
+            strPath += "_p8_info.der";
         }
 
         strName = keyPair.getName();
