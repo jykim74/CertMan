@@ -2133,6 +2133,19 @@ void MainWindow::exportFullChain()
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
+
+    CertRec cert;
+    manApplet->dbMgr()->getCertRec( num, cert );
+    if( cert.getIssuerNum() < 0 )
+    {
+        manApplet->warningBox( tr( "There is no issuer certifiate." ), this );
+        return;
+    }
+
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( num );
+    exportDlg.setExportType( EXPORT_TYPE_FULL_CHAIN );
+    exportDlg.exec();
 }
 
 void MainWindow::exportChain()
@@ -2149,6 +2162,10 @@ void MainWindow::exportChain()
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    ExportDlg exportDlg;
+    exportDlg.setDataNum( num );
+    exportDlg.setExportType( EXPORT_TYPE_CHAIN );
+    exportDlg.exec();
 }
 
 void MainWindow::setPasswd()

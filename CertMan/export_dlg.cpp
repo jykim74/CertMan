@@ -671,6 +671,12 @@ void ExportDlg::initialize()
         strLabel = "Export chain";
         strPath += "_chain.pem";
 
+        strName = cert.getSubjectDN();
+        strInfo = QString( "Num       : %1\n"
+                          "Algorithm : %2\n")
+                      .arg( data_num_ )
+                      .arg( cert.getSignAlg() );
+
     }
     else if( export_type_ == EXPORT_TYPE_FULL_CHAIN )
     {
@@ -681,6 +687,12 @@ void ExportDlg::initialize()
 
         strLabel = "Export chain";
         strPath += "_full_chain.pem";
+
+        strName = cert.getSubjectDN();
+        strInfo = QString( "Num       : %1\n"
+                          "Algorithm : %2\n")
+                      .arg( data_num_ )
+                      .arg( cert.getSignAlg() );
     }
 
 
