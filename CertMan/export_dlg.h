@@ -21,7 +21,9 @@ enum {
     EXPORT_TYPE_REQUEST,
     EXPORT_TYPE_CERTIFICATE,
     EXPORT_TYPE_CRL,
-    EXPORT_TYPE_PFX
+    EXPORT_TYPE_PFX,
+    EXPORT_TYPE_CHAIN,
+    EXPORT_TYPE_FULL_CHAIN
 };
 
 class ExportDlg : public QDialog, public Ui::ExportDlg
@@ -40,6 +42,8 @@ public:
 private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();
+    int saveData();
+    int saveChain();
 
     void clickFind();
     void clickPEMSaveCheck();

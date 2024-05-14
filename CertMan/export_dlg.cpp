@@ -11,6 +11,7 @@
 #include "db_mgr.h"
 #include "commons.h"
 
+#include "js_error.h"
 #include "js_bin.h"
 #include "js_pki.h"
 #include "js_pki_tools.h"
@@ -54,8 +55,24 @@ void ExportDlg::showEvent(QShowEvent *event)
 void ExportDlg::accept()
 {
     int ret = 0;
+
+    if( export_type_ == EXPORT_TYPE_FULL_CHAIN || export_type_ == EXPORT_TYPE_CHAIN )
+        ret = saveChain();
+    else
+        ret = saveData();
+
+    if( ret == JSR_OK )
+    {
+        manApplet->messageBox( tr("Export was successful"), this );
+        QDialog::accept();
+    }
+}
+
+int ExportDlg::saveData()
+{
+    int ret = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
-    if( dbMgr == NULL ) return;
+    if( dbMgr == NULL ) return JSR_ERR;
 
     QString strPass = mPasswordText->text();
     QString strPath = mPathText->text();
@@ -65,7 +82,7 @@ void ExportDlg::accept()
     if( strPath.isEmpty() )
     {
         manApplet->warningBox( tr( "select a directory to save"), this );
-        return;
+        return JSR_ERR;
     }
 
     if( export_type_ == EXPORT_TYPE_PFX || export_type_ == EXPORT_TYPE_ENC_PRIKEY )
@@ -74,7 +91,7 @@ void ExportDlg::accept()
         {
             manApplet->warningBox( tr("Please enter a password" ), this );
             mPasswordText->setFocus();
-            return;
+            return JSR_ERR;
         }
     }
 
@@ -109,7 +126,7 @@ void ExportDlg::accept()
                 QString strMsg = tr( "This algorithm [%1] is not supported").arg( strAlg );
                 manApplet->warningBox( strMsg, this );
                 QDialog::reject();
-                return;
+                return JSR_ERR;;
             }
         }
         else if( export_type_ == EXPORT_TYPE_INFO_PRIKEY )
@@ -146,7 +163,7 @@ void ExportDlg::accept()
                 manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
                 JS_BIN_reset( &binSrc );
                 ret = -1;
-                return;
+                return JSR_ERR;;
             }
 
             ret = JS_PKI_encodePrivateKeyInfo( nKeyType, &binSrc, &binData );
@@ -157,7 +174,7 @@ void ExportDlg::accept()
             {
                 manApplet->warningBox( tr( "failed to encrypt the private key [%1]").arg(ret), this );
                 QDialog::reject();
-                return;
+                return JSR_ERR;;
             }
         }
         else if( export_type_ == EXPORT_TYPE_PUBKEY )
@@ -214,7 +231,7 @@ void ExportDlg::accept()
             {
                 manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
                 ret = -1;
-                return;
+                return JSR_ERR;;
             }
 
             ret = JS_PKI_encryptPrivateKey( nKeyType, nPbeNid, strPass.toStdString().c_str(), &binSrc, &binInfo, &binData );
@@ -225,8 +242,7 @@ void ExportDlg::accept()
             if( ret != 0 )
             {
                 manApplet->warningBox( tr( "failed to encrypt the private key [%1]").arg(ret), this );
-                QDialog::reject();
-                return;
+                return JSR_ERR;;
             }
         }
     }
@@ -286,9 +302,8 @@ void ExportDlg::accept()
         else
         {
             QString strMsg = tr( "This algorithm [%1] is not supported").arg( strAlg );
-            manApplet->warningBox( strMsg, this );
-            QDialog::reject();
-            return;
+            manApplet->warningBox( strMsg, this );return JSR_ERR;
+            return JSR_ERR;
         }
 
         if( manApplet->isPasswd() )
@@ -309,8 +324,7 @@ void ExportDlg::accept()
             manApplet->warningBox( strMsg, this );
             manApplet->elog( strMsg );
 
-            QDialog::reject();
-            return;
+            return JSR_ERR;;
         }
     }
 
@@ -323,8 +337,56 @@ void ExportDlg::accept()
 
     JS_BIN_reset( &binData );
 
-    manApplet->messageBox( tr("Export was successful"), this );
-    QDialog::accept();
+    return JSR_OK;
+}
+
+int ExportDlg::saveChain()
+{
+    QList<CertRec> certList;
+    int nSize = 0;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return JSR_ERR;
+
+    QString strPath = mPathText->text();
+
+    CertRec cert;
+
+    dbMgr->getCertRec( data_num_, cert );
+    certList.push_front( cert );
+
+    int nIssueNum = cert.getIssuerNum();
+
+    while ( nIssueNum > 0 )
+    {
+        CertRec parent;
+        dbMgr->getCertRec( nIssueNum, parent );
+        certList.push_front( parent );
+
+        nIssueNum = parent.getIssuerNum();
+    }
+
+    if( export_type_ == EXPORT_TYPE_FULL_CHAIN )
+    {
+        nSize = certList.size();
+    }
+    else if( export_type_ == EXPORT_TYPE_CHAIN )
+    {
+        nSize = certList.size() - 1;
+    }
+
+    for( int i = 0; i < nSize; i++ )
+    {
+        int nType = JS_PEM_TYPE_CERTIFICATE;
+        BIN binCert = {0,0};
+        CertRec cert = certList.at(i);
+
+        JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+        JS_BIN_appendPEM( &binCert, nType, strPath.toLocal8Bit().toStdString().c_str() );
+        JS_BIN_reset( &binCert );
+    }
+
+    return 0;
 }
 
 void ExportDlg::clickFind()
@@ -593,6 +655,33 @@ void ExportDlg::initialize()
 
         strPath += "_req.der";
     }
+    else if( export_type_ == EXPORT_TYPE_CHAIN )
+    {
+        CertRec cert;
+        dbMgr->getCertRec( data_num_, cert );
+
+        if( cert.getIssuerNum() < 0 )
+        {
+            manApplet->warningBox( tr( "There is no issuer certifiate." ), this );
+            return;
+        }
+
+        strPath = getNameFromDN( cert.getSubjectDN() );
+
+        strLabel = "Export chain";
+        strPath += "_chain.pem";
+
+    }
+    else if( export_type_ == EXPORT_TYPE_FULL_CHAIN )
+    {
+        CertRec cert;
+        dbMgr->getCertRec( data_num_, cert );
+
+        strPath = getNameFromDN( cert.getSubjectDN() );
+
+        strLabel = "Export chain";
+        strPath += "_full_chain.pem";
+    }
 
 
     if( export_type_ == EXPORT_TYPE_PFX || export_type_ == EXPORT_TYPE_ENC_PRIKEY )
@@ -602,7 +691,7 @@ void ExportDlg::initialize()
     else
         mEncGroup->setEnabled( false );
 
-    if( exportType() == EXPORT_TYPE_PFX )
+    if( exportType() == EXPORT_TYPE_PFX || exportType() == EXPORT_TYPE_FULL_CHAIN || exportType() == EXPORT_TYPE_CHAIN )
     {
         mPEMSaveCheck->setChecked(false);
         mPEMSaveCheck->setEnabled(false);
