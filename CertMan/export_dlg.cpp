@@ -328,7 +328,7 @@ int ExportDlg::saveData()
         }
     }
 
-    if( mPEMSaveCheck->isChecked() )
+    if( mPEMSaveCheck->isChecked() && export_type_ != EXPORT_TYPE_PFX)
         JS_BIN_writePEM( &binData, nPEMType, strPath.toLocal8Bit().toStdString().c_str() );
     else
         JS_BIN_fileWrite( &binData, strPath.toLocal8Bit().toStdString().c_str() );
