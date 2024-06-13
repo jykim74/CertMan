@@ -28,7 +28,7 @@ private slots:
     void clickVerifyTSP();
 
 private:
-
+    void initialize();
 };
 
 #endif // TSP_DLG_H

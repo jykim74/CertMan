@@ -28,12 +28,19 @@ TSPDlg::TSPDlg(QWidget *parent) :
     connect( mViewTSTInfoBtn, SIGNAL(clicked()), this, SLOT(clickViewTSTInfo()));
     connect( mVerifyTSPBtn, SIGNAL(clicked()), this, SLOT(clickVerifyTSP()));
 
+    initialize();
+
     mCloseBtn->setFocus();
 }
 
 TSPDlg::~TSPDlg()
 {
 
+}
+
+void TSPDlg::initialize()
+{
+    mPolicyText->setText( "1.2.3.4" );
 }
 
 void TSPDlg::clickSend()
@@ -51,7 +58,7 @@ void TSPDlg::clickSend()
     QString strURL;
     char *pHex = NULL;
 
-    const char *pPolicy = "1.2.3.4";
+    QString strPolicy = mPolicyText->text();
 
     SettingsMgr *mgr = manApplet->settingsMgr();
 
@@ -83,7 +90,7 @@ void TSPDlg::clickSend()
     else if( mSrcBase64Check->isChecked() )
         JS_BIN_decodeBase64( strSrc.toStdString().c_str(), &binSrc );
 
-    ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), pPolicy, &binReq );
+    ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), strPolicy.toStdString().c_str(), &binReq );
     if( ret != 0 )
     {
         manApplet->elog( QString("failed to encode request [%1]").arg( ret ));
