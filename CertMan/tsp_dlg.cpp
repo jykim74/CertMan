@@ -56,7 +56,6 @@ void TSPDlg::clickSend()
 
     int nStatus = 0;
     QString strURL;
-    char *pHex = NULL;
 
     QString strPolicy = mPolicyText->text();
 
@@ -119,6 +118,7 @@ end :
     JS_BIN_reset( &binData );
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    JS_TSP_resetTSTInfo( &sTSTInfo );
 }
 
 void TSPDlg::clickClose()
