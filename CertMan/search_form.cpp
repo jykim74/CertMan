@@ -35,6 +35,10 @@ SearchForm::SearchForm(QWidget *parent) :
     connect( mRightEndBtn, SIGNAL(clicked()), this, SLOT(rightEndPage()));
     connect( mRightBtn, SIGNAL(clicked()), this, SLOT(rightPage()));
     connect( mSearchBtn, SIGNAL(clicked()), this, SLOT(search()));
+
+#if defined (Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 SearchForm::~SearchForm()

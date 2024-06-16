@@ -105,6 +105,9 @@ MainWindow::MainWindow(QWidget *parent) :
     right_type_ = -1;
     root_ca_ = NULL;
     log_halt_ = false;
+#if defined( Q_OS_MAC )
+    layout()->setSpacing(5);
+#endif
 }
 
 MainWindow::~MainWindow()
