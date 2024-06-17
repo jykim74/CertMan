@@ -18,6 +18,9 @@ TSTInfoDlg::TSTInfoDlg(QWidget *parent) :
 {
     memset( &bin_tst_, 0x00, sizeof(BIN));
     setupUi(this);
+
+    connect( mInfoTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
+
     initUI();
 }
 
@@ -30,6 +33,18 @@ void TSTInfoDlg::showEvent(QShowEvent *event)
 {
     initialize();
 }
+
+void TSTInfoDlg::clickField( QModelIndex index )
+{
+    int row = index.row();
+    QTableWidgetItem *item0 = mInfoTable->item( row, 0 );
+    QTableWidgetItem* item1 = mInfoTable->item( row, 1 );
+
+    if( item0 == NULL || item1 == NULL ) return;
+
+    mDataText->setPlainText( item1->text() );
+}
+
 
 void TSTInfoDlg::setTST( const BIN *pTST )
 {
