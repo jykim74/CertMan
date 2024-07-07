@@ -18,6 +18,11 @@ MakeDNDlg::MakeDNDlg(QWidget *parent) :
     connect( mClearBtn, SIGNAL(clicked()), this, SLOT(clickClear()));
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 MakeDNDlg::~MakeDNDlg()

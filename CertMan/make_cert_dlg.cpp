@@ -57,6 +57,11 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
 
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 MakeCertDlg::~MakeCertDlg()

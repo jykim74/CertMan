@@ -28,6 +28,11 @@ RenewCertDlg::RenewCertDlg(QWidget *parent) :
     connect( mRevokeCheck, SIGNAL(clicked()), this, SLOT(clickRevoke()));
 
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 RenewCertDlg::~RenewCertDlg()

@@ -22,6 +22,11 @@ LoginDlg::LoginDlg(QWidget *parent) :
 
     mLoginBtn->setDefault(true);
     mPasswdText->setFocus();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 LoginDlg::~LoginDlg()

@@ -24,6 +24,11 @@ SignerDlg::SignerDlg(QWidget *parent) :
     setupUi(this);
     initUI();
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 SignerDlg::~SignerDlg()

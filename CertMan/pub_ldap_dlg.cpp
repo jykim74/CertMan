@@ -32,6 +32,11 @@ PubLDAPDlg::PubLDAPDlg(QWidget *parent) :
 
     data_type_ = -1;
     data_num_ = -1;
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 PubLDAPDlg::~PubLDAPDlg()

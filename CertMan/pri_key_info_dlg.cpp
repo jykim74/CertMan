@@ -55,6 +55,11 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mGetPublicKeyBtn, SIGNAL(clicked()), this, SLOT(clickGetPublicKey()));
     connect( mInsertToHSMBtn, SIGNAL(clicked()), this, SLOT(clickInsertToHSM()));
     connect( mKeyPairCheckBtn, SIGNAL(clicked()), this, SLOT(clickKeyPairCheck()));
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()

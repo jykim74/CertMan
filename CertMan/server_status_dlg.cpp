@@ -16,6 +16,11 @@ ServerStatusDlg::ServerStatusDlg(QWidget *parent) :
 
     connect( mRefreshBtn, SIGNAL(clicked()), this, SLOT(refresh()));
 //    connect( ServerStatusService::instance(), SIGNAL(serverStatusChanged()), this, SLOT(refreshStatus()));
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 ServerStatusDlg::~ServerStatusDlg()

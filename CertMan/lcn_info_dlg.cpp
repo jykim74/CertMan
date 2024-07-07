@@ -31,6 +31,11 @@ LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
     connect( mStopMessageCheck, SIGNAL(clicked()), this, SLOT(checkStopMessage()));
 
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 LCNInfoDlg::~LCNInfoDlg()

@@ -309,7 +309,8 @@ int ManApplet::checkLicense()
     else
     {
         QString strMsg = tr( "License is invalid: %1" ).arg(ret);
-        manApplet->warningBox( strMsg, nullptr );
+//        manApplet->warningBox( strMsg, nullptr );
+        manApplet->info( strMsg, QColorConstants::DarkRed );
     }
 
 end :

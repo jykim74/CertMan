@@ -15,6 +15,10 @@ SetPassDlg::SetPassDlg(QWidget *parent) :
     connect( mUsePasswdCheck, SIGNAL(clicked()), this, SLOT(checkUsePasswd()));
 
     initialize();
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 SetPassDlg::~SetPassDlg()

@@ -46,9 +46,11 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
 
     initialize();
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
+    resize(width(), minimumSizeHint().height());
 }
 
 MakeReqDlg::~MakeReqDlg()

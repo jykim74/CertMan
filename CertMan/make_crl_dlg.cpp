@@ -38,6 +38,11 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     mRevokeTable->verticalHeader()->setVisible(false);
 
     initialize();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 MakeCRLDlg::~MakeCRLDlg()

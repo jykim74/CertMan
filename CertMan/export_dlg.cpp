@@ -30,6 +30,11 @@ ExportDlg::ExportDlg(QWidget *parent) :
     connect( mPBEVersionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changePBEVersion(int)));
 
     initUI();
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
+    resize(width(), minimumSizeHint().height());
 }
 
 ExportDlg::~ExportDlg()
