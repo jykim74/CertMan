@@ -170,6 +170,8 @@ const QString getHexStringArea( const QString strMsg, int nWidth = -1);
 
 int getDataLen( int nType, const QString strData );
 int getDataLen( const QString strType, const QString strData );
+const QString getDataLenString( int nType, const QString strData );
+const QString getDataLenString( const QString strType, const QString strData );
 
 void getBINFromString( BIN *pBin, const QString& strType, const QString& strString );
 void getBINFromString( BIN *pBin, int nType, const QString& strString );

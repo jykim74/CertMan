@@ -209,119 +209,119 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
 void PriKeyInfoDlg::changeRSA_N()
 {
     QString strN = mRSA_NText->toPlainText();
-    int nLen = strN.length() / 2;
-    mRSA_NLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strN );
+    mRSA_NLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_E( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_ELenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_ELenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_D()
 {
     QString strD = mRSA_DText->toPlainText();
-    int nLen = strD.length() / 2;
-    mRSA_DLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strD );
+    mRSA_DLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_P( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_PLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_PLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_Q( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_QLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_QLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_DMP1( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_DMP1LenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_DMP1LenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_DMQ1( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_DMQ1LenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_DMQ1LenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeRSA_IQMP( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mRSA_IQMPLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mRSA_IQMPLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeECC_PubX()
 {
     QString strPubX = mECC_PubXText->toPlainText();
-    int nLen = strPubX.length() / 2;
-    mECC_PubXLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strPubX );
+    mECC_PubXLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeECC_PubY()
 {
     QString strPubY = mECC_PubYText->toPlainText();
-    int nLen = strPubY.length() / 2;
-    mECC_PubYLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strPubY );
+    mECC_PubYLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeECC_Private()
 {
     QString strPrivate = mECC_PrivateText->toPlainText();
-    int nLen = strPrivate.length() / 2;
-    mECC_PrivateLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strPrivate );
+    mECC_PrivateLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeDSA_G()
 {
     QString strG = mDSA_GText->toPlainText();
-    int nLen = strG.length() / 2;
-    mDSA_GLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strG );
+    mDSA_GLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeDSA_P()
 {
     QString strP = mDSA_PText->toPlainText();
-    int nLen = strP.length() / 2;
-    mDSA_PLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strP );
+    mDSA_PLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeDSA_Q( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mDSA_QLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mDSA_QLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeDSA_Public()
 {
     QString strPublic = mDSA_PublicText->toPlainText();
-    int nLen = strPublic.length() / 2;
-    mDSA_PublicLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strPublic );
+    mDSA_PublicLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeDSA_Private( const QString& text )
 {
-    int nLen = text.length() / 2;
-    mDSA_PrivateLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, text );
+    mDSA_PrivateLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeEdDSA_RawPublic()
 {
     QString strRawPublic = mEdDSA_RawPublicText->toPlainText();
-    int nLen = strRawPublic.length() / 2;
-    mEdDSA_RawPublicLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strRawPublic );
+    mEdDSA_RawPublicLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::changeEdDSA_RawPrivate()
 {
     QString strRawPrivte = mEdDSA_RawPrivateText->toPlainText();
-    int nLen = strRawPrivte.length() / 2;
-    mEdDSA_RawPrivateLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( DATA_HEX, strRawPrivte );
+    mEdDSA_RawPrivateLenText->setText( QString("%1").arg(strLen));
 }
 
 void PriKeyInfoDlg::clickClear()

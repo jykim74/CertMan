@@ -588,8 +588,8 @@ void ImportDlg::changeValue()
 {
     QString strVal = mValueText->toPlainText();
 
-    int nLen = getDataLen( mValueTypeCombo->currentText(), strVal );
-    mValueLenText->setText( QString("%1").arg(nLen));
+    QString strLen = getDataLenString( mValueTypeCombo->currentText(), strVal );
+    mValueLenText->setText( QString("%1").arg(strLen));
 }
 
 int ImportDlg::ImportCert( const BIN *pCert )
