@@ -3649,8 +3649,12 @@ int getDataLen( int nType, const QString strData )
 
         return nLen;
     }
+    else
+    {
+        nLen = strData.toUtf8().length();
+    }
 
-    return strData.length();
+    return nLen;
 }
 
 int getDataLen( const QString strType, const QString strData )
@@ -3732,7 +3736,7 @@ const QString getDataLenString( int nType, const QString strData )
     }
     else
     {
-        strLen = QString( "%1" ).arg( strMsg.length() );
+        strLen = QString( "%1" ).arg( strMsg.toUtf8().length() );
     }
 
 
@@ -3805,7 +3809,7 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
     }
     else
     {
-        JS_BIN_set( pBin, (unsigned char *)srcString.toStdString().c_str(), srcString.length() );
+        JS_BIN_set( pBin, (unsigned char *)srcString.toStdString().c_str(), srcString.toUtf8().length() );
     }
 }
 
