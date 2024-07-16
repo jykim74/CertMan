@@ -1915,7 +1915,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     CK_OBJECT_CLASS priClass = CKO_PRIVATE_KEY;
 
     BIN binLabel = {0,0};
-    JS_BIN_set( &binLabel, (unsigned char *)strName.toStdString().c_str(), strName.length() );
+    JS_BIN_set( &binLabel, (unsigned char *)strName.toStdString().c_str(), strName.toUtf8().length() );
 
 
     BIN binPubExponent = {0,0};
@@ -2418,7 +2418,7 @@ int createRSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length() );
 
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
@@ -2598,7 +2598,7 @@ int createRSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length());
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length());
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
         sTemplate[uCount].ulValueLen = binLabel.nLen;
@@ -2742,7 +2742,7 @@ int createECPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pI
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length() );
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
         sTemplate[uCount].ulValueLen = binLabel.nLen;
@@ -2837,7 +2837,7 @@ int createECPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length() );
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
         sTemplate[uCount].ulValueLen = binLabel.nLen;
@@ -2990,7 +2990,7 @@ int createDSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length() );
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
         sTemplate[uCount].ulValueLen = binLabel.nLen;
@@ -3111,7 +3111,7 @@ int createDSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *
 
     if( !strLabel.isEmpty() )
     {
-        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.length() );
+        JS_BIN_set( &binLabel, (unsigned char *)strLabel.toStdString().c_str(), strLabel.toUtf8().length() );
         sTemplate[uCount].type = CKA_LABEL;
         sTemplate[uCount].pValue = binLabel.pVal;
         sTemplate[uCount].ulValueLen = binLabel.nLen;
