@@ -3619,6 +3619,8 @@ int getDataLen( int nType, const QString strData )
 
     if( nType == DATA_HEX )
     {
+        if( isHex( strMsg ) == false ) return -1;
+
         nLen = strMsg.length() / 2;
 
         if( strMsg.length() % 2 ) nLen++;
@@ -3627,10 +3629,24 @@ int getDataLen( int nType, const QString strData )
     }
     else if( nType == DATA_BASE64 )
     {
+        if( isBase64( strMsg ) == false ) return -1;
+
         BIN bin = {0,0};
         JS_BIN_decodeBase64( strMsg.toStdString().c_str(), &bin );
         nLen = bin.nLen;
         JS_BIN_reset( &bin );
+        return nLen;
+    }
+    else if( nType == DATA_URL )
+    {
+        char *pURL = NULL;
+        JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
+        if( pURL )
+        {
+            nLen = strlen( pURL );
+            JS_free( pURL );
+        }
+
         return nLen;
     }
 
@@ -3647,9 +3663,12 @@ int getDataLen( const QString strType, const QString strData )
         nType = DATA_HEX;
     else if( strLower == "base64" )
         nType = DATA_BASE64;
+    else if( strLower == "url" )
+        nType = DATA_URL;
 
     return getDataLen( nType, strData );
 }
+
 
 const QString getDataLenString( int nType, const QString strData )
 {
@@ -3666,6 +3685,12 @@ const QString getDataLenString( int nType, const QString strData )
 
     if( nType == DATA_HEX )
     {
+        if( isHex( strMsg ) == false )
+        {
+            strLen = QString( "-1" );
+            return strLen;
+        }
+
         nLen = strMsg.length() / 2;
 
         if( strMsg.length() % 2 )
@@ -3680,6 +3705,12 @@ const QString getDataLenString( int nType, const QString strData )
     }
     else if( nType == DATA_BASE64 )
     {
+        if( isBase64( strMsg ) == false )
+        {
+            strLen = QString( "-1" );
+            return strLen;
+        }
+
         BIN bin = {0,0};
         JS_BIN_decodeBase64( strMsg.toStdString().c_str(), &bin );
         nLen = bin.nLen;
@@ -3687,10 +3718,23 @@ const QString getDataLenString( int nType, const QString strData )
 
         strLen = QString( "%1" ).arg( nLen );
     }
+    else if( nType == DATA_URL )
+    {
+        char *pURL = NULL;
+        JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
+        if( pURL )
+        {
+            nLen = strlen( pURL );
+            JS_free( pURL );
+        }
+
+        strLen = QString( "%1" ).arg( nLen );
+    }
     else
     {
         strLen = QString( "%1" ).arg( strMsg.length() );
     }
+
 
     return strLen;
 }
@@ -3705,6 +3749,8 @@ const QString getDataLenString( const QString strType, const QString strData )
         nType = DATA_HEX;
     else if( strLower == "base64" )
         nType = DATA_BASE64;
+    else if( strLower == "url" )
+        nType = DATA_URL;
 
     return getDataLenString( nType, strData );
 }
@@ -3734,11 +3780,15 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
     if( nType == DATA_HEX )
     {
         srcString.remove( QRegularExpression("[\t\r\n\\s]") );
+        if( isHex( srcString ) == false ) return;
+
         JS_BIN_decodeHex( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_BASE64 )
     {
         srcString.remove( QRegularExpression("[\t\r\n\\s]") );
+        if( isBase64( srcString ) == false ) return;
+
         JS_BIN_decodeBase64( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_URL )
@@ -3983,4 +4033,37 @@ bool isKMIPPrivate( const QString strKeyMech )
     if( strKeyMech == kMechKMIP_EC ) return true;
 
     return false;
+}
+
+bool isHex( const QString strHexString )
+{
+    return isValidNumFormat( strHexString, 16 );
+}
+
+bool isBase64( const QString strBase64String )
+{
+    QRegExp base64REX("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$");
+    base64REX.setCaseSensitivity(Qt::CaseInsensitive );
+
+    return base64REX.exactMatch( strBase64String );
+}
+
+bool isValidNumFormat( const QString strInput, int nNumber )
+{
+    QRegExp strReg;
+
+    if( nNumber == 2 )
+    {
+        strReg.setPattern( "[0-1]+");
+    }
+    else if( nNumber == 16 )
+    {
+        strReg.setPattern( "[0-9a-fA-F]+" );
+    }
+    else
+    {
+        strReg.setPattern( "[0-9]+" );
+    }
+
+    return strReg.exactMatch( strInput );
 }
