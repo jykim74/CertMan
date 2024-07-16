@@ -3611,7 +3611,6 @@ int getDataLen( int nType, const QString strData )
 
     QString strMsg = strData;
 
-
     if( nType != DATA_STRING )
     {
         strMsg.remove( QRegularExpression("[\t\r\n\\s]") );
@@ -3620,12 +3619,9 @@ int getDataLen( int nType, const QString strData )
     if( nType == DATA_HEX )
     {
         if( isHex( strMsg ) == false ) return -1;
+        if( strMsg.length() % 2 ) return -2;
 
         nLen = strMsg.length() / 2;
-
-        if( strMsg.length() % 2 ) nLen++;
-
-        return nLen;
     }
     else if( nType == DATA_BASE64 )
     {
@@ -3635,10 +3631,11 @@ int getDataLen( int nType, const QString strData )
         JS_BIN_decodeBase64( strMsg.toStdString().c_str(), &bin );
         nLen = bin.nLen;
         JS_BIN_reset( &bin );
-        return nLen;
     }
     else if( nType == DATA_URL )
     {
+        if( isURLEncode( strMsg ) == false ) return -1;
+
         char *pURL = NULL;
         JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
         if( pURL )
@@ -3646,8 +3643,6 @@ int getDataLen( int nType, const QString strData )
             nLen = strlen( pURL );
             JS_free( pURL );
         }
-
-        return nLen;
     }
     else
     {
@@ -3724,6 +3719,12 @@ const QString getDataLenString( int nType, const QString strData )
     }
     else if( nType == DATA_URL )
     {
+        if( isURLEncode( strMsg ) == false )
+        {
+            strLen = QString( "-1" );
+            return strLen;
+        }
+
         char *pURL = NULL;
         JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
         if( pURL )
@@ -3798,6 +3799,7 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
     else if( nType == DATA_URL )
     {
         char *pStr = NULL;
+        if( isURLEncode( srcString ) == false ) return;
 
         JS_UTIL_decodeURL( srcString.toStdString().c_str(), &pStr );
 
@@ -4050,6 +4052,14 @@ bool isBase64( const QString strBase64String )
     base64REX.setCaseSensitivity(Qt::CaseInsensitive );
 
     return base64REX.exactMatch( strBase64String );
+}
+
+bool isURLEncode( const QString strURLEncode )
+{
+    QRegExp urlEncodeREX("^(?:[^%]|%[0-9A-Fa-f]{2})+$");
+    urlEncodeREX.setCaseSensitivity(Qt::CaseInsensitive );
+
+    return urlEncodeREX.exactMatch( strURLEncode );
 }
 
 bool isValidNumFormat( const QString strInput, int nNumber )

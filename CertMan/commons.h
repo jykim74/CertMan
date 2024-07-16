@@ -196,5 +196,6 @@ bool isValidNumFormat( const QString strInput, int nNumber );
 bool isEmail( const QString strEmail );
 bool isHex( const QString strHexString );
 bool isBase64( const QString strBase64String );
+bool isURLEncode( const QString strURLEncode );
 
 #endif // COMMONS_H
