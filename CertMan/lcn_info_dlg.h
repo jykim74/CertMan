@@ -25,6 +25,7 @@ public:
     const QString getSID() { return SID_; };
 
 private slots:
+    void clickLCNRequest();
     void clickGet();
     void clickUpdate();
     void clickRemove();
