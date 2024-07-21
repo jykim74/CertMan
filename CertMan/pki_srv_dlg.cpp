@@ -87,7 +87,7 @@ PKISrvDlg::PKISrvDlg(QWidget *parent) :
     connect( mResizeBtn, SIGNAL(clicked()), this, SLOT(clickResize()));
     connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
 
-    mCheckBtn->setDefault(true);
+    mAddBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -282,6 +282,7 @@ void PKISrvDlg::clickAdd()
     if( strValue.length() < 1 )
     {
         manApplet->warningBox( tr( "Please enter a value" ), this );
+        mValueText->setFocus();
         return;
     }
 
