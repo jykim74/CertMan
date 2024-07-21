@@ -202,26 +202,26 @@
         <translation>관리자 정보</translation>
     </message>
     <message>
-        <location filename="../admin_dlg.cpp" line="110"/>
-        <location filename="../admin_dlg.cpp" line="187"/>
+        <location filename="../admin_dlg.cpp" line="116"/>
+        <location filename="../admin_dlg.cpp" line="196"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../admin_dlg.cpp" line="116"/>
-        <location filename="../admin_dlg.cpp" line="193"/>
+        <location filename="../admin_dlg.cpp" line="123"/>
+        <location filename="../admin_dlg.cpp" line="203"/>
         <source>Please enter a password</source>
         <translation>암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../admin_dlg.cpp" line="130"/>
-        <location filename="../admin_dlg.cpp" line="207"/>
+        <location filename="../admin_dlg.cpp" line="138"/>
+        <location filename="../admin_dlg.cpp" line="218"/>
         <source>Please enter a email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../admin_dlg.cpp" line="154"/>
-        <location filename="../admin_dlg.cpp" line="172"/>
+        <location filename="../admin_dlg.cpp" line="163"/>
+        <location filename="../admin_dlg.cpp" line="181"/>
         <source>No admin selected</source>
         <translation>관리자가 선태 되지 않았습니다</translation>
     </message>
@@ -911,6 +911,21 @@
         <location filename="../config_dlg.ui" line="202"/>
         <source>Close</source>
         <translation>닫기</translation>
+    </message>
+    <message>
+        <location filename="../config_dlg.cpp" line="75"/>
+        <source>Enter a kind</source>
+        <translation>종류을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../config_dlg.cpp" line="82"/>
+        <source>Enter a name</source>
+        <translation>이름을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../config_dlg.cpp" line="89"/>
+        <source>Enter a value</source>
+        <translation>값을 입력하세요</translation>
     </message>
 </context>
 <context>

@@ -21,6 +21,8 @@ ConfigDlg::ConfigDlg(QWidget *parent) :
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    mOKBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -64,9 +66,32 @@ void ConfigDlg::clickOK()
     ConfigRec config;
     DBMgr *dbMgr = manApplet->dbMgr();
 
-    int nKind = mKindText->text().toInt();
+    QString strKind = mKindText->text();
     QString strName = mNameText->text();
     QString strValue = mValueText->text();
+
+    if( strKind.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a kind" ), this );
+        mKindText->setFocus();
+        return;
+    }
+
+    if( strName.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a name" ), this );
+        mNameText->setFocus();
+        return;
+    }
+
+    if( strValue.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a value" ), this );
+        mValueText->setFocus();
+        return;
+    }
+
+    int nKind = strKind.toInt();
 
     config.setKind( nKind );
     config.setName( strName );

@@ -30,6 +30,7 @@ AdminDlg::AdminDlg(QWidget *parent) :
     mPasswordText->setEchoMode(QLineEdit::Password);
 
     initialize();
+    mRegisterBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -53,6 +54,11 @@ void AdminDlg::initialize()
 
 void AdminDlg::setEditMode(bool bVal)
 {
+    if( bVal == true )
+        mModifyBtn->setDefault( true );
+    else
+        mRegisterBtn->setDefault(true );
+
     edit_mode_ = bVal;
 }
 
@@ -108,12 +114,14 @@ void AdminDlg::clickRegister()
     if( strName.isEmpty() )
     {
         manApplet->warningBox( tr("Please enter a name"), this );
+        mNameText->setFocus();
         return;
     }
 
     if( strPassword.isEmpty() )
     {
         manApplet->warningBox( tr( "Please enter a password" ), this );
+        mPasswordText->setFocus();
         return;
     }
 
@@ -128,6 +136,7 @@ void AdminDlg::clickRegister()
     if( strEmail.isEmpty() )
     {
         manApplet->warningBox( tr( "Please enter a email" ), this );
+        mEmailText->setFocus();
         return;
     }
 
@@ -185,12 +194,14 @@ void AdminDlg::clickModify()
     if( strName.isEmpty() )
     {
         manApplet->warningBox( tr("Please enter a name"), this );
+        mNameText->setFocus();
         return;
     }
 
     if( strPassword.isEmpty() )
     {
         manApplet->warningBox( tr( "Please enter a password" ), this );
+        mPasswordText->setFocus();
         return;
     }
 
@@ -205,6 +216,7 @@ void AdminDlg::clickModify()
     if( strEmail.isEmpty() )
     {
         manApplet->warningBox( tr( "Please enter a email" ), this );
+        mEmailText->setFocus();
         return;
     }
 

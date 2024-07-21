@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>194</height>
+    <height>221</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -86,9 +86,9 @@
           <colorrole role="Base">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>255</red>
-             <green>238</green>
-             <blue>196</blue>
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
             </color>
            </brush>
           </colorrole>
@@ -97,9 +97,9 @@
           <colorrole role="Base">
            <brush brushstyle="SolidPattern">
             <color alpha="255">
-             <red>255</red>
-             <green>238</green>
-             <blue>196</blue>
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
             </color>
            </brush>
           </colorrole>
