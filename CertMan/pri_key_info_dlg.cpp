@@ -56,6 +56,8 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     connect( mInsertToHSMBtn, SIGNAL(clicked()), this, SLOT(clickInsertToHSM()));
     connect( mKeyPairCheckBtn, SIGNAL(clicked()), this, SLOT(clickKeyPairCheck()));
 
+    mCloseBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
