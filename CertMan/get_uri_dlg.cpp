@@ -33,6 +33,8 @@ GetURIDlg::GetURIDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     initUI();
+    mGetBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -132,9 +134,17 @@ void GetURIDlg::clickGet()
         QString strPort = mLDAPPortText->text();
         QString strDN = mDNText->text();
 
+        if( strHost.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Please enter Host" ), this );
+            mLDAPHostText->setFocus();
+            return;
+        }
+
         if( strDN.length() < 1 )
         {
             manApplet->warningBox( tr( "Please enter DN value" ), this );
+            mDNText->setFocus();
             return;
         }
 
@@ -150,6 +160,7 @@ void GetURIDlg::clickGet()
         if( strURL.length() < 1 )
         {
             manApplet->warningBox( tr( "Please enter URL value" ), this );
+            mURICombo->setFocus();
             return;
         }
 

@@ -66,6 +66,13 @@ void SignerDlg::accept()
 
     QString strCertPath = mCertPathText->text();
 
+    if( strCertPath.length() < 1 )
+    {
+        manApplet->warningBox( tr( "find a certificate" ), this );
+        mCertPathText->setFocus();
+        return;
+    }
+
     int nType = mTypeCombo->currentIndex();
     time_t now_t = time(NULL);
 

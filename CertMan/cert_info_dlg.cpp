@@ -76,11 +76,11 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     initUI();
     cert_num_ = -1;
     tabWidget->setCurrentIndex(0);
+    mCloseBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
-    resize(width(), minimumSizeHint().height());
 }
 
 CertInfoDlg::~CertInfoDlg()

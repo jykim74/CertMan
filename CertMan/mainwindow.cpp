@@ -1032,8 +1032,12 @@ void MainWindow::newFile()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "failed to open database"), this );
+        manApplet->warningBox( tr( "failed to open database: %1").arg(ret), this );
         return;
+    }
+    else
+    {
+        manApplet->messageBox( tr( "The data(%1) is created successfully" ).arg(fileName), this );
     }
 
     if( manApplet->isLicense() && setPassDlg.usePasswd() )

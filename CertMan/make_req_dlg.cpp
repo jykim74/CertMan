@@ -182,6 +182,13 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     int nExponent = mNewExponentText->text().toInt();
     QString strParam = mNewOptionCombo->currentText();
 
+    if( strName.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a key name" ), this );
+        mNewKeyNameText->setFocus();
+        return -1;
+    }
+
     if( strAlg == kMechRSA )
     {
         int nKeySize = strParam.toInt();
@@ -471,11 +478,7 @@ void MakeReqDlg::accept()
     }
 
 
-    if( ret != 0 )
-    {
-        manApplet->warningBox( tr("failed to create CSR"), this );
-        goto end;
-    }
+    if( ret != 0 ) goto end;
 
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
@@ -509,8 +512,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "failed to create CSR" ), this );
-        QDialog::reject();
+        manApplet->warningBox( tr( "failed to create CSR:%1" ).arg(ret), this );
     }
 }
 

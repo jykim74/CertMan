@@ -68,11 +68,11 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
     tabWidget->setCurrentIndex(0);
+    mCloseBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
-    resize(width(), minimumSizeHint().height());
 }
 
 CRLInfoDlg::~CRLInfoDlg()

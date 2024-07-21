@@ -24,6 +24,12 @@ RemoteDBDlg::RemoteDBDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     initialize();
+
+    mConnectBtn->setDefault(true);
+
+#if defined(Q_OS_MAC)
+    layout()->setSpacing(5);
+#endif
 }
 
 RemoteDBDlg::~RemoteDBDlg()
@@ -52,8 +58,6 @@ void RemoteDBDlg::initialize()
 
     if( mHostnameText->text().length() < 1 ) mHostnameText->setText( "localhost" );
     if( mDBNameText->text().length() < 1 ) mDBNameText->setText( "certman" );
-
-    mConnectBtn->setFocus();
 }
 
 void RemoteDBDlg::clickClear()
@@ -84,6 +88,34 @@ void RemoteDBDlg::clickConnect()
     QString strUserName = mUsernameText->text();
     QString strPasswd = mPasswordText->text();
     QString strDBName = mDBNameText->text();
+
+    if( strHost.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a Host" ), this );
+        mHostnameText->setFocus();
+        return;
+    }
+
+    if( strDBName.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter Database Name" ), this );
+        mDBNameText->setFocus();
+        return;
+    }
+
+    if( strUserName.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a UserName" ), this );
+        mUsernameText->setFocus();
+        return;
+    }
+
+    if( strPasswd.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a Password" ), this );
+        mPasswordText->setFocus();
+        return;
+    }
 
     ret = dbMgr->remoteOpen( strType, strHost, strUserName, strPasswd, strDBName );
     if( ret != 0 )

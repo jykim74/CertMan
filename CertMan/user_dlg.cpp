@@ -63,6 +63,27 @@ void UserDlg::accept()
     QString strRefNum = mRefNumText->text();
     QString strAuthCode = mAuthCodeText->text();
 
+    if( strName.length() < 1 )
+    {
+        manApplet->warningBox(tr( "Enter a name" ), this );
+        mNameText->setFocus();
+        return;
+    }
+
+    if( strSSN.length() < 1 )
+    {
+        manApplet->warningBox(tr( "Enter a SSN"), this );
+        mSSNText->setFocus();
+        return;
+    }
+
+    if( strEmail.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a email" ), this );
+        mEmailText->setFocus();
+        return;
+    }
+
     JS_BIN_set( &binRef, (unsigned char *)strRefNum.toStdString().c_str(), strRefNum.length() );
     JS_BIN_encodeHex( &binRef, &pHexRef );
 

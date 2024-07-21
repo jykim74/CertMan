@@ -22,10 +22,11 @@ CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    mCloseBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
-    resize(width(), minimumSizeHint().height());
 }
 
 CSRInfoDlg::~CSRInfoDlg()

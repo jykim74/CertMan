@@ -60,6 +60,42 @@ void PubLDAPDlg::accept()
 
     if( dbMgr == NULL ) return;
 
+    QString strHost = mLDAPHostText->text();
+    QString strPort = mLDAPPortText->text();
+    QString strBindDN = mBindDNText->text();
+    QString strPasswd = mPasswordText->text();
+    QString strPubDN = mPublishDNText->text();
+
+    if( strHost.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a Host" ), this );
+        mLDAPHostText->setFocus();
+        return;
+    }
+
+    if( strPort.length() < 1 ) strPort = "389";
+
+    if( strBindDN.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a bind DN" ), this );
+        mBindDNText->setFocus();
+        return;
+    }
+
+    if( strPasswd.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a password" ), this );
+        mPasswordText->setFocus();
+        return;
+    }
+
+    if( strPubDN.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a publish DN"), this );
+        mPublishDNText->setFocus();
+        return;
+    }
+
     if( data_type_ == RightType::TYPE_CERTIFICATE )
     {
         CertRec cert;
@@ -81,8 +117,22 @@ void PubLDAPDlg::accept()
     pLD = JS_LDAP_init( mLDAPHostText->text().toStdString().c_str(), mLDAPPortText->text().toInt());
 
     ret = JS_LDAP_bind( pLD, mBindDNText->text().toStdString().c_str(), mPasswordText->text().toStdString().c_str() );
-    ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toUtf8().toStdString().c_str(), nType, &binData );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "LDAP bind fail: %1").arg( ret ), this);
+        goto end;
+    }
 
+    ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toUtf8().toStdString().c_str(), nType, &binData );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "LDAP Publish fail: %1" ).arg( ret ), this );
+        goto end;
+    }
+
+    manApplet->messageBox( tr( "publish to LDAP successfully"), this );
+
+ end :
     JS_BIN_reset( &binData );
     if( pLD ) JS_LDAP_close( pLD );
     if( ret == 0 ) QDialog::accept();

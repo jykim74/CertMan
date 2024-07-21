@@ -27,6 +27,9 @@ private slots:
     void clickViewTSTInfo();
     void clickVerifyTSP();
 
+    void changeSrc();
+    void changeOutput();
+
 private:
     void initialize();
 };

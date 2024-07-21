@@ -49,12 +49,21 @@ void SetPassDlg::accept()
     if( strPasswd.length() < 1 )
     {
         manApplet->warningBox( tr( "Please enter a password"), this );
+        mPasswdText->setFocus();
+        return;
+    }
+
+    if( strPasswdConf.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please enter a confirm password" ), this );
+        mPasswdConfirmText->setFocus();
         return;
     }
 
     if( strPasswd != strPasswdConf )
     {
         manApplet->warningBox( tr( "Password and confirm values are different"), this );
+        mPasswdConfirmText->setFocus();
         return;
 
     }

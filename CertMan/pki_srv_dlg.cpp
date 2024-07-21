@@ -87,6 +87,8 @@ PKISrvDlg::PKISrvDlg(QWidget *parent) :
     connect( mResizeBtn, SIGNAL(clicked()), this, SLOT(clickResize()));
     connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
 
+    mCheckBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif

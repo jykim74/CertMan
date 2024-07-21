@@ -28,9 +28,12 @@ TSPDlg::TSPDlg(QWidget *parent) :
     connect( mViewTSTInfoBtn, SIGNAL(clicked()), this, SLOT(clickViewTSTInfo()));
     connect( mVerifyTSPBtn, SIGNAL(clicked()), this, SLOT(clickVerifyTSP()));
 
+    connect( mSrcText, SIGNAL(textChanged()), this, SLOT(changeSrc()));
+    connect( mOutputText, SIGNAL(textChanged()), this, SLOT(changeOutput()));
+
     initialize();
 
-    mCloseBtn->setFocus();
+    mSendBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -46,6 +49,27 @@ TSPDlg::~TSPDlg()
 void TSPDlg::initialize()
 {
     mPolicyText->setText( "1.2.3.4" );
+}
+
+void TSPDlg::changeSrc()
+{
+    int nType = DATA_HEX;
+
+    if( mSrcStringCheck->isChecked() )
+        nType = DATA_STRING;
+    else if( mSrcBase64Check->isChecked() )
+        nType = DATA_BASE64;
+
+    QString strSrc = mSrcText->toPlainText();
+    QString strLen = getDataLenString( nType, strSrc );
+    mSrcLenText->setText( QString("%1").arg( strLen ));
+}
+
+void TSPDlg::changeOutput()
+{
+    QString strOutput = mOutputText->toPlainText();
+    QString strLen = getDataLenString( DATA_HEX, strOutput );
+    mOutputLenText->setText( QString("%1").arg( strLen ));
 }
 
 void TSPDlg::clickSend()
@@ -76,6 +100,13 @@ void TSPDlg::clickSend()
 
     QString strSrc = mSrcText->toPlainText();
     QString strHash = mHashCombo->currentText();
+
+    if( strSrc.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Enter a source value"), this );
+        mSrcText->setFocus();
+        return;
+    }
 
     strURL = mgr->TSPURI();
     strURL += "/TSP";
