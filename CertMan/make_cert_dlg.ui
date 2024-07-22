@@ -632,10 +632,13 @@
   <tabstop>mUseCSRFileCheck</tabstop>
   <tabstop>mCSRFilePathText</tabstop>
   <tabstop>mCSRFileFindBtn</tabstop>
+  <tabstop>mSaveToRequestCheck</tabstop>
   <tabstop>mReqNameCombo</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
   <tabstop>mProfileNameCombo</tabstop>
+  <tabstop>mMakeDNBtn</tabstop>
+  <tabstop>mSubjectDNText</tabstop>
   <tabstop>mSelfSignCheck</tabstop>
   <tabstop>mIssuerNameCombo</tabstop>
   <tabstop>mIssuerAlgorithmText</tabstop>

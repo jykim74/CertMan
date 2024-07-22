@@ -244,6 +244,7 @@
  <tabstops>
   <tabstop>mNameText</tabstop>
   <tabstop>mSSNText</tabstop>
+  <tabstop>mStatusCombo</tabstop>
   <tabstop>mEmailText</tabstop>
   <tabstop>mRefNumText</tabstop>
   <tabstop>mRefNumBtn</tabstop>

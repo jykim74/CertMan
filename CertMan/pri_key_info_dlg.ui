@@ -31,7 +31,7 @@
    <item>
     <widget class="QTabWidget" name="mKeyTab">
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -2435,8 +2435,8 @@
   <tabstop>mRSA_IQMPLenText</tabstop>
   <tabstop>mRSA_NLenText</tabstop>
   <tabstop>mRSA_NText</tabstop>
-  <tabstop>mRSA_DLenText</tabstop>
   <tabstop>mRSA_DText</tabstop>
+  <tabstop>mRSA_DLenText</tabstop>
   <tabstop>mECC_CurveOIDText</tabstop>
   <tabstop>mECC_PrivateLenText</tabstop>
   <tabstop>mECC_PrivateText</tabstop>

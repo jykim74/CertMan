@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCertTab">
      <property name="currentIndex">
-      <number>1</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -1623,11 +1623,13 @@
   <tabstop>mNameText</tabstop>
   <tabstop>mForCSRCheck</tabstop>
   <tabstop>mVersionCombo</tabstop>
+  <tabstop>mHashCombo</tabstop>
   <tabstop>mUseDaysCheck</tabstop>
   <tabstop>mDaysTypeCombo</tabstop>
   <tabstop>mDaysText</tabstop>
   <tabstop>mNotBeforeDateTime</tabstop>
   <tabstop>mNotAfterDateTime</tabstop>
+  <tabstop>mMakeDNBtn</tabstop>
   <tabstop>mUseCSR_DNCheck</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mExtUsageCombo</tabstop>

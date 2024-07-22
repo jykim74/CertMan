@@ -83,6 +83,15 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mLeftEndBtn</tabstop>
+  <tabstop>mLeftBtn</tabstop>
+  <tabstop>mRightBtn</tabstop>
+  <tabstop>mRightEndBtn</tabstop>
+  <tabstop>mCondCombo</tabstop>
+  <tabstop>mInputText</tabstop>
+  <tabstop>mSearchBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

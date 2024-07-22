@@ -159,7 +159,7 @@
    <item>
     <widget class="QTabWidget" name="mKeyInfoTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
@@ -667,14 +667,24 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
+  <tabstop>mMakeDNBtn</tabstop>
+  <tabstop>mDNText</tabstop>
   <tabstop>mChallengePassText</tabstop>
+  <tabstop>mUnstructuredNameText</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>
   <tabstop>mKeyNameCombo</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
   <tabstop>mNewKeyNameText</tabstop>
+  <tabstop>mPKCS11Check</tabstop>
+  <tabstop>mKMIPCheck</tabstop>
+  <tabstop>mRSARadio</tabstop>
+  <tabstop>mECDSARadio</tabstop>
+  <tabstop>mDSARadio</tabstop>
+  <tabstop>mEdDSARadio</tabstop>
   <tabstop>mNewExponentText</tabstop>
+  <tabstop>mNewOptionCombo</tabstop>
   <tabstop>mUseExtensionCheck</tabstop>
   <tabstop>mProfileNameCombo</tabstop>
   <tabstop>mHashCombo</tabstop>

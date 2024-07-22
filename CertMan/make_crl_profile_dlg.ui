@@ -580,6 +580,7 @@
   <tabstop>mCRLTab</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mVersionCombo</tabstop>
+  <tabstop>mHashCombo</tabstop>
   <tabstop>mUseFromNowCheck</tabstop>
   <tabstop>mValidDaysTypeCombo</tabstop>
   <tabstop>mValidDaysText</tabstop>

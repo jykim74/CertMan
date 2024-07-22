@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
-    <height>332</height>
+    <width>448</width>
+    <height>359</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -454,10 +454,12 @@
   <tabstop>mCertDNText</tabstop>
   <tabstop>mSignKeyName</tabstop>
   <tabstop>mNotBeforeText</tabstop>
+  <tabstop>mNotAfterText</tabstop>
   <tabstop>mUseDayCheck</tabstop>
   <tabstop>mDayTypeCombo</tabstop>
   <tabstop>mDayText</tabstop>
   <tabstop>mNotBeforeDateTime</tabstop>
+  <tabstop>mNotAfterDateTime</tabstop>
   <tabstop>mKeepSerialCheck</tabstop>
   <tabstop>mSerialText</tabstop>
   <tabstop>mRevokeCheck</tabstop>

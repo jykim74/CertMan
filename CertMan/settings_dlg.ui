@@ -1205,6 +1205,9 @@
  <tabstops>
   <tabstop>mTabWidget</tabstop>
   <tabstop>mCheckLatestVersionCheck</tabstop>
+  <tabstop>mLDAPHostText</tabstop>
+  <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mBaseDNText</tabstop>
   <tabstop>mListCountCombo</tabstop>
   <tabstop>mServerStatusCheck</tabstop>
   <tabstop>mUseLogTabCheck</tabstop>
@@ -1218,6 +1221,7 @@
   <tabstop>mLibraryP11PathText</tabstop>
   <tabstop>mP11FindBtn</tabstop>
   <tabstop>mPINText</tabstop>
+  <tabstop>mHexAreaWidthCombo</tabstop>
   <tabstop>mUseKMIPCheck</tabstop>
   <tabstop>mKMIPHostText</tabstop>
   <tabstop>mKMIPPortText</tabstop>
@@ -1246,6 +1250,8 @@
   <tabstop>mCMPCACertBtn</tabstop>
   <tabstop>mUseREGCheck</tabstop>
   <tabstop>mREGURIText</tabstop>
+  <tabstop>mREGAdminNameText</tabstop>
+  <tabstop>mREGPasswordText</tabstop>
   <tabstop>mUseTSPCheck</tabstop>
   <tabstop>mTSPURIText</tabstop>
   <tabstop>mTSPSrvCertPathText</tabstop>

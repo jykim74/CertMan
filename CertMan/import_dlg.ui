@@ -316,8 +316,12 @@
   <tabstop>mToPKCS11Check</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mPasswordText</tabstop>
+  <tabstop>mUseFileCheck</tabstop>
   <tabstop>mPathText</tabstop>
   <tabstop>mFindBtn</tabstop>
+  <tabstop>mValueTypeCombo</tabstop>
+  <tabstop>mValueLenText</tabstop>
+  <tabstop>mValueText</tabstop>
  </tabstops>
  <resources/>
  <connections>

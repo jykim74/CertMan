@@ -285,9 +285,15 @@
   <tabstop>mSrcBase64Check</tabstop>
   <tabstop>mSrcHexCheck</tabstop>
   <tabstop>mSrcStringCheck</tabstop>
+  <tabstop>mSrcLenText</tabstop>
   <tabstop>mSrcText</tabstop>
+  <tabstop>mPolicyText</tabstop>
   <tabstop>mHashCombo</tabstop>
+  <tabstop>mSendBtn</tabstop>
+  <tabstop>mOutputLenText</tabstop>
   <tabstop>mOutputText</tabstop>
+  <tabstop>mViewTSTInfoBtn</tabstop>
+  <tabstop>mVerifyTSPBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources/>

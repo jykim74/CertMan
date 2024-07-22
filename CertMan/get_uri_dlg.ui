@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>456</width>
-    <height>329</height>
+    <height>355</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -256,6 +256,19 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mURICombo</tabstop>
+  <tabstop>mClearUsedURIBtn</tabstop>
+  <tabstop>mUseLDAPCheck</tabstop>
+  <tabstop>mLDAPHostText</tabstop>
+  <tabstop>mLDAPPortText</tabstop>
+  <tabstop>mDNText</tabstop>
+  <tabstop>mScopeCombo</tabstop>
+  <tabstop>mTypeCombo</tabstop>
+  <tabstop>mFilterText</tabstop>
+  <tabstop>mGetBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
