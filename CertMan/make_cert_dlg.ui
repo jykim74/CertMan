@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
-    <height>561</height>
+    <width>482</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,14 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="mCSRFilePathText"/>
+      <widget class="QLineEdit" name="mCSRFilePathText">
+       <property name="minimumSize">
+        <size>
+         <width>160</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="0" column="3">
       <widget class="QCheckBox" name="mSaveToRequestCheck">
@@ -323,6 +330,12 @@
    </item>
    <item>
     <widget class="QLineEdit" name="mSubjectDNText">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="palette">
       <palette>
        <active>
@@ -413,30 +426,37 @@
      <property name="title">
       <string>Issuer Certificate Information</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_9">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <property name="topMargin">
+         <number>0</number>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Name</string>
-        </property>
-       </widget>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="mIssuerNameCombo"/>
+        </item>
+       </layout>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="mIssuerNameCombo"/>
-      </item>
-      <item row="1" column="0" colspan="2">
+      <item>
        <layout class="QGridLayout" name="gridLayout_10">
         <item row="0" column="1">
          <widget class="QLineEdit" name="mIssuerAlgorithmText">
@@ -562,36 +582,43 @@
      <property name="title">
       <string>User Information</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_8">
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="mUserNameText"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>UserName</string>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <property name="topMargin">
+         <number>0</number>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>SSN</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="mSSNText"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Email</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="mEmailText"/>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>UserName</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="mUserNameText"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="mSSNText"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="mEmailText"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>SSN</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>Email</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -640,12 +667,8 @@
   <tabstop>mMakeDNBtn</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mSelfSignCheck</tabstop>
-  <tabstop>mIssuerNameCombo</tabstop>
   <tabstop>mIssuerAlgorithmText</tabstop>
   <tabstop>mIssuerOptionText</tabstop>
-  <tabstop>mUserNameText</tabstop>
-  <tabstop>mSSNText</tabstop>
-  <tabstop>mEmailText</tabstop>
  </tabstops>
  <resources/>
  <connections>

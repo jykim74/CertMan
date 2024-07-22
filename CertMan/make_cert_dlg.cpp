@@ -61,7 +61,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
-    resize(width(), minimumSizeHint().height());
+    resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
 
 MakeCertDlg::~MakeCertDlg()
@@ -250,6 +250,7 @@ void MakeCertDlg::accept()
         if( mCSRFilePathText->text().length() <= 0 )
         {
             manApplet->warningBox( tr( "Find a CSR file"), this );
+            mCSRFilePathText->setFocus();
             return;
         }
     }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>287</height>
+    <width>447</width>
+    <height>210</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,9 +33,6 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mNameText"/>
-     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="minimumSize">
@@ -55,19 +52,12 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Type</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QComboBox" name="mTypeCombo">
-       <property name="maximumSize">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mNameText">
+       <property name="minimumSize">
         <size>
-         <width>16777215</width>
-         <height>16777215</height>
+         <width>200</width>
+         <height>0</height>
         </size>
        </property>
       </widget>
@@ -99,7 +89,14 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="mPasswordText"/>
+      <widget class="QLineEdit" name="mPasswordText">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="0" column="2">
       <widget class="QCheckBox" name="mGenPasswordMACCheck">
@@ -115,6 +112,16 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mEmailText">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
        <property name="minimumSize">
@@ -134,43 +141,31 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="mEmailText"/>
-     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_3">
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="minimumSize">
-        <size>
-         <width>70</width>
-         <height>0</height>
-        </size>
-       </property>
+     <item row="0" column="2">
+      <widget class="QComboBox" name="mTypeCombo">
        <property name="maximumSize">
         <size>
-         <width>70</width>
+         <width>16777215</width>
          <height>16777215</height>
         </size>
-       </property>
-       <property name="text">
-        <string>Status</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
       <widget class="QComboBox" name="mStatusCombo">
        <property name="maximumSize">
         <size>
@@ -180,7 +175,14 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -196,6 +198,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -209,28 +218,21 @@
     </spacer>
    </item>
    <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="mDeleteBtn">
-       <property name="text">
-        <string>Delete</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="4">
       <widget class="QPushButton" name="mRegisterBtn">
        <property name="text">
         <string>Register</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="6">
+      <widget class="QPushButton" name="mCloseBtn">
+       <property name="text">
+        <string>Close</string>
        </property>
       </widget>
      </item>
@@ -241,14 +243,14 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="mCloseBtn">
+     <item row="0" column="2">
+      <widget class="QPushButton" name="mDeleteBtn">
        <property name="text">
-        <string>Close</string>
+        <string>Delete</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="5">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -267,14 +269,15 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
-  <tabstop>mTypeCombo</tabstop>
   <tabstop>mPasswordText</tabstop>
+  <tabstop>mGenPasswordMACCheck</tabstop>
   <tabstop>mEmailText</tabstop>
+  <tabstop>mTypeCombo</tabstop>
   <tabstop>mStatusCombo</tabstop>
-  <tabstop>mCloseBtn</tabstop>
   <tabstop>mDeleteBtn</tabstop>
   <tabstop>mModifyBtn</tabstop>
   <tabstop>mRegisterBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>

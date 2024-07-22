@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>412</height>
+    <width>418</width>
+    <height>339</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,7 +119,14 @@
     </layout>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="mSrcText"/>
+    <widget class="QPlainTextEdit" name="mSrcText">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_4">
