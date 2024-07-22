@@ -28,6 +28,9 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
 {
     setupUi(this);
 
+    ca_cert_list_.clear();
+    crl_profile_list_.clear();
+
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
 
@@ -482,6 +485,9 @@ void MakeCRLDlg::setRevokeList()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
+
+    if( ca_cert_list_.size() <= 0 )
+        return;
 
     mRevokeTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mRevokeTable->setSelectionBehavior(QAbstractItemView::SelectRows);

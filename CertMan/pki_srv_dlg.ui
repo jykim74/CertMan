@@ -417,7 +417,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/on.png</normaloff>:/images/on.png</iconset>
        </property>
        <property name="flat">
@@ -429,8 +429,34 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <tabstops>
+  <tabstop>mDelBtn</tabstop>
+  <tabstop>mConfigTable</tabstop>
+  <tabstop>mNameCombo</tabstop>
+  <tabstop>mFileFindBtn</tabstop>
+  <tabstop>mEncBtn</tabstop>
+  <tabstop>mDecBtn</tabstop>
+  <tabstop>mAddBtn</tabstop>
+  <tabstop>mValueText</tabstop>
+  <tabstop>mServerPathText</tabstop>
+  <tabstop>mFindBtn</tabstop>
+  <tabstop>mStartBtn</tabstop>
+  <tabstop>mSockText</tabstop>
+  <tabstop>mProcText</tabstop>
+  <tabstop>mIndexText</tabstop>
+  <tabstop>mResText</tabstop>
+  <tabstop>mConnectBtn</tabstop>
+  <tabstop>mListPidBtn</tabstop>
+  <tabstop>mGetProcBtn</tabstop>
+  <tabstop>mGetServiceBtn</tabstop>
+  <tabstop>mGetThreadBtn</tabstop>
+  <tabstop>mListThreadBtn</tabstop>
+  <tabstop>mResizeBtn</tabstop>
+  <tabstop>mStopBtn</tabstop>
+  <tabstop>mOnBtn</tabstop>
+  <tabstop>mCheckBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
+ <resources/>
  <connections/>
 </ui>

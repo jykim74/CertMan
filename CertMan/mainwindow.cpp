@@ -1494,6 +1494,12 @@ void MainWindow::makeCRL()
     }
 
     ManTreeItem *pItem = currentTreeItem();
+    if( pItem == NULL )
+    {
+        manApplet->warningBox( tr( "No items selected" ), this );
+        return;
+    }
+
     MakeCRLDlg makeCRLDlg;
 
     if( pItem )
@@ -1516,6 +1522,11 @@ void MainWindow::renewCert()
     }
 
     ManTreeItem *pItem = currentTreeItem();
+    if( pItem == NULL )
+    {
+        manApplet->warningBox( tr( "No items selected" ), this );
+        return;
+    }
 
     int row = right_table_->currentRow();
     if( row < 0 ) return;
@@ -2318,7 +2329,7 @@ void MainWindow::changePasswd()
     LoginDlg loginDlg;
     if( loginDlg.exec() != QDialog::Accepted )
     {
-        manApplet->warningBox( tr( "fail to login" ), this );
+//        manApplet->warningBox( tr( "fail to login" ), this );
         return;
     }
 
