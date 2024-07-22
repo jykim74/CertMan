@@ -19,6 +19,8 @@ MakeDNDlg::MakeDNDlg(QWidget *parent) :
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    mOKBtn->setDefault(true);
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -124,6 +126,7 @@ void MakeDNDlg::clickOK()
     if( strDN.length() < 3 )
     {
         manApplet->warningBox( tr( "Enter DN value" ), this );
+        mCNText->setFocus();
         return;
     }
 

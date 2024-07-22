@@ -545,7 +545,14 @@ void MakeReqDlg::keyNameChanged(int index)
     strTitle += "(REQ)";
     mNameText->setText( strTitle );
 
-    QString strDN = QString( "CN=%1,%2").arg( keyRec.getName() ).arg( manApplet->settingsMgr()->baseDN() );
+
+    QString strDN = QString( "CN=%1").arg( keyRec.getName() );
+    if( manApplet->settingsMgr()->baseDN().length() > 1 )
+    {
+        strDN += ",";
+        strDN += manApplet->settingsMgr()->baseDN();
+    }
+
     mDNText->setText( strDN );
 }
 
