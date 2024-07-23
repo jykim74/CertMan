@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>396</height>
+    <width>502</width>
+    <height>446</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,12 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QTextBrowser" name="mAboutText">
+         <property name="minimumSize">
+          <size>
+           <width>460</width>
+           <height>300</height>
+          </size>
+         </property>
          <property name="palette">
           <palette>
            <active>
