@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>368</width>
+    <width>406</width>
     <height>185</height>
    </rect>
   </property>
@@ -67,7 +67,7 @@
       <widget class="QLineEdit" name="mPasswdText">
        <property name="minimumSize">
         <size>
-         <width>200</width>
+         <width>300</width>
          <height>0</height>
         </size>
        </property>

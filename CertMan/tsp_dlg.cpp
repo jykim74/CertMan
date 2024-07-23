@@ -27,6 +27,9 @@ TSPDlg::TSPDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(clickClose()));
     connect( mViewTSTInfoBtn, SIGNAL(clicked()), this, SLOT(clickViewTSTInfo()));
     connect( mVerifyTSPBtn, SIGNAL(clicked()), this, SLOT(clickVerifyTSP()));
+    connect( mSrcStringCheck, SIGNAL(clicked()), this, SLOT(changeSrc()));
+    connect( mSrcHexCheck, SIGNAL(clicked()), this, SLOT(changeSrc()));
+    connect( mSrcBase64Check, SIGNAL(clicked()), this, SLOT(changeSrc()));
 
     connect( mSrcText, SIGNAL(textChanged()), this, SLOT(changeSrc()));
     connect( mOutputText, SIGNAL(textChanged()), this, SLOT(changeOutput()));

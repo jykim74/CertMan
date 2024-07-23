@@ -204,6 +204,7 @@ void ImportDlg::initUI()
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT( clickFind()));
     connect( mDataTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
     connect( mUseFileCheck, SIGNAL(clicked()), this, SLOT(checkUseFile()));
+    connect( mValueTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValue()));
     connect( mValueText, SIGNAL(textChanged()), this, SLOT(changeValue()));
 }
 
