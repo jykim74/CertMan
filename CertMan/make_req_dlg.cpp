@@ -49,6 +49,10 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+    mSelTab->layout()->setSpacing(5);
+    mSelTab->layout()->setMargin(5);
+    mGenTab->layout()->setSpacing(5);
+    mGenTab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }

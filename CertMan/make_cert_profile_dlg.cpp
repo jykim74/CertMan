@@ -63,6 +63,21 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     initialize();
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mBaseTab->layout()->setSpacing(5);
+    mBaseTab->layout()->setMargin(5);
+
+    mExtend1Tab->layout()->setSpacing(5);
+    mExtend1Tab->layout()->setMargin(5);
+
+    mExtend2Tab->layout()->setSpacing(5);
+    mExtend2Tab->layout()->setMargin(5);
+
+    mExtend3Tab->layout()->setSpacing(5);
+    mExtend3Tab->layout()->setMargin(5);
+
+    mExtend4Tab->layout()->setSpacing(5);
+    mExtend4Tab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }

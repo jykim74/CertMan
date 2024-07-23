@@ -40,6 +40,12 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mBaseTab->layout()->setSpacing(5);
+    mBaseTab->layout()->setMargin(5);
+
+    mExtendTab->layout()->setSpacing(5);
+    mExtendTab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }

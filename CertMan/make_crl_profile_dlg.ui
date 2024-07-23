@@ -19,7 +19,7 @@
      <property name="currentIndex">
       <number>1</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
@@ -287,7 +287,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="mExtendTab">
       <attribute name="title">
        <string>Extend</string>
       </attribute>
