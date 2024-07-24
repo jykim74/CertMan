@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>555</width>
-    <height>550</height>
+    <width>518</width>
+    <height>455</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,6 +61,12 @@
    </item>
    <item>
     <widget class="QTableWidget" name="mConfigTable">
+     <property name="minimumSize">
+      <size>
+       <width>500</width>
+       <height>100</height>
+      </size>
+     </property>
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>
      </property>
@@ -417,7 +423,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/on.png</normaloff>:/images/on.png</iconset>
        </property>
        <property name="flat">
@@ -457,6 +463,8 @@
   <tabstop>mCheckBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>
