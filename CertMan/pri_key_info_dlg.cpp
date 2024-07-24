@@ -60,8 +60,18 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mRSATab->layout()->setSpacing(5);
+    mRSATab->layout()->setMargin(5);
+    mECCTab->layout()->setSpacing(5);
+    mECCTab->layout()->setMargin(5);
+    mDSATab->layout()->setSpacing(5);
+    mDSATab->layout()->setMargin(5);
+    mEdDSATab->layout()->setSpacing(5);
+    mEdDSATab->layout()->setMargin(5);
 #endif
-    resize(width(), minimumSizeHint().height());
+
+    resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
 
 PriKeyInfoDlg::~PriKeyInfoDlg()

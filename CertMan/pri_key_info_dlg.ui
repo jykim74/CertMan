@@ -33,7 +33,7 @@
      <property name="currentIndex">
       <number>3</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="mRSATab">
       <attribute name="title">
        <string>RSA</string>
       </attribute>
@@ -934,7 +934,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="mECCTab">
       <attribute name="title">
        <string>ECC</string>
       </attribute>
@@ -1398,7 +1398,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="mDSATab">
       <attribute name="title">
        <string>DSA</string>
       </attribute>
@@ -2001,7 +2001,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="mEdDSATab">
       <attribute name="title">
        <string>EdDSA</string>
       </attribute>
