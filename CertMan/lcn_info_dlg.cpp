@@ -38,7 +38,7 @@ LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
     layout()->setSpacing(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
-    mCloseBtn->setDefault(true);
+    mLCNRequestBtn->setDefault(true);
 }
 
 LCNInfoDlg::~LCNInfoDlg()
