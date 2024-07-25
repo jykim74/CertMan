@@ -51,8 +51,9 @@
               			<RegistryKey Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Action="createAndRemoveOnUninstall">
                 			<RegistryValue Name="CustomComponent" Value="1" Type="integer" KeyPath='yes' />
               			</RegistryKey>
-
+						<!--
               			<File Id="certman.ico" Name="cerman.ico" Source="certman.ico" />
+						-->
 
               			<!-- bereditor shortcut on desktop -->
               			<Shortcut Id="ApplicationDesktopShortCut" Directory="DesktopFolder"

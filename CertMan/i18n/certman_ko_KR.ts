@@ -6356,7 +6356,7 @@
         <translation type="vanished">LDAP 서버</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="267"/>
+        <location filename="../pub_ldap_dlg.ui" line="273"/>
         <source>Publish DN</source>
         <translation>게시 DN</translation>
     </message>
@@ -6366,12 +6366,12 @@
         <translation>바인드 DN</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="237"/>
+        <location filename="../pub_ldap_dlg.ui" line="243"/>
         <source>Type</source>
         <translation>타입</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="244"/>
+        <location filename="../pub_ldap_dlg.ui" line="250"/>
         <source>Attribute</source>
         <translation>속성</translation>
     </message>
@@ -6385,7 +6385,7 @@
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="209"/>
+        <location filename="../pub_ldap_dlg.ui" line="215"/>
         <source>Data information</source>
         <translation>데이타 정보</translation>
     </message>
@@ -6788,34 +6788,44 @@
         <translation>형식</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="37"/>
+        <location filename="../search_form.ui" line="43"/>
         <source>&gt;&gt;</source>
         <translation>&gt;&gt;</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="44"/>
+        <location filename="../search_form.ui" line="56"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="51"/>
+        <location filename="../search_form.ui" line="63"/>
         <source>0-0 of 0</source>
         <translation>0-0 중 0</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="58"/>
+        <location filename="../search_form.ui" line="76"/>
         <source>&lt;&lt;</source>
         <translation>&lt;&lt;</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="71"/>
+        <location filename="../search_form.ui" line="95"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
-        <location filename="../search_form.ui" line="78"/>
+        <location filename="../search_form.ui" line="102"/>
         <source>Search</source>
         <translation>검색</translation>
+    </message>
+    <message>
+        <location filename="../search_form.cpp" line="166"/>
+        <source>DB is not connected</source>
+        <translation>데이타 베이스가 연결 되지 않았습니다.</translation>
+    </message>
+    <message>
+        <location filename="../search_form.cpp" line="172"/>
+        <source>Please enter your search term</source>
+        <translation>검색어를 입력하세요</translation>
     </message>
 </context>
 <context>

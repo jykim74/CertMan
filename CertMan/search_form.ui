@@ -33,6 +33,12 @@
      </property>
      <item row="0" column="4">
       <widget class="QPushButton" name="mRightEndBtn">
+       <property name="maximumSize">
+        <size>
+         <width>34</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&gt;&gt;</string>
        </property>
@@ -40,6 +46,12 @@
      </item>
      <item row="0" column="3">
       <widget class="QPushButton" name="mRightBtn">
+       <property name="maximumSize">
+        <size>
+         <width>34</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&gt;</string>
        </property>
@@ -54,6 +66,12 @@
      </item>
      <item row="0" column="0">
       <widget class="QPushButton" name="mLeftEndBtn">
+       <property name="maximumSize">
+        <size>
+         <width>34</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&lt;&lt;</string>
        </property>
@@ -67,6 +85,12 @@
      </item>
      <item row="0" column="1">
       <widget class="QPushButton" name="mLeftBtn">
+       <property name="maximumSize">
+        <size>
+         <width>34</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>&lt;</string>
        </property>

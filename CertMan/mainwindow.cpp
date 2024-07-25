@@ -4820,7 +4820,7 @@ void MainWindow::createRightCertProfileList()
     right_table_->setColumnWidth( 1, 300 );
     right_table_->setColumnWidth( 2, 60 );
     right_table_->setColumnWidth( 3, 100 );
-    right_table_->setColumnWidth( 4, 100 );
+    right_table_->setColumnWidth( 4, 80 );
 
     for( int i=0; i < certProfileList.size(); i++ )
     {
@@ -4896,7 +4896,7 @@ void MainWindow::createRightCRLProfileList()
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 360 );
     right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 100 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i=0; i < crlProfileList.size(); i++ )
     {

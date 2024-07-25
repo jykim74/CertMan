@@ -8,6 +8,7 @@
 #include "man_tree_item.h"
 #include "mainwindow.h"
 #include "man_applet.h"
+#include "db_mgr.h"
 #include "settings_mgr.h"
 
 static QStringList  s_condBaseList = { "Page" };
@@ -39,6 +40,7 @@ SearchForm::SearchForm(QWidget *parent) :
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
+
     resize(width(), minimumSizeHint().height());
 }
 
@@ -158,6 +160,19 @@ void SearchForm::search()
 {
     QString strTarget = mCondCombo->currentText();
     QString strWord = mInputText->text();
+
+    if( manApplet->dbMgr()->isOpen() == false )
+    {
+        manApplet->warningBox( tr( "DB is not connected" ), this );
+        return;
+    }
+
+    if( strWord.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please enter your search term"), this);
+        mInputText->setFocus();
+        return;
+    }
 
     if( strTarget == "Page" )
     {

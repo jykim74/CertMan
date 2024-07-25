@@ -25,7 +25,7 @@
     <widget class="QTableWidget" name="mFieldTable">
      <property name="minimumSize">
       <size>
-       <width>0</width>
+       <width>400</width>
        <height>120</height>
       </size>
      </property>

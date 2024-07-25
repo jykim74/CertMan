@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
+    <width>418</width>
     <height>408</height>
    </rect>
   </property>
@@ -267,7 +267,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QTableWidget" name="mRevokeTable"/>
+    <widget class="QTableWidget" name="mRevokeTable">
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>0</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

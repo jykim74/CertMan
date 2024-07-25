@@ -343,7 +343,7 @@ void MakeReqDlg::accept()
     if( mGenKeyPairCheck->isChecked() )
     {
         ret = genKeyPair( keyRec );
-        if( ret != 0 ) goto end;
+        if( ret != 0 ) return;
 
         strAlg = getMechanism();
         strParam = mNewOptionCombo->currentText();
