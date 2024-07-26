@@ -99,7 +99,7 @@ void ImportDlg::accept()
 
     if( nSelType == IMPORT_TYPE_PRIKEY || nSelType == IMPORT_TYPE_ENC_PRIKEY )
     {
-        if( nSelType == 1 )
+        if( nSelType == IMPORT_TYPE_ENC_PRIKEY )
         {
             BIN binInfo = {0,0};
             BIN binPri = {0,0};
@@ -115,8 +115,7 @@ void ImportDlg::accept()
             {
                 JS_BIN_reset( &binSrc );
                 QString strMsg = tr("Private key decryption failed [%1]").arg( ret );
-                manApplet->warningBox( strMsg, this );
-                manApplet->elog( strMsg );
+                manApplet->warnLog( strMsg, this );
                 QDialog::reject();
                 return;
             }

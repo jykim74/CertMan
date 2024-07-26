@@ -1776,6 +1776,7 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPI
     JP11_CTX    *pCTX = (JP11_CTX *)pP11CTX;
 
     int nFlags = 0;
+    BIN binPIN = {0,0};
 
     CK_ULONG uSlotCnt = 0;
     CK_SLOT_ID  sSlotList[10];
@@ -1819,7 +1820,11 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPI
         return -1;
     }
 
-    ret = JS_PKCS11_Login( pCTX, nUserType, (CK_UTF8CHAR *)strPass.toStdString().c_str(), strPass.length() );
+    getBINFromString( &binPIN, DATA_STRING, strPass );
+
+    ret = JS_PKCS11_Login( pCTX, nUserType, binPIN.pVal, binPIN.nLen );
+    JS_BIN_reset( &binPIN );
+
     if( ret != 0 )
     {
         fprintf( stderr, "fail to run login hsm(%d)\n", ret );
@@ -3915,7 +3920,7 @@ const QString getPasswdHMAC( const QString &strPasswd )
     BIN binSrc = {0,0};
 
     JS_GEN_getHMACKey( &binKey );
-    JS_BIN_set( &binSrc, (unsigned char *)strPasswd.toStdString().c_str(), strPasswd.length() );
+    getBINFromString( &binSrc, DATA_STRING, strPasswd );
     JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
 
     strHex = getHexString( &binHMAC );
