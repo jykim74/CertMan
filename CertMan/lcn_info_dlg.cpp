@@ -345,12 +345,14 @@ void LCNInfoDlg::clickGet()
         if( strEmail.length() < 1 )
         {
             manApplet->warningBox( tr("Please enter a email"), this );
+            mEmailText->setFocus();
             return;
         }
 
         if( strKey.length() < 1 )
         {
             manApplet->warningBox( tr("Please enter a license key"), this );
+            mKeyText->setFocus();
             return;
         }
 
