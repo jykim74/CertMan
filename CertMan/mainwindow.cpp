@@ -891,6 +891,12 @@ void MainWindow::createTreeMenu()
         pCCSrvItem->setDataNum( JS_GEN_KIND_CC_SRV );
         pConfigItem->appendRow( pCCSrvItem );
 
+        ManTreeItem *pKMSSrvItem = new ManTreeItem( QString( tr( "KMS Server" )));
+        pKMSSrvItem->setIcon(QIcon(":/images/config.png"));
+        pKMSSrvItem->setType( CM_ITEM_TYPE_CONFIG );
+        pKMSSrvItem->setDataNum( JS_GEN_KIND_KMS_SRV );
+        pConfigItem->appendRow( pKMSSrvItem );
+
         ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
         pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
         pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );

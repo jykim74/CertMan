@@ -120,6 +120,8 @@ void PKISrvDlg::setSrvKind( int nKind )
         sNameList = sRegNameList;
     else if( kind_ == JS_GEN_KIND_CC_SRV )
         sNameList = sCCNameList;
+    else if( kind_ == JS_GEN_KIND_KMS_SRV )
+        sNameList = sKMSNameList;
 }
 
 void PKISrvDlg::showEvent(QShowEvent *event)
@@ -146,6 +148,8 @@ const QString PKISrvDlg::getName()
         return "Reg";
     else if( kind_ == JS_GEN_KIND_CC_SRV )
         return "CC";
+    else if( kind_ == JS_GEN_KIND_KMS_SRV )
+        return "KMS";
 
     return "Service";
 }
@@ -356,6 +360,8 @@ void PKISrvDlg::clickCheck()
         nPort = JS_REG_PORT;
     else if( kind_ == JS_GEN_KIND_CC_SRV )
         nPort = JS_CC_PORT;
+    else if( kind_ == JS_GEN_KIND_KMS_SRV )
+        nPort = JS_KMS_PORT;
 
     ret = dbMgr->getConfigValue( kind_, strName, strValue );
     if( ret == 1 ) nPort = strValue.toInt();
@@ -445,6 +451,8 @@ void PKISrvDlg::clickConnect()
         nPort = JS_REG_PORT + 10;
     else if( kind_ == JS_GEN_KIND_CC_SRV )
         nPort = JS_CC_PORT + 10;
+    else if( kind_ == JS_GEN_KIND_KMS_SRV )
+        nPort = JS_KMS_PORT + 10;
 
     sockfd = mSockText->text().toInt();
 
