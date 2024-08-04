@@ -60,6 +60,12 @@ static QStringList sCCNameList = {
     "LDAP_BINDDN", "LDAP_SECRET",
 };
 
+static QStringList sKMSNameList = {
+    "LOG_PATH", "LOG_LEVEL",
+    "SSL_CA_CERT_PATH", "SSL_CERT_PATH", "SSL_PRIKEY_PATH",
+    "PKCS11_LIB_PATH", "PKCS11_SLOT_INDEX", "PKCS11_PIN"
+};
+
 PKISrvDlg::PKISrvDlg(QWidget *parent) :
     QDialog(parent)
 {

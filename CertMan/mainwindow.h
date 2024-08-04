@@ -244,6 +244,7 @@ public slots:
     void CMPSrv();
     void RegSrv();
     void CCSrv();
+    void KMSSrv();
 
 private slots:
     void showRightMenu( QPoint point );

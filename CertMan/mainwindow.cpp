@@ -533,6 +533,13 @@ void MainWindow::createActions()
         ccSrvAct->setStatusTip(tr("CC Server Service"));
         serverMenu->addAction( ccSrvAct );
         //        serverToolBar->addAction( ccSrvAct );
+
+        QAction *kmsSrvAct = new QAction( timeIcon, tr("&KMS Server"), this);
+        kmsSrvAct->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_K));
+        connect( kmsSrvAct, &QAction::triggered, this, &MainWindow::KMSSrv);
+        kmsSrvAct->setStatusTip(tr("KMS Server Service"));
+        serverMenu->addAction( kmsSrvAct );
+        //        serverToolBar->addAction( kmsSrvAct );
     }
 
 
@@ -4127,6 +4134,21 @@ void MainWindow::CCSrv()
 
     if( pki_srv_ == NULL ) return;
     pki_srv_->setSrvKind( JS_GEN_KIND_CC_SRV );
+    pki_srv_->show();
+    pki_srv_->raise();
+    pki_srv_->activateWindow();
+}
+
+void MainWindow::KMSSrv()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    if( pki_srv_ == NULL ) return;
+    pki_srv_->setSrvKind( JS_GEN_KIND_KMS_SRV );
     pki_srv_->show();
     pki_srv_->raise();
     pki_srv_->activateWindow();
