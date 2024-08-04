@@ -252,20 +252,6 @@ void MainWindow::initialize()
         text_tab_->setTabEnabled( 1, false );
     }
 
-/*
-    QList <int> vsizes;
-#ifdef Q_OS_MAC
-    vsizes << 760 << 10 << 600;
-#else
-    vsizes << 760 << 10 << 600;
-#endif
-    vsplitter_->setSizes(vsizes);
-*/
-
-    QList <int> sizes;
-    sizes << 500 << 1000;
-    hsplitter_->setSizes(sizes);
-
     setCentralWidget(hsplitter_);
 
 

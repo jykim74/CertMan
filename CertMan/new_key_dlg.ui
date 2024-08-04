@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
-    <height>224</height>
+    <width>514</width>
+    <height>292</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,7 +53,14 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="mNameText"/>
+      <widget class="QLineEdit" name="mNameText">
+       <property name="minimumSize">
+        <size>
+         <width>400</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
