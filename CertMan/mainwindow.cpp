@@ -222,8 +222,6 @@ void MainWindow::initialize()
 
     QWidget *rightWidget = new QWidget;
 
-
-
     hsplitter_->addWidget(left_tree_);
 
 #ifdef _ENABLE_CHARTS
@@ -237,6 +235,7 @@ void MainWindow::initialize()
 #else
     hsplitter_->addWidget( vsplitter_ );
 #endif
+
 
 
     vsplitter_->addWidget(right_table_);
@@ -253,23 +252,24 @@ void MainWindow::initialize()
         text_tab_->setTabEnabled( 1, false );
     }
 
+/*
     QList <int> vsizes;
 #ifdef Q_OS_MAC
-    vsizes << 760 << 20 << 600;
+    vsizes << 760 << 10 << 600;
 #else
     vsizes << 760 << 10 << 600;
 #endif
-
     vsplitter_->setSizes(vsizes);
+*/
 
     QList <int> sizes;
-    sizes << 500 << 1200;
+    sizes << 500 << 1000;
+    hsplitter_->setSizes(sizes);
+
+    setCentralWidget(hsplitter_);
+
 
     resize(1024,768);
-
-
-    hsplitter_->setSizes(sizes);
-    setCentralWidget(hsplitter_);
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
     connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
