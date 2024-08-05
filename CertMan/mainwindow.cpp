@@ -222,6 +222,7 @@ void MainWindow::initialize()
 
     QWidget *rightWidget = new QWidget;
 
+
     hsplitter_->addWidget(left_tree_);
 
 #ifdef _ENABLE_CHARTS
@@ -237,7 +238,6 @@ void MainWindow::initialize()
 #endif
 
 
-
     vsplitter_->addWidget(right_table_);
     vsplitter_->addWidget( search_form_ );
 
@@ -251,6 +251,7 @@ void MainWindow::initialize()
     {
         text_tab_->setTabEnabled( 1, false );
     }
+
 
     setCentralWidget(hsplitter_);
 
