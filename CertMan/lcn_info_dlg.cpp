@@ -69,8 +69,7 @@ QString LCNInfoDlg::getLicenseURI()
 void LCNInfoDlg::initialize()
 {
     int ret = 0;
-    mUpdateBtn->setEnabled( false );
-
+    mUpdateBtn->hide();
 
     JS_LICENSE_INFO sLicenseInfo = manApplet->LicenseInfo();
     QString strEmail = manApplet->settingsMgr()->getEmail();
@@ -100,8 +99,7 @@ void LCNInfoDlg::initialize()
         if( ret == JSR_VALID )
         {
             mCurGroup->setEnabled( true );
-            mUpdateBtn->setEnabled( true );
-
+            mUpdateBtn->show();
             mRemoveBtn->hide();
         }
         else
