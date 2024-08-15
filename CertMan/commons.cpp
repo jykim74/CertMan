@@ -2257,7 +2257,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
 
     ret = JS_KMS_encodeCreateKeyPairReq( pAuth, nAlg, nParam, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     ret = JS_KMS_decodeCreateKeyPairRsp( &binRsp, &pPubUUID, &pPriUUID );
 
     JS_BIN_reset( &binReq );
@@ -2273,7 +2273,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
 
     ret = JS_KMS_encodeActivateReq( pAuth, pPriUUID, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     ret = JS_KMS_decodeActivateRsp( &binRsp, &pPriUUID2 );
 
     JS_BIN_reset( &binReq );
@@ -2289,7 +2289,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
 
     ret = JS_KMS_encodeActivateReq( pAuth, pPubUUID, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     ret = JS_KMS_decodeActivateRsp( &binRsp, &pPubUUID2 );
 
     JS_BIN_reset( &binReq );
@@ -2305,7 +2305,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
 
     ret = JS_KMS_encodeGetReq( pAuth, pPubUUID, &binReq );
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     ret = JS_KMS_decodeGetRsp( &binRsp, &nType, &binData );
 
     if( nAlg == JS_PKI_KEY_TYPE_RSA )

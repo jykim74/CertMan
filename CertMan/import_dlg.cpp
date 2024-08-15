@@ -449,7 +449,7 @@ int ImportDlg::ImportPriKeyToKMIP( int nKeyType, const BIN *pPriKey, int nParam,
     ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPriKey, &binReq );
     if( ret != 0 ) goto end;
 
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     if( ret != 0 ) goto end;
 
     ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
@@ -474,7 +474,7 @@ int ImportDlg::ImportPriKeyToKMIP( int nKeyType, const BIN *pPriKey, int nParam,
     ret = JS_KMS_encodeRegisterReq( pAuth, nKeyType, nParam, nType, pPubInfoKey, &binReq );
     if( ret != 0 ) goto end;
 
-    ret = JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    ret = JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     if( ret != 0 ) goto end;
 
     ret = JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
@@ -631,7 +631,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
         }
 
         JS_KMS_encodeRegisterReq( pAuth, nAlg, nParam, nType, pCert, &binReq );
-        JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+        JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
         JS_KMS_decodeRegisterRsp( &binRsp, &pUUID );
 
         if( pSSL ) JS_SSL_clear( pSSL );

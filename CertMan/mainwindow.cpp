@@ -2956,7 +2956,7 @@ void MainWindow::activateKey()
     }
 
     JS_KMS_encodeActivateReq( pAuth, sUUID, &binReq );
-    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     JS_KMS_decodeActivateRsp( &binRsp, &pUUID );
 
 end :
@@ -3013,7 +3013,7 @@ void MainWindow::deleteKey()
     }
 
     JS_KMS_encodeDestroyReq( pAuth, sUUID, &binReq );
-    JS_KMS_sendReceive( pSSL, &binReq, &binRsp );
+    JS_KMS_sendReceiveSSL( pSSL, &binReq, &binRsp );
     JS_KMS_decodeDestroyRsp( &binRsp );
 
 end :
