@@ -21,7 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += CERTMAN_VERSION=$$PROJECT_VERSION
 
 # DEFINES += _USE_RC_LCN
-# DEFINES += JS_PRO
+DEFINES += JS_PRO
 # DEFINES += USE_SCEP
 # DEFINES += USE_CMP
 # DEFINES += USE_OCSP
@@ -223,7 +223,7 @@ INCLUDEPATH += "../../PKILib"
 mac {
     DEFINES += _AUTO_UPDATE
     QMAKE_INFO_PLIST = info.plist
-    ICON = images/certman.icns
+    ICON = certman.icns
 
     QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../Frameworks
     HEADERS += mac_sparkle_support.h
@@ -249,7 +249,6 @@ mac {
     }
 
     LIBS += -L"/usr/local/lib" -lltdl
-
     LIBS += -lldap -llber
 }
 
