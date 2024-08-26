@@ -83,6 +83,7 @@ void TSPDlg::clickSend()
     BIN binData = {0,0};
     BIN binReq = {0,0};
     BIN binRsp = {0,0};
+    BIN binTST = {0,0};
 
     JTSTInfo    sTSTInfo;
 
@@ -142,10 +143,10 @@ void TSPDlg::clickSend()
         goto end;
     }
 
-    ret = JS_TSP_verifyResponse( &binRsp, &binTSPCert, &binData, &sTSTInfo );
+    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "failed to verify response message [%1]").arg(ret));
+        manApplet->elog( QString( "failed to decode response message [%1]").arg(ret));
         goto end;
     }
 
@@ -157,6 +158,7 @@ end :
     JS_BIN_reset( &binData );
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    JS_BIN_reset( &binTST );
     JS_TSP_resetTSTInfo( &sTSTInfo );
 }
 
