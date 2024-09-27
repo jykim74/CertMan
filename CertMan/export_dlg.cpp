@@ -165,7 +165,7 @@ int ExportDlg::saveData()
             }
             else
             {
-                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
+                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()), this);
                 JS_BIN_reset( &binSrc );
                 ret = -1;
                 return JSR_ERR;;
@@ -234,7 +234,7 @@ int ExportDlg::saveData()
             }
             else
             {
-                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()));
+                manApplet->warningBox( QString( "This algorithm [%1] is not supported").arg( keyPair.getAlg()), this);
                 ret = -1;
                 return JSR_ERR;;
             }

@@ -2010,7 +2010,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     else if( keyType == CKK_DSA )
     {
         uModBitLen = strParam.toInt();
-        JS_PKI_DSA_GenParam( uModBitLen, &binP, &binQ, &binG );
+        JS_PKI_DSA_GenParamValue( uModBitLen, &binP, &binQ, &binG );
 
         sPubTemplate[uPubCount].type = CKA_PRIME;
         sPubTemplate[uPubCount].pValue = binP.pVal;

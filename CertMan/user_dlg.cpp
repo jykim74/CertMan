@@ -196,7 +196,7 @@ void UserDlg::regServer()
                                    pReq, &nStatus, &pRsp );
     if( ret != 0 )
     {
-        manApplet->warnLog( QString( "failed to request HTTP post [%1]" ).arg( ret ));
+        manApplet->warnLog( QString( "failed to request HTTP post [%1]" ).arg( ret ), this);
         goto end;
     }
 

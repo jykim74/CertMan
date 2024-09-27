@@ -1791,13 +1791,13 @@ void MainWindow::viewPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg), this);
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("Private key for KMS is not visible [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for KMS is not visible [%1]").arg(strAlg), this);
         return;
     }
 
@@ -1925,13 +1925,13 @@ void MainWindow::exportPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr( "Private key for KMS is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr( "Private key for KMS is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
@@ -1963,13 +1963,13 @@ void MainWindow::exportEncPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
@@ -2001,13 +2001,13 @@ void MainWindow::exportInfoPriKey()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg));
+        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg), this);
         return;
     }
 
@@ -2122,13 +2122,13 @@ void MainWindow::exportPFX()
 
     if( strAlg.contains( "PKCS11" ) )
     {
-        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg), this);
         return;
     }
 
     if( strAlg.contains( "KMIP" ) )
     {
-        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg));
+        manApplet->warningBox( tr("can not read KMIP private key:%1").arg(strAlg), this);
         return;
     }
 
@@ -3578,7 +3578,7 @@ void MainWindow::issueSCEP()
 
     if( nRet != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        manApplet->warnLog( QString( "failed to request HTTP get [%1:%2]").arg(nRet).arg(nStatus));
+        manApplet->warnLog( QString( "failed to request HTTP get [%1:%2]").arg(nRet).arg(nStatus), this);
         goto end;
     }
 

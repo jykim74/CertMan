@@ -296,7 +296,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ));
+            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ), this);
             return;
         }
 
@@ -322,7 +322,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ));
+            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ), this);
             return;
         }
     }

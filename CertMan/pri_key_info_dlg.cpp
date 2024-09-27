@@ -402,7 +402,7 @@ void PriKeyInfoDlg::clickGetPrivateKey()
     }
     else
     {
-        manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( strAlg ));
+        manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( strAlg ), this);
     }
 
     JS_BIN_reset( &binPri );
@@ -443,7 +443,7 @@ void PriKeyInfoDlg::clickGetPublicKey()
     }
     else
     {
-        manApplet->warningBox( tr("Public key algorithm(%1) not supported").arg( strAlg ));
+        manApplet->warningBox( tr("Public key algorithm(%1) not supported").arg( strAlg ), this);
     }
 
     JS_BIN_reset( &binPub );

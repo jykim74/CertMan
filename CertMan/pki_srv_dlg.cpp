@@ -302,7 +302,7 @@ void PKISrvDlg::clickAdd()
 
         if( item->text().toLower() == strName.toLower() )
         {
-            manApplet->warningBox( tr( "%1 has already been added." ).arg( strName ));
+            manApplet->warningBox( tr( "%1 has already been added." ).arg( strName ), this);
             return;
         }
     }
