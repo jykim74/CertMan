@@ -36,6 +36,68 @@ enum {
     DATA_URL
 };
 
+#define VIEW_FILE           0x01000000
+#define VIEW_TOOL           0x02000000
+#define VIEW_DATA           0x03000000
+#define VIEW_SERVER         0x04000000
+#define VIEW_HELP           0x05000000
+
+#define ACT_FILE_NEW                    VIEW_FILE | 0x00000001
+#define ACT_FILE_OPEN                   VIEW_FILE | 0x00000002
+#define ACT_FILE_REMOTE_DB              VIEW_FILE | 0x00000004
+#define ACT_FILE_LOGOUT                 VIEW_FILE | 0x00000008
+#define ACT_FILE_QUIT                   VIEW_FILE | 0x00000010
+
+#define ACT_TOOL_NEW_KEY                VIEW_TOOL | 0x00000001
+#define ACT_TOOL_MAKE_REQ               VIEW_TOOL | 0x00000002
+#define ACT_TOOL_MAKE_CONFIG            VIEW_TOOL | 0x00000004
+#define ACT_TOOL_REG_USER               VIEW_TOOL | 0x00000008
+#define ACT_TOOL_REG_SIGNER             VIEW_TOOL | 0x00000010
+#define ACT_TOOL_MAKE_CERT_PROFILE      VIEW_TOOL | 0x00000020
+#define ACT_TOOL_MAKE_CRL_PROFILE       VIEW_TOOL | 0x00000040
+#define ACT_TOOL_MAKE_CERT              VIEW_TOOL | 0x00000080
+#define ACT_TOOL_MAKE_CRL               VIEW_TOOL | 0x00000100
+#define ACT_TOOL_REVOKE_CERT            VIEW_TOOL | 0x00000200
+
+#define ACT_DATA_IMPORT_DATA            VIEW_DATA | 0x00000001
+#define ACT_DATA_GET_URI                VIEW_DATA | 0x00000002
+#define ACT_DATA_PUBLISH_LDAP           VIEW_DATA | 0x00000004
+#define ACT_DATA_SET_PASSWD             VIEW_DATA | 0x00000008
+#define ACT_DATA_CHANGE_PASSWD          VIEW_DATA | 0x00000010
+#define ACT_DATA_TSP_CLIENT             VIEW_DATA | 0x00000020
+
+#define ACT_SERVER_OCSP                 VIEW_SERVER | 0x00000001
+#define ACT_SERVER_TSP                  VIEW_SERVER | 0x00000002
+#define ACT_SERVER_CMP                  VIEW_SERVER | 0x00000004
+#define ACT_SERVER_REG                  VIEW_SERVER | 0x00000008
+#define ACT_SERVER_CC                   VIEW_SERVER | 0x00000010
+#define ACT_SERVER_KMS                  VIEW_SERVER | 0x00000020
+
+#define ACT_HELP_SERVER_STATUS          VIEW_HELP | 0x00000001
+#define ACT_HELP_SETTING                VIEW_HELP | 0x00000002
+#define ACT_HELP_CLEAR_LOG              VIEW_HELP | 0x00000004
+#define ACT_HELP_HALT_LOG               VIEW_HELP | 0x00000008
+#define ACT_HELP_LCN_INFO               VIEW_HELP | 0x00000010
+#define ACT_HELP_BUG_ISSUE              VIEW_HELP | 0x00000020
+#define ACT_HELP_QNA                    VIEW_HELP | 0x00000040
+#define ACT_HELP_ABOUT                  VIEW_HELP | 0x00000080
+
+static const int kFileDefault = ACT_FILE_NEW | ACT_FILE_OPEN | ACT_FILE_REMOTE_DB | ACT_FILE_LOGOUT;
+
+static const int kToolDefault = ACT_TOOL_NEW_KEY | ACT_TOOL_MAKE_REQ | ACT_TOOL_MAKE_CONFIG \
+                                | ACT_TOOL_REG_USER | ACT_TOOL_REG_SIGNER | ACT_TOOL_MAKE_CERT_PROFILE \
+                                | ACT_TOOL_MAKE_CRL_PROFILE | ACT_TOOL_MAKE_CERT | ACT_TOOL_MAKE_CRL \
+                                | ACT_TOOL_REVOKE_CERT;
+
+static const int kDataDefault = ACT_DATA_IMPORT_DATA | ACT_DATA_GET_URI | ACT_DATA_PUBLISH_LDAP \
+                                | ACT_DATA_SET_PASSWD | ACT_DATA_CHANGE_PASSWD | ACT_DATA_TSP_CLIENT;
+
+static const int kServerDefault = 0;
+
+static const int kHelpDefault = ACT_HELP_SERVER_STATUS | ACT_HELP_CLEAR_LOG | ACT_HELP_HALT_LOG \
+                                | ACT_HELP_LCN_INFO | ACT_HELP_BUG_ISSUE | ACT_HELP_QNA \
+                                | ACT_HELP_ABOUT;
+
 const int   kListCount = 15;
 
 const QString kMechRSA = "RSA";

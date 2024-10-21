@@ -52,12 +52,13 @@ ManApplet::ManApplet(QObject *parent) : QObject(parent)
     is_pro_ = false;
 #endif
 
+    settings_mgr_ = new SettingsMgr;
     main_win_ = nullptr;
     tray_icon_ = nullptr;
     db_mgr_ = nullptr;
     p11_ctx_ = NULL;
 
-    settings_mgr_ = new SettingsMgr;
+
     is_license_ = false;
 
     memset( &license_info_, 0x00, sizeof(license_info_));

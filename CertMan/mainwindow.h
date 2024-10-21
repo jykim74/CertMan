@@ -75,6 +75,7 @@ public:
     void infoCursorTop();
 
     void createActions();
+    void createViewActions();
     void createStatusBar();
     void createTableMenu();
 
@@ -261,6 +262,49 @@ private:
 
     int saveKeyPair( const QString strName, const BIN *pPubInfo, const BIN *pPri );
 
+    bool isView( int nAct );
+    void setView( int nAct );
+    void unsetView( int nAct );
+
+    void viewFileNew( bool bChecked );
+    void viewFileOpen( bool bChecked );
+    void viewFileRemoteDB( bool bChecked );
+    void viewFileLogout( bool bChecked );
+    void viewFileQuit( bool bChecked );
+
+    void viewToolNewKey( bool bChecked );
+    void viewToolMakeReq( bool bChecked );
+    void viewToolMakeConfig( bool bChecked );
+    void viewToolRegUser( bool bChecked );
+    void viewToolRegSigner( bool bChecked );
+    void viewToolMakeCertProfile( bool bChecked );
+    void viewToolMakeCRLProfile( bool bChecked );
+    void viewToolMakeCert( bool bChecked );
+    void viewToolMakeCRL( bool bChecked );
+    void viewToolRevokeCert( bool bChecked );
+
+    void viewDataImportData( bool bChecked );
+    void viewDataGetURI( bool bChecked );
+    void viewDataPublishLDAP( bool bChecked );
+    void viewDataSetPasswd( bool bChecked );
+    void viewDataChangePasswd( bool bChecked );
+    void viewDataTSPClient( bool bChecked );
+
+    void viewServerOCSP( bool bChecked );
+    void viewServerTSP( bool bChecked );
+    void viewServerCMP( bool bChecked );
+    void viewServerREG( bool bChecked );
+    void viewServerCC( bool bChecked );
+    void viewServerKMS( bool bChecked );
+
+    void viewHelpServerStatus( bool bChecked );
+    void viewHelpSetting( bool bChecked );
+    void viewHelpClearLog( bool bChecked );
+    void viewHelpHaltLog( bool bChecked );
+    void viewHelpAbout( bool bChecked );
+
+    void viewSetDefault();
+
     QList<QAction *>  recent_file_list_;
 
     QSplitter       *hsplitter_;
@@ -285,6 +329,51 @@ private:
     bool            log_halt_;
 
     PKISrvDlg       *pki_srv_;
+
+    QToolBar*       file_tool_;
+    QAction*        new_act_;
+    QAction*        open_act_;
+    QAction*        remote_db_act_;
+    QAction*        logout_act_;
+    QAction*        quit_act_;
+
+    QToolBar*       tool_tool_;
+    QAction*        new_key_act_;
+    QAction*        make_req_act_;
+    QAction*        make_config_act_;
+    QAction*        reg_user_act_;
+    QAction*        reg_signer_act_;
+    QAction*        make_cert_profile_act_;
+    QAction*        make_crl_profile_act_;
+    QAction*        make_cert_act_;
+    QAction*        make_crl_act_;
+    QAction*        revoke_cert_act_;
+
+    QToolBar*       data_tool_;
+    QAction*        import_data_act_;
+    QAction*        get_uri_act_;
+    QAction*        publish_ldap_act_;
+    QAction*        set_passwd_act_;
+    QAction*        change_passwd_act_;
+    QAction*        tsp_client_act_;
+
+    QToolBar*       server_tool_;
+    QAction*        ocsp_act_;
+    QAction*        tsp_act_;
+    QAction*        cmp_act_;
+    QAction*        reg_act_;
+    QAction*        cc_act_;
+    QAction*        kms_act_;
+
+    QToolBar*       help_tool_;
+    QAction*        server_status_act_;
+    QAction*        setting_act_;
+    QAction*        clear_log_act_;
+    QAction*        halt_log_act_;
+    QAction*        lcn_info_act_;
+    QAction*        bug_issue_act_;
+    QAction*        qna_act_;
+    QAction*        about_act_;
 };
 
 #endif // MAINWINDOW_H

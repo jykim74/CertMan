@@ -8,6 +8,7 @@
 
 #include <QObject>
 
+
 class SettingsMgr : public QObject
 {
     Q_OBJECT
@@ -174,6 +175,11 @@ public:
 
     void loadSettings();
 
+    int viewValue( int nType );
+    int getViewValue( int nType );
+    void setViewValue( int nVal );
+    void clearViewValue( int nType );
+
 private:
     QString default_hash_;
     QString default_ecc_param_;
@@ -182,6 +188,11 @@ private:
     int issuer_num_;
     int hex_area_width_;
 
+    int view_file_;
+    int view_tool_;
+    int view_data_;
+    int view_server_;
+    int view_help_;
 private:
     Q_DISABLE_COPY(SettingsMgr)
 };

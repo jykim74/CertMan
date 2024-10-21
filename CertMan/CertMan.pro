@@ -63,6 +63,7 @@ SOURCES += \
         login_dlg.cpp \
         main.cpp \
         mainwindow.cpp \
+        mainwindow2.cpp \
         make_cert_dlg.cpp \
         make_cert_profile_dlg.cpp \
         make_crl_dlg.cpp \

@@ -5,6 +5,7 @@
  */
 #include <QSettings>
 
+#include "commons.h"
 #include "settings_mgr.h"
 
 namespace  {
@@ -20,7 +21,7 @@ namespace  {
     const char *kLDAPHost = "LDAPHost";
     const char *kLDAPPort = "LDAPPort";
     const char *kBaseDN = "BaseDN";
-    const char *kListCount = "ListCount";
+    const char *kSetListCount = "ListCount";
     const char *kKMIPUse = "KMIPUse";
     const char *kKMIPHost = "KMIPHost";
     const char *kKMIPPort = "KMIPPort";
@@ -62,6 +63,11 @@ namespace  {
     const char *kCRLProfileNum = "CRLProfileNum";
     const char *kIssuerNum = "issuerNum";
     const char *kHexAreaWidth = "hexAreaWidth";
+    const char *kViewFile = "viewFile";
+    const char *kViewTool = "viewTool";
+    const char *kViewData = "viewData";
+    const char *kViewServer = "viewServer";
+    const char *kViewHelp = "viewHelp";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -96,6 +102,127 @@ void SettingsMgr::loadSettings()
     getCRLProfileNum();
 
     getHexAreaWidth();
+
+    getViewValue( VIEW_FILE );
+    getViewValue( VIEW_TOOL );
+    getViewValue( VIEW_DATA );
+    getViewValue( VIEW_SERVER );
+    getViewValue( VIEW_HELP );
+}
+
+int SettingsMgr::viewValue( int nType )
+{
+    switch (nType) {
+    case VIEW_FILE: return view_file_;
+    case VIEW_TOOL: return view_tool_;
+    case VIEW_DATA: return view_data_;
+    case VIEW_SERVER: return view_server_;
+    case VIEW_HELP: return view_help_;
+    default:
+        break;
+    }
+
+    return -1;
+}
+
+int SettingsMgr::getViewValue( int nType )
+{
+    int ret = -1;
+    QSettings settings;
+    settings.beginGroup(kBehaviorGroup);
+
+    switch (nType) {
+    case VIEW_FILE:
+        ret = settings.value( kViewFile, kFileDefault ).toInt();
+        view_file_ = ret;
+        break;
+    case VIEW_TOOL:
+        ret = settings.value( kViewTool, kToolDefault ).toInt();
+        view_tool_ = ret;
+        break;
+    case VIEW_DATA:
+        ret = settings.value( kViewData, kDataDefault ).toInt();
+        view_data_ = ret;
+        break;
+    case VIEW_SERVER:
+        ret = settings.value( kViewServer, kServerDefault ).toInt();
+        view_server_ = ret;
+        break;
+    case VIEW_HELP:
+        ret = settings.value( kViewHelp, kHelpDefault ).toInt();
+        view_help_ = ret;
+        break;
+    default:
+        break;
+    }
+
+    settings.endGroup();
+    return ret;
+}
+
+void SettingsMgr::setViewValue( int nVal )
+{
+    QSettings settings;
+    settings.beginGroup(kBehaviorGroup);
+
+    int nType = -1;
+
+    nType = nVal & 0xFF000000;
+
+    switch (nType) {
+    case VIEW_FILE:
+        settings.setValue( kViewFile, nVal );
+        view_file_ = nVal;
+        break;
+    case VIEW_TOOL:
+        settings.setValue( kViewTool, nVal );
+        view_tool_ = nVal;
+        break;
+    case VIEW_DATA:
+        settings.setValue( kViewData, nVal );
+        view_data_ = nVal;
+        break;
+    case VIEW_SERVER:
+        settings.setValue( kViewServer, nVal );
+        view_server_ = nVal;
+        break;
+    case VIEW_HELP:
+        settings.setValue( kViewHelp, nVal );
+        view_help_ = nVal;
+        break;
+    default:
+        break;
+    }
+
+    settings.endGroup();
+}
+
+void SettingsMgr::clearViewValue( int nType )
+{
+    QSettings settings;
+
+    settings.beginGroup(kBehaviorGroup);
+    switch (nType) {
+    case VIEW_FILE:
+        settings.remove( kViewFile );
+        break;
+    case VIEW_TOOL:
+        settings.remove( kViewTool );
+        break;
+    case VIEW_DATA:
+        settings.remove( kViewData );
+        break;
+    case VIEW_SERVER:
+        settings.remove( kViewServer );
+        break;
+    case VIEW_HELP:
+        settings.remove( kViewHelp );
+        break;
+    default:
+        break;
+    }
+
+    settings.endGroup();
 }
 
 void SettingsMgr::setSaveRemoteInfo( bool val )
@@ -339,7 +466,7 @@ void SettingsMgr::setListCount( int nCount )
     QSettings   settings;
 
     settings.beginGroup( kBehaviorGroup );
-    settings.setValue( kListCount, nCount );
+    settings.setValue( kSetListCount, nCount );
     settings.endGroup();
 }
 
@@ -349,7 +476,7 @@ int SettingsMgr::listCount()
 
     QSettings   settings;
     settings.beginGroup( kBehaviorGroup );
-    nCount = settings.value( kListCount, 15 ).toInt();
+    nCount = settings.value( kSetListCount, 15 ).toInt();
     settings.endGroup();
 
     return nCount;
