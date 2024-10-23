@@ -404,7 +404,6 @@ void MainWindow::createActions()
     make_crl_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F7 ));
     connect( make_crl_profile_act_, &QAction::triggered, this, &MainWindow::makeCRLProfile);
     toolsMenu->addAction( make_crl_profile_act_ );
-    tool_tool_->addAction( make_crl_profile_act_ );
     if( isView( ACT_TOOL_MAKE_CRL_PROFILE ) ) make_crl_profile_act_->setStatusTip(tr( "Make CRL Profile"));
 
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
@@ -412,7 +411,6 @@ void MainWindow::createActions()
     make_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F8 ));
     connect( make_cert_act_, &QAction::triggered, this, &MainWindow::makeCertificate );
     toolsMenu->addAction( make_cert_act_ );
-    tool_tool_->addAction( make_cert_act_ );
     if( isView( ACT_TOOL_MAKE_CERT ) ) make_cert_act_->setStatusTip(tr("Make certificate"));
 
 
@@ -421,7 +419,6 @@ void MainWindow::createActions()
     make_crl_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F9 ));
     connect( make_crl_act_, &QAction::triggered, this, &MainWindow::makeCRL );
     toolsMenu->addAction( make_crl_act_ );
-    tool_tool_->addAction( make_crl_act_ );
     if( isView( ACT_TOOL_MAKE_CRL ) ) make_crl_act_->setStatusTip(tr("Make CRL"));
 
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
@@ -429,7 +426,6 @@ void MainWindow::createActions()
     revoke_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F10 ));
     connect( revoke_cert_act_, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revoke_cert_act_ );
-    tool_tool_->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) revoke_cert_act_->setStatusTip(tr("Revoke certificate"));
 
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
@@ -443,7 +439,6 @@ void MainWindow::createActions()
     import_data_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I ));
     connect( import_data_act_, &QAction::triggered, this, &MainWindow::importData );
     dataMenu->addAction( import_data_act_ );
-    data_tool_->addAction( import_data_act_ );
     if( isView( ACT_DATA_IMPORT_DATA ) ) import_data_act_->setStatusTip(tr("Import data"));
 
     const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));

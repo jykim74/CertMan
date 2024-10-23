@@ -338,8 +338,6 @@ int ExportDlg::saveData()
     else
         JS_BIN_fileWrite( &binData, strPath.toLocal8Bit().toStdString().c_str() );
 
-    manApplet->setCurFile( strPath );
-
     JS_BIN_reset( &binData );
 
     return JSR_OK;
@@ -402,8 +400,7 @@ void ExportDlg::clickFind()
     QString strFilter;
     QString strPath = mPathText->text();
 
-    if( strPath.length() < 1 )
-        strPath = manApplet->curFile();
+    strPath = manApplet->curFilePath( strPath );
 
     if( export_type_ == EXPORT_TYPE_PRIKEY )
     {
@@ -719,5 +716,5 @@ void ExportDlg::initialize()
     mExportLabel->setText( strLabel );
     mNameText->setText( strName );
     mInfoText->setPlainText( strInfo );
-    mPathText->setText( manApplet->curFolder() + "/" + strPath );
+    mPathText->setText( manApplet->curPath() + "/" + strPath );
 }

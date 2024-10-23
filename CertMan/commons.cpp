@@ -3718,7 +3718,7 @@ int getDataLen( int nType, const QString strData )
         if( isURLEncode( strMsg ) == false ) return -1;
 
         char *pURL = NULL;
-        JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
+        JS_BIN_decodeURL( strMsg.toStdString().c_str(), &pURL );
         if( pURL )
         {
             nLen = strlen( pURL );
@@ -3813,7 +3813,7 @@ const QString getDataLenString( int nType, const QString strData )
         }
 
         char *pURL = NULL;
-        JS_UTIL_decodeURL( strMsg.toStdString().c_str(), &pURL );
+        JS_BIN_decodeURL( strMsg.toStdString().c_str(), &pURL );
         if( pURL )
         {
             nLen = strlen( pURL );
@@ -3890,7 +3890,7 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
         char *pStr = NULL;
         if( isURLEncode( srcString ) == false ) return;
 
-        JS_UTIL_decodeURL( srcString.toStdString().c_str(), &pStr );
+        JS_BIN_decodeURL( srcString.toStdString().c_str(), &pStr );
 
         if( pStr )
         {
@@ -3950,7 +3950,7 @@ QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly )
     {
         char *pStr = NULL;
         JS_BIN_string( pBin, &pStr );
-        JS_UTIL_encodeURL( pStr, &pOut );
+        JS_BIN_encodeURL( pStr, &pOut );
         strOut = pOut;
         if( pStr ) JS_free( pStr );
     }

@@ -74,9 +74,8 @@ public:
     int getDecPriBIN( const QString& strEncPriHex, BIN *pDecPri );
     int getDecPriBIN( const QString& strPasswd, const QString& strEncPriHex, BIN *pDecPri );
 
-    QString curFile() { return cur_file_; };
-    QString curFolder();
-    void setCurFile( const QString& strFile );
+    QString curFilePath( const QString strPath = "" );
+    QString curPath( const QString strPath = "" );
 
     int loignRegServer( QString& strToken );
 

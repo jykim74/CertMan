@@ -319,14 +319,13 @@ void PKISrvDlg::clickAdd()
 
 void PKISrvDlg::clickFindFile()
 {
-    QString strPath = manApplet->curFile();
+    QString strPath = manApplet->curFilePath();
 
     QString strFileName = findFile( this, JS_FILE_TYPE_BER, strPath );
 
     if( strFileName.length() > 0 )
     {
         mValueText->setText( strFileName );
-        manApplet->setCurFile( strFileName );
     }
 }
 

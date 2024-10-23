@@ -177,14 +177,32 @@ void ManApplet::start()
         loadPKCS11();
 }
 
-void ManApplet::setCurFile( const QString& strFile )
+QString ManApplet::curFilePath( const QString strPath )
 {
-    cur_file_ = strFile;
+    if( strPath.length() > 1 )
+    {
+        cur_file_ = strPath;
+    }
+    else
+    {
+        if( cur_file_.length() < 1 )
+            cur_file_ = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    }
+
+    return cur_file_;
 }
 
-QString ManApplet::curFolder()
+QString ManApplet::curPath( const QString strPath )
 {
-    if( cur_file_.length() < 1 ) return ".";
+    if( strPath.length() > 1 )
+    {
+        cur_file_ = strPath;
+    }
+    else
+    {
+        if( cur_file_.length() < 1 )
+            cur_file_ = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    }
 
     QFileInfo file;
     file.setFile( cur_file_ );

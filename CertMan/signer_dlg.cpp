@@ -43,7 +43,7 @@ void SignerDlg::setType(int nType)
 
 void SignerDlg::findCert()
 {
-    QString strPath = manApplet->curFolder();
+    QString strPath = manApplet->curPath();
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
 

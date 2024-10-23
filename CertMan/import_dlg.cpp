@@ -188,7 +188,6 @@ void ImportDlg::accept()
     }
 
     manApplet->messageBox( tr( "import success"), this );
-    manApplet->setCurFile( strPath );
     JS_BIN_reset( &binSrc );
     QDialog::accept();
 }
@@ -228,7 +227,7 @@ void ImportDlg::clickFind()
     QString strPath = mPathText->text();
 
     if( strPath.length() < 1 )
-        strPath = manApplet->curFolder();
+        strPath = manApplet->curPath();
 
     if( mDataTypeCombo->currentIndex() == 0 )
         strFilter = "BER Files (*.ber *.der *.pem)";

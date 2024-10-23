@@ -829,7 +829,7 @@ void MakeCertDlg::findCSRFile()
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
     strPath = mCSRFilePathText->text();
-    if( strPath.length() < 0 ) strPath = manApplet->curFolder();
+    strPath = manApplet->curPath(strPath);
 
     QString filePath = findFile( this, nType, strPath );
     if( filePath.length() > 0 )
@@ -842,7 +842,6 @@ void MakeCertDlg::findCSRFile()
 
         mCSRFilePathText->setText( filePath );
         mSubjectDNText->setText( sReqInfo.pSubjectDN );
-        manApplet->setCurFile( filePath );
     }
 
 end :
