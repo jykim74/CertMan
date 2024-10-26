@@ -339,6 +339,7 @@ void MakeCertDlg::accept()
     manApplet->log( QString( "PublicKey : %1").arg( sReqInfo.pPublicKey ));
 
     JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+    // Need to check EdDSA identifer
     ret = JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
     if( ret != 0 )
     {
