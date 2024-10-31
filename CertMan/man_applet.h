@@ -53,6 +53,8 @@ public:
     void messageLog( const QString strLog, QWidget *parent );
     void warnLog( const QString strLog, QWidget *parent );
 
+    int getPriKey( const QString strHexPri, BIN *pPri );
+
 
     static QString getBrand();
     void restartApp();

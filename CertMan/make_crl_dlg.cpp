@@ -346,10 +346,8 @@ void MakeCRLDlg::accept()
     }
     else
     {
-        if( manApplet->isPasswd() )
-            manApplet->getDecPriBIN( caKeyPair.getPrivateKey(), &binSignPri );
-        else
-            JS_BIN_decodeHex( caKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
+        manApplet->getPriKey( caKeyPair.getPrivateKey(), &binSignPri );
 
         ret = JS_PKI_makeCRL( &sIssueCRLInfo, pExtInfoList, pRevokeInfoList, &binSignPri, &binSignCert, &binCRL );
     }

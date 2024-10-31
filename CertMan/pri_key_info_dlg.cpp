@@ -370,10 +370,7 @@ void PriKeyInfoDlg::clickGetPrivateKey()
 
     clickClear();
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
     if( strAlg == "RSA" )
     {
@@ -482,10 +479,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
         goto end;
     }
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
     JS_PKI_genHash( "SHA1", &binPub, &binHash );
@@ -567,10 +561,7 @@ void PriKeyInfoDlg::clickKeyPairCheck()
     BIN binPri = {0,0};
     BIN binPub = {0,0};
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( key_rec_.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
 
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );

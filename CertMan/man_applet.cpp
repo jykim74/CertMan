@@ -211,6 +211,20 @@ QString ManApplet::curPath( const QString strPath )
     return folder.path();
 }
 
+int ManApplet::getPriKey( const QString strHexPri, BIN *pPri )
+{
+    int ret = 0;
+
+    if( pPri == NULL ) return -1;
+
+    if( is_passwd_ == true )
+        ret = getDecPriBIN( strHexPri, pPri );
+    else
+        ret = JS_BIN_decodeHex( strHexPri.toStdString().c_str(), pPri );
+
+    return ret;
+}
+
 int ManApplet::loignRegServer( QString& strToken )
 {
     int ret = 0;

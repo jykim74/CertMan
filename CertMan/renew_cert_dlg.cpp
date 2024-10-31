@@ -309,10 +309,7 @@ void RenewCertDlg::accept()
     }
     else
     {
-        if( manApplet->isPasswd() )
-            manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binSignPri );
-        else
-            JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+        manApplet->getPriKey( keyPair.getPrivateKey(), &binSignPri );
 
         ret = JS_PKI_renewCertificate( &binCert, &binSignPri, notBefore, notAfter, pSerial, &binRenewCert );
     }

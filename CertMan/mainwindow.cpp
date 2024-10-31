@@ -1936,10 +1936,7 @@ void MainWindow::exportPriKey()
 
     BIN binPri = {0,0};
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     ExportDlg exportDlg;
     exportDlg.setName( keyPair.getName() );
@@ -2123,10 +2120,7 @@ void MainWindow::exportPriKeyAndCert()
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
@@ -3195,10 +3189,7 @@ void MainWindow::updateCMP()
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     QString strURL = manApplet->settingsMgr()->CMPURI();
     strURL += "/CMP";
@@ -3353,10 +3344,8 @@ void MainWindow::revokeCMP()
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     QString strURL = manApplet->settingsMgr()->CMPURI();
     strURL += "/CMP";
@@ -3538,10 +3527,8 @@ void MainWindow::issueSCEP()
     }
 
     JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     nRet = JS_SCEP_makePKIReq(
                 &binCSR,
@@ -3680,10 +3667,7 @@ void MainWindow::renewSCEP()
 
     manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
@@ -3903,10 +3887,8 @@ void MainWindow::getCRLSCEP()
 
     manApplet->dbMgr()->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
-    if( manApplet->isPasswd() )
-        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
-    else
-        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
+
+    manApplet->getPriKey( keyPair.getPrivateKey(), &binPri );
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
 

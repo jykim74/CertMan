@@ -467,10 +467,7 @@ void MakeReqDlg::accept()
     }
     else
     {
-        if( manApplet->isPasswd() )
-            manApplet->getDecPriBIN( keyRec.getPrivateKey(), &binPri );
-        else
-            JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binPri );
+        manApplet->getPriKey( keyRec.getPrivateKey(), &binPri );
 
         ret = JS_PKI_makeCSR( strHash.length() ? strHash.toStdString().c_str() : NULL,
                               strDN.toStdString().c_str(),

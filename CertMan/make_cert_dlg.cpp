@@ -630,10 +630,8 @@ void MakeCertDlg::accept()
     }
     else
     {
-        if( manApplet->isPasswd() )
-            manApplet->getDecPriBIN( signKeyPair.getPrivateKey(), &binSignPri );
-        else
-            JS_BIN_decodeHex( signKeyPair.getPrivateKey().toStdString().c_str(), &binSignPri );
+
+        manApplet->getPriKey( signKeyPair.getPrivateKey(), &binSignPri );
 
         ret = JS_PKI_makeCertificate( bSelf, &sIssueCertInfo, pExtInfoList, &binSignPri, &binSignCert, &binCert );
     }
