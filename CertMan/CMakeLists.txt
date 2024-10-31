@@ -224,6 +224,8 @@ add_executable(${PROJECT_NAME}
     pki_srv_dlg.h pki_srv_dlg.cpp pki_srv_dlg.ui
     copy_right_dlg.h copy_right_dlg.cpp copy_right_dlg.ui
     mainwindow2.cpp
+    passwd_dlg.cpp passwd_dlg.h passwd_dlg.ui
+    new_passwd_dlg.cpp new_passwd_dlg.h new_passwd_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

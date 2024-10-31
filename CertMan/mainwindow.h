@@ -167,15 +167,11 @@ public slots:
     void importPriKey();
     void importEncPriKey();
     void exportPriKey();
-    void exportInfoPriKey();
-    void exportEncPriKey();
     void exportPubKey();
     void exportRequest();
     void exportCertificate();
     void exportCRL();
-    void exportPFX();
-    void exportFullChain();
-    void exportChain();
+    void exportPriKeyAndCert();
     void setPasswd();
     void changePasswd();
 

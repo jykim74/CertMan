@@ -181,7 +181,9 @@ enum {
     JS_FILE_TYPE_BIN,
     JS_FILE_TYPE_LCN,
     JS_FILE_TYPE_JSON,
+    JS_FILE_TYPE_PKCS8,
     JS_FILE_TYPE_PKCS7,
+    JS_FILE_TYPE_PRIKEY_PKCS8_PFX,
     JS_FILE_TYPE_ALL };
 
 static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Connectivity(ODBC)" };
@@ -189,6 +191,9 @@ static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Con
 const QString GetSystemID();
 
 QString findFile( QWidget *parent, int nType, const QString strPath );
+QString findFile( QWidget *parent, int nType, const QString strPath, QString& strSelected );
+QString findSaveFile( QWidget *parent, int nType, const QString strPath );
+QString findFolder( QWidget *parent, const QString strPath );
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec );
 int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec );

@@ -8,10 +8,41 @@
 
 #include <QDialog>
 #include "ui_export_dlg.h"
+#include "js_bin.h"
 
 namespace Ui {
 class ExportDlg;
 }
+
+enum {
+    DataPriKey = 1,
+    DataPubKey,
+    DataCert,
+    DataCRL,
+    DataCSR,
+    DataPriKeyCert,
+};
+
+enum {
+    ExportPubPEM = 1,   // PEM public (*.pem)
+    ExportPubDER,       // DER public (*.der)
+    ExportPriPEM,       // PEM private (*.pem)
+    ExportPriDER,       // DER private (*.der)
+    ExportCertPEM,      // PEM certificate (*.crt)
+    ExportCertDER,      // DER certificate (*.cer)
+    ExportPFX,          // PKCS12 (*.pfx)
+    ExportP8InfoPEM,    // PEM PKCS8 Info (*.pk8)
+    ExportP8InfoDER,    // DER PKCS8 Info (*.der)
+    ExportP8EncPEM,     // PEM PKCS8 Encrypt (*.key)
+    ExportP8EncDER,     // DER PKCS8 Encrypt (*.der)
+    ExportCSR_PEM,      // PEM CSR (*.csr)
+    ExportCSR_DER,      // DER CSR (*.der)
+    ExportCRL_PEM,      // PEM CRL (*.crl)
+    ExportCRL_DER,      // DER CRL (*.der)
+    ExportChain_PEM,    // PEM Chain (*.pem)
+    ExportFullChain_PEM // PEM Full Chain (*.pem)
+};
+
 
 enum {
     EXPORT_TYPE_PRIKEY = 1,
@@ -33,30 +64,47 @@ class ExportDlg : public QDialog, public Ui::ExportDlg
 public:
     explicit ExportDlg(QWidget *parent = nullptr);
     ~ExportDlg();
-    int exportType() { return export_type_; };
-    int dataNum() { return data_num_; };
 
-    void setExportType( int export_type );
-    void setDataNum( int data_num );
+    void setName( const QString strName );
+
+    void setPrivateKey( const BIN *pPriKey );
+    void setPublicKey( const BIN *pPubKey );
+    void setCert( const BIN *pCert );
+    void setCRL( const BIN *pCRL );
+    void setCSR( const BIN *pCSR );
+    void setPriKeyAndCert( int nDataNum, const BIN *pPriKey, const BIN *pCert );
 
 private slots:
-    void showEvent(QShowEvent *event);
-    virtual void accept();
-    int saveData();
-    int saveChain();
 
-    void clickFind();
-    void clickPEMSaveCheck();
-
-    void changePBEVersion( int index );
+    void changeFormatType( int index );
+    void clickOK();
+    void clickFindPath();
 
 private:
     void initUI();
     void initialize();
 
+    int exportPublic();
+    int exportPrivate();
+    int exportCert();
+    int exportCRL();
+    int exportCSR();
+    int exportPFX();
+    int exportP8Enc();
+    int exportP8Info();
+    int exportChain( bool bFull = false );
+
 private:
-    int export_type_;
     int data_num_;
+
+    BIN pri_key_;
+    BIN pub_key_;
+    BIN cert_;
+    BIN csr_;
+    BIN crl_;
+
+    int data_type_;
+    int key_type_;
 };
 
 #endif // EXPORT_DLG_H

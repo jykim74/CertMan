@@ -666,7 +666,7 @@ void MainWindow::showRightMenu(QPoint point)
     {
         if( treeItem->getType() != CM_ITEM_TYPE_IMPORT_CERT )
         {
-            menu.addAction( tr( "Export PFX"), this, &MainWindow::exportPFX );
+            menu.addAction( tr( "Export"), this, &MainWindow::exportPriKeyAndCert );
 
 
             QAction* pPubCertAct = menu.addAction( tr( "Publish Certificate" ), this, &MainWindow::publishLDAP );
@@ -693,8 +693,6 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
-        menu.addAction( tr( "Export FullChain" ), this, &MainWindow::exportFullChain );
-        menu.addAction( tr( "Export Chain" ), this, &MainWindow::exportChain );
 
         if( manApplet->isPRO() )
         {
@@ -736,8 +734,6 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Export PublicKey"), this, &MainWindow::exportPubKey );
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
-        menu.addAction(tr("Export With PrivateKeyInfo"), this, &MainWindow::exportInfoPriKey );
-        menu.addAction(tr("Export With EncryptedPrivateKey"), this, &MainWindow::exportEncPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
         menu.addAction(tr("New Key"), this, &MainWindow::newKey );
@@ -1938,87 +1934,21 @@ void MainWindow::exportPriKey()
         return;
     }
 
-    ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_PRIKEY );
-    exportDlg.exec();
-}
+    BIN binPri = {0,0};
 
-void MainWindow::exportEncPriKey()
-{   
-    if( manApplet->isDBOpen() == false )
-    {
-        manApplet->warningBox( tr("The database is not connected."), this );
-        return;
-    }
-
-    int row = right_table_->currentRow();
-    if( row < 0 ) return;
-
-    QTableWidgetItem* item = right_table_->item( row, 0 );
-    int num = item->text().toInt();
-
-    DBMgr* dbMgr = manApplet->dbMgr();
-    KeyPairRec keyPair;
-
-    dbMgr->getKeyPairRec( num, keyPair );
-    QString strAlg = keyPair.getAlg();
-
-    if( strAlg.contains( "PKCS11" ) )
-    {
-        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg), this);
-        return;
-    }
-
-    if( strAlg.contains( "KMIP" ) )
-    {
-        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg), this);
-        return;
-    }
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_ENC_PRIKEY );
+    exportDlg.setName( keyPair.getName() );
+    exportDlg.setPrivateKey( &binPri );
     exportDlg.exec();
+
+    JS_BIN_reset( &binPri );
 }
 
-void MainWindow::exportInfoPriKey()
-{
-    if( manApplet->isDBOpen() == false )
-    {
-        manApplet->warningBox( tr("The database is not connected."), this );
-        return;
-    }
-
-    int row = right_table_->currentRow();
-    if( row < 0 ) return;
-
-    QTableWidgetItem* item = right_table_->item( row, 0 );
-    int num = item->text().toInt();
-
-    DBMgr* dbMgr = manApplet->dbMgr();
-    KeyPairRec keyPair;
-
-    dbMgr->getKeyPairRec( num, keyPair );
-    QString strAlg = keyPair.getAlg();
-
-    if( strAlg.contains( "PKCS11" ) )
-    {
-        manApplet->warningBox( tr("Private key for HSM is unreadable [%1]").arg(strAlg), this);
-        return;
-    }
-
-    if( strAlg.contains( "KMIP" ) )
-    {
-        manApplet->warningBox( tr("Private key for KMS is unreadable [%1]").arg(strAlg), this);
-        return;
-    }
-
-    ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_INFO_PRIKEY );
-    exportDlg.exec();
-}
 
 void MainWindow::exportPubKey()
 {
@@ -2034,10 +1964,21 @@ void MainWindow::exportPubKey()
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    DBMgr* dbMgr = manApplet->dbMgr();
+    KeyPairRec keyPair;
+
+    dbMgr->getKeyPairRec( num, keyPair );
+    QString strAlg = keyPair.getAlg();
+
+    BIN binPub = {0,0};
+    JS_BIN_decodeHex( keyPair.getPublicKey().toStdString().c_str(), &binPub );
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_PUBKEY );
+    exportDlg.setName( keyPair.getName() );
+    exportDlg.setPublicKey( &binPub );
     exportDlg.exec();
+
+    JS_BIN_reset( &binPub );
 }
 
 void MainWindow::exportRequest()
@@ -2051,13 +1992,23 @@ void MainWindow::exportRequest()
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
+    DBMgr* dbMgr = manApplet->dbMgr();
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    ReqRec req;
+    dbMgr->getReqRec( num, req );
+
+    BIN binCSR = {0,0};
+
+    JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_REQUEST );
+    exportDlg.setName( req.getName() );
+    exportDlg.setCSR( &binCSR );
     exportDlg.exec();
+
+    JS_BIN_reset( &binCSR );
 }
 
 void MainWindow::exportCertificate()
@@ -2071,13 +2022,29 @@ void MainWindow::exportCertificate()
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
+    DBMgr* dbMgr = manApplet->dbMgr();
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    CertRec cert;
+    dbMgr->getCertRec( num, cert );
+
+    BIN binCert = {0,0};
+    JCertInfo sCertInfo;
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+
+    JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_CERTIFICATE );
+    exportDlg.setName( sCertInfo.pSubjectName );
+    exportDlg.setCert( &binCert );
     exportDlg.exec();
+
+    JS_BIN_reset( &binCert );
+    JS_PKI_resetCertInfo( &sCertInfo );
 }
 
 void MainWindow::exportCRL()
@@ -2091,16 +2058,30 @@ void MainWindow::exportCRL()
     int row = right_table_->currentRow();
     if( row < 0 ) return;
 
+    DBMgr* dbMgr = manApplet->dbMgr();
     QTableWidgetItem* item = right_table_->item( row, 0 );
     int num = item->text().toInt();
 
+    BIN binCRL = {0,0};
+    JCRLInfo sCRLInfo;
+
+    CRLRec crl;
+    dbMgr->getCRLRec( num, crl );
+    JS_BIN_decodeHex( crl.getCRL().toStdString().c_str(), &binCRL );
+
+    memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
+    JS_PKI_getCRLInfo( &binCRL, &sCRLInfo, NULL, NULL );
+
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_CRL );
+    exportDlg.setName( sCRLInfo.pIssuerName );
+    exportDlg.setCRL( &binCRL );
     exportDlg.exec();
+
+    JS_BIN_reset( &binCRL );
+    JS_PKI_resetCRLInfo( &sCRLInfo );
 }
 
-void MainWindow::exportPFX()
+void MainWindow::exportPriKeyAndCert()
 {
     if( manApplet->isDBOpen() == false )
     {
@@ -2135,58 +2116,29 @@ void MainWindow::exportPFX()
         return;
     }
 
-    ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_PFX );
-    exportDlg.exec();
-}
+    BIN binPri = {0,0};
+    BIN binCert = {0,0};
 
-void MainWindow::exportFullChain()
-{
-    if( manApplet->isDBOpen() == false )
-    {
-        manApplet->warningBox( tr("The database is not connected."), this );
-        return;
-    }
+    JCertInfo sCertInfo;
 
-    int row = right_table_->currentRow();
-    if( row < 0 ) return;
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    QTableWidgetItem* item = right_table_->item( row, 0 );
-    int num = item->text().toInt();
+    if( manApplet->isPasswd() )
+        manApplet->getDecPriBIN( keyPair.getPrivateKey(), &binPri );
+    else
+        JS_BIN_decodeHex( keyPair.getPrivateKey().toStdString().c_str(), &binPri );
 
-    CertRec cert;
-    manApplet->dbMgr()->getCertRec( num, cert );
-    if( cert.getIssuerNum() < 0 )
-    {
-        manApplet->warningBox( tr( "There is no issuer certifiate." ), this );
-        return;
-    }
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+    JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
 
     ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_FULL_CHAIN );
+    exportDlg.setName( sCertInfo.pSubjectName );
+    exportDlg.setPriKeyAndCert( num, &binPri, &binCert );
     exportDlg.exec();
-}
 
-void MainWindow::exportChain()
-{
-    if( manApplet->isDBOpen() == false )
-    {
-        manApplet->warningBox( tr("The database is not connected."), this );
-        return;
-    }
-
-    int row = right_table_->currentRow();
-    if( row < 0 ) return;
-
-    QTableWidgetItem* item = right_table_->item( row, 0 );
-    int num = item->text().toInt();
-
-    ExportDlg exportDlg;
-    exportDlg.setDataNum( num );
-    exportDlg.setExportType( EXPORT_TYPE_CHAIN );
-    exportDlg.exec();
+    JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binCert );
+    JS_PKI_resetCertInfo( &sCertInfo );
 }
 
 void MainWindow::setPasswd()

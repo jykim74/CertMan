@@ -1458,6 +1458,11 @@ static const QString _getFileFilter( int nType, QString& strFileType )
         strFileType = QObject::tr("PKCS7 Files");
         strFilter = QString("%1 (*.p7b *.pkcs7 *.der *.pem)" ).arg( strFileType );
     }
+    else if( nType == JS_FILE_TYPE_PKCS8 )
+    {
+        strFileType = QObject::tr("PKCS8 Files");
+        strFilter = QString("%1 (*.pk8 *.p8 *.der *.pem)").arg( strFileType );
+    }
     else if( nType == JS_FILE_TYPE_JSON )
     {
         strFileType = QObject::tr("JSON Files");
@@ -1468,11 +1473,88 @@ static const QString _getFileFilter( int nType, QString& strFileType )
         strFileType = QObject::tr("License Files");
         strFilter = QString( "%1 (*.lcn *.txt)" ).arg( strFileType );
     }
+    else if( nType == JS_FILE_TYPE_PRIKEY_PKCS8_PFX )
+    {
+        strFileType = QObject::tr("PrivateKey Files");
+        strFilter = QString("%1 (*.key *.der *.pem)").arg( strFileType );
+
+        strFilter += ";;";
+        strFileType = QObject::tr("PKCS8 Files");
+        strFilter += QString("%1 (*.pk8 *.p8)" ).arg( strFileType );
+
+        strFilter += ";;";
+        strFileType = QObject::tr("PFX Files");
+        strFilter += QString("%1 (*.pfx *.p12 *.pem)" ).arg( strFileType );
+    }
 
     if( strFilter.length() > 0 ) strFilter += ";;";
     strFilter += QObject::tr( "All Files (*.*)" );
 
     return strFilter;
+}
+
+static const QString _getFileExt( int nType )
+{
+    QString strExt;
+
+    if( nType == JS_FILE_TYPE_CERT )
+    {
+        strExt = "crt";
+    }
+    else if( nType == JS_FILE_TYPE_CRL )
+    {
+        strExt = "crl";
+    }
+    else if( nType == JS_FILE_TYPE_CSR )
+    {
+        strExt = "csr";
+    }
+    else if( nType == JS_FILE_TYPE_PRIKEY )
+    {
+        strExt = "key";
+    }
+    else if( nType == JS_FILE_TYPE_PKCS8 )
+    {
+        strExt = "pk8";
+    }
+    else if( nType == JS_FILE_TYPE_TXT )
+    {
+        strExt = "txt";
+    }
+    else if( nType == JS_FILE_TYPE_BER )
+    {
+        strExt = "ber";
+    }
+    else if( nType == JS_FILE_TYPE_CFG )
+    {
+        strExt = "cfg";
+    }
+    else if( nType == JS_FILE_TYPE_PFX )
+    {
+        strExt = "pfx";
+    }
+    else if( nType == JS_FILE_TYPE_BIN )
+    {
+        strExt = "bin";
+    }
+    else if( nType == JS_FILE_TYPE_PKCS7 )
+    {
+        strExt = "p7b";
+    }
+    else if( nType == JS_FILE_TYPE_JSON )
+    {
+        strExt = "json";
+    }
+    else if( nType == JS_FILE_TYPE_LCN )
+    {
+        strExt = "lcn";
+    }
+    else
+    {
+        strExt = "pem";
+    }
+
+    return strExt;
 }
 
 
@@ -1502,6 +1584,82 @@ QString findFile( QWidget *parent, int nType, const QString strPath )
 
     return fileName;
 };
+
+QString findFile( QWidget *parent, int nType, const QString strPath, QString& strSelected )
+{
+    QString strCurPath;
+
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    if( strPath.length() <= 0 )
+        strCurPath = QDir::currentPath();
+    else
+        strCurPath = strPath;
+
+    QString strFileType;
+    QString strFilter = _getFileFilter( nType, strFileType );
+    QString selectedFilter;
+
+
+    QString fileName = QFileDialog::getOpenFileName( parent,
+                                                    QObject::tr( "Open %1" ).arg( strFileType ),
+                                                    strCurPath,
+                                                    strFilter,
+                                                    &strSelected,
+                                                    options );
+
+    return fileName;
+};
+
+
+QString findSaveFile( QWidget *parent, int nType, const QString strPath )
+{
+    QString strCurPath;
+
+    QFileDialog::Options options;
+    options |= QFileDialog::DontUseNativeDialog;
+
+    if( strPath.length() <= 0 )
+        strCurPath = QDir::currentPath();
+    else
+        strCurPath = strPath;
+
+    //    QString strPath = QDir::currentPath();
+
+    QString strFileType;
+    QString strFilter = _getFileFilter( nType, strFileType );
+    QString selectedFilter;
+
+    QString fileName = QFileDialog::getSaveFileName( parent,
+                                                    QObject::tr( "Save %1" ).arg( strFileType ),
+                                                    strCurPath,
+                                                    strFilter,
+                                                    &selectedFilter,
+                                                    options );
+
+    if( fileName.length() > 0 )
+    {
+        QStringList nameVal = fileName.split( "." );
+        if( nameVal.size() < 2 )
+            fileName = QString( "%1.%2" ).arg( fileName ).arg( _getFileExt( nType ) );
+    }
+
+    return fileName;
+};
+
+QString findFolder( QWidget *parent, const QString strPath )
+{
+    QFileDialog::Options options;
+    options |= QFileDialog::ShowDirsOnly;
+    options |= QFileDialog::DontResolveSymlinks;
+
+
+    QString folderName = QFileDialog::getExistingDirectory(
+        parent, QObject::tr("Open Directory"), strPath, options);
+
+    return folderName;
+}
 
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec )
