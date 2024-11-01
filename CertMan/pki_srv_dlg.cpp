@@ -332,6 +332,7 @@ void PKISrvDlg::clickFindFile()
 void PKISrvDlg::clickFindServer()
 {
     QString strPath = mServerPathText->text();
+    strPath = manApplet->curFilePath( strPath );
 
     QString strFileName = findFile( this, JS_FILE_TYPE_ALL, strPath );
 

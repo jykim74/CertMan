@@ -284,8 +284,13 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
+  <tabstop>mAlgText</tabstop>
   <tabstop>mPathText</tabstop>
   <tabstop>mFindBtn</tabstop>
+  <tabstop>mFormatCombo</tabstop>
+  <tabstop>mFormatInfoText</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>

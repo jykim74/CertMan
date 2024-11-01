@@ -1111,68 +1111,73 @@
         <translation>인증서와 개인키 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="365"/>
+        <location filename="../export_dlg.cpp" line="367"/>
+        <source>Unlicense version support only RSA algorithm: %1</source>
+        <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="374"/>
         <source>That file name already exists. Do you want to overwrite it?</source>
         <translation>해당 파일명은 이미 존재 합니다. 덮어쓰겠습니까?</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="451"/>
+        <location filename="../export_dlg.cpp" line="460"/>
         <source>invalid service: %1</source>
         <translation>유효하지 않는 서비스: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="469"/>
+        <location filename="../export_dlg.cpp" line="478"/>
         <source>Public Key export successfully</source>
         <translation>공개키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="502"/>
+        <location filename="../export_dlg.cpp" line="511"/>
         <source>Private Key export successfully</source>
         <translation>개인키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="533"/>
+        <location filename="../export_dlg.cpp" line="542"/>
         <source>Certificate export successfully</source>
         <translation>인증서 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="561"/>
+        <location filename="../export_dlg.cpp" line="570"/>
         <source>CRL export successfully</source>
         <translation>CRL 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="589"/>
+        <location filename="../export_dlg.cpp" line="598"/>
         <source>CSR export successfully</source>
         <translation>CSR 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="618"/>
+        <location filename="../export_dlg.cpp" line="627"/>
         <source>fail to encrypt PFX: %1</source>
         <translation>PFX 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="625"/>
+        <location filename="../export_dlg.cpp" line="634"/>
         <source>PFX export successfully</source>
         <translation>PFX 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="657"/>
+        <location filename="../export_dlg.cpp" line="666"/>
         <source>fail to encrypt private key: %1</source>
         <translation>개인키 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="668"/>
+        <location filename="../export_dlg.cpp" line="677"/>
         <source>Encrypted privateKey export successfully</source>
         <translation>암호화된 개인키 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="704"/>
-        <location filename="../export_dlg.cpp" line="777"/>
+        <location filename="../export_dlg.cpp" line="713"/>
+        <location filename="../export_dlg.cpp" line="786"/>
         <source>PKCS8 Info export successfully</source>
         <translation>PKCS8 메세지 내보내기에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="783"/>
+        <location filename="../export_dlg.cpp" line="792"/>
         <source>failed to export: %1</source>
         <translation>내보내기 실패: %1</translation>
     </message>
@@ -1439,49 +1444,53 @@
         <translation type="vanished">값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="65"/>
+        <location filename="../import_dlg.cpp" line="66"/>
         <source>Please enter a password</source>
         <translation>암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="77"/>
+        <location filename="../import_dlg.cpp" line="78"/>
         <source>Select the file to import</source>
         <translation>가져올 파일을 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="92"/>
+        <location filename="../import_dlg.cpp" line="93"/>
         <source>Please enter a value</source>
         <translation>값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="117"/>
+        <location filename="../import_dlg.cpp" line="118"/>
         <source>Private key decryption failed [%1]</source>
         <translation>개인키 암호화에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="138"/>
+        <location filename="../import_dlg.cpp" line="139"/>
         <source>Key management server does not support importing CSR</source>
         <translation>키관리 서버는 CSR 가져오기를 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="160"/>
+        <location filename="../import_dlg.cpp" line="161"/>
         <source>Key management server does not support importing CRL</source>
         <translation>키관리 서버는 CRL 가져오기를 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="183"/>
+        <location filename="../import_dlg.cpp" line="184"/>
         <source>import failed [%1]</source>
         <translation>가져오기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="190"/>
+        <location filename="../import_dlg.cpp" line="191"/>
         <source>import success</source>
         <translation>가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="249"/>
+        <location filename="../import_dlg.cpp" line="314"/>
+        <source>Unlicense version support only RSA algorithm: %1</source>
+        <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
+    </message>
+    <message>
         <source>Import files</source>
-        <translation>가져올 파일</translation>
+        <translation type="vanished">가져올 파일</translation>
     </message>
     <message>
         <source>Import to KMS</source>
@@ -1531,7 +1540,7 @@
         <translation type="vanished">가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="84"/>
+        <location filename="../import_dlg.cpp" line="85"/>
         <source>fail to read : %1</source>
         <translation>파일 읽기 실패 : %1</translation>
     </message>

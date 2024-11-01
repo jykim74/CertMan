@@ -360,6 +360,15 @@ void ExportDlg::clickOK()
 
     QString strFilename = mPathText->text();
 
+    if( manApplet->isLicense() == false )
+    {
+        if( data_type_ != DataCRL && key_type_ != JS_PKI_KEY_TYPE_RSA )
+        {
+            manApplet->warnLog( tr("Unlicense version support only RSA algorithm: %1").arg( key_type_ ), this );
+            return;
+        }
+    }
+
     if( QFileInfo::exists( strFilename ) == true )
     {
         bool bVal = manApplet->yesOrNoBox( tr( "That file name already exists. Do you want to overwrite it?" ), this );

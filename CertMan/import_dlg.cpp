@@ -23,6 +23,7 @@ static QStringList sDataTypeList = {
 
 static QStringList sValueType = { "Hex", "Base64" };
 
+
 ImportDlg::ImportDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -204,6 +205,9 @@ void ImportDlg::initUI()
     connect( mUseFileCheck, SIGNAL(clicked()), this, SLOT(checkUseFile()));
     connect( mValueTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValue()));
     connect( mValueText, SIGNAL(textChanged()), this, SLOT(changeValue()));
+
+    mUseFileCheck->setChecked(true);
+    mValueGroup->hide();
 }
 
 void ImportDlg::initialize()
@@ -223,36 +227,28 @@ void ImportDlg::clickFind()
     QFileDialog::Options options;
     options |= QFileDialog::DontUseNativeDialog;
 
-    QString strFilter = "";
+
     QString strPath = mPathText->text();
+    int nFileType = JS_FILE_TYPE_ALL;
 
     if( strPath.length() < 1 )
         strPath = manApplet->curPath();
 
     if( mDataTypeCombo->currentIndex() == 0 )
-        strFilter = "BER Files (*.ber *.der *.pem)";
+        nFileType = JS_FILE_TYPE_BER;
     else if( mDataTypeCombo->currentIndex() == 1 )
-        strFilter = "Private Key Files (*.key *.der *.pem)";
+        nFileType = JS_FILE_TYPE_PRIKEY;
     else if( mDataTypeCombo->currentIndex() == 2 )
-        strFilter = "CSF Files (*.csr *.der *.pem)";
+        nFileType = JS_FILE_TYPE_CSR;
     else if( mDataTypeCombo->currentIndex() == 3 )
-        strFilter = "Cert Files (*.crt *.der *.pem)";
+        nFileType = JS_FILE_TYPE_CERT;
     else if( mDataTypeCombo->currentIndex() == 4 )
-        strFilter = "CRL Files (*.crl *.der *.pem)";
+        nFileType = JS_FILE_TYPE_CRL;
     else if( mDataTypeCombo->currentIndex() == 5 )
-        strFilter = "PFX Files (*.pfx *.der *.pem);;P12 Files (*.p12 *.der *.pem)";
+        nFileType = JS_FILE_TYPE_PFX;
 
-    strFilter += ";;All Files (*.*)";
-
-    QString selectedFilter;
-    QString fileName = QFileDialog::getOpenFileName( this,
-                                                     tr("Import files"),
-                                                     strPath,
-                                                     strFilter,
-                                                     &selectedFilter,
-                                                     options );
-
-    mPathText->setText( fileName );
+    QString fileName = findFile( this, nFileType, strPath );
+    if( fileName.length() > 0 ) mPathText->setText( fileName );
 }
 
 void ImportDlg::dataTypeChanged( int index )
@@ -315,7 +311,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     {
         if( nKeyType != JS_PKI_KEY_TYPE_RSA )
         {
-            manApplet->elog( QString("Unlicense version support only RSA private key: %1").arg( nKeyType ));
+            manApplet->warnLog( tr("Unlicense version support only RSA algorithm: %1").arg( nKeyType ), this );
             ret = -1;
             goto end;
         }
@@ -581,6 +577,11 @@ void ImportDlg::checkUseFile()
     mValueGroup->setEnabled( !bVal );
     mPathText->setEnabled( bVal );
     mFindBtn->setEnabled( bVal );
+
+    if( bVal == true )
+        mValueGroup->hide();
+    else
+        mValueGroup->show();
 }
 
 void ImportDlg::changeValue()

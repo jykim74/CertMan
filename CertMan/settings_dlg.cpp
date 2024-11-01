@@ -176,7 +176,7 @@ void SettingsDlg::checkKMIPUse()
 void SettingsDlg::findCACert()
 {
     QString strPath = mKMIPCACertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -187,7 +187,7 @@ void SettingsDlg::findCACert()
 void SettingsDlg::findCert()
 {
     QString strPath = mKMIPCertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -198,7 +198,7 @@ void SettingsDlg::findCert()
 void SettingsDlg::findPrivateKey()
 {
     QString strPath = mKMIPPrivateKeyPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
@@ -242,7 +242,7 @@ void SettingsDlg::checkOCSPAttachSign()
 void SettingsDlg::findOCSPSrvCert()
 {
     QString strPath = mOCSPSrvCertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -253,7 +253,7 @@ void SettingsDlg::findOCSPSrvCert()
 void SettingsDlg::findOCSPPri()
 {
     QString strPath = mOCSPSignerPriPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
@@ -264,7 +264,7 @@ void SettingsDlg::findOCSPPri()
 void SettingsDlg::findOCSPCert()
 {
     QString strPath = mOCSPSignerCertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -288,7 +288,7 @@ void SettingsDlg::checkCMPUse()
 void SettingsDlg::findCMPRootCACert()
 {
     QString strPath = mCMPRootCACertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -299,7 +299,7 @@ void SettingsDlg::findCMPRootCACert()
 void SettingsDlg::findCMPCACert()
 {
     QString strPath = mCMPCACertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -316,7 +316,7 @@ void SettingsDlg::checkTSPUse()
 void SettingsDlg::findTSPSrvCert()
 {
     QString strPath = mTSPSrvCertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
@@ -345,7 +345,7 @@ void SettingsDlg::checkSCEPMutualAuth()
 void SettingsDlg::findSCEPPriKey()
 {
     QString strPath = mSCEPPriKeyPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_PRIKEY, strPath );
     if( fileName.length() < 1 ) return;
@@ -356,7 +356,7 @@ void SettingsDlg::findSCEPPriKey()
 void SettingsDlg::findSCEPCert()
 {
     QString strPath = mSCEPCertPathText->text();
-    if( strPath.length() < 1 ) strPath = manApplet->curPath();
+    strPath = manApplet->curFilePath( strPath );
 
     QString fileName = findFile( this, JS_FILE_TYPE_CERT, strPath );
     if( fileName.length() < 1 ) return;
