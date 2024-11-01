@@ -96,9 +96,9 @@ static const QString getFormatDesc( int nFormatType )
     case ExportCRL_DER:
         return QObject::tr( "CRL DER format file" );
     case ExportChain_PEM:
-        return QObject::tr( "PEM Chain PEM format file" );
+        return QObject::tr( "PEM Chain format file" );
     case ExportFullChain_PEM:
-        return QObject::tr( "PEM Full Chain PEM format file" );
+        return QObject::tr( "PEM Full Chain format file" );
 
     default:
         break;
@@ -338,10 +338,18 @@ void ExportDlg::changeFormatType( int index )
     mFormatInfoText->setText( strDesc );
     QString strFileName = mPathText->text();
     QString strExt = getFormatExtend( mFormatCombo->currentData().toInt());
+    QString strName = mNameText->text();
 
     QFileInfo fileInfo( strFileName );
+    QString strNewName;
 
-    QString strNewName = QString( "%1/%2.%3" ).arg( fileInfo.path() ).arg( fileInfo.baseName() ).arg( strExt );
+    if( nFormatType == ExportChain_PEM )
+        strNewName = QString( "%1/%2_chain.%3" ).arg( fileInfo.path() ).arg( strName ).arg( strExt );
+    else if( nFormatType == ExportFullChain_PEM )
+        strNewName = QString( "%1/%2_full_chain.%3" ).arg( fileInfo.path() ).arg( strName ).arg( strExt );
+    else
+        strNewName = QString( "%1/%2.%3" ).arg( fileInfo.path() ).arg( fileInfo.baseName() ).arg( strExt );
+
     mPathText->setText( strNewName );
 }
 
@@ -712,7 +720,7 @@ int ExportDlg::exportChain( bool bFull )
 
     if( data_type_ != DataPriKeyCert ) return -1;
 
-    if( nExportType != ExportChain_PEM ) return -1;
+    if( nExportType != ExportChain_PEM && nExportType != ExportFullChain_PEM ) return -1;
 
     QList<CertRec> certList;
     int nSize = 0;
@@ -754,7 +762,11 @@ int ExportDlg::exportChain( bool bFull )
         CertRec cert = certList.at(i);
 
         JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
-        ret = JS_BIN_appendPEM( &binCert, nType, strPath.toLocal8Bit().toStdString().c_str() );
+        if( i == 0 )
+            ret = JS_BIN_writePEM( &binCert, nType, strPath.toLocal8Bit().toStdString().c_str() );
+        else
+            ret = JS_BIN_appendPEM( &binCert, nType, strPath.toLocal8Bit().toStdString().c_str() );
+
         JS_BIN_reset( &binCert );
 
         if( ret <= 0 ) break;
@@ -763,7 +775,12 @@ int ExportDlg::exportChain( bool bFull )
     if( ret > 0 )
     {
         manApplet->messageBox( tr( "PKCS8 Info export successfully" ), this );
+        accept();
         ret = JSR_OK;
+    }
+    else
+    {
+        manApplet->warningBox( tr( "failed to export: %1" ).arg( ret ), this );
     }
 
     return ret;

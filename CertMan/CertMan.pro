@@ -100,7 +100,9 @@ SOURCES += \
         user_dlg.cpp \
         user_rec.cpp \
         pki_srv_dlg.cpp \
-        copy_right_dlg.cpp
+        copy_right_dlg.cpp \
+        new_passwd_dlg.cpp \
+        passwd_dlg.cpp \
 
 HEADERS += \
         about_dlg.h \
@@ -166,7 +168,9 @@ HEADERS += \
         user_dlg.h \
         user_rec.h \
         pki_srv_dlg.h \
-        copy_right_dlg.h
+        copy_right_dlg.h \
+        new_passwd_dlg.h \
+        passwd_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -207,7 +211,9 @@ FORMS += \
         tst_info_dlg.ui \
         user_dlg.ui \
         pki_srv_dlg.ui \
-        copy_right_dlg.ui
+        copy_right_dlg.ui \
+        new_passwd_dlg.ui \
+        passwd_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

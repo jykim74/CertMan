@@ -689,8 +689,10 @@ void MainWindow::showRightMenu(QPoint point)
                 }
             }
         }
+        else {
+            menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
+        }
 
-        menu.addAction( tr("Export Certificate"), this, &MainWindow::exportCertificate );
         menu.addAction( tr( "View Certificate"), this, &MainWindow::viewCertificate );
         menu.addAction( tr("Delete Certificate" ), this, &MainWindow::deleteCertificate );
 
