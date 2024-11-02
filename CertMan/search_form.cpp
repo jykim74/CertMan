@@ -39,6 +39,9 @@ SearchForm::SearchForm(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mLeftEndBtn->setFixedWidth(40);
+    mRightEndBtn->setFixedWidth(40);
 #endif
 
     resize(width(), minimumSizeHint().height());
