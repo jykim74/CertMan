@@ -24,13 +24,14 @@ public:
     ~MakeCRLProfileDlg();
 
     void setEdit( int nProfileNum );
+    void setReadOnly();
     bool isEdit() { return is_edit_; };
     int profileNum() { return profile_num_; };
 
     void loadProfile( int nProfileNum, bool bCopy = false );
 
 private slots:
-    virtual void accept();
+    void clickOK();
     void changeValidDaysType(int index);
 
     void slotIANMenuRequested(QPoint pos);

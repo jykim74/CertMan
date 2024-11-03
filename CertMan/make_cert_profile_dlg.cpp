@@ -50,6 +50,8 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     connect( mDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDaysType(int)));
     connect( mForCSRCheck, SIGNAL(clicked()), this, SLOT(checkForCSR()));
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     initUI();
     connectExtends();
@@ -93,6 +95,11 @@ void MakeCertProfileDlg::setEdit(int nProfileNum )
     profile_num_ = nProfileNum;
     loadProfile( profile_num_ );
     mForCSRCheck->setEnabled(false);
+}
+
+void MakeCertProfileDlg::setReadOnly()
+{
+    mOKBtn->hide();
 }
 
 void MakeCertProfileDlg::initialize()
@@ -287,7 +294,7 @@ void MakeCertProfileDlg::defaultProfile()
     mDaysText->setText( "365" );
 }
 
-void MakeCertProfileDlg::accept()
+void MakeCertProfileDlg::clickOK()
 {
     int ret = 0;
     CertProfileRec certProfileRec;

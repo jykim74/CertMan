@@ -773,12 +773,14 @@ void MainWindow::showRightMenu(QPoint point)
     }
     else if( right_type_ == RightType::TYPE_CERT_PROFILE )
     {
+        menu.addAction( tr( "View CertProfile" ), this, &MainWindow::viewCertProfile );
         menu.addAction(tr("Delete CertProfile"), this, &MainWindow::deleteCertProfile );
         menu.addAction(tr("Edit CertProfile" ), this, &MainWindow::editCertProfile );
         menu.addAction(tr("Copy CertProfile"), this, &MainWindow::copyCertProfile );
     }
     else if( right_type_ == RightType::TYPE_CRL_PROFILE )
     {
+        menu.addAction( tr( "View CRLProfile"), this, &MainWindow::viewCRLProfile );
         menu.addAction(tr("Delete CRLProfile"), this, &MainWindow::deleteCRLProfile );
         menu.addAction(tr("Edit CRLProfile"), this, &MainWindow::editCRLProfile );
         menu.addAction(tr("Copy CRLProfile"), this, &MainWindow::copyCRLProfile );
@@ -837,9 +839,9 @@ void MainWindow::doubleClickRightTable(QModelIndex index)
     else if( right_type_ == RightType::TYPE_CRL )
         viewCRL();
     else if( right_type_ == RightType::TYPE_CERT_PROFILE )
-        editCertProfile();
+        viewCertProfile();
     else if( right_type_ == RightType::TYPE_CRL_PROFILE )
-        editCRLProfile();
+        viewCRLProfile();
 }
 
 void MainWindow::createTreeMenu()
@@ -1395,6 +1397,25 @@ void MainWindow::editCertProfile()
     makeCertProfileDlg.exec();
 }
 
+void MainWindow::viewCertProfile()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    MakeCertProfileDlg makeCertProfileDlg;
+    makeCertProfileDlg.setEdit(num);
+    makeCertProfileDlg.setReadOnly();
+    makeCertProfileDlg.exec();
+}
+
 void MainWindow::copyCertProfile()
 {
     if( manApplet->isDBOpen() == false )
@@ -1428,6 +1449,25 @@ void MainWindow::editCRLProfile()
 
     MakeCRLProfileDlg makeCRLProfileDlg;
     makeCRLProfileDlg.setEdit(num);
+    makeCRLProfileDlg.exec();
+}
+
+void MainWindow::viewCRLProfile()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+
+    MakeCRLProfileDlg makeCRLProfileDlg;
+    makeCRLProfileDlg.setEdit(num);
+    makeCRLProfileDlg.setReadOnly();
     makeCRLProfileDlg.exec();
 }
 
@@ -4710,7 +4750,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Name"), tr("Status"), tr("DN") };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Name"), tr("Status") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4736,8 +4776,7 @@ void MainWindow::createRightRequestList()
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 160 );
-    right_table_->setColumnWidth( 2, 140 );
-    right_table_->setColumnWidth( 3, 60 );
+    right_table_->setColumnWidth( 2, 280 );
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -4756,7 +4795,6 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, 2, item );
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(reqRec.getStatus()) )));
-        right_table_->setItem( i, 4, new QTableWidgetItem( reqRec.getDN() ));
     }
 
     search_form_->setTotalCount( nTotalCount );

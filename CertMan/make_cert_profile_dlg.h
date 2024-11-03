@@ -26,9 +26,10 @@ public:
     bool isEdit() { return is_edit_; };
     int profileNum() { return profile_num_; };
     void loadProfile( int nProfileNum, bool bCopy = false );
+    void setReadOnly();
 
 private slots:
-    virtual void accept();
+    void clickOK();
     void changeDaysType( int index );
 
     void slotKeyUsageMenuRequested(QPoint pos);

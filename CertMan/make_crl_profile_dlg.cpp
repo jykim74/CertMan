@@ -35,6 +35,8 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
     connect( mValidDaysTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValidDaysType(int)));
     connect( mCRLNumAutoCheck, SIGNAL(clicked()), this, SLOT(clickCRLNumAuto()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     initialize();
 
@@ -63,6 +65,10 @@ void MakeCRLProfileDlg::setEdit( int nProfileNum)
     loadProfile( profile_num_ );
 }
 
+void MakeCRLProfileDlg::setReadOnly()
+{
+    mOKBtn->hide();
+}
 
 void MakeCRLProfileDlg::initialize()
 {
@@ -228,7 +234,7 @@ void MakeCRLProfileDlg::defaultProfile()
     mValidDaysText->setText( "10" );
 }
 
-void MakeCRLProfileDlg::accept()
+void MakeCRLProfileDlg::clickOK()
 {
     int ret = 0;
     CRLProfileRec crlProfileRec;

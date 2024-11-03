@@ -137,8 +137,10 @@ public slots:
     void makeCertProfile();
     void makeCRLProfile();
     void editCertProfile();
+    void viewCertProfile();
     void copyCertProfile();
     void editCRLProfile();
+    void viewCRLProfile();
     void copyCRLProfile();
     void makeCertificate();
     void makeCRL();
