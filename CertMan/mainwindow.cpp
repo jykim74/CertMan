@@ -261,6 +261,7 @@ void MainWindow::initialize()
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
     connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
     connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
+    connect( right_table_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClickRightTable(QModelIndex)));
 
     right_table_->setContextMenuPolicy(Qt::CustomContextMenu);
     connect( right_table_, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showRightMenu(QPoint)));
@@ -823,6 +824,22 @@ void MainWindow::showRightMenu(QPoint point)
     }
 
     menu.exec(QCursor::pos());
+}
+
+void MainWindow::doubleClickRightTable(QModelIndex index)
+{
+    if( right_type_ == RightType::TYPE_KEYPAIR )
+        viewPriKey();
+    else if( right_type_ == RightType::TYPE_REQUEST )
+        viewCSR();
+    else if( right_type_ == RightType::TYPE_CERTIFICATE )
+        viewCertificate();
+    else if( right_type_ == RightType::TYPE_CRL )
+        viewCRL();
+    else if( right_type_ == RightType::TYPE_CERT_PROFILE )
+        editCertProfile();
+    else if( right_type_ == RightType::TYPE_CRL_PROFILE )
+        editCRLProfile();
 }
 
 void MainWindow::createTreeMenu()
@@ -4619,7 +4636,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name"), tr("Param"), tr("Status") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name"), tr("Status") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4647,11 +4664,9 @@ void MainWindow::createRightKeyPairList()
     }
 
     right_table_->setColumnWidth( 0, 60 ); // Number
-    right_table_->setColumnWidth( 1, 140 ); // RegTime
+    right_table_->setColumnWidth( 1, 160 ); // RegTime
     right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 300 );
-    right_table_->setColumnWidth( 4, 80 );
-    right_table_->setColumnWidth( 5, 40 );
+    right_table_->setColumnWidth( 3, 280 );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
@@ -4672,8 +4687,7 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
         right_table_->setItem( i, 3, item );
-        right_table_->setItem(i, 4, new QTableWidgetItem( keyPairRec.getParam()));
-        right_table_->setItem(i, 5, new QTableWidgetItem( QString("%1").arg(getRecStatusName(keyPairRec.getStatus()))));
+        right_table_->setItem(i, 4, new QTableWidgetItem( QString("%1").arg(getRecStatusName(keyPairRec.getStatus()))));
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4721,7 +4735,7 @@ void MainWindow::createRightRequestList()
     }
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 160 );
     right_table_->setColumnWidth( 2, 140 );
     right_table_->setColumnWidth( 3, 60 );
 
@@ -4922,7 +4936,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     QList<CertRec> certList;
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 160 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 140 );
 

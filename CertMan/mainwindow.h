@@ -245,6 +245,7 @@ public slots:
 
 private slots:
     void showRightMenu( QPoint point );
+    void doubleClickRightTable(QModelIndex index);
 
     virtual void dragEnterEvent( QDragEnterEvent *event );
     virtual void dropEvent( QDropEvent *event );
