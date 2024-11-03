@@ -403,6 +403,7 @@ void MainWindow::createActions()
     const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
     make_crl_profile_act_ = new QAction( crlProfileIcon, tr("MakeC&RLProfile"), this );
     make_crl_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F7 ));
+    make_crl_profile_act_->setStatusTip(tr("Make CRL profille"));
     connect( make_crl_profile_act_, &QAction::triggered, this, &MainWindow::makeCRLProfile);
     toolsMenu->addAction( make_crl_profile_act_ );
     if( isView( ACT_TOOL_MAKE_CRL_PROFILE ) ) tool_tool_->addAction( make_crl_profile_act_ );
@@ -410,6 +411,7 @@ void MainWindow::createActions()
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
     make_cert_act_ = new QAction( certIcon, tr("Make&Certificate"), this );
     make_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F8 ));
+    make_cert_act_->setStatusTip( tr("Make certificate" ));
     connect( make_cert_act_, &QAction::triggered, this, &MainWindow::makeCertificate );
     toolsMenu->addAction( make_cert_act_ );
     if( isView( ACT_TOOL_MAKE_CERT ) ) tool_tool_->addAction( make_cert_act_ );
@@ -418,6 +420,7 @@ void MainWindow::createActions()
     const QIcon crlIcon = QIcon::fromTheme("make-crl", QIcon(":/images/crl.png"));
     make_crl_act_ = new QAction( crlIcon, tr("MakeCR&L"), this );
     make_crl_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F9 ));
+    make_crl_act_->setStatusTip( tr("Make CRL" ));
     connect( make_crl_act_, &QAction::triggered, this, &MainWindow::makeCRL );
     toolsMenu->addAction( make_crl_act_ );
     if( isView( ACT_TOOL_MAKE_CRL ) ) tool_tool_->addAction( make_crl_act_ );
@@ -425,6 +428,7 @@ void MainWindow::createActions()
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
     revoke_cert_act_ = new QAction( revokeIcon, tr("Revo&keCert"), this );
     revoke_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F10 ));
+    revoke_cert_act_->setStatusTip( tr("Revoke certificate" ));
     connect( revoke_cert_act_, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
@@ -438,6 +442,7 @@ void MainWindow::createActions()
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
     import_data_act_ = new QAction( diskIcon, tr("&ImportData"), this );
     import_data_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I ));
+    import_data_act_->setStatusTip( tr( "Import Data" ));
     connect( import_data_act_, &QAction::triggered, this, &MainWindow::importData );
     dataMenu->addAction( import_data_act_ );
     if( isView( ACT_DATA_IMPORT_DATA ) ) data_tool_->addAction( import_data_act_ );
@@ -445,8 +450,8 @@ void MainWindow::createActions()
     const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
     get_uri_act_ = new QAction( getURIIcon, tr("&GetURI"), this);
     get_uri_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_U ));
+    get_uri_act_->setStatusTip( tr( "Get data from URI" ));
     connect( get_uri_act_, &QAction::triggered, this, &MainWindow::getURI);
-    get_uri_act_->setStatusTip(tr("Get URI"));
     dataMenu->addAction( get_uri_act_ );
     if( isView( ACT_DATA_GET_URI ) ) data_tool_->addAction( get_uri_act_ );
 
