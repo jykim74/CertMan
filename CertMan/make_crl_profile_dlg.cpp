@@ -27,7 +27,6 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
     initUI();
     connectExtends();
-    setExtends();
     setTableMenus();
 
     is_edit_ = false;
@@ -203,11 +202,9 @@ void MakeCRLProfileDlg::defaultProfile()
     mNameText->setText("");
 
     mCRLNumText->setText("");
-    mCRLNumUseCheck->setChecked(false);
     mCRLNumAutoCheck->setChecked(false);
     mCRLNumCriticalCheck->setChecked(false);
 
-    mAKIUseCheck->setChecked(false);
     mAKICriticalCheck->setChecked(false);
     mAKICertIssuerCheck->setChecked(false);
     mAKICertSerialCheck->setChecked(false);
@@ -215,13 +212,12 @@ void MakeCRLProfileDlg::defaultProfile()
     rowCnt = mIDPTable->rowCount();
     for( int i=0; i < rowCnt; i++ )
         mIDPTable->removeRow(0);
-    mIDPUseCheck->setChecked(false);
     mIDPCriticalCheck->setChecked(false);
 
     rowCnt = mIANTable->rowCount();
     for( int i=0; i < rowCnt; i++ )
         mIANTable->removeRow(0);
-    mIANUseCheck->setChecked(false);
+
     mIANCriticalCheck->setChecked(false);
     mIANText->setText("");
 
@@ -350,10 +346,6 @@ void MakeCRLProfileDlg::initUI()
 void MakeCRLProfileDlg::connectExtends()
 {
     connect( mUseFromNowCheck, SIGNAL(clicked()), this, SLOT(clickUseFromNow()));
-    connect( mCRLNumUseCheck, SIGNAL(clicked()), this, SLOT(clickCRLNum()));
-    connect( mAKIUseCheck, SIGNAL(clicked()), this, SLOT(clickAKI()));
-    connect( mIDPUseCheck, SIGNAL(clicked()), this, SLOT(clickIDP()));
-    connect( mIANUseCheck, SIGNAL(clicked()), this, SLOT(clickIAN()));
 
     connect( mIDPAddBtn, SIGNAL(clicked()), this, SLOT(addIDP()));
     connect( mIANAddBtn, SIGNAL(clicked()), this, SLOT(addIAN()));
@@ -366,14 +358,6 @@ void MakeCRLProfileDlg::connectExtends()
     connect( mIANTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIANMenuRequested(QPoint)));
     connect( mIDPTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotIDPMenuRequested(QPoint)));
     connect( mExtensionsTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotExtensionsMenuRequested(QPoint)));
-}
-
-void MakeCRLProfileDlg::setExtends()
-{
-    clickCRLNum();
-    clickAKI();
-    clickIDP();
-    clickIAN();
 }
 
 void MakeCRLProfileDlg::setTableMenus()
@@ -427,49 +411,6 @@ void MakeCRLProfileDlg::clickUseFromNow()
     mThisUpdateDateTime->setEnabled( !bStatus );
     mNextUpdateDateTime->setEnabled( !bStatus );
 }
-
-void MakeCRLProfileDlg::clickCRLNum()
-{
-    bool bStatus = mCRLNumUseCheck->isChecked();
-
-    mCRLNumCriticalCheck->setEnabled(bStatus);
-    mCRLNumText->setEnabled(bStatus);
-    mCRLNumAutoCheck->setEnabled(bStatus);
-}
-
-void MakeCRLProfileDlg::clickAKI()
-{
-    bool bStatus = mAKIUseCheck->isChecked();
-
-    mAKICriticalCheck->setEnabled(bStatus);
-    mAKICertIssuerCheck->setEnabled(bStatus);
-    mAKICertSerialCheck->setEnabled(bStatus);
-}
-
-void MakeCRLProfileDlg::clickIDP()
-{
-    bool bStatus = mIDPUseCheck->isChecked();
-
-    mIDPCriticalCheck->setEnabled(bStatus);
-    mIDPClearBtn->setEnabled(bStatus);
-    mIDPAddBtn->setEnabled(bStatus);
-    mIDPText->setEnabled(bStatus);
-    mIDPTable->setEnabled(bStatus);
-    mIDPCombo->setEnabled(bStatus);
-}
-
-void MakeCRLProfileDlg::clickIAN()
-{
-    bool bStatus = mIANUseCheck->isChecked();
-
-    mIANCriticalCheck->setEnabled(bStatus);
-    mIANText->setEnabled(bStatus);
-    mIANCombo->setEnabled(bStatus);
-    mIANTable->setEnabled(bStatus);
-    mIANClearBtn->setEnabled(bStatus);
-    mIANAddBtn->setEnabled(bStatus);
-}
-
 
 void MakeCRLProfileDlg::addIDP()
 {
@@ -611,7 +552,7 @@ void MakeCRLProfileDlg::saveCRLNumUse( int nProfileNum )
     if( dbMgr == NULL ) return;
 
     if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameCRLNum );
-    if( mCRLNumUseCheck->isChecked() == false ) return;
+    if( mCRLNumGroup->isChecked() == false ) return;
 
     ProfileExtRec profileExt;
 
@@ -637,7 +578,7 @@ void MakeCRLProfileDlg::saveAKIUse( int nProfileNum )
     if( dbMgr == NULL ) return;
 
     if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameAKI );
-    if( mAKIUseCheck->isChecked() == false ) return;
+    if( mAKIGroup->isChecked() == false ) return;
 
     ProfileExtRec profileExt;
 
@@ -664,7 +605,7 @@ void MakeCRLProfileDlg::saveIDPUse( int nProfileNum )
     if( dbMgr == NULL ) return;
 
     if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameIDP );
-    if( mIDPUseCheck->isChecked() == false ) return;
+    if( mIDPGroup->isChecked() == false ) return;
 
     ProfileExtRec profileExt;
 
@@ -706,7 +647,7 @@ void MakeCRLProfileDlg::saveIANUse( int nProfileNum )
     if( dbMgr == NULL ) return;
 
     if( isEdit() ) dbMgr->delCRLProfileExtension( profile_num_, JS_PKI_ExtNameIAN );
-    if( mIANUseCheck->isChecked() == false ) return;
+    if( mIANGroup->isChecked() == false ) return;
 
     ProfileExtRec profileExt;
 
@@ -781,9 +722,8 @@ void MakeCRLProfileDlg::saveExtensionsUse( int nProfileNum )
 
 void MakeCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
-    mCRLNumUseCheck->setChecked(true);
+    mCRLNumGroup->setChecked(true);
     mCRLNumCriticalCheck->setChecked(profileRec.isCritical());
-    clickCRLNum();
 
     QString strVal = profileRec.getValue();
 
@@ -795,9 +735,8 @@ void MakeCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 
 void MakeCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
-    mAKIUseCheck->setChecked(true);
+    mAKIGroup->setChecked(true);
     mAKICriticalCheck->setChecked(profileRec.isCritical());
-    clickAKI();
 
     QString strVal = profileRec.getValue();
 
@@ -807,9 +746,8 @@ void MakeCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void MakeCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
-    mIDPUseCheck->setChecked(true);
+    mIDPGroup->setChecked(true);
     mIDPCriticalCheck->setChecked(profileRec.isCritical());
-    clickIDP();
 
     QString strVal = profileRec.getValue();
 
@@ -831,9 +769,9 @@ void MakeCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 
 void MakeCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
-    mIANUseCheck->setChecked(true);
+    mIANGroup->setChecked(true);
     mIANCriticalCheck->setChecked(profileRec.isCritical());
-    clickIAN();
+
 
     QString strVal = profileRec.getValue();
 

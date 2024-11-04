@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>593</width>
-    <height>647</height>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -198,78 +198,92 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <property name="topMargin">
-          <number>0</number>
+        <widget class="QGroupBox" name="mExtensionsGroup">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
-         <item row="0" column="1">
-          <spacer name="horizontalSpacer_8">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="mExtensionsAddBtn">
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QPushButton" name="mExtensionsClearBtn">
-           <property name="text">
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_15">
-           <property name="text">
-            <string>Extensions</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_10">
-         <property name="topMargin">
-          <number>0</number>
+         <property name="title">
+          <string>Extensions</string>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>OID</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="mExtensionsOIDText"/>
-         </item>
-         <item row="0" column="2">
-          <widget class="QCheckBox" name="mExtensionsCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="mExtensionsValueText"/>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="mExtensionsTable">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_12">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="3">
+             <widget class="QPushButton" name="mExtensionsAddBtn">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="mExtensionsCriticalCheck">
+              <property name="text">
+               <string>Critical</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="mExtensionsClearBtn">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_13">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>OID</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="mExtensionsOIDText"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="mExtensionsValueText"/>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="mExtensionsTable">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -293,271 +307,275 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
+        <widget class="QGroupBox" name="mCRLNumGroup">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="title">
           <string>CRL number</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="mCRLNumCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QLineEdit" name="mCRLNumText">
-           <property name="maximumSize">
-            <size>
-             <width>60</width>
-             <height>16777215</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="mCRLNumUseCheck">
-           <property name="text">
-            <string>Use</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="mCRLNumLabel">
-           <property name="text">
-            <string>FixedNumer</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QCheckBox" name="mCRLNumAutoCheck">
-           <property name="text">
-            <string>Auto ( Use Sequence )</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="mCRLNumAutoCheck">
+              <property name="text">
+               <string>Auto ( Use Sequence )</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="mCRLNumLabel">
+              <property name="text">
+               <string>FixedNumer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="mCRLNumCriticalCheck">
+              <property name="text">
+               <string>Critical</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QLineEdit" name="mCRLNumText">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_12">
-         <property name="text">
+        <widget class="QGroupBox" name="mAKIGroup">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="title">
           <string>Authority Key Identifier</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="mAKICriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QCheckBox" name="mAKICertIssuerCheck">
-           <property name="text">
-            <string>Ceritificate Issuer</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="mAKIUseCheck">
-           <property name="text">
-            <string>Use</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QCheckBox" name="mAKICertSerialCheck">
-           <property name="text">
-            <string>Certificate Serial</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <spacer name="horizontalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="3">
+             <widget class="QCheckBox" name="mAKICertSerialCheck">
+              <property name="text">
+               <string>Certificate Serial</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="mAKICriticalCheck">
+              <property name="text">
+               <string>Critical</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QCheckBox" name="mAKICertIssuerCheck">
+              <property name="text">
+               <string>Ceritificate Issuer</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_13">
-         <property name="text">
+        <widget class="QGroupBox" name="mIDPGroup">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="title">
           <string>Issuing Distribution Point</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="4">
-          <widget class="QPushButton" name="mIDPClearBtn">
-           <property name="text">
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QPushButton" name="mIDPAddBtn">
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="mIDPCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="mIDPUseCheck">
-           <property name="text">
-            <string>Use</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QComboBox" name="mIDPCombo"/>
-         </item>
-         <item row="0" column="3">
-          <spacer name="horizontalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="mIDPText"/>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="mIDPTable">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="checked">
+          <bool>false</bool>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="0" column="4">
+             <widget class="QPushButton" name="mIDPAddBtn">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="mIDPCriticalCheck">
+              <property name="text">
+               <string>Critical</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="mIDPCombo"/>
+            </item>
+            <item row="0" column="3">
+             <widget class="QPushButton" name="mIDPClearBtn">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="mIDPText"/>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="mIDPTable">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_14">
-         <property name="text">
+        <widget class="QGroupBox" name="mIANGroup">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="title">
           <string>Issuer Alternative Name</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_8">
-         <property name="topMargin">
-          <number>0</number>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
-         <item row="0" column="2">
-          <widget class="QComboBox" name="mIANCombo"/>
-         </item>
-         <item row="0" column="4">
-          <widget class="QPushButton" name="mIANClearBtn">
-           <property name="text">
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="mIANUseCheck">
-           <property name="text">
-            <string>Use</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="mIANCriticalCheck">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QPushButton" name="mIANAddBtn">
-           <property name="text">
-            <string>Add</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <spacer name="horizontalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="mIANText"/>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="mIANTable">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
+         <property name="checked">
+          <bool>false</bool>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="0" column="3">
+             <widget class="QPushButton" name="mIANClearBtn">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QPushButton" name="mIANAddBtn">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="mIANCombo"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QCheckBox" name="mIANCriticalCheck">
+              <property name="text">
+               <string>Critical</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="mIANText"/>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="mIANTable">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -610,34 +628,6 @@
   <tabstop>mValidDaysText</tabstop>
   <tabstop>mThisUpdateDateTime</tabstop>
   <tabstop>mNextUpdateDateTime</tabstop>
-  <tabstop>mExtensionsClearBtn</tabstop>
-  <tabstop>mExtensionsAddBtn</tabstop>
-  <tabstop>mExtensionsOIDText</tabstop>
-  <tabstop>mExtensionsCriticalCheck</tabstop>
-  <tabstop>mExtensionsValueText</tabstop>
-  <tabstop>mExtensionsTable</tabstop>
-  <tabstop>mCRLNumUseCheck</tabstop>
-  <tabstop>mCRLNumCriticalCheck</tabstop>
-  <tabstop>mCRLNumAutoCheck</tabstop>
-  <tabstop>mCRLNumText</tabstop>
-  <tabstop>mAKIUseCheck</tabstop>
-  <tabstop>mAKICriticalCheck</tabstop>
-  <tabstop>mAKICertIssuerCheck</tabstop>
-  <tabstop>mAKICertSerialCheck</tabstop>
-  <tabstop>mIDPUseCheck</tabstop>
-  <tabstop>mIDPCriticalCheck</tabstop>
-  <tabstop>mIDPCombo</tabstop>
-  <tabstop>mIDPClearBtn</tabstop>
-  <tabstop>mIDPAddBtn</tabstop>
-  <tabstop>mIDPText</tabstop>
-  <tabstop>mIDPTable</tabstop>
-  <tabstop>mIANUseCheck</tabstop>
-  <tabstop>mIANCriticalCheck</tabstop>
-  <tabstop>mIANCombo</tabstop>
-  <tabstop>mIANClearBtn</tabstop>
-  <tabstop>mIANAddBtn</tabstop>
-  <tabstop>mIANText</tabstop>
-  <tabstop>mIANTable</tabstop>
  </tabstops>
  <resources/>
  <connections/>

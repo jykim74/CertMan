@@ -65,20 +65,6 @@ private slots:
     void clickUseCSR_DN();
     void clickUseDays();
 
-    void clickAIAUse();
-    void clickAKIUse();
-    void clickBCUse();
-    void clickCRLDPUse();
-    void clickEKUUse();
-    void clickIANUse();
-    void clickKeyUsageUse();
-    void clickNCUse();
-    void clickPolicyUse();
-    void clickPCUse();
-    void clickPMUse();
-    void clickSKIUse();
-    void clickSANUse();
-
     void addKeyUsage();
     void addPolicy();
     void addEKU();

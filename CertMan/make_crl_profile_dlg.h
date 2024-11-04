@@ -45,10 +45,6 @@ private slots:
     void clickCRLNumAuto();
 
     void clickUseFromNow();
-    void clickCRLNum();
-    void clickAKI();
-    void clickIDP();
-    void clickIAN();
 
     void addIDP();
     void addIAN();
@@ -62,7 +58,6 @@ private slots:
 private:
     void initUI();
     void connectExtends();
-    void setExtends();
     void setTableMenus();
 
     void saveCRLNumUse( int nProfileNum );
