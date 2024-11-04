@@ -1397,8 +1397,14 @@ void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
 
     for( int i=0; i < mEKUList->count(); i++ )
     {
-        if( i != 0 ) strVal += "#";
-        strVal += mEKUList->item(i)->text();
+        QString strCur = mEKUList->item(i)->text();
+
+        if( strCur.length() > 0 )
+        {
+            if( strVal.length() > 0 ) strVal += "#";
+
+            strVal += strCur;
+        }
     }
 
     if( strVal.length() > 1 )
@@ -1468,8 +1474,13 @@ void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
 
     for( int i =0; i < mKeyUsageList->count(); i++ )
     {
-        if( i != 0 ) strValue += "#";
-        strValue += mKeyUsageList->item(i)->text();
+        QString strCur = mKeyUsageList->item(i)->text();
+        if( strCur.length() > 0 )
+        {
+            if( strValue.length() > 0 ) strValue += "#";
+
+            strValue += strCur;
+        }
     }
 
     if( strValue.length() > 1 )
