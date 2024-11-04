@@ -82,6 +82,7 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     mExtend4Tab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
+    mCloseBtn->setFocus();
 }
 
 MakeCertProfileDlg::~MakeCertProfileDlg()

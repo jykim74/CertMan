@@ -160,13 +160,6 @@
          </item>
         </layout>
        </item>
-       <item row="15" column="0">
-        <widget class="Line" name="line_14">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
        <item row="16" column="0">
         <widget class="QGroupBox" name="mExtensionsGroup">
          <property name="minimumSize">
@@ -503,6 +496,13 @@
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Valid Periods</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>

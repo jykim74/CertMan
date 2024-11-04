@@ -49,6 +49,7 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
     mExtendTab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
+    mCloseBtn->setFocus();
 }
 
 MakeCRLProfileDlg::~MakeCRLProfileDlg()
