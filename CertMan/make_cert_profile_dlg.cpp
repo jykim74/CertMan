@@ -1400,8 +1400,11 @@ void MakeCertProfileDlg::saveEKUUse(int nProfileNum )
         strVal += mEKUList->item(i)->text();
     }
 
-    profileExt.setValue( strVal );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( strVal.length() > 1 )
+    {
+        profileExt.setValue( strVal );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveIANUse(int nProfileNum )
@@ -1468,8 +1471,11 @@ void MakeCertProfileDlg::saveKeyUsageUse(int nProfileNum )
         strValue += mKeyUsageList->item(i)->text();
     }
 
-    profileExt.setValue( strValue );
-    dbMgr->addCertProfileExtension( profileExt );
+    if( strValue.length() > 1 )
+    {
+        profileExt.setValue( strValue );
+        dbMgr->addCertProfileExtension( profileExt );
+    }
 }
 
 void MakeCertProfileDlg::saveNCUse(int nProfileNum )
