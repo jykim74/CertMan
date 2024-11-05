@@ -746,7 +746,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
         menu.addAction(tr("New Key"), this, &MainWindow::newKey );
 
-        QTableWidgetItem* useitem = right_table_->item( row, 5 );
+        QTableWidgetItem* useitem = right_table_->item( row, 4 );
         if( useitem != NULL )
         {
             if( useitem->text() == "NotUsed" )
