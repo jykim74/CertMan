@@ -746,12 +746,10 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
         menu.addAction(tr("New Key"), this, &MainWindow::newKey );
 
-        QTableWidgetItem* useitem = right_table_->item( row, 4 );
-        if( useitem != NULL )
-        {
-            if( useitem->text() == "NotUsed" )
-                menu.addAction(tr("Make Request"), this, &MainWindow::makeRequestSetKeyName );
-        }
+        int nStatus = item->data(Qt::UserRole).toInt();
+
+        if( nStatus == JS_REC_STATUS_NOT_USED )
+            menu.addAction(tr("Make Request"), this, &MainWindow::makeRequestSetKeyName );
     }
     else if( right_type_ == RightType::TYPE_REQUEST )
     {
@@ -761,13 +759,9 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("View CSR"), this, &MainWindow::viewCSR );
         menu.addAction(tr("Make Request"), this, &MainWindow::makeRequest );
 
-        QTableWidgetItem* useitem = right_table_->item( row, 3 );
-
-        if( useitem != NULL )
-        {
-            if( useitem->text() == "NotUsed" )
-                menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
-        }
+        int nStatus = item->data(Qt::UserRole).toInt();
+        if( nStatus == JS_REC_STATUS_NOT_USED )
+            menu.addAction(tr("Make Certificate"), this, &MainWindow::makeCertificate );
 
         if( manApplet->isPRO() )
         {
@@ -4721,10 +4715,13 @@ void MainWindow::createRightKeyPairList()
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() ));
         seq->setIcon( QIcon(":/images/key_reg.png" ));
 
-        QTableWidgetItem *item = new QTableWidgetItem( keyPairRec.getName() );
-
+        int nStatus = keyPairRec.getStatus();
+        seq->setData( Qt::UserRole, nStatus );
 
         JS_UTIL_getDateTime( keyPairRec.getRegTime(), sRegTime );
+
+        QTableWidgetItem *item = new QTableWidgetItem( keyPairRec.getName() );
+
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -4732,7 +4729,7 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
         right_table_->setItem( i, 3, item );
-        right_table_->setItem(i, 4, new QTableWidgetItem( QString("%1").arg(getRecStatusName(keyPairRec.getStatus()))));
+        right_table_->setItem(i, 4, new QTableWidgetItem( QString("%1").arg(getRecStatusName( nStatus ))));
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4792,6 +4789,9 @@ void MainWindow::createRightRequestList()
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( reqRec.getSeq() ));
         seq->setIcon(QIcon(":/images/csr.png"));
 
+        int nStatus = reqRec.getStatus();
+        seq->setData( Qt::UserRole, nStatus );
+
         JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
 
         right_table_->insertRow(i);
@@ -4799,7 +4799,7 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
         right_table_->setItem( i, 2, item );
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(reqRec.getStatus()) )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(nStatus) )));
     }
 
     search_form_->setTotalCount( nTotalCount );
