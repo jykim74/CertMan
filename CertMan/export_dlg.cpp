@@ -11,6 +11,10 @@
 #include "db_mgr.h"
 #include "commons.h"
 #include "new_passwd_dlg.h"
+#include "cert_info_dlg.h"
+#include "crl_info_dlg.h"
+#include "csr_info_dlg.h"
+#include "pri_key_info_dlg.h"
 
 #include "js_error.h"
 #include "js_bin.h"
@@ -584,11 +588,11 @@ int ExportDlg::exportCSR()
 
     nExportType = mFormatCombo->currentData().toInt();
 
-    if( nExportType == ExportCRL_PEM )
+    if( nExportType == ExportCSR_PEM )
     {
         ret = JS_BIN_writePEM( &csr_, JS_PEM_TYPE_CSR, strFilename.toLocal8Bit().toStdString().c_str() );
     }
-    else if( nExportType == ExportCRL_DER )
+    else if( nExportType == ExportCSR_DER )
     {
         ret = JS_BIN_fileWrite( &csr_, strFilename.toLocal8Bit().toStdString().c_str() );
     }
