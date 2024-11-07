@@ -77,24 +77,18 @@ void LCNInfoDlg::initialize()
 
     mEmailText->setText( strEmail );
 
-    if( manApplet->isLicense() )
+    if( sLicenseInfo.nVersion > 0 )
     {
-        QString strExt;
-
-
+        mCurEmailText->setText( sLicenseInfo.sUser );
         QDateTime issueTime = QDateTime::fromTime_t( JS_LCN_getUnixTimeFromUTC( sLicenseInfo.sIssued ) );
         QDateTime expireTime = QDateTime::fromTime_t( JS_LCN_getUnixTimeFromUTC( sLicenseInfo.sExpire ) );
 
-        strExt = sLicenseInfo.sExt;
-
-        if( strExt.toUpper() == "DEMO" )
-            mCurEmailText->setText( "For Demo");
-        else
-            mCurEmailText->setText( sLicenseInfo.sUser );
-
         mCurIssueDateText->setText( issueTime.toString( "yyyy-MM-dd HH:mm:ss") );
         mCurExpireDateText->setText( expireTime.toString( "yyyy-MM-dd HH:mm:ss") );
+    }
 
+    if( manApplet->isLicense() )
+    {
         ret = JS_LCN_IsValid( &sLicenseInfo, strEmail.toStdString().c_str(), JS_LCN_PRODUCT_CERTMAN_NAME, SID_.toStdString().c_str(), time(NULL) );
         if( ret == JSR_VALID )
         {
@@ -122,6 +116,10 @@ void LCNInfoDlg::initialize()
             expDate.setTime_t( exp_t );
             expDate.toString( "yyyy-MM-dd");
             strAppend = tr( "[Expired:%1]").arg( expDate.toString( "yyyy-MM-dd") );
+
+            mCurEmailText->setStyleSheet( "color: grey;" );
+            mCurIssueDateText->setStyleSheet( "color: grey;" );
+            mCurExpireDateText->setStyleSheet( "color: grey;" );
         }
         else
         {
