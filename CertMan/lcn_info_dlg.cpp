@@ -36,6 +36,10 @@ LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+    mCurLCNTab->layout()->setSpacing(5);
+    mCurLCNTab->layout()->setMargin(5);
+    mMessageTab->layout()->setSpacing(5);
+    mMessageTab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
     mLCNRequestBtn->setDefault(true);
