@@ -82,8 +82,8 @@ void LCNInfoDlg::initialize()
         QString strExt;
 
 
-        QDateTime issueTime = QDateTime::fromString( sLicenseInfo.sIssued, JS_LCN_TIME_FORMAT);
-        QDateTime expireTime = QDateTime::fromString( sLicenseInfo.sExpire, JS_LCN_TIME_FORMAT );
+        QDateTime issueTime = QDateTime::fromTime_t( JS_LCN_getUnixTimeFromUTC( sLicenseInfo.sIssued ) );
+        QDateTime expireTime = QDateTime::fromTime_t( JS_LCN_getUnixTimeFromUTC( sLicenseInfo.sExpire ) );
 
         strExt = sLicenseInfo.sExt;
 
@@ -117,7 +117,7 @@ void LCNInfoDlg::initialize()
 
         if( sLicenseInfo.nVersion > 0 )
         {
-            time_t exp_t = JS_LCN_getUnixTime( sLicenseInfo.sExpire );
+            time_t exp_t = JS_LCN_getUnixTimeFromUTC( sLicenseInfo.sExpire );
             QDateTime expDate;
             expDate.setTime_t( exp_t );
             expDate.toString( "yyyy-MM-dd");
