@@ -68,6 +68,7 @@ namespace  {
     const char *kViewData = "viewData";
     const char *kViewServer = "viewServer";
     const char *kViewHelp = "viewHelp";
+    const char *kRunTime = "runTime";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -223,6 +224,26 @@ void SettingsMgr::clearViewValue( int nType )
     }
 
     settings.endGroup();
+}
+
+void SettingsMgr::setRunTime( time_t tRun )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kRunTime, tRun );
+    sets.endGroup();
+}
+
+time_t SettingsMgr::getRunTime()
+{
+    time_t tRun = 0;
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    tRun = sets.value( kRunTime, 0 ).toInt();
+    sets.endGroup();
+
+    return tRun;
 }
 
 void SettingsMgr::setSaveRemoteInfo( bool val )

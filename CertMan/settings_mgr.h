@@ -180,6 +180,9 @@ public:
     void setViewValue( int nVal );
     void clearViewValue( int nType );
 
+    void setRunTime( time_t tRun );
+    time_t getRunTime();
+
 private:
     QString default_hash_;
     QString default_ecc_param_;
