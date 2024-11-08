@@ -228,9 +228,10 @@ void SettingsMgr::clearViewValue( int nType )
 
 void SettingsMgr::setRunTime( time_t tRun )
 {
+    int nTime = tRun;
     QSettings sets;
     sets.beginGroup( kBehaviorGroup );
-    sets.setValue( kRunTime, tRun );
+    sets.setValue( kRunTime, nTime );
     sets.endGroup();
 }
 
