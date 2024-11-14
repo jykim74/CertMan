@@ -314,7 +314,7 @@ private:
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
     QTabWidget      *text_tab_;
-    QTextEdit       *log_text_;
+    QPlainTextEdit  *log_text_;
     CodeEditor      *info_text_;
     SearchForm      *search_form_;
 
