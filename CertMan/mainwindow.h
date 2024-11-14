@@ -15,6 +15,7 @@
 #include <QStackedLayout>
 
 #include "js_bin.h"
+#include "code_editor.h"
 
 
 class ManTreeView;
@@ -314,7 +315,7 @@ private:
     QTableWidget    *right_table_;
     QTabWidget      *text_tab_;
     QTextEdit       *log_text_;
-    QTextEdit       *info_text_;
+    CodeEditor      *info_text_;
     SearchForm      *search_form_;
 
     int             right_type_;

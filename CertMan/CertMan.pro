@@ -103,6 +103,7 @@ SOURCES += \
         copy_right_dlg.cpp \
         new_passwd_dlg.cpp \
         passwd_dlg.cpp \
+        code_editor.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -170,7 +171,8 @@ HEADERS += \
         pki_srv_dlg.h \
         copy_right_dlg.h \
         new_passwd_dlg.h \
-        passwd_dlg.h
+        passwd_dlg.h \
+        code_editor.h
 
 FORMS += \
         about_dlg.ui \
