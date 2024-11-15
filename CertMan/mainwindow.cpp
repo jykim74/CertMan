@@ -256,7 +256,7 @@ void MainWindow::initialize()
     setCentralWidget(hsplitter_);
 
 
-    resize(1024,768);
+    resize(1060,800);
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
     connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
