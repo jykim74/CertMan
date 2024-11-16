@@ -5758,6 +5758,7 @@ void MainWindow::infoCertificate( int seq )
 
 void MainWindow::infoCertProfile( int seq )
 {
+    int nFieldWidth = -16;
     if( manApplet->dbMgr() == NULL ) return;
 
     CertProfileRec certProfile;
@@ -5803,15 +5804,15 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Num         : %1\n").arg(certProfile.getNum()));
     manApplet->info( QString("Name        : %1\n").arg(certProfile.getName()));
-    manApplet->info( QString("Type        : %1 - %2\n").arg(certProfile.getType()).arg( getProfileType( certProfile.getType())));
-    manApplet->info( QString("Version     : %1 - %2\n").arg(certProfile.getVersion()).arg( strVersion ));
+    manApplet->info( QString("Type        : %1 - %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
+    manApplet->info( QString("Version     : %1 - %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CERT )
     {
-        manApplet->info( QString("NotBefore   : %1 - %2\n").arg(certProfile.getNotBefore()).arg(strNotBefore));
-        manApplet->info( QString("NotAfter    : %1 - %2\n").arg(certProfile.getNotAfter()).arg(strNotAfter));
-        manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(certProfile.getExtUsage()).arg(getExtUsage(certProfile.getExtUsage())));
-        manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(certProfile.getDNTemplate()).arg(strDNTemplate));
+        manApplet->info( QString("NotBefore   : %1 - %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
+        manApplet->info( QString("NotAfter    : %1 - %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
+        manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
+        manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
     }
 
     manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
@@ -5855,6 +5856,8 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 
 void MainWindow::infoCRL( int seq )
 {
+    int nFieldWidth = -16;
+
     if( manApplet->dbMgr() == NULL ) return;
 
     CRLRec crlRec;
@@ -5886,6 +5889,7 @@ void MainWindow::infoCRL( int seq )
 
 void MainWindow::infoCRLProfile( int seq )
 {
+    int nFieldWidth = -16;
     if( manApplet->dbMgr() == NULL ) return;
 
     CRLProfileRec crlProfile;
@@ -5925,9 +5929,9 @@ void MainWindow::infoCRLProfile( int seq )
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Num          : %1\n").arg(crlProfile.getNum()));
     manApplet->info( QString("Name         : %1\n").arg(crlProfile.getName()));
-    manApplet->info( QString("Version      : %1 - %2\n").arg(crlProfile.getVersion()).arg(strVersion));
-    manApplet->info( QString("ThisUpdate   : %1 - %2\n").arg(crlProfile.getThisUpdate()).arg(strThisUpdate));
-    manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(crlProfile.getNextUpdate()).arg(strNextUpdate));
+    manApplet->info( QString("Version      : %1 - %2\n").arg(strVersion, nFieldWidth).arg(crlProfile.getVersion()));
+    manApplet->info( QString("ThisUpdate   : %1 - %2\n").arg(strThisUpdate, nFieldWidth).arg(crlProfile.getThisUpdate()));
+    manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(strNextUpdate, nFieldWidth).arg(crlProfile.getNextUpdate()));
     manApplet->info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
     manApplet->info( "========================================================================\n" );
 

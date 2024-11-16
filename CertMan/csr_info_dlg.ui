@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>465</width>
-    <height>291</height>
+    <width>524</width>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
     <widget class="QTableWidget" name="mFieldTable">
      <property name="minimumSize">
       <size>
-       <width>400</width>
+       <width>500</width>
        <height>120</height>
       </size>
      </property>
