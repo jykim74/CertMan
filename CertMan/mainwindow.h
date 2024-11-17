@@ -102,6 +102,7 @@ public:
 
     void removeAllRight();
 
+    void infoLine();
     void infoKeyPair( int seq );
     void infoRequest( int seq );
     void infoCertificate( int seq );

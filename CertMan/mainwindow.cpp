@@ -4703,13 +4703,12 @@ void MainWindow::createRightKeyPairList()
     }
 
     right_table_->setColumnWidth( 0, 60 ); // Number
-    right_table_->setColumnWidth( 1, 160 ); // RegTime
+    right_table_->setColumnWidth( 1, 130 ); // RegTime
     right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 280 );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
-        char sRegTime[64];
         KeyPairRec keyPairRec = keyPairList.at(i);
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() ));
@@ -4718,15 +4717,13 @@ void MainWindow::createRightKeyPairList()
         int nStatus = keyPairRec.getStatus();
         seq->setData( Qt::UserRole, nStatus );
 
-        JS_UTIL_getDateTime( keyPairRec.getRegTime(), sRegTime );
-
         QTableWidgetItem *item = new QTableWidgetItem( keyPairRec.getName() );
 
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg(sRegTime)));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPairRec.getRegTime()))));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
         right_table_->setItem( i, 3, item );
         right_table_->setItem(i, 4, new QTableWidgetItem( QString("%1").arg(getRecStatusName( nStatus ))));
@@ -4777,12 +4774,11 @@ void MainWindow::createRightRequestList()
     }
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 160 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 280 );
 
     for( int i=0; i < reqList.size(); i++ )
     {
-        char sRegTime[64];
         ReqRec reqRec = reqList.at(i);
 
         QTableWidgetItem *item = new QTableWidgetItem( reqRec.getName() );
@@ -4792,12 +4788,10 @@ void MainWindow::createRightRequestList()
         int nStatus = reqRec.getStatus();
         seq->setData( Qt::UserRole, nStatus );
 
-        JS_UTIL_getDateTime( reqRec.getRegTime(), sRegTime );
-
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( reqRec.getRegTime()) ) ));
         right_table_->setItem( i, 2, item );
         right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(nStatus) )));
     }
@@ -4829,9 +4823,9 @@ void MainWindow::createRightCertProfileList()
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 300 );
-    right_table_->setColumnWidth( 2, 60 );
+    right_table_->setColumnWidth( 2, 50 );
     right_table_->setColumnWidth( 3, 100 );
-    right_table_->setColumnWidth( 4, 80 );
+    right_table_->setColumnWidth( 4, 100 );
 
     for( int i=0; i < certProfileList.size(); i++ )
     {
@@ -4905,9 +4899,9 @@ void MainWindow::createRightCRLProfileList()
     manApplet->dbMgr()->getCRLProfileList( crlProfileList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 360 );
+    right_table_->setColumnWidth( 1, 340 );
     right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 80 );
+    right_table_->setColumnWidth( 3, 100 );
 
     for( int i=0; i < crlProfileList.size(); i++ )
     {
@@ -4979,7 +4973,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     QList<CertRec> certList;
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 160 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 140 );
 
@@ -5011,9 +5005,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     {
         int pos = 0;
         CertRec cert = certList.at(i);
-        char    sRegTime[64];
-
-
 
         QString strDNInfo;
         if( cert.isSelf() ) strDNInfo += "[Self]";
@@ -5041,8 +5032,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
                 seq->setIcon(QIcon(":/images/cert.png"));
         }
 
-        JS_UTIL_getDateTime( cert.getRegTime(), sRegTime );
-
         QString strKeyName;
         QString strUserName;
 
@@ -5061,7 +5050,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, pos++, seq );
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( sRegTime ) ));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( dateString(cert.getRegTime())  ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
         right_table_->setItem( i, pos++, item );
@@ -5082,7 +5071,6 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
-    char sRegTime[64];
 
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
@@ -5100,7 +5088,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QList<CRLRec> crlList;
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 200 );
     right_table_->setColumnWidth( 3, 140 );
 
@@ -5130,12 +5118,10 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
         seq->setIcon(QIcon(":/images/crl.png"));
 
-        JS_UTIL_getDateTime( crl.getRegTime(), sRegTime );
-
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( sRegTime )));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(crl.getRegTime()) )));
         right_table_->setItem( i, 2, item );
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRLDP() ));
@@ -5187,7 +5173,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 120 );
     right_table_->setColumnWidth( 2, 60 );
-    right_table_->setColumnWidth( 3, 140 );
+    right_table_->setColumnWidth( 3, 130 );
 
     for( int i=0; i < revokeList.size(); i++ )
     {
@@ -5204,7 +5190,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         right_table_->setItem(i, 0, seq );
         right_table_->setItem(i, 1, item );
         right_table_->setItem(i, 2, new QTableWidgetItem(QString("%1").arg(revoke.getSerial())));
-        right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(getDateTime( revoke.getRevokeDate() ))));
+        right_table_->setItem(i, 3, new QTableWidgetItem(QString("%1").arg(dateString( revoke.getRevokeDate() ))));
         right_table_->setItem(i, 4, new QTableWidgetItem(QString("%1").arg(revoke.getCRLDP())));
     }
 
@@ -5252,18 +5238,16 @@ void MainWindow::createRightUserList()
     }
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 60 );
     right_table_->setColumnWidth( 3, 180 );
 
 
     for( int i = 0; i < userList.size(); i++ )
     {
-        char sRegTime[64];
         UserRec user = userList.at(i);
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        JS_UTIL_getDateTime( user.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( user.getName() );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( user.getNum() ));
@@ -5271,7 +5255,7 @@ void MainWindow::createRightUserList()
         seq->setIcon(QIcon(":/images/user.png"));
 
         right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( user.getRegTime() ) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getUserStatusName( user.getStatus() ) )));
         right_table_->setItem(i,3, item);
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( user.getEmail() )));
@@ -5310,7 +5294,7 @@ void MainWindow::createRightKMSList()
     QList<KMSRec> kmsList;
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
     right_table_->setColumnWidth( 4, 100 );
@@ -5330,7 +5314,6 @@ void MainWindow::createRightKMSList()
 
     for( int i = 0; i < kmsList.size(); i++ )
     {
-        char sRegTime[64];
         KMSRec kms = kmsList.at(i);
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -5341,10 +5324,8 @@ void MainWindow::createRightKMSList()
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( kms.getSeq() ));
         seq->setIcon(QIcon(":/images/kms.png"));
 
-        JS_UTIL_getDateTime( kms.getRegTime(), sRegTime );
-
         right_table_->setItem(i,0, seq);
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( kms.getRegTime() ) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getStatusName( kms.getState() ))));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( strType )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( strAlgorithm )));
@@ -5378,19 +5359,16 @@ void MainWindow::createRightSignerList(int nType)
 
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 200 );
     right_table_->setColumnWidth( 4, 60 );
 
     for( int i = 0; i < signerList.size(); i++ )
     {
-        char sRegTime[64];
         SignerRec signer = signerList.at(i);
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-
-        JS_UTIL_getDateTime( signer.getRegTime(), sRegTime );
 
         QTableWidgetItem *item = new QTableWidgetItem( signer.getDN() );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( signer.getNum() ));
@@ -5401,7 +5379,7 @@ void MainWindow::createRightSignerList(int nType)
             seq->setIcon(QIcon(":/images/ocsp_signer.png"));
 
         right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( signer.getRegTime()) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getSignerTypeName( signer.getType() ))));
         right_table_->setItem(i,3, item );
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( getStatusName( signer.getStatus() ))));
@@ -5544,28 +5522,25 @@ void MainWindow::createRightAuditList()
     }
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 100 );
     right_table_->setColumnWidth( 4, 100 );
 
     for( int i = 0; i < auditList.size(); i++ )
     {
-        char sRegTime[64];
         AuditRec audit = auditList.at(i);
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         QString strKind = JS_GEN_getKindName( audit.getKind() );
         QString strOperation = JS_GEN_getOperationName( audit.getOperation() );
 
-        JS_UTIL_getDateTime( audit.getRegTime(), sRegTime );
-
         QTableWidgetItem *item = new QTableWidgetItem( strOperation );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( audit.getSeq() ));
         seq->setIcon(QIcon(":/images/audit.png"));
 
         right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( audit.getRegTime()) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( strKind )));
         right_table_->setItem(i,3, item );
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( audit.getUserName() )));
@@ -5616,23 +5591,21 @@ void MainWindow::createRightTSPList()
     }
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 140 );
+    right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 100 );
     right_table_->setColumnWidth( 3, 200 );
 
     for( int i = 0; i < tspList.size(); i++ )
     {
-        char sRegTime[64];
         TSPRec tsp = tspList.at(i);
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
-        JS_UTIL_getDateTime( tsp.getRegTime(), sRegTime );
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( tsp.getSeq() ));
         seq->setIcon(QIcon(":/images/timestamp.png"));
 
         right_table_->setItem(i,0, seq );
-        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( sRegTime )));
+        right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( tsp.getRegTime()) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( tsp.getSerial())));
         right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( tsp.getSrcHash() )));
         right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( tsp.getPolicy() )));
@@ -5651,6 +5624,11 @@ void MainWindow::createRightStatistics()
 }
 #endif
 
+void MainWindow::infoLine()
+{
+    manApplet->info( "========================================================================\n" );
+}
+
 void MainWindow::infoKeyPair(int seq)
 {
     if( manApplet->dbMgr() == NULL ) return;
@@ -5660,16 +5638,17 @@ void MainWindow::infoKeyPair(int seq)
     manApplet->dbMgr()->getKeyPairRec( seq, keyPair );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
+
     manApplet->info( "== KeyPair Information\n" );
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Num        : %1\n").arg( keyPair.getNum() ));
     manApplet->info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     manApplet->info( QString("Name       : %1\n").arg(keyPair.getName()));
-    manApplet->info( QString("PublicKey  : \n%1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
-    manApplet->info( QString("PrivateKey : \n%1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+    manApplet->info( QString("PublicKey  : %1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
+    manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
     manApplet->info( QString("Param      : %1\n").arg(keyPair.getParam()));
-    manApplet->info( QString("Status     : %1 - %2\n").arg(keyPair.getStatus()).arg(getRecStatusName(keyPair.getStatus())));
+    manApplet->info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -5692,15 +5671,17 @@ void MainWindow::infoRequest( int seq )
     manApplet->info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
     manApplet->info( QString("Name     : %1\n").arg(reqRec.getName()));
     manApplet->info( QString("DN       : %1\n").arg(reqRec.getDN()));
-    manApplet->info( QString("Request  : \n%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
+    manApplet->info( QString("Request  : %1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
     manApplet->info( QString("Hash     : %1\n").arg(reqRec.getHash()));
-    manApplet->info( QString("Status   : %1 - %2\n").arg(reqRec.getStatus()).arg( getRecStatusName(reqRec.getStatus())));
+    manApplet->info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
 
 void MainWindow::infoCertificate( int seq )
 {
+    int nFieldWidth = -20;
     if( manApplet->dbMgr() == NULL ) return;
 
     char    sRegDate[64];
@@ -5736,22 +5717,23 @@ void MainWindow::infoCertificate( int seq )
     manApplet->info( QString("Num           : %1\n").arg(certRec.getNum()));
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
     manApplet->info( QString("RegDate       : %1\n").arg(sRegDate));
-    manApplet->info( QString("KeyNum        : %1 - %2\n").arg(certRec.getKeyNum()).arg( strKeyName ));
+    manApplet->info( QString("KeyNum        : %1 - %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
 
     if( manApplet->isPRO() )
-        manApplet->info( QString("UserNum       : %1 - %2\n").arg(certRec.getUserNum()).arg( strUserName ));
+        manApplet->info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
     manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    manApplet->info( QString("Certificate   : \n%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
-    manApplet->info( QString("IsCA          : %1 - %2\n").arg(certRec.isCA()).arg( certRec.isCA() ? "Yes" : "No" ));
-    manApplet->info( QString("IsSelf        : %1 - %2\n").arg(certRec.isSelf()).arg( certRec.isSelf() ? "Yes" : "No" ));
+    manApplet->info( QString("Certificate   : %1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
+    manApplet->info( QString("IsCA          : %1 - %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
+    manApplet->info( QString("IsSelf        : %1 - %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
     manApplet->info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
-    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(certRec.getIssuerNum()).arg( strIssuerName ));
-    manApplet->info( QString("Status        : %1 - %2\n").arg(certRec.getStatus()).arg( getCertStatusName( certRec.getStatus() )));
+    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));
+    manApplet->info( QString("Status        : %1 - %2\n").arg( getCertStatusName( certRec.getStatus() ), nFieldWidth).arg(certRec.getStatus()));
     manApplet->info( QString("Serial        : %1\n").arg(certRec.getSerial()));
     manApplet->info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
     manApplet->info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
     manApplet->info( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -5856,7 +5838,7 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 
 void MainWindow::infoCRL( int seq )
 {
-    int nFieldWidth = -16;
+    int nFieldWidth = -20;
 
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -5879,10 +5861,11 @@ void MainWindow::infoCRL( int seq )
     manApplet->info( QString("Num           : %1\n").arg(crlRec.getNum()));
     JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
     manApplet->info( QString("RegTime       : %1\n").arg(sRegTime));
-    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg(crlRec.getIssuerNum()).arg( strIssuerName ));
+    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
     manApplet->info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
     manApplet->info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
-    manApplet->info( QString("CRL           : \n%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
+    manApplet->info( QString("CRL           : %1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -5952,6 +5935,7 @@ void MainWindow::infoCRLProfile( int seq )
 
 void MainWindow::infoRevoke( int seq )
 {
+    int nFieldWidth = -20;
     if( manApplet->dbMgr() == NULL ) return;
 
     RevokeRec revokeRec;
@@ -5966,12 +5950,13 @@ void MainWindow::infoRevoke( int seq )
     manApplet->info( "== Revoke Information\n" );
     manApplet->info( "========================================================================\n" );
     manApplet->info( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
-    manApplet->info( QString("CertNum      : %1 - %2\n").arg( revokeRec.getCertNum()).arg(strCertName));
-    manApplet->info( QString("IssuerNum    : %1 - %2\n").arg( revokeRec.getIssuerNum()).arg(strIsserName));
+    manApplet->info( QString("CertNum      : %1 - %2\n").arg(strCertName, nFieldWidth).arg( revokeRec.getCertNum()));
+    manApplet->info( QString("IssuerNum    : %1 - %2\n").arg(strIsserName, nFieldWidth).arg( revokeRec.getIssuerNum()));
     manApplet->info( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
     manApplet->info( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
-    manApplet->info( QString("Reason       : %1 - %2\n").arg( revokeRec.getReason()).arg(strReason));
+    manApplet->info( QString("Reason       : %1 - %2\n").arg(strReason, nFieldWidth).arg( revokeRec.getReason()));
     manApplet->info( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -5995,6 +5980,7 @@ void MainWindow::infoUser( int seq )
     manApplet->info( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
     manApplet->info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
     manApplet->info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -6016,6 +6002,7 @@ void MainWindow::infoAdmin( int seq )
     manApplet->info( QString("Name         : %1\n").arg(adminRec.getName()));
     manApplet->info( QString("Password     : %1\n").arg(adminRec.getPassword()));
     manApplet->info( QString("Email        : %1\n").arg(adminRec.getEmail()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -6035,6 +6022,7 @@ void MainWindow::infoConfig( int seq )
     manApplet->info( QString("Kind         : %1 - %2\n").arg(configRec.getKind()).arg( JS_GEN_getKindName( configRec.getKind())));
     manApplet->info( QString("Name         : %1\n").arg(configRec.getName()));
     manApplet->info( QString("Value        : %1\n").arg(configRec.getValue()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -6098,6 +6086,7 @@ void MainWindow::infoAudit( int seq )
     manApplet->info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
     manApplet->info( QString("Info         : %1\n").arg(auditRec.getInfo()));
     manApplet->info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -6119,8 +6108,9 @@ void MainWindow::infoTSP( int seq )
     manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
     manApplet->info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
     manApplet->info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
-    manApplet->info( QString("TSTInfo      : \n%1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
-    manApplet->info( QString("Data         : \n%1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
+    manApplet->info( QString("TSTInfo      : %1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
+    manApplet->info( QString("Data         : %1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }
@@ -6142,9 +6132,10 @@ void MainWindow::infoSigner(int seq)
     manApplet->info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
     manApplet->info( QString("DN           : %1\n").arg(signerRec.getDN()));
     manApplet->info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    manApplet->info( QString("Cert         : \n%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
+    manApplet->info( QString("Cert         : %1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
     manApplet->info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
     manApplet->info( QString("Info         : %1\n").arg(signerRec.getInfo()));
+    manApplet->info( "========================================================================\n" );
 
     infoCursorTop();
 }

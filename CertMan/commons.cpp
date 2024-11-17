@@ -3828,10 +3828,11 @@ const QString getHexStringArea( const QString strMsg, int nWidth )
             nBlock = nLen;
 
         strAreaMsg += strMsg.mid( nPos, nBlock );
-        strAreaMsg += "\n";
 
         nLen -= nBlock;
         nPos += nBlock;
+
+        if( nLen > 0 ) strAreaMsg += "\n";
     }
 
     return strAreaMsg;
@@ -4327,4 +4328,10 @@ bool isValidNumFormat( const QString strInput, int nNumber )
     }
 
     return strReg.exactMatch( strInput );
+}
+
+const QString dateString( time_t tTime )
+{
+    QDateTime dateTime = QDateTime::fromTime_t( tTime );
+    return dateTime.toString( "yy-MM-dd HH:mm" );
 }

@@ -272,4 +272,6 @@ bool isHex( const QString strHexString );
 bool isBase64( const QString strBase64String );
 bool isURLEncode( const QString strURLEncode );
 
+const QString dateString( time_t tTime );
+
 #endif // COMMONS_H

@@ -3795,7 +3795,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="4816"/>
         <source>NotBefore</source>
-        <translation></translation>
+        <translation>유효기간(시작)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="302"/>
