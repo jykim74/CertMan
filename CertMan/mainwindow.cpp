@@ -252,12 +252,20 @@ void MainWindow::initialize()
         text_tab_->setTabEnabled( 1, false );
     }
 
+#ifdef Q_OS_MACOS
+    int nWidth = 980;
+    resize( nWidth, 740 );
+
+    QList<int> sizes;
+    sizes.append( 300 );
+    sizes.append( nWidth - 300);
+    hsplitter_->setSizes( sizes );
+#else
+    resize( 900, 740 );
+#endif
 
     setCentralWidget(hsplitter_);
 
-
-//    resize(1060,800);
-    resize( 900, 740 );
 
     connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
     connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
