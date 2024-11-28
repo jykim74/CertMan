@@ -84,5 +84,6 @@
         <file>images/ocsp_srv.png</file>
         <file>images/reg_srv.png</file>
         <file>images/tsp_srv.png</file>
+        <file>images/profile.png</file>
     </qresource>
 </RCC>

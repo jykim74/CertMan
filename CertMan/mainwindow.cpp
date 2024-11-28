@@ -83,6 +83,8 @@
 #include "remote_db_dlg.h"
 
 #include "pki_srv_dlg.h"
+#include "ca_man_dlg.h"
+#include "profile_man_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -91,13 +93,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     initialize();
 
-    if( manApplet->isPRO() == true )
-        pki_srv_ = new PKISrvDlg;
-    else
-        pki_srv_ = NULL;
-
     createActions();
     createStatusBar();
+    createMemberDlg();
 
     setUnifiedTitleAndToolBarOnMac(true);
     setAcceptDrops(true);
@@ -442,6 +440,22 @@ void MainWindow::createActions()
     toolsMenu->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
 
+    const QIcon caIcon = QIcon::fromTheme("CA Man", QIcon(":/images/ca.png"));
+    ca_man_act_ = new QAction( caIcon, tr("CA Man"), this );
+    ca_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
+    ca_man_act_->setStatusTip( tr("CA Manager" ));
+    connect( ca_man_act_, &QAction::triggered, this, &MainWindow::CAMan );
+    toolsMenu->addAction( ca_man_act_ );
+    if( isView( ACT_TOOL_CA_MAN ) ) tool_tool_->addAction( ca_man_act_ );
+
+    const QIcon profileIcon = QIcon::fromTheme("Profile Man", QIcon(":/images/profile.png"));
+    profile_man_act_ = new QAction( profileIcon, tr("Profile Man"), this );
+    profile_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
+    profile_man_act_->setStatusTip( tr("Profile Manager" ));
+    connect( profile_man_act_, &QAction::triggered, this, &MainWindow::profileMan );
+    toolsMenu->addAction( profile_man_act_ );
+    if( isView( ACT_TOOL_PROFILE_MAN ) ) tool_tool_->addAction( profile_man_act_ );
+
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     data_tool_ = addToolBar(tr("Data"));
 
@@ -644,6 +658,17 @@ void MainWindow::createStatusBar()
 void MainWindow::createTableMenu()
 {
 
+}
+
+void MainWindow::createMemberDlg()
+{
+    if( manApplet->isPRO() == true )
+        pki_srv_ = new PKISrvDlg;
+    else
+        pki_srv_ = NULL;
+
+    ca_man_dlg_ = new CAManDlg;
+    profile_man_dlg_ = new ProfileManDlg;
 }
 
 void MainWindow::removeAllRight()
@@ -4073,6 +4098,20 @@ void MainWindow::toggleLog()
         log( "Log is halt" );
         log_halt_ = true;
     }
+}
+
+void MainWindow::CAMan()
+{
+    ca_man_dlg_->show();
+    ca_man_dlg_->raise();
+    ca_man_dlg_->activateWindow();
+}
+
+void MainWindow::profileMan()
+{
+    profile_man_dlg_->show();
+    profile_man_dlg_->raise();
+    profile_man_dlg_->activateWindow();
 }
 
 void MainWindow::OCSPSrv()

@@ -44,6 +44,9 @@ private slots:
     void checkPKCS11();
     void checkKMIP();
 
+    void clickSelectKeyPair();
+    void clickSelectProfile();
+
 private:
     void initUI();
     void initialize();

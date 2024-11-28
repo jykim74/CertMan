@@ -58,6 +58,8 @@ enum {
 #define ACT_TOOL_MAKE_CERT              VIEW_TOOL | 0x00000080
 #define ACT_TOOL_MAKE_CRL               VIEW_TOOL | 0x00000100
 #define ACT_TOOL_REVOKE_CERT            VIEW_TOOL | 0x00000200
+#define ACT_TOOL_CA_MAN                 VIEW_TOOL | 0x00000400
+#define ACT_TOOL_PROFILE_MAN            VIEW_TOOL | 0x00000800
 
 #define ACT_DATA_IMPORT_DATA            VIEW_DATA | 0x00000001
 #define ACT_DATA_GET_URI                VIEW_DATA | 0x00000002
@@ -87,7 +89,7 @@ static const int kFileDefault = ACT_FILE_NEW | ACT_FILE_OPEN | ACT_FILE_REMOTE_D
 static const int kToolDefault = ACT_TOOL_NEW_KEY | ACT_TOOL_MAKE_REQ | ACT_TOOL_MAKE_CONFIG \
                                 | ACT_TOOL_REG_USER | ACT_TOOL_REG_SIGNER | ACT_TOOL_MAKE_CERT_PROFILE \
                                 | ACT_TOOL_MAKE_CRL_PROFILE | ACT_TOOL_MAKE_CERT | ACT_TOOL_MAKE_CRL \
-                                | ACT_TOOL_REVOKE_CERT;
+                                | ACT_TOOL_REVOKE_CERT | ACT_TOOL_CA_MAN | ACT_TOOL_PROFILE_MAN;
 
 static const int kDataDefault = ACT_DATA_IMPORT_DATA | ACT_DATA_GET_URI | ACT_DATA_PUBLISH_LDAP \
                                 | ACT_DATA_SET_PASSWD | ACT_DATA_CHANGE_PASSWD | ACT_DATA_TSP_CLIENT;

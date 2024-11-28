@@ -21,6 +21,8 @@
 #include "commons.h"
 #include "pin_dlg.h"
 #include "make_dn_dlg.h"
+#include "ca_man_dlg.h"
+#include "profile_man_dlg.h"
 
 static QStringList sMechList = { kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
 
@@ -44,6 +46,9 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
     connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
+
+    connect( mSelectKeyPairBtn, SIGNAL(clicked()), this, SLOT(clickSelectKeyPair()));
+    connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
 
     initialize();
 
@@ -617,6 +622,30 @@ void MakeReqDlg::checkKMIP()
     }
 }
 
+void MakeReqDlg::clickSelectKeyPair()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select KeyPair" ));
+    caMan.setMode( CAManModeSelectKeyPair );
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+
+    }
+}
+
+void MakeReqDlg::clickSelectProfile()
+{
+    ProfileManDlg profileMan;
+    profileMan.setTitle( tr( "Select a profile" ));
+    profileMan.setMode( ProfileManModeSelectCertProfile );
+
+    if( profileMan.exec() == QDialog::Accepted )
+    {
+
+    }
+}
+
 void MakeReqDlg::newOptionChanged(int index )
 {
     if( mNewOptionCombo->currentText() == "SM2" )
@@ -647,6 +676,7 @@ void MakeReqDlg::checkExtension()
 
     mProfileNameCombo->setEnabled( bVal );
     mProfileNameLabel->setEnabled( bVal );
+    mSelectProfileBtn->setEnabled( bVal );
 }
 
 void MakeReqDlg::clickMakeDN()

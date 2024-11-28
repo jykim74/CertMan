@@ -188,6 +188,20 @@ void MainWindow::createViewActions()
     connect( toolRevokeCertAct, &QAction::triggered, this, &MainWindow::viewToolRevokeCert );
     toolMenu->addAction( toolRevokeCertAct );
 
+    QAction *toolCAManAct = new QAction( tr( "CA Man" ), this );
+    bVal = isView( ACT_TOOL_CA_MAN );
+    toolCAManAct->setCheckable( true );
+    toolCAManAct->setChecked( bVal );
+    connect( toolCAManAct, &QAction::triggered, this, &MainWindow::viewToolCAMan );
+    toolMenu->addAction( toolCAManAct );
+
+    QAction *toolProfileManAct = new QAction( tr( "Profile Man" ), this );
+    bVal = isView( ACT_TOOL_PROFILE_MAN );
+    toolProfileManAct->setCheckable( true );
+    toolProfileManAct->setChecked( bVal );
+    connect( toolProfileManAct, &QAction::triggered, this, &MainWindow::viewToolProfileMan );
+    toolMenu->addAction( toolProfileManAct );
+
     QAction *dataImportDataAct = new QAction( tr( "Import Data" ), this );
     bVal = isView( ACT_DATA_IMPORT_DATA );
     dataImportDataAct->setCheckable( true );
@@ -558,6 +572,37 @@ void MainWindow::viewToolRevokeCert( bool bChecked )
     }
 }
 
+void MainWindow::viewToolCAMan( bool bChecked )
+{
+    int nAct = ACT_TOOL_CA_MAN;
+
+    if( bChecked == true )
+    {
+        tool_tool_->addAction( ca_man_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        tool_tool_->removeAction( ca_man_act_ );
+        unsetView( nAct );
+    }
+}
+
+void MainWindow::viewToolProfileMan( bool bChecked )
+{
+    int nAct = ACT_TOOL_PROFILE_MAN;
+
+    if( bChecked == true )
+    {
+        tool_tool_->addAction( profile_man_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        tool_tool_->removeAction( profile_man_act_ );
+        unsetView( nAct );
+    }
+}
 
 void MainWindow::viewDataImportData( bool bChecked )
 {

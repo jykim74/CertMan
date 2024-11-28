@@ -227,6 +227,8 @@ add_executable(${PROJECT_NAME}
     passwd_dlg.cpp passwd_dlg.h passwd_dlg.ui
     new_passwd_dlg.cpp new_passwd_dlg.h new_passwd_dlg.ui
     code_editor.cpp code_editor.h
+    ca_man_dlg.h ca_man_dlg.cpp ca_man_dlg.ui
+    profile_man_dlg.h profile_man_dlg.cpp profile_man_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

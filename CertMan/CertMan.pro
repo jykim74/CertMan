@@ -103,7 +103,9 @@ SOURCES += \
         copy_right_dlg.cpp \
         new_passwd_dlg.cpp \
         passwd_dlg.cpp \
-        code_editor.cpp
+        code_editor.cpp \
+        ca_man_dlg.cpp \
+        profile_man_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -172,7 +174,9 @@ HEADERS += \
         copy_right_dlg.h \
         new_passwd_dlg.h \
         passwd_dlg.h \
-        code_editor.h
+        code_editor.h \
+        ca_man_dlg.h \
+        profile_man_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -215,7 +219,9 @@ FORMS += \
         pki_srv_dlg.ui \
         copy_right_dlg.ui \
         new_passwd_dlg.ui \
-        passwd_dlg.ui
+        passwd_dlg.ui \
+        ca_man_dlg.ui \
+        profile_man_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -23,6 +23,8 @@ class ManTreeModel;
 class ManTreeItem;
 class SearchForm;
 class CertRec;
+class CAManDlg;
+class ProfileManDlg;
 
 #ifdef _ENABLE_CHARTS
 class StatForm;
@@ -79,6 +81,7 @@ public:
     void createViewActions();
     void createStatusBar();
     void createTableMenu();
+    void createMemberDlg();
 
     void createTreeMenu();
     void createRightList( int nType, int nNum );
@@ -240,6 +243,9 @@ public slots:
     void clearLog();
     void toggleLog();
 
+    void CAMan();
+    void profileMan();
+
     void OCSPSrv();
     void TSPSrv();
     void CMPSrv();
@@ -283,6 +289,8 @@ private:
     void viewToolMakeCert( bool bChecked );
     void viewToolMakeCRL( bool bChecked );
     void viewToolRevokeCert( bool bChecked );
+    void viewToolCAMan( bool bChecked );
+    void viewToolProfileMan( bool bChecked );
 
     void viewDataImportData( bool bChecked );
     void viewDataGetURI( bool bChecked );
@@ -330,6 +338,8 @@ private:
     bool            log_halt_;
 
     PKISrvDlg       *pki_srv_;
+    CAManDlg        *ca_man_dlg_;
+    ProfileManDlg   *profile_man_dlg_;
 
     QToolBar*       file_tool_;
     QAction*        new_act_;
@@ -349,6 +359,8 @@ private:
     QAction*        make_cert_act_;
     QAction*        make_crl_act_;
     QAction*        revoke_cert_act_;
+    QAction*        ca_man_act_;
+    QAction*        profile_man_act_;
 
     QToolBar*       data_tool_;
     QAction*        import_data_act_;
