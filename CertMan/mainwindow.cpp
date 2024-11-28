@@ -4892,27 +4892,7 @@ void MainWindow::createRightCertProfileList()
             seq->setIcon(QIcon(":/images/cert_profile.png"));
 
         strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
-
-        if( certProfile.getNotBefore() == 0 )
-        {
-            strNotBefore = "GenTime";
-            strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
-        }
-        else if( certProfile.getNotBefore() == 1 )
-        {
-            strNotBefore = "GenTime";
-            strNotAfter = QString( "%1 Months" ).arg( certProfile.getNotAfter() );
-        }
-        else if( certProfile.getNotBefore() == 2 )
-        {
-            strNotBefore = "GenTime";
-            strNotAfter = QString( "%1 Years" ).arg( certProfile.getNotAfter() );
-        }
-        else
-        {
-            strNotBefore = getDateTime( certProfile.getNotBefore() );
-            strNotAfter = getDateTime( certProfile.getNotAfter() );
-        }
+        getPeriodString( certProfile.getNotBefore(), certProfile.getNotAfter(), strNotBefore, strNotAfter );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -4961,26 +4941,7 @@ void MainWindow::createRightCRLProfileList()
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crlProfile.getNum() ));
         seq->setIcon(QIcon(":/images/crl_profile.png"));
 
-        if( crlProfile.getThisUpdate() == 0 )
-        {
-            strThisUpdate = "GenTime";
-            strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
-        }
-        else if( crlProfile.getThisUpdate() == 1 )
-        {
-            strThisUpdate = "GenTime";
-            strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
-        }
-        else if( crlProfile.getThisUpdate() == 2 )
-        {
-            strThisUpdate = "GenTime";
-            strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
-        }
-        else
-        {
-            strThisUpdate = getDateTime( crlProfile.getThisUpdate() );
-            strNextUpdate = getDateTime( crlProfile.getNextUpdate() );
-        }
+        getPeriodString( crlProfile.getThisUpdate(), crlProfile.getNextUpdate(), strThisUpdate, strNextUpdate );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );

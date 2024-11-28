@@ -211,7 +211,7 @@ void CAManDlg::loadKeyPairList()
 
         mKeyPairTable->insertRow(0);
         mKeyPairTable->setRowHeight(0,10);
-        mKeyPairTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( keyPair.getRegTime() )));
+        mKeyPairTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
         mKeyPairTable->setItem( 0, 1, item );
         mKeyPairTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
     }
@@ -234,7 +234,7 @@ void CAManDlg::loadCSRList()
 
         mCSRTable->insertRow(0);
         mCSRTable->setRowHeight(0,10);
-        mCSRTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( req.getRegTime() )));
+        mCSRTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
         mCSRTable->setItem( 0, 1, item );
         mCSRTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( req.getHash() )));
     }

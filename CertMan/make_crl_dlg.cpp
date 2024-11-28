@@ -21,6 +21,7 @@
 #include "js_define.h"
 #include "commons.h"
 #include "settings_mgr.h"
+#include "profile_man_dlg.h"
 
 
 MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
@@ -33,6 +34,7 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
 
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
+    connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
 
     QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
     mRevokeTable->setColumnCount(3);
@@ -515,5 +517,17 @@ void MakeCRLDlg::setRevokeList()
         mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
         mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strReason ) ));
         mRevokeTable->setItem( i, 2, new QTableWidgetItem( sDateTime ));
+    }
+}
+
+void MakeCRLDlg::clickSelectProfile()
+{
+    ProfileManDlg profileMan;
+    profileMan.setTitle( tr( "Select a profile" ));
+    profileMan.setMode( ProfileManModeSelectCRLProfile );
+
+    if( profileMan.exec() == QDialog::Accepted )
+    {
+
     }
 }

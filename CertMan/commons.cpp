@@ -4335,3 +4335,27 @@ const QString dateString( time_t tTime )
     QDateTime dateTime = QDateTime::fromTime_t( tTime );
     return dateTime.toString( "yy-MM-dd HH:mm" );
 }
+
+void getPeriodString( long start, long end, QString& strStart, QString& strEnd )
+{
+    if( start == 0 )
+    {
+        strStart = "GenTime";
+        strEnd = QString( "%1 Days" ).arg( end );
+    }
+    else if( start == 1 )
+    {
+        strStart = "GenTime";
+        strEnd = QString( "%1 Months" ).arg( end );
+    }
+    else if( start == 2 )
+    {
+        strStart = "GenTime";
+        strEnd = QString( "%1 Years" ).arg( end );
+    }
+    else
+    {
+        strStart = getDateTime( start );
+        strEnd = getDateTime( end );
+    }
+}

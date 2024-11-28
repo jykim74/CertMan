@@ -41,6 +41,10 @@ private slots:
     void findCSRFile();
     void clickMakeDN();
 
+    void clickSelectCSR();
+    void clickSelectProfile();
+    void clickSelectCACert();
+
 private:
     QList<ReqRec>           req_list_;
     QList<CertRec>          ca_cert_list_;

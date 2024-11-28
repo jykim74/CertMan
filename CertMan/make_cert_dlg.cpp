@@ -22,6 +22,8 @@
 #include "commons.h"
 #include "settings_mgr.h"
 #include "make_dn_dlg.h"
+#include "ca_man_dlg.h"
+#include "profile_man_dlg.h"
 
 #include "js_gen.h"
 #include "js_kms.h"
@@ -55,6 +57,10 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mUseCSRFileCheck, SIGNAL(clicked()), this, SLOT(clickUseCSRFile()));
     connect( mCSRFileFindBtn, SIGNAL(clicked()), this, SLOT(findCSRFile()));
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
+
+    connect( mSelectCSRBtn, SIGNAL(clicked()), this, SLOT(clickSelectCSR()));
+    connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mSelectCACertBtn, SIGNAL(clicked()), this, SLOT(clickSelectCACert()));
 
     initialize();
 
@@ -859,5 +865,41 @@ void MakeCertDlg::clickMakeDN()
     {
         strDN = makeDNDlg.getDN();
         mSubjectDNText->setText( strDN );
+    }
+}
+
+void MakeCertDlg::clickSelectCSR()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select CSR" ));
+    caMan.setMode( CAManModeSelectCSR );
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+
+    }
+}
+
+void MakeCertDlg::clickSelectProfile()
+{
+    ProfileManDlg profileMan;
+    profileMan.setTitle( tr( "Select a profile" ));
+    profileMan.setMode( ProfileManModeSelectCertProfile );
+
+    if( profileMan.exec() == QDialog::Accepted )
+    {
+
+    }
+}
+
+void MakeCertDlg::clickSelectCACert()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select CA certificate" ));
+    caMan.setMode( CAManModeSelectCACert );
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+
     }
 }

@@ -31,6 +31,7 @@ private slots:
     void issuerChanged(int index);
     void crldpChanged(int index);
 
+    void clickSelectProfile();
 
 private:
     void initialize();

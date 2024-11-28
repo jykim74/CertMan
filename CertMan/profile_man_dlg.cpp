@@ -151,14 +151,19 @@ void ProfileManDlg::loadCertProfileList()
 
     for( int i = 0; i < profileList.size(); i++ )
     {
+        QString strNotBefore;
+        QString strNotAfter;
+
         CertProfileRec profile = profileList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+
+        getPeriodString( profile.getNotBefore(), profile.getNotAfter(), strNotBefore, strNotAfter );
 
         mCertTable->insertRow(0);
         mCertTable->setRowHeight(0, 10);
         mCertTable->setItem( 0, 0, item );
-        mCertTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( profile.getNotBefore() )));
-        mCertTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( profile.getNotAfter() )));
+        mCertTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strNotBefore )));
+        mCertTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNotAfter )));
     }
 }
 
@@ -173,13 +178,18 @@ void ProfileManDlg::loadCRLProfileList()
 
     for( int i = 0; i < profileList.size(); i++ )
     {
+        QString strThisUpdate;
+        QString strNextUpdate;
+
         CRLProfileRec profile = profileList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+
+        getPeriodString( profile.getThisUpdate(), profile.getNextUpdate(), strThisUpdate, strNextUpdate );
 
         mCRLTable->insertRow(0);
         mCRLTable->setRowHeight(0, 10);
         mCRLTable->setItem( 0, 0, item );
-        mCRLTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( profile.getThisUpdate() )));
-        mCRLTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( profile.getNextUpdate() )));
+        mCRLTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strThisUpdate )));
+        mCRLTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNextUpdate )));
     }
 }
