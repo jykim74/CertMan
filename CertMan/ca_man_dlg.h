@@ -38,13 +38,20 @@ private slots:
 
     void clickOK();
 
-private:
-    void initUI();
-    void initialize();
-
     void loadCACertList();
     void loadKeyPairList();
     void loadCSRList();
+
+    void clickCACertView();
+    void clickCACertDelete();
+    void clickKeyPairView();
+    void clickKeyPairDelete();
+    void clickCSRView();
+    void clickCSRDelete();
+
+private:
+    void initUI();
+    void initialize();
 };
 
 #endif // CA_MAN_DLG_H

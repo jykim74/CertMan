@@ -4102,6 +4102,12 @@ void MainWindow::toggleLog()
 
 void MainWindow::CAMan()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
     ca_man_dlg_->show();
     ca_man_dlg_->raise();
     ca_man_dlg_->activateWindow();
@@ -4109,6 +4115,12 @@ void MainWindow::CAMan()
 
 void MainWindow::profileMan()
 {
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
     profile_man_dlg_->show();
     profile_man_dlg_->raise();
     profile_man_dlg_->activateWindow();

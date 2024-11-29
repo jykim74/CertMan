@@ -7,6 +7,7 @@
 enum {
     ProfileManModeManage = 0,
     ProfileManModeSelectCertProfile,
+    ProfileManModeSelectCSRProfile,
     ProfileManModeSelectCRLProfile
 };
 
@@ -31,12 +32,20 @@ private slots:
 
     void clickOK();
 
+    void loadCertProfileList();
+    void loadCRLProfileList();
+
+    void clickCertProfileView();
+    void clickCertProfileDelete();
+
+    void clickCRLProfileView();
+    void clickCRLProfileDelete();
+
 private:
     void initUI();
     void initialize();
 
-    void loadCertProfileList();
-    void loadCRLProfileList();
+
 };
 
 #endif // PROFILE_MAN_DLG_H

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>290</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
      <property name="minimumSize">
       <size>
        <width>500</width>
-       <height>200</height>
+       <height>300</height>
       </size>
      </property>
      <property name="currentIndex">
@@ -44,6 +44,36 @@
        <string>Certificate Profile</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Certificate Profile</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QComboBox" name="mCertTypeCombo"/>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
        <item>
         <widget class="QTableWidget" name="mCertTable"/>
        </item>
@@ -61,19 +91,32 @@
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QPushButton" name="pushButton_3">
+            <item row="0" column="2">
+             <widget class="QPushButton" name="mCertDeleteBtn">
               <property name="text">
-               <string>PushButton</string>
+               <string>Delete</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="mCertViewBtn">
               <property name="text">
-               <string>PushButton</string>
+               <string>View</string>
               </property>
              </widget>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -87,6 +130,20 @@
        <string>CRL Profile</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>CRL Profile</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <widget class="QTableWidget" name="mCRLTable"/>
        </item>
@@ -104,19 +161,32 @@
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="0" column="0">
-             <widget class="QPushButton" name="pushButton_5">
+            <item row="0" column="1">
+             <widget class="QPushButton" name="mCRLViewBtn">
               <property name="text">
-               <string>PushButton</string>
+               <string>View</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="pushButton_6">
+            <item row="0" column="2">
+             <widget class="QPushButton" name="mCRLDeleteBtn">
               <property name="text">
-               <string>PushButton</string>
+               <string>Delete</string>
               </property>
              </widget>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>

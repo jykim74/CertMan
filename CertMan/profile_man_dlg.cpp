@@ -7,8 +7,13 @@
 
 #include "cert_profile_rec.h"
 #include "crl_profile_rec.h"
+#include "make_cert_profile_dlg.h"
+#include "make_crl_profile_dlg.h"
 
 #include "js_pki_x509.h"
+#include "js_pki_ext.h"
+
+static const QStringList kCertProfileType = { "Certificate", "CSR" };
 
 ProfileManDlg::ProfileManDlg(QWidget *parent) :
     QDialog(parent)
@@ -17,6 +22,16 @@ ProfileManDlg::ProfileManDlg(QWidget *parent) :
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
+    connect( mCertTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCertProfileList()));
+
+    connect( mCertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCertProfileView()));
+    connect( mCRLTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCRLProfileView()));
+
+    connect( mCertViewBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileView()));
+    connect( mCertDeleteBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileDelete()));
+
+    connect( mCRLViewBtn, SIGNAL(clicked()), this, SLOT(clickCRLProfileView()));
+    connect( mCRLDeleteBtn, SIGNAL(clicked()), this, SLOT(clickCRLProfileDelete()));
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -58,8 +73,18 @@ void ProfileManDlg::setMode( int nMode )
         mTabWidget->setTabEnabled( 1, false );
     }
 
-    if( nMode == ProfileManModeSelectCertProfile )
+    if( nMode == ProfileManModeSelectCertProfile || nMode == ProfileManModeSelectCSRProfile )
     {
+        mCertTypeCombo->clear();
+        if( nMode == ProfileManModeSelectCertProfile )
+        {
+            mCertTypeCombo->addItem( "Certificate" );
+        }
+        else
+        {
+            mCertTypeCombo->addItem( "CSR" );
+        }
+
         mTabWidget->setCurrentIndex(0);
         mTabWidget->setTabEnabled(0, true);
     }
@@ -100,6 +125,7 @@ void ProfileManDlg::initUI()
 #else
     int nWidth = width() * 8/10;
 #endif
+    mCertTypeCombo->addItems( kCertProfileType );
 
     QStringList sCertLabels = { tr( "Name" ), tr( "NotBefore" ), tr( "NotAfter" ) };
 
@@ -145,7 +171,13 @@ void ProfileManDlg::loadCertProfileList()
     DBMgr *dbMgr = manApplet->dbMgr();
     QList<CertProfileRec> profileList;
 
-    int ret = dbMgr->getCertProfileList( profileList );
+    QString strType = mCertTypeCombo->currentText();
+
+    int ret = 0;
+    if( strType == "Certificate" )
+        ret = dbMgr->getCertProfileListByType( JS_PKI_PROFILE_TYPE_CERT, profileList );
+    else
+        ret = dbMgr->getCertProfileListByType( JS_PKI_PROFILE_TYPE_CSR, profileList );
 
     mCertTable->setRowCount(0);
 
@@ -156,6 +188,7 @@ void ProfileManDlg::loadCertProfileList()
 
         CertProfileRec profile = profileList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+        item->setData(Qt::UserRole, profile.getNum() );
 
         getPeriodString( profile.getNotBefore(), profile.getNotAfter(), strNotBefore, strNotAfter );
 
@@ -183,6 +216,7 @@ void ProfileManDlg::loadCRLProfileList()
 
         CRLProfileRec profile = profileList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+        item->setData(Qt::UserRole, profile.getNum() );
 
         getPeriodString( profile.getThisUpdate(), profile.getNextUpdate(), strThisUpdate, strNextUpdate );
 
@@ -192,4 +226,80 @@ void ProfileManDlg::loadCRLProfileList()
         mCRLTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strThisUpdate )));
         mCRLTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNextUpdate )));
     }
+}
+
+void ProfileManDlg::clickCertProfileView()
+{
+    QModelIndex idx = mCertTable->currentIndex();
+    QTableWidgetItem *item = mCertTable->item( idx.row(), 0 );
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    int num = item->data(Qt::UserRole).toInt();
+
+    MakeCertProfileDlg makeCertProfileDlg;
+    makeCertProfileDlg.setEdit(num);
+    makeCertProfileDlg.setReadOnly();
+    makeCertProfileDlg.exec();
+}
+
+void ProfileManDlg::clickCertProfileDelete()
+{
+    QModelIndex idx = mCertTable->currentIndex();
+    QTableWidgetItem *item = mCertTable->item( idx.row(), 0 );
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    int num = item->data(Qt::UserRole).toInt();
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the certificate profile?" ), this, false );
+    if( bVal == false ) return;
+
+    int ret = manApplet->dbMgr()->delCertProfile(num);
+    if( ret == 0 ) loadCertProfileList();
+}
+
+void ProfileManDlg::clickCRLProfileView()
+{
+    QModelIndex idx = mCRLTable->currentIndex();
+    QTableWidgetItem *item = mCRLTable->item( idx.row(), 0 );
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    int num = item->data(Qt::UserRole).toInt();
+
+    MakeCRLProfileDlg makeCRLProfileDlg;
+    makeCRLProfileDlg.setEdit(num);
+    makeCRLProfileDlg.setReadOnly();
+    makeCRLProfileDlg.exec();
+}
+
+void ProfileManDlg::clickCRLProfileDelete()
+{
+    QModelIndex idx = mCRLTable->currentIndex();
+    QTableWidgetItem *item = mCRLTable->item( idx.row(), 0 );
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    int num = item->data(Qt::UserRole).toInt();
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the CRL profile?" ), this, false );
+    if( bVal == false ) return;
+
+    int ret = manApplet->dbMgr()->delCertProfile(num);
+    if( ret == 0 ) loadCRLProfileList();
 }
