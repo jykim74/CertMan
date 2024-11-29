@@ -31,6 +31,7 @@ public:
 
     void setMode( int nMode );
     void setTitle( const QString strTitle );
+    int getNum() { return num_; };
 
 private slots:
     void showEvent(QShowEvent *event);
@@ -52,6 +53,8 @@ private slots:
 private:
     void initUI();
     void initialize();
+
+    int num_;
 };
 
 #endif // CA_MAN_DLG_H

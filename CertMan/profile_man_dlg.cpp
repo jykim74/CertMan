@@ -18,9 +18,12 @@ static const QStringList kCertProfileType = { "Certificate", "CSR" };
 ProfileManDlg::ProfileManDlg(QWidget *parent) :
     QDialog(parent)
 {
+    num_ = -1;
+
     setupUi(this);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
     connect( mCertTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCertProfileList()));
 
@@ -115,7 +118,32 @@ void ProfileManDlg::changeTab( int index )
 
 void ProfileManDlg::clickOK()
 {
+    num_ = -1;
 
+    QModelIndex idx;
+    QTableWidgetItem *item = NULL;
+    int nTabIdx = mTabWidget->currentIndex();
+
+    if( nTabIdx == 0 )
+    {
+        idx = mCertTable->currentIndex();
+        item = mCertTable->item( idx.row(), 0 );
+    }
+    else if( nTabIdx == 1 )
+    {
+        idx = mCRLTable->currentIndex();
+        item = mCRLTable->item( idx.row(), 0 );
+    }
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    num_ = item->data(Qt::UserRole).toInt();
+
+    accept();
 }
 
 void ProfileManDlg::initUI()

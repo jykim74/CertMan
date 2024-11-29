@@ -21,9 +21,12 @@ static QStringList kStatus = { "NotUsed", "Used" };
 CAManDlg::CAManDlg(QWidget *parent) :
     QDialog(parent)
 {
+    num_ = -1;
+
     setupUi(this);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
 
     connect( mCACertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCACertView()));
@@ -201,7 +204,37 @@ void CAManDlg::changeTab( int index )
 
 void CAManDlg::clickOK()
 {
+    num_ = -1;
 
+    QModelIndex idx;
+    QTableWidgetItem *item = NULL;
+    int nTabIdx = mTabWidget->currentIndex();
+
+    if( nTabIdx == TAB_CA_CERT_IDX )
+    {
+        idx = mCACertTable->currentIndex();
+        item = mCACertTable->item( idx.row(), 0 );
+    }
+    else if( nTabIdx == TAB_KEYPAIR_IDX )
+    {
+        idx = mKeyPairTable->currentIndex();
+        item = mKeyPairTable->item( idx.row(), 0 );
+    }
+    else if( nTabIdx == TAB_CSR_IDX )
+    {
+        idx = mCSRTable->currentIndex();
+        item = mCSRTable->item( idx.row(), 0 );
+    }
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "There are no selected items"), this );
+        return;
+    }
+
+    num_ = item->data(Qt::UserRole).toInt();
+
+    accept();
 }
 
 void CAManDlg::loadCACertList()

@@ -29,8 +29,8 @@ public:
 
 private slots:
     virtual void accept();
-    void keyNameChanged(int index);
-//    void newAlgChanged(int index );
+    void keyNumChanged();
+    void profileNumChanged();
     void newOptionChanged(int index );
     void checkGenKeyPair();
     void checkExtension();
@@ -52,9 +52,6 @@ private:
     void initialize();
     int genKeyPair( KeyPairRec& keyPair );
     const QString getMechanism();
-
-    QList<KeyPairRec> key_list_;
-    QList<CertProfileRec> cert_profile_list_;
 };
 
 #endif // MAKE_REQ_DLG_H

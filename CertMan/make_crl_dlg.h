@@ -30,6 +30,7 @@ private slots:
     void showEvent(QShowEvent *event);
     void issuerChanged(int index);
     void crldpChanged(int index);
+    void profileNumChanged();
 
     void clickSelectProfile();
 
@@ -38,7 +39,6 @@ private:
     void setRevokeList();
 
     QList<CertRec> ca_cert_list_;
-    QList<CRLProfileRec> crl_profile_list_;
 };
 
 #endif // MAKE_CRL_DLG_H

@@ -32,9 +32,10 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     setupUi(this);
     initUI();
 
-    connect( mKeyNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(keyNameChanged(int)));
+    connect( mKeyNumText, SIGNAL(textChanged(QString)), this, SLOT(keyNumChanged()));
+    connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(profileNumChanged()));
+
     connect( mGenKeyPairCheck, SIGNAL(clicked()), this, SLOT(checkGenKeyPair()));
-//    connect( mNewAlgorithmCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newAlgChanged(int)));
     connect( mNewOptionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(newOptionChanged(int)));
     connect( mUseExtensionCheck, SIGNAL(clicked()), this, SLOT(checkExtension()));
     connect( mMakeDNBtn, SIGNAL(clicked()), this, SLOT(clickMakeDN()));
@@ -64,13 +65,12 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
 MakeReqDlg::~MakeReqDlg()
 {
-    key_list_.clear();
-    cert_profile_list_.clear();
+
 }
 
 void MakeReqDlg::setKeyName( const QString strName )
 {
-    mKeyNameCombo->setCurrentText( strName );
+    mKeyNameText->setText( strName );
 }
 
 
@@ -140,41 +140,10 @@ void MakeReqDlg::initialize()
     mHashCombo->addItems(kHashList);
     mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
-    key_list_.clear();
-    dbMgr->getKeyPairList( 0, key_list_ );
-
-    for( int i = 0; i < key_list_.size(); i++ )
-    {
-        KeyPairRec keyRec = key_list_.at(i);
-        mKeyNameCombo->addItem( keyRec.getName() );
-    }
-
     mNewExponentText->setText( "65537" );
     mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
-
-    if( key_list_.size() > 0 )
-    {
-        mKeyInfoTab->setCurrentIndex(0);
-        mKeyInfoTab->setTabEnabled(1, false);
-    }
-    else
-    {
-        mGenKeyPairCheck->setChecked(true);
-        checkGenKeyPair();
-    }
-
-    if( key_list_.size() > 0 ) keyNameChanged(0);
-
-    cert_profile_list_.clear();
-    dbMgr->getCertProfileListByType( JS_PKI_PROFILE_TYPE_CSR, cert_profile_list_ );
-
-    for( int i = 0; i < cert_profile_list_.size(); i++ )
-    {
-        CertProfileRec profileRec = cert_profile_list_.at(i);
-        mProfileNameCombo->addItem( profileRec.getName() );
-    }
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
@@ -341,6 +310,25 @@ void MakeReqDlg::accept()
         return;
     }
 
+    QString strKeyNum = mKeyNumText->text();
+    if( strKeyNum.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please select a keypair"), this );
+        return;
+    }
+
+    QString strProfileNum;
+
+    if( mUseExtensionCheck->isChecked() )
+    {
+        strProfileNum = mProfileNumText->text();
+        if( strProfileNum.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Please select a profile"), this );
+            return;
+        }
+    }
+
     QString strAlg;
     QString strHash = mHashCombo->currentText();
     QString strParam;
@@ -355,8 +343,8 @@ void MakeReqDlg::accept()
     }
     else
     {
-        int keyIdx = mKeyNameCombo->currentIndex();
-        keyRec = key_list_.at( keyIdx );
+        int keyIdx = strKeyNum.toInt();
+        manApplet->dbMgr()->getKeyPairRec( keyIdx, keyRec );
         strAlg = mAlgorithmText->text();
         strParam = mOptionText->text();
     }
@@ -364,10 +352,13 @@ void MakeReqDlg::accept()
     JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
     JS_PKI_getPublicKeyValue( &binPubKey, &binKeyID );
 
-    if( mUseExtensionCheck->isChecked() && cert_profile_list_.size() > 0 )
+    if( mUseExtensionCheck->isChecked() )
     {
-        CertProfileRec profileRec = cert_profile_list_.at( mProfileNameCombo->currentIndex() );
+        int profileIdx = strProfileNum.toInt();
+        CertProfileRec profileRec;
         QList<ProfileExtRec> profileExtList;
+
+        ret = manApplet->dbMgr()->getCertProfileRec( profileIdx, profileRec );
 
         dbMgr->getCertProfileExtensionList( profileRec.getNum(), profileExtList );
         for( int i=0; i < profileExtList.size(); i++ )
@@ -522,10 +513,15 @@ end :
     }
 }
 
-void MakeReqDlg::keyNameChanged(int index)
+void MakeReqDlg::keyNumChanged()
 {
-    KeyPairRec keyRec = key_list_.at(index);
+    int nNum = mKeyNumText->text().toInt();
+    KeyPairRec keyRec;
 
+    int ret = manApplet->dbMgr()->getKeyPairRec( nNum, keyRec );
+    if( ret != 0 ) return;
+
+    mKeyNameText->setText( keyRec.getName() );
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
@@ -560,6 +556,17 @@ void MakeReqDlg::keyNameChanged(int index)
     }
 
     mDNText->setText( strDN );
+}
+
+void MakeReqDlg::profileNumChanged()
+{
+    int nNum = mProfileNumText->text().toInt();
+    CertProfileRec profileRec;
+
+    int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profileRec );
+    if( ret != 0 ) return;
+
+    mProfileNameText->setText( profileRec.getName() );
 }
 
 void MakeReqDlg::clickRSA()
@@ -630,7 +637,7 @@ void MakeReqDlg::clickSelectKeyPair()
 
     if( caMan.exec() == QDialog::Accepted )
     {
-
+        mKeyNumText->setText( QString("%1").arg( caMan.getNum() ));
     }
 }
 
@@ -642,7 +649,7 @@ void MakeReqDlg::clickSelectProfile()
 
     if( profileMan.exec() == QDialog::Accepted )
     {
-
+        mProfileNumText->setText( QString("%1").arg( profileMan.getNum() ));
     }
 }
 
@@ -674,7 +681,8 @@ void MakeReqDlg::checkExtension()
 {
     bool bVal = mUseExtensionCheck->isChecked();
 
-    mProfileNameCombo->setEnabled( bVal );
+    mProfileNameText->setEnabled( bVal );
+    mProfileNumText->setEnabled( bVal );
     mProfileNameLabel->setEnabled( bVal );
     mSelectProfileBtn->setEnabled( bVal );
 }

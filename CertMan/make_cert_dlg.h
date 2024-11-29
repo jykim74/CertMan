@@ -33,9 +33,9 @@ public:
 private slots:
     virtual void accept();
     void showEvent(QShowEvent *event);
-    void reqChanged( int index );
-    void issuerChanged( int index );
-    void profileChanged( int index );
+    void reqNumChanged();
+    void issuerNumChanged();
+    void profileNumChanged();
     void clickSelfSign();
     void clickUseCSRFile();
     void findCSRFile();
@@ -46,10 +46,6 @@ private slots:
     void clickSelectCACert();
 
 private:
-    QList<ReqRec>           req_list_;
-    QList<CertRec>          ca_cert_list_;
-    QList<CertProfileRec>    cert_profile_list_;
-
     void initialize();
     void setSubjectDN();
     QString getRealSubjectDN();

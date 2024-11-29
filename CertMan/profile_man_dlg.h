@@ -25,6 +25,7 @@ public:
 
     void setMode( int nMode );
     void setTitle( const QString strTitle );
+    int getNum() { return num_; };
 
 private slots:
     void showEvent(QShowEvent *event);
@@ -45,7 +46,7 @@ private:
     void initUI();
     void initialize();
 
-
+    int num_;
 };
 
 #endif // PROFILE_MAN_DLG_H

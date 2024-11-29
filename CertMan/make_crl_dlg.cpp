@@ -30,11 +30,11 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     setupUi(this);
 
     ca_cert_list_.clear();
-    crl_profile_list_.clear();
 
     connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(profileNumChanged()));
 
     QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
     mRevokeTable->setColumnCount(3);
@@ -63,14 +63,6 @@ void MakeCRLDlg::showEvent(QShowEvent *event)
         destroy();
         return;
     }
-
-    if( crl_profile_list_.size() <= 0 )
-    {
-        manApplet->warningBox(tr("There is no CRL Profile"), this );
-        destroy(true);
-        return;
-    }
-//    initialize();
 }
 
 void MakeCRLDlg::setFixIssuer(QString strIssuerName )
@@ -101,16 +93,25 @@ void MakeCRLDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    QString strProfileNum = mProfileNumText->text();
+    if( strProfileNum.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please select a profile"), this );
+        return;
+    }
+
     int issuerIdx = mIssuerNameCombo->currentIndex();
-    int profileIdx = mProfileNameCombo->currentIndex();
+    int profileIdx = strProfileNum.toInt();
 
     long uThisUpdate = -1;
     long uNextUpdate = -1;
 //    int nKeyType = -1;
 
     CertRec caCert = ca_cert_list_.at(issuerIdx);
-    CRLProfileRec profile = crl_profile_list_.at(profileIdx);
+    CRLProfileRec profile;
     KeyPairRec caKeyPair;
+
+    manApplet->dbMgr()->getCRLProfileRec( profileIdx, profile );
 
     if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
     {
@@ -396,7 +397,7 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
-        manApplet->settingsMgr()->setCRLProfileNum( mProfileNameCombo->currentIndex() );
+        manApplet->settingsMgr()->setCRLProfileNum( mProfileNumText->text().toInt() );
         manApplet->settingsMgr()->setIssuerNum( mIssuerNameCombo->currentIndex() );
 
         QDialog::accept();
@@ -438,6 +439,17 @@ void MakeCRLDlg::crldpChanged(int index )
     setRevokeList();
 }
 
+void MakeCRLDlg::profileNumChanged()
+{
+    int nNum = mProfileNumText->text().toInt();
+    CertProfileRec profileRec;
+
+    int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profileRec );
+    if( ret != 0 ) return;
+
+    mProfileNameText->setText( profileRec.getName() );
+}
+
 void MakeCRLDlg::initialize()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
@@ -459,24 +471,7 @@ void MakeCRLDlg::initialize()
     if( manApplet->settingsMgr()->issuerNum() < ca_cert_list_.size() )
         mIssuerNameCombo->setCurrentIndex( manApplet->settingsMgr()->issuerNum() );
 
-    crl_profile_list_.clear();
-
-    dbMgr->getCRLProfileList( crl_profile_list_ );
-
-    if( crl_profile_list_.size() <= 0 )
-    {
-        manApplet->warningBox( tr( "There is no CRL profile"), this );
-        return;
-    }
-
-    for( int i = 0; i < crl_profile_list_.size(); i++ )
-    {
-        CRLProfileRec profileRec = crl_profile_list_.at(i);
-        mProfileNameCombo->addItem( profileRec.getName() );
-    }
-
-    if( manApplet->settingsMgr()->CRLProfileNum() < crl_profile_list_.size() )
-        mProfileNameCombo->setCurrentIndex( manApplet->settingsMgr()->CRLProfileNum() );
+    mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
 
     setRevokeList();
 }
@@ -528,6 +523,6 @@ void MakeCRLDlg::clickSelectProfile()
 
     if( profileMan.exec() == QDialog::Accepted )
     {
-
+        mProfileNumText->setText( QString("%1").arg(profileMan.getNum()));
     }
 }
