@@ -25,7 +25,7 @@ public:
     explicit MakeReqDlg(QWidget *parent = nullptr);
     ~MakeReqDlg();
 
-    void setKeyName( const QString strName );
+    void setKeyNum( int nKeyNum );
 
 private slots:
     virtual void accept();

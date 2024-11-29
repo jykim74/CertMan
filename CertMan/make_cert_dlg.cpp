@@ -62,11 +62,15 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
     connect( mSelectCACertBtn, SIGNAL(clicked()), this, SLOT(clickSelectCACert()));
 
-    initialize();
-
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
+    if( manApplet->isPRO() == false )
+    {
+        mUserGroup->hide();
+        resize( width(), height() - 120 );
+    }
+
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
 
@@ -77,7 +81,7 @@ MakeCertDlg::~MakeCertDlg()
 
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
-
+    initialize();
 }
 
 void MakeCertDlg::initialize()
@@ -85,17 +89,16 @@ void MakeCertDlg::initialize()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
-    mProfileNumText->setText( QString( "%1").arg( manApplet->settingsMgr()->certProfileNum() ));
+    if( manApplet->settingsMgr()->issuerNum() > 0 )
+        mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
+
+    if( manApplet->settingsMgr()->certProfileNum() > 0 )
+        mProfileNumText->setText( QString( "%1").arg( manApplet->settingsMgr()->certProfileNum() ));
 
     setSubjectDN();
     clickUseCSRFile();
 
-    if( manApplet->isPRO() == false )
-    {
-        mUserGroup->hide();
-        resize( width(), height() - 120 );
-    }
+
 }
 
 void MakeCertDlg::setSubjectDN()
@@ -165,12 +168,7 @@ void MakeCertDlg::setReqNum( int nReqNum )
 {
     if( nReqNum < 0 ) return;
 
-    ReqRec reqRec;
-    DBMgr* dbMgr = manApplet->dbMgr();
-    dbMgr->getReqRec( nReqNum, reqRec );
-
-    if( reqRec.getName().length() > 0 )
-        mReqNameText->setText( reqRec.getName() );
+    mReqNumText->setText( QString( "%1" ).arg( nReqNum ));
 }
 
 void MakeCertDlg::accept()
@@ -208,6 +206,11 @@ void MakeCertDlg::accept()
     memset( &sMadeCertInfo, 0x00, sizeof(sMadeCertInfo));
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
+    ReqRec reqRec;
+    QString strReqNum = mReqNumText->text();
+    QString strProfileNum = mProfileNumText->text();
+    QString strIssuerNum = mIssuerNumText->text();
+
     if( mUseCSRFileCheck->isChecked() )
     {
         if( mCSRFilePathText->text().length() <= 0 )
@@ -217,19 +220,35 @@ void MakeCertDlg::accept()
             return;
         }
     }
+    else
+    {
+        if( strReqNum.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Select a CSR" ), this );
+            return;
+        }
 
-    int reqIdx =  mReqNumText->text().toInt();
-    int profileIdx = mProfileNumText->text().toInt();
-    int issuerIdx = mIssuerNumText->text().toInt();
+        if( strProfileNum.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Select a profile" ), this );
+            return;
+        }
+
+        if( strIssuerNum.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Select a CA certificate" ), this );
+            return;
+        }
+    }
+
+    int profileIdx = strProfileNum.toInt();
+    int issuerIdx = strIssuerNum.toInt();
 
     int nSignKeyNum = -1;
     int nKeyType = -1;
     int nIssuerNum = -1;
 
-
-    ReqRec reqRec;
     CertProfileRec profileRec;
-
     dbMgr->getCertProfileRec( profileIdx, profileRec );
     if( mUseCSRFileCheck->isChecked() )
     {
@@ -258,6 +277,7 @@ void MakeCertDlg::accept()
     }
     else
     {
+        int reqIdx =  strReqNum.toInt();
         dbMgr->getReqRec( reqIdx, reqRec );
         JS_BIN_decodeHex( reqRec.getCSR().toStdString().c_str(), &binCSR );
         ret = JS_PKI_getReqInfo( &binCSR, &sReqInfo, 0, &pCSRExtInfoList );
@@ -688,8 +708,10 @@ void MakeCertDlg::reqNumChanged()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
     int nNum = mReqNumText->text().toInt();
+
     ReqRec reqRec;
     manApplet->dbMgr()->getReqRec( nNum, reqRec );
+    mReqNameText->setText( reqRec.getName() );
 
     KeyPairRec keyPair;
     dbMgr->getKeyPairRec( reqRec.getKeyNum(), keyPair );
@@ -709,16 +731,22 @@ void MakeCertDlg::issuerNumChanged()
     KeyPairRec keyPair;
 
     dbMgr->getCertRec( nNum, certRec );
+    mIssuerNameText->setText( certRec.getSubjectDN() );
+
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mIssuerAlgorithmText->setText( keyPair.getAlg() );
     mIssuerOptionText->setText( keyPair.getParam() );
-
-//    setSubjectDN();
 }
 
 void MakeCertDlg::profileNumChanged()
 {
+    int nNum = mProfileNumText->text().toInt();
+    CertProfileRec profile;
+    manApplet->dbMgr()->getCertProfileRec( nNum, profile );
+
+    mProfileNameText->setText( profile.getName() );
+
     setSubjectDN();
 }
 

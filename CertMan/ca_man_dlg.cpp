@@ -139,7 +139,7 @@ void CAManDlg::initUI()
     mCACertTable->setColumnWidth( 1, nWidth * 2/10 );
     mCACertTable->setColumnWidth( 2, nWidth * 3/10 );
 
-    QStringList sKeyPairLabels = { tr( "RegTime" ), tr( "Name" ), tr( "Algorithm" ) };
+    QStringList sKeyPairLabels = { tr( "Name" ), tr("RegTime"), tr( "Algorithm" ) };
 
     mKeyPairTable->clear();
     mKeyPairTable->horizontalHeader()->setStretchLastSection(true);
@@ -153,7 +153,7 @@ void CAManDlg::initUI()
     mKeyPairTable->setColumnWidth( 1, nWidth * 2/10 );
     mKeyPairTable->setColumnWidth( 2, nWidth * 3/10 );
 
-    QStringList sCSRLabels = { tr( "RegTime" ), tr( "Name" ), tr( "Hash" ) };
+    QStringList sCSRLabels = { tr( "Name" ), tr("RegTime"), tr( "Subject DN" ) };
 
     mCSRTable->clear();
     mCSRTable->horizontalHeader()->setStretchLastSection(true);
@@ -336,8 +336,8 @@ void CAManDlg::loadKeyPairList()
 
         mKeyPairTable->insertRow(0);
         mKeyPairTable->setRowHeight(0,10);
-        mKeyPairTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
-        mKeyPairTable->setItem( 0, 1, item );
+        mKeyPairTable->setItem( 0, 0, item );
+        mKeyPairTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
         mKeyPairTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
     }
 }
@@ -388,9 +388,9 @@ void CAManDlg::loadCSRList()
 
         mCSRTable->insertRow(0);
         mCSRTable->setRowHeight(0,10);
-        mCSRTable->setItem( 0, 0, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
-        mCSRTable->setItem( 0, 1, item );
-        mCSRTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( req.getHash() )));
+        mCSRTable->setItem( 0, 0, item );
+        mCSRTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
+        mCSRTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
     }
 }
 

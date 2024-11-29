@@ -1382,7 +1382,7 @@ void MainWindow::makeRequestSetKeyName()
     manApplet->dbMgr()->getKeyPairRec( num, keyRec );
 
     MakeReqDlg makeReqDlg;
-    makeReqDlg.setKeyName( keyRec.getName() );
+    makeReqDlg.setKeyNum( num );
     makeReqDlg.exec();
 }
 

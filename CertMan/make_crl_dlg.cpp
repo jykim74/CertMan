@@ -442,9 +442,9 @@ void MakeCRLDlg::crldpChanged(int index )
 void MakeCRLDlg::profileNumChanged()
 {
     int nNum = mProfileNumText->text().toInt();
-    CertProfileRec profileRec;
+    CRLProfileRec profileRec;
 
-    int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profileRec );
+    int ret = manApplet->dbMgr()->getCRLProfileRec( nNum, profileRec );
     if( ret != 0 ) return;
 
     mProfileNameText->setText( profileRec.getName() );
@@ -471,7 +471,8 @@ void MakeCRLDlg::initialize()
     if( manApplet->settingsMgr()->issuerNum() < ca_cert_list_.size() )
         mIssuerNameCombo->setCurrentIndex( manApplet->settingsMgr()->issuerNum() );
 
-    mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
+    if( manApplet->settingsMgr()->CRLProfileNum() > 0 )
+        mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
 
     setRevokeList();
 }

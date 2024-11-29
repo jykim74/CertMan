@@ -68,9 +68,9 @@ MakeReqDlg::~MakeReqDlg()
 
 }
 
-void MakeReqDlg::setKeyName( const QString strName )
+void MakeReqDlg::setKeyNum( int nKeyNum )
 {
-    mKeyNameText->setText( strName );
+    mKeyNumText->setText( QString( "%1").arg( nKeyNum) );
 }
 
 
@@ -645,7 +645,7 @@ void MakeReqDlg::clickSelectProfile()
 {
     ProfileManDlg profileMan;
     profileMan.setTitle( tr( "Select a profile" ));
-    profileMan.setMode( ProfileManModeSelectCertProfile );
+    profileMan.setMode( ProfileManModeSelectCSRProfile );
 
     if( profileMan.exec() == QDialog::Accepted )
     {
