@@ -93,12 +93,18 @@ void MakeCRLDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    QString strProfileNum = mProfileNumText->text();
-    if( strProfileNum.length() < 1 )
+
+    if( mProfileNumText->text().length() < 1 )
     {
-        manApplet->warningBox( tr( "Please select a profile"), this );
-        return;
+        clickSelectProfile();
+        if( mProfileNameText->text().length() < 1 )
+        {
+            manApplet->warningBox( tr( "Please select a profile"), this );
+            return;
+        }
     }
+
+    QString strProfileNum = mProfileNumText->text();
 
     int issuerIdx = mIssuerNameCombo->currentIndex();
     int profileIdx = strProfileNum.toInt();

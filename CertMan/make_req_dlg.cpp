@@ -310,23 +310,34 @@ void MakeReqDlg::accept()
         return;
     }
 
-    QString strKeyNum = mKeyNumText->text();
-    if( strKeyNum.length() < 1 )
+    if( mKeyNumText->text().length() < 1 )
     {
-        manApplet->warningBox( tr( "Please select a keypair"), this );
-        return;
+        clickSelectKeyPair();
+
+        if( mKeyNumText->text().length() < 1 )
+        {
+            manApplet->warningBox( tr( "Please select a keypair"), this );
+            return;
+        }
     }
+
+    QString strKeyNum = mKeyNumText->text();
 
     QString strProfileNum;
 
     if( mUseExtensionCheck->isChecked() )
     {
-        strProfileNum = mProfileNumText->text();
-        if( strProfileNum.length() < 1 )
+
+        if( mProfileNumText->text().length() < 1 )
         {
-            manApplet->warningBox( tr( "Please select a profile"), this );
-            return;
+            if( mProfileNumText->text().length() < 1 )
+            {
+                manApplet->warningBox( tr( "Please select a profile"), this );
+                return;
+            }
         }
+
+        strProfileNum = mProfileNumText->text();
     }
 
     QString strAlg;

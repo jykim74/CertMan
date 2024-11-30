@@ -207,9 +207,9 @@ void MakeCertDlg::accept()
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
     ReqRec reqRec;
-    QString strReqNum = mReqNumText->text();
-    QString strProfileNum = mProfileNumText->text();
-    QString strIssuerNum = mIssuerNumText->text();
+    QString strReqNum;
+    QString strProfileNum;
+    QString strIssuerNum;
 
     if( mUseCSRFileCheck->isChecked() )
     {
@@ -222,22 +222,40 @@ void MakeCertDlg::accept()
     }
     else
     {
-        if( strReqNum.length() < 1 )
+        if( mReqNumText->text().length() < 1 )
         {
-            manApplet->warningBox( tr( "Select a CSR" ), this );
-            return;
+            clickSelectCSR();
+            if( mReqNumText->text().length() < 1 )
+            {
+                manApplet->warningBox( tr( "Select a CSR" ), this );
+                return;
+            }
+
+            strReqNum = mReqNumText->text();
         }
 
-        if( strProfileNum.length() < 1 )
+        if( mProfileNumText->text().length() < 1 )
         {
-            manApplet->warningBox( tr( "Select a profile" ), this );
-            return;
+            clickSelectProfile();
+            if( mProfileNumText->text().length() < 1 )
+            {
+                manApplet->warningBox( tr( "Select a profile" ), this );
+                return;
+            }
+
+            strProfileNum = mProfileNameText->text();
         }
 
-        if( strIssuerNum.length() < 1 )
+        if( mIssuerNumText->text().length() < 1 )
         {
-            manApplet->warningBox( tr( "Select a CA certificate" ), this );
-            return;
+            clickSelectCACert();
+            if( mIssuerNumText->text().length() < 1 )
+            {
+                manApplet->warningBox( tr( "Select a CA certificate" ), this );
+                return;
+            }
+
+            strIssuerNum = mIssuerNumText->text();
         }
     }
 
