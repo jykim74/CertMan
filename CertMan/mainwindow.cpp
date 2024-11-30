@@ -1559,7 +1559,7 @@ void MainWindow::makeCertificate()
     {
         if( pItem->getType() == CM_ITEM_TYPE_CA || pItem->getType() == CM_ITEM_TYPE_SUBCA || pItem->getType() == CM_ITEM_TYPE_ROOTCA )
         {
-            makeCertDlg.setFixIssuer( pItem->text() );
+            makeCertDlg.setIssuer( pItem->getDataNum() );
         }
     }
 
@@ -1597,7 +1597,7 @@ void MainWindow::makeCRL()
     {
         if( pItem->getType() == CM_ITEM_TYPE_CA || pItem->getType() == CM_ITEM_TYPE_SUBCA || pItem->getType() == CM_ITEM_TYPE_ROOTCA )
         {
-            makeCRLDlg.setFixIssuer( pItem->text() );
+            makeCRLDlg.setIssuerNum( pItem->getDataNum() );
         }
     }
 

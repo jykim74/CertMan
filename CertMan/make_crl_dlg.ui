@@ -33,6 +33,86 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="mIssuerNameText">
+       <property name="palette">
+        <palette>
+         <active>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </active>
+         <inactive>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </inactive>
+         <disabled/>
+        </palette>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="mIssuerNumText">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="palette">
+        <palette>
+         <active>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </active>
+         <inactive>
+          <colorrole role="Base">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>221</red>
+             <green>221</green>
+             <blue>255</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </inactive>
+         <disabled/>
+        </palette>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
        <property name="minimumSize">
@@ -48,12 +128,16 @@
         </size>
        </property>
        <property name="text">
-        <string>Name</string>
+        <string>CA Name</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QComboBox" name="mIssuerNameCombo"/>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mSelectIssuerBtn">
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -373,7 +457,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>mIssuerNameCombo</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
   <tabstop>mCRLDPCombo</tabstop>

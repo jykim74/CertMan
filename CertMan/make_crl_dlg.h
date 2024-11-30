@@ -23,22 +23,21 @@ class MakeCRLDlg : public QDialog, public Ui::MakeCRLDlg
 public:
     explicit MakeCRLDlg(QWidget *parent = nullptr);
     ~MakeCRLDlg();
-    void setFixIssuer( QString strIssuerName );
+    void setIssuerNum( int nIssuerNum );
 
 private slots:
     virtual void accept();
     void showEvent(QShowEvent *event);
-    void issuerChanged(int index);
+    void issuerNumChanged();
     void crldpChanged(int index);
     void profileNumChanged();
 
+    void clickSelectIssuer();
     void clickSelectProfile();
 
 private:
     void initialize();
     void setRevokeList();
-
-    QList<CertRec> ca_cert_list_;
 };
 
 #endif // MAKE_CRL_DLG_H

@@ -22,6 +22,7 @@
 #include "commons.h"
 #include "settings_mgr.h"
 #include "profile_man_dlg.h"
+#include "ca_man_dlg.h"
 
 
 MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
@@ -29,11 +30,10 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
 {
     setupUi(this);
 
-    ca_cert_list_.clear();
-
-    connect( mIssuerNameCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(issuerChanged(int)));
+    connect( mIssuerNumText, SIGNAL(textChanged(QString)), this, SLOT(issuerNumChanged()));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mSelectIssuerBtn, SIGNAL(clicked()), this, SLOT(clickSelectIssuer()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(profileNumChanged()));
 
     QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
@@ -57,19 +57,12 @@ MakeCRLDlg::~MakeCRLDlg()
 
 void MakeCRLDlg::showEvent(QShowEvent *event)
 {
-    if( ca_cert_list_.size() <= 0 )
-    {
-        manApplet->warningBox( tr("There is no CA certficate"), this );
-        destroy();
-        return;
-    }
+
 }
 
-void MakeCRLDlg::setFixIssuer(QString strIssuerName )
+void MakeCRLDlg::setIssuerNum( int nIssuerNum )
 {
-    qDebug() << "IssuerName: " << strIssuerName;
-
-    mIssuerNameCombo->setCurrentText( strIssuerName );
+    mIssuerNumText->setText( QString("%1").arg( nIssuerNum) );
 }
 
 void MakeCRLDlg::accept()
@@ -93,6 +86,17 @@ void MakeCRLDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    if( mIssuerNumText->text().length() < 1 )
+    {
+        clickSelectIssuer();
+        if( mIssuerNumText->text().length() < 1 )
+        {
+            manApplet->warningBox( tr( "Please select CA certificate"), this );
+            return;
+        }
+    }
+
+    int issuerIdx = mIssuerNumText->text().toInt();
 
     if( mProfileNumText->text().length() < 1 )
     {
@@ -106,17 +110,18 @@ void MakeCRLDlg::accept()
 
     QString strProfileNum = mProfileNumText->text();
 
-    int issuerIdx = mIssuerNameCombo->currentIndex();
+
     int profileIdx = strProfileNum.toInt();
 
     long uThisUpdate = -1;
     long uNextUpdate = -1;
 //    int nKeyType = -1;
 
-    CertRec caCert = ca_cert_list_.at(issuerIdx);
+    CertRec caCert;
     CRLProfileRec profile;
     KeyPairRec caKeyPair;
 
+    manApplet->dbMgr()->getCertRec( issuerIdx, caCert );
     manApplet->dbMgr()->getCRLProfileRec( profileIdx, profile );
 
     if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
@@ -228,9 +233,7 @@ void MakeCRLDlg::accept()
             memset( sHexSerial, 0x00, sizeof(sHexSerial) );
             memset( sHexIssuer, 0x00, sizeof(sHexIssuer) );
 
-
-            CertRec issuerCert = ca_cert_list_.at( issuerIdx );
-            JS_BIN_decodeHex( issuerCert.getCert().toStdString().c_str(), &binCert );
+            JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binCert );
 
             JS_PKI_getAuthorityKeyIdentifier( &binCert, sHexID, sHexSerial, sHexIssuer );
 
@@ -404,7 +407,7 @@ end :
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
         manApplet->settingsMgr()->setCRLProfileNum( mProfileNumText->text().toInt() );
-        manApplet->settingsMgr()->setIssuerNum( mIssuerNameCombo->currentIndex() );
+        manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
     }
@@ -415,13 +418,16 @@ end :
     }
 }
 
-void MakeCRLDlg::issuerChanged(int index)
+void MakeCRLDlg::issuerNumChanged()
 {
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    CertRec issuerCert = ca_cert_list_.at(index);
-    int nNum = issuerCert.getNum();
+    int nNum = mIssuerNumText->text().toInt();
+    CertRec issuerCert;
+
+    dbMgr->getCertRec( nNum, issuerCert );
+    mIssuerNameText->setText( issuerCert.getSubjectDN() );
 
     KeyPairRec issuerKeyPair;
     dbMgr->getKeyPairRec( issuerCert.getKeyNum(), issuerKeyPair );
@@ -462,20 +468,9 @@ void MakeCRLDlg::initialize()
     if( dbMgr == NULL ) return;
 
     mCRLDPCombo->setEditable(true);
-    ca_cert_list_.clear();
-    mIssuerNameCombo->clear();
 
-    dbMgr->getIssuerCertList( ca_cert_list_ );
-
-
-    for( int i=0; i < ca_cert_list_.size(); i++ )
-    {
-        CertRec certRec = ca_cert_list_.at(i);
-        mIssuerNameCombo->addItem( certRec.getSubjectDN() );
-    }
-
-    if( manApplet->settingsMgr()->issuerNum() < ca_cert_list_.size() )
-        mIssuerNameCombo->setCurrentIndex( manApplet->settingsMgr()->issuerNum() );
+    if( manApplet->settingsMgr()->issuerNum() > 0 )
+        mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
 
     if( manApplet->settingsMgr()->CRLProfileNum() > 0 )
         mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
@@ -488,9 +483,6 @@ void MakeCRLDlg::setRevokeList()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    if( ca_cert_list_.size() <= 0 )
-        return;
-
     mRevokeTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mRevokeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -500,7 +492,9 @@ void MakeCRLDlg::setRevokeList()
         mRevokeTable->removeRow(0);
 
     QList<RevokeRec> revokeList;
-    CertRec issuer = ca_cert_list_.at( mIssuerNameCombo->currentIndex() );
+    int nNum = mIssuerNumText->text().toInt();
+    CertRec issuer;
+    dbMgr->getCertRec( nNum, issuer );
     QString strCRLDP= mCRLDPCombo->currentText();
 
     dbMgr->getRevokeList( issuer.getNum(), strCRLDP, revokeList );
@@ -519,6 +513,18 @@ void MakeCRLDlg::setRevokeList()
         mRevokeTable->setItem( i, 0, new QTableWidgetItem( revoke.getSerial() ));
         mRevokeTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strReason ) ));
         mRevokeTable->setItem( i, 2, new QTableWidgetItem( sDateTime ));
+    }
+}
+
+void MakeCRLDlg::clickSelectIssuer()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select CA certificate"));
+    caMan.setMode( CAManModeSelectCACert );
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+        mIssuerNumText->setText( QString("%1").arg( caMan.getNum() ));
     }
 }
 

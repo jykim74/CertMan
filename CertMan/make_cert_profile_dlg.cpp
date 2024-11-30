@@ -1213,10 +1213,18 @@ void MakeCertProfileDlg::checkForCSR()
 
     mExtUsageCombo->setEnabled( !bVal );
 
+    mVersionCombo->clear();
+
     if( bVal )
+    {
+        mVersionCombo->addItem( "V1" );
         mVersionCombo->setCurrentIndex(0);
+    }
     else
+    {
+        mVersionCombo->addItems( kCertVersionList );
         mVersionCombo->setCurrentIndex(2);
+    }
 
 
 }

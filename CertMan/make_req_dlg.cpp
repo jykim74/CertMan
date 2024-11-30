@@ -275,7 +275,6 @@ end :
 
 void MakeReqDlg::accept()
 {
-//    int nAlg = -1;
     int ret = 0;
     BIN binPri = {0,0};
     BIN binCSR = {0,0};
@@ -310,19 +309,7 @@ void MakeReqDlg::accept()
         return;
     }
 
-    if( mKeyNumText->text().length() < 1 )
-    {
-        clickSelectKeyPair();
-
-        if( mKeyNumText->text().length() < 1 )
-        {
-            manApplet->warningBox( tr( "Please select a keypair"), this );
-            return;
-        }
-    }
-
-    QString strKeyNum = mKeyNumText->text();
-
+    QString strKeyNum;
     QString strProfileNum;
 
     if( mUseExtensionCheck->isChecked() )
@@ -354,6 +341,19 @@ void MakeReqDlg::accept()
     }
     else
     {
+        if( mKeyNumText->text().length() < 1 )
+        {
+            clickSelectKeyPair();
+
+            if( mKeyNumText->text().length() < 1 )
+            {
+                manApplet->warningBox( tr( "Please select a keypair"), this );
+                return;
+            }
+        }
+
+        strKeyNum = mKeyNumText->text();
+
         int keyIdx = strKeyNum.toInt();
         manApplet->dbMgr()->getKeyPairRec( keyIdx, keyRec );
         strAlg = mAlgorithmText->text();
@@ -479,7 +479,7 @@ void MakeReqDlg::accept()
         ret = JS_PKI_makeCSR( strHash.length() ? strHash.toStdString().c_str() : NULL,
                               strDN.toStdString().c_str(),
                               strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
-                             strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
+                              strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
                               &binPri,
                               pExtInfoList,
                               &binCSR );
@@ -714,6 +714,7 @@ void MakeReqDlg::clickMakeDN()
 
 void MakeReqDlg::initUI()
 {
+    mKeyInfoTab->setTabEnabled( 1, false );
     checkExtension();
 }
 

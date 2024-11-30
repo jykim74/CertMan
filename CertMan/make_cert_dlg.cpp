@@ -97,8 +97,6 @@ void MakeCertDlg::initialize()
 
     setSubjectDN();
     clickUseCSRFile();
-
-
 }
 
 void MakeCertDlg::setSubjectDN()
@@ -159,9 +157,9 @@ QString MakeCertDlg::getReplacedValue( QString &strVal )
     return strReplace;
 }
 
-void MakeCertDlg::setFixIssuer(QString strIssuerName)
+void MakeCertDlg::setIssuer( int nCertNum )
 {
-    mIssuerNameText->setText( strIssuerName );
+    mIssuerNumText->setText( QString("%1").arg( nCertNum ) );
 }
 
 void MakeCertDlg::setReqNum( int nReqNum )
@@ -230,9 +228,9 @@ void MakeCertDlg::accept()
                 manApplet->warningBox( tr( "Select a CSR" ), this );
                 return;
             }
-
-            strReqNum = mReqNumText->text();
         }
+
+        strReqNum = mReqNumText->text();
 
         if( mProfileNumText->text().length() < 1 )
         {
@@ -242,9 +240,9 @@ void MakeCertDlg::accept()
                 manApplet->warningBox( tr( "Select a profile" ), this );
                 return;
             }
-
-            strProfileNum = mProfileNameText->text();
         }
+
+        strProfileNum = mProfileNumText->text();
 
         if( mIssuerNumText->text().length() < 1 )
         {
@@ -254,9 +252,9 @@ void MakeCertDlg::accept()
                 manApplet->warningBox( tr( "Select a CA certificate" ), this );
                 return;
             }
-
-            strIssuerNum = mIssuerNumText->text();
         }
+
+        strIssuerNum = mIssuerNumText->text();
     }
 
     int profileIdx = strProfileNum.toInt();
