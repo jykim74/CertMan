@@ -530,7 +530,11 @@ void MakeReqDlg::keyNumChanged()
     KeyPairRec keyRec;
 
     int ret = manApplet->dbMgr()->getKeyPairRec( nNum, keyRec );
-    if( ret != 0 ) return;
+    if( ret != 0 )
+    {
+        mKeyNameText->clear();
+        return;
+    }
 
     mKeyNameText->setText( keyRec.getName() );
     mAlgorithmText->setText( keyRec.getAlg() );
@@ -575,7 +579,11 @@ void MakeReqDlg::profileNumChanged()
     CertProfileRec profileRec;
 
     int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profileRec );
-    if( ret != 0 ) return;
+    if( ret != 0 )
+    {
+        mProfileNumText->clear();
+        return;
+    }
 
     mProfileNameText->setText( profileRec.getName() );
 }

@@ -726,7 +726,13 @@ void MakeCertDlg::reqNumChanged()
     int nNum = mReqNumText->text().toInt();
 
     ReqRec reqRec;
-    manApplet->dbMgr()->getReqRec( nNum, reqRec );
+    int ret = manApplet->dbMgr()->getReqRec( nNum, reqRec );
+    if( ret != 0 )
+    {
+        mReqNumText->clear();
+        return;
+    }
+
     mReqNameText->setText( reqRec.getName() );
 
     KeyPairRec keyPair;
@@ -746,7 +752,13 @@ void MakeCertDlg::issuerNumChanged()
     CertRec certRec;
     KeyPairRec keyPair;
 
-    dbMgr->getCertRec( nNum, certRec );
+    int ret = dbMgr->getCertRec( nNum, certRec );
+    if( ret != 0 )
+    {
+        mIssuerNumText->clear();
+        return;
+    }
+
     mIssuerNameText->setText( certRec.getSubjectDN() );
 
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
@@ -759,7 +771,12 @@ void MakeCertDlg::profileNumChanged()
 {
     int nNum = mProfileNumText->text().toInt();
     CertProfileRec profile;
-    manApplet->dbMgr()->getCertProfileRec( nNum, profile );
+    int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profile );
+    if( ret != 0 )
+    {
+        mProfileNumText->clear();
+        return;
+    }
 
     mProfileNameText->setText( profile.getName() );
 

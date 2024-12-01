@@ -426,7 +426,13 @@ void MakeCRLDlg::issuerNumChanged()
     int nNum = mIssuerNumText->text().toInt();
     CertRec issuerCert;
 
-    dbMgr->getCertRec( nNum, issuerCert );
+    int ret = dbMgr->getCertRec( nNum, issuerCert );
+    if(ret != 0 )
+    {
+        mIssuerNumText->clear();
+        return;
+    }
+
     mIssuerNameText->setText( issuerCert.getSubjectDN() );
 
     KeyPairRec issuerKeyPair;
@@ -457,7 +463,11 @@ void MakeCRLDlg::profileNumChanged()
     CRLProfileRec profileRec;
 
     int ret = manApplet->dbMgr()->getCRLProfileRec( nNum, profileRec );
-    if( ret != 0 ) return;
+    if( ret != 0 )
+    {
+        mProfileNumText->clear();
+        return;
+    }
 
     mProfileNameText->setText( profileRec.getName() );
 }
