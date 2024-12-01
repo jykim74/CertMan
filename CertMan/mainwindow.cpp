@@ -4735,7 +4735,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name"), tr("Status") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Status"), tr("Name") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4763,7 +4763,7 @@ void MainWindow::createRightKeyPairList()
     right_table_->setColumnWidth( 0, 60 ); // Number
     right_table_->setColumnWidth( 1, 130 ); // RegTime
     right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 230 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
@@ -4783,8 +4783,8 @@ void MainWindow::createRightKeyPairList()
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPairRec.getRegTime()))));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
-        right_table_->setItem( i, 3, item );
-        right_table_->setItem(i, 4, new QTableWidgetItem( QString("%1").arg(getRecStatusName( nStatus ))));
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(getRecStatusName( nStatus ))));
+        right_table_->setItem( i, 4, item );
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4807,7 +4807,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Hash"), tr("Name"), tr("Status") };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Hash"), tr( "Status"), tr("Name") };
 
     right_table_->clear();
     right_table_->clearContents();
@@ -4835,7 +4835,7 @@ void MainWindow::createRightRequestList()
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
      right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 230 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -4853,8 +4853,8 @@ void MainWindow::createRightRequestList()
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( reqRec.getRegTime()) ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( reqRec.getHash() )));
-        right_table_->setItem( i, 3, item );
-        right_table_->setItem( i, 4, new QTableWidgetItem( QString("%1").arg( getRecStatusName(nStatus) )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(nStatus) )));
+        right_table_->setItem( i, 4, item );
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4868,7 +4868,7 @@ void MainWindow::createRightCertProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CERT_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("NotBefore"), tr("NotAfter"), tr("Hash") };
+    QStringList headerList = { tr("Num"), tr("NotBefore"), tr("NotAfter"), tr("Hash"), tr("Name") };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4883,9 +4883,9 @@ void MainWindow::createRightCertProfileList()
     manApplet->dbMgr()->getCertProfileList( certProfileList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 240 );
+    right_table_->setColumnWidth( 1, 100 );
     right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 100 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i=0; i < certProfileList.size(); i++ )
     {
@@ -4909,10 +4909,10 @@ void MainWindow::createRightCertProfileList()
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, item);
-        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNotAfter )));
-        right_table_->setItem( i, 4, new QTableWidgetItem( certProfile.getHash() ));
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strNotBefore )));
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strNotAfter )));
+        right_table_->setItem( i, 3, new QTableWidgetItem( certProfile.getHash() ));
+        right_table_->setItem( i, 4, item);
     }
 }
 
@@ -4923,7 +4923,7 @@ void MainWindow::createRightCRLProfileList()
     removeAllRight();
     right_type_ = RightType::TYPE_CRL_PROFILE;
 
-    QStringList headerList = { tr("Num"), tr("Name"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash") };
+    QStringList headerList = { tr("Num"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash"), tr("Name") };
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
     QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
@@ -4938,9 +4938,9 @@ void MainWindow::createRightCRLProfileList()
     manApplet->dbMgr()->getCRLProfileList( crlProfileList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 240 );
+    right_table_->setColumnWidth( 1, 100 );
     right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 100 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i=0; i < crlProfileList.size(); i++ )
     {
@@ -4958,10 +4958,10 @@ void MainWindow::createRightCRLProfileList()
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, item );
-        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strThisUpdate )) );
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
-        right_table_->setItem( i, 4, new QTableWidgetItem( crlProfile.getHash()) );
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( strThisUpdate )) );
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( strNextUpdate )) );
+        right_table_->setItem( i, 3, new QTableWidgetItem( crlProfile.getHash()) );
+        right_table_->setItem( i, 4, item );
     }
 }
 
@@ -4995,7 +4995,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 140 );
-    right_table_->setColumnWidth( 3, 80 );
+    right_table_->setColumnWidth( 3, 90 );
 
 
     if( bIsCA )
@@ -5110,7 +5110,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 200 );
-    right_table_->setColumnWidth( 3, 80 );
+    right_table_->setColumnWidth( 3, 90 );
 
 
     if( strWord.length() > 0 )

@@ -93,6 +93,9 @@ MakeCertProfileDlg::~MakeCertProfileDlg()
 void MakeCertProfileDlg::setEdit(int nProfileNum )
 {
     is_edit_ = true;
+
+    setWindowTitle( tr( "Edit certificate profile" ));
+
     profile_num_ = nProfileNum;
     loadProfile( profile_num_ );
     mForCSRCheck->setEnabled(false);
@@ -100,6 +103,7 @@ void MakeCertProfileDlg::setEdit(int nProfileNum )
 
 void MakeCertProfileDlg::setReadOnly()
 {
+    setWindowTitle( tr( "View certificate profille" ));
     mOKBtn->hide();
 }
 

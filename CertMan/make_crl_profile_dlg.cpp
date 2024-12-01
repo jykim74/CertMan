@@ -61,12 +61,13 @@ void MakeCRLProfileDlg::setEdit( int nProfileNum)
 {
     is_edit_ = true;
     profile_num_ = nProfileNum;
-
+    setWindowTitle( tr( "Edit CRL profile" ));
     loadProfile( profile_num_ );
 }
 
 void MakeCRLProfileDlg::setReadOnly()
 {
+    setWindowTitle( tr( "View CRL profile" ));
     mOKBtn->hide();
 }
 
