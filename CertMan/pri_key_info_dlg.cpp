@@ -395,7 +395,6 @@ void PriKeyInfoDlg::clickGetPrivateKey()
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         setEdDSAKey( key_rec_.getParam(), &binPri );
-        mInsertToHSMBtn->setEnabled(false);
     }
     else
     {
@@ -453,6 +452,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
     JRSAKeyVal  sRSAKey;
     JECKeyVal   sECKey;
     JDSAKeyVal  sDSAKey;
+    JRawKeyVal  sRawKey;
 
     BIN binPri = {0,0};
     BIN binPub = {0,0};
@@ -465,6 +465,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
     memset( &sRSAKey, 0x00, sizeof(sRSAKey));
     memset( &sECKey, 0x00, sizeof(sECKey));
     memset( &sDSAKey, 0x00, sizeof(sDSAKey));
+    memset( &sRawKey, 0x00, sizeof(sRawKey));
 
     int nIndex = manApplet->settingsMgr()->slotIndex();
     QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
@@ -514,6 +515,29 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
         addKey.setAlg( kMechPKCS11_DSA );
     }
+    else if( strAlg == "EdDSA" )
+    {
+        int nKeyType = JS_PKI_KEY_TYPE_ED25519;
+        QString strED_Name = mEdDSA_NameText->text();
+
+        if( strED_Name == "ED448" )
+        {
+            nKeyType = JS_PKI_KEY_TYPE_ED448;
+            addKey.setAlg( kMechPKCS11_Ed448 );
+        }
+        else
+        {
+            nKeyType = JS_PKI_KEY_TYPE_ED25519;
+            addKey.setAlg( kMechPKCS11_Ed25519 );
+        }
+
+        JS_PKI_getRawKeyVal( nKeyType, &binPri, &sRawKey );
+
+        ret = createEDPrivateKeyP11( pCTX, strName, &binHash, &sRawKey );
+        if( ret != 0 ) goto end;
+        ret = createEDPublicKeyP11( pCTX, strName, &binHash, &sRawKey );
+        if( ret != 0 ) goto end;
+    }
     else
     {
         manApplet->elog( QString( "Invalid Algorithm: %1").arg(strAlg));
@@ -531,6 +555,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
         addKey.setPublicKey( getHexString( &binPub ));
         addKey.setParam( key_rec_.getParam() );
         addKey.setPrivateKey( getHexString( &binHash ));
+        addKey.setStatus(0);
 
         manApplet->dbMgr()->addKeyPairRec( addKey );
         manApplet->mainWindow()->createRightKeyPairList();
@@ -553,6 +578,7 @@ end :
     JS_PKI_resetRSAKeyVal( &sRSAKey );
     JS_PKI_resetECKeyVal( &sECKey );
     JS_PKI_resetDSAKeyVal( &sDSAKey );
+    JS_PKI_resetRawKeyVal( &sRawKey );
 }
 
 void PriKeyInfoDlg::clickKeyPairCheck()

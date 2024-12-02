@@ -111,6 +111,8 @@ const QString kMechEd448 = "Ed448";
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
 const QString kMechPKCS11_DSA = "PKCS11_DSA";
+const QString kMechPKCS11_Ed25519 = "PKCS11_Ed25519";
+const QString kMechPKCS11_Ed448 = "PKCS11_Ed448";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_EC = "KMIP_EC";
 
@@ -234,6 +236,8 @@ int createRSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 int createRSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JRSAKeyVal *pRsaKeyVal );
 int createECPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JECKeyVal *pEcKeyVal );
 int createECPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JECKeyVal *pECKeyVal );
+int createEDPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JRawKeyVal *pRawKeyVal );
+int createEDPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JRawKeyVal *pRawKeyVal );
 int createDSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JDSAKeyVal *pDSAKeyVal );
 int createDSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pID, const JDSAKeyVal *pDSAKeyVal );
 

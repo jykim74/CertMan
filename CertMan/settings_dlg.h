@@ -25,7 +25,6 @@ private slots:
     void updateSettings();
     virtual void accept();
 
-    void checkP11Use();
     void findP11Path();
     void checkKMIPUse();
 

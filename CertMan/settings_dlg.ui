@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>386</height>
+    <width>510</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -290,16 +290,22 @@
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="mUseP11Check">
+        <widget class="QCheckBox" name="mShowPriKeyInfoCheck">
          <property name="text">
-          <string>Use PKCS11</string>
+          <string>Show private key information</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="mP11Group">
          <property name="title">
-          <string/>
+          <string>Use PKCS11</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -1223,7 +1229,6 @@
   <tabstop>mFontFamilyCombo</tabstop>
   <tabstop>mSaveRemoteInfoCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
-  <tabstop>mUseP11Check</tabstop>
   <tabstop>mSlotIndexText</tabstop>
   <tabstop>mLibraryP11PathText</tabstop>
   <tabstop>mP11FindBtn</tabstop>

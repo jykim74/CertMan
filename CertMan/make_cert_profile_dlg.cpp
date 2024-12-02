@@ -132,9 +132,15 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         mNameText->setText( certProfile.getName() );
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
+    {
+        mVersionCombo->clear();
+        mVersionCombo->addItem( "V1" );
         mForCSRCheck->setChecked( true );
+    }
     else
+    {
         mForCSRCheck->setChecked( false );
+    }
 
     mVersionCombo->setCurrentIndex( certProfile.getVersion() );
     mHashCombo->setCurrentText( certProfile.getHash() );

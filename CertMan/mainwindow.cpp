@@ -5655,7 +5655,12 @@ void MainWindow::infoKeyPair(int seq)
     manApplet->info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     manApplet->info( QString("Name       : %1\n").arg(keyPair.getName()));
     manApplet->info( QString("PublicKey  : %1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
-    manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+
+    if( manApplet->settingsMgr()->showPriInfo() == true )
+        manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+    else
+        manApplet->info( QString("PrivateKey : [hidden]\n" ));
+
     manApplet->info( QString("Param      : %1\n").arg(keyPair.getParam()));
     manApplet->info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
     manApplet->info( "========================================================================\n" );

@@ -183,6 +183,10 @@ public:
     void setRunTime( time_t tRun );
     time_t getRunTime();
 
+    void setShowPriInfo( bool bVal );
+    bool getShowPriInfo();
+    bool showPriInfo() { return show_pri_info_; };
+
 private:
     QString default_hash_;
     QString default_ecc_param_;
@@ -190,6 +194,7 @@ private:
     int crl_profile_num_;
     int issuer_num_;
     int hex_area_width_;
+    bool show_pri_info_;
 
     int view_file_;
     int view_tool_;

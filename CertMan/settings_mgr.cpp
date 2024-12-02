@@ -69,6 +69,7 @@ namespace  {
     const char *kViewServer = "viewServer";
     const char *kViewHelp = "viewHelp";
     const char *kRunTime = "runTime";
+    const char *kShowPriInfo = "showPriInfo";
 }
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
@@ -76,6 +77,7 @@ SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
     cert_profile_num_ = 0;
     crl_profile_num_ = 0;
     issuer_num_ = 0;
+    show_pri_info_ = false;
 
     loadSettings();
 }
@@ -109,6 +111,8 @@ void SettingsMgr::loadSettings()
     getViewValue( VIEW_DATA );
     getViewValue( VIEW_SERVER );
     getViewValue( VIEW_HELP );
+
+    getShowPriInfo();
 }
 
 int SettingsMgr::viewValue( int nType )
@@ -1355,4 +1359,26 @@ int SettingsMgr::getHexAreaWidth()
     sets.endGroup();
 
     return hex_area_width_;
+}
+
+void SettingsMgr::setShowPriInfo( bool bVal )
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kShowPriInfo, bVal );
+    sets.endGroup();
+
+    show_pri_info_ = bVal;
+}
+
+bool SettingsMgr::getShowPriInfo()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    show_pri_info_ = sets.value( kShowPriInfo, false ).toBool();
+    sets.endGroup();
+
+    return show_pri_info_;
 }

@@ -24,7 +24,6 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     mLangCombo->addItems(I18NHelper::getInstance()->getLanguages());
 
-    connect( mUseP11Check, SIGNAL(clicked()), this, SLOT(checkP11Use()));
     connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
     connect( mUseKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIPUse()));
 
@@ -97,7 +96,7 @@ void SettingsDlg::updateSettings()
     }
 #endif
 
-    mgr->setPKCS11Use( mUseP11Check->checkState() == Qt::Checked );
+    mgr->setPKCS11Use( mP11Group->isChecked() );
     mgr->setSlotIndex( mSlotIndexText->text().toInt() );
     mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
 
@@ -105,6 +104,7 @@ void SettingsDlg::updateSettings()
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
     mgr->setHexAreaWidth( mHexAreaWidthCombo->currentText().toInt());
 
+    mgr->setShowPriInfo( mShowPriKeyInfoCheck->isChecked() );
     mgr->setPKCS11Pin( mPINText->text() );
 
     bool language_changed = false;
@@ -158,12 +158,6 @@ void SettingsDlg::updateSettings()
     }
 
     mgr->setFontFamily( mFontFamilyCombo->currentText() );
-}
-
-void SettingsDlg::checkP11Use()
-{
-    bool val = mUseP11Check->isChecked();
-    mP11Group->setEnabled(val);
 }
 
 void SettingsDlg::checkKMIPUse()
@@ -408,10 +402,8 @@ void SettingsDlg::initialize()
         mLDAPGroup->setEnabled(false);
     }
 
-    state = mgr->PKCS11Use() ? Qt::Checked : Qt::Unchecked;
-    mUseP11Check->setCheckState( state );
-
-    checkP11Use();
+    mShowPriKeyInfoCheck->setChecked( mgr->getShowPriInfo() );
+    mP11Group->setChecked( mgr->PKCS11Use() );
 
     mListCountCombo->addItems( kListCountList );
 
