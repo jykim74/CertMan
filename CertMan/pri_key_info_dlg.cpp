@@ -218,6 +218,288 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
     JS_PKI_resetRawKeyVal( &sRawKeyVal );
 }
 
+void PriKeyInfoDlg::setRSAKey( CK_OBJECT_HANDLE hKey, bool bPri )
+{
+    int ret = 0;
+    BIN binVal = {0,0};
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_PUBLIC_EXPONENT, &binVal );
+    if( ret == CKR_OK )
+    {
+        mRSA_EText->setText( getHexString( &binVal ) );
+        JS_BIN_reset( &binVal );
+    }
+    else
+    {
+        mRSA_EText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_MODULUS, &binVal );
+    if( ret == CKR_OK )
+    {
+        mRSA_NText->setPlainText( getHexString( &binVal ) );
+        JS_BIN_reset( &binVal );
+    }
+    else
+    {
+        mRSA_NText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    if( bPri == true )
+    {
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_PRIVATE_EXPONENT, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_DText->setPlainText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_DText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_PRIME_1, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_PText->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_PText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_PRIME_2, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_QText->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_QText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EXPONENT_1, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_DMP1Text->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_DMP1Text->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EXPONENT_2, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_DMQ1Text->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_DMQ1Text->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_COEFFICIENT, &binVal );
+        if( ret == CKR_OK )
+        {
+            mRSA_IQMPText->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mRSA_IQMPText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+
+    JS_BIN_reset( &binVal );
+}
+
+void PriKeyInfoDlg::setECCKey( CK_OBJECT_HANDLE hKey, bool bPri )
+{
+    int ret = 0;
+    BIN binVal = {0,0};
+
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    char sTextOID[1024];
+
+    JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_PARAMS, &binVal );
+    if( ret == CKR_OK )
+    {
+        JS_PKI_getStringFromOID( &binVal, sTextOID );
+        JS_BIN_reset( &binVal );
+
+        mECC_CurveOIDText->setText( sTextOID );
+    }
+    else
+    {
+        mECC_CurveOIDText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    if( bPri == false )
+    {
+        JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_POINT, &binVal );
+        if( ret == CKR_OK )
+        {
+            int nPubLen = (binVal.nLen - 3) / 2;
+            mECC_PubXText->setPlainText( getHexString( &binVal.pVal[3], nPubLen));
+            mECC_PubYText->setPlainText( getHexString( &binVal.pVal[3 + nPubLen], nPubLen));
+
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mECC_PubXText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+            mECC_PubYText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+    else
+    {
+        JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
+        if( ret == CKR_OK )
+        {
+            mECC_PrivateText->setPlainText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mECC_PrivateText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+
+    JS_BIN_reset( &binVal );
+}
+
+void PriKeyInfoDlg::setDSAKey( CK_OBJECT_HANDLE hKey, bool bPri )
+{
+    int ret = 0;
+    BIN binVal = {0,0};
+
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_PRIME, &binVal );
+    if( ret == CKR_OK )
+    {
+        mDSA_PText->setPlainText( getHexString( &binVal ) );
+        JS_BIN_reset( &binVal );
+    }
+    else
+    {
+        mDSA_PText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_SUBPRIME, &binVal );
+    if( ret == CKR_OK )
+    {
+        mDSA_QText->setText( getHexString( &binVal ) );
+        JS_BIN_reset( &binVal );
+    }
+    else
+    {
+        mDSA_QText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_BASE, &binVal );
+    if( ret == CKR_OK )
+    {
+        mDSA_GText->setPlainText( getHexString( &binVal ) );
+        JS_BIN_reset( &binVal );
+    }
+    else
+    {
+        mDSA_GText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+    }
+
+    if( bPri == true )
+    {
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
+        if( ret == CKR_OK )
+        {
+            mDSA_PrivateText->setText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mDSA_PrivateText->setText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+    else
+    {
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
+        if( ret == CKR_OK )
+        {
+            mDSA_PublicText->setPlainText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mDSA_PublicText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+
+    JS_BIN_reset( &binVal );
+}
+
+void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
+{
+    int ret = 0;
+    BIN binVal = {0,0};
+    QString strName;
+
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_PARAMS, &binVal );
+    if( ret == CKR_OK )
+    {
+        JS_BIN_reset( &binVal );
+    }
+
+    if( bPri == false )
+    {
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_POINT, &binVal );
+        if( ret == CKR_OK )
+        {
+            if( binVal.pVal[1] == 32 )
+                strName = "ED25519";
+            else
+                strName = "ED448";
+
+            mEdDSA_RawPublicText->setPlainText( getHexString( &binVal.pVal[2], binVal.nLen - 2 ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mEdDSA_RawPublicText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+    else
+    {
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
+        if( ret == CKR_OK )
+        {
+            if( binVal.nLen == 32 )
+                strName = "ED25519";
+            else
+                strName = "ED448";
+
+            mEdDSA_RawPrivateText->setPlainText( getHexString( &binVal ) );
+            JS_BIN_reset( &binVal );
+        }
+        else
+        {
+            mEdDSA_RawPrivateText->setPlainText( QString( "[0x%1] %2" ).arg( ret, 0, 16 ).arg( JS_PKCS11_GetErrorMsg( ret )));
+        }
+    }
+
+    mEdDSA_NameText->setText( strName );
+    JS_BIN_reset( &binVal );
+}
+
+
 void PriKeyInfoDlg::changeRSA_N()
 {
     QString strN = mRSA_NText->toPlainText();
@@ -370,6 +652,23 @@ void PriKeyInfoDlg::clickGetPrivateKey()
 
     clickClear();
 
+    if( isPKCS11Private( strAlg ) == true )
+    {
+        readPrivateKeyHSM();
+    }
+    else if( isInternalPrivate( strAlg ) == true )
+    {
+        readPrivateKey();
+    }
+}
+
+void PriKeyInfoDlg::readPrivateKey()
+{
+    BIN binPri = {0,0};
+    QString strAlg = key_rec_.getAlg();
+
+    clickClear();
+
     manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
     if( strAlg == "RSA" )
@@ -402,6 +701,63 @@ void PriKeyInfoDlg::clickGetPrivateKey()
     }
 
     JS_BIN_reset( &binPri );
+}
+
+void PriKeyInfoDlg::readPrivateKeyHSM()
+{
+    QString strAlg = key_rec_.getAlg();
+
+    CK_OBJECT_HANDLE hKey = 0;
+
+    int nIndex = manApplet->settingsMgr()->slotIndex();
+    QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+    BIN binID = {0,0};
+    JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
+
+    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+
+    if( hSession < 0 )
+    {
+        manApplet->elog( "failed to get PKCS11 Session" );
+        return;
+    }
+
+    JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binID );
+    hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
+
+    if( strAlg == kMechPKCS11_RSA )
+    {
+        mKeyTab->setCurrentIndex(0);
+        mKeyTab->setTabEnabled(0, true);
+        setRSAKey( hKey );
+    }
+    else if( strAlg == kMechPKCS11_EC )
+    {
+        mKeyTab->setCurrentIndex(1);
+        mKeyTab->setTabEnabled(1, true);
+        setECCKey( hKey );
+    }
+    else if( strAlg == kMechPKCS11_DSA )
+    {
+        mKeyTab->setCurrentIndex( 2 );
+        mKeyTab->setTabEnabled(2, true);
+        setDSAKey( hKey );
+    }
+    else if( strAlg == kMechPKCS11_Ed25519 || strAlg == kMechPKCS11_Ed448 )
+    {
+        mKeyTab->setCurrentIndex( 3 );
+        mKeyTab->setTabEnabled(3, true);
+        setEdDSAKey( hKey );
+    }
+    else
+    {
+        manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( strAlg ), this);
+    }
+
+end :
+    if( hSession > 0 ) JS_PKCS11_CloseSession( pCTX );
+    JS_BIN_reset( &binID );
 }
 
 void PriKeyInfoDlg::clickGetPublicKey()

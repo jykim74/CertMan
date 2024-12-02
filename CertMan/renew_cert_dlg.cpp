@@ -257,7 +257,7 @@ void RenewCertDlg::accept()
     strKeyAlg = keyPair.getAlg();
 
 
-    if( strKeyAlg == kMechPKCS11_RSA || strKeyAlg == kMechPKCS11_EC || strKeyAlg == kMechPKCS11_DSA )
+    if( isPKCS11Private( strKeyAlg ) == true )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
@@ -279,7 +279,7 @@ void RenewCertDlg::accept()
         JS_PKCS11_CloseSession( pP11CTX );
         JS_BIN_reset( &binID );
     }
-    else if( strKeyAlg == kMechKMIP_RSA || strKeyAlg == kMechKMIP_EC )
+    else if( isKMIPPrivate( strKeyAlg ) == true )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;

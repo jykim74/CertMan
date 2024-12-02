@@ -194,7 +194,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
-    else if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
+    else if( isPKCS11Private( strAlg ) == true )
     {
         int nIndex = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
@@ -219,7 +219,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
         JS_PKCS11_Logout( (JP11_CTX *)manApplet->P11CTX() );
         JS_PKCS11_CloseSession( (JP11_CTX *)manApplet->P11CTX() );
     }
-    else if( strAlg == kMechKMIP_RSA || strAlg == kMechKMIP_EC )
+    else if( isKMIPPrivate( strAlg ) == true )
     {
         ret = genKeyPairWithKMIP(
                     manApplet->settingsMgr(),
@@ -400,7 +400,7 @@ void MakeReqDlg::accept()
 
  //   nAlg = getKeyType( strAlg, strParam );
 
-    if( strAlg == kMechPKCS11_RSA || strAlg == kMechPKCS11_EC || strAlg == kMechPKCS11_DSA )
+    if( isPKCS11Private( strAlg ) == true )
     {
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
@@ -434,7 +434,7 @@ void MakeReqDlg::accept()
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
-    else if( strAlg == kMechKMIP_RSA || strAlg == kMechKMIP_EC )
+    else if( isKMIPPrivate( strAlg ) == true )
     {
         if( manApplet->settingsMgr()->KMIPUse() == 0 )
             goto end;

@@ -206,6 +206,7 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal );
 const QString getProfileExtInfoValue( const QString strSN, const QString& strVal );
 
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN = nullptr );
+CK_OBJECT_HANDLE getHandleHSM( JP11_CTX *pCTX, CK_OBJECT_CLASS objClass, const BIN *pID );
 
 int getKMIPConnection( SettingsMgr *settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth );
 

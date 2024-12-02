@@ -2062,6 +2062,43 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPI
     return pCTX->hSession;
 }
 
+CK_OBJECT_HANDLE getHandleHSM( JP11_CTX *pCTX, CK_OBJECT_CLASS objClass, const BIN *pID )
+{
+    int rv;
+
+    CK_ATTRIBUTE sTemplate[2];
+    long uCount = 0;
+
+    CK_OBJECT_HANDLE hObjects = -1;
+    CK_ULONG uObjCnt = 0;
+
+    sTemplate[uCount].type = CKA_CLASS;
+    sTemplate[uCount].pValue = &objClass;
+    sTemplate[uCount].ulValueLen = sizeof(objClass);
+    uCount++;
+
+    if( pID )
+    {
+        sTemplate[uCount].type = CKA_ID;
+        sTemplate[uCount].pValue = pID->pVal;
+        sTemplate[uCount].ulValueLen = pID->nLen;
+        uCount++;
+    }
+
+    rv = JS_PKCS11_FindObjectsInit( pCTX, sTemplate, uCount );
+    if( rv != CKR_OK ) goto end;
+
+    rv = JS_PKCS11_FindObjects( pCTX, &hObjects, 1, &uObjCnt );
+    if( rv != CKR_OK ) goto end;
+
+    rv = JS_PKCS11_FindObjectsFinal( pCTX );
+    if( rv != CKR_OK ) goto end;
+
+end :
+
+    return hObjects;
+}
+
 int getKMIPConnection( SettingsMgr* settingMgr, SSL_CTX **ppCTX, SSL **ppSSL, Authentication **ppAuth )
 {
     int ret = 0;
@@ -4333,6 +4370,8 @@ bool isPKCS11Private( const QString strKeyMech )
     if( strKeyMech == kMechPKCS11_RSA ) return true;
     if( strKeyMech == kMechPKCS11_EC ) return true;
     if( strKeyMech == kMechPKCS11_DSA ) return true;
+    if( strKeyMech == kMechPKCS11_Ed25519 ) return true;
+    if( strKeyMech == kMechPKCS11_Ed448 ) return true;
 
     return false;
 }

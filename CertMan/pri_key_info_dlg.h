@@ -10,6 +10,7 @@
 #include <QDialog>
 #include "ui_pri_key_info_dlg.h"
 #include "key_pair_rec.h"
+#include "js_pkcs11.h"
 
 class KeyPairRec;
 
@@ -61,10 +62,19 @@ private slots:
 private:
     void initialize();
 
+    void readPrivateKey();
+    void readPrivateKeyHSM();
+
     void setRSAKey( const BIN *pKey, bool bPri = true );
     void setECCKey( const BIN *pKey, bool bPri = true );
     void setDSAKey( const BIN *pKey, bool bPri = true );
     void setEdDSAKey( const QString& strParam, const BIN *pKey, bool bPri = true );
+
+    void setRSAKey( CK_OBJECT_HANDLE hKey, bool bPri = true );
+    void setECCKey( CK_OBJECT_HANDLE hKey, bool bPri = true );
+    void setDSAKey( CK_OBJECT_HANDLE hKey, bool bPri = true );
+    void setEdDSAKey( CK_OBJECT_HANDLE hKey, bool bPri = true );
+
 
 private:
     int key_num_;
