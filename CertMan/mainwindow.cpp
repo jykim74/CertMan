@@ -5664,7 +5664,7 @@ void MainWindow::infoKeyPair(int seq)
     info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     info( QString("Name       : %1\n").arg(keyPair.getName()));
 
-    info( QString("PublicKey  :\n") );
+    info( QString("PublicKey\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
     infoLine2();
@@ -5673,7 +5673,7 @@ void MainWindow::infoKeyPair(int seq)
     {
         if( isInternalPrivate( keyPair.getAlg() ) == true )
         {
-            info( QString("PrivateKey :\n"));
+            info( QString("PrivateKey\n"));
             infoLine2();
             info( QString("%1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
             infoLine2();
@@ -5709,7 +5709,7 @@ void MainWindow::infoRequest( int seq )
     info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
     info( QString("Name     : %1\n").arg(reqRec.getName()));
     info( QString("DN       : %1\n").arg(reqRec.getDN()));
-    info( QString("Request  :\n") );
+    info( QString("Request\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
     infoLine2();
@@ -5764,7 +5764,7 @@ void MainWindow::infoCertificate( int seq )
         info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
     info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    info( QString("Certificate   :\n") );
+    info( QString("Certificate\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
     infoLine2();
@@ -5907,7 +5907,7 @@ void MainWindow::infoCRL( int seq )
     info( QString("RegTime       : %1\n").arg(sRegTime));
     info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
     info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
-    info( QString("CRL           :\n"));
+    info( QString("CRL\n"));
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
     infoLine2();
