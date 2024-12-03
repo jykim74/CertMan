@@ -197,7 +197,7 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
 
     if( pKey == NULL || pKey->nLen <= 0 ) return;
 
-    if( strParam == kMechEd25519 )
+    if( strParam == kParamEd25519 )
         nType = JS_PKI_KEY_TYPE_ED25519;
     else
         nType = JS_PKI_KEY_TYPE_ED448;
@@ -468,9 +468,9 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
         if( ret == CKR_OK )
         {
             if( binVal.pVal[1] == 32 )
-                strName = "ED25519";
+                strName = kParamEd25519;
             else
-                strName = "ED448";
+                strName = kParamEd448;
 
             mEdDSA_RawPublicText->setPlainText( getHexString( &binVal.pVal[2], binVal.nLen - 2 ) );
             JS_BIN_reset( &binVal );

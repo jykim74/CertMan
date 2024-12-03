@@ -432,19 +432,19 @@ void MakeCertDlg::accept()
         }
     }
 
-    if( profileRec.getNotBefore() == 0 )
+    if( profileRec.getNotBefore() == kPeriodDay )
     {
         long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
         notBefore = 0;
         notAfter = uValidSecs;
     }
-    else if( profileRec.getNotBefore() == 1 )
+    else if( profileRec.getNotBefore() == kPeriodMonth )
     {
         long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
         notBefore = 0;
         notAfter = uValidSecs;
     }
-    else if( profileRec.getNotBefore() == 2 )
+    else if( profileRec.getNotBefore() == kPeriodYear )
     {
         long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
         notBefore = 0;

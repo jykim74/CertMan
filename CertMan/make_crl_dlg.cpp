@@ -177,21 +177,21 @@ void MakeCRLDlg::accept()
 
     now_t = time(NULL);
 
-    if( profile.getThisUpdate() == 0 )
+    if( profile.getThisUpdate() == kPeriodDay )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
         uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
-    else if( profile.getThisUpdate() == 1 )
+    else if( profile.getThisUpdate() == kPeriodMonth )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
 
         uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
-    else if( profile.getThisUpdate() == 2 )
+    else if( profile.getThisUpdate() == kPeriodYear )
     {
         long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 

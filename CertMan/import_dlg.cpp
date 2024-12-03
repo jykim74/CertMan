@@ -346,9 +346,9 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     {
         strAlg = kMechEdDSA;
         if( nKeyType == JS_PKI_KEY_TYPE_ED25519 )
-            strParam = kMechEd25519;
+            strParam = kParamEd25519;
         else
-            strParam = kMechEd448;
+            strParam = kParamEd448;
 
         JS_PKI_getRawKeyVal( nKeyType, pPriKey, &sRawKey );
         JS_PKI_getRawPublicKeyFromPri( nKeyType, pPriKey, &binPub );

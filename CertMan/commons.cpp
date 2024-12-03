@@ -2279,14 +2279,14 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     }
     else if( keyType == CKK_EC_EDWARDS )
     {
-        if( strParam == kMechEd25519 )
+        if( strParam == kParamEd25519 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
             sPubTemplate[uPubCount].pValue = kOID_X25519;
             sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_X25519);
             uPubCount++;
         }
-        else if( strParam == kMechEd448 )
+        else if( strParam == kParamEd448 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
             sPubTemplate[uPubCount].pValue = kOID_X448;
@@ -4284,7 +4284,7 @@ int getKeyType( const QString& strAlg, const QString& strParam )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( strAlg == kMechEdDSA )
     {
-        if( strParam == kMechEd25519 )
+        if( strParam == kParamEd25519 )
             nKeyType = JS_PKI_KEY_TYPE_ED25519;
         else
             nKeyType = JS_PKI_KEY_TYPE_ED448;
@@ -4357,8 +4357,6 @@ bool isInternalPrivate( const QString strKeyMech )
     if( strKeyMech == kMechRSA ) return true;
     if( strKeyMech == kMechEC ) return true;
     if( strKeyMech == kMechEdDSA  ) return true;
-    if( strKeyMech == kMechEd25519 ) return true;
-    if( strKeyMech == kMechEd448 ) return true;
     if( strKeyMech == kMechDSA ) return true;
 
     return false;
@@ -4431,19 +4429,19 @@ const QString dateString( time_t tTime )
 
 void getPeriodString( long start, long end, QString& strStart, QString& strEnd )
 {
-    if( start == 0 )
+    if( start == kPeriodDay )
     {
-        strStart = "GenTime";
+        strStart = QObject::tr("CreationTime");
         strEnd = QString( "%1 Days" ).arg( end );
     }
-    else if( start == 1 )
+    else if( start == kPeriodMonth )
     {
-        strStart = "GenTime";
+        strStart = QObject::tr("CreationTime");
         strEnd = QString( "%1 Months" ).arg( end );
     }
-    else if( start == 2 )
+    else if( start == kPeriodYear )
     {
-        strStart = "GenTime";
+        strStart = QObject::tr("CreationTime");
         strEnd = QString( "%1 Years" ).arg( end );
     }
     else

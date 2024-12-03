@@ -15,7 +15,7 @@
 
 #include "js_pki_x509.h"
 
-static QStringList kKeyAlgList = { "Any", "RSA", "ECDSA", "DSA", "EDDSA" };
+static QStringList kKeyAlgList = { "Any", kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
 static QStringList kStatus = { "NotUsed", "Used" };
 
 CAManDlg::CAManDlg(QWidget *parent) :
@@ -263,19 +263,19 @@ void CAManDlg::loadCACertList()
             nKeyType = JS_PKI_getCertKeyType( &binCert );
             JS_BIN_reset( &binCert );
 
-            if( strType == "RSA" )
+            if( strType == kMechRSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == "ECDSA" )
+            else if( strType == kMechEC )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
             }
-            else if( strType == "DSA" )
+            else if( strType == kMechDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == "EDDSA" )
+            else if( strType == kMechEdDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
             }
@@ -316,19 +316,19 @@ void CAManDlg::loadKeyPairList()
             nKeyType = JS_PKI_getPubKeyType( &binPub );
             JS_BIN_reset( &binPub );
 
-            if( strType == "RSA" )
+            if( strType == kMechRSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == "ECDSA" )
+            else if( strType == kMechEC )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
             }
-            else if( strType == "DSA" )
+            else if( strType == kMechDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == "EDDSA" )
+            else if( strType == kMechEdDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
             }
@@ -370,19 +370,19 @@ void CAManDlg::loadCSRList()
             nKeyType = JS_PKI_getCSRKeyType( &binCSR );
             JS_BIN_reset( &binCSR );
 
-            if( strType == "RSA" )
+            if( strType == kMechRSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == "ECDSA" )
+            else if( strType == kMechEC )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
             }
-            else if( strType == "DSA" )
+            else if( strType == kMechDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == "EDDSA" )
+            else if( strType == kMechEdDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
             }

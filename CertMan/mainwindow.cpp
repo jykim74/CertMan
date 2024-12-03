@@ -1175,28 +1175,28 @@ int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const B
 
     if( nType == JS_PKI_KEY_TYPE_RSA )
     {
-        strAlg = "RSA";
+        strAlg = kMechRSA;
         strParam = QString( "%1" ).arg( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_ECC || nType == JS_PKI_KEY_TYPE_SM2 )
     {
-        strAlg = "ECC";
+        strAlg = kMechEC;
         strParam = JS_PKI_getSNFromNid( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_DSA )
     {
-        strAlg = "DSA";
+        strAlg = kMechDSA;
         strParam = QString( "%1" ).arg( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_ED25519 )
     {
-        strAlg = "EdDSA";
-        strParam = "Ed255192";
+        strAlg = kMechEdDSA;
+        strParam = kParamEd25519;
     }
     else if( nType == JS_PKI_KEY_TYPE_ED448 )
     {
-        strAlg = "EdDSA";
-        strParam = "Ed448";
+        strAlg = kMechEdDSA;
+        strParam = kParamEd448;
     }
     else {
         return -1;
@@ -5660,7 +5660,12 @@ void MainWindow::infoKeyPair(int seq)
     manApplet->info( QString("PublicKey  : %1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
 
     if( manApplet->settingsMgr()->showPriInfo() == true )
-        manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+    {
+        if( isInternalPrivate( keyPair.getAlg() ) == true )
+            manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+        else
+            manApplet->info( QString("Private ID : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+    }
     else
         manApplet->info( QString("PrivateKey : [hidden]\n" ));
 
