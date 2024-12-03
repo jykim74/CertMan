@@ -5639,7 +5639,12 @@ void MainWindow::createRightStatistics()
 
 void MainWindow::infoLine()
 {
-    manApplet->info( "========================================================================\n" );
+    info( "================================================================================\n" );
+}
+
+void MainWindow::infoLine2()
+{
+    info( "--------------------------------------------------------------------------------\n" );
 }
 
 void MainWindow::infoKeyPair(int seq)
@@ -5652,26 +5657,36 @@ void MainWindow::infoKeyPair(int seq)
 
     manApplet->mainWindow()->infoClear();
 
-    manApplet->info( "== KeyPair Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num        : %1\n").arg( keyPair.getNum() ));
-    manApplet->info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
-    manApplet->info( QString("Name       : %1\n").arg(keyPair.getName()));
-    manApplet->info( QString("PublicKey  : %1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
+    infoLine();
+    info( "== KeyPair Information\n" );
+    infoLine();
+    info( QString("Num        : %1\n").arg( keyPair.getNum() ));
+    info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
+    info( QString("Name       : %1\n").arg(keyPair.getName()));
+
+    info( QString("PublicKey  :\n") );
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( keyPair.getPublicKey(), nWidth )));
+    infoLine2();
 
     if( manApplet->settingsMgr()->showPriInfo() == true )
     {
         if( isInternalPrivate( keyPair.getAlg() ) == true )
-            manApplet->info( QString("PrivateKey : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+        {
+            info( QString("PrivateKey :\n"));
+            infoLine2();
+            info( QString("%1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+            infoLine2();
+        }
         else
-            manApplet->info( QString("Private ID : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
+            info( QString("Private ID : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
     }
     else
-        manApplet->info( QString("PrivateKey : [hidden]\n" ));
+        info( QString("PrivateKey : [hidden]\n" ));
 
-    manApplet->info( QString("Param      : %1\n").arg(keyPair.getParam()));
-    manApplet->info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
-    manApplet->info( "========================================================================\n" );
+    info( QString("Param      : %1\n").arg(keyPair.getParam()));
+    info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -5687,17 +5702,20 @@ void MainWindow::infoRequest( int seq )
     QString strKeyName = manApplet->dbMgr()->getNumName( reqRec.getKeyNum(), "TB_KEY_PAIR", "NAME" );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Request Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("SEQ      : %1\n").arg(reqRec.getSeq()));
-    manApplet->info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
-    manApplet->info( QString("Name     : %1\n").arg(reqRec.getName()));
-    manApplet->info( QString("DN       : %1\n").arg(reqRec.getDN()));
-    manApplet->info( QString("Request  : %1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
-    manApplet->info( QString("Hash     : %1\n").arg(reqRec.getHash()));
-    manApplet->info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Request Information\n" );
+    infoLine();
+    info( QString("SEQ      : %1\n").arg(reqRec.getSeq()));
+    info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
+    info( QString("Name     : %1\n").arg(reqRec.getName()));
+    info( QString("DN       : %1\n").arg(reqRec.getDN()));
+    info( QString("Request  :\n") );
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
+    infoLine2();
+    info( QString("Hash     : %1\n").arg(reqRec.getHash()));
+    info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -5734,29 +5752,32 @@ void MainWindow::infoCertificate( int seq )
         strUserName = "Unknown";
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Certificate Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num           : %1\n").arg(certRec.getNum()));
+    infoLine();
+    info( "== Certificate Information\n" );
+    infoLine();
+    info( QString("Num           : %1\n").arg(certRec.getNum()));
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
-    manApplet->info( QString("RegDate       : %1\n").arg(sRegDate));
-    manApplet->info( QString("KeyNum        : %1 - %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
+    info( QString("RegDate       : %1\n").arg(sRegDate));
+    info( QString("KeyNum        : %1 - %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
 
     if( manApplet->isPRO() )
-        manApplet->info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
+        info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
-    manApplet->info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    manApplet->info( QString("Certificate   : %1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
-    manApplet->info( QString("IsCA          : %1 - %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
-    manApplet->info( QString("IsSelf        : %1 - %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
-    manApplet->info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
-    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));
-    manApplet->info( QString("Status        : %1 - %2\n").arg( getCertStatusName( certRec.getStatus() ), nFieldWidth).arg(certRec.getStatus()));
-    manApplet->info( QString("Serial        : %1\n").arg(certRec.getSerial()));
-    manApplet->info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
-    manApplet->info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
-    manApplet->info( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
-    manApplet->info( "========================================================================\n" );
+    info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
+    info( QString("Certificate   :\n") );
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
+    infoLine2();
+    info( QString("IsCA          : %1 - %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
+    info( QString("IsSelf        : %1 - %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
+    info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
+    info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));
+    info( QString("Status        : %1 - %2\n").arg( getCertStatusName( certRec.getStatus() ), nFieldWidth).arg(certRec.getStatus()));
+    info( QString("Serial        : %1\n").arg(certRec.getSerial()));
+    info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
+    info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
+    info( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -5777,19 +5798,19 @@ void MainWindow::infoCertProfile( int seq )
 
     strVersion = QString( "V%1" ).arg( certProfile.getVersion() + 1);
 
-    if( certProfile.getNotBefore() == 0 )
+    if( certProfile.getNotBefore() == kPeriodDay )
     {
-        strNotBefore = "GenTime";
+        strNotBefore = QObject::tr("CreationTime");
         strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
     }
-    else if( certProfile.getNotBefore() == 1 )
+    else if( certProfile.getNotBefore() == kPeriodMonth )
     {
-        strNotBefore = "GenTime";
+        strNotBefore = QObject::tr("CreationTime");
         strNotAfter = QString( "%1 Months" ).arg( certProfile.getNotAfter() );
     }
-    else if( certProfile.getNotBefore() == 2 )
+    else if( certProfile.getNotBefore() == kPeriodYear )
     {
-        strNotBefore = "GenTime";
+        strNotBefore = QObject::tr("CreationTime");
         strNotAfter = QString( "%1 Years" ).arg( certProfile.getNotAfter() );
     }
     else
@@ -5804,30 +5825,30 @@ void MainWindow::infoCertProfile( int seq )
         strDNTemplate = certProfile.getDNTemplate();
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Certificate Profile Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num         : %1\n").arg(certProfile.getNum()));
-    manApplet->info( QString("Name        : %1\n").arg(certProfile.getName()));
-    manApplet->info( QString("Type        : %1 - %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
-    manApplet->info( QString("Version     : %1 - %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
+    infoLine();
+    info( "== Certificate Profile Information\n" );
+    infoLine();
+    info( QString("Num         : %1\n").arg(certProfile.getNum()));
+    info( QString("Name        : %1\n").arg(certProfile.getName()));
+    info( QString("Type        : %1 - %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
+    info( QString("Version     : %1 - %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CERT )
     {
-        manApplet->info( QString("NotBefore   : %1 - %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
-        manApplet->info( QString("NotAfter    : %1 - %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
-        manApplet->info( QString("ExtUsage    : %1 - %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
-        manApplet->info( QString("DNTemplate  : %1 - %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
+        info( QString("NotBefore   : %1 - %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
+        info( QString("NotAfter    : %1 - %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
+        info( QString("ExtUsage    : %1 - %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
+        info( QString("DNTemplate  : %1 - %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
     }
 
-    manApplet->info( QString("Hash        : %1\n").arg(certProfile.getHash()));
-    manApplet->info( "========================================================================\n" );
+    info( QString("Hash        : %1\n").arg(certProfile.getHash()));
+    infoLine();
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        manApplet->info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
+        info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -5844,19 +5865,19 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
     QString strValue = profileExt.getValue();
     QString strShowValue = getProfileExtInfoValue( strSN, strValue );
 
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString( "| %1 | %2 | Seq: %3 |\n")
-                     .arg( profileExt.getSN(), -37 )
+    infoLine();
+    info( QString( "| %1 | %2 | Seq: %3 |\n")
+                     .arg( profileExt.getSN(), -45 )
                      .arg( profileExt.isCritical() ? "Critical" : "Normal", -10 )
                      .arg( profileExt.getSeq(), 10 ));
 
     if( strShowValue.length() > 0 )
     {
-        manApplet->info( "------------------------------------------------------------------------\n" );
-        manApplet->info( QString( "%1" ).arg( strShowValue ) );
+        infoLine2();
+        info( QString( "%1" ).arg( strShowValue ) );
     }
 
-    manApplet->info( "========================================================================\n" );
+    infoLine();
 }
 
 void MainWindow::infoCRL( int seq )
@@ -5878,17 +5899,20 @@ void MainWindow::infoCRL( int seq )
         strIssuerName = "Unknown";
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== CRL Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num           : %1\n").arg(crlRec.getNum()));
+    infoLine();
+    info( "== CRL Information\n" );
+    infoLine();
+    info( QString("Num           : %1\n").arg(crlRec.getNum()));
     JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
-    manApplet->info( QString("RegTime       : %1\n").arg(sRegTime));
-    manApplet->info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
-    manApplet->info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
-    manApplet->info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
-    manApplet->info( QString("CRL           : %1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
-    manApplet->info( "========================================================================\n" );
+    info( QString("RegTime       : %1\n").arg(sRegTime));
+    info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
+    info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
+    info( QString("CRL           :\n"));
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
+    infoLine2();
+    info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -5908,19 +5932,19 @@ void MainWindow::infoCRLProfile( int seq )
 
     strVersion = QString( "V%1" ).arg( crlProfile.getVersion() + 1);
 
-    if( crlProfile.getThisUpdate() == 0 )
+    if( crlProfile.getThisUpdate() == kPeriodDay )
     {
-        strThisUpdate = "GenTime";
+        strThisUpdate = QObject::tr("CreationTime");
         strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
     }
-    else if( crlProfile.getThisUpdate() == 1 )
+    else if( crlProfile.getThisUpdate() == kPeriodMonth )
     {
-        strThisUpdate = "GenTime";
+        strThisUpdate = QObject::tr("CreationTime");
         strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
     }
-    else if( crlProfile.getThisUpdate() == 2 )
+    else if( crlProfile.getThisUpdate() == kPeriodYear )
     {
-        strThisUpdate = "GenTime";
+        strThisUpdate = QObject::tr("CreationTime");
         strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
     }
     else
@@ -5930,22 +5954,22 @@ void MainWindow::infoCRLProfile( int seq )
     }
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== CRL Profile Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num          : %1\n").arg(crlProfile.getNum()));
-    manApplet->info( QString("Name         : %1\n").arg(crlProfile.getName()));
-    manApplet->info( QString("Version      : %1 - %2\n").arg(strVersion, nFieldWidth).arg(crlProfile.getVersion()));
-    manApplet->info( QString("ThisUpdate   : %1 - %2\n").arg(strThisUpdate, nFieldWidth).arg(crlProfile.getThisUpdate()));
-    manApplet->info( QString("NextUpdate   : %1 - %2\n").arg(strNextUpdate, nFieldWidth).arg(crlProfile.getNextUpdate()));
-    manApplet->info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== CRL Profile Information\n" );
+    infoLine();
+    info( QString("Num          : %1\n").arg(crlProfile.getNum()));
+    info( QString("Name         : %1\n").arg(crlProfile.getName()));
+    info( QString("Version      : %1 - %2\n").arg(strVersion, nFieldWidth).arg(crlProfile.getVersion()));
+    info( QString("ThisUpdate   : %1 - %2\n").arg(strThisUpdate, nFieldWidth).arg(crlProfile.getThisUpdate()));
+    info( QString("NextUpdate   : %1 - %2\n").arg(strNextUpdate, nFieldWidth).arg(crlProfile.getNextUpdate()));
+    info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
+    infoLine();
 
     QList<ProfileExtRec> extList;
     manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        manApplet->info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
+        info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -5969,17 +5993,17 @@ void MainWindow::infoRevoke( int seq )
     QString strReason = JS_PKI_getRevokeReasonName( revokeRec.getReason() );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Revoke Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
-    manApplet->info( QString("CertNum      : %1 - %2\n").arg(strCertName, nFieldWidth).arg( revokeRec.getCertNum()));
-    manApplet->info( QString("IssuerNum    : %1 - %2\n").arg(strIsserName, nFieldWidth).arg( revokeRec.getIssuerNum()));
-    manApplet->info( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
-    manApplet->info( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
-    manApplet->info( QString("Reason       : %1 - %2\n").arg(strReason, nFieldWidth).arg( revokeRec.getReason()));
-    manApplet->info( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Revoke Information\n" );
+    infoLine();
+    info( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
+    info( QString("CertNum      : %1 - %2\n").arg(strCertName, nFieldWidth).arg( revokeRec.getCertNum()));
+    info( QString("IssuerNum    : %1 - %2\n").arg(strIsserName, nFieldWidth).arg( revokeRec.getIssuerNum()));
+    info( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
+    info( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
+    info( QString("Reason       : %1 - %2\n").arg(strReason, nFieldWidth).arg( revokeRec.getReason()));
+    info( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -5992,18 +6016,18 @@ void MainWindow::infoUser( int seq )
     manApplet->dbMgr()->getUserRec( seq, userRec );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== User Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num           : %1\n").arg(userRec.getNum()));
-    manApplet->info( QString("RegTime       : %1\n").arg(getDateTime(userRec.getRegTime())));
-    manApplet->info( QString("Name          : %1\n").arg(userRec.getName()));
-    manApplet->info( QString("SSN           : %1\n").arg(userRec.getSSN()));
-    manApplet->info( QString("Email         : %1\n").arg(userRec.getEmail()));
-    manApplet->info( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
-    manApplet->info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
-    manApplet->info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== User Information\n" );
+    infoLine();
+    info( QString("Num           : %1\n").arg(userRec.getNum()));
+    info( QString("RegTime       : %1\n").arg(getDateTime(userRec.getRegTime())));
+    info( QString("Name          : %1\n").arg(userRec.getName()));
+    info( QString("SSN           : %1\n").arg(userRec.getSSN()));
+    info( QString("Email         : %1\n").arg(userRec.getEmail()));
+    info( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
+    info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
+    info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6016,16 +6040,16 @@ void MainWindow::infoAdmin( int seq )
     manApplet->dbMgr()->getAdminRec( seq, adminRec );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Admin Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Seq          : %1\n").arg(adminRec.getSeq()));
-    manApplet->info( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
-    manApplet->info( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
-    manApplet->info( QString("Name         : %1\n").arg(adminRec.getName()));
-    manApplet->info( QString("Password     : %1\n").arg(adminRec.getPassword()));
-    manApplet->info( QString("Email        : %1\n").arg(adminRec.getEmail()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Admin Information\n" );
+    infoLine();
+    info( QString("Seq          : %1\n").arg(adminRec.getSeq()));
+    info( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
+    info( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
+    info( QString("Name         : %1\n").arg(adminRec.getName()));
+    info( QString("Password     : %1\n").arg(adminRec.getPassword()));
+    info( QString("Email        : %1\n").arg(adminRec.getEmail()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6038,14 +6062,14 @@ void MainWindow::infoConfig( int seq )
     manApplet->dbMgr()->getConfigRec( seq, configRec );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Config Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num          : %1\n").arg(configRec.getNum()));
-    manApplet->info( QString("Kind         : %1 - %2\n").arg(configRec.getKind()).arg( JS_GEN_getKindName( configRec.getKind())));
-    manApplet->info( QString("Name         : %1\n").arg(configRec.getName()));
-    manApplet->info( QString("Value        : %1\n").arg(configRec.getValue()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Config Information\n" );
+    infoLine();
+    info( QString("Num          : %1\n").arg(configRec.getNum()));
+    info( QString("Kind         : %1 - %2\n").arg(configRec.getKind()).arg( JS_GEN_getKindName( configRec.getKind())));
+    info( QString("Name         : %1\n").arg(configRec.getName()));
+    info( QString("Value        : %1\n").arg(configRec.getValue()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6061,17 +6085,17 @@ void MainWindow::infoKMS( int seq )
     QString strAlgorithm = JS_PKI_getKeyTypeName( kmsRec.getAlgorithm() );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== KMS Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Seq         : %1\n").arg(kmsRec.getSeq()));
-    manApplet->info( QString("RegTime     : %1\n").arg(getDateTime(kmsRec.getRegTime())));
-    manApplet->info( QString("State       : %1 - %2\n").arg(kmsRec.getState()).arg( getStatusName(kmsRec.getState())));
-    manApplet->info( QString("Type        : %1 - %2\n").arg(kmsRec.getType()).arg(strType));
-    manApplet->info( QString("Algorithm   : %1 - %2\n").arg(kmsRec.getAlgorithm()).arg( strAlgorithm ));
-    manApplet->info( QString("ID          : %1\n").arg(kmsRec.getID()));
-    manApplet->info( QString("Info        : %1\n").arg(kmsRec.getInfo()));
-    manApplet->info( "============================ Attribute =================================\n" );
+    infoLine();
+    info( "== KMS Information\n" );
+    infoLine();
+    info( QString("Seq         : %1\n").arg(kmsRec.getSeq()));
+    info( QString("RegTime     : %1\n").arg(getDateTime(kmsRec.getRegTime())));
+    info( QString("State       : %1 - %2\n").arg(kmsRec.getState()).arg( getStatusName(kmsRec.getState())));
+    info( QString("Type        : %1 - %2\n").arg(kmsRec.getType()).arg(strType));
+    info( QString("Algorithm   : %1 - %2\n").arg(kmsRec.getAlgorithm()).arg( strAlgorithm ));
+    info( QString("ID          : %1\n").arg(kmsRec.getID()));
+    info( QString("Info        : %1\n").arg(kmsRec.getInfo()));
+    info( "============================ Attribute =================================\n" );
 
     QList<KMSAttribRec> kmsAttribList;
     manApplet->dbMgr()->getKMSAttribList( seq, kmsAttribList );
@@ -6080,7 +6104,7 @@ void MainWindow::infoKMS( int seq )
     {
         KMSAttribRec attribRec = kmsAttribList.at(i);
 
-        manApplet->info( QString( "%1 || %2 || %3\n")
+        info( QString( "%1 || %2 || %3\n")
                 .arg(attribRec.getNum())
                 .arg(JS_KMS_attributeName(attribRec.getType()))
                 .arg(attribRec.getValue()));
@@ -6100,16 +6124,16 @@ void MainWindow::infoAudit( int seq )
     QString strOperation = JS_GEN_getOperationName( auditRec.getOperation() );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Audit Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Seq          : %1\n").arg(auditRec.getSeq()));
-    manApplet->info( QString("Kind         : %1 - %2\n").arg(auditRec.getKind()).arg(strKind));
-    manApplet->info( QString("Operation    : %1 - %2\n").arg(auditRec.getOperation()).arg(strOperation));
-    manApplet->info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
-    manApplet->info( QString("Info         : %1\n").arg(auditRec.getInfo()));
-    manApplet->info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Audit Information\n" );
+    infoLine();
+    info( QString("Seq          : %1\n").arg(auditRec.getSeq()));
+    info( QString("Kind         : %1 - %2\n").arg(auditRec.getKind()).arg(strKind));
+    info( QString("Operation    : %1 - %2\n").arg(auditRec.getOperation()).arg(strOperation));
+    info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
+    info( QString("Info         : %1\n").arg(auditRec.getInfo()));
+    info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6124,16 +6148,16 @@ void MainWindow::infoTSP( int seq )
     manApplet->dbMgr()->getTSPRec( seq, tspRec );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== TSP Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Seq          : %1\n").arg(tspRec.getSeq()));
-    manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
-    manApplet->info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
-    manApplet->info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
-    manApplet->info( QString("TSTInfo      : %1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
-    manApplet->info( QString("Data         : %1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== TSP Information\n" );
+    infoLine();
+    info( QString("Seq          : %1\n").arg(tspRec.getSeq()));
+    info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
+    info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
+    info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
+    info( QString("TSTInfo      : %1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
+    info( QString("Data         : %1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6147,18 +6171,18 @@ void MainWindow::infoSigner(int seq)
     manApplet->dbMgr()->getSignerRec( seq, signerRec );
 
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Signer Information\n" );
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( QString("Num          : %1\n").arg( signerRec.getNum()));
-    manApplet->info( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
-    manApplet->info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
-    manApplet->info( QString("DN           : %1\n").arg(signerRec.getDN()));
-    manApplet->info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    manApplet->info( QString("Cert         : %1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
-    manApplet->info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
-    manApplet->info( QString("Info         : %1\n").arg(signerRec.getInfo()));
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Signer Information\n" );
+    infoLine();
+    info( QString("Num          : %1\n").arg( signerRec.getNum()));
+    info( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
+    info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
+    info( QString("DN           : %1\n").arg(signerRec.getDN()));
+    info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
+    info( QString("Cert         : %1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
+    info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
+    info( QString("Info         : %1\n").arg(signerRec.getInfo()));
+    infoLine();
 
     infoCursorTop();
 }
@@ -6166,9 +6190,9 @@ void MainWindow::infoSigner(int seq)
 void MainWindow::infoStatistics()
 {
     manApplet->mainWindow()->infoClear();
-    manApplet->info( "========================================================================\n" );
-    manApplet->info( "== Statistics Information\n" );
-    manApplet->info( "========================================================================\n" );
+    infoLine();
+    info( "== Statistics Information\n" );
+    infoLine();
 
     infoCursorTop();
 }
