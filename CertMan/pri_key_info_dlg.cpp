@@ -152,7 +152,8 @@ void PriKeyInfoDlg::setECCKey( const BIN *pKey, bool bPri )
     if( ret == 0 )
     {
         QString strSN = JS_PKI_getSNFromOID( sECKey.pCurveOID );
-        mECC_CurveOIDText->setText( QString( "%1 (%2)" ).arg(sECKey.pCurveOID).arg( strSN ) );
+        mECC_CurveOIDText->setText( QString( "%1" ).arg(sECKey.pCurveOID) );
+        mECC_CurveSNText->setText( strSN );
 
         mECC_PubXText->setPlainText( sECKey.pPubX );
         mECC_PubYText->setPlainText( sECKey.pPubY );
@@ -333,7 +334,10 @@ void PriKeyInfoDlg::setECCKey( CK_OBJECT_HANDLE hKey, bool bPri )
         JS_PKI_getStringFromOID( &binVal, sTextOID );
         JS_BIN_reset( &binVal );
 
+        QString strSN = JS_PKI_getSNFromOID( sTextOID );
+
         mECC_CurveOIDText->setText( sTextOID );
+        mECC_CurveSNText->setText( strSN );
     }
     else
     {
@@ -632,6 +636,7 @@ void PriKeyInfoDlg::clickClear()
     mECC_PubXText->clear();
     mECC_PubYText->clear();
     mECC_CurveOIDText->clear();
+    mECC_CurveSNText->clear();
     mECC_PrivateText->clear();
 
     mDSA_GText->clear();
