@@ -125,7 +125,7 @@ void CAManDlg::initUI()
     int nWidth = width() * 8/10;
 #endif
 
-    QStringList sCACertLabels = { tr( "Subject DN" ), tr( "Serial" ), tr( "Algorithm" ) };
+    QStringList sCACertLabels = { tr( "Num"), tr( "Serial" ), tr( "Algorithm" ), tr( "Subject DN" )  };
 
     mCACertTable->clear();
     mCACertTable->horizontalHeader()->setStretchLastSection(true);
@@ -135,11 +135,11 @@ void CAManDlg::initUI()
     mCACertTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mCACertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCACertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mCACertTable->setColumnWidth( 0, nWidth * 5/10 );
-    mCACertTable->setColumnWidth( 1, nWidth * 2/10 );
-    mCACertTable->setColumnWidth( 2, nWidth * 3/10 );
+    mCACertTable->setColumnWidth( 0, 60 );
+    mCACertTable->setColumnWidth( 1, 80 );
+    mCACertTable->setColumnWidth( 2, 80 );
 
-    QStringList sKeyPairLabels = { tr( "Name" ), tr("RegTime"), tr( "Algorithm" ) };
+    QStringList sKeyPairLabels = { tr("Num"), tr("RegTime"), tr( "Algorithm" ), tr( "Name" ) };
 
     mKeyPairTable->clear();
     mKeyPairTable->horizontalHeader()->setStretchLastSection(true);
@@ -149,11 +149,11 @@ void CAManDlg::initUI()
     mKeyPairTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mKeyPairTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mKeyPairTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mKeyPairTable->setColumnWidth( 0, nWidth * 5/10 );
-    mKeyPairTable->setColumnWidth( 1, nWidth * 2/10 );
-    mKeyPairTable->setColumnWidth( 2, nWidth * 3/10 );
+    mKeyPairTable->setColumnWidth( 0, 60 );
+    mKeyPairTable->setColumnWidth( 1, 80 );
+    mKeyPairTable->setColumnWidth( 2, 80 );
 
-    QStringList sCSRLabels = { tr( "Name" ), tr("RegTime"), tr( "Subject DN" ) };
+    QStringList sCSRLabels = { tr( "Num" ), tr("RegTime"), tr( "Subject DN" ), tr( "Name" ) };
 
     mCSRTable->clear();
     mCSRTable->horizontalHeader()->setStretchLastSection(true);
@@ -163,9 +163,9 @@ void CAManDlg::initUI()
     mCSRTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mCSRTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCSRTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mCSRTable->setColumnWidth( 0, nWidth * 5/10 );
-    mCSRTable->setColumnWidth( 1, nWidth * 2/10 );
-    mCSRTable->setColumnWidth( 2, nWidth * 3/10 );
+    mCSRTable->setColumnWidth( 0, 60 );
+    mCSRTable->setColumnWidth( 1, 80 );
+    mCSRTable->setColumnWidth( 2, 120 );
 
     mKeyPairStatusCombo->addItems( kStatus );
     mCSRStatusCombo->addItems( kStatus);
@@ -252,7 +252,7 @@ void CAManDlg::loadCACertList()
     for( int i = 0; i < certList.size(); i++ )
     {
         CertRec cert = certList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( cert.getSubjectDN() );
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
         item->setData(Qt::UserRole, cert.getNum() );
 
         if( strType != "Any" )
@@ -286,6 +286,7 @@ void CAManDlg::loadCACertList()
         mCACertTable->setItem( 0, 0, item );
         mCACertTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( cert.getSerial() )));
         mCACertTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
+        mCACertTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN())) );
     }
 }
 
@@ -304,7 +305,7 @@ void CAManDlg::loadKeyPairList()
     for( int i = 0; i < keyPairList.size(); i++ )
     {
         KeyPairRec keyPair = keyPairList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( keyPair.getName() );
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( keyPair.getNum() ) );
         item->setData(Qt::UserRole, keyPair.getNum() );
 
         if( strType != "Any" )
@@ -339,6 +340,7 @@ void CAManDlg::loadKeyPairList()
         mKeyPairTable->setItem( 0, 0, item );
         mKeyPairTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
         mKeyPairTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
+        mKeyPairTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( keyPair.getName())) );
     }
 }
 
@@ -357,7 +359,7 @@ void CAManDlg::loadCSRList()
     for( int i = 0; i < reqList.size(); i++ )
     {
         ReqRec req = reqList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( req.getName() );
+        QTableWidgetItem *item = new QTableWidgetItem( QString( "%1").arg( req.getSeq() ) );
         item->setData(Qt::UserRole, req.getSeq() );
 
         if( strType != "Any" )
@@ -391,6 +393,7 @@ void CAManDlg::loadCSRList()
         mCSRTable->setItem( 0, 0, item );
         mCSRTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
         mCSRTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
+        mCSRTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( req.getName())) );
     }
 }
 

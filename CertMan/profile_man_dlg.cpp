@@ -155,7 +155,7 @@ void ProfileManDlg::initUI()
 #endif
     mCertTypeCombo->addItems( kCertProfileType );
 
-    QStringList sCertLabels = { tr( "Name" ), tr( "NotBefore" ), tr( "NotAfter" ) };
+    QStringList sCertLabels = { tr( "Num" ), tr( "NotBefore" ), tr( "NotAfter" ), tr( "Name") };
 
     mCertTable->clear();
     mCertTable->horizontalHeader()->setStretchLastSection(true);
@@ -165,11 +165,11 @@ void ProfileManDlg::initUI()
     mCertTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mCertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mCertTable->setColumnWidth( 0, nWidth * 5/10 );
-    mCertTable->setColumnWidth( 1, nWidth * 2/10 );
-    mCertTable->setColumnWidth( 2, nWidth * 3/10 );
+    mCertTable->setColumnWidth( 0, 60 );
+    mCertTable->setColumnWidth( 1, 80 );
+    mCertTable->setColumnWidth( 2, 80 );
 
-    QStringList sCRLLabels = { tr( "Name" ), tr( "ThisUpdate" ), tr( "NextUpdate" ) };
+    QStringList sCRLLabels = { tr( "Num"), tr( "ThisUpdate" ), tr( "NextUpdate" ), tr( "Name") };
 
     mCRLTable->clear();
     mCRLTable->horizontalHeader()->setStretchLastSection(true);
@@ -179,9 +179,9 @@ void ProfileManDlg::initUI()
     mCRLTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mCRLTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCRLTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mCRLTable->setColumnWidth( 0, nWidth * 5/10 );
-    mCRLTable->setColumnWidth( 1, nWidth * 2/10 );
-    mCRLTable->setColumnWidth( 2, nWidth * 3/10 );
+    mCRLTable->setColumnWidth( 0, 60 );
+    mCRLTable->setColumnWidth( 1, 80 );
+    mCRLTable->setColumnWidth( 2, 80 );
 }
 
 void ProfileManDlg::initialize()
@@ -215,7 +215,7 @@ void ProfileManDlg::loadCertProfileList()
         QString strNotAfter;
 
         CertProfileRec profile = profileList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( profile.getNum() ));
         item->setData(Qt::UserRole, profile.getNum() );
 
         getPeriodString( profile.getNotBefore(), profile.getNotAfter(), strNotBefore, strNotAfter );
@@ -225,6 +225,7 @@ void ProfileManDlg::loadCertProfileList()
         mCertTable->setItem( 0, 0, item );
         mCertTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strNotBefore )));
         mCertTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNotAfter )));
+        mCertTable->setItem( 0, 3, new QTableWidgetItem(QString("%1").arg( profile.getName())) );
     }
 }
 
@@ -243,7 +244,7 @@ void ProfileManDlg::loadCRLProfileList()
         QString strNextUpdate;
 
         CRLProfileRec profile = profileList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( profile.getName() );
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( profile.getNum()) );
         item->setData(Qt::UserRole, profile.getNum() );
 
         getPeriodString( profile.getThisUpdate(), profile.getNextUpdate(), strThisUpdate, strNextUpdate );
@@ -253,6 +254,7 @@ void ProfileManDlg::loadCRLProfileList()
         mCRLTable->setItem( 0, 0, item );
         mCRLTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strThisUpdate )));
         mCRLTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNextUpdate )));
+        mCRLTable->setItem( 0, 3, new QTableWidgetItem(QString("%1").arg( profile.getName() )) );
     }
 }
 

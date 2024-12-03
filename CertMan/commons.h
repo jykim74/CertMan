@@ -119,6 +119,14 @@ const QString kMechKMIP_EC = "KMIP_EC";
 
 const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
 
+//PrintableString curve25519
+static unsigned char kCurveNameX25519[] = { 0x13, 0x0a, 0x63, 0x75, 0x72, 0x76, 0x65, 0x32, 0x35, 0x35, 0x31, 0x39 };
+static unsigned char kOID_X25519[] = { 0x06, 0x03, 0x2B, 0x65, 0x6E };
+
+//PrintableString cruve448
+static unsigned char kCurveNameX448[] = { 0x13, 0x08, 0x63, 0x75, 0x72, 0x76, 0x65, 0x34, 0x34, 0x38 };
+static unsigned char kOID_X448[] = { 0x06, 0x03, 0x2B, 0x65, 0x6F };
+
 
 const QStringList kHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512", "SM3" };
 const QStringList kKeyUsageList = {

@@ -231,10 +231,18 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
 
     if( ret != 0 ) goto end;
 
-    if( manApplet->isPasswd() )
+    if( isInternalPrivate( strAlg ) == true )
     {
-        QString strHex = manApplet->getEncPriHex( &binPri );
-        keyPair.setPrivateKey( strHex );
+        if( manApplet->isPasswd() )
+        {
+            QString strHex = manApplet->getEncPriHex( &binPri );
+            keyPair.setPrivateKey( strHex );
+        }
+        else
+        {
+            JS_BIN_encodeHex( &binPri, &pPriHex );
+            keyPair.setPrivateKey( pPriHex );
+        }
     }
     else
     {
@@ -314,7 +322,6 @@ void MakeReqDlg::accept()
 
     if( mUseExtensionCheck->isChecked() )
     {
-
         if( mProfileNumText->text().length() < 1 )
         {
             if( mProfileNumText->text().length() < 1 )
