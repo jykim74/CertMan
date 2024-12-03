@@ -111,8 +111,9 @@ const QString kMechEd448 = "Ed448";
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
 const QString kMechPKCS11_DSA = "PKCS11_DSA";
-const QString kMechPKCS11_Ed25519 = "PKCS11_Ed25519";
-const QString kMechPKCS11_Ed448 = "PKCS11_Ed448";
+const QString kMechPKCS11_EdDSA = "PKCS11_EdDSA";
+//const QString kMechPKCS11_Ed25519 = "PKCS11_Ed25519";
+//const QString kMechPKCS11_Ed448 = "PKCS11_Ed448";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_EC = "KMIP_EC";
 

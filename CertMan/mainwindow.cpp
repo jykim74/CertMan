@@ -1866,6 +1866,7 @@ end :
 
 void MainWindow::viewPriKey()
 {
+    int ret = 0;
     if( manApplet->isDBOpen() == false )
     {
         manApplet->warningBox( tr("The database is not connected."), this );
@@ -1880,11 +1881,13 @@ void MainWindow::viewPriKey()
     int num = item->text().toInt();
     QString strAlg = item2->text();
 
+    /*
     if( strAlg.contains( "PKCS11" ) )
     {
         manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg), this);
         return;
     }
+    */
 
     if( strAlg.contains( "KMIP" ) )
     {

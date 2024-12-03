@@ -342,7 +342,7 @@ void PriKeyInfoDlg::setECCKey( CK_OBJECT_HANDLE hKey, bool bPri )
 
     if( bPri == false )
     {
-        JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_POINT, &binVal );
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_EC_POINT, &binVal );
         if( ret == CKR_OK )
         {
             int nPubLen = (binVal.nLen - 3) / 2;
@@ -359,7 +359,7 @@ void PriKeyInfoDlg::setECCKey( CK_OBJECT_HANDLE hKey, bool bPri )
     }
     else
     {
-        JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
+        ret = JS_PKCS11_GetAttributeValue2( pCTX, hKey, CKA_VALUE, &binVal );
         if( ret == CKR_OK )
         {
             mECC_PrivateText->setPlainText( getHexString( &binVal ) );
@@ -647,7 +647,6 @@ void PriKeyInfoDlg::clickClear()
 
 void PriKeyInfoDlg::clickGetPrivateKey()
 {
-    BIN binPri = {0,0};
     QString strAlg = key_rec_.getAlg();
 
     clickClear();
@@ -662,34 +661,32 @@ void PriKeyInfoDlg::clickGetPrivateKey()
     }
 }
 
-void PriKeyInfoDlg::readPrivateKey()
+int PriKeyInfoDlg::readPrivateKey()
 {
     BIN binPri = {0,0};
     QString strAlg = key_rec_.getAlg();
 
-    clickClear();
-
     manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
-    if( strAlg == "RSA" )
+    if( strAlg == kMechRSA )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPri );
     }
-    else if( strAlg == "EC" )
+    else if( strAlg == kMechEC )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
         setECCKey( &binPri );
     }
-    else if( strAlg == "DSA" )
+    else if( strAlg == kMechDSA )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPri );
     }
-    else if( strAlg == "EdDSA" )
+    else if( strAlg == kMechEdDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
@@ -701,10 +698,12 @@ void PriKeyInfoDlg::readPrivateKey()
     }
 
     JS_BIN_reset( &binPri );
+    return 0;
 }
 
-void PriKeyInfoDlg::readPrivateKeyHSM()
+int PriKeyInfoDlg::readPrivateKeyHSM()
 {
+    int ret = 0;
     QString strAlg = key_rec_.getAlg();
 
     CK_OBJECT_HANDLE hKey = 0;
@@ -714,17 +713,25 @@ void PriKeyInfoDlg::readPrivateKeyHSM()
 
     BIN binID = {0,0};
     JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
-
     CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
 
-    if( hSession < 0 )
+    if( hSession <= 0 )
     {
-        manApplet->elog( "failed to get PKCS11 Session" );
-        return;
+        manApplet->warnLog( tr("failed to get PKCS11 Session"), this );
+        return JSR_ERR;
     }
+
+    mInsertToHSMBtn->setEnabled( false );
+    mKeyPairCheckBtn->setEnabled( false );
 
     JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binID );
     hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
+    if( hKey <= 0 )
+    {
+        manApplet->warnLog( tr("fail to get private key handle"), this );
+        ret = JSR_ERR2;
+        goto end;
+    }
 
     if( strAlg == kMechPKCS11_RSA )
     {
@@ -744,7 +751,7 @@ void PriKeyInfoDlg::readPrivateKeyHSM()
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( hKey );
     }
-    else if( strAlg == kMechPKCS11_Ed25519 || strAlg == kMechPKCS11_Ed448 )
+    else if( strAlg == kMechPKCS11_EdDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
@@ -753,11 +760,16 @@ void PriKeyInfoDlg::readPrivateKeyHSM()
     else
     {
         manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( strAlg ), this);
+        ret = JSR_ERR3;
+        goto end;
     }
+
+    ret = 0;
 
 end :
     if( hSession > 0 ) JS_PKCS11_CloseSession( pCTX );
     JS_BIN_reset( &binID );
+    return ret;
 }
 
 void PriKeyInfoDlg::clickGetPublicKey()
@@ -769,25 +781,25 @@ void PriKeyInfoDlg::clickGetPublicKey()
 
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
 
-    if( strAlg == "RSA" )
+    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPub, false );
     }
-    else if( strAlg == "EC" )
+    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
         setECCKey( &binPub, false );
     }
-    else if( strAlg == "DSA" )
+    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPub, false );
     }
-    else if( strAlg == "EdDSA" )
+    else if( strAlg == kMechEdDSA || strAlg == kMechPKCS11_EdDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
@@ -879,14 +891,13 @@ void PriKeyInfoDlg::clickInsertToHSM()
         if( strED_Name == "ED448" )
         {
             nKeyType = JS_PKI_KEY_TYPE_ED448;
-            addKey.setAlg( kMechPKCS11_Ed448 );
         }
         else
         {
             nKeyType = JS_PKI_KEY_TYPE_ED25519;
-            addKey.setAlg( kMechPKCS11_Ed25519 );
         }
 
+        addKey.setAlg( kMechPKCS11_EdDSA );
         JS_PKI_getRawKeyVal( nKeyType, &binPri, &sRawKey );
 
         ret = createEDPrivateKeyP11( pCTX, strName, &binHash, &sRawKey );

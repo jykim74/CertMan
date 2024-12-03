@@ -62,8 +62,8 @@ private slots:
 private:
     void initialize();
 
-    void readPrivateKey();
-    void readPrivateKeyHSM();
+    int readPrivateKey();
+    int readPrivateKeyHSM();
 
     void setRSAKey( const BIN *pKey, bool bPri = true );
     void setECCKey( const BIN *pKey, bool bPri = true );

@@ -2069,7 +2069,7 @@ CK_OBJECT_HANDLE getHandleHSM( JP11_CTX *pCTX, CK_OBJECT_CLASS objClass, const B
     CK_ATTRIBUTE sTemplate[2];
     long uCount = 0;
 
-    CK_OBJECT_HANDLE hObjects = -1;
+    CK_OBJECT_HANDLE hObjects = 0;
     CK_ULONG uObjCnt = 0;
 
     sTemplate[uCount].type = CKA_CLASS;
@@ -4370,8 +4370,7 @@ bool isPKCS11Private( const QString strKeyMech )
     if( strKeyMech == kMechPKCS11_RSA ) return true;
     if( strKeyMech == kMechPKCS11_EC ) return true;
     if( strKeyMech == kMechPKCS11_DSA ) return true;
-    if( strKeyMech == kMechPKCS11_Ed25519 ) return true;
-    if( strKeyMech == kMechPKCS11_Ed448 ) return true;
+    if( strKeyMech == kMechPKCS11_EdDSA ) return true;
 
     return false;
 }
