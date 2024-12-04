@@ -5362,7 +5362,7 @@ void MainWindow::createRightSignerList(int nType)
     removeAllRight();
     right_type_ = RightType::TYPE_SIGNER;
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Type"), tr("DN"), tr("Status") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Type"), tr("Status"), tr("DN")  };
 
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5380,7 +5380,7 @@ void MainWindow::createRightSignerList(int nType)
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
     right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 200 );
+    right_table_->setColumnWidth( 3, 80 );
 
     for( int i = 0; i < signerList.size(); i++ )
     {
@@ -5399,8 +5399,8 @@ void MainWindow::createRightSignerList(int nType)
         right_table_->setItem(i,0, seq );
         right_table_->setItem(i,1, new QTableWidgetItem(QString("%1").arg( dateString( signer.getRegTime()) )));
         right_table_->setItem(i,2, new QTableWidgetItem(QString("%1").arg( getSignerTypeName( signer.getType() ))));
-        right_table_->setItem(i,3, item );
-        right_table_->setItem(i,4, new QTableWidgetItem(QString("%1").arg( getStatusName( signer.getStatus() ))));
+        right_table_->setItem(i,3, new QTableWidgetItem(QString("%1").arg( getStatusName( signer.getStatus() ))));
+        right_table_->setItem(i,4, item );
     }
 }
 
@@ -5425,8 +5425,8 @@ void MainWindow::createRightAdminList()
     manApplet->dbMgr()->getAdminList( adminList );
 
     right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 60 );
-    right_table_->setColumnWidth( 2, 60 );
+    right_table_->setColumnWidth( 1, 80 );
+    right_table_->setColumnWidth( 2, 80 );
     right_table_->setColumnWidth( 3, 160 );
 
 
@@ -6044,8 +6044,8 @@ void MainWindow::infoAdmin( int seq )
     info( "== Admin Information\n" );
     infoLine();
     info( QString("Seq          : %1\n").arg(adminRec.getSeq()));
-    info( QString("Status       : %1 - %2\n").arg(adminRec.getStatus()).arg(getStatusName(adminRec.getStatus())));
-    info( QString("Type         : %1 - %2\n").arg(adminRec.getType()).arg(getAdminTypeName(adminRec.getType())));
+    info( QString("Status       : %1 - %2\n").arg(getStatusName(adminRec.getStatus())).arg(adminRec.getStatus()));
+    info( QString("Type         : %1 - %2\n").arg(getAdminTypeName(adminRec.getType())).arg(adminRec.getType()));
     info( QString("Name         : %1\n").arg(adminRec.getName()));
     info( QString("Password     : %1\n").arg(adminRec.getPassword()));
     info( QString("Email        : %1\n").arg(adminRec.getEmail()));
@@ -6066,7 +6066,7 @@ void MainWindow::infoConfig( int seq )
     info( "== Config Information\n" );
     infoLine();
     info( QString("Num          : %1\n").arg(configRec.getNum()));
-    info( QString("Kind         : %1 - %2\n").arg(configRec.getKind()).arg( JS_GEN_getKindName( configRec.getKind())));
+    info( QString("Kind         : %1 - %2\n").arg( JS_GEN_getKindName( configRec.getKind())).arg(configRec.getKind()));
     info( QString("Name         : %1\n").arg(configRec.getName()));
     info( QString("Value        : %1\n").arg(configRec.getValue()));
     infoLine();
@@ -6179,7 +6179,10 @@ void MainWindow::infoSigner(int seq)
     info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
     info( QString("DN           : %1\n").arg(signerRec.getDN()));
     info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    info( QString("Cert         : %1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
+    info( QString("Cert\n") );
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
+    infoLine2();
     info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
     info( QString("Info         : %1\n").arg(signerRec.getInfo()));
     infoLine();

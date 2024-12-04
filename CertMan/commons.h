@@ -92,7 +92,7 @@ static const int kToolDefault = ACT_TOOL_NEW_KEY | ACT_TOOL_MAKE_REQ | ACT_TOOL_
                                 | ACT_TOOL_REVOKE_CERT | ACT_TOOL_CA_MAN | ACT_TOOL_PROFILE_MAN;
 
 static const int kDataDefault = ACT_DATA_IMPORT_DATA | ACT_DATA_GET_URI | ACT_DATA_PUBLISH_LDAP \
-                                | ACT_DATA_SET_PASSWD | ACT_DATA_CHANGE_PASSWD | ACT_DATA_TSP_CLIENT;
+                                | ACT_DATA_SET_PASSWD | ACT_DATA_CHANGE_PASSWD;
 
 static const int kServerDefault = 0;
 

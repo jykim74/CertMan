@@ -87,7 +87,11 @@ ManApplet::~ManApplet()
 #endif
 
     if( main_win_ != nullptr ) delete main_win_;
-    if( tray_icon_ != nullptr ) delete tray_icon_;
+    if( is_pro_ == true )
+    {
+        if( tray_icon_ != nullptr ) delete tray_icon_;
+    }
+
     if( settings_mgr_ != nullptr ) delete settings_mgr_;
     if( db_mgr_ != nullptr ) delete db_mgr_;
 
