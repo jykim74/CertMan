@@ -5743,7 +5743,12 @@ void MainWindow::infoCertificate( int seq )
     if( certRec.getIssuerNum() > 0 )
         strIssuerName = manApplet->dbMgr()->getNumName( certRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
     else
-        strIssuerName = "Unknown";
+    {
+        if( certRec.getIssuerNum() == kSelfNum )
+            strIssuerName = "SelfSign";
+        else
+            strIssuerName = "Unknown";
+    }
 
 
     if( certRec.getUserNum() > 0 )
@@ -6181,14 +6186,14 @@ void MainWindow::infoSigner(int seq)
     infoLine();
     info( QString("Num          : %1\n").arg( signerRec.getNum()));
     info( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
-    info( QString("Type         : %1 - %2\n").arg(signerRec.getType()).arg(getSignerTypeName(signerRec.getType())));
+    info( QString("Type         : %1 - %2\n").arg(getSignerTypeName(signerRec.getType())).arg(signerRec.getType()));
     info( QString("DN           : %1\n").arg(signerRec.getDN()));
     info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
     info( QString("Cert\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
     infoLine2();
-    info( QString("Status       : %1 - %2\n").arg(signerRec.getStatus()).arg(getStatusName(signerRec.getType())));
+    info( QString("Status       : %1 - %2\n").arg(getStatusName(signerRec.getType())).arg(signerRec.getStatus()));
     info( QString("Info         : %1\n").arg(signerRec.getInfo()));
     infoLine();
 
