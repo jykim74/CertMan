@@ -161,7 +161,8 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    exit(0);
+//    exit(0);
+    manApplet->exitApp(0);
 }
 
 void MainWindow::setTitle(const QString strName)
