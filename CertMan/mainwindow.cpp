@@ -6024,7 +6024,7 @@ void MainWindow::infoUser( int seq )
     info( QString("Name          : %1\n").arg(userRec.getName()));
     info( QString("SSN           : %1\n").arg(userRec.getSSN()));
     info( QString("Email         : %1\n").arg(userRec.getEmail()));
-    info( QString("Status        : %1 - %2\n").arg(userRec.getStatus()).arg(getUserStatusName(userRec.getStatus())));
+    info( QString("Status        : %1 - %2\n").arg(getUserStatusName(userRec.getStatus())).arg(userRec.getStatus()) );
     info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
     info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
     infoLine();
@@ -6128,8 +6128,8 @@ void MainWindow::infoAudit( int seq )
     info( "== Audit Information\n" );
     infoLine();
     info( QString("Seq          : %1\n").arg(auditRec.getSeq()));
-    info( QString("Kind         : %1 - %2\n").arg(auditRec.getKind()).arg(strKind));
-    info( QString("Operation    : %1 - %2\n").arg(auditRec.getOperation()).arg(strOperation));
+    info( QString("Kind         : %1 - %2\n").arg(strKind).arg(auditRec.getKind()));
+    info( QString("Operation    : %1 - %2\n").arg(strOperation).arg(auditRec.getOperation()));
     info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
     info( QString("Info         : %1\n").arg(auditRec.getInfo()));
     info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
@@ -6155,8 +6155,13 @@ void MainWindow::infoTSP( int seq )
     info( QString("RegTime      : %1\n").arg(getDateTime(tspRec.getRegTime())));
     info( QString("Serial       : %1\n").arg(tspRec.getSerial()));
     info( QString("Policy       : %1\n").arg(tspRec.getPolicy()));
-    info( QString("TSTInfo      : %1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
-    info( QString("Data         : %1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
+    info( QString("TSTInfo\n"));
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( tspRec.getTSTInfo(), nWidth )));
+    infoLine2();
+    info( QString("Data\n"));
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( tspRec.getData(), nWidth )));
     infoLine();
 
     infoCursorTop();
