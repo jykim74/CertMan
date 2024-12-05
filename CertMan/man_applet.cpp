@@ -95,7 +95,7 @@ ManApplet::~ManApplet()
     if( settings_mgr_ != nullptr ) delete settings_mgr_;
     if( db_mgr_ != nullptr ) delete db_mgr_;
 
-    if( p11_ctx_ != NULL ) JS_PKCS11_ReleaseLibrry( (JP11_CTX **)&p11_ctx_ );
+    if( p11_ctx_ != NULL ) JS_PKCS11_ReleaseLibrary( (JP11_CTX **)&p11_ctx_ );
 }
 
 int ManApplet::loadPKCS11()
@@ -114,7 +114,7 @@ int ManApplet::loadPKCS11()
     rv = JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_, NULL );
     if( rv != CKR_OK )
     {
-        if( p11_ctx_ ) JS_PKCS11_ReleaseLibrry( (JP11_CTX **)&p11_ctx_ );
+        if( p11_ctx_ ) JS_PKCS11_ReleaseLibrary( (JP11_CTX **)&p11_ctx_ );
     }
 
     if( rv == CKR_OK )
