@@ -48,7 +48,7 @@ void UserDlg::showEvent(QShowEvent *event)
 void UserDlg::accept()
 {
     BIN binRef = {0,0};
-    char *pHexRef = NULL;
+//    char *pHexRef = NULL;
     time_t now_t = time(NULL);
 
     DBMgr* dbMgr = manApplet->dbMgr();
@@ -85,20 +85,20 @@ void UserDlg::accept()
     }
 
     JS_BIN_set( &binRef, (unsigned char *)strRefNum.toStdString().c_str(), strRefNum.length() );
-    JS_BIN_encodeHex( &binRef, &pHexRef );
+//    JS_BIN_encodeHex( &binRef, &pHexRef );
 
     user.setRegTime( now_t );
     user.setName( strName );
     user.setSSN( strSSN );
     user.setEmail( strEmail );
     user.setStatus( nStatus );
-    user.setRefNum( pHexRef );
+    user.setRefNum( strRefNum );
     user.setAuthCode( strAuthCode );
 
     dbMgr->addUserRec( user );
 
     JS_BIN_reset( &binRef );
-    if( pHexRef ) JS_free( pHexRef );
+//    if( pHexRef ) JS_free( pHexRef );
 
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REG_USER, "" );
@@ -114,6 +114,7 @@ void UserDlg::getRefNum()
     if( dbMgr == NULL ) return;
 
     int nSeq = dbMgr->getLastVal( "TB_USER" );
+    nSeq++;
 
     mRefNumText->setText( QString("%1").arg( nSeq));
 }
