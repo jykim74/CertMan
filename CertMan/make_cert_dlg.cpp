@@ -244,17 +244,20 @@ void MakeCertDlg::accept()
 
         strProfileNum = mProfileNumText->text();
 
-        if( mIssuerNumText->text().length() < 1 )
+        if( bSelf == false )
         {
-            clickSelectCACert();
             if( mIssuerNumText->text().length() < 1 )
             {
-                manApplet->warningBox( tr( "Select a CA certificate" ), this );
-                return;
+                clickSelectCACert();
+                if( mIssuerNumText->text().length() < 1 )
+                {
+                    manApplet->warningBox( tr( "Select a CA certificate" ), this );
+                    return;
+                }
             }
-        }
 
-        strIssuerNum = mIssuerNumText->text();
+            strIssuerNum = mIssuerNumText->text();
+        }
     }
 
     int profileIdx = strProfileNum.toInt();
