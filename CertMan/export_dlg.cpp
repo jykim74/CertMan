@@ -328,8 +328,10 @@ void ExportDlg::clickFindPath()
         nType = JS_FILE_TYPE_CSR;
 
     QString strPath = manApplet->curFilePath( mPathText->text() );
+    QString strFilter = mFormatCombo->currentText();
 
-    QString strFilename = findSaveFile( this, nType, strPath );
+//    QString strFilename = findSaveFile( this, nType, strPath );
+    QString strFilename = findSaveFile( this, strFilter, strPath );
     if( strFilename.length() < 1 ) return;
 
     mPathText->setText( strFilename );
