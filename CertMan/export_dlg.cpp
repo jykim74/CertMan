@@ -316,21 +316,9 @@ void ExportDlg::setPriKeyAndCert( int nDataNum, const BIN *pPriKey, const BIN *p
 
 void ExportDlg::clickFindPath()
 {
-    int nType = JS_FILE_TYPE_BIN;
-
-    if( data_type_ == DataPriKey )
-        nType = JS_FILE_TYPE_PRIKEY_PKCS8_PFX;
-    else if( data_type_ == DataCert )
-        nType = JS_FILE_TYPE_CERT;
-    else if( data_type_ == DataCRL )
-        nType = JS_FILE_TYPE_CRL;
-    else if( data_type_ == DataCSR )
-        nType = JS_FILE_TYPE_CSR;
-
     QString strPath = manApplet->curFilePath( mPathText->text() );
     QString strFilter = mFormatCombo->currentText();
 
-//    QString strFilename = findSaveFile( this, nType, strPath );
     QString strFilename = findSaveFile( this, strFilter, strPath );
     if( strFilename.length() < 1 ) return;
 
