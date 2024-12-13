@@ -669,7 +669,9 @@ void MainWindow::createMemberDlg()
         pki_srv_ = NULL;
 
     ca_man_dlg_ = new CAManDlg;
+    ca_man_dlg_->setMode( CAManModeManage );
     profile_man_dlg_ = new ProfileManDlg;
+    profile_man_dlg_->setMode( ProfileManModeManage );
 }
 
 void MainWindow::removeAllRight()

@@ -27,8 +27,7 @@ ProfileManDlg::ProfileManDlg(QWidget *parent) :
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
     connect( mCertTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCertProfileList()));
 
-    connect( mCertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCertProfileView()));
-    connect( mCRLTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCRLProfileView()));
+
 
     connect( mCertViewBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileView()));
     connect( mCertDeleteBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileDelete()));
@@ -74,6 +73,14 @@ void ProfileManDlg::setMode( int nMode )
 
         mTabWidget->setTabEnabled( 0, false );
         mTabWidget->setTabEnabled( 1, false );
+
+        connect( mCertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOK()));
+        connect( mCRLTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOK()));
+    }
+    else
+    {
+        connect( mCertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCertProfileView()));
+        connect( mCRLTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCRLProfileView()));
     }
 
     if( nMode == ProfileManModeSelectCertProfile || nMode == ProfileManModeSelectCSRProfile )

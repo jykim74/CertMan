@@ -29,9 +29,7 @@ CAManDlg::CAManDlg(QWidget *parent) :
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
 
-    connect( mCACertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCACertView()));
-    connect( mKeyPairTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickKeyPairView()));
-    connect( mCSRTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCSRView()));
+
 
     connect( mKeyPairStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadKeyPairList()));
     connect( mCSRStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCSRList()));
@@ -93,6 +91,16 @@ void CAManDlg::setMode( int nMode )
         mTabWidget->setTabEnabled( TAB_CA_CERT_IDX, false );
         mTabWidget->setTabEnabled( TAB_KEYPAIR_IDX, false );
         mTabWidget->setTabEnabled( TAB_CSR_IDX, false );
+
+        connect( mCACertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOK()));
+        connect( mKeyPairTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOK()));
+        connect( mCSRTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOK()));
+    }
+    else
+    {
+        connect( mCACertTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCACertView()));
+        connect( mKeyPairTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickKeyPairView()));
+        connect( mCSRTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickCSRView()));
     }
 
     if( nMode == CAManModeSelectCACert )
