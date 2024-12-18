@@ -21,7 +21,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 
 add_definitions( -D_USE_LCN_SRV )
-#add_definitions( -DJS_PRO )
+add_definitions( -DJS_PRO )
 
 # Qt Charts 라이브러리는 GPL 라이센스라서 LGPL-3.0 라이센스로 사용하면 안됨
 # find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
