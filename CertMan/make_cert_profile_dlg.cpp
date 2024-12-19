@@ -213,6 +213,8 @@ void MakeCertProfileDlg::loadProfile( int nProfileNum, bool bCopy )
         else
             setExtensionsUse( extProfile );
     }
+
+    checkForCSR();
 }
 
 void MakeCertProfileDlg::defaultProfile()
@@ -1210,17 +1212,20 @@ void MakeCertProfileDlg::checkForCSR()
 {
     bool bVal = mForCSRCheck->isChecked();
 
-//    mVersionCombo->setEnabled( !bVal );
+    mPeriodGroup->setEnabled( !bVal );
+
+/*
     mNotAfterDateTime->setEnabled( !bVal );
     mNotBeforeDateTime->setEnabled( !bVal );
     mUseDaysCheck->setEnabled( !bVal );
-    mUseCSR_DNCheck->setEnabled( !bVal );
-    clickUseCSR_DN();
 
     mDaysLabel->setEnabled( !bVal );
     mDaysTypeCombo->setEnabled( !bVal );
     mDaysText->setEnabled( !bVal );
+*/
 
+    mUseCSR_DNCheck->setEnabled( !bVal );
+    clickUseCSR_DN();
     mExtUsageCombo->setEnabled( !bVal );
 
     mVersionCombo->clear();
