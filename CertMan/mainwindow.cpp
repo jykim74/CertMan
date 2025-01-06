@@ -846,6 +846,11 @@ void MainWindow::showRightMenu(QPoint point)
     {
         menu.addAction(tr("Delete Signer"), this, &MainWindow::deleteSigner );
     }
+    else if( right_type_ == RightType::TYPE_REVOKE )
+    {
+        menu.addAction( tr("View Certificate"), this, &MainWindow::viewRevokeCert );
+        menu.addAction( tr("Remove Certificate"), this, &MainWindow::removeRevokeCert );
+    }
     else if( right_type_ == RightType::TYPE_KMS )
     {
         menu.addAction(tr("Activate Key"), this, &MainWindow::activateKey );
@@ -878,6 +883,8 @@ void MainWindow::doubleClickRightTable(QModelIndex index)
         viewCertProfile();
     else if( right_type_ == RightType::TYPE_CRL_PROFILE )
         viewCRLProfile();
+    else if( right_type_ == RightType::TYPE_REVOKE )
+        viewRevokeCert();
 }
 
 void MainWindow::createTreeMenu()
@@ -1865,6 +1872,49 @@ void MainWindow::verifyCRL()
 end :
     JS_BIN_reset( &binCRL );
     JS_BIN_reset( &binCA );
+}
+
+void MainWindow::viewRevokeCert()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
+    RevokeRec revoke;
+    manApplet->dbMgr()->getRevokeRec( num, revoke );
+
+    CertInfoDlg certInfoDlg;
+    certInfoDlg.setCertNum( revoke.getCertNum() );
+    certInfoDlg.exec();
+}
+
+void MainWindow::removeRevokeCert()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    int num = item->text().toInt();
+
+    bool bVal = manApplet->yesOrNoBox( tr( "Are you sure to remove?"), this );
+    if( bVal == false ) return;
+
+    manApplet->dbMgr()->delRevokeRec( num );
+    right_table_->removeRow( row );
 }
 
 void MainWindow::viewPriKey()

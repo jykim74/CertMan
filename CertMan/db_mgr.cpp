@@ -2630,6 +2630,17 @@ int DBMgr::delReqRec(int nNum)
     return 0;
 }
 
+int DBMgr::delRevokeRec( int nNum )
+{
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "DELETE FROM TB_REVOKED WHERE SEQ = ?" );
+    sqlQuery.bindValue( 0, nNum );
+
+    sqlQuery.exec();
+
+    return 0;
+}
+
 int DBMgr::delUserRec(int nNum)
 {
     QSqlQuery sqlQuery;

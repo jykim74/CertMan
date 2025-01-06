@@ -186,6 +186,7 @@ public:
     int delCRLRec( int nNum );
     int delKeyPairRec( int nNum );
     int delReqRec( int nNum );
+    int delRevokeRec( int nNum );
     int delUserRec( int nNum );
     int delSignerRec( int nNum );
     int delKMSRec( int nSeq );

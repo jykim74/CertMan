@@ -169,6 +169,9 @@ public slots:
     void viewPriKey();
     void viewCSR();
 
+    void viewRevokeCert();
+    void removeRevokeCert();
+
     void importData();
     void importCert();
     void importCRL();
