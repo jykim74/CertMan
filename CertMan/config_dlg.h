@@ -29,6 +29,7 @@ private slots:
     void showEvent(QShowEvent *event);
 
 private:
+    void initialize();
     int cur_num_;
 };
 

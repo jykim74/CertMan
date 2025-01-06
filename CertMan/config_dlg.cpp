@@ -12,6 +12,8 @@
 #include "config_rec.h"
 #include "commons.h"
 
+const QStringList kKindList = { "CMPServer", "REGServer", "OCSPServer", "TSPServer", "CCServer", "KMSServer" };
+
 ConfigDlg::ConfigDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -22,6 +24,7 @@ ConfigDlg::ConfigDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     mOKBtn->setDefault(true);
+
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -34,6 +37,11 @@ ConfigDlg::~ConfigDlg()
 
 }
 
+void ConfigDlg::initialize()
+{
+    mKindCombo->addItems( kKindList );
+}
+
 void ConfigDlg::setCurNum(int nNum)
 {
     cur_num_ = nNum;
@@ -41,21 +49,26 @@ void ConfigDlg::setCurNum(int nNum)
 
 void ConfigDlg::setFixKind( int nKind )
 {
-    mKindText->setText( QString("%1").arg( nKind ));
-    mKindText->setReadOnly(true);
+    QString strKind = JS_GEN_getKindName( nKind );
+    mKindCombo->clear();
+    mKindCombo->addItem( strKind );
 }
 
 void ConfigDlg::showEvent(QShowEvent *event)
 {
+    initialize();
+
     if( cur_num_ > 0 )
     {
         DBMgr* dbMgr = manApplet->dbMgr();
 
         ConfigRec config;
         dbMgr->getConfigRec( cur_num_, config );
+        QString strKind = JS_GEN_getKindName( config.getKind() );
 
         mNumText->setText( QString("%1").arg(config.getNum()));
-        mKindText->setText( QString( "%1").arg(config.getKind()));
+//        mKindCombo->setCurrentText( strKind );
+        setFixKind( config.getKind() );
         mNameText->setText( config.getName());
         mValueText->setText( config.getValue());
     }
@@ -66,14 +79,13 @@ void ConfigDlg::clickOK()
     ConfigRec config;
     DBMgr *dbMgr = manApplet->dbMgr();
 
-    QString strKind = mKindText->text();
+    QString strKind = mKindCombo->currentText();
     QString strName = mNameText->text();
     QString strValue = mValueText->text();
 
     if( strKind.length() < 1 )
     {
         manApplet->warningBox( tr( "Enter a kind" ), this );
-        mKindText->setFocus();
         return;
     }
 
@@ -91,7 +103,7 @@ void ConfigDlg::clickOK()
         return;
     }
 
-    int nKind = strKind.toInt();
+    int nKind = JS_GEN_getKindNum( strKind.toStdString().c_str() );
 
     config.setKind( nKind );
     config.setName( strName );
