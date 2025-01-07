@@ -382,7 +382,12 @@ void SettingsDlg::clickRestoreDefaults()
     bool bVal = manApplet->yesOrNoBox( strMsg, this, false );
     if( bVal == false ) return;
 
-    mgr->removeSet( "Misc", "SparkleAlreadyEnableUpdateByDefault" );
+#ifdef _AUTO_UPDATE
+    if( AutoUpdateService::instance()->shouldSupportAutoUpdate() ) {
+        AutoUpdateService::instance()->setAutoUpdateEnabled(true);
+    }
+#endif
+
     mgr->removeSet( "Language", "current" );
     mgr->removeSet( kBehaviorGroup, kServerStatus );
     mgr->removeSet( kBehaviorGroup, kSaveRemoteInfo );
