@@ -8,69 +8,6 @@
 #include "commons.h"
 #include "settings_mgr.h"
 
-namespace  {
-    const char *kBehaviorGroup = "CertMan";
-    const char *kSaveRemoteInfo = "saveRemoteInfo";
-    const char *kRemoteInfo = "remoteInfo";
-    const char *kServerStatus = "serverStatus";
-    const char *kUseLogTab = "useLogTab";
-    const char *kPKCS11Use = "PKCS11Use";
-    const char *kSlotIndex = "SlotIndex";
-    const char *kP11LibPath = "PKCS11LibPath";
-    const char *kP11Pin = "PKCS11Pin";
-    const char *kLDAPHost = "LDAPHost";
-    const char *kLDAPPort = "LDAPPort";
-    const char *kBaseDN = "BaseDN";
-    const char *kSetListCount = "ListCount";
-    const char *kKMIPUse = "KMIPUse";
-    const char *kKMIPHost = "KMIPHost";
-    const char *kKMIPPort = "KMIPPort";
-    const char *kKMIPCACertPath = "KMIPCACertPath";
-    const char *kKMIPCertPath = "KMIPCertPath";
-    const char *kKMIPPrivateKeyPath = "KMIPPrivateKeyPath";
-    const char *kKMIPUserName = "KMIPUserName";
-    const char *kKMIPPasswd = "KMIPPasswd";
-    const char *kOCSPUse = "OCSPUse";
-    const char *kOCSPURI = "OCSPURI";
-    const char *kOCSPSrvCertPath = "OCSPSrvCertPath";
-    const char *kOCSPAttachSign = "OCSPAttachSign";
-    const char *kOCSPSignerPriPath = "OCSPSignerPriPath";
-    const char *kOCSPSignerCertPath = "OCSPSignerCertPath";
-    const char *kREGUse = "REGUse";
-    const char *kREGURI = "REGURI";
-    const char *kREGAdminName = "REGAdminName";
-    const char *kREGPassword = "REGPassword";
-    const char *kCMPUse = "CMPUse";
-    const char *kCMPURI = "CMPURI";
-    const char *kCMPRootCACertPath = "CMPRootCACertPath";
-    const char *kCMPCACertPath = "CMPCACertPath";
-    const char *kTSPUse = "TSPUse";
-    const char *kTSPURI = "TSPURI";
-    const char *kTSPSrvCertPath = "TSPSrvCertPath";
-    const char *kSCEPUse = "SCEPUse";
-    const char *kSCEPURI = "SCEPURI";
-    const char *kSCEPMutualAuth = "SCEPMutualAuth";
-    const char *kSCEPPriPath = "SCEPPriPath";
-    const char *kSCEPCertPath = "SCEPCertPath";
-    const char *kDefaultHash = "defaultHash";
-    const char *kDefaultECCParam = "defaultECCParam";
-    const char *kFontFamily = "fontFamily";
-    const char *kMisc = "Misc";
-    const char *kEmail = "email";
-    const char *kLicense = "license";
-    const char *kStopMessage = "stopMessage";
-    const char *kCertProfileNum = "certProfileNum";
-    const char *kCRLProfileNum = "CRLProfileNum";
-    const char *kIssuerNum = "issuerNum";
-    const char *kHexAreaWidth = "hexAreaWidth";
-    const char *kViewFile = "viewFile";
-    const char *kViewTool = "viewTool";
-    const char *kViewData = "viewData";
-    const char *kViewServer = "viewServer";
-    const char *kViewHelp = "viewHelp";
-    const char *kRunTime = "runTime";
-    const char *kShowPriInfo = "showPriInfo";
-}
 
 SettingsMgr::SettingsMgr( QObject *parent ) : QObject (parent)
 {

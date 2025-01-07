@@ -23,7 +23,9 @@ public:
 
 private slots:
     void updateSettings();
-    virtual void accept();
+    void clickOK();
+    void clickCancel();
+    void clickRestoreDefaults();
 
     void findP11Path();
     void checkKMIPUse();

@@ -24,6 +24,10 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
 
     mLangCombo->addItems(I18NHelper::getInstance()->getLanguages());
 
+    connect( mRestoreDefautsBtn, SIGNAL(clicked()), this, SLOT(clickRestoreDefaults()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
+    connect( mCancelBtn, SIGNAL(clicked()), this, SLOT(clickCancel()));
+
     connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
     connect( mUseKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIPUse()));
 
@@ -358,10 +362,80 @@ void SettingsDlg::findSCEPCert()
     mSCEPCertPathText->setText( fileName );
 }
 
-void SettingsDlg::accept()
+void SettingsDlg::clickOK()
 {
     updateSettings();
     QDialog::accept();
+}
+
+void SettingsDlg::clickCancel()
+{
+    reject();
+}
+
+void SettingsDlg::clickRestoreDefaults()
+{
+    SettingsMgr *mgr = manApplet->settingsMgr();
+
+    QString strMsg = tr( "Are you sure you want to clear all the saved settings?" );
+
+    bool bVal = manApplet->yesOrNoBox( strMsg, this, false );
+    if( bVal == false ) return;
+
+    mgr->removeSet( "Misc", "SparkleAlreadyEnableUpdateByDefault" );
+    mgr->removeSet( "Language", "current" );
+    mgr->removeSet( kBehaviorGroup, kServerStatus );
+    mgr->removeSet( kBehaviorGroup, kSaveRemoteInfo );
+    mgr->removeSet( kBehaviorGroup, kUseLogTab );
+    mgr->removeSet( kBehaviorGroup, kDefaultHash );
+    mgr->removeSet( kBehaviorGroup, kDefaultECCParam );
+    mgr->removeSet( kBehaviorGroup, kPKCS11Use );
+    mgr->removeSet( kBehaviorGroup, kSlotIndex );
+    mgr->removeSet( kBehaviorGroup, kP11LibPath );
+    mgr->removeSet( kBehaviorGroup, kP11Pin );
+    mgr->removeSet( kBehaviorGroup, kLDAPHost );
+    mgr->removeSet( kBehaviorGroup, kLDAPPort );
+    mgr->removeSet( kBehaviorGroup, kBaseDN );
+    mgr->removeSet( kBehaviorGroup, kFontFamily );
+    mgr->removeSet( kBehaviorGroup, kHexAreaWidth );
+    mgr->removeSet( kBehaviorGroup, kSetListCount );
+    mgr->removeSet( kBehaviorGroup, kShowPriInfo );
+
+    if( manApplet->isPRO() == true )
+    {
+        mgr->removeSet( kBehaviorGroup, kKMIPUse );
+        mgr->removeSet( kBehaviorGroup, kKMIPHost );
+        mgr->removeSet( kBehaviorGroup, kKMIPPort );
+        mgr->removeSet( kBehaviorGroup, kKMIPCACertPath );
+        mgr->removeSet( kBehaviorGroup, kKMIPCertPath );
+        mgr->removeSet( kBehaviorGroup, kKMIPPrivateKeyPath );
+        mgr->removeSet( kBehaviorGroup, kKMIPUserName );
+        mgr->removeSet( kBehaviorGroup, kKMIPPasswd );
+        mgr->removeSet( kBehaviorGroup, kOCSPUse );
+        mgr->removeSet( kBehaviorGroup, kOCSPURI );
+        mgr->removeSet( kBehaviorGroup, kOCSPSrvCertPath );
+        mgr->removeSet( kBehaviorGroup, kOCSPAttachSign );
+        mgr->removeSet( kBehaviorGroup, kOCSPSignerPriPath );
+        mgr->removeSet( kBehaviorGroup, kOCSPSignerCertPath );
+        mgr->removeSet( kBehaviorGroup, kREGUse );
+        mgr->removeSet( kBehaviorGroup, kREGURI );
+        mgr->removeSet( kBehaviorGroup, kREGAdminName );
+        mgr->removeSet( kBehaviorGroup, kREGPassword );
+        mgr->removeSet( kBehaviorGroup, kCMPUse );
+        mgr->removeSet( kBehaviorGroup, kCMPURI );
+        mgr->removeSet( kBehaviorGroup, kCMPRootCACertPath );
+        mgr->removeSet( kBehaviorGroup, kCMPCACertPath );
+        mgr->removeSet( kBehaviorGroup, kTSPUse );
+        mgr->removeSet( kBehaviorGroup, kTSPURI );
+        mgr->removeSet( kBehaviorGroup, kTSPSrvCertPath );
+        mgr->removeSet( kBehaviorGroup, kSCEPUse );
+        mgr->removeSet( kBehaviorGroup, kSCEPURI );
+        mgr->removeSet( kBehaviorGroup, kSCEPMutualAuth );
+        mgr->removeSet( kBehaviorGroup, kSCEPPriPath );
+        mgr->removeSet( kBehaviorGroup, kSCEPCertPath );
+    }
+
+    close();
 }
 
 void SettingsDlg::initialize()
