@@ -7988,6 +7988,11 @@
         <translation>정말로 저장 된 설정 값을 지우겠습니까?</translation>
     </message>
     <message>
+        <location filename="../settings_dlg.cpp" line="443"/>
+        <source>Restored to default settings. Restart to apply it?</source>
+        <translation>초기 설정 복원 되었습니다. 적용을 위해 다시 시작 하겠습니까?</translation>
+    </message>
+    <message>
         <source>Open cryptoki library file</source>
         <translation type="vanished">cryptoki 라이브러리 열기</translation>
     </message>

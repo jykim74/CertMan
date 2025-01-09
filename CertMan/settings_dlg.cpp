@@ -440,6 +440,9 @@ void SettingsDlg::clickRestoreDefaults()
         mgr->removeSet( kBehaviorGroup, kSCEPCertPath );
     }
 
+    if( manApplet->yesOrNoBox(tr("Restored to default settings. Restart to apply it?"), this, true))
+        manApplet->restartApp();
+
     close();
 }
 
