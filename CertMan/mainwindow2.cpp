@@ -118,7 +118,7 @@ void MainWindow::createViewActions()
     connect( fileLogoutAct, &QAction::triggered, this, &MainWindow::viewFileLogout );
     fileMenu->addAction( fileLogoutAct );
 
-    QAction *toolNewKeyAct = new QAction( tr( "New Key" ), this );
+    QAction *toolNewKeyAct = new QAction( tr( "New Keypair" ), this );
     bVal = isView( ACT_TOOL_NEW_KEY );
     toolNewKeyAct->setCheckable( true );
     toolNewKeyAct->setChecked( bVal );
@@ -209,28 +209,28 @@ void MainWindow::createViewActions()
     connect( dataImportDataAct, &QAction::triggered, this, &MainWindow::viewDataImportData );
     dataMenu->addAction( dataImportDataAct );
 
-    QAction *dataGetURIAct = new QAction( tr( "Get URI" ), this );
+    QAction *dataGetURIAct = new QAction( tr( "Get data from URI" ), this );
     bVal = isView( ACT_DATA_GET_URI );
     dataGetURIAct->setCheckable( true );
     dataGetURIAct->setChecked( bVal );
     connect( dataGetURIAct, &QAction::triggered, this, &MainWindow::viewDataGetURI );
     dataMenu->addAction( dataGetURIAct );
 
-    QAction *dataPublishLDAPAct = new QAction( tr( "Publish LDAP" ), this );
+    QAction *dataPublishLDAPAct = new QAction( tr( "Publish to LDAP" ), this );
     bVal = isView( ACT_DATA_PUBLISH_LDAP );
     dataPublishLDAPAct->setCheckable( true );
     dataPublishLDAPAct->setChecked( bVal );
     connect( dataPublishLDAPAct, &QAction::triggered, this, &MainWindow::viewDataPublishLDAP );
     dataMenu->addAction( dataPublishLDAPAct );
 
-    QAction *dataSetPasswdAct = new QAction( tr( "Set Password" ), this );
+    QAction *dataSetPasswdAct = new QAction( tr( "Set Passwd" ), this );
     bVal = isView( ACT_DATA_SET_PASSWD );
     dataSetPasswdAct->setCheckable( true );
     dataSetPasswdAct->setChecked( bVal );
     connect( dataSetPasswdAct, &QAction::triggered, this, &MainWindow::viewDataSetPasswd );
     dataMenu->addAction( dataSetPasswdAct );
 
-    QAction *dataChangePasswdAct = new QAction( tr( "Change Password" ), this );
+    QAction *dataChangePasswdAct = new QAction( tr( "Change Passwd" ), this );
     bVal = isView( ACT_DATA_CHANGE_PASSWD );
     dataChangePasswdAct->setCheckable( true );
     dataChangePasswdAct->setChecked( bVal );
@@ -318,7 +318,7 @@ void MainWindow::createViewActions()
     connect( helpHaltLogAct, &QAction::triggered, this, &MainWindow::viewHelpHaltLog );
     helpMenu->addAction( helpHaltLogAct );
 
-    QAction *helpAboutAct = new QAction( tr( "About" ), this );
+    QAction *helpAboutAct = new QAction( tr( "About CertMan" ), this );
     bVal = isView( ACT_HELP_ABOUT );
     helpAboutAct->setCheckable( true );
     helpAboutAct->setChecked( bVal );

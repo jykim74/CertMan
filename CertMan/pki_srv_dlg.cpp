@@ -108,20 +108,41 @@ PKISrvDlg::~PKISrvDlg()
 
 void PKISrvDlg::setSrvKind( int nKind )
 {
+    QString strService;
     kind_ = nKind;
 
     if( kind_ == JS_GEN_KIND_OCSP_SRV )
+    {
         sNameList = sOCSPNameList;
+        strService = "OCSP";
+    }
     else if( kind_ == JS_GEN_KIND_TSP_SRV )
+    {
         sNameList = sTSPNameList;
+        strService = "TSP";
+    }
     else if( kind_ == JS_GEN_KIND_CMP_SRV )
+    {
         sNameList = sCMPNameList;
+        strService = "CMP";
+    }
     else if( kind_ == JS_GEN_KIND_REG_SRV )
+    {
         sNameList = sRegNameList;
+        strService = "REG";
+    }
     else if( kind_ == JS_GEN_KIND_CC_SRV )
+    {
         sNameList = sCCNameList;
+        strService = "CC";
+    }
     else if( kind_ == JS_GEN_KIND_KMS_SRV )
+    {
         sNameList = sKMSNameList;
+        strService = "KMS";
+    }
+
+    setWindowTitle( tr( "%1 Server" ).arg( strService ) );
 }
 
 void PKISrvDlg::showEvent(QShowEvent *event)

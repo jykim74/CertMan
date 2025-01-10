@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>637</height>
+    <height>655</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Make certificate policy</string>
+   <string>Make cert profile</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

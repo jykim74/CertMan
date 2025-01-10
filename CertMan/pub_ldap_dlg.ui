@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Publish ldap</string>
+   <string>Publish to ldap</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

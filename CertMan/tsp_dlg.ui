@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TSP Service</string>
+   <string>TSP Client</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

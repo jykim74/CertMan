@@ -293,7 +293,7 @@ void MainWindow::createActions()
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
     new_act_ = new QAction( newIcon, tr("&New"), this);
     new_act_->setShortcut( QKeySequence::New);
-    new_act_->setStatusTip(tr("Create a new file"));
+    new_act_->setStatusTip(tr("Create a new database"));
     connect( new_act_, &QAction::triggered, this, &MainWindow::newFile);
     fileMenu->addAction(new_act_);
     if( isView( ACT_FILE_NEW ) ) file_tool_->addAction(new_act_);
@@ -301,7 +301,7 @@ void MainWindow::createActions()
     const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
     open_act_ = new QAction( openIcon, tr("&Open..."), this );
     open_act_->setShortcut(QKeySequence::Open);
-    open_act_->setStatusTip(tr("Open an existing certman database file"));
+    open_act_->setStatusTip(tr("Open a database"));
     connect( open_act_, &QAction::triggered, this, &MainWindow::open);
     fileMenu->addAction(open_act_);
     if( isView( ACT_FILE_OPEN ) ) file_tool_->addAction(open_act_);
@@ -344,7 +344,7 @@ void MainWindow::createActions()
 
     quit_act_ = new QAction(tr("&Quit"), this );
     quit_act_->setShortcut(QKeySequence::Quit);
-    quit_act_->setStatusTip( tr("Quit the CertMan") );
+    quit_act_->setStatusTip( tr("Quit CertMan") );
     connect( quit_act_, &QAction::triggered, this, &MainWindow::quit);
     fileMenu->addAction( quit_act_ );
 
@@ -357,17 +357,17 @@ void MainWindow::createActions()
     tool_tool_->layout()->setSpacing(nSpacing);
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
-    new_key_act_ = new QAction( newKeyIcon, tr("&NewKey"), this );
+    new_key_act_ = new QAction( newKeyIcon, tr("&New keypair"), this );
     new_key_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F1 ));
-    new_key_act_->setStatusTip(tr("Generate new key pair"));
+    new_key_act_->setStatusTip(tr("Generate new keypair"));
     connect( new_key_act_, &QAction::triggered, this, &MainWindow::newKey );
     toolsMenu->addAction( new_key_act_ );
     if( isView( ACT_TOOL_NEW_KEY ) ) tool_tool_->addAction( new_key_act_ );
 
     const QIcon csrIcon = QIcon::fromTheme("certificate-request", QIcon(":/images/csr.png"));
-    make_req_act_ = new QAction( csrIcon, tr("Make&Request"), this );
+    make_req_act_ = new QAction( csrIcon, tr("Make &Request"), this );
     make_req_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F2 ));
-    make_req_act_->setStatusTip(tr( "Make Request"));
+    make_req_act_->setStatusTip(tr( "Create a request"));
     connect( make_req_act_, &QAction::triggered, this, &MainWindow::makeRequest );
     toolsMenu->addAction( make_req_act_ );
     if( isView( ACT_TOOL_MAKE_REQ ) ) tool_tool_->addAction( make_req_act_ );
@@ -377,14 +377,14 @@ void MainWindow::createActions()
         const QIcon configIcon = QIcon::fromTheme( "make config", QIcon(":/images/config.png"));
         make_config_act_ = new QAction( configIcon, tr( "Make Config"), this );
         make_config_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F3 ));
-        make_config_act_->setStatusTip(tr( "Make Configuration" ));
+        make_config_act_->setStatusTip(tr( "Generate configuration information" ));
         connect( make_config_act_, &QAction::triggered, this, &MainWindow::makeConfig );
         toolsMenu->addAction( make_config_act_ );
         if( isView( ACT_TOOL_MAKE_CONFIG ) ) tool_tool_->addAction( make_config_act_ );
 
 
         const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
-        reg_user_act_ = new QAction( userRegIcon, tr("Register&User"), this );
+        reg_user_act_ = new QAction( userRegIcon, tr("Register &User"), this );
         reg_user_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F4 ));
         reg_user_act_->setStatusTip(tr( "Register a user"));
         connect( reg_user_act_, &QAction::triggered, this, &MainWindow::registerUser );
@@ -392,7 +392,7 @@ void MainWindow::createActions()
         if( isView( ACT_TOOL_REG_USER ) ) tool_tool_->addAction( reg_user_act_ );
 
         const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
-        reg_signer_act_ = new QAction( signerRegIcon, tr("Register&Signer"), this );
+        reg_signer_act_ = new QAction( signerRegIcon, tr("Register &Signer"), this );
         reg_signer_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F5 ));
         reg_signer_act_->setStatusTip(tr( "Register a signer"));
         connect( reg_signer_act_, &QAction::triggered, this, &MainWindow::registerREGSigner );
@@ -401,50 +401,50 @@ void MainWindow::createActions()
     }
 
     const QIcon certProfileIcon = QIcon::fromTheme("cert-profile", QIcon(":/images/cert_profile.png"));
-    make_cert_profile_act_ = new QAction( certProfileIcon, tr("MakeCert&Profile"), this );
+    make_cert_profile_act_ = new QAction( certProfileIcon, tr("Make Cert &Profile"), this );
     make_cert_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F6 ));
-    make_cert_profile_act_->setStatusTip(tr( "Make certificate profile"));
+    make_cert_profile_act_->setStatusTip(tr( "Create a certificate profile"));
     connect( make_cert_profile_act_, &QAction::triggered, this, &MainWindow::makeCertProfile );
     toolsMenu->addAction( make_cert_profile_act_ );
     if( isView( ACT_TOOL_MAKE_CERT_PROFILE ) ) tool_tool_->addAction( make_cert_profile_act_ );
 
     const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
-    make_crl_profile_act_ = new QAction( crlProfileIcon, tr("MakeC&RLProfile"), this );
+    make_crl_profile_act_ = new QAction( crlProfileIcon, tr("Make C&RL Profile"), this );
     make_crl_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F7 ));
-    make_crl_profile_act_->setStatusTip(tr("Make CRL profille"));
+    make_crl_profile_act_->setStatusTip(tr("Create a CRL profille"));
     connect( make_crl_profile_act_, &QAction::triggered, this, &MainWindow::makeCRLProfile);
     toolsMenu->addAction( make_crl_profile_act_ );
     if( isView( ACT_TOOL_MAKE_CRL_PROFILE ) ) tool_tool_->addAction( make_crl_profile_act_ );
 
     const QIcon certIcon = QIcon::fromTheme("make-certificate", QIcon(":/images/cert.png"));
-    make_cert_act_ = new QAction( certIcon, tr("Make&Certificate"), this );
+    make_cert_act_ = new QAction( certIcon, tr("Make &Certificate"), this );
     make_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F8 ));
-    make_cert_act_->setStatusTip( tr("Make certificate" ));
+    make_cert_act_->setStatusTip( tr("Create a certificate" ));
     connect( make_cert_act_, &QAction::triggered, this, &MainWindow::makeCertificate );
     toolsMenu->addAction( make_cert_act_ );
     if( isView( ACT_TOOL_MAKE_CERT ) ) tool_tool_->addAction( make_cert_act_ );
 
 
     const QIcon crlIcon = QIcon::fromTheme("make-crl", QIcon(":/images/crl.png"));
-    make_crl_act_ = new QAction( crlIcon, tr("MakeCR&L"), this );
+    make_crl_act_ = new QAction( crlIcon, tr("Make CR&L"), this );
     make_crl_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F9 ));
-    make_crl_act_->setStatusTip( tr("Make CRL" ));
+    make_crl_act_->setStatusTip( tr("Create a CRL" ));
     connect( make_crl_act_, &QAction::triggered, this, &MainWindow::makeCRL );
     toolsMenu->addAction( make_crl_act_ );
     if( isView( ACT_TOOL_MAKE_CRL ) ) tool_tool_->addAction( make_crl_act_ );
 
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
-    revoke_cert_act_ = new QAction( revokeIcon, tr("Revo&keCert"), this );
+    revoke_cert_act_ = new QAction( revokeIcon, tr("Revo&ke Cert"), this );
     revoke_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F10 ));
-    revoke_cert_act_->setStatusTip( tr("Revoke certificate" ));
+    revoke_cert_act_->setStatusTip( tr("Revoke a certificate" ));
     connect( revoke_cert_act_, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
 
     const QIcon caIcon = QIcon::fromTheme("CA Man", QIcon(":/images/ca.png"));
-    ca_man_act_ = new QAction( caIcon, tr("CA Man"), this );
+    ca_man_act_ = new QAction( caIcon, tr("CA Manager"), this );
     ca_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
-    ca_man_act_->setStatusTip( tr("CA Manager" ));
+    ca_man_act_->setStatusTip( tr("CA Man" ));
     connect( ca_man_act_, &QAction::triggered, this, &MainWindow::CAMan );
     toolsMenu->addAction( ca_man_act_ );
     if( isView( ACT_TOOL_CA_MAN ) ) tool_tool_->addAction( ca_man_act_ );
@@ -464,15 +464,15 @@ void MainWindow::createActions()
     data_tool_->layout()->setSpacing(nSpacing);
 
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
-    import_data_act_ = new QAction( diskIcon, tr("&ImportData"), this );
+    import_data_act_ = new QAction( diskIcon, tr("&Import data"), this );
     import_data_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I ));
-    import_data_act_->setStatusTip( tr( "Import Data" ));
+    import_data_act_->setStatusTip( tr( "Import data" ));
     connect( import_data_act_, &QAction::triggered, this, &MainWindow::importData );
     dataMenu->addAction( import_data_act_ );
     if( isView( ACT_DATA_IMPORT_DATA ) ) data_tool_->addAction( import_data_act_ );
 
     const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
-    get_uri_act_ = new QAction( getURIIcon, tr("&GetURI"), this);
+    get_uri_act_ = new QAction( getURIIcon, tr("&Get data from URI"), this);
     get_uri_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_U ));
     get_uri_act_->setStatusTip( tr( "Get data from URI" ));
     connect( get_uri_act_, &QAction::triggered, this, &MainWindow::getURI);
@@ -480,7 +480,7 @@ void MainWindow::createActions()
     if( isView( ACT_DATA_GET_URI ) ) data_tool_->addAction( get_uri_act_ );
 
     const QIcon pubLDAPIcon = QIcon::fromTheme("Publish-LDAP", QIcon(":/images/pub_ldap.png"));
-    publish_ldap_act_ = new QAction( pubLDAPIcon, tr("&PublishLDAP"), this);
+    publish_ldap_act_ = new QAction( pubLDAPIcon, tr("&Publish to LDAP"), this);
     publish_ldap_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_L ));
     connect( publish_ldap_act_, &QAction::triggered, this, &MainWindow::publishLDAP);
     publish_ldap_act_->setStatusTip(tr("Publish to LDAP"));
@@ -488,7 +488,7 @@ void MainWindow::createActions()
     if( isView( ACT_DATA_PUBLISH_LDAP ) ) data_tool_->addAction( publish_ldap_act_ );
 
     const QIcon setPassIcon = QIcon::fromTheme("SetPasswd", QIcon(":/images/setpass.png"));
-    set_passwd_act_ = new QAction( setPassIcon, tr("&SetPasswd"), this);
+    set_passwd_act_ = new QAction( setPassIcon, tr("&Set Passwd"), this);
     set_passwd_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P ));
     connect( set_passwd_act_, &QAction::triggered, this, &MainWindow::setPasswd);
     set_passwd_act_->setStatusTip(tr("Set private key password"));
@@ -496,7 +496,7 @@ void MainWindow::createActions()
     if( isView( ACT_DATA_SET_PASSWD ) ) data_tool_->addAction( set_passwd_act_ );
 
     const QIcon passChangeIcon = QIcon::fromTheme("ChangePasswd", QIcon(":/images/pass_change.png"));
-    change_passwd_act_ = new QAction( passChangeIcon, tr("&ChangePasswd"), this);
+    change_passwd_act_ = new QAction( passChangeIcon, tr("&Change Passwd"), this);
     change_passwd_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_C ));
     connect( change_passwd_act_, &QAction::triggered, this, &MainWindow::changePasswd);
     change_passwd_act_->setStatusTip(tr("Change private key password"));
@@ -514,10 +514,10 @@ void MainWindow::createActions()
     if( manApplet->isPRO() )
     {
         const QIcon timeIcon = QIcon::fromTheme("Timestamp", QIcon(":/images/timestamp.png"));
-        tsp_client_act_ = new QAction( timeIcon, tr("&TSP"), this);
+        tsp_client_act_ = new QAction( timeIcon, tr("&TSP Client"), this);
         tsp_client_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_T ));
         connect( tsp_client_act_, &QAction::triggered, this, &MainWindow::tsp);
-        tsp_client_act_->setStatusTip(tr("TimeStampProtocol Service"));
+        tsp_client_act_->setStatusTip(tr("TimeStampProtocol client tool"));
         dataMenu->addAction( tsp_client_act_ );
         if( isView( ACT_DATA_TSP_CLIENT ) ) data_tool_->addAction( tsp_client_act_ );
 
@@ -531,7 +531,7 @@ void MainWindow::createActions()
         ocsp_act_ = new QAction( ocspIcon, tr("&OCSP Server"), this);
         ocsp_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_O));
         connect( ocsp_act_, &QAction::triggered, this, &MainWindow::OCSPSrv);
-        ocsp_act_->setStatusTip(tr("OCSP Server Service"));
+        ocsp_act_->setStatusTip(tr("Setting up an OCSP server"));
         serverMenu->addAction( ocsp_act_ );
         if( isView( ACT_SERVER_OCSP ) ) server_tool_->addAction( ocsp_act_ );
 
@@ -539,7 +539,7 @@ void MainWindow::createActions()
         tsp_act_ = new QAction( tspIcon, tr("&TSP Server"), this);
         tsp_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_T));
         connect( tsp_act_, &QAction::triggered, this, &MainWindow::TSPSrv);
-        tsp_act_->setStatusTip(tr("TSP Server Service"));
+        tsp_act_->setStatusTip(tr("Setting up an TSP server"));
         serverMenu->addAction( tsp_act_ );
         if( isView( ACT_SERVER_TSP ) ) server_tool_->addAction( tsp_act_ );
 
@@ -547,7 +547,7 @@ void MainWindow::createActions()
         cmp_act_ = new QAction( cmpIcon, tr("&CMP Server"), this);
         cmp_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_C));
         connect( cmp_act_, &QAction::triggered, this, &MainWindow::CMPSrv);
-        cmp_act_->setStatusTip(tr("CMP Server Service"));
+        cmp_act_->setStatusTip(tr("Setting up an CMP server"));
         serverMenu->addAction( cmp_act_ );
         if( isView( ACT_SERVER_CMP ) ) server_tool_->addAction( cmp_act_ );
 
@@ -555,7 +555,7 @@ void MainWindow::createActions()
         reg_act_ = new QAction( regIcon, tr("&REG Server"), this);
         reg_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_R));
         connect( reg_act_, &QAction::triggered, this, &MainWindow::RegSrv);
-        reg_act_->setStatusTip(tr("Reg Server Service"));
+        reg_act_->setStatusTip(tr("Setting up an register server"));
         serverMenu->addAction( reg_act_ );
         if( isView( ACT_SERVER_REG ) ) server_tool_->addAction( reg_act_ );
 
@@ -563,7 +563,7 @@ void MainWindow::createActions()
         cc_act_ = new QAction( ccIcon, tr("&CC Server"), this);
         cc_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_A));
         connect( cc_act_, &QAction::triggered, this, &MainWindow::CCSrv);
-        cc_act_->setStatusTip(tr("CC Server Service"));
+        cc_act_->setStatusTip(tr("Setting up an CC server"));
         serverMenu->addAction( cc_act_ );
         if( isView( ACT_SERVER_CC ) ) server_tool_->addAction( cc_act_ );
 
@@ -571,7 +571,7 @@ void MainWindow::createActions()
         kms_act_ = new QAction( kmsIcon, tr("&KMS Server"), this);
         kms_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_K));
         connect( kms_act_, &QAction::triggered, this, &MainWindow::KMSSrv);
-        kms_act_->setStatusTip(tr("KMS Server Service"));
+        kms_act_->setStatusTip(tr("Setting up an KMS server"));
         serverMenu->addAction( kms_act_ );
         if( isView( ACT_SERVER_KMS ) ) server_tool_->addAction( kms_act_ );
     }
@@ -586,7 +586,7 @@ void MainWindow::createActions()
     if( manApplet->isPRO() )
     {
         const QIcon statusIcon = QIcon::fromTheme("server-status", QIcon(":/images/server_status.png"));
-        server_status_act_ = new QAction( statusIcon, tr("ServerS&tatus"), this);
+        server_status_act_ = new QAction( statusIcon, tr("Server S&tatus"), this);
         connect( server_status_act_, &QAction::triggered, this, &MainWindow::serverStatus);
         server_status_act_->setStatusTip(tr("Server Status Information"));
         helpMenu->addAction( server_status_act_ );
@@ -597,7 +597,7 @@ void MainWindow::createActions()
     const QIcon settingIcon = QIcon::fromTheme("setting", QIcon(":/images/setting.png"));
     setting_act_ = new QAction( settingIcon, tr("&Settings"), this);
     connect( setting_act_, &QAction::triggered, this, &MainWindow::settings);
-    setting_act_->setStatusTip(tr("Settings the CertMan"));
+    setting_act_->setStatusTip(tr("Settings"));
     helpMenu->addAction( setting_act_ );
     if( isView( ACT_HELP_SETTING ) ) help_tool_->addAction( setting_act_ );
 
@@ -605,7 +605,7 @@ void MainWindow::createActions()
     clear_log_act_ = new QAction( clearIcon, tr("&Clear Log"), this );
     connect( clear_log_act_, &QAction::triggered, this, &MainWindow::clearLog );
     clear_log_act_->setShortcut( QKeySequence(Qt::Key_F9));
-    clear_log_act_->setStatusTip(tr("clear information and log"));
+    clear_log_act_->setStatusTip(tr("Clear log"));
     helpMenu->addAction( clear_log_act_ );
     if( isView( ACT_HELP_CLEAR_LOG ) ) help_tool_->addAction( clear_log_act_ );
 
@@ -614,7 +614,7 @@ void MainWindow::createActions()
     connect( halt_log_act_, &QAction::triggered, this, &MainWindow::toggleLog );
     halt_log_act_->setCheckable(true);
     halt_log_act_->setShortcut( QKeySequence(Qt::Key_F10));
-    halt_log_act_->setStatusTip( tr( "Log Halt" ));
+    halt_log_act_->setStatusTip( tr( "Halt log" ));
     helpMenu->addAction( halt_log_act_ );
     if( isView( ACT_HELP_HALT_LOG ) ) help_tool_->addAction( halt_log_act_ );
 
@@ -647,7 +647,7 @@ void MainWindow::createActions()
     helpMenu->addAction( about_act_ );
     help_tool_->addAction( about_act_ );
     about_act_->setShortcut( QKeySequence(Qt::Key_F1));
-    about_act_->setStatusTip(tr("About the CertMan"));
+    about_act_->setStatusTip(tr("About CertMan"));
     if( isView( ACT_HELP_ABOUT ) ) help_tool_->addAction( about_act_ );
 }
 

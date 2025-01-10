@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CA Management Window</string>
+   <string>CA Man</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

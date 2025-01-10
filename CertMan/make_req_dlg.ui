@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Make requester</string>
+   <string>Make request</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
