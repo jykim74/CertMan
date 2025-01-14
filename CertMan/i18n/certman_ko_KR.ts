@@ -2183,9 +2183,8 @@
         <translation>서버 상태</translation>
     </message>
     <message>
-        <location filename="../mainwindow2.cpp" line="300"/>
         <source>Setting</source>
-        <translation>설정</translation>
+        <translation type="vanished">설정</translation>
     </message>
     <message>
         <location filename="../mainwindow2.cpp" line="307"/>
@@ -2317,6 +2316,7 @@
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="600"/>
+        <location filename="../mainwindow2.cpp" line="300"/>
         <source>Settings</source>
         <translation>설정</translation>
     </message>
@@ -2885,6 +2885,11 @@
         <location filename="../mainwindow.cpp" line="5038"/>
         <source>SubjectDN</source>
         <translation>주체자 DN</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="437"/>
+        <source>Revo&amp;ke Certificate</source>
+        <translation>인증서 폐기(&amp;k)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="534"/>
@@ -3574,13 +3579,13 @@
         <translation type="vanished">CRL 프로파일 만들기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="447"/>
-        <location filename="../mainwindow2.cpp" line="191"/>
         <source>CA Man</source>
-        <translation>CA 관리</translation>
+        <translation type="vanished">CA 관리</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="445"/>
+        <location filename="../mainwindow.cpp" line="447"/>
+        <location filename="../mainwindow2.cpp" line="191"/>
         <source>CA Manager</source>
         <translation>CA 관리</translation>
     </message>
@@ -3670,9 +3675,8 @@
         <translation>CRL 만들기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="437"/>
         <source>Revo&amp;ke Cert</source>
-        <translation>인증서 폐기(&amp;R)</translation>
+        <translation type="vanished">인증서 폐기(&amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="439"/>
@@ -3680,13 +3684,13 @@
         <translation>인증서 폐기</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
-        <location filename="../mainwindow2.cpp" line="198"/>
         <source>Profile Man</source>
-        <translation>프로파일 관리</translation>
+        <translation type="vanished">프로파일 관리</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="453"/>
         <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow2.cpp" line="198"/>
         <source>Profile Manager</source>
         <translation>프로파일 관리</translation>
     </message>

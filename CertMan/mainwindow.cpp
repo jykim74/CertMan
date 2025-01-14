@@ -434,23 +434,23 @@ void MainWindow::createActions()
     if( isView( ACT_TOOL_MAKE_CRL ) ) tool_tool_->addAction( make_crl_act_ );
 
     const QIcon revokeIcon = QIcon::fromTheme("revoke-certificate", QIcon(":/images/revoke.png"));
-    revoke_cert_act_ = new QAction( revokeIcon, tr("Revo&ke Cert"), this );
+    revoke_cert_act_ = new QAction( revokeIcon, tr("Revo&ke Certificate"), this );
     revoke_cert_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F10 ));
     revoke_cert_act_->setStatusTip( tr("Revoke a certificate" ));
     connect( revoke_cert_act_, &QAction::triggered, this, &MainWindow::revokeCertificate );
     toolsMenu->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
 
-    const QIcon caIcon = QIcon::fromTheme("CA Man", QIcon(":/images/ca.png"));
+    const QIcon caIcon = QIcon::fromTheme("CA Manager", QIcon(":/images/ca.png"));
     ca_man_act_ = new QAction( caIcon, tr("CA Manager"), this );
     ca_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
-    ca_man_act_->setStatusTip( tr("CA Man" ));
+    ca_man_act_->setStatusTip( tr("CA Manager" ));
     connect( ca_man_act_, &QAction::triggered, this, &MainWindow::CAMan );
     toolsMenu->addAction( ca_man_act_ );
     if( isView( ACT_TOOL_CA_MAN ) ) tool_tool_->addAction( ca_man_act_ );
 
-    const QIcon profileIcon = QIcon::fromTheme("Profile Man", QIcon(":/images/profile.png"));
-    profile_man_act_ = new QAction( profileIcon, tr("Profile Man"), this );
+    const QIcon profileIcon = QIcon::fromTheme("Profile Manager", QIcon(":/images/profile.png"));
+    profile_man_act_ = new QAction( profileIcon, tr("Profile Manager"), this );
     profile_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
     profile_man_act_->setStatusTip( tr("Profile Manager" ));
     connect( profile_man_act_, &QAction::triggered, this, &MainWindow::profileMan );

@@ -188,14 +188,14 @@ void MainWindow::createViewActions()
     connect( toolRevokeCertAct, &QAction::triggered, this, &MainWindow::viewToolRevokeCert );
     toolMenu->addAction( toolRevokeCertAct );
 
-    QAction *toolCAManAct = new QAction( tr( "CA Man" ), this );
+    QAction *toolCAManAct = new QAction( tr( "CA Manager" ), this );
     bVal = isView( ACT_TOOL_CA_MAN );
     toolCAManAct->setCheckable( true );
     toolCAManAct->setChecked( bVal );
     connect( toolCAManAct, &QAction::triggered, this, &MainWindow::viewToolCAMan );
     toolMenu->addAction( toolCAManAct );
 
-    QAction *toolProfileManAct = new QAction( tr( "Profile Man" ), this );
+    QAction *toolProfileManAct = new QAction( tr( "Profile Manager" ), this );
     bVal = isView( ACT_TOOL_PROFILE_MAN );
     toolProfileManAct->setCheckable( true );
     toolProfileManAct->setChecked( bVal );
@@ -297,7 +297,7 @@ void MainWindow::createViewActions()
     connect( helpServerStatusAct, &QAction::triggered, this, &MainWindow::viewHelpServerStatus );
     helpMenu->addAction( helpServerStatusAct );
 
-    QAction *helpSettingAct = new QAction( tr( "Setting" ), this );
+    QAction *helpSettingAct = new QAction( tr( "Settings" ), this );
     bVal = isView( ACT_HELP_SETTING );
     helpSettingAct->setCheckable( true );
     helpSettingAct->setChecked( bVal );
