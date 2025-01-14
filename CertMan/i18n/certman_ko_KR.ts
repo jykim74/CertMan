@@ -5938,9 +5938,8 @@
 <context>
     <name>MakeDNDlg</name>
     <message>
-        <location filename="../make_dn_dlg.ui" line="14"/>
         <source>Make Distinguished Name</source>
-        <translation>고유 이름 만들기</translation>
+        <translation type="vanished">고유 이름 만들기</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="20"/>
@@ -5968,6 +5967,11 @@
     <message>
         <source>State/ Province (optional)</source>
         <translation type="vanished">State / Province (옵션)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="14"/>
+        <source>Make DN</source>
+        <translation>DN 만들기</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="42"/>
@@ -6865,7 +6869,6 @@
 <context>
     <name>PriKeyInfoDlg</name>
     <message>
-        <location filename="../pri_key_info_dlg.ui" line="14"/>
         <location filename="../pri_key_info_dlg.ui" line="20"/>
         <source>Private Key Information</source>
         <translation>개인키 정보</translation>
@@ -6976,6 +6979,11 @@
         <location filename="../pri_key_info_dlg.ui" line="2385"/>
         <source>Get PublicKey</source>
         <translation>공개키 가져오기</translation>
+    </message>
+    <message>
+        <location filename="../pri_key_info_dlg.ui" line="14"/>
+        <source>View Private Key</source>
+        <translation>개인키 보기</translation>
     </message>
     <message>
         <location filename="../pri_key_info_dlg.ui" line="46"/>

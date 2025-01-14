@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Make Distinguished Name</string>
+   <string>Make DN</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
