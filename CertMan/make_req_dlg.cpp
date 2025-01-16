@@ -731,6 +731,8 @@ void MakeReqDlg::initUI()
 {
     mKeyInfoTab->setTabEnabled( 1, false );
     checkExtension();
+
+    mKeyNameText->setPlaceholderText( tr( "Select a certificate from CA Man" ));
 }
 
 

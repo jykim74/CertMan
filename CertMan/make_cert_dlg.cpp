@@ -97,6 +97,9 @@ void MakeCertDlg::initialize()
 
     setSubjectDN();
     clickUseCSRFile();
+
+    mProfileNameText->setPlaceholderText( tr( "Select a profile from Profile Man" ));
+    mIssuerNameText->setPlaceholderText(tr("Select a certificate from CA Man"));
 }
 
 void MakeCertDlg::setSubjectDN()

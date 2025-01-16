@@ -4433,12 +4433,17 @@
         <translation>CSR 정보 가져오기에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="531"/>
+        <location filename="../make_crl_dlg.cpp" line="489"/>
+        <source>Select a profile from Profile Man</source>
+        <translation>프로파일 관리에서 프로파일 선택</translation>
+    </message>
+    <message>
+        <location filename="../make_crl_dlg.cpp" line="533"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="543"/>
+        <location filename="../make_crl_dlg.cpp" line="545"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -4956,7 +4961,7 @@
         <translation type="vanished">인증서 정책이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="216"/>
+        <location filename="../make_cert_dlg.cpp" line="219"/>
         <source>Find a CSR file</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
@@ -4969,76 +4974,86 @@
         <translation type="vanished">CA 인증서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="279"/>
-        <location filename="../make_cert_dlg.cpp" line="306"/>
+        <location filename="../make_cert_dlg.cpp" line="282"/>
+        <location filename="../make_cert_dlg.cpp" line="309"/>
         <source>Invalid CSR file [%1]</source>
         <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="314"/>
+        <location filename="../make_cert_dlg.cpp" line="317"/>
         <source>CSR verification failed</source>
         <translation>CSR 검증 실패</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="335"/>
-        <location filename="../make_cert_dlg.cpp" line="797"/>
+        <location filename="../make_cert_dlg.cpp" line="338"/>
+        <location filename="../make_cert_dlg.cpp" line="800"/>
         <source>You cannot create a Self-Sign certificate using CSR</source>
         <translation>CSR파일 사용 셀프 사인 인증서를 만들 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="353"/>
+        <location filename="../make_cert_dlg.cpp" line="356"/>
         <source>The CA certificate has been revoked. continue?</source>
         <translation>CA 인증서가 만료 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="387"/>
+        <location filename="../make_cert_dlg.cpp" line="390"/>
         <source>The hash(%1) in the profile is not SM3. Would you like to change to SM3?</source>
         <translation>프로파일 해쉬(%1)가 SM3아닙니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="404"/>
+        <location filename="../make_cert_dlg.cpp" line="407"/>
         <source>SM3 hash cannot be used in profiles (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="428"/>
+        <location filename="../make_cert_dlg.cpp" line="431"/>
         <source>CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="624"/>
-        <location filename="../make_cert_dlg.cpp" line="720"/>
+        <location filename="../make_cert_dlg.cpp" line="627"/>
+        <location filename="../make_cert_dlg.cpp" line="723"/>
         <source>failed to make certificate [%1]</source>
         <translation>인증서 만들기에 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="632"/>
+        <location filename="../make_cert_dlg.cpp" line="635"/>
         <source>failed to get certificate information [%1]</source>
         <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="877"/>
+        <location filename="../make_cert_dlg.cpp" line="880"/>
         <source>Select CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="240"/>
-        <location filename="../make_cert_dlg.cpp" line="889"/>
+        <location filename="../make_cert_dlg.cpp" line="243"/>
+        <location filename="../make_cert_dlg.cpp" line="892"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="228"/>
+        <location filename="../make_cert_dlg.cpp" line="101"/>
+        <source>Select a profile from Profile Man</source>
+        <translation>프로파일 관리에서 프로파일 선택</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="102"/>
+        <source>Select a certificate from CA Man</source>
+        <translation>CA 관리에서 인증서를 선택하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="231"/>
         <source>Select a CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="254"/>
+        <location filename="../make_cert_dlg.cpp" line="257"/>
         <source>Select a CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="901"/>
+        <location filename="../make_cert_dlg.cpp" line="904"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
@@ -6245,6 +6260,11 @@
         <location filename="../make_req_dlg.cpp" line="357"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="735"/>
+        <source>Select a certificate from CA Man</source>
+        <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
         <location filename="../make_req_dlg.cpp" line="329"/>

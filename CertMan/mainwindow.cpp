@@ -91,8 +91,6 @@ const int kMaxRecentFiles = 10;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    initialize();
-
     createActions();
     createStatusBar();
     createMemberDlg();
@@ -106,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent) :
 #if defined( Q_OS_MAC )
     layout()->setSpacing(5);
 #endif
+
+    initialize();
 }
 
 MainWindow::~MainWindow()

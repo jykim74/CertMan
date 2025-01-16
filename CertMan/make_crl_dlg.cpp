@@ -485,6 +485,8 @@ void MakeCRLDlg::initialize()
         mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
 
     setRevokeList();
+
+    mProfileNameText->setPlaceholderText( tr( "Select a profile from Profile Man" ));
 }
 
 void MakeCRLDlg::setRevokeList()
