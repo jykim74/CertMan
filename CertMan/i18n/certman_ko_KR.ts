@@ -4993,7 +4993,7 @@
     <message>
         <location filename="../make_cert_dlg.cpp" line="356"/>
         <source>The CA certificate has been revoked. continue?</source>
-        <translation>CA 인증서가 만료 되었습니다. 계속 하시겠습니까?</translation>
+        <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../make_cert_dlg.cpp" line="390"/>
