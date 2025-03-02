@@ -33,6 +33,7 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
     connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
     connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
+    connect( mSM2Radio, SIGNAL(clicked()), this, SLOT(clickSM2()));
 
     connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
@@ -127,6 +128,10 @@ const QString NewKeyDlg::getMechanism()
         else
             strMech = kMechDSA;
     }
+    else if( mSM2Radio->isChecked() )
+    {
+        strMech = kMechSM2;
+    }
     else if( mEdDSARadio->isChecked() )
     {
         strMech = kMechEdDSA;
@@ -174,6 +179,10 @@ void NewKeyDlg::accept()
         ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
     else if( strMech == kMechEC )
+    {
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+    }
+    else if( strMech == kMechSM2 )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
@@ -325,6 +334,17 @@ void NewKeyDlg::clickEdDSA()
     mOptionLabel->setText( "NamedCurve" );
 }
 
+void NewKeyDlg::clickSM2()
+{
+    mOptionCombo->clear();
+
+    mOptionCombo->addItem( "SM2" );
+    mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText("NamedCurve");
+}
+
 void NewKeyDlg::checkPKCS11()
 {
     if( manApplet->isLicense() == true )
@@ -332,6 +352,7 @@ void NewKeyDlg::checkPKCS11()
         bool bVal = mPKCS11Check->isChecked();
 
         mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
     }
 }
 
@@ -343,5 +364,6 @@ void NewKeyDlg::checkKMIP()
 
         mDSARadio->setEnabled( !bVal );
         mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
     }
 }

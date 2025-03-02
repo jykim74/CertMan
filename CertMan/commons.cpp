@@ -4309,6 +4309,8 @@ int getKeyType( const QString& strAlg, const QString& strParam )
         nKeyType = JS_PKI_KEY_TYPE_ECC;
     else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
+    else if( strAlg == kMechSM2 )
+        nKeyType = JS_PKI_KEY_TYPE_SM2;
     else if( strAlg == kMechEdDSA )
     {
         if( strParam == kParamEd25519 )
@@ -4385,6 +4387,7 @@ bool isInternalPrivate( const QString strKeyMech )
     if( strKeyMech == kMechEC ) return true;
     if( strKeyMech == kMechEdDSA  ) return true;
     if( strKeyMech == kMechDSA ) return true;
+    if( strKeyMech == kMechSM2 ) return true;
 
     return false;
 }

@@ -44,6 +44,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
     connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
     connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
+    connect( mSM2Radio, SIGNAL(clicked()), this, SLOT(clickSM2()));
 
     connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
@@ -106,6 +107,10 @@ const QString MakeReqDlg::getMechanism()
     else if( mEdDSARadio->isChecked() )
     {
         strMech = kMechEdDSA;
+    }
+    else if( mSM2Radio->isChecked() )
+    {
+        strMech = kMechSM2;
     }
 
     return strMech;
@@ -174,6 +179,10 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
     else if( strAlg == kMechEC )
+    {
+        ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
+    }
+    else if( strAlg == kMechSM2 )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
@@ -634,6 +643,16 @@ void MakeReqDlg::clickEdDSA()
     mHashCombo->setEnabled(false);
 }
 
+void MakeReqDlg::clickSM2()
+{
+    mNewOptionCombo->addItem( "SM2" );
+    mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( "Named Curve" );
+    mHashCombo->setEnabled(true);
+}
+
 void MakeReqDlg::checkPKCS11()
 {
     if( manApplet->isLicense() == true )
@@ -641,6 +660,7 @@ void MakeReqDlg::checkPKCS11()
         bool bVal = mPKCS11Check->isChecked();
 
         mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
     }
 }
 
@@ -652,6 +672,7 @@ void MakeReqDlg::checkKMIP()
 
         mDSARadio->setEnabled( !bVal );
         mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
     }
 }
 

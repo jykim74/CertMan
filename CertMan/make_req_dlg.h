@@ -40,6 +40,7 @@ private slots:
     void clickECDSA();
     void clickDSA();
     void clickEdDSA();
+    void clickSM2();
 
     void checkPKCS11();
     void checkKMIP();
