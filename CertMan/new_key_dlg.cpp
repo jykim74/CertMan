@@ -70,6 +70,7 @@ void NewKeyDlg::initialize()
         mECDSARadio->setEnabled(false);
         mDSARadio->setEnabled(false);
         mEdDSARadio->setEnabled(false);
+        mSM2Radio->setEnabled( false );
     }
 
     mRSARadio->click();

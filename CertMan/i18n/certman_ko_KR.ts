@@ -6102,7 +6102,7 @@
         <translation>도전 암호</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="808"/>
+        <location filename="../make_req_dlg.ui" line="815"/>
         <source>Signature Hash</source>
         <translation>서명 해쉬</translation>
     </message>
@@ -6123,7 +6123,7 @@
     </message>
     <message>
         <location filename="../make_req_dlg.ui" line="184"/>
-        <location filename="../make_req_dlg.ui" line="718"/>
+        <location filename="../make_req_dlg.ui" line="725"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -6153,12 +6153,12 @@
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="550"/>
+        <location filename="../make_req_dlg.ui" line="540"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="569"/>
+        <location filename="../make_req_dlg.ui" line="559"/>
         <source>Mechanism</source>
         <translation>메커니즘</translation>
     </message>
@@ -6168,17 +6168,22 @@
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="604"/>
+        <location filename="../make_req_dlg.ui" line="583"/>
+        <source>SM2</source>
+        <translation>SM2</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="611"/>
         <source>Key Size</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="587"/>
+        <location filename="../make_req_dlg.ui" line="594"/>
         <source>Public Exponent</source>
         <translation>Public Exponent</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="540"/>
+        <location filename="../make_req_dlg.ui" line="566"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
@@ -6196,7 +6201,7 @@
         <translation>CSR 만들기 정보</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="795"/>
+        <location filename="../make_req_dlg.ui" line="802"/>
         <source>This is for CSR signature hash algorithm</source>
         <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
     </message>
@@ -6209,12 +6214,12 @@
         <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="653"/>
+        <location filename="../make_req_dlg.ui" line="660"/>
         <source>Use Extension</source>
         <translation>확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="711"/>
+        <location filename="../make_req_dlg.ui" line="718"/>
         <source>Profile Name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -6237,52 +6242,52 @@
         <translation>구조화 안된 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="165"/>
+        <location filename="../make_req_dlg.cpp" line="170"/>
         <source>Enter a key name</source>
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="272"/>
+        <location filename="../make_req_dlg.cpp" line="281"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성 실패</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="306"/>
+        <location filename="../make_req_dlg.cpp" line="315"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="315"/>
+        <location filename="../make_req_dlg.cpp" line="324"/>
         <source>Please enter a DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="357"/>
+        <location filename="../make_req_dlg.cpp" line="366"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="735"/>
+        <location filename="../make_req_dlg.cpp" line="756"/>
         <source>Select a certificate from CA Man</source>
         <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="329"/>
+        <location filename="../make_req_dlg.cpp" line="338"/>
         <source>Please select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="530"/>
+        <location filename="../make_req_dlg.cpp" line="539"/>
         <source>failed to create CSR:%1</source>
         <translation>CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="661"/>
+        <location filename="../make_req_dlg.cpp" line="682"/>
         <source>Select KeyPair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="673"/>
+        <location filename="../make_req_dlg.cpp" line="694"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -6496,32 +6501,37 @@
         <translation>PKCS#11</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="129"/>
+        <location filename="../new_key_dlg.ui" line="143"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="136"/>
+        <location filename="../new_key_dlg.ui" line="169"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="143"/>
+        <location filename="../new_key_dlg.ui" line="129"/>
         <source>ECDSA</source>
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="150"/>
+        <location filename="../new_key_dlg.ui" line="136"/>
         <source>EdDSA</source>
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="169"/>
+        <location filename="../new_key_dlg.ui" line="162"/>
         <source>Mechanism</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="222"/>
+        <location filename="../new_key_dlg.ui" line="176"/>
+        <source>SM2</source>
+        <translation>SM2</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="229"/>
         <source>Exponent</source>
         <translation>Exponent</translation>
     </message>
@@ -6536,27 +6546,27 @@
         <translation>새 키쌍</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="236"/>
+        <location filename="../new_key_dlg.ui" line="243"/>
         <source>Parameter</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="229"/>
+        <location filename="../new_key_dlg.ui" line="236"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="148"/>
+        <location filename="../new_key_dlg.cpp" line="153"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="228"/>
+        <location filename="../new_key_dlg.cpp" line="237"/>
         <source>failed to generate key pairs</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="280"/>
+        <location filename="../new_key_dlg.cpp" line="289"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
@@ -7494,9 +7504,9 @@
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4461"/>
-        <location filename="../commons.cpp" line="4466"/>
-        <location filename="../commons.cpp" line="4471"/>
+        <location filename="../commons.cpp" line="4464"/>
+        <location filename="../commons.cpp" line="4469"/>
+        <location filename="../commons.cpp" line="4474"/>
         <location filename="../mainwindow.cpp" line="5864"/>
         <location filename="../mainwindow.cpp" line="5869"/>
         <location filename="../mainwindow.cpp" line="5874"/>

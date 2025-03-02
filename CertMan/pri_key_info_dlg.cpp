@@ -679,10 +679,11 @@ int PriKeyInfoDlg::readPrivateKey()
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPri );
     }
-    else if( strAlg == kMechEC )
+    else if( strAlg == kMechEC || strAlg == kMechSM2 )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
+
         setECCKey( &binPri );
     }
     else if( strAlg == kMechDSA )
@@ -792,10 +793,11 @@ void PriKeyInfoDlg::clickGetPublicKey()
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPub, false );
     }
-    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC )
+    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechSM2 )
     {
         mKeyTab->setCurrentIndex(1);
-        mKeyTab->setTabEnabled(1, true);
+        mKeyTab->setTabEnabled(1, true);        
+
         setECCKey( &binPub, false );
     }
     else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
@@ -868,7 +870,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
         addKey.setAlg( kMechPKCS11_RSA );
     }
-    else if( strAlg == "EC" )
+    else if( strAlg == "EC" || strAlg == "SM2" )
     {
         JS_PKI_getECKeyVal( &binPri, &sECKey );
         ret = createECPrivateKeyP11( pCTX, strName, &binHash, &sECKey );
