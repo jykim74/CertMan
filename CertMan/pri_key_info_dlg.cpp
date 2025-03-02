@@ -684,6 +684,9 @@ int PriKeyInfoDlg::readPrivateKey()
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
 
+        if( strAlg == kMechSM2 )
+            mInsertToHSMBtn->hide();
+
         setECCKey( &binPri );
     }
     else if( strAlg == kMechDSA )
@@ -796,7 +799,10 @@ void PriKeyInfoDlg::clickGetPublicKey()
     else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechSM2 )
     {
         mKeyTab->setCurrentIndex(1);
-        mKeyTab->setTabEnabled(1, true);        
+        mKeyTab->setTabEnabled(1, true);
+
+        if( strAlg == kMechSM2 )
+            mInsertToHSMBtn->hide();
 
         setECCKey( &binPub, false );
     }

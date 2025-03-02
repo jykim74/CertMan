@@ -5909,7 +5909,7 @@ void MainWindow::infoCertProfile( int seq )
     manApplet->dbMgr()->getCertProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
+        info( QString( "== Extensions Informations [ Count: %1 ]\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
@@ -6030,7 +6030,7 @@ void MainWindow::infoCRLProfile( int seq )
     manApplet->dbMgr()->getCRLProfileExtensionList( seq, extList );
 
     if( extList.size() > 0 )
-        info( QString( "## Extensions Informations [ Count: %1 ] ##\n" ).arg( extList.size() ) );
+        info( QString( "== Extensions Informations [ Count: %1 ]\n" ).arg( extList.size() ) );
 
     for( int i = 0; i < extList.size(); i++ )
     {
