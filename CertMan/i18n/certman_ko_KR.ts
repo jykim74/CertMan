@@ -6242,52 +6242,52 @@
         <translation>구조화 안된 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="170"/>
+        <location filename="../make_req_dlg.cpp" line="171"/>
         <source>Enter a key name</source>
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="281"/>
+        <location filename="../make_req_dlg.cpp" line="282"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성 실패</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="315"/>
+        <location filename="../make_req_dlg.cpp" line="316"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="324"/>
+        <location filename="../make_req_dlg.cpp" line="325"/>
         <source>Please enter a DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="366"/>
+        <location filename="../make_req_dlg.cpp" line="367"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="756"/>
+        <location filename="../make_req_dlg.cpp" line="757"/>
         <source>Select a certificate from CA Man</source>
         <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="338"/>
+        <location filename="../make_req_dlg.cpp" line="339"/>
         <source>Please select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="539"/>
+        <location filename="../make_req_dlg.cpp" line="540"/>
         <source>failed to create CSR:%1</source>
         <translation>CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="682"/>
+        <location filename="../make_req_dlg.cpp" line="683"/>
         <source>Select KeyPair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="694"/>
+        <location filename="../make_req_dlg.cpp" line="695"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -6556,17 +6556,17 @@
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="153"/>
+        <location filename="../new_key_dlg.cpp" line="154"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="237"/>
+        <location filename="../new_key_dlg.cpp" line="238"/>
         <source>failed to generate key pairs</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="289"/>
+        <location filename="../new_key_dlg.cpp" line="290"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
@@ -7115,43 +7115,43 @@
         <translation>키쌍 체크</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="702"/>
-        <location filename="../pri_key_info_dlg.cpp" line="767"/>
+        <location filename="../pri_key_info_dlg.cpp" line="706"/>
+        <location filename="../pri_key_info_dlg.cpp" line="771"/>
         <source>Private key algorithm(%1) not supported</source>
         <translation>지원하지 않는 개인키 알고리즘[%1] 입니다</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="725"/>
+        <location filename="../pri_key_info_dlg.cpp" line="729"/>
         <source>failed to get PKCS11 Session</source>
         <translation>PKCS11 세션 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="736"/>
+        <location filename="../pri_key_info_dlg.cpp" line="740"/>
         <source>fail to get private key handle</source>
         <translation>개인키 핸들 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="815"/>
+        <location filename="../pri_key_info_dlg.cpp" line="823"/>
         <source>Public key algorithm(%1) not supported</source>
         <translation>지원하지 않는 공개키 알고리즘[%1] 입니다</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="921"/>
+        <location filename="../pri_key_info_dlg.cpp" line="929"/>
         <source>Successfully added private key and public key to HSM</source>
         <translation>HSM에 개인키 공개키 주입 성공</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="937"/>
+        <location filename="../pri_key_info_dlg.cpp" line="945"/>
         <source>Failed to add private key and public key to HSM [%1]</source>
         <translation>HSM에 개인키 공개키 주입 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="970"/>
+        <location filename="../pri_key_info_dlg.cpp" line="978"/>
         <source>KeyPair is valid</source>
         <translation>키쌍이 맞습니다</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="972"/>
+        <location filename="../pri_key_info_dlg.cpp" line="980"/>
         <source>KeyPair is invalid</source>
         <translation>키쌍이 틀립니다</translation>
     </message>
