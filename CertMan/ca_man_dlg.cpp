@@ -15,7 +15,7 @@
 
 #include "js_pki_x509.h"
 
-static QStringList kKeyAlgList = { "Any", kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
+static QStringList kKeyAlgList = { "Any", kMechRSA, kMechEC, kMechDSA, kMechEdDSA, kMechSM2 };
 static QStringList kStatus = { "NotUsed", "Used" };
 
 CAManDlg::CAManDlg(QWidget *parent) :
@@ -277,7 +277,12 @@ void CAManDlg::loadCACertList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+            }
+            else if( strType == kMechSM2 )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
+                    continue;
             }
             else if( strType == kMechDSA )
             {
@@ -330,7 +335,12 @@ void CAManDlg::loadKeyPairList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+            }
+            else if( strType == kMechSM2 )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
+                    continue;
             }
             else if( strType == kMechDSA )
             {
@@ -384,7 +394,12 @@ void CAManDlg::loadCSRList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC && nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+            }
+            else if( strType == kMechSM2 )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
+                    continue;
             }
             else if( strType == kMechDSA )
             {
