@@ -330,27 +330,27 @@
     </message>
     <message>
         <location filename="../ca_man_dlg.cpp" line="239"/>
-        <location filename="../ca_man_dlg.cpp" line="415"/>
-        <location filename="../ca_man_dlg.cpp" line="436"/>
-        <location filename="../ca_man_dlg.cpp" line="455"/>
-        <location filename="../ca_man_dlg.cpp" line="473"/>
-        <location filename="../ca_man_dlg.cpp" line="492"/>
-        <location filename="../ca_man_dlg.cpp" line="509"/>
+        <location filename="../ca_man_dlg.cpp" line="430"/>
+        <location filename="../ca_man_dlg.cpp" line="451"/>
+        <location filename="../ca_man_dlg.cpp" line="470"/>
+        <location filename="../ca_man_dlg.cpp" line="488"/>
+        <location filename="../ca_man_dlg.cpp" line="507"/>
+        <location filename="../ca_man_dlg.cpp" line="524"/>
         <source>There are no selected items</source>
         <translation>선택 한 아이템이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="441"/>
+        <location filename="../ca_man_dlg.cpp" line="456"/>
         <source>Are you sure to delete CA certificate?</source>
         <translation>CA 인증서를 정말로 삭제 하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="478"/>
+        <location filename="../ca_man_dlg.cpp" line="493"/>
         <source>Are you sure to delete the keypair?</source>
         <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="514"/>
+        <location filename="../ca_man_dlg.cpp" line="529"/>
         <source>Are you sure to delete the CSR?</source>
         <translation>이 CSR을 삭제 하시겠습니까?</translation>
     </message>
@@ -1741,6 +1741,7 @@
     </message>
     <message>
         <location filename="../lcn_info_dlg.ui" line="315"/>
+        <location filename="../lcn_info_dlg.cpp" line="519"/>
         <source>Get</source>
         <translation>가져오기</translation>
     </message>
@@ -1878,6 +1879,11 @@
         <location filename="../lcn_info_dlg.cpp" line="454"/>
         <source>failed to renew the license %1 : %2</source>
         <translation>라이센스 갱신에 실패하였습니다 %1 : %2</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="515"/>
+        <source>Find</source>
+        <translation>찾기</translation>
     </message>
     <message>
         <source>failed to get license [%1]</source>
