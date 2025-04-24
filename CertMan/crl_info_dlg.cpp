@@ -121,11 +121,11 @@ void CRLInfoDlg::clickVerifyCRL()
     ret = JS_PKI_verifyCRL( &binCRL, &binCA );
     if( ret == 1 )
     {
-        manApplet->messageBox( "CRL Verification is successfull", this );
+        manApplet->messageBox( tr("CRL Verification is successfull"), this );
     }
     else
     {
-        manApplet->warningBox( QString( "CRL Verification failed [%1]" ).arg(ret), this);
+        manApplet->warningBox( tr( "CRL Verification failed [%1]" ).arg(ret), this);
     }
 
 end :

@@ -543,6 +543,16 @@
         <translation>CA 정보가 없습니다</translation>
     </message>
     <message>
+        <location filename="../crl_info_dlg.cpp" line="124"/>
+        <source>CRL Verification is successfull</source>
+        <translation>CRL 검증에 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../crl_info_dlg.cpp" line="128"/>
+        <source>CRL Verification failed [%1]</source>
+        <translation>CRL 검증에 실패하였습니다 [%1]</translation>
+    </message>
+    <message>
         <location filename="../crl_info_dlg.cpp" line="161"/>
         <source>Select a CRL</source>
         <translation>CRL 을 선택하세요</translation>
