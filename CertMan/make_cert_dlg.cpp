@@ -396,6 +396,7 @@ void MakeCertDlg::accept()
             }
             else
             {
+                ret = -1;
                 goto end;
             }
         }
@@ -409,6 +410,7 @@ void MakeCertDlg::accept()
                     .arg( signKeyPair.getParam() );
 
             manApplet->warningBox( strMsg, this );
+            ret = -1;
             goto end;
         }
     }
@@ -575,6 +577,7 @@ void MakeCertDlg::accept()
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
+            ret = -1;
             goto end;
         }
 
@@ -721,7 +724,8 @@ end :
     else
     {
         manApplet->warningBox( tr( "failed to make certificate [%1]" ).arg(ret), this );
-        QDialog::reject();
+//        QDialog::reject();
+        return;
     }
 }
 
