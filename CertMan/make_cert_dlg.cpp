@@ -49,6 +49,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 
     connect( mReqNumText, SIGNAL(textChanged(QString)), this, SLOT(reqNumChanged()));
     connect( mIssuerNumText, SIGNAL(textChanged(QString)), this, SLOT(issuerNumChanged()));
@@ -82,6 +83,11 @@ MakeCertDlg::~MakeCertDlg()
 void MakeCertDlg::showEvent(QShowEvent *event)
 {
     initialize();
+}
+
+void MakeCertDlg::initUI()
+{
+    mReqNameText->setPlaceholderText( tr( "Select a CSR from CA Man" ) );
 }
 
 void MakeCertDlg::initialize()

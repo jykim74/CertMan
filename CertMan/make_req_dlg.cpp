@@ -789,7 +789,7 @@ void MakeReqDlg::initUI()
     mKeyInfoTab->setTabEnabled( 1, false );
     checkExtension();
 
-    mKeyNameText->setPlaceholderText( tr( "Select a certificate from CA Man" ));
+    mKeyNameText->setPlaceholderText( tr( "Select a keypair from CA Man" ));
 }
 
 

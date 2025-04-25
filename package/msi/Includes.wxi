@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include Id="CertManInclude">
-  <?define CurrentCertManVersion="1.9.8" ?>
+  <?define CurrentCertManVersion="2.0.0" ?>
 
   <!-- CertMan Product Guid  -->
-  <?define ProductGuid="3c72a996-6a7d-471b-a275-b80bced1b2eb" ?> <!-- Version 1.9.8-->
+  <?define ProductGuid="9729ccc6-4da5-463e-950d-c0338f49f080" ?> <!-- Version 2.0.0-->
+  <!-- ?define ProductGuid="3c72a996-6a7d-471b-a275-b80bced1b2eb" ? --> <!-- Version 1.9.8-->
   <!-- ?define ProductGuid="e0f5c6a3-d483-4084-b7ed-5378ab590657" ? --> <!-- Version 1.9.6-->
   <!-- ?define ProductGuid="a96505cb-e93d-4ba9-aeb1-8485f13f068f" ? --> <!-- Version 1.9.4-->
   <!-- ?define ProductGuid="ec5e5b54-420a-450c-aeb6-fb608c2dccbf" ? --> <!-- Version 1.9.2-->

@@ -4781,8 +4781,8 @@ void MainWindow::createRightList( int nType, int nNum )
 
 void MainWindow::createRightKeyPairList()
 {
-    search_form_->show();    
-    right_type_ = RightType::TYPE_KEYPAIR;
+    search_form_->show();
+
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();
@@ -4792,7 +4792,7 @@ void MainWindow::createRightKeyPairList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Status"), tr("Name") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Name") };
     QList<KeyPairRec> keyPairList;
 
     if( strWord.length() > 0 )
@@ -4806,12 +4806,13 @@ void MainWindow::createRightKeyPairList()
         manApplet->dbMgr()->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
 
-    if( keyPairList.size() < 1 )
+    if( keyPairList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_KEYPAIR;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -4826,7 +4827,6 @@ void MainWindow::createRightKeyPairList()
     right_table_->setColumnWidth( 0, 60 ); // Number
     right_table_->setColumnWidth( 1, 130 ); // RegTime
     right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 80 );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
@@ -4839,15 +4839,14 @@ void MainWindow::createRightKeyPairList()
         seq->setData( Qt::UserRole, nStatus );
 
         QTableWidgetItem *item = new QTableWidgetItem( keyPairRec.getName() );
-
+        if( nStatus == JS_REC_STATUS_USED ) item->setIcon( QIcon(":/images/csr.png" ));
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPairRec.getRegTime()))));
         right_table_->setItem( i, 2, new QTableWidgetItem( keyPairRec.getAlg()));
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg(getRecStatusName( nStatus ))));
-        right_table_->setItem( i, 4, item );
+        right_table_->setItem( i, 3, item );
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -4859,9 +4858,6 @@ void MainWindow::createRightRequestList()
 {
     search_form_->show();
 
-
-    right_type_ = RightType::TYPE_REQUEST;
-
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
@@ -4870,7 +4866,7 @@ void MainWindow::createRightRequestList()
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Hash"), tr( "Status"), tr("Name") };
+    QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Hash"), tr("Name") };
     QList<ReqRec> reqList;
 
     if( strWord.length() > 0 )
@@ -4884,12 +4880,13 @@ void MainWindow::createRightRequestList()
         manApplet->dbMgr()->getReqList( -1, nOffset, nLimit, reqList );
     }
 
-    if( reqList.size() < 1 )
+    if( reqList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_REQUEST;
     removeAllRight();
     right_table_->clear();
     right_table_->clearContents();
@@ -4904,8 +4901,7 @@ void MainWindow::createRightRequestList()
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
-     right_table_->setColumnWidth( 2, 80 );
-    right_table_->setColumnWidth( 3, 80 );
+    right_table_->setColumnWidth( 2, 80 );
 
     for( int i=0; i < reqList.size(); i++ )
     {
@@ -4918,13 +4914,14 @@ void MainWindow::createRightRequestList()
         int nStatus = reqRec.getStatus();
         seq->setData( Qt::UserRole, nStatus );
 
+        if( nStatus == JS_REC_STATUS_USED ) item->setIcon( QIcon(":/images/cert.png" ));
+
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( reqRec.getRegTime()) ) ));
         right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( reqRec.getHash() )));
-        right_table_->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( getRecStatusName(nStatus) )));
-        right_table_->setItem( i, 4, item );
+        right_table_->setItem( i, 3, item );
     }
 
     search_form_->setTotalCount( nTotalCount );
@@ -5044,7 +5041,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
 
-    right_type_ = RightType::TYPE_CERTIFICATE;
+
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("Algorithm"), tr("SubjectDN") };
 
@@ -5077,12 +5074,13 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         }
     }
 
-    if( certList.size() < 1 )
+    if( certList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_CERTIFICATE;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5114,19 +5112,26 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
 
-        if( cert.isCA() )
+        if( nIssuerNum == -2 )
         {
-            if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                seq->setIcon(QIcon(":/images/ca_revoked.png"));
-            else
-                seq->setIcon(QIcon(":/images/ca.png"));
+            seq->setIcon( QIcon(":/images/im_cert.png"));
         }
         else
         {
-            if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                seq->setIcon(QIcon(":/images/cert_revoked.png"));
+            if( cert.isCA() )
+            {
+                if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                    seq->setIcon(QIcon(":/images/ca_revoked.png"));
+                else
+                    seq->setIcon(QIcon(":/images/ca.png"));
+            }
             else
-                seq->setIcon(QIcon(":/images/cert.png"));
+            {
+                if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                    seq->setIcon(QIcon(":/images/cert_revoked.png"));
+                else
+                    seq->setIcon(QIcon(":/images/cert.png"));
+            }
         }
 
         QString strKeyName;
@@ -5161,9 +5166,6 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 {
     search_form_->show();
 
-
-    right_type_ = RightType::TYPE_CRL;
-
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
@@ -5187,12 +5189,13 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         manApplet->dbMgr()->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
     }
 
-    if( crlList.size() < 1 )
+    if( crlList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_CRL;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5220,7 +5223,15 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 
         QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
-        seq->setIcon(QIcon(":/images/crl.png"));
+
+        if( nIssuerNum == -2 )
+        {
+            seq->setIcon( QIcon(":/images/im_crl.png"));
+        }
+        else
+        {
+            seq->setIcon(QIcon(":/images/crl.png"));
+        }
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
@@ -5239,7 +5250,7 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 {
     search_form_->show();
 
-    right_type_ = RightType::TYPE_REVOKE;
+
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
@@ -5264,12 +5275,13 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         manApplet->dbMgr()->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
     }
 
-    if( revokeList.size() < 1 )
+    if( revokeList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_REVOKE;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5313,7 +5325,7 @@ void MainWindow::createRightUserList()
     search_form_->show();
 
 
-    right_type_ = RightType::TYPE_USER;
+
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();
@@ -5338,12 +5350,13 @@ void MainWindow::createRightUserList()
         manApplet->dbMgr()->getUserList( nOffset, nLimit, userList );
     }
 
-    if( userList.size() < 1 )
+    if( userList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_USER;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5387,7 +5400,7 @@ void MainWindow::createRightKMSList()
     search_form_->show();
 
 
-    right_type_ = RightType::TYPE_KMS;
+
 
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
@@ -5412,12 +5425,13 @@ void MainWindow::createRightKMSList()
         manApplet->dbMgr()->getKMSList( nOffset, nLimit, kmsList );
     }
 
-    if( kmsList.size() < 1 )
+    if( kmsList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_KMS;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5601,9 +5615,6 @@ void MainWindow::createRightAuditList()
 {
     search_form_->show();
 
-
-    right_type_ = RightType::TYPE_AUDIT;
-
     int nTotalCount = 0;
 //    int nLimit = kListCount;
     int nLimit = manApplet->settingsMgr()->listCount();
@@ -5628,12 +5639,13 @@ void MainWindow::createRightAuditList()
         manApplet->dbMgr()->getAuditList( nOffset, nLimit, auditList );
     }
 
-    if( auditList.size() < 1 )
+    if( auditList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_AUDIT;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);
@@ -5676,9 +5688,6 @@ void MainWindow::createRightTSPList()
 {
     search_form_->show();
 
-
-    right_type_ = RightType::TYPE_TSP;
-
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
@@ -5702,12 +5711,13 @@ void MainWindow::createRightTSPList()
         manApplet->dbMgr()->getTSPList( nOffset, nLimit, tspList );
     }
 
-    if( tspList.size() < 1 )
+    if( tspList.size() < 1 && strWord.length() > 0 )
     {
         manApplet->warningBox( tr( "There is no data" ), this );
         return;
     }
 
+    right_type_ = RightType::TYPE_TSP;
     removeAllRight();
     right_table_->clear();
     right_table_->horizontalHeader()->setStretchLastSection(true);

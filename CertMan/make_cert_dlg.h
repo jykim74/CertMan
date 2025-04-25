@@ -46,6 +46,7 @@ private slots:
     void clickSelectCACert();
 
 private:
+    void initUI();
     void initialize();
     void setSubjectDN();
     QString getRealSubjectDN();

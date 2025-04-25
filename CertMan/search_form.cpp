@@ -77,15 +77,16 @@ void SearchForm::setLeftNum( int nNum )
 void SearchForm::updatePageLabel()
 {
     int nOffset = cur_page_ * manApplet->settingsMgr()->listCount();
-    int nEnd = nOffset + manApplet->mainWindow()->rightCount();
+    int nEnd = 0;
 
-    if( nOffset >= nEnd ) nOffset = nEnd - 15;
+    nEnd = nOffset + manApplet->mainWindow()->rightCount();
+    if( nEnd > 0 ) nOffset += 1;
 
     QString label = QString( "%1-%2 of %3 [%4p]" )
-            .arg( nOffset + 1 )
+            .arg( nOffset )
             .arg( nEnd )
             .arg( total_count_ )
-            .arg(cur_page_+1);
+            .arg(cur_page_ + 1);
 
     mPageLabel->setText( label );
 }

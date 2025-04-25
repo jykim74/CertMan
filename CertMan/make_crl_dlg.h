@@ -36,6 +36,7 @@ private slots:
     void clickSelectProfile();
 
 private:
+    void initUI();
     void initialize();
     void setRevokeList();
 };

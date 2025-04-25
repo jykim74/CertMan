@@ -29,6 +29,7 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 
     connect( mIssuerNumText, SIGNAL(textChanged(QString)), this, SLOT(issuerNumChanged()));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
@@ -480,6 +481,11 @@ void MakeCRLDlg::profileNumChanged()
     }
 
     mProfileNameText->setText( profileRec.getName() );
+}
+
+void MakeCRLDlg::initUI()
+{
+    mIssuerNameText->setPlaceholderText( tr( "Select a CA certificate from CA Man" ) );
 }
 
 void MakeCRLDlg::initialize()

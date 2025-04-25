@@ -132,26 +132,29 @@ void MainWindow::createViewActions()
     connect( toolMakeReqAct, &QAction::triggered, this, &MainWindow::viewToolMakeReq );
     toolMenu->addAction( toolMakeReqAct );
 
-    QAction *toolMakeConfigAct = new QAction( tr( "Make Config" ), this );
-    bVal = isView( ACT_TOOL_MAKE_CONFIG );
-    toolMakeConfigAct->setCheckable( true );
-    toolMakeConfigAct->setChecked( bVal );
-    connect( toolMakeConfigAct, &QAction::triggered, this, &MainWindow::viewToolMakeConfig );
-    toolMenu->addAction( toolMakeConfigAct );
+    if( manApplet->isPRO() == true )
+    {
+        QAction *toolMakeConfigAct = new QAction( tr( "Make Config" ), this );
+        bVal = isView( ACT_TOOL_MAKE_CONFIG );
+        toolMakeConfigAct->setCheckable( true );
+        toolMakeConfigAct->setChecked( bVal );
+        connect( toolMakeConfigAct, &QAction::triggered, this, &MainWindow::viewToolMakeConfig );
+        toolMenu->addAction( toolMakeConfigAct );
 
-    QAction *toolRegUserAct = new QAction( tr( "Register User" ), this );
-    bVal = isView( ACT_TOOL_REG_USER );
-    toolRegUserAct->setCheckable( true );
-    toolRegUserAct->setChecked( bVal );
-    connect( toolRegUserAct, &QAction::triggered, this, &MainWindow::viewToolRegUser );
-    toolMenu->addAction( toolRegUserAct );
+        QAction *toolRegUserAct = new QAction( tr( "Register User" ), this );
+        bVal = isView( ACT_TOOL_REG_USER );
+        toolRegUserAct->setCheckable( true );
+        toolRegUserAct->setChecked( bVal );
+        connect( toolRegUserAct, &QAction::triggered, this, &MainWindow::viewToolRegUser );
+        toolMenu->addAction( toolRegUserAct );
 
-    QAction *toolRegSignerAct = new QAction( tr( "Register Signer" ), this );
-    bVal = isView( ACT_TOOL_REG_SIGNER );
-    toolRegSignerAct->setCheckable( true );
-    toolRegSignerAct->setChecked( bVal );
-    connect( toolRegSignerAct, &QAction::triggered, this, &MainWindow::viewToolRegSigner );
-    toolMenu->addAction( toolRegSignerAct );
+        QAction *toolRegSignerAct = new QAction( tr( "Register Signer" ), this );
+        bVal = isView( ACT_TOOL_REG_SIGNER );
+        toolRegSignerAct->setCheckable( true );
+        toolRegSignerAct->setChecked( bVal );
+        connect( toolRegSignerAct, &QAction::triggered, this, &MainWindow::viewToolRegSigner );
+        toolMenu->addAction( toolRegSignerAct );
+    }
 
     QAction *toolMakeCertProfileAct = new QAction( tr( "Make Cert Profile" ), this );
     bVal = isView( ACT_TOOL_MAKE_CERT_PROFILE );
@@ -288,14 +291,14 @@ void MainWindow::createViewActions()
         serverKMSAct->setChecked( bVal );
         connect( serverKMSAct, &QAction::triggered, this, &MainWindow::viewServerKMS );
         serverMenu->addAction( serverKMSAct );
-    }
 
-    QAction *helpServerStatusAct = new QAction( tr( "Server Status" ), this );
-    bVal = isView( ACT_HELP_SERVER_STATUS );
-    helpServerStatusAct->setCheckable( true );
-    helpServerStatusAct->setChecked( bVal );
-    connect( helpServerStatusAct, &QAction::triggered, this, &MainWindow::viewHelpServerStatus );
-    helpMenu->addAction( helpServerStatusAct );
+        QAction *helpServerStatusAct = new QAction( tr( "Server Status" ), this );
+        bVal = isView( ACT_HELP_SERVER_STATUS );
+        helpServerStatusAct->setCheckable( true );
+        helpServerStatusAct->setChecked( bVal );
+        connect( helpServerStatusAct, &QAction::triggered, this, &MainWindow::viewHelpServerStatus );
+        helpMenu->addAction( helpServerStatusAct );
+    }
 
     QAction *helpSettingAct = new QAction( tr( "Settings" ), this );
     bVal = isView( ACT_HELP_SETTING );
@@ -335,6 +338,8 @@ void MainWindow::viewFileNew( bool bChecked )
 {
     int nAct = ACT_FILE_NEW;
 
+    if( new_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         file_tool_->addAction( new_act_ );
@@ -350,6 +355,8 @@ void MainWindow::viewFileNew( bool bChecked )
 void MainWindow::viewFileOpen( bool bChecked )
 {
     int nAct = ACT_FILE_OPEN;
+
+    if( open_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -367,6 +374,8 @@ void MainWindow::viewFileRemoteDB( bool bChecked )
 {
     int nAct = ACT_FILE_REMOTE_DB;
 
+    if( remote_db_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         file_tool_->addAction( remote_db_act_ );
@@ -383,6 +392,8 @@ void MainWindow::viewFileLogout( bool bChecked )
 {
     int nAct = ACT_FILE_LOGOUT;
 
+    if( logout_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         file_tool_->addAction( logout_act_ );
@@ -398,6 +409,8 @@ void MainWindow::viewFileLogout( bool bChecked )
 void MainWindow::viewFileQuit( bool bChecked )
 {
     int nAct = ACT_FILE_QUIT;
+
+    if( quit_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -416,6 +429,8 @@ void MainWindow::viewToolNewKey( bool bChecked )
 {
     int nAct = ACT_TOOL_NEW_KEY;
 
+    if( new_key_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( new_key_act_ );
@@ -431,6 +446,8 @@ void MainWindow::viewToolNewKey( bool bChecked )
 void MainWindow::viewToolMakeReq( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_REQ;
+
+    if( make_req_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -448,6 +465,8 @@ void MainWindow::viewToolMakeConfig( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_CONFIG;
 
+    if( make_config_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( make_config_act_ );
@@ -463,6 +482,8 @@ void MainWindow::viewToolMakeConfig( bool bChecked )
 void MainWindow::viewToolRegUser( bool bChecked )
 {
     int nAct = ACT_TOOL_REG_USER;
+
+    if( reg_user_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -480,6 +501,8 @@ void MainWindow::viewToolRegSigner( bool bChecked )
 {
     int nAct = ACT_TOOL_REG_SIGNER;
 
+    if( reg_signer_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( reg_signer_act_ );
@@ -495,6 +518,8 @@ void MainWindow::viewToolRegSigner( bool bChecked )
 void MainWindow::viewToolMakeCertProfile( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_CERT_PROFILE;
+
+    if( make_cert_profile_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -512,6 +537,8 @@ void MainWindow::viewToolMakeCRLProfile( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_CRL_PROFILE;
 
+    if( make_crl_profile_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( make_crl_profile_act_ );
@@ -527,6 +554,8 @@ void MainWindow::viewToolMakeCRLProfile( bool bChecked )
 void MainWindow::viewToolMakeCert( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_CERT;
+
+    if( make_cert_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -544,6 +573,8 @@ void MainWindow::viewToolMakeCRL( bool bChecked )
 {
     int nAct = ACT_TOOL_MAKE_CRL;
 
+    if( make_crl_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( make_crl_act_ );
@@ -559,6 +590,8 @@ void MainWindow::viewToolMakeCRL( bool bChecked )
 void MainWindow::viewToolRevokeCert( bool bChecked )
 {
     int nAct = ACT_TOOL_REVOKE_CERT;
+
+    if( revoke_cert_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -576,6 +609,8 @@ void MainWindow::viewToolCAMan( bool bChecked )
 {
     int nAct = ACT_TOOL_CA_MAN;
 
+    if( ca_man_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         tool_tool_->addAction( ca_man_act_ );
@@ -591,6 +626,8 @@ void MainWindow::viewToolCAMan( bool bChecked )
 void MainWindow::viewToolProfileMan( bool bChecked )
 {
     int nAct = ACT_TOOL_PROFILE_MAN;
+
+    if( profile_man_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -608,6 +645,8 @@ void MainWindow::viewDataImportData( bool bChecked )
 {
     int nAct = ACT_DATA_IMPORT_DATA;
 
+    if( import_data_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         data_tool_->addAction( import_data_act_ );
@@ -623,6 +662,8 @@ void MainWindow::viewDataImportData( bool bChecked )
 void MainWindow::viewDataGetURI( bool bChecked )
 {
     int nAct = ACT_DATA_GET_URI;
+
+    if( get_uri_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -640,6 +681,8 @@ void MainWindow::viewDataPublishLDAP( bool bChecked )
 {
     int nAct = ACT_DATA_PUBLISH_LDAP;
 
+    if( publish_ldap_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         data_tool_->addAction( publish_ldap_act_ );
@@ -655,6 +698,8 @@ void MainWindow::viewDataPublishLDAP( bool bChecked )
 void MainWindow::viewDataSetPasswd( bool bChecked )
 {
     int nAct = ACT_DATA_SET_PASSWD;
+
+    if( set_passwd_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -672,6 +717,8 @@ void MainWindow::viewDataChangePasswd( bool bChecked )
 {
     int nAct = ACT_DATA_CHANGE_PASSWD;
 
+    if( change_passwd_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         data_tool_->addAction( change_passwd_act_ );
@@ -687,6 +734,8 @@ void MainWindow::viewDataChangePasswd( bool bChecked )
 void MainWindow::viewDataTSPClient( bool bChecked )
 {
     int nAct = ACT_DATA_TSP_CLIENT;
+
+    if( tsp_client_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -705,6 +754,8 @@ void MainWindow::viewServerOCSP( bool bChecked )
 {
     int nAct = ACT_SERVER_OCSP;
 
+    if( ocsp_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         server_tool_->addAction( ocsp_act_ );
@@ -720,6 +771,8 @@ void MainWindow::viewServerOCSP( bool bChecked )
 void MainWindow::viewServerTSP( bool bChecked )
 {
     int nAct = ACT_SERVER_TSP;
+
+    if( tsp_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -737,6 +790,8 @@ void MainWindow::viewServerCMP( bool bChecked )
 {
     int nAct = ACT_SERVER_CMP;
 
+    if( cmp_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         server_tool_->addAction( cmp_act_ );
@@ -752,6 +807,8 @@ void MainWindow::viewServerCMP( bool bChecked )
 void MainWindow::viewServerREG( bool bChecked )
 {
     int nAct = ACT_SERVER_REG;
+
+    if( reg_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -769,6 +826,8 @@ void MainWindow::viewServerCC( bool bChecked )
 {
     int nAct = ACT_SERVER_CC;
 
+    if( cc_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         server_tool_->addAction( cc_act_ );
@@ -784,6 +843,8 @@ void MainWindow::viewServerCC( bool bChecked )
 void MainWindow::viewServerKMS( bool bChecked )
 {
     int nAct = ACT_SERVER_KMS;
+
+    if( kms_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -802,6 +863,8 @@ void MainWindow::viewHelpServerStatus( bool bChecked )
 {
     int nAct = ACT_HELP_SERVER_STATUS;
 
+    if( server_status_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         help_tool_->addAction( server_status_act_ );
@@ -817,6 +880,8 @@ void MainWindow::viewHelpServerStatus( bool bChecked )
 void MainWindow::viewHelpSetting( bool bChecked )
 {
     int nAct = ACT_HELP_SETTING;
+
+    if( setting_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
@@ -834,6 +899,8 @@ void MainWindow::viewHelpClearLog( bool bChecked )
 {
     int nAct = ACT_HELP_CLEAR_LOG;
 
+    if( clear_log_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         help_tool_->addAction( clear_log_act_ );
@@ -850,6 +917,8 @@ void MainWindow::viewHelpHaltLog( bool bChecked )
 {
     int nAct = ACT_HELP_HALT_LOG;
 
+    if( halt_log_act_ == nullptr ) return;
+
     if( bChecked == true )
     {
         help_tool_->addAction( halt_log_act_ );
@@ -865,6 +934,8 @@ void MainWindow::viewHelpHaltLog( bool bChecked )
 void MainWindow::viewHelpAbout( bool bChecked )
 {
     int nAct = ACT_HELP_ABOUT;
+
+    if( about_act_ == nullptr ) return;
 
     if( bChecked == true )
     {
