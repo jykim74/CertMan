@@ -153,10 +153,6 @@ void MakeCRLDlg::accept()
             {
                 profile.setHash( "SM3" );
             }
-            else
-            {
-                goto end;
-            }
         }
     }
     else if( caKeyPair.getAlg() != kMechEdDSA )
@@ -321,7 +317,7 @@ void MakeCRLDlg::accept()
 
         if( pP11CTX == NULL )
         {
-            manApplet->elog( QString("PKCS11 library was not loaded") );
+            manApplet->warningBox( tr("PKCS11 library was not loaded"), this );
             ret = -1;
             goto end;
         }
@@ -330,7 +326,7 @@ void MakeCRLDlg::accept()
 
         if( hSession < 0 )
         {
-            manApplet->elog( QString( "Failed to fetch session:%1 ").arg( hSession ));
+            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( hSession ), this);
             ret = -1;
             goto end;
         }
@@ -402,7 +398,11 @@ void MakeCRLDlg::accept()
     madeCRLRec.setCRL( pHexCRL );
 
     ret = dbMgr->addCRLRec( madeCRLRec );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        goto end;
+    }
 
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CRL, strCRLDP );
 
@@ -425,10 +425,6 @@ end :
         manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
-    }
-    else
-    {
-        manApplet->warningBox( tr( "failed to make CRL [%1]" ).arg(ret), this );
     }
 }
 

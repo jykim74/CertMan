@@ -449,7 +449,7 @@ void MakeReqDlg::accept()
 
         if( pP11CTX == NULL )
         {
-            manApplet->elog( QString("PKCS11 library was not loaded") );
+            manApplet->warningBox( tr("PKCS11 library was not loaded"), this );
             ret = -1;
             goto end;
         }
@@ -457,7 +457,7 @@ void MakeReqDlg::accept()
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
-            manApplet->elog( QString( "Failed to fetch session:%1 ").arg( hSession ));
+            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( hSession ), this);
             ret = -1;
             goto end;
         }
@@ -534,7 +534,11 @@ void MakeReqDlg::accept()
     }
 
 
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr( "Failed to create CSR : %1" ).arg(ret), this );
+        goto end;
+    }
 
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
@@ -547,7 +551,11 @@ void MakeReqDlg::accept()
     reqRec.setStatus(0);
 
     ret = dbMgr->addReqRec( reqRec );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        goto end;
+    }
 
     dbMgr->modKeyPairStatus( keyRec.getNum(), JS_REC_STATUS_USED );
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
@@ -565,10 +573,6 @@ end :
     {
         manApplet->mainWindow()->createRightRequestList();
         QDialog::accept();
-    }
-    else
-    {
-        manApplet->warningBox( tr( "failed to create CSR:%1" ).arg(ret), this );
     }
 }
 

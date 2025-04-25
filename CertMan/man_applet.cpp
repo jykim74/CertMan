@@ -103,17 +103,23 @@ int ManApplet::loadPKCS11()
     int rv = 0;
 
     QString strLibPath = settings_mgr_->PKCS11LibraryPath();
-    if( strLibPath.length() < 1) return -1;
+    if( strLibPath.length() < 1)
+    {
+        elog( QString( "PKCS11 library path is not set") );
+        return -1;
+    }
 
     rv = JS_PKCS11_LoadLibrary( (JP11_CTX **)&p11_ctx_, strLibPath.toStdString().c_str() );
     if( rv != CKR_OK )
     {
+        elog( QString( "Failed to load PKCS11 library : %1").arg(rv));
         return rv;
     }
 
     rv = JS_PKCS11_Initialize( (JP11_CTX *)p11_ctx_, NULL );
     if( rv != CKR_OK )
     {
+        elog( QString( "PKCS11 initialization failed : %1").arg(rv) );
         if( p11_ctx_ ) JS_PKCS11_ReleaseLibrary( (JP11_CTX **)&p11_ctx_ );
     }
 

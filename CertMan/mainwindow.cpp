@@ -4781,9 +4781,7 @@ void MainWindow::createRightList( int nType, int nNum )
 
 void MainWindow::createRightKeyPairList()
 {
-    search_form_->show();
-
-    removeAllRight();
+    search_form_->show();    
     right_type_ = RightType::TYPE_KEYPAIR;
 
     int nTotalCount = 0;
@@ -4795,17 +4793,6 @@ void MainWindow::createRightKeyPairList()
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("Status"), tr("Name") };
-
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels( headerList );
-    right_table_->verticalHeader()->setVisible(false);
-
     QList<KeyPairRec> keyPairList;
 
     if( strWord.length() > 0 )
@@ -4818,6 +4805,23 @@ void MainWindow::createRightKeyPairList()
         nTotalCount = manApplet->dbMgr()->getKeyPairCount( -1 );
         manApplet->dbMgr()->getKeyPairList( -1, nOffset, nLimit, keyPairList );
     }
+
+    if( keyPairList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
 
     right_table_->setColumnWidth( 0, 60 ); // Number
     right_table_->setColumnWidth( 1, 130 ); // RegTime
@@ -4855,7 +4859,7 @@ void MainWindow::createRightRequestList()
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_REQUEST;
 
     int nTotalCount = 0;
@@ -4867,17 +4871,6 @@ void MainWindow::createRightRequestList()
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Hash"), tr( "Status"), tr("Name") };
-
-    right_table_->clear();
-    right_table_->clearContents();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels( headerList );
-    right_table_->verticalHeader()->setVisible(false);
-
     QList<ReqRec> reqList;
 
     if( strWord.length() > 0 )
@@ -4890,6 +4883,24 @@ void MainWindow::createRightRequestList()
         nTotalCount = manApplet->dbMgr()->getReqCount( -1 );
         manApplet->dbMgr()->getReqList( -1, nOffset, nLimit, reqList );
     }
+
+    if( reqList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->clearContents();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
+
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
@@ -5027,7 +5038,7 @@ void MainWindow::createRightCRLProfileList()
 void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 {
     search_form_->show();
-    removeAllRight();
+
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
@@ -5037,24 +5048,10 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("Algorithm"), tr("SubjectDN") };
 
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels( headerList );
-    right_table_->verticalHeader()->setVisible(false);
-
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
     QList<CertRec> certList;
-
-    right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 130 );
-    right_table_->setColumnWidth( 2, 140 );
-    right_table_->setColumnWidth( 3, 90 );
 
 
     if( bIsCA )
@@ -5079,6 +5076,27 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
             manApplet->dbMgr()->getCertList( nIssuerNum, nOffset, nLimit, certList );
         }
     }
+
+    if( certList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
+
+    right_table_->setColumnWidth( 0, 60 );
+    right_table_->setColumnWidth( 1, 130 );
+    right_table_->setColumnWidth( 2, 140 );
+    right_table_->setColumnWidth( 3, 90 );
 
     for( int i=0; i < certList.size(); i++ )
     {
@@ -5143,7 +5161,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_CRL;
 
     int nTotalCount = 0;
@@ -5155,21 +5173,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Issuer"), tr("SignAlg"), tr("CRLDP") };
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels( headerList );
-    right_table_->verticalHeader()->setVisible(false);
-
     QList<CRLRec> crlList;
-
-    right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 130 );
-    right_table_->setColumnWidth( 2, 200 );
-    right_table_->setColumnWidth( 3, 90 );
 
 
     if( strWord.length() > 0 )
@@ -5182,6 +5186,27 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         nTotalCount = manApplet->dbMgr()->getCRLCount( nIssuerNum );
         manApplet->dbMgr()->getCRLList( nIssuerNum, nOffset, nLimit, crlList );
     }
+
+    if( crlList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels( headerList );
+    right_table_->verticalHeader()->setVisible(false);
+
+    right_table_->setColumnWidth( 0, 60 );
+    right_table_->setColumnWidth( 1, 130 );
+    right_table_->setColumnWidth( 2, 200 );
+    right_table_->setColumnWidth( 3, 90 );
 
     for( int i=0; i < crlList.size(); i++ )
     {
@@ -5214,7 +5239,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 {
     search_form_->show();
 
-    removeAllRight();
     right_type_ = RightType::TYPE_REVOKE;
 
     int nTotalCount = 0;
@@ -5226,15 +5250,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("Cert"), tr("Serial"), tr("RevokeDate"), tr("CRLDP") };
-
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels(headerList);
-    right_table_->verticalHeader()->setVisible(false);
 
     QList<RevokeRec> revokeList;
 
@@ -5248,6 +5263,22 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
         nTotalCount = manApplet->dbMgr()->getRevokeCount( nIssuerNum );
         manApplet->dbMgr()->getRevokeList( nIssuerNum, nOffset, nLimit, revokeList );
     }
+
+    if( revokeList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 120 );
@@ -5281,7 +5312,7 @@ void MainWindow::createRightUserList()
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_USER;
 
     int nTotalCount = 0;
@@ -5293,15 +5324,6 @@ void MainWindow::createRightUserList()
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Status"), tr("Name"), tr("Email") };
-
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels(headerList);
-    right_table_->verticalHeader()->setVisible(false);
 
     QList<UserRec> userList;
 
@@ -5315,6 +5337,22 @@ void MainWindow::createRightUserList()
         nTotalCount = manApplet->dbMgr()->getUserCount();
         manApplet->dbMgr()->getUserList( nOffset, nLimit, userList );
     }
+
+    if( userList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
@@ -5348,7 +5386,7 @@ void MainWindow::createRightKMSList()
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_KMS;
 
     int nTotalCount = 0;
@@ -5361,21 +5399,7 @@ void MainWindow::createRightKMSList()
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Status"), tr("Type"), tr("Algorithm") };
 
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels(headerList);
-    right_table_->verticalHeader()->setVisible(false);
-
     QList<KMSRec> kmsList;
-
-    right_table_->setColumnWidth( 0, 60 );
-    right_table_->setColumnWidth( 1, 130 );
-    right_table_->setColumnWidth( 2, 100 );
-    right_table_->setColumnWidth( 3, 100 );
 
     if( strWord.length() > 0 )
     {
@@ -5387,6 +5411,27 @@ void MainWindow::createRightKMSList()
         nTotalCount = manApplet->dbMgr()->getKMSCount();
         manApplet->dbMgr()->getKMSList( nOffset, nLimit, kmsList );
     }
+
+    if( kmsList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
+
+    right_table_->setColumnWidth( 0, 60 );
+    right_table_->setColumnWidth( 1, 130 );
+    right_table_->setColumnWidth( 2, 100 );
+    right_table_->setColumnWidth( 3, 100 );
 
 
     for( int i = 0; i < kmsList.size(); i++ )
@@ -5556,7 +5601,7 @@ void MainWindow::createRightAuditList()
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_AUDIT;
 
     int nTotalCount = 0;
@@ -5570,15 +5615,6 @@ void MainWindow::createRightAuditList()
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Kind"), tr("Operation"), tr("UserName") };
 
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels(headerList);
-    right_table_->verticalHeader()->setVisible(false);
-
     QList<AuditRec> auditList;
 
     if( strWord.length() > 0 )
@@ -5591,6 +5627,22 @@ void MainWindow::createRightAuditList()
         nTotalCount = manApplet->dbMgr()->getAuditCount();
         manApplet->dbMgr()->getAuditList( nOffset, nLimit, auditList );
     }
+
+    if( auditList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
@@ -5624,7 +5676,7 @@ void MainWindow::createRightTSPList()
 {
     search_form_->show();
 
-    removeAllRight();
+
     right_type_ = RightType::TYPE_TSP;
 
     int nTotalCount = 0;
@@ -5636,15 +5688,6 @@ void MainWindow::createRightTSPList()
     QString strWord = search_form_->getInputWord();
 
     QStringList headerList = { tr("Seq"), tr("RegTime"), tr("Serial"), tr("SrcHash"), tr("Policy") };
-
-    right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
-
-    right_table_->setColumnCount(headerList.size());
-    right_table_->setHorizontalHeaderLabels(headerList);
-    right_table_->verticalHeader()->setVisible(false);
 
     QList<TSPRec> tspList;
 
@@ -5658,6 +5701,22 @@ void MainWindow::createRightTSPList()
         nTotalCount = manApplet->dbMgr()->getAuditCount();
         manApplet->dbMgr()->getTSPList( nOffset, nLimit, tspList );
     }
+
+    if( tspList.size() < 1 )
+    {
+        manApplet->warningBox( tr( "There is no data" ), this );
+        return;
+    }
+
+    removeAllRight();
+    right_table_->clear();
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+    right_table_->horizontalHeader()->setStyleSheet( style );
+
+    right_table_->setColumnCount(headerList.size());
+    right_table_->setHorizontalHeaderLabels(headerList);
+    right_table_->verticalHeader()->setVisible(false);
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );

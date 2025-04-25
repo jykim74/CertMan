@@ -394,11 +394,6 @@ void MakeCertDlg::accept()
             {
                 profileRec.setHash( "SM3" );
             }
-            else
-            {
-                ret = -1;
-                goto end;
-            }
         }
     }
     else if( signKeyPair.getAlg() != kMechEdDSA )
@@ -583,7 +578,7 @@ void MakeCertDlg::accept()
 
         if( pP11CTX == NULL )
         {
-            manApplet->elog( QString("PKCS11 library was not loaded") );
+            manApplet->warningBox( tr("PKCS11 library was not loaded"), this );
             ret = -1;
             goto end;
         }
@@ -591,7 +586,7 @@ void MakeCertDlg::accept()
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
-            manApplet->elog( QString( "Failed to fetch session:%1 ").arg( hSession ));
+            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( hSession ), this);
             ret = -1;
             goto end;
         }
@@ -687,7 +682,11 @@ void MakeCertDlg::accept()
     madeCertRec.setKeyHash( getHexString( &binKeyID ) );
 
     ret = dbMgr->addCertRec( madeCertRec );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        goto end;
+    }
 
     if( reqRec.getSeq() > 0 ) dbMgr->modReqStatus( reqRec.getSeq(), 1 );
 
@@ -735,12 +734,6 @@ end :
         if( bSelf == false ) manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
-    }
-    else
-    {
-        manApplet->warningBox( tr( "failed to make certificate [%1]" ).arg(ret), this );
-//        QDialog::reject();
-        return;
     }
 }
 
