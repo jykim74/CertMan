@@ -4438,28 +4438,33 @@
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="368"/>
-        <location filename="../make_crl_dlg.cpp" line="415"/>
+        <location filename="../make_crl_dlg.cpp" line="312"/>
+        <source>No PKCS11 settings</source>
+        <translation>PKCS11 설정이 안됨</translation>
+    </message>
+    <message>
+        <location filename="../make_crl_dlg.cpp" line="384"/>
+        <location filename="../make_crl_dlg.cpp" line="431"/>
         <source>failed to make CRL [%1]</source>
         <translation>CRL 만들기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="375"/>
+        <location filename="../make_crl_dlg.cpp" line="391"/>
         <source>failed to get CRL information [%1]</source>
         <translation>CSR 정보 가져오기에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="489"/>
+        <location filename="../make_crl_dlg.cpp" line="504"/>
         <source>Select a profile from Profile Man</source>
         <translation>프로파일 관리에서 프로파일 선택</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="533"/>
+        <location filename="../make_crl_dlg.cpp" line="548"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="545"/>
+        <location filename="../make_crl_dlg.cpp" line="560"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -5002,7 +5007,7 @@
     </message>
     <message>
         <location filename="../make_cert_dlg.cpp" line="338"/>
-        <location filename="../make_cert_dlg.cpp" line="800"/>
+        <location filename="../make_cert_dlg.cpp" line="819"/>
         <source>You cannot create a Self-Sign certificate using CSR</source>
         <translation>CSR파일 사용 셀프 사인 인증서를 만들 수 없습니다</translation>
     </message>
@@ -5017,34 +5022,39 @@
         <translation>프로파일 해쉬(%1)가 SM3아닙니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="407"/>
+        <location filename="../make_cert_dlg.cpp" line="408"/>
         <source>SM3 hash cannot be used in profiles (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="431"/>
+        <location filename="../make_cert_dlg.cpp" line="433"/>
         <source>CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="627"/>
-        <location filename="../make_cert_dlg.cpp" line="723"/>
+        <location filename="../make_cert_dlg.cpp" line="574"/>
+        <source>No PKCS11 settings</source>
+        <translation>PKCS11 설정이 안됨</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="645"/>
+        <location filename="../make_cert_dlg.cpp" line="741"/>
         <source>failed to make certificate [%1]</source>
         <translation>인증서 만들기에 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="635"/>
+        <location filename="../make_cert_dlg.cpp" line="653"/>
         <source>failed to get certificate information [%1]</source>
         <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="880"/>
+        <location filename="../make_cert_dlg.cpp" line="899"/>
         <source>Select CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
         <location filename="../make_cert_dlg.cpp" line="243"/>
-        <location filename="../make_cert_dlg.cpp" line="892"/>
+        <location filename="../make_cert_dlg.cpp" line="911"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -5069,7 +5079,7 @@
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="904"/>
+        <location filename="../make_cert_dlg.cpp" line="923"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
@@ -6263,47 +6273,53 @@
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="282"/>
+        <location filename="../make_req_dlg.cpp" line="211"/>
+        <location filename="../make_req_dlg.cpp" line="439"/>
+        <source>No PKCS11 settings</source>
+        <translation>PKCS11 설정이 안됨</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="297"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성 실패</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="316"/>
+        <location filename="../make_req_dlg.cpp" line="331"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="325"/>
+        <location filename="../make_req_dlg.cpp" line="340"/>
         <source>Please enter a DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="367"/>
+        <location filename="../make_req_dlg.cpp" line="382"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="757"/>
+        <location filename="../make_req_dlg.cpp" line="788"/>
         <source>Select a certificate from CA Man</source>
         <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="339"/>
+        <location filename="../make_req_dlg.cpp" line="354"/>
         <source>Please select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="540"/>
+        <location filename="../make_req_dlg.cpp" line="571"/>
         <source>failed to create CSR:%1</source>
         <translation>CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="683"/>
+        <location filename="../make_req_dlg.cpp" line="714"/>
         <source>Select KeyPair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="695"/>
+        <location filename="../make_req_dlg.cpp" line="726"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -6577,12 +6593,17 @@
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="238"/>
+        <location filename="../new_key_dlg.cpp" line="205"/>
+        <source>No PKCS11 settings</source>
+        <translation>PKCS11 설정이 안됨</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.cpp" line="253"/>
         <source>failed to generate key pairs</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="290"/>
+        <location filename="../new_key_dlg.cpp" line="305"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
@@ -7505,24 +7526,24 @@
         <translation>디렉토리 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3746"/>
+        <location filename="../commons.cpp" line="3748"/>
         <source>Key Files (*.key);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3748"/>
+        <location filename="../commons.cpp" line="3750"/>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3751"/>
+        <location filename="../commons.cpp" line="3753"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4464"/>
-        <location filename="../commons.cpp" line="4469"/>
-        <location filename="../commons.cpp" line="4474"/>
+        <location filename="../commons.cpp" line="4466"/>
+        <location filename="../commons.cpp" line="4471"/>
+        <location filename="../commons.cpp" line="4476"/>
         <location filename="../mainwindow.cpp" line="5864"/>
         <location filename="../mainwindow.cpp" line="5869"/>
         <location filename="../mainwindow.cpp" line="5874"/>
@@ -8027,12 +8048,12 @@
         <translation>검색</translation>
     </message>
     <message>
-        <location filename="../search_form.cpp" line="169"/>
+        <location filename="../search_form.cpp" line="171"/>
         <source>DB is not connected</source>
         <translation>데이타 베이스가 연결 되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../search_form.cpp" line="175"/>
+        <location filename="../search_form.cpp" line="177"/>
         <source>Please enter your search term</source>
         <translation>검색어를 입력하세요</translation>
     </message>

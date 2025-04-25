@@ -206,10 +206,25 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
     else if( isPKCS11Private( strAlg ) == true )
     {
+        if( manApplet->settingsMgr()->PKCS11Use() == false )
+        {
+            manApplet->warningBox( tr("No PKCS11 settings"), this );
+            ret = -1;
+            goto end;
+        }
+
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nIndex = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
-        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), nIndex, strPIN );
+        if( pP11CTX == NULL )
+        {
+            manApplet->elog( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nIndex, strPIN );
 
         if( hSession < 0 )
         {
@@ -419,15 +434,31 @@ void MakeReqDlg::accept()
 
     if( isPKCS11Private( strAlg ) == true )
     {
+        if( manApplet->settingsMgr()->PKCS11Use() == false )
+        {
+            manApplet->warningBox( tr("No PKCS11 settings"), this );
+            ret = -1;
+            goto end;
+        }
+
         JP11_CTX *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
         BIN binID = {0,0};
 
+        if( pP11CTX == NULL )
+        {
+            manApplet->elog( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )
         {
+            manApplet->elog( QString( "Failed to fetch session:%1 ").arg( hSession ));
+            ret = -1;
             goto end;
         }
 
@@ -439,7 +470,7 @@ void MakeReqDlg::accept()
                                    strHash.toStdString().c_str(),
                                    strDN.toStdString().c_str(),
                                    strChallenge.length() > 0 ? strChallenge.toStdString().c_str() : NULL,
-                                  strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
+                                strUnstructuredName.length() > 0 ? strUnstructuredName.toStdString().c_str() : NULL,
                                    &binID,
                                    &binPubKey,
                                    pExtInfoList,

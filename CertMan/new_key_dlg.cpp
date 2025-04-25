@@ -200,11 +200,26 @@ void NewKeyDlg::accept()
     }
     else if( isPKCS11Private( strMech ) == true )
     {
+        if( manApplet->settingsMgr()->PKCS11Use() == false )
+        {
+            manApplet->warningBox( tr("No PKCS11 settings"), this );
+            ret = -1;
+            goto end;
+        }
+
         int ret = 0;
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nIndex = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
-        CK_SESSION_HANDLE hSession = getP11Session( (JP11_CTX *)manApplet->P11CTX(), nIndex, strPIN );
+        if( pP11CTX == NULL )
+        {
+            manApplet->elog( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
+        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nIndex, strPIN );
 
         if( hSession < 0 )
         {

@@ -2042,6 +2042,8 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPI
     nFlags |= CKF_SERIAL_SESSION;
     nUserType = CKU_USER;
 
+    if( pCTX == NULL ) return -1;
+
 
     if( strPIN == nullptr || strPIN.length() < 1 )
     {

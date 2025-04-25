@@ -260,7 +260,7 @@ void MainWindow::initialize()
     sizes.append( nWidth - 300);
     hsplitter_->setSizes( sizes );
 #else
-    resize( 900, 740 );
+    resize( 940, 740 );
 #endif
 
     setCentralWidget(hsplitter_);
