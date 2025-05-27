@@ -75,7 +75,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="mCACertTable"/>
+        <widget class="QTableWidget" name="mCACertTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="mCACertGroup">
@@ -170,7 +174,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="mKeyPairTable"/>
+        <widget class="QTableWidget" name="mKeyPairTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="mKeyPairGroup">
@@ -272,6 +280,9 @@
            <height>0</height>
           </size>
          </property>
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
         </widget>
        </item>
        <item>

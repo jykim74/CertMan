@@ -218,6 +218,9 @@ void MainWindow::initialize()
 //    right_table_->setAlternatingRowColors(true);
 //    right_table_->setAttribute(Qt::WA_MacShowFocusRect, 0);
 //    right_table_->setSortingEnabled(false);
+    right_table_->horizontalHeader()->setStretchLastSection(true);
+    right_table_->horizontalHeader()->setStyleSheet( kTableStyle );
+    right_table_->horizontalHeader()->setHighlightSections(false);
 
     QWidget *rightWidget = new QWidget;
 
@@ -4815,10 +4818,6 @@ void MainWindow::createRightKeyPairList()
     right_type_ = RightType::TYPE_KEYPAIR;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -4890,9 +4889,6 @@ void MainWindow::createRightRequestList()
     removeAllRight();
     right_table_->clear();
     right_table_->clearContents();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -4938,9 +4934,6 @@ void MainWindow::createRightCertProfileList()
     QStringList headerList = { tr("Num"), tr("NotBefore"), tr("NotAfter"), tr("Hash"), tr("Name") };
 
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -4992,9 +4985,6 @@ void MainWindow::createRightCRLProfileList()
 
     QStringList headerList = { tr("Num"), tr("ThisUpdate"), tr("NextUpdate"), tr("Hash"), tr("Name") };
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -5083,9 +5073,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     right_type_ = RightType::TYPE_CERTIFICATE;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
+
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -5198,9 +5186,6 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     right_type_ = RightType::TYPE_CRL;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels( headerList );
@@ -5284,9 +5269,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
     right_type_ = RightType::TYPE_REVOKE;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5359,9 +5341,6 @@ void MainWindow::createRightUserList()
     right_type_ = RightType::TYPE_USER;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5434,9 +5413,6 @@ void MainWindow::createRightKMSList()
     right_type_ = RightType::TYPE_KMS;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5480,9 +5456,6 @@ void MainWindow::createRightSignerList(int nType)
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Type"), tr("Status"), tr("DN")  };
 
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5528,9 +5501,6 @@ void MainWindow::createRightAdminList()
     QStringList headerList = { tr("Seq"), tr("Status"), tr("Type"), tr("Name"), tr("Email") };
 
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5572,9 +5542,6 @@ void MainWindow::createRightConfigList( int nKind )
     QStringList headerList = { tr("Num"), tr("Kind"), tr("Name"), tr("Value") };
 
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5648,9 +5615,6 @@ void MainWindow::createRightAuditList()
     right_type_ = RightType::TYPE_AUDIT;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);
@@ -5720,9 +5684,6 @@ void MainWindow::createRightTSPList()
     right_type_ = RightType::TYPE_TSP;
     removeAllRight();
     right_table_->clear();
-    right_table_->horizontalHeader()->setStretchLastSection(true);
-    QString style = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-    right_table_->horizontalHeader()->setStyleSheet( style );
 
     right_table_->setColumnCount(headerList.size());
     right_table_->setHorizontalHeaderLabels(headerList);

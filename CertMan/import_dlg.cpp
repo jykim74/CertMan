@@ -206,8 +206,8 @@ void ImportDlg::initUI()
     connect( mValueTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeValue()));
     connect( mValueText, SIGNAL(textChanged()), this, SLOT(changeValue()));
 
+    mPathText->setPlaceholderText( tr( "Find a data file" ));
     mUseFileCheck->setChecked(true);
-    mValueGroup->hide();
 }
 
 void ImportDlg::initialize()
@@ -578,10 +578,7 @@ void ImportDlg::checkUseFile()
     mPathText->setEnabled( bVal );
     mFindBtn->setEnabled( bVal );
 
-    if( bVal == true )
-        mValueGroup->hide();
-    else
-        mValueGroup->show();
+    mValueGroup->setEnabled( !bVal );
 }
 
 void ImportDlg::changeValue()
