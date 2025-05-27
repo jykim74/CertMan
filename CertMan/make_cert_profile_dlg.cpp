@@ -80,6 +80,51 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
 
     mExtend4Tab->layout()->setSpacing(5);
     mExtend4Tab->layout()->setMargin(5);
+
+    mPeriodGroup->layout()->setSpacing(5);
+    mPeriodGroup->layout()->setMargin(5);
+
+    mExtensionsGroup->layout()->setSpacing(5);
+    mExtensionsGroup->layout()->setMargin(5);
+
+    mKeyUsageGroup->layout()->setSpacing(5);
+    mKeyUsageGroup->layout()->setMargin(5);
+
+    mPolicyGroup->layout()->setSpacing(5);
+    mPolicyGroup->layout()->setMargin(5);
+
+    mSKIGroup->layout()->setSpacing(5);
+    mSKIGroup->layout()->setMargin(5);
+
+    mAKIGroup->layout()->setSpacing(5);
+    mAKIGroup->layout()->setMargin(5);
+
+    mEKUGroup->layout()->setSpacing(5);
+    mEKUGroup->layout()->setMargin(5);
+
+    mCRLDPGroup->layout()->setSpacing(5);
+    mCRLDPGroup->layout()->setMargin(5);
+
+    mAIAGroup->layout()->setSpacing(5);
+    mAIAGroup->layout()->setMargin(5);
+
+    mBCGroup->layout()->setSpacing(5);
+    mBCGroup->layout()->setMargin(5);
+
+    mSANGroup->layout()->setSpacing(5);
+    mSANGroup->layout()->setMargin(5);
+
+    mIANGroup->layout()->setSpacing(5);
+    mIANGroup->layout()->setMargin(5);
+
+    mPCGroup->layout()->setSpacing(5);
+    mPCGroup->layout()->setMargin(5);
+
+    mPMGroup->layout()->setSpacing(5);
+    mPMGroup->layout()->setMargin(5);
+
+    mNCGroup->layout()->setSpacing(5);
+    mNCGroup->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
     mCloseBtn->setFocus();
