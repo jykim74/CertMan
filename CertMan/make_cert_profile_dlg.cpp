@@ -463,6 +463,8 @@ void MakeCertProfileDlg::initUI()
     mNotAfterDateTime->setDateTime(nowDateTime);
 
     mExtUsageCombo->addItems( kExtUsageList );
+
+    mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ));
 }
 
 void MakeCertProfileDlg::setTableMenus()

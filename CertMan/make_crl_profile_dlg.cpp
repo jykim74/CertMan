@@ -204,8 +204,10 @@ void MakeCRLProfileDlg::defaultProfile()
     mNameText->setText("");
 
     mCRLNumText->setText("");
-    mCRLNumAutoCheck->setChecked(false);
+    mCRLNumAutoCheck->setChecked(true);
     mCRLNumCriticalCheck->setChecked(false);
+    mCRLNumLabel->setEnabled(false);
+    mCRLNumText->setEnabled(false);
 
     mAKICriticalCheck->setChecked(false);
     mAKICertIssuerCheck->setChecked(false);
@@ -343,6 +345,9 @@ void MakeCRLProfileDlg::initUI()
     now.setSecsSinceEpoch( time(NULL) );
     mThisUpdateDateTime->setDateTime( now );
     mNextUpdateDateTime->setDateTime( now );
+
+    mCRLNumText->setPlaceholderText( tr( "Hex value" ) );
+    mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ) );
 }
 
 void MakeCRLProfileDlg::connectExtends()
