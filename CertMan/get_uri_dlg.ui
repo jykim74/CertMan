@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>get data from ldap</string>
+   <string>get data from URI</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -20,6 +20,13 @@
       <string>URI Address</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>ex) http://i.pki.goog/we2.crt</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QComboBox" name="mURICombo">
         <property name="minimumSize">
