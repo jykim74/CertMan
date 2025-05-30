@@ -183,8 +183,11 @@ void ManApplet::start()
 
     log( "======================================================");
 
-    if( settings_mgr_->PKCS11Use() == true )
-        loadPKCS11();
+    if( isLicense() )
+    {
+        if( settings_mgr_->PKCS11Use() == true )
+            loadPKCS11();
+    }
 }
 
 QString ManApplet::curFilePath( const QString strPath )

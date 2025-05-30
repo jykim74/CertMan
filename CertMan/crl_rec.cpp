@@ -12,6 +12,8 @@ CRLRec::CRLRec()
     m_nNum = -1;
     m_nRegTime = 0;
     m_nIssuerNum = -1;
+    m_nThisUpdate = -1;
+    m_nNextUpdate = -1;
     m_strCRL = "";
     m_strCRLDP = "";
 }
@@ -29,6 +31,16 @@ void CRLRec::setRegTime(int nRegTime)
 void CRLRec::setIssuerNum( int nIssuerNum )
 {
     m_nIssuerNum = nIssuerNum;
+}
+
+void CRLRec::setThisUpdate( int nThisUpdate )
+{
+    m_nThisUpdate = nThisUpdate;
+}
+
+void CRLRec::setNextUpdate( int nNextUpdate )
+{
+    m_nNextUpdate = nNextUpdate;
 }
 
 void CRLRec::setSignAlg( QString strSignAlg )

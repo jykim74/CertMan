@@ -58,7 +58,7 @@ void NewKeyDlg::initialize()
         mKMIPCheck->hide();
     }
 
-    if( manApplet->settingsMgr()->PKCS11Use() == false )
+    if( manApplet->isLicense() == false || manApplet->settingsMgr()->PKCS11Use() == false )
     {
         mPKCS11Check->setEnabled( false );
     }

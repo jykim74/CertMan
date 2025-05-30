@@ -352,10 +352,11 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     JCertInfo sCertInfo;
     CertRec     cert;
     JExtensionInfoList *pExtInfoList = NULL;
+    int nSelf = 0;
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    ret = JS_PKI_getCertInfo( pCert, &sCertInfo, &pExtInfoList );
+    ret = JS_PKI_getCertInfo2( pCert, &sCertInfo, &pExtInfoList, &nSelf );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCert, &pHexCert );
@@ -365,6 +366,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     cert.setSubjectDN( sCertInfo.pSubjectName );
     cert.setIssuerNum( kImportNum );
     cert.setSignAlg( sCertInfo.pSignAlgorithm );
+    cert.setSelf( nSelf );
 
     if( strcasecmp( sCertInfo.pIssuerName, sCertInfo.pSubjectName ) == 0 )
         cert.setSelf(1);
@@ -406,6 +408,8 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
     crl.setIssuerNum( kImportNum );
+    crl.setThisUpdate( sCRLInfo.uThisUpdate );
+    crl.setNextUpdate( sCRLInfo.uNextUpdate );
 
     dbMgr->addCRLRec( crl );
 

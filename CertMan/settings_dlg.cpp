@@ -91,6 +91,10 @@ void SettingsDlg::updateSettings()
         mgr->setBaseDN( mBaseDNText->text() );
 
         mgr->setDefaultECCParam( mDefaultECCParamCombo->currentText() );
+
+        mgr->setPKCS11Use( mP11Group->isChecked() );
+        mgr->setSlotIndex( mSlotIndexText->text().toInt() );
+        mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
     }
 
 #ifdef _AUTO_UPDATE
@@ -99,10 +103,6 @@ void SettingsDlg::updateSettings()
         AutoUpdateService::instance()->setAutoUpdateEnabled(enabled);
     }
 #endif
-
-    mgr->setPKCS11Use( mP11Group->isChecked() );
-    mgr->setSlotIndex( mSlotIndexText->text().toInt() );
-    mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
 
     mgr->setListCount( mListCountCombo->currentText().toInt() );
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
@@ -473,6 +473,8 @@ void SettingsDlg::initialize()
 
         mDefaultECCParamCombo->addItems( kECCOptionList );
         mDefaultECCParamCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+
+        mP11Group->setChecked( mgr->PKCS11Use() );
     }
     else
     {
@@ -482,10 +484,12 @@ void SettingsDlg::initialize()
         mDefaultECCParamLabel->setEnabled(false);
         mDefaultECCParamCombo->setEnabled(false);
         mLDAPGroup->setEnabled(false);
+        mP11Group->setChecked( false );
+        mP11Group->setDisabled( true );
     }
 
     mShowPriKeyInfoCheck->setChecked( mgr->getShowPriInfo() );
-    mP11Group->setChecked( mgr->PKCS11Use() );
+
 
     mListCountCombo->addItems( kListCountList );
 

@@ -394,6 +394,8 @@ void MakeCRLDlg::accept()
     madeCRLRec.setNum( nSeq );
     madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
+    madeCRLRec.setThisUpdate( uThisUpdate + now_t );
+    madeCRLRec.setNextUpdate( uNextUpdate + now_t );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
     madeCRLRec.setCRLDP( strCRLDP );
     madeCRLRec.setCRL( pHexCRL );

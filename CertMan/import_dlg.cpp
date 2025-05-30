@@ -215,8 +215,8 @@ void ImportDlg::initialize()
     if( manApplet->isPRO() == false )
         mToKMSCheck->hide();
 
-    if( manApplet->settingsMgr()->PKCS11Use() == false )
-        mToPKCS11Check->hide();
+    if( manApplet->isLicense() == false || manApplet->settingsMgr()->PKCS11Use() == false )
+        mToPKCS11Check->setDisabled(true);
 
     checkUseFile();
 }
@@ -594,6 +594,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
     int ret = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
+    int nSelf = 0;
 
     char *pHexCert = NULL;
     JCertInfo sCertInfo;
@@ -602,7 +603,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
 
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
 
-    ret = JS_PKI_getCertInfo( pCert, &sCertInfo, &pExtInfoList );
+    ret = JS_PKI_getCertInfo2( pCert, &sCertInfo, &pExtInfoList, &nSelf );
     if( ret != 0 ) return ret;
 
     JS_BIN_encodeHex( pCert, &pHexCert );
@@ -647,6 +648,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
         cert.setSubjectDN( sCertInfo.pSubjectName );
         cert.setIssuerNum( kImportNum );
         cert.setSignAlg( sCertInfo.pSignAlgorithm );
+        cert.setSelf( nSelf );
 
         dbMgr->addCertRec( cert );
     }
@@ -684,6 +686,8 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
     crl.setIssuerNum( kImportNum );
+    crl.setThisUpdate( sCRLInfo.uThisUpdate );
+    crl.setNextUpdate( sCRLInfo.uNextUpdate );
 
     dbMgr->addCRLRec( crl );
 

@@ -60,6 +60,8 @@ CREATE TABLE IF NOT EXISTS TB_CRL (
  Num INT PRIMARY KEY,
  RegTime INT,
  IssuerNum INT,
+ ThisUpdate INT,
+ NextUpdate INT,
  signAlg VARCHAR(256),
  CRLDP VARCHAR(256),
  CRL Text

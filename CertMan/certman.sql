@@ -117,6 +117,8 @@ CREATE TABLE IF NOT EXISTS "TB_CRL" (
 	"RegTime"	INTEGER,
 	"IssuerNum"	INTEGER,
 	"signAlg"	TEXT,
+	"ThisUpdate"	INTEGER,
+	"NextUpdate"	INTEGER,
 	"CRLDP"	TEXT,
 	"CRL"	TEXT,
 	PRIMARY KEY("Num")

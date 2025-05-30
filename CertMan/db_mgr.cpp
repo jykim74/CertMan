@@ -1424,6 +1424,8 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
     int nPosNum = SQL.record().indexOf( "NUM" );
     int nPosRegTime = SQL.record().indexOf( "RegTime" );
     int nPosIssuerNum = SQL.record().indexOf( "IssuerNum" );
+    int nPosThisUpdate = SQL.record().indexOf( "ThisUpdate" );
+    int nPosNextUpdate = SQL.record().indexOf( "NextUpdate" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
     int nPosCRLDP = SQL.record().indexOf( "CRLDP" );
     int nPosCRL = SQL.record().indexOf( "CRL" );
@@ -1435,6 +1437,8 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
         crlRec.setNum( SQL.value(nPosNum).toInt() );
         crlRec.setRegTime( SQL.value(nPosRegTime).toInt());
         crlRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt() );
+        crlRec.setThisUpdate( SQL.value(nPosThisUpdate).toInt());
+        crlRec.setNextUpdate( SQL.value(nPosNextUpdate).toInt());
         crlRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
         crlRec.setCRLDP( SQL.value(nPosCRLDP).toString());
         crlRec.setCRL( SQL.value(nPosCRL).toString() );
@@ -2126,12 +2130,14 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     }
 
     sqlQuery.prepare( "INSERT INTO TB_CRL "
-                      "( NUM, REGTIME, ISSUERNUM, SIGNALG, CRLDP, CRL ) "
-                      "VALUES( ?,?, ?, ?, ?, ? );" );
+                      "( NUM, REGTIME, ISSUERNUM, THISUPDATE, NEXTUPDATE, SIGNALG, CRLDP, CRL ) "
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, crlRec.getNum() );
     sqlQuery.bindValue( i++, crlRec.getRegTime() );
     sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
+    sqlQuery.bindValue( i++, crlRec.getThisUpdate() );
+    sqlQuery.bindValue( i++, crlRec.getNextUpdate() );
     sqlQuery.bindValue( i++, crlRec.getSignAlg() );
     sqlQuery.bindValue( i++, crlRec.getCRLDP() );
     sqlQuery.bindValue( i++, crlRec.getCRL() );

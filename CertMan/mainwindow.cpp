@@ -5037,7 +5037,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
 
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Key"), tr("Algorithm"), tr("SubjectDN") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("SubjectDN") };
 
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
@@ -5085,8 +5085,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
-    right_table_->setColumnWidth( 2, 140 );
-    right_table_->setColumnWidth( 3, 90 );
+    right_table_->setColumnWidth( 2, 120 );
 
     for( int i=0; i < certList.size(); i++ )
     {
@@ -5120,13 +5119,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
             }
         }
 
-        QString strKeyName;
         QString strUserName;
-
-        if( cert.getKeyNum() >= 0 )
-            strKeyName = manApplet->dbMgr()->getNumName( cert.getKeyNum(), "TB_KEY_PAIR", "NAME" );
-        else
-            strKeyName = "None";
 
         if( cert.getUserNum() > 0 )
             manApplet->dbMgr()->getNumName( cert.getUserNum(), "TB_USER", "NAME" );
@@ -5139,7 +5132,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, pos++, seq );
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( dateString(cert.getRegTime())  ) ));
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strKeyName )));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
         right_table_->setItem( i, pos++, item );
     }
@@ -5160,7 +5152,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Issuer"), tr("SignAlg"), tr("CRLDP") };
+    QStringList headerList = { tr("Num"), tr("RegTime"), tr("ThisUpdate"), tr("SignAlg"), tr("CRLDP") };
     QList<CRLRec> crlList;
 
 
@@ -5191,20 +5183,23 @@ void MainWindow::createRightCRLList( int nIssuerNum )
 
     right_table_->setColumnWidth( 0, 60 );
     right_table_->setColumnWidth( 1, 130 );
-    right_table_->setColumnWidth( 2, 200 );
+    right_table_->setColumnWidth( 2, 130 );
     right_table_->setColumnWidth( 3, 90 );
 
     for( int i=0; i < crlList.size(); i++ )
     {
         CRLRec crl = crlList.at(i);
         QString strIssuerName;
-
+/*
         if( crl.getIssuerNum() >= 0 )
             strIssuerName = manApplet->dbMgr()->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+        else if( crl.getIssuerNum() == kImportNum )
+            strIssuerName = "Import (None)";
         else
             strIssuerName = "None";
+*/
 
-        QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
+//        QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
 
         if( nIssuerNum == kImportNum )
@@ -5220,7 +5215,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
         right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(crl.getRegTime()) )));
-        right_table_->setItem( i, 2, item );
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( dateString(crl.getThisUpdate()) )) );
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRLDP() ));
     }
@@ -5975,6 +5970,9 @@ void MainWindow::infoCRL( int seq )
 
     CRLRec crlRec;
     char    sRegTime[64];
+    char    sThisUpdate[64];
+    char    sNextUpdate[64];
+
     int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
     manApplet->dbMgr()->getCRLRec( seq, crlRec );
@@ -5987,20 +5985,25 @@ void MainWindow::infoCRL( int seq )
     else
         strIssuerName = "Unknown";
 
+    JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
+    JS_UTIL_getDateTime( crlRec.getThisUpdate(), sThisUpdate );
+    JS_UTIL_getDateTime( crlRec.getNextUpdate(), sNextUpdate );
+
     manApplet->mainWindow()->infoClear();
     infoLine();
     info( "== CRL Information\n" );
     infoLine();
-    info( QString("Num           : %1\n").arg(crlRec.getNum()));
-    JS_UTIL_getDateTime( crlRec.getRegTime(), sRegTime );
-    info( QString("RegTime       : %1\n").arg(sRegTime));
-    info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
-    info( QString("SignAlgorithm : %1\n").arg(crlRec.getSignAlg()));
+    info( QString("Num             : %1\n").arg(crlRec.getNum()));
+    info( QString("RegTime         : %1\n").arg(sRegTime));
+    info( QString("IssuerNum       : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
+    info( QString("SignAlgorithm   : %1\n").arg(crlRec.getSignAlg()));
+    info( QString("ThisUpdate      : %1\n").arg(sThisUpdate));
+    info( QString("NextUpdate      : %1\n").arg(sNextUpdate));
     info( QString("CRL\n"));
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
     infoLine2();
-    info( QString("CRLDP         : %1\n").arg(crlRec.getCRLDP()));
+    info( QString("CRLDP           : %1\n").arg(crlRec.getCRLDP()));
     infoLine();
 
     infoCursorTop();
