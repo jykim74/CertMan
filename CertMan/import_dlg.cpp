@@ -151,7 +151,7 @@ void ImportDlg::accept()
         ret = ImportCert( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCertList( -2 );
+            manApplet->mainWindow()->createRightCertList( kImportNum );
         }
     }
     else if( nSelType == IMPORT_TYPE_CRL )
@@ -166,7 +166,7 @@ void ImportDlg::accept()
         ret = ImportCRL( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCRLList(-2);
+            manApplet->mainWindow()->createRightCRLList( kImportNum );
         }
     }
     else if( nSelType == IMPORT_TYPE_PFX )
@@ -174,7 +174,7 @@ void ImportDlg::accept()
         ret = ImportPFX( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCertList(-2);
+            manApplet->mainWindow()->createRightCertList( kImportNum );
         }
     }
 
@@ -645,7 +645,7 @@ int ImportDlg::ImportCert( const BIN *pCert )
         cert.setCert( pHexCert );
         cert.setRegTime( time(NULL) );
         cert.setSubjectDN( sCertInfo.pSubjectName );
-        cert.setIssuerNum( -2 );
+        cert.setIssuerNum( kImportNum );
         cert.setSignAlg( sCertInfo.pSignAlgorithm );
 
         dbMgr->addCertRec( cert );
@@ -683,7 +683,7 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     crl.setCRL( pHexCRL );
     crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
-    crl.setIssuerNum( -2 );
+    crl.setIssuerNum( kImportNum );
 
     dbMgr->addCRLRec( crl );
 

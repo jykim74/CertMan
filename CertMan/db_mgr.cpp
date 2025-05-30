@@ -677,7 +677,7 @@ int DBMgr::getCACertList( QList<CertRec>& certList )
 
 int DBMgr::getIssuerCertList( QList<CertRec>& certList )
 {
-    QString strSQL  = "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM >= -1 ORDER BY NUM DESC";
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM >= %1 ORDER BY NUM DESC" ).arg( kSelfNum );
 
     return _getCertList( strSQL, certList );
 }

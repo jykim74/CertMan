@@ -106,9 +106,6 @@ const int kPeriodDay = 0;
 const int kPeriodMonth = 1;
 const int kPeriodYear = 2;
 
-const int kSelfNum = -1;
-const int kImportNum = -2;
-
 const QString kMechRSA = "RSA";
 const QString kMechEC = "EC";
 const QString kMechEdDSA = "EdDSA";

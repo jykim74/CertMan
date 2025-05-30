@@ -229,9 +229,9 @@ end :
         if( mUseLDAPCheck->isChecked() == false ) saveUsedURI( strValidURI );
 
         if( bCRL == false )
-            manApplet->mainWindow()->createRightCertList(-2);
+            manApplet->mainWindow()->createRightCertList( kImportNum );
         else
-            manApplet->mainWindow()->createRightCRLList(-2);
+            manApplet->mainWindow()->createRightCRLList( kImportNum );
 
         manApplet->messageBox( tr( "URL retrieval successful: %1" ).arg( strTarget ), this );
         QDialog::accept();
@@ -363,7 +363,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     cert.setCert( pHexCert );
     cert.setRegTime( time(NULL));
     cert.setSubjectDN( sCertInfo.pSubjectName );
-    cert.setIssuerNum( -2 );
+    cert.setIssuerNum( kImportNum );
     cert.setSignAlg( sCertInfo.pSignAlgorithm );
 
     if( strcasecmp( sCertInfo.pIssuerName, sCertInfo.pSubjectName ) == 0 )
@@ -405,7 +405,7 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     if( strURI.length() > 0 ) crl.setCRLDP( strURI );
     crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
-    crl.setIssuerNum( -2 );
+    crl.setIssuerNum( kImportNum );
 
     dbMgr->addCRLRec( crl );
 

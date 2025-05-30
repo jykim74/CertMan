@@ -3741,7 +3741,7 @@ void MainWindow::issueSCEP()
     if( nRet == 0 )  manApplet->dbMgr()->modReqStatus( num, 1 );
 
     if( nRet == 0 ) manApplet->messageLog( tr( "The certificate was issued by SCEP."), this );
-    manApplet->mainWindow()->createRightCertList(-2);
+    manApplet->mainWindow()->createRightCertList( kImportNum );
 
 end :
     JS_BIN_reset( &binSSLPri );
@@ -3966,7 +3966,7 @@ void MainWindow::renewSCEP()
 
     if( ret == 0 ) manApplet->messageLog( tr( "The certificate was renewed by SCEP"), this );
 
-    manApplet->mainWindow()->createRightCertList(-2);
+    manApplet->mainWindow()->createRightCertList( kImportNum );
 
 end :
     JS_BIN_reset( &binCert );
@@ -4123,7 +4123,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret == 0 ) manApplet->messageLog( tr( "The getCRL was successful with SCEP"), this );
 
-    manApplet->mainWindow()->createRightCRLList(-2);
+    manApplet->mainWindow()->createRightCRLList( kImportNum );
 
 end :
     JS_BIN_reset( &binCert );
@@ -4745,11 +4745,11 @@ void MainWindow::createRightList( int nType, int nNum )
     else if( nType == CM_ITEM_TYPE_CRL_PROFILE )
         createRightCRLProfileList();
     else if( nType == CM_ITEM_TYPE_ROOTCA )
-        createRightCertList( -1 );
+        createRightCertList( kSelfNum );
     else if( nType == CM_ITEM_TYPE_IMPORT_CERT )
-        createRightCertList( -2 );
+        createRightCertList( kImportNum );
     else if( nType == CM_ITEM_TYPE_IMPORT_CRL )
-        createRightCRLList( -2 );
+        createRightCRLList( kImportNum );
     else if( nType == CM_ITEM_TYPE_CA )
         createRightCertList( nNum );
     else if( nType == CM_ITEM_TYPE_CERT )
@@ -4832,7 +4832,11 @@ void MainWindow::createRightKeyPairList()
         KeyPairRec keyPairRec = keyPairList.at(i);
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg(keyPairRec.getNum() ));
-        seq->setIcon( QIcon(":/images/key_reg.png" ));
+
+        if( isPKCS11Private( keyPairRec.getAlg() ) )
+            seq->setIcon( QIcon( ":/images/hsm.png" ));
+        else
+            seq->setIcon( QIcon(":/images/key_reg.png" ));
 
         int nStatus = keyPairRec.getStatus();
         seq->setData( Qt::UserRole, nStatus );
@@ -5100,7 +5104,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
 
-        if( nIssuerNum == -2 )
+        if( nIssuerNum == kImportNum )
         {
             seq->setIcon( QIcon(":/images/im_cert.png"));
         }
@@ -5209,7 +5213,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
 
-        if( nIssuerNum == -2 )
+        if( nIssuerNum == kImportNum )
         {
             seq->setIcon( QIcon(":/images/im_crl.png"));
         }
@@ -5307,8 +5311,6 @@ void MainWindow::createRightUserList()
     search_form_->show();
 
 
-
-
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();
     int nPage = search_form_->curPage();
@@ -5377,8 +5379,6 @@ void MainWindow::createRightUserList()
 void MainWindow::createRightKMSList()
 {
     search_form_->show();
-
-
 
 
     int nTotalCount = 0;

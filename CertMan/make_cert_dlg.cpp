@@ -339,6 +339,8 @@ void MakeCertDlg::accept()
 
     if( bSelf )
     {
+        nIssuerNum = kSelfNum;
+
         if( mUseCSRFileCheck->isChecked() )
         {
             manApplet->warningBox(tr("You cannot create a Self-Sign certificate using CSR"), this );

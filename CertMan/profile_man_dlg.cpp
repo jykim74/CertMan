@@ -225,6 +225,11 @@ void ProfileManDlg::loadCertProfileList()
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( profile.getNum() ));
         item->setData(Qt::UserRole, profile.getNum() );
 
+        if( profile.getType() == JS_PKI_PROFILE_TYPE_CSR )
+            item->setIcon(QIcon(":/images/csr_profile.png"));
+        else
+            item->setIcon(QIcon(":/images/cert_profile.png"));
+
         getPeriodString( profile.getNotBefore(), profile.getNotAfter(), strNotBefore, strNotAfter );
 
         mCertTable->insertRow(0);
@@ -253,6 +258,7 @@ void ProfileManDlg::loadCRLProfileList()
         CRLProfileRec profile = profileList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( profile.getNum()) );
         item->setData(Qt::UserRole, profile.getNum() );
+        item->setIcon(QIcon(":/images/crl_profile.png"));
 
         getPeriodString( profile.getThisUpdate(), profile.getNextUpdate(), strThisUpdate, strNextUpdate );
 

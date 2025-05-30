@@ -3658,7 +3658,7 @@ int writeCertDB( DBMgr *dbMgr, const BIN *pCert )
     certRec.setRegTime( time(NULL));
     certRec.setKeyNum( -1 );
     certRec.setSubjectDN( sCertInfo.pSubjectName );
-    certRec.setIssuerNum( -2 );
+    certRec.setIssuerNum( kImportNum );
     certRec.setSignAlg( sCertInfo.pSignAlgorithm );
     nRet = dbMgr->addCertRec( certRec );
 

@@ -255,7 +255,7 @@ void CAManDlg::loadCACertList()
 
     mCACertTable->setRowCount(0);
 
-    ret = dbMgr->getCACertList( certList );
+    ret = dbMgr->getIssuerCertList( certList );
 
     for( int i = 0; i < certList.size(); i++ )
     {
@@ -263,10 +263,14 @@ void CAManDlg::loadCACertList()
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
         item->setData(Qt::UserRole, cert.getNum() );
 
+        item->setIcon( QIcon(":/images/cert.png" ));
+
         if( strType != "Any" )
         {
             BIN binCert = {0,0};
             int nKeyType = -1;
+
+
             JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
             nKeyType = JS_PKI_getCertKeyType( &binCert );
             JS_BIN_reset( &binCert );
@@ -320,6 +324,11 @@ void CAManDlg::loadKeyPairList()
         KeyPairRec keyPair = keyPairList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( keyPair.getNum() ) );
         item->setData(Qt::UserRole, keyPair.getNum() );
+
+        if( isPKCS11Private( keyPair.getAlg() ))
+            item->setIcon( QIcon( ":/images/hsm.png" ));
+        else
+            item->setIcon( QIcon( ":/images/key_reg.png" ));
 
         if( strType != "Any" )
         {
@@ -379,6 +388,8 @@ void CAManDlg::loadCSRList()
         ReqRec req = reqList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( QString( "%1").arg( req.getSeq() ) );
         item->setData(Qt::UserRole, req.getSeq() );
+
+        item->setIcon( QIcon(":/images/csr.png" ));
 
         if( strType != "Any" )
         {

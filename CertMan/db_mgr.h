@@ -34,6 +34,9 @@ class TSPRec;
 class AdminRec;
 class ConfigRec;
 
+const int kSelfNum = 0;
+const int kImportNum = -99;
+
 class DBMgr
 {
 public:
