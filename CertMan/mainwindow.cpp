@@ -996,7 +996,7 @@ void MainWindow::createTreeMenu()
     ManTreeItem *pRootCAItem = new ManTreeItem( QString(tr("RootCA")) );
     pRootCAItem->setIcon( QIcon(":/images/root_cert.png") );
     pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
-    pRootCAItem->setDataNum(-1);
+    pRootCAItem->setDataNum( kSelfNum );
     pTopItem->appendRow( pRootCAItem );
     expandItem( pRootCAItem );
     root_ca_ = pRootCAItem;
@@ -5093,15 +5093,9 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         int pos = 0;
         CertRec cert = certList.at(i);
 
-        QString strDNInfo;
-        if( cert.isSelf() ) strDNInfo += "[Self]";
+        QTableWidgetItem *item = new QTableWidgetItem( cert.getSubjectDN() );
+        if( cert.isSelf() ) item->setIcon( QIcon( ":/images/self.png" ) );
 
-        if( cert.getIssuerNum() >= 0 )
-            strDNInfo += QString( "[%1] " ).arg( getCertStatusSName(cert.getStatus()) );
-
-        strDNInfo += cert.getSubjectDN();
-
-        QTableWidgetItem *item = new QTableWidgetItem( strDNInfo );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
 
         if( nIssuerNum == kImportNum )
@@ -5832,6 +5826,8 @@ void MainWindow::infoCertificate( int seq )
     {
         if( certRec.getIssuerNum() == kSelfNum )
             strIssuerName = "SelfSign";
+        else if( certRec.getIssuerNum() == kImportNum )
+            strIssuerName = "Import (Unknown)";
         else
             strIssuerName = "Unknown";
     }
@@ -5986,6 +5982,8 @@ void MainWindow::infoCRL( int seq )
 
     if( crlRec.getIssuerNum() > 0 )
         strIssuerName = manApplet->dbMgr()->getNumName( crlRec.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
+    else if( crlRec.getIssuerNum() == kImportNum )
+        strIssuerName = "Import (Unknown)";
     else
         strIssuerName = "Unknown";
 
