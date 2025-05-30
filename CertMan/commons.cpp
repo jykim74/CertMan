@@ -1950,6 +1950,85 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
     JS_BIN_reset( &binExt );
 }
 
+const QString getExtValue( const QString strName, const QString strHexValue, bool bShow )
+{
+    int ret = 0;
+    QString strVal;
+
+    BIN     binExt = {0,0};
+
+    JS_BIN_decodeHex( strHexValue.toStdString().c_str(), &binExt );
+
+    if( strName == JS_PKI_ExtNameKeyUsage )
+    {
+        ret = _getKeyUsage( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameCRLNum )
+    {
+        ret = _getCRLNum( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNamePolicy )
+    {
+        ret = _getCertPolicy( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameSKI )
+    {
+        ret = _getSKI( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameAKI )
+    {
+        ret = _getAKI( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameEKU )
+    {
+        ret = _getEKU( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameCRLDP )
+    {
+        ret = _getCRLDP( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameBC )
+    {
+        ret = _getBC( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNamePC )
+    {
+        ret = _getPC( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameAIA )
+    {
+        ret = _getAIA( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameIDP )
+    {
+        ret = _getIDP( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameSAN || strName == JS_PKI_ExtNameIAN )
+    {
+        int nNid = JS_PKI_getNidFromSN( strName.toStdString().c_str() );
+        ret = _getAltName( &binExt, nNid, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNamePM )
+    {
+        ret = _getPM( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameNC )
+    {
+        ret = _getNC( &binExt, bShow, strVal );
+    }
+    else if( strName == JS_PKI_ExtNameCRLReason )
+    {
+        ret = _getCRLReason( &binExt, bShow, strVal );
+    }
+    else
+    {
+        strVal = strHexValue;
+    }
+
+    JS_BIN_reset( &binExt );
+    return strVal;
+}
+
 const QString getProfileExtInfoValue( const QString strSN, const QString& strVal )
 {
     QString strShowVal;
@@ -4481,4 +4560,30 @@ void getPeriodString( long start, long end, QString& strStart, QString& strEnd )
         strStart = getDateTime( start );
         strEnd = getDateTime( end );
     }
+}
+
+const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList )
+{
+    QString strValue;
+
+    JExtensionInfoList *pCurList = NULL;
+
+    pCurList = pExtList;
+
+    while( pCurList )
+    {
+        QString strSN;
+
+        strSN = pCurList->sExtensionInfo.pOID;
+
+        if( strSN == strExtName )
+        {
+            strValue = pCurList->sExtensionInfo.pValue;
+            break;
+        }
+
+        pCurList = pCurList->pNext;
+    }
+
+    return strValue;
 }

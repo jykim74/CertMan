@@ -409,3 +409,54 @@ void CRLInfoDlg::clickRevokeField(QModelIndex index)
     }
 
 }
+
+const QString CRLInfoDlg::getCRL_URIFromExt( const QString strExtCRLDP )
+{
+    QString strURI;
+    QString strCRLDP;
+
+    strCRLDP = getExtValue( JS_PKI_ExtNameIDP, strExtCRLDP, false );
+
+    QStringList infoList = strCRLDP.split( "#" );
+
+    for( int i = 0; i < infoList.size(); i++ )
+    {
+        QString strPart = infoList.at(i);
+        QStringList partList = strPart.split( "$" );
+        if( partList.size() < 2 ) continue;
+
+        if( partList.at(0) == "URI" )
+        {
+            strURI = partList.at(1);
+            break;
+        }
+    }
+
+    return strURI;
+}
+
+const QString CRLInfoDlg::getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList )
+{
+    QString strValue;
+
+    JExtensionInfoList *pCurList = NULL;
+
+    pCurList = pExtList;
+
+    while( pCurList )
+    {
+        QString strSN;
+
+        strSN = pCurList->sExtensionInfo.pOID;
+
+        if( strSN == strExtName )
+        {
+            strValue = pCurList->sExtensionInfo.pValue;
+            break;
+        }
+
+        pCurList = pCurList->pNext;
+    }
+
+    return strValue;
+}

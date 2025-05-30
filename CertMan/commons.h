@@ -218,6 +218,8 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
 int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec );
 
 void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal );
+const QString getExtValue( const QString strName, const QString strHexValue, bool bShow = true );
+
 const QString getProfileExtInfoValue( const QString strSN, const QString& strVal );
 
 CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN = nullptr );
@@ -296,5 +298,7 @@ bool isURLEncode( const QString strURLEncode );
 
 const QString dateString( time_t tTime );
 void getPeriodString( long start, long end, QString& strStart, QString& strEnd );
+
+const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList );
 
 #endif // COMMONS_H

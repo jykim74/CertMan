@@ -27,6 +27,10 @@ public:
     int getCRLNum() { return crl_num_; };
     QTableWidgetItem* getExtNameItem( const QString strSN );
 
+    static const QString getCRL_URIFromExt( const QString strExtCRLDP );
+    static const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList );
+
+
 private slots:
     void clickCRLField( QModelIndex index );
     void clickRevokeField( QModelIndex index );
