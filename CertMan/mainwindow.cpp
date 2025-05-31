@@ -1937,13 +1937,16 @@ void MainWindow::viewPriKey()
     int num = item->text().toInt();
     QString strAlg = item2->text();
 
-    /*
-    if( strAlg.contains( "PKCS11" ) )
+
+    if( isPKCS11Private( strAlg ) )
     {
-        manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg), this);
-        return;
+        if( manApplet->P11CTX() == NULL )
+        {
+            manApplet->warningBox( tr("Private key for HSM is not visible [%1]").arg(strAlg), this);
+            return;
+        }
     }
-    */
+
 
     if( strAlg.contains( "KMIP" ) )
     {

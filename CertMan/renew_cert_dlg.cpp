@@ -259,11 +259,25 @@ void RenewCertDlg::accept()
 
     if( isPKCS11Private( strKeyAlg ) == true )
     {
+        if( manApplet->settingsMgr()->PKCS11Use() == false )
+        {
+            manApplet->warningBox( tr("No PKCS11 settings"), this );
+            ret = -1;
+            goto end;
+        }
+
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
         BIN binID = {0,0};
+
+        if( pP11CTX == NULL )
+        {
+            manApplet->warningBox( tr("PKCS11 library was not loaded"), this );
+            ret = -1;
+            goto end;
+        }
 
         CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
         if( hSession < 0 )

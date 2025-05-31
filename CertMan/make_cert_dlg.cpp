@@ -467,8 +467,6 @@ void MakeCertDlg::accept()
         notAfter = profileRec.getNotAfter() - now_t;
     }
 
-
-
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         profileRec.getVersion(),
                         strSerial.toStdString().c_str(),
