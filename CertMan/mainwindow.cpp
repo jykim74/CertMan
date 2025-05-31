@@ -5999,11 +5999,10 @@ void MainWindow::infoCRL( int seq )
     info( QString("SignAlgorithm   : %1\n").arg(crlRec.getSignAlg()));
     info( QString("ThisUpdate      : %1\n").arg(sThisUpdate));
     info( QString("NextUpdate      : %1\n").arg(sNextUpdate));
+    info( QString("CRLDP           : %1\n").arg( crlRec.getCRLDP() ));
     info( QString("CRL\n"));
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( crlRec.getCRL(), nWidth )));
-    infoLine2();
-    info( QString("CRLDP           : %1\n").arg(crlRec.getCRLDP()));
     infoLine();
 
     infoCursorTop();

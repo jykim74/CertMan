@@ -126,7 +126,7 @@ void MakeReqDlg::initialize()
         mKMIPCheck->hide();
     }
 
-    if( manApplet->isLicense() == false || manApplet->settingsMgr()->PKCS11Use() == false )
+    if( manApplet->P11CTX() == NULL )
     {
         mPKCS11Check->setEnabled( false );
     }

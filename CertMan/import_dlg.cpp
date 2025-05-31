@@ -217,7 +217,7 @@ void ImportDlg::initialize()
     if( manApplet->isPRO() == false )
         mToKMSCheck->hide();
 
-    if( manApplet->isLicense() == false || manApplet->settingsMgr()->PKCS11Use() == false )
+    if( manApplet->P11CTX() == NULL )
         mToPKCS11Check->setDisabled(true);
 
     checkUseFile();
