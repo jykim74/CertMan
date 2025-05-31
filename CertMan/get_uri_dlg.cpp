@@ -10,7 +10,10 @@
 #include "js_ldap.h"
 #include "js_pki.h"
 #include "js_pki_x509.h"
+#include "js_pki_ext.h"
 #include "js_http.h"
+#include "crl_info_dlg.h"
+#include "commons.h"
 
 const char *kUsedURI = "UsedURI";
 const char *kURL = "URL";
@@ -395,11 +398,16 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     CRLRec crl;
     JExtensionInfoList *pExtInfoList = NULL;
     JRevokeInfoList *pRevokeInfoList = NULL;
+    QString strExt;
+    QString strCRLDP;
 
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
 
     ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, &pExtInfoList, &pRevokeInfoList );
     if( ret != 0 ) return ret;
+
+    strExt = CRLInfoDlg::getValueFromExtList( JS_PKI_ExtNameIDP, pExtInfoList );
+    strCRLDP = CRLInfoDlg::getCRL_URIFromExt( strExt );
 
     JS_BIN_encodeHex( pCRL, &pHexCRL );
 
@@ -410,6 +418,7 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     crl.setIssuerNum( kImportNum );
     crl.setThisUpdate( sCRLInfo.uThisUpdate );
     crl.setNextUpdate( sCRLInfo.uNextUpdate );
+    if( strCRLDP.length() > 0 ) crl.setCRLDP( strCRLDP );
 
     dbMgr->addCRLRec( crl );
 

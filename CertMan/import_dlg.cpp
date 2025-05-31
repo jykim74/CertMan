@@ -13,9 +13,11 @@
 #include "js_pki_key.h"
 #include "js_pki_tools.h"
 #include "js_pki_x509.h"
+#include "js_pki_ext.h"
 #include "commons.h"
 #include "js_pki_eddsa.h"
 #include "js_define.h"
+#include "crl_info_dlg.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -674,11 +676,16 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     CRLRec crl;
     JExtensionInfoList *pExtInfoList = NULL;
     JRevokeInfoList *pRevokeInfoList = NULL;
+    QString strExt;
+    QString strCRLDP;
 
     memset( &sCRLInfo, 0x00, sizeof(sCRLInfo));
 
     ret = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, &pExtInfoList, &pRevokeInfoList );
     if( ret != 0 ) return ret;
+
+    strExt = CRLInfoDlg::getValueFromExtList( JS_PKI_ExtNameIDP, pExtInfoList );
+    strCRLDP = CRLInfoDlg::getCRL_URIFromExt( strExt );
 
     JS_BIN_encodeHex( pCRL, &pHexCRL );
 
@@ -688,6 +695,7 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     crl.setIssuerNum( kImportNum );
     crl.setThisUpdate( sCRLInfo.uThisUpdate );
     crl.setNextUpdate( sCRLInfo.uNextUpdate );
+    if( strCRLDP.length() > 0 ) crl.setCRLDP( strCRLDP );
 
     dbMgr->addCRLRec( crl );
 
