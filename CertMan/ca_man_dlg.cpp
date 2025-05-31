@@ -265,6 +265,9 @@ void CAManDlg::loadCACertList()
 
         item->setIcon( QIcon(":/images/cert.png" ));
 
+        QTableWidgetItem *item2 = new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN()));
+        if( cert.isSelf() ) item2->setIcon( QIcon(":/images/self.png" ));
+
         if( strType != "Any" )
         {
             BIN binCert = {0,0};
@@ -303,7 +306,7 @@ void CAManDlg::loadCACertList()
         mCACertTable->setItem( 0, 0, item );
         mCACertTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( cert.getSerial() )));
         mCACertTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
-        mCACertTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN())) );
+        mCACertTable->setItem( 0, 3, item2 );
     }
 }
 
