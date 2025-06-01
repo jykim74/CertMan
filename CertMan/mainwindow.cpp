@@ -4322,7 +4322,9 @@ void MainWindow::expandItem( ManTreeItem *item )
         pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
         pCAItem->appendRow( pRevokeItem );
 
-        ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA")));
+        int nCACount = manApplet->dbMgr()->getCACount( certRec.getNum() );
+
+        ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA[%1]").arg( nCACount )));
         pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
         pSubCAItem->setIcon(QIcon(":/images/ca.png"));
         pSubCAItem->setDataNum( certRec.getNum() );

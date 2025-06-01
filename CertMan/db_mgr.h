@@ -58,6 +58,7 @@ public:
 
     int getCertCount( int nIssuerNum );
     int getCACount();
+    int getCACount( int nIssuerNum );
     int getCRLCount( int nIssuerNum );
     int getKeyPairCount( int nStatus );
     int getReqCount( int nStatus );
