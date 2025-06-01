@@ -176,6 +176,8 @@ void PubLDAPDlg::initialize()
         JS_PKI_getPureDN( cert.getSubjectDN().toStdString().c_str(), &pPureDN );
         mPublishDNText->setText( pPureDN );
         if( pPureDN ) JS_free( pPureDN );
+
+        mTypeCombo->setCurrentText( "Certificate" );
     }
     else if( data_type_ == RightType::TYPE_CRL )
     {
@@ -191,6 +193,8 @@ void PubLDAPDlg::initialize()
         url.setUrl( crl.getCRLDP() );
         mInfoText->setText( strInfo );
         mPublishDNText->setText( url.host() );
+
+        mTypeCombo->setCurrentText( "CRL" );
     }
     else
     {

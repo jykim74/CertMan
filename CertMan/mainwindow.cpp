@@ -4401,6 +4401,7 @@ void MainWindow::addRootCA( CertRec& certRec )
 
 void MainWindow::certStatus()
 {
+    int ret = 0;
     QString strStatus;
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
@@ -4413,25 +4414,25 @@ void MainWindow::certStatus()
     char        sRevokedDate[64];
     const char  *pReason = NULL;
 
-    manApplet->dbMgr()->getCertRec( num, certRec );
+    ret = manApplet->dbMgr()->getCertRec( num, certRec );
 
     if( certRec.getNum() <= 0 )
     {
-        manApplet->warningBox( tr("failed to get certificate information"), this );
+        manApplet->warningBox( tr("fail to get certificate information : %1").arg(ret), this );
         return;
     }
 
-    if( certRec.getStatus() > 0 )
+    if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
     {
-        manApplet->dbMgr()->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
+        ret = manApplet->dbMgr()->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
         if( revokeRec.getSeq() <= 0 )
         {
-            manApplet->warningBox( tr("failed to get revoke information"), this );
+            manApplet->warningBox( tr("fail to get revoke information : %1").arg(ret), this );
             return;
         }
     }
 
-    if( certRec.getStatus() == 0 )
+    if( certRec.getStatus() == JS_CERT_STATUS_GOOD )
     {
         strStatus = "Good";
     }

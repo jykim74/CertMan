@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>518</width>
-    <height>402</height>
+    <width>524</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -255,6 +255,20 @@
       <widget class="QComboBox" name="mTypeCombo"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_6">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>ex) CN=Test,OU=devel,O=company,C=kr</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_5">
