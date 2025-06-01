@@ -2412,7 +2412,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="770"/>
         <source>Publish CRL</source>
-        <translation>CLR 배포하기</translation>
+        <translation>CRL 배포하기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="784"/>

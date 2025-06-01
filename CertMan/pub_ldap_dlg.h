@@ -27,6 +27,8 @@ public:
     void setDataType( int data_type );
     void setDataNum( int data_num );
 
+    void setPublishDN( const QString strDN );
+
 private slots:
     void showEvent(QShowEvent *event);
     virtual void accept();

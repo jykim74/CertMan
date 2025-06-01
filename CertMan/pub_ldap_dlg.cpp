@@ -182,11 +182,15 @@ void PubLDAPDlg::initialize()
         CRLRec crl;
         dbMgr->getCRLRec( data_num_, crl );
 
+        QUrl url;
+
         QString strInfo = QString( "Num: %1\nSignAlgorithm: %2")
                 .arg( crl.getNum() )
                 .arg( crl.getSignAlg() );
 
+        url.setUrl( crl.getCRLDP() );
         mInfoText->setText( strInfo );
+        mPublishDNText->setText( url.host() );
     }
     else
     {
@@ -201,6 +205,11 @@ void PubLDAPDlg::setDataType( int data_type )
 void PubLDAPDlg::setDataNum( int data_num )
 {
     data_num_ = data_num;
+}
+
+void PubLDAPDlg::setPublishDN( const QString strDN )
+{
+    mPublishDNText->setText( strDN );
 }
 
 void PubLDAPDlg::dataTypeChanged(int index)
