@@ -611,7 +611,7 @@ void MakeReqDlg::keyNumChanged()
         mHashCombo->setEnabled(true);
 
     QString strTitle = keyRec.getName();
-    strTitle += "(REQ)";
+    strTitle += "_CSR";
     mNameText->setText( strTitle );
 
 
