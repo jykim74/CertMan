@@ -906,7 +906,7 @@ void MainWindow::createTreeMenu()
     pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
     pTopItem->appendRow( pKeyPairItem );
 
-    ManTreeItem *pCSRItem = new ManTreeItem( QString( tr("Request")));
+    ManTreeItem *pCSRItem = new ManTreeItem( QString( tr("CSR")));
     pCSRItem->setIcon(QIcon(":/images/csr.png"));
     pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
     pTopItem->appendRow( pCSRItem );
@@ -5758,7 +5758,6 @@ void MainWindow::infoKeyPair(int seq)
             info( QString("PrivateKey\n"));
             infoLine2();
             info( QString("%1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
-            infoLine2();
         }
         else
             info( QString("Private ID : %1\n").arg( getHexStringArea( keyPair.getPrivateKey(), nWidth )));
@@ -5889,17 +5888,17 @@ void MainWindow::infoCertProfile( int seq )
 
     if( certProfile.getNotBefore() == kPeriodDay )
     {
-        strNotBefore = QObject::tr("CreationTime");
+        strNotBefore = QString("CreationTime");
         strNotAfter = QString( "%1 Days" ).arg( certProfile.getNotAfter() );
     }
     else if( certProfile.getNotBefore() == kPeriodMonth )
     {
-        strNotBefore = QObject::tr("CreationTime");
+        strNotBefore = QString("CreationTime");
         strNotAfter = QString( "%1 Months" ).arg( certProfile.getNotAfter() );
     }
     else if( certProfile.getNotBefore() == kPeriodYear )
     {
-        strNotBefore = QObject::tr("CreationTime");
+        strNotBefore = QString("CreationTime");
         strNotAfter = QString( "%1 Years" ).arg( certProfile.getNotAfter() );
     }
     else
@@ -6032,17 +6031,17 @@ void MainWindow::infoCRLProfile( int seq )
 
     if( crlProfile.getThisUpdate() == kPeriodDay )
     {
-        strThisUpdate = QObject::tr("CreationTime");
+        strThisUpdate = QString("CreationTime");
         strNextUpdate = QString( "%1 Days" ).arg( crlProfile.getNextUpdate() );
     }
     else if( crlProfile.getThisUpdate() == kPeriodMonth )
     {
-        strThisUpdate = QObject::tr("CreationTime");
+        strThisUpdate = QString("CreationTime");
         strNextUpdate = QString( "%1 Months" ).arg( crlProfile.getNextUpdate() );
     }
     else if( crlProfile.getThisUpdate() == kPeriodYear )
     {
-        strThisUpdate = QObject::tr("CreationTime");
+        strThisUpdate = QString("CreationTime");
         strNextUpdate = QString( "%1 Years" ).arg( crlProfile.getNextUpdate() );
     }
     else

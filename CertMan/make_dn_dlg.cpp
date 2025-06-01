@@ -19,6 +19,14 @@ MakeDNDlg::MakeDNDlg(QWidget *parent) :
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    connect( mEmailAddressText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mCNText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mOText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mOUText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mLText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mSTText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+    connect( mCText, SIGNAL(textChanged(QString)), this, SLOT(changeDN()));
+
     mOKBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)
@@ -142,5 +150,10 @@ void MakeDNDlg::clickClear()
     mSTText->clear();
     mCText->clear();
     mLText->clear();
+}
 
+void MakeDNDlg::changeDN()
+{
+    QString strDN = getDN();
+    mDNText->setText( strDN );
 }

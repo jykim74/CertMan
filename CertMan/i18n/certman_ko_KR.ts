@@ -2962,6 +2962,11 @@
         <translation>로그 중지</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="909"/>
+        <source>CSR</source>
+        <translation>CSR</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="1101"/>
         <source>failed to open database: %1</source>
         <translation>데이타 베이스 열기 실패: %1</translation>
@@ -3939,9 +3944,8 @@
         <translation>키 쌍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="909"/>
         <source>Request</source>
-        <translation>요청서</translation>
+        <translation type="vanished">요청서</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="920"/>
@@ -6063,9 +6067,8 @@
         <translation>고유 이름</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="34"/>
         <source>DN value</source>
-        <translation>고유 이름 값</translation>
+        <translation type="vanished">고유 이름 값</translation>
     </message>
     <message>
         <source>Common Name</source>
@@ -6120,17 +6123,17 @@
         <translation>Organization Unit (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="146"/>
+        <location filename="../make_dn_dlg.ui" line="167"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="153"/>
+        <location filename="../make_dn_dlg.ui" line="174"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="173"/>
+        <location filename="../make_dn_dlg.ui" line="194"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -6139,7 +6142,7 @@
         <translation type="vanished">고유 이름이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="128"/>
+        <location filename="../make_dn_dlg.cpp" line="136"/>
         <source>Enter DN value</source>
         <translation>DN 을 입력하세요</translation>
     </message>
@@ -7642,12 +7645,6 @@
         <location filename="../commons.cpp" line="4545"/>
         <location filename="../commons.cpp" line="4550"/>
         <location filename="../commons.cpp" line="4555"/>
-        <location filename="../mainwindow.cpp" line="5892"/>
-        <location filename="../mainwindow.cpp" line="5897"/>
-        <location filename="../mainwindow.cpp" line="5902"/>
-        <location filename="../mainwindow.cpp" line="6035"/>
-        <location filename="../mainwindow.cpp" line="6040"/>
-        <location filename="../mainwindow.cpp" line="6045"/>
         <source>CreationTime</source>
         <translation>생성시간</translation>
     </message>
