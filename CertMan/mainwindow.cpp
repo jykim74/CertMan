@@ -5741,6 +5741,8 @@ void MainWindow::infoKeyPair(int seq)
     info( QString("Num        : %1\n").arg( keyPair.getNum() ));
     info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     info( QString("Name       : %1\n").arg(keyPair.getName()));
+    info( QString("Param      : %1\n").arg(keyPair.getParam()));
+    info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
 
     info( QString("PublicKey\n") );
     infoLine2();
@@ -5762,8 +5764,7 @@ void MainWindow::infoKeyPair(int seq)
     else
         info( QString("PrivateKey : [hidden]\n" ));
 
-    info( QString("Param      : %1\n").arg(keyPair.getParam()));
-    info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
+
     infoLine();
 
     infoCursorTop();
@@ -5787,12 +5788,12 @@ void MainWindow::infoRequest( int seq )
     info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
     info( QString("Name     : %1\n").arg(reqRec.getName()));
     info( QString("DN       : %1\n").arg(reqRec.getDN()));
+    info( QString("Hash     : %1\n").arg(reqRec.getHash()));
+    info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
     info( QString("Request\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
-    infoLine2();
-    info( QString("Hash     : %1\n").arg(reqRec.getHash()));
-    info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
+
     infoLine();
 
     infoCursorTop();
@@ -5849,10 +5850,6 @@ void MainWindow::infoCertificate( int seq )
         info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
     info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    info( QString("Certificate\n") );
-    infoLine2();
-    info( QString("%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
-    infoLine2();
     info( QString("IsCA          : %1 - %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
     info( QString("IsSelf        : %1 - %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
     info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
@@ -5862,6 +5859,11 @@ void MainWindow::infoCertificate( int seq )
     info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
     info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
     info( QString("CRLDP         : %1\n").arg(certRec.getCRLDP()));
+
+    info( QString("Certificate\n") );
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( certRec.getCert(), nWidth )));
+
     infoLine();
 
     infoCursorTop();
@@ -6278,12 +6280,13 @@ void MainWindow::infoSigner(int seq)
     info( QString("Type         : %1 - %2\n").arg(getSignerTypeName(signerRec.getType())).arg(signerRec.getType()));
     info( QString("DN           : %1\n").arg(signerRec.getDN()));
     info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    info( QString("Cert\n") );
-    infoLine2();
-    info( QString("%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
-    infoLine2();
     info( QString("Status       : %1 - %2\n").arg(getStatusName(signerRec.getType())).arg(signerRec.getStatus()));
     info( QString("Info         : %1\n").arg(signerRec.getInfo()));
+    info( QString("Certificate\n") );
+
+    infoLine2();
+    info( QString("%1\n").arg( getHexStringArea( signerRec.getCert(), nWidth ) ));
+
     infoLine();
 
     infoCursorTop();
