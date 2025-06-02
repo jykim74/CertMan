@@ -738,6 +738,7 @@ end :
     {
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
         manApplet->settingsMgr()->setCertProfileNum( mProfileNumText->text().toInt() );
+
         if( bSelf == false ) manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
