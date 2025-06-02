@@ -83,6 +83,8 @@ public:
     void createTableMenu();
     void createMemberDlg();
 
+    void refreshRootCA();
+
     void createTreeMenu();
     void createRightList( int nType, int nNum );
     void createRightKeyPairList();

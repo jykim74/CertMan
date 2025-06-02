@@ -677,6 +677,13 @@ void MainWindow::createMemberDlg()
     profile_man_dlg_->setMode( ProfileManModeManage );
 }
 
+void MainWindow::refreshRootCA()
+{
+    int rows = root_ca_->rowCount();
+    root_ca_->removeRows( 0, rows );
+    expandItem( root_ca_ );
+}
+
 void MainWindow::removeAllRight()
 {
     info_text_->clear();
@@ -2676,7 +2683,7 @@ void MainWindow::deleteCertificate()
             manApplet->warningBox( tr("The cert have certificates or crls to be issued"), this );
             return;
         }
-
+#if 0
         if( cert.isSelf() )
         {
             /* Remove RootCA TreeItem */
@@ -2694,10 +2701,12 @@ void MainWindow::deleteCertificate()
                 }
             }
         }
+#endif
     }
 
     dbMgr->delCertRec( num );
     manApplet->log( QString( "CertNum : %1 is deleted").arg( num ));
+    if( cert.isCA() ) manApplet->mainWindow()->refreshRootCA();
 
     createRightCertList( cert.getIssuerNum() );
 }
@@ -4331,8 +4340,6 @@ void MainWindow::expandItem( ManTreeItem *item )
         pCAItem->appendRow( pSubCAItem );
 
         left_tree_->expand( pCAItem->index() );
-
-//        left_tree_->expand( pCAItem->index() );
     }
 
     left_tree_->expand( item->index() );

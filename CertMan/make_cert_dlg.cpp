@@ -665,8 +665,6 @@ void MakeCertDlg::accept()
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( pHexCert );
 
- //   ba = sMadeCertInfo.pSubjectName;
- //   madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
 
     madeCertRec.setNum( nSeq );
@@ -712,8 +710,11 @@ void MakeCertDlg::accept()
         addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CERT, sMadeCertInfo.pSubjectName );
     }
 
+    /*
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );
+    */
+    if( madeCertRec.isCA() ) manApplet->mainWindow()->refreshRootCA();
 
 end :
     JS_BIN_reset( &binCSR );
