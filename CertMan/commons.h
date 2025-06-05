@@ -208,11 +208,7 @@ static QStringList kRemoteDBList = { "MySQL/MariaDB", "PostgreSQL", "Open DB Con
 
 const QString GetSystemID();
 
-QString findFile( QWidget *parent, int nType, const QString strPath );
-QString findFile( QWidget *parent, int nType, const QString strPath, QString& strSelected );
-QString findSaveFile( QWidget *parent, int nType, const QString strPath );
-QString findSaveFile( QWidget *parent, const QString strFilter, const QString strPath );
-QString findFolder( QWidget *parent, const QString strPath );
+
 
 int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec );
 int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileExtRec );

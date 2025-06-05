@@ -249,7 +249,7 @@ void ImportDlg::clickFind()
     else if( mDataTypeCombo->currentIndex() == 5 )
         nFileType = JS_FILE_TYPE_PFX;
 
-    QString fileName = findFile( this, nFileType, strPath );
+    QString fileName = manApplet->findFile( this, nFileType, strPath );
     if( fileName.length() > 0 ) mPathText->setText( fileName );
 }
 

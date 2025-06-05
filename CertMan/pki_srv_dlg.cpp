@@ -340,9 +340,9 @@ void PKISrvDlg::clickAdd()
 
 void PKISrvDlg::clickFindFile()
 {
-    QString strPath = manApplet->curFilePath();
+    QString strPath;
 
-    QString strFileName = findFile( this, JS_FILE_TYPE_BER, strPath );
+    QString strFileName = manApplet->findFile( this, JS_FILE_TYPE_BER, strPath );
 
     if( strFileName.length() > 0 )
     {
@@ -353,9 +353,8 @@ void PKISrvDlg::clickFindFile()
 void PKISrvDlg::clickFindServer()
 {
     QString strPath = mServerPathText->text();
-    strPath = manApplet->curFilePath( strPath );
 
-    QString strFileName = findFile( this, JS_FILE_TYPE_ALL, strPath );
+    QString strFileName = manApplet->findFile( this, JS_FILE_TYPE_ALL, strPath );
 
     if( strFileName.length() > 0 ) mServerPathText->setText( strFileName );
 }

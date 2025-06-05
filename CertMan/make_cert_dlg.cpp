@@ -862,7 +862,7 @@ void MakeCertDlg::findCSRFile()
     strPath = mCSRFilePathText->text();
     strPath = manApplet->curPath(strPath);
 
-    QString filePath = findFile( this, nType, strPath );
+    QString filePath = manApplet->findFile( this, nType, strPath );
     if( filePath.length() > 0 )
     {
         ret = JS_BIN_fileReadBER( filePath.toLocal8Bit().toStdString().c_str(), &binCSR );
