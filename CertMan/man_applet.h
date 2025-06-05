@@ -81,11 +81,11 @@ public:
 
     int loignRegServer( QString& strToken );
 
-    QString findFile( QWidget *parent, int nType, const QString strPath );
-    QString findFile( QWidget *parent, int nType, const QString strPath, QString& strSelected );
-    QString findSaveFile( QWidget *parent, int nType, const QString strPath );
-    QString findSaveFile( QWidget *parent, const QString strFilter, const QString strPath );
-    QString findFolder( QWidget *parent, const QString strPath );
+    QString findFile( QWidget *parent, int nType, const QString strPath, bool bSave = true );
+    QString findFile( QWidget *parent, int nType, const QString strPath, QString& strSelected, bool bSave = true );
+    QString findSaveFile( QWidget *parent, int nType, const QString strPath, bool bSave = true );
+    QString findSaveFile( QWidget *parent, const QString strFilter, const QString strPath, bool bSave = true );
+    QString findFolder( QWidget *parent, const QString strPath, bool bSave = true );
 
 private:
     int loadPKCS11();

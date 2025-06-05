@@ -1294,7 +1294,7 @@ void MainWindow::open()
     }
 
     QString strPath = manApplet->getDBPath();
-    QString fileName = manApplet->findFile( this, JS_FILE_TYPE_DB, strPath );
+    QString fileName = manApplet->findFile( this, JS_FILE_TYPE_DB, strPath, false );
     if( fileName.length() < 1 ) return;
 
     int ret = openDB( fileName );
