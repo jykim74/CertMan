@@ -25,11 +25,12 @@ CAManDlg::CAManDlg(QWidget *parent) :
 
     setupUi(this);
 
+    initUI();
+    mTabWidget->setCurrentIndex(0);
+
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
-
-
 
     connect( mKeyPairStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadKeyPairList()));
     connect( mCSRStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCSRList()));
@@ -65,10 +66,9 @@ CAManDlg::CAManDlg(QWidget *parent) :
     mCSRGroup->layout()->setMargin(5);
 #endif
 
-    initUI();
     mOKBtn->setDefault(true);
     mOKBtn->hide();
-    mTabWidget->setCurrentIndex(0);
+
 
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }

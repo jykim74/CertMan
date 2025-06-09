@@ -21,6 +21,8 @@ ProfileManDlg::ProfileManDlg(QWidget *parent) :
     num_ = -1;
 
     setupUi(this);
+    initUI();
+    mTabWidget->setCurrentIndex(0);
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
@@ -48,11 +50,11 @@ ProfileManDlg::ProfileManDlg(QWidget *parent) :
     mCRLGroup->layout()->setMargin(5);
 #endif
 
-    initUI();
+
     mOKBtn->setDefault(true);
     mOKBtn->hide();
 
-    mTabWidget->setCurrentIndex(0);
+
 
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
