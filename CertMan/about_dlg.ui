@@ -68,7 +68,7 @@
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Information</string>
+       <string>Copyright</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -112,7 +112,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Copyright</string>
+       <string>Open Source</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
