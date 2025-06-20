@@ -586,7 +586,9 @@ void SettingsDlg::initialize()
 
 void SettingsDlg::initFontFamily()
 {
+    /*
     QFontDatabase fontDB;
     QStringList fontList = fontDB.families();
     mFontFamilyCombo->addItems( fontList );
+    */
 }
