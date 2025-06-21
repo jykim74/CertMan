@@ -161,7 +161,15 @@ void SettingsDlg::updateSettings()
         mgr->setSCEPCertPath( mSCEPCertPathText->text() );
     }
 
-    mgr->setFontFamily( mFontFamilyCombo->currentText() );
+    QString strFont = mFontFamilyCombo->currentText();
+    if( strFont == "Lantinghei TC" )
+    {
+        manApplet->warningBox( tr( "This font(%1) is not available" ).arg(strFont), this );
+    }
+    else
+    {
+        mgr->setFontFamily( mFontFamilyCombo->currentText());
+    }
 }
 
 void SettingsDlg::checkKMIPUse()
