@@ -96,8 +96,7 @@ static const int kDataDefault = ACT_DATA_IMPORT_DATA | ACT_DATA_GET_URI | ACT_DA
 
 static const int kServerDefault = 0;
 
-static const int kHelpDefault = ACT_HELP_SERVER_STATUS | ACT_HELP_CLEAR_LOG | ACT_HELP_HALT_LOG \
-                                | ACT_HELP_LCN_INFO | ACT_HELP_BUG_ISSUE | ACT_HELP_QNA \
+static const int kHelpDefault = ACT_HELP_SERVER_STATUS | ACT_HELP_LCN_INFO | ACT_HELP_BUG_ISSUE | ACT_HELP_QNA \
                                 | ACT_HELP_ABOUT;
 
 const int   kListCount = 15;
