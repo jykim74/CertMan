@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>538</width>
-    <height>355</height>
+    <height>399</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -172,6 +172,13 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>- This part is the search condition used in the LDAP address</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="1" column="0">
          <widget class="QLabel" name="label_6">
@@ -189,7 +196,7 @@
         <item row="0" column="3">
          <widget class="QComboBox" name="mTypeCombo">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -206,6 +213,9 @@
           </property>
           <property name="text">
            <string>Type</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
