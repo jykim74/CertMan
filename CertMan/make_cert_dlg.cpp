@@ -65,6 +65,9 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mReqGroup->layout()->setSpacing(5);
+    mReqGroup->layout()->setMargin(5);
 #endif
     if( manApplet->isPRO() == false )
     {
@@ -835,12 +838,8 @@ void MakeCertDlg::clickUseCSRFile()
 
     mCSRFilePathText->setEnabled(bVal);
     mCSRFileFindBtn->setEnabled(bVal);
-    mReqNameText->setEnabled(!bVal);
-    mReqNumText->setEnabled(!bVal);
-    mAlgorithmText->setEnabled(!bVal);
-    mAlgorithmLabel->setEnabled(!bVal);
-    mOptionLabel->setEnabled(!bVal);
-    mOptionText->setEnabled(!bVal);
+
+    mReqGroup->setEnabled( !bVal );
 
     if( mSelfSignCheck->isChecked() )
         mSelfSignCheck->setChecked( false );

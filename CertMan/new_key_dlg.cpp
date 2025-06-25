@@ -81,23 +81,9 @@ void NewKeyDlg::initUI()
     // mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
-
-    /*
-    if( manApplet->settingsMgr()->PKCS11Use() )
-    {
-        mMechCombo->addItem( kMechPKCS11_RSA );
-        mMechCombo->addItem( kMechPKCS11_EC );
-        mMechCombo->addItem( kMechPKCS11_DSA );
-    }
-
-    if( manApplet->settingsMgr()->KMIPUse() )
-    {
-        mMechCombo->addItem( kMechKMIP_RSA );
-        mMechCombo->addItem( kMechKMIP_EC );
-    }
-    */
-
     mExponentText->setText( QString( "65537" ) );
+
+    mNameText->setPlaceholderText( tr( "Enter a key name" ));
 }
 
 const QString NewKeyDlg::getMechanism()
