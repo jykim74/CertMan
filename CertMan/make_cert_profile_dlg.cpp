@@ -151,22 +151,6 @@ void MakeCertProfileDlg::setReadOnly()
     setWindowTitle( tr( "View certificate profille" ));
 
     mNameText->setReadOnly(true);
-    QString strVersion = mVersionCombo->currentText();
-
-    mVersionCombo->clear();
-    mVersionCombo->addItem( strVersion );
-
-    QString strHash = mHashCombo->currentText();
-    mHashCombo->clear();
-    mHashCombo->addItem( strHash );
-
-    mUseDaysCheck->setEnabled(false);
-
-    mExtensionsCriticalCheck->setEnabled(false);
-    mExtensionsAddBtn->setEnabled(false);
-    mExtensionsClearBtn->setEnabled(false);
-
-    mOKBtn->hide();
 }
 
 void MakeCertProfileDlg::initialize()

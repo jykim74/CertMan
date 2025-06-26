@@ -105,7 +105,9 @@ SOURCES += \
         passwd_dlg.cpp \
         code_editor.cpp \
         ca_man_dlg.cpp \
-        profile_man_dlg.cpp
+        profile_man_dlg.cpp \
+        view_cert_profile_dlg.cpp \
+        view_crl_profile_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -176,7 +178,9 @@ HEADERS += \
         passwd_dlg.h \
         code_editor.h \
         ca_man_dlg.h \
-        profile_man_dlg.h
+        profile_man_dlg.h \
+        view_cert_profil_edlg.h \
+        view_crl_profile_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -221,7 +225,9 @@ FORMS += \
         new_passwd_dlg.ui \
         passwd_dlg.ui \
         ca_man_dlg.ui \
-        profile_man_dlg.ui
+        profile_man_dlg.ui \
+        view_cert_profile_dlg.ui \
+        view_crl_profile_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

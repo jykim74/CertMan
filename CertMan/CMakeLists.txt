@@ -229,6 +229,8 @@ add_executable(${PROJECT_NAME}
     code_editor.cpp code_editor.h
     ca_man_dlg.h ca_man_dlg.cpp ca_man_dlg.ui
     profile_man_dlg.h profile_man_dlg.cpp profile_man_dlg.ui
+    view_cert_profil_edlg.h view_cert_profile_dlg.cpp view_cert_profile_dlg.ui
+    view_crl_profile_dlg.h view_crl_profile_dlg.cpp view_crl_profile_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )
