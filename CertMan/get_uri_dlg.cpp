@@ -34,11 +34,10 @@ GetURIDlg::GetURIDlg(QWidget *parent) :
     connect( mClearUsedURIBtn, SIGNAL(clicked()), this, SLOT(clickClearUsedURI()));
     connect( mGetBtn, SIGNAL(clicked()), this, SLOT(clickGet()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mURICombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeURI(int)));
 
     initUI();
     mGetBtn->setDefault(true);
-
-
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -52,6 +51,7 @@ GetURIDlg::GetURIDlg(QWidget *parent) :
     mLDAPSearchGroup->layout()->setSpacing(5);
     mLDAPSearchGroup->layout()->setMargin(5);
 #endif
+
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
 
@@ -267,6 +267,12 @@ const QString GetURIDlg::getValidURL()
     strURL.remove( "URI=" );
 
     return strURL.simplified();
+}
+
+void GetURIDlg::changeURI( int index )
+{
+    QString strURI = mURICombo->currentText();
+    mURICombo->setToolTip( strURI );
 }
 
 int GetURIDlg::getLDAP( BIN *pData )

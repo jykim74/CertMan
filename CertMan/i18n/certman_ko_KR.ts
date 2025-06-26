@@ -1502,17 +1502,17 @@
         <translation>URL 가져오기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="322"/>
+        <location filename="../get_uri_dlg.cpp" line="328"/>
         <source>Failed to connect to LDAP server</source>
         <translation>LDAP 서버 연결 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="329"/>
+        <location filename="../get_uri_dlg.cpp" line="335"/>
         <source>Failed to bind to LDAP server</source>
         <translation>LDAP 서버 바인딩 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="336"/>
+        <location filename="../get_uri_dlg.cpp" line="342"/>
         <source>Failed to retrieve data from LDAP server[%1]</source>
         <translation>LDAP 서버로 부터 데이타 가져오기 실패 [%1]</translation>
     </message>
@@ -4982,35 +4982,40 @@
         <translation type="vanished">발급자 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="566"/>
+        <location filename="../make_cert_dlg.ui" line="575"/>
         <source>SelfSign</source>
         <translation>자신 서명</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="221"/>
-        <location filename="../make_cert_dlg.ui" line="769"/>
+        <location filename="../make_cert_dlg.ui" line="227"/>
+        <location filename="../make_cert_dlg.ui" line="778"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="89"/>
-        <location filename="../make_cert_dlg.ui" line="356"/>
-        <location filename="../make_cert_dlg.ui" line="655"/>
+        <location filename="../make_cert_dlg.ui" line="84"/>
+        <source>Request</source>
+        <translation>요청서</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.ui" line="194"/>
+        <location filename="../make_cert_dlg.ui" line="365"/>
+        <location filename="../make_cert_dlg.ui" line="664"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="202"/>
+        <location filename="../make_cert_dlg.ui" line="208"/>
         <source>Key Param</source>
         <translation>키 파라미터</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="842"/>
+        <location filename="../make_cert_dlg.ui" line="851"/>
         <source>UserName</source>
         <translation>사용자 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="469"/>
+        <location filename="../make_cert_dlg.ui" line="478"/>
         <source>SubjectDN</source>
         <translation>주체자 DN</translation>
     </message>
@@ -5019,7 +5024,7 @@
         <translation type="vanished">인증서 정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="858"/>
+        <location filename="../make_cert_dlg.ui" line="867"/>
         <source>SSN</source>
         <translation>SSN</translation>
     </message>
@@ -5037,7 +5042,7 @@
         <translation>요청 정보</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="108"/>
+        <location filename="../make_cert_dlg.ui" line="141"/>
         <source>Request Name</source>
         <translation>요청자 이름</translation>
     </message>
@@ -5046,7 +5051,7 @@
         <translation type="vanished">발급자 알고리즘</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="865"/>
+        <location filename="../make_cert_dlg.ui" line="874"/>
         <source>Email</source>
         <translation>이메일</translation>
     </message>
@@ -5059,7 +5064,7 @@
         <translation type="vanished">인증서 정책이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="225"/>
+        <location filename="../make_cert_dlg.cpp" line="228"/>
         <source>Find a CSR file</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
@@ -5072,110 +5077,110 @@
         <translation type="vanished">CA 인증서가 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="288"/>
-        <location filename="../make_cert_dlg.cpp" line="315"/>
+        <location filename="../make_cert_dlg.cpp" line="291"/>
+        <location filename="../make_cert_dlg.cpp" line="318"/>
         <source>Invalid CSR file [%1]</source>
         <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="323"/>
+        <location filename="../make_cert_dlg.cpp" line="326"/>
         <source>CSR verification failed</source>
         <translation>CSR 검증 실패</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="346"/>
-        <location filename="../make_cert_dlg.cpp" line="820"/>
+        <location filename="../make_cert_dlg.cpp" line="349"/>
+        <location filename="../make_cert_dlg.cpp" line="823"/>
         <source>You cannot create a Self-Sign certificate using CSR</source>
         <translation>CSR파일 사용 셀프 사인 인증서를 만들 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="364"/>
+        <location filename="../make_cert_dlg.cpp" line="367"/>
         <source>The CA certificate has been revoked. continue?</source>
         <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="398"/>
+        <location filename="../make_cert_dlg.cpp" line="401"/>
         <source>The hash(%1) in the profile is not SM3. Would you like to change to SM3?</source>
         <translation>프로파일 해쉬(%1)가 SM3아닙니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="411"/>
+        <location filename="../make_cert_dlg.cpp" line="414"/>
         <source>SM3 hash cannot be used in profiles (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="436"/>
+        <location filename="../make_cert_dlg.cpp" line="439"/>
         <source>CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="575"/>
+        <location filename="../make_cert_dlg.cpp" line="578"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="587"/>
+        <location filename="../make_cert_dlg.cpp" line="590"/>
         <source>PKCS11 library was not loaded</source>
         <translation>PKCS11 라이브러리가 로드 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="595"/>
+        <location filename="../make_cert_dlg.cpp" line="598"/>
         <source>Failed to fetch session:%1 </source>
         <translation>세션 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="646"/>
+        <location filename="../make_cert_dlg.cpp" line="649"/>
         <source>failed to make certificate [%1]</source>
         <translation>인증서 만들기에 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="654"/>
+        <location filename="../make_cert_dlg.cpp" line="657"/>
         <source>failed to get certificate information [%1]</source>
         <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="691"/>
+        <location filename="../make_cert_dlg.cpp" line="694"/>
         <source>Failed to save DB : %1</source>
         <translation>DB 저장 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="900"/>
+        <location filename="../make_cert_dlg.cpp" line="899"/>
         <source>Select CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="249"/>
-        <location filename="../make_cert_dlg.cpp" line="912"/>
+        <location filename="../make_cert_dlg.cpp" line="252"/>
+        <location filename="../make_cert_dlg.cpp" line="911"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="90"/>
+        <location filename="../make_cert_dlg.cpp" line="93"/>
         <source>Select a CSR from CA Man</source>
         <translation>CA 관리에서 CSR을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="107"/>
+        <location filename="../make_cert_dlg.cpp" line="110"/>
         <source>Select a profile from Profile Man</source>
         <translation>프로파일 관리에서 프로파일 선택</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="108"/>
+        <location filename="../make_cert_dlg.cpp" line="111"/>
         <source>Select a certificate from CA Man</source>
         <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="237"/>
+        <location filename="../make_cert_dlg.cpp" line="240"/>
         <source>Select a CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="263"/>
+        <location filename="../make_cert_dlg.cpp" line="266"/>
         <source>Select a CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="924"/>
+        <location filename="../make_cert_dlg.cpp" line="923"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
@@ -5202,7 +5207,7 @@
         <translation>CSR 파일 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="349"/>
+        <location filename="../make_cert_dlg.ui" line="358"/>
         <source>Profile name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -5231,22 +5236,22 @@
         <translation type="vanished">라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="831"/>
+        <location filename="../make_cert_dlg.ui" line="840"/>
         <source>User Information</source>
         <translation>사용자 정보</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="325"/>
+        <location filename="../make_cert_dlg.ui" line="334"/>
         <source>Certificate Profile</source>
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="576"/>
+        <location filename="../make_cert_dlg.ui" line="585"/>
         <source>Sign yourself with your own key.</source>
         <translation>자신의 키로 서명 하기</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="591"/>
+        <location filename="../make_cert_dlg.ui" line="600"/>
         <source>Issuer Certificate Information</source>
         <translation>발급자 인증서 정보</translation>
     </message>
@@ -5292,12 +5297,12 @@
         <translation>요청서 저장</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="614"/>
+        <location filename="../make_cert_dlg.ui" line="623"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="756"/>
+        <location filename="../make_cert_dlg.ui" line="765"/>
         <source>Param</source>
         <translation>파라미터</translation>
     </message>
@@ -5306,7 +5311,7 @@
         <translation type="vanished">유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="476"/>
+        <location filename="../make_cert_dlg.ui" line="485"/>
         <source>Make DN</source>
         <translation>DN 만들기</translation>
     </message>
@@ -6706,22 +6711,27 @@
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="154"/>
+        <location filename="../new_key_dlg.cpp" line="86"/>
+        <source>Enter a key name</source>
+        <translation>키 이름을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.cpp" line="140"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="205"/>
+        <location filename="../new_key_dlg.cpp" line="191"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="253"/>
+        <location filename="../new_key_dlg.cpp" line="239"/>
         <source>failed to generate key pairs</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="305"/>
+        <location filename="../new_key_dlg.cpp" line="291"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
@@ -7664,9 +7674,9 @@
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4247"/>
-        <location filename="../commons.cpp" line="4252"/>
-        <location filename="../commons.cpp" line="4257"/>
+        <location filename="../commons.cpp" line="4255"/>
+        <location filename="../commons.cpp" line="4260"/>
+        <location filename="../commons.cpp" line="4265"/>
         <source>CreationTime</source>
         <translation>생성시간</translation>
     </message>
@@ -8175,14 +8185,29 @@
         <translation>검색</translation>
     </message>
     <message>
-        <location filename="../search_form.cpp" line="172"/>
+        <location filename="../search_form.cpp" line="175"/>
         <source>DB is not connected</source>
         <translation>데이타 베이스가 연결 되지 않았습니다.</translation>
     </message>
     <message>
-        <location filename="../search_form.cpp" line="178"/>
+        <location filename="../search_form.cpp" line="181"/>
         <source>Please enter your search term</source>
         <translation>검색어를 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../search_form.cpp" line="207"/>
+        <source>[0-9]*</source>
+        <translation>[0-9]*</translation>
+    </message>
+    <message>
+        <location filename="../search_form.cpp" line="215"/>
+        <source>[A-Za-f0-9]*</source>
+        <translation>[A-Za-f0-9]*</translation>
+    </message>
+    <message>
+        <location filename="../search_form.cpp" line="220"/>
+        <source>String value</source>
+        <translation>문자열 값</translation>
     </message>
 </context>
 <context>

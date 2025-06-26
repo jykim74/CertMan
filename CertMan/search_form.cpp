@@ -3,6 +3,8 @@
  *
  * All rights reserved.
  */
+#include <QRegExpValidator>
+
 #include "search_form.h"
 #include "commons.h"
 #include "man_tree_item.h"
@@ -36,6 +38,7 @@ SearchForm::SearchForm(QWidget *parent) :
     connect( mRightEndBtn, SIGNAL(clicked()), this, SLOT(rightEndPage()));
     connect( mRightBtn, SIGNAL(clicked()), this, SLOT(rightPage()));
     connect( mSearchBtn, SIGNAL(clicked()), this, SLOT(search()));
+    connect( mCondCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeCond(int)));
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -43,7 +46,7 @@ SearchForm::SearchForm(QWidget *parent) :
     mLeftEndBtn->setFixedWidth(40);
     mRightEndBtn->setFixedWidth(40);
 #endif
-
+    changeCond(0);
     resize(width(), minimumSizeHint().height());
 }
 
@@ -191,3 +194,29 @@ void SearchForm::search()
     manApplet->mainWindow()->createRightList( left_type_, left_num_ );
 }
 
+void SearchForm::changeCond( int index )
+{
+    QString strCond = mCondCombo->currentText().toUpper();
+
+    if( strCond == "PAGE" )
+    {
+        QRegExp regExp("^[0-9-]*$");
+        QRegExpValidator* regVal = new QRegExpValidator( regExp );
+
+        mInputText->setValidator( regVal );
+        mInputText->setPlaceholderText( tr( "[0-9]*" ));
+    }
+    else if( strCond == "SERIAL" )
+    {
+        QRegExp regExp("^[0-9a-fA-F]*$");
+        QRegExpValidator* regVal = new QRegExpValidator( regExp );
+
+        mInputText->setValidator( regVal );
+        mInputText->setPlaceholderText( tr( "[A-Za-f0-9]*" ));
+    }
+    else
+    {
+        mInputText->setValidator( nullptr );
+        mInputText->setPlaceholderText( tr("String value" ));
+    }
+}

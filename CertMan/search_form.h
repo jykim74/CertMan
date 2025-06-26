@@ -40,6 +40,8 @@ public slots:
     void rightEndPage();
     void search();
 
+    void changeCond( int index );
+
 private:
     void setCondCombo();;
 

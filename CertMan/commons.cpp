@@ -4193,6 +4193,14 @@ bool isKMIPPrivate( const QString strKeyMech )
     return false;
 }
 
+bool isEmail( const QString strEmail )
+{
+    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    mailREX.setCaseSensitivity(Qt::CaseInsensitive );
+
+    return mailREX.exactMatch( strEmail );
+}
+
 bool isHex( const QString strHexString )
 {
     return isValidNumFormat( strHexString, 16 );

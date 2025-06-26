@@ -27,7 +27,7 @@ private slots:
     void clickUseLDAPHost();
     void clickClearUsedURI();
     void clickGet();
-
+    void changeURI( int index );
 
 private:
     void initUI();
