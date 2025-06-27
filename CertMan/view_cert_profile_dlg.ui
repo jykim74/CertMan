@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
-    <height>600</height>
+    <width>600</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -47,12 +47,25 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="mNameText"/>
+      <widget class="QLineEdit" name="mNameText">
+       <property name="minimumSize">
+        <size>
+         <width>500</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
    <item>
     <widget class="QToolBox" name="mProfileToolBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>500</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
@@ -70,8 +83,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>509</width>
-        <height>355</height>
+        <width>576</width>
+        <height>377</height>
        </rect>
       </property>
       <attribute name="label">
@@ -269,8 +282,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>509</width>
-        <height>355</height>
+        <width>576</width>
+        <height>377</height>
        </rect>
       </property>
       <attribute name="label">
@@ -367,20 +380,6 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="2">
-          <widget class="QLabel" name="mSKICritLabel">
-           <property name="text">
-            <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="mSKIValueLabel">
-           <property name="text">
-            <string>SKI Value</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="mSKILabel">
            <property name="text">
@@ -401,6 +400,16 @@
            </property>
           </spacer>
          </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="mSKICritLabel">
+           <property name="text">
+            <string>Critical</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="mSKIText"/>
+         </item>
         </layout>
        </item>
        <item>
@@ -415,17 +424,10 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="4">
-          <widget class="QLabel" name="mAKIValueLabel">
+         <item row="0" column="0">
+          <widget class="QLabel" name="mAKILabel">
            <property name="text">
-            <string>AKI Value</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QLabel" name="mAKIValue2Label">
-           <property name="text">
-            <string>AKI Value2</string>
+            <string>Authority Key Identifier</string>
            </property>
           </widget>
          </item>
@@ -433,20 +435,6 @@
           <widget class="QLabel" name="mAKICritLabel">
            <property name="text">
             <string>Critical</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="6">
-          <widget class="QLabel" name="mAKIValue3Label">
-           <property name="text">
-            <string>AKI Value3</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="mAKILabel">
-           <property name="text">
-            <string>Authority Key Identifier</string>
            </property>
           </widget>
          </item>
@@ -463,11 +451,22 @@
            </property>
           </spacer>
          </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="mAKIText"/>
+         </item>
         </layout>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="mExtension2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>576</width>
+        <height>377</height>
+       </rect>
+      </property>
       <attribute name="label">
        <string>Extension2</string>
       </attribute>
@@ -516,7 +515,7 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_14">
          <item row="0" column="2">
-          <widget class="QLabel" name="mCLRDPCritLabel">
+          <widget class="QLabel" name="mCRLDPCritLabel">
            <property name="text">
             <string>Critical</string>
            </property>
@@ -595,6 +594,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="mExtension3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>576</width>
+        <height>377</height>
+       </rect>
+      </property>
       <attribute name="label">
        <string>Extension3</string>
       </attribute>
@@ -726,6 +733,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="mExtension4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>576</width>
+        <height>377</height>
+       </rect>
+      </property>
       <attribute name="label">
        <string>Extension4</string>
       </attribute>

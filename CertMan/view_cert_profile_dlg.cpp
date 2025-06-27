@@ -8,6 +8,8 @@
 #include "js_gen.h"
 #include "js_pki_ext.h"
 
+
+
 ViewCertProfileDlg::ViewCertProfileDlg(QWidget *parent)
     : QDialog(parent)
 {
@@ -19,7 +21,10 @@ ViewCertProfileDlg::ViewCertProfileDlg(QWidget *parent)
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+    mProfileToolBox->layout()->setSpacing(5);
+    mProfileToolBox->layout()->setMargin(5);
 #endif
+
     resize(minimumSizeHint().width(), minimumSizeHint().height());
     initialize();
 
@@ -131,67 +136,320 @@ void ViewCertProfileDlg::initialize()
 
 void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mAIACritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QString strMethod = "";
+        QString strType = "";
+        QString strData = "";
+
+        QStringList infoList = info.split("$");
+
+        if( infoList.size() < 3 ) continue;
+
+        strMethod = infoList.at(0);
+        strType = infoList.at(1);
+        strData = infoList.at(2);
+
+        mAIATable->insertRow(i);
+        mAIATable->setRowHeight(i,10);
+        mAIATable->setItem( i, 0, new QTableWidgetItem(strMethod));
+        mAIATable->setItem( i, 1, new QTableWidgetItem(strType));
+        mAIATable->setItem( i, 2, new QTableWidgetItem(strData));
+    }
 }
 
 void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mAKICritLabel->setText( strCrit );
+    mAKIText->setText( profileRec.getValue() );
 }
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mBCCritLabel->setText( strCrit );
+    mBCText->setText( profileRec.getValue() );
 }
 
 void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
+
+    mCRLDPCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList typeData = info.split("$");
+
+        if( typeData.size() < 2 ) continue;
+
+        QString strType = typeData.at(0);
+        QString strData = typeData.at(1);
+
+        mCRLDPTable->insertRow(i);
+        mCRLDPTable->setRowHeight( i, 10 );
+        mCRLDPTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mCRLDPTable->setItem( i, 1, new QTableWidgetItem(strData));
+    }
 
 }
 
 void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mEKUCritLabel->setText( strCrit );
+    mEKUText->setText( profileRec.getValue() );
 }
 
 void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mIANCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        if( infoList.size() < 2 ) continue;
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIANTable->insertRow(i);
+        mIANTable->setRowHeight( i, 10 );
+        mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mIANTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
 
 void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mKeyUsageCritLabel->setText( strCrit );
+    mKeyUsageText->setText( profileRec.getValue() );
 }
 
 void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mNCCritLabel->setText( strCrit );
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strKind = infoList.at(1);
+        QString strData = infoList.at(2);
+        QString strMin;
+        QString strMax;
+
+        if( infoList.size() > 3 ) strMin = infoList.at(3);
+        if( infoList.size() > 4 ) strMax = infoList.at(4);
+
+        mNCTable->insertRow(i);
+        mNCTable->setRowHeight( i, 10 );
+        mNCTable->setItem(i, 0, new QTableWidgetItem(strType));
+        mNCTable->setItem(i, 1, new QTableWidgetItem(strKind));
+        mNCTable->setItem(i, 2, new QTableWidgetItem(strData));
+        mNCTable->setItem(i, 3, new QTableWidgetItem(strMin));
+        mNCTable->setItem(i, 4, new QTableWidgetItem(strMax));
+    }
 }
 
 void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mPolicyCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("%%");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString strInfo = valList.at(i);
+        QStringList infoList = strInfo.split("#");
+        QString strOID = "";
+        QString strCPS = "";
+        QString strUserNotice = "";
+
+        for( int k = 0; k < infoList.size(); k++ )
+        {
+            QString info = infoList.at(k);
+            QStringList typeData = info.split("$");
+
+            if( typeData.size() < 2 ) continue;
+
+            QString strType = typeData.at(0);
+            QString strData = typeData.at(1);
+
+            if( strType == "OID" )
+                strOID = strData;
+            else if( strType == "CPS" )
+                strCPS = strData;
+            else if( strType == "UserNotice" )
+                strUserNotice = strData;
+        }
+
+        int row = mPolicyTable->rowCount();
+
+        mPolicyTable->setRowCount( row + 1 );
+
+        mPolicyTable->setRowHeight( row, 10 );
+        mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
+        mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
+        mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+    }
 }
 
 void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mPCCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+    mPCText->setText( strVal );
+
+    /*
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        if( infoList.size() < 2 ) continue;
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        if( strType == "REP" )
+            mPCExplicitText->setText( strData );
+        else if( strType == "IPM" )
+            mPCInhibitText->setText( strData );
+    }
+    */
 }
 
 void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mPMCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        if( infoList.size() < 2 ) continue;
+
+        QString strIDP = infoList.at(0);
+        QString strSDP = infoList.at(1);
+
+        mPMTable->insertRow(i);
+        mPMTable->setRowHeight( i, 10 );
+        mPMTable->setItem(i,0,new QTableWidgetItem("issuerDomainPolicy"));
+        mPMTable->setItem(i,1,new QTableWidgetItem(strIDP));
+        mPMTable->setItem(i,2,new QTableWidgetItem("subjectDomainPolicy"));
+        mPMTable->setItem(i,3,new QTableWidgetItem(strSDP));
+    }
 }
 
 void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mSKICritLabel->setText( strCrit );
+    mSKIText->setText( profileRec.getValue() );
 }
 
 void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mSANCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+        QStringList infoList = info.split("$");
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mSANTable->insertRow(i);
+        mSANTable->setRowHeight( i, 10 );
+        mSANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mSANTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
 
 void ViewCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
@@ -201,6 +459,13 @@ void ViewCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 
 int ViewCertProfileDlg::setProfile( int nNum )
 {
+    static QStringList kExtUsageList = {
+        tr("The Certificate Extension Only"),
+        tr("The CSR Extension Only"),
+        tr("Both Certificate and CSR and the The certificate first"),
+        tr("Both Certificate and CSR and the CSR first")
+    };
+
     int ret = 0;
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return -1;
@@ -222,6 +487,8 @@ int ViewCertProfileDlg::setProfile( int nNum )
     }
 
     mNameText->setText( certProfile.getName() );
+    mVersionText->setText( QString("V%1").arg(certProfile.getVersion() + 1));
+    mHashText->setText( certProfile.getHash() );
 
     nNotBefore = certProfile.getNotBefore();
     nNotAfter = certProfile.getNotAfter();
@@ -254,6 +521,9 @@ int ViewCertProfileDlg::setProfile( int nNum )
 
     mNotBeforeText->setText( strNotBefore );
     mNotAfterText->setText( strNotAfter );
+
+    mDNTemplateText->setText( certProfile.getDNTemplate() );
+    mExtensionUsageText->setText( kExtUsageList.at(certProfile.getExtUsage()));
 
     QList<ProfileExtRec> extProfileList;
     dbMgr->getCertProfileExtensionList( profile_num_, extProfileList );

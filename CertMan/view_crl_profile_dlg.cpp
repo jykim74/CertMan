@@ -18,6 +18,8 @@ ViewCRLProfileDlg::ViewCRLProfileDlg(QWidget *parent)
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+    mProfileToolBox->layout()->setSpacing(5);
+    mProfileToolBox->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
     initialize();
@@ -72,22 +74,78 @@ void ViewCRLProfileDlg::initialize()
 
 void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mCRLNumCritLabel->setText( strCrit );
+
+    mCRLNumText->setText( profileRec.getValue() );
 }
 
 void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mAKICritLabel->setText( strCrit );
+    mAKIText->setText( profileRec.getValue() );
 }
 
 void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mIDPCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+
+        QStringList infoList = info.split("$");
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIDPTable->insertRow(i);
+        mIDPTable->setRowHeight( i, 10 );
+        mIDPTable->setItem(i, 0, new QTableWidgetItem(strType));
+        mIDPTable->setItem(i, 1, new QTableWidgetItem(strData));
+    }
 }
 
 void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
+    QString strCrit = tr("NonCriticall" );
+    if( profileRec.isCritical() == true )
+        strCrit = tr( "Critical" );
 
+    mIANCritLabel->setText( strCrit );
+
+    QString strVal = profileRec.getValue();
+
+    QStringList valList = strVal.split("#");
+
+    for( int i=0; i < valList.size(); i++ )
+    {
+        QString info = valList.at(i);
+
+        QStringList infoList = info.split("$");
+        if( infoList.size() < 2 ) continue;
+
+        QString strType = infoList.at(0);
+        QString strData = infoList.at(1);
+
+        mIANTable->insertRow(i);
+        mIANTable->setRowHeight( i, 10 );
+        mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
+        mIANTable->setItem( i, 1, new QTableWidgetItem(strData));
+    }
 }
 
 void ViewCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
