@@ -1,5 +1,5 @@
-#ifndef VIEW_CERT_PROFIL_EDLG_H
-#define VIEW_CERT_PROFIL_EDLG_H
+#ifndef VIEW_CERT_PROFILE_DLG_H
+#define VIEW_CERT_PROFILE_DLG_H
 
 #include <QDialog>
 #include "ui_view_cert_profile_dlg.h"
@@ -16,8 +16,10 @@ public:
     explicit ViewCertProfileDlg(QWidget *parent = nullptr);
     ~ViewCertProfileDlg();
 
-private:
+    int setProfile( int nNum );
 
+private:
+    int profile_num_;
 };
 
-#endif // VIEW_CERT_PROFIL_EDLG_H
+#endif // VIEW_CERT_PROFILE_DLG_H

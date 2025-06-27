@@ -179,7 +179,7 @@ HEADERS += \
         code_editor.h \
         ca_man_dlg.h \
         profile_man_dlg.h \
-        view_cert_profil_edlg.h \
+        view_cert_profile_dlg.h \
         view_crl_profile_dlg.h
 
 FORMS += \

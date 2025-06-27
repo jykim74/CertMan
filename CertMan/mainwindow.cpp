@@ -85,6 +85,8 @@
 #include "pki_srv_dlg.h"
 #include "ca_man_dlg.h"
 #include "profile_man_dlg.h"
+#include "view_cert_profile_dlg.h"
+#include "view_crl_profile_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -1463,10 +1465,15 @@ void MainWindow::viewCertProfile()
 
     int num = item->text().toInt();
 
+    /*
     MakeCertProfileDlg makeCertProfileDlg;
     makeCertProfileDlg.setEdit(num);
     makeCertProfileDlg.setReadOnly();
     makeCertProfileDlg.exec();
+    */
+    ViewCertProfileDlg viewCertProfile;
+    viewCertProfile.setProfile( num );
+    viewCertProfile.exec();
 }
 
 void MainWindow::copyCertProfile()
@@ -1518,10 +1525,15 @@ void MainWindow::viewCRLProfile()
 
     int num = item->text().toInt();
 
+    /*
     MakeCRLProfileDlg makeCRLProfileDlg;
     makeCRLProfileDlg.setEdit(num);
     makeCRLProfileDlg.setReadOnly();
     makeCRLProfileDlg.exec();
+    */
+    ViewCertProfileDlg viewCRLProfile;
+    viewCRLProfile.setProfile( num );
+    viewCRLProfile.exec();
 }
 
 void MainWindow::copyCRLProfile()

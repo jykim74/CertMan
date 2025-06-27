@@ -10,3 +10,8 @@ ViewCRLProfileDlg::~ViewCRLProfileDlg()
 {
 
 }
+
+int ViewCRLProfileDlg::setProfile( int nNum )
+{
+    return 0;
+}

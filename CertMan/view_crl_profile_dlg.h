@@ -16,8 +16,10 @@ public:
     explicit ViewCRLProfileDlg(QWidget *parent = nullptr);
     ~ViewCRLProfileDlg();
 
-private:
+    int setProfile( int nNum );
 
+private:
+    int profile_num_;
 };
 
 #endif // VIEW_CRL_PROFILE_DLG_H
