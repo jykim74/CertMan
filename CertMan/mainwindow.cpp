@@ -1531,7 +1531,7 @@ void MainWindow::viewCRLProfile()
     makeCRLProfileDlg.setReadOnly();
     makeCRLProfileDlg.exec();
     */
-    ViewCertProfileDlg viewCRLProfile;
+    ViewCRLProfileDlg viewCRLProfile;
     viewCRLProfile.setProfile( num );
     viewCRLProfile.exec();
 }

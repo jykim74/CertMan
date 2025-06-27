@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "ui_view_crl_profile_dlg.h"
 
+class ProfileExtRec;
+
 namespace Ui {
 class ViewCRLProfileDlg;
 }
@@ -19,6 +21,15 @@ public:
     int setProfile( int nNum );
 
 private:
+    void initUI();
+    void initialize();
+
+    void setCRLNumUse( ProfileExtRec& profileRec );
+    void setAKIUse( ProfileExtRec& profileRec );
+    void setIDPUse( ProfileExtRec& profileRec );
+    void setIANUse( ProfileExtRec& profileRec );
+    void setExtensionsUse( ProfileExtRec& profileRec );
+
     int profile_num_;
 };
 

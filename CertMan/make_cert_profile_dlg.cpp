@@ -594,10 +594,6 @@ void MakeCertProfileDlg::setTableMenus()
     mNCTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mNCTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mNCTable->setColumnWidth(0,60);
-    mNCTable->setColumnWidth(1,120);
-    mNCTable->setColumnWidth(2,200);
-    mNCTable->setColumnWidth(3,60);
-    mNCTable->setColumnWidth(4,60);
 
     QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };
     mExtensionsTable->setColumnCount(sExtensionsLabels.size());

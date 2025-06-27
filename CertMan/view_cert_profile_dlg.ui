@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>527</width>
-    <height>597</height>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
@@ -46,7 +52,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QToolBox" name="toolBox">
+    <widget class="QToolBox" name="mProfileToolBox">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
@@ -54,15 +60,18 @@
       </size>
      </property>
      <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="tabSpacing">
       <number>1</number>
      </property>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="mBase">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>509</width>
-        <height>327</height>
+        <height>355</height>
        </rect>
       </property>
       <attribute name="label">
@@ -83,7 +92,7 @@
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
            <layout class="QGridLayout" name="gridLayout_26">
-            <item row="0" column="2">
+            <item row="0" column="3">
              <widget class="QLabel" name="label_4">
               <property name="text">
                <string>Hash</string>
@@ -91,48 +100,100 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="mVersionText"/>
+             <widget class="QLineEdit" name="mVersionText">
+              <property name="maximumSize">
+               <size>
+                <width>40</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_3">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>Version</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="3">
-             <widget class="QLineEdit" name="mHashText"/>
+            <item row="0" column="4">
+             <widget class="QLineEdit" name="mHashText">
+              <property name="maximumSize">
+               <size>
+                <width>60</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="3">
+            <item row="0" column="5">
+             <widget class="QLineEdit" name="mNotAfterText"/>
+            </item>
+            <item row="0" column="4">
              <widget class="QLabel" name="label_7">
               <property name="text">
                <string>NotAfter</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
+            <item row="0" column="3">
              <widget class="QLineEdit" name="mNotBeforeText"/>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_5">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>Valid Period</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="0" column="2">
              <widget class="QLabel" name="label_6">
               <property name="text">
                <string>NotBefore</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
-             <widget class="QLineEdit" name="mNotAfterText"/>
+            <item row="0" column="1">
+             <spacer name="horizontalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -140,6 +201,12 @@
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
              <widget class="QLabel" name="label_8">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>DN Template</string>
               </property>
@@ -154,8 +221,14 @@
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
              <widget class="QLabel" name="label_9">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
-               <string>Extension Usage</string>
+               <string>Extension</string>
               </property>
              </widget>
             </item>
@@ -168,7 +241,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="mExtensionGroup">
+        <widget class="QGroupBox" name="mExtensionsGroup">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -176,24 +249,28 @@
           </size>
          </property>
          <property name="title">
-          <string>Extension Field</string>
+          <string>Extensions Field</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <item>
-           <widget class="QTableWidget" name="mExtensionTable"/>
+           <widget class="QTableWidget" name="mExtensionsTable">
+            <attribute name="horizontalHeaderHighlightSections">
+             <bool>false</bool>
+            </attribute>
+           </widget>
           </item>
          </layout>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="mExtension1">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>509</width>
-        <height>327</height>
+        <height>355</height>
        </rect>
       </property>
       <attribute name="label">
@@ -213,16 +290,29 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLineEdit" name="mKeyUsageText"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="mKeyUsageCriticalLabel">
+          <widget class="QLabel" name="mKeyUsageCritLabel">
            <property name="text">
             <string>Critical</string>
            </property>
           </widget>
          </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_13">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="mKeyUsageText"/>
        </item>
        <item>
         <widget class="Line" name="line_3">
@@ -257,7 +347,7 @@
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLabel" name="label_13">
+          <widget class="QLabel" name="mPolicyCritLabel">
            <property name="text">
             <string>Critical</string>
            </property>
@@ -266,7 +356,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_2"/>
+        <widget class="QTableWidget" name="mPolicyTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_10">
@@ -274,6 +368,27 @@
           <number>0</number>
          </property>
          <item row="0" column="2">
+          <widget class="QLabel" name="mSKICritLabel">
+           <property name="text">
+            <string>Critical</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="mSKIValueLabel">
+           <property name="text">
+            <string>SKI Value</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="mSKILabel">
+           <property name="text">
+            <string>Subject Key Identifier</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -286,42 +401,56 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="mSKIUseLabel">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="mSKILabel">
-           <property name="text">
-            <string>Subject Key Identifier</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
         </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_10">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_12">
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_17">
+         <item row="0" column="4">
+          <widget class="QLabel" name="mAKIValueLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>AKI Value</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLabel" name="mAKIValue2Label">
+           <property name="text">
+            <string>AKI Value2</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
+          <widget class="QLabel" name="mAKICritLabel">
+           <property name="text">
+            <string>Critical</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <widget class="QLabel" name="mAKIValue3Label">
+           <property name="text">
+            <string>AKI Value3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="mAKILabel">
+           <property name="text">
+            <string>Authority Key Identifier</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
           <spacer name="horizontalSpacer_5">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -334,39 +463,11 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="4">
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QLabel" name="label_19">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>Authority Key Identifier</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_3">
+     <widget class="QWidget" name="mExtension2">
       <attribute name="label">
        <string>Extension2</string>
       </attribute>
@@ -374,35 +475,55 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_13">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_20">
+          <widget class="QLabel" name="mEKULabel">
            <property name="text">
             <string>ExtendKeyUsage</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit_9"/>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_14">
+          <widget class="QLabel" name="mEKUCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_14">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>
        <item>
+        <widget class="QLineEdit" name="mEKUText"/>
+       </item>
+       <item>
+        <widget class="Line" name="line_9">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QGridLayout" name="gridLayout_14">
          <item row="0" column="2">
-          <widget class="QLabel" name="label_22">
+          <widget class="QLabel" name="mCLRDPCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_21">
+          <widget class="QLabel" name="mCRLDPLabel">
            <property name="text">
             <string>CRLDP</string>
            </property>
@@ -424,21 +545,28 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableWidget" name="mCRLDPTable"/>
+       </item>
+       <item>
+        <widget class="Line" name="line_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_15">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_23">
+          <widget class="QLabel" name="mAIALabel">
            <property name="text">
-            <string>Authority Key Identifier</string>
+            <string>Authority Info Access</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLabel" name="label_24">
+          <widget class="QLabel" name="mAIACritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
@@ -458,11 +586,15 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_3"/>
+        <widget class="QTableWidget" name="mAIATable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_4">
+     <widget class="QWidget" name="mExtension3">
       <attribute name="label">
        <string>Extension3</string>
       </attribute>
@@ -470,21 +602,34 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_16">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_25">
+          <widget class="QLabel" name="mBCLabel">
            <property name="text">
             <string>Basic Constraints</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit_10"/>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="mBCText"/>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_15">
+         <item row="0" column="2">
+          <widget class="QLabel" name="mBCCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
+         </item>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_15">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>
@@ -498,14 +643,14 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_19">
          <item row="0" column="2">
-          <widget class="QLabel" name="label_29">
+          <widget class="QLabel" name="mSANCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_27">
+          <widget class="QLabel" name="mSANLabel">
            <property name="text">
             <string>Subject Alt Name</string>
            </property>
@@ -527,7 +672,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_4"/>
+        <widget class="QTableWidget" name="mSANTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <widget class="Line" name="line_5">
@@ -539,9 +688,9 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_20">
          <item row="0" column="2">
-          <widget class="QLabel" name="label_30">
+          <widget class="QLabel" name="mIANCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
@@ -559,7 +708,7 @@
           </spacer>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_28">
+          <widget class="QLabel" name="mIANLabel">
            <property name="text">
             <string>Issuer Alt Name</string>
            </property>
@@ -568,35 +717,52 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_5"/>
+        <widget class="QTableWidget" name="mIANTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_5">
+     <widget class="QWidget" name="mExtension4">
       <attribute name="label">
        <string>Extension4</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <layout class="QGridLayout" name="gridLayout_18">
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit_11"/>
+         <item row="0" column="1">
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_26">
+          <widget class="QLabel" name="mPCLabel">
            <property name="text">
             <string>Policy Constraint</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_35">
+         <item row="0" column="2">
+          <widget class="QLabel" name="mPCCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="mPCText"/>
        </item>
        <item>
         <widget class="Line" name="line_6">
@@ -608,14 +774,14 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_24">
          <item row="0" column="2">
-          <widget class="QLabel" name="label_33">
+          <widget class="QLabel" name="mPMCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_31">
+          <widget class="QLabel" name="mPMLabel">
            <property name="text">
             <string>Policy Mapping</string>
            </property>
@@ -637,7 +803,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_6"/>
+        <widget class="QTableWidget" name="mPMTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <widget class="Line" name="line_7">
@@ -649,14 +819,14 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_25">
          <item row="0" column="2">
-          <widget class="QLabel" name="label_34">
+          <widget class="QLabel" name="mNCCritLabel">
            <property name="text">
-            <string>TextLabel</string>
+            <string>Critical</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_32">
+          <widget class="QLabel" name="mNCLabel">
            <property name="text">
             <string>Name Constraint</string>
            </property>
@@ -678,7 +848,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="tableWidget_7"/>
+        <widget class="QTableWidget" name="mNCTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
       </layout>
      </widget>
