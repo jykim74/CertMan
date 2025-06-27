@@ -12,7 +12,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>500</width>
+    <width>600</width>
     <height>600</height>
    </size>
   </property>
@@ -50,7 +50,7 @@
       <widget class="QLineEdit" name="mNameText">
        <property name="minimumSize">
         <size>
-         <width>500</width>
+         <width>540</width>
          <height>0</height>
         </size>
        </property>
@@ -126,7 +126,7 @@
              <widget class="QLabel" name="label_3">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>90</width>
                 <height>0</height>
                </size>
               </property>
@@ -179,7 +179,7 @@
              <widget class="QLabel" name="label_5">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>90</width>
                 <height>0</height>
                </size>
               </property>
@@ -216,7 +216,7 @@
              <widget class="QLabel" name="label_8">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>90</width>
                 <height>0</height>
                </size>
               </property>
@@ -236,7 +236,7 @@
              <widget class="QLabel" name="label_9">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>90</width>
                 <height>0</height>
                </size>
               </property>
