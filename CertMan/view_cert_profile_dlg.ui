@@ -21,7 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="mTitleLabel">
      <property name="text">
       <string>Certificate Profile View</string>
      </property>
@@ -126,7 +126,7 @@
              <widget class="QLabel" name="label_3">
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>100</width>
                 <height>0</height>
                </size>
               </property>
@@ -166,7 +166,7 @@
              <widget class="QLineEdit" name="mNotAfterText"/>
             </item>
             <item row="0" column="4">
-             <widget class="QLabel" name="label_7">
+             <widget class="QLabel" name="mNotAfterLabel">
               <property name="text">
                <string>NotAfter</string>
               </property>
@@ -176,10 +176,10 @@
              <widget class="QLineEdit" name="mNotBeforeText"/>
             </item>
             <item row="0" column="0">
-             <widget class="QLabel" name="label_5">
+             <widget class="QLabel" name="mValidPeriodLabel">
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>100</width>
                 <height>0</height>
                </size>
               </property>
@@ -189,7 +189,7 @@
              </widget>
             </item>
             <item row="0" column="2">
-             <widget class="QLabel" name="label_6">
+             <widget class="QLabel" name="mNotBeforeLabel">
               <property name="text">
                <string>NotBefore</string>
               </property>
@@ -213,10 +213,10 @@
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_8">
+             <widget class="QLabel" name="mDNTemplateLabel">
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>100</width>
                 <height>0</height>
                </size>
               </property>
@@ -233,15 +233,15 @@
           <item>
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
-             <widget class="QLabel" name="label_9">
+             <widget class="QLabel" name="mExtensionUsageLabel">
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>100</width>
                 <height>0</height>
                </size>
               </property>
               <property name="text">
-               <string>Extension</string>
+               <string>Extension Usage</string>
               </property>
              </widget>
             </item>

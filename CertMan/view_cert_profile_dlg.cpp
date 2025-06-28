@@ -474,10 +474,7 @@ int ViewCertProfileDlg::setProfile( int nNum )
 
     CertProfileRec certProfile;
 
-    int nNotBefore = 0;
-    int nNotAfter = 0;
-    QString strNotBefore;
-    QString strNotAfter;
+
 
     ret = dbMgr->getCertProfileRec( profile_num_, certProfile );
     if( ret < 0 )
@@ -487,43 +484,67 @@ int ViewCertProfileDlg::setProfile( int nNum )
     }
 
     mNameText->setText( certProfile.getName() );
-    mVersionText->setText( QString("V%1").arg(certProfile.getVersion() + 1));
-    mHashText->setText( certProfile.getHash() );
 
-    nNotBefore = certProfile.getNotBefore();
-    nNotAfter = certProfile.getNotAfter();
+    if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
+    {
+        mVersionText->setText( "V1" );
+        mValidPeriodLabel->setEnabled(false);
+        mNotBeforeLabel->setEnabled(false);
+        mNotBeforeText->setEnabled(false);
+        mNotAfterLabel->setEnabled(false);
+        mNotAfterText->setEnabled(false);
+        mDNTemplateLabel->setEnabled(false);
+        mDNTemplateText->setEnabled(false);
+        mExtensionUsageLabel->setEnabled(false);
+        mExtensionUsageText->setEnabled(false);
 
-    if( nNotBefore == 0 )
-    {
-        strNotBefore = tr("Creation time");
-        strNotAfter = tr( "%1 Days" ).arg( nNotAfter );
-    }
-    else if( nNotBefore == 1 )
-    {
-        strNotBefore = tr("Creation time");
-        strNotAfter = tr( "%1 Months" ).arg( nNotAfter );
-    }
-    else if( nNotBefore == 2 )
-    {
-        strNotBefore = tr("Creation time");
-        strNotAfter = tr( "%1 Years" ).arg( nNotAfter );
+        mTitleLabel->setText( tr( "CSR Profile View" ));
     }
     else
     {
-        QDateTime notBefore;
-        QDateTime notAfter;
-        notBefore.setSecsSinceEpoch( nNotBefore );
-        notAfter.setSecsSinceEpoch( nNotAfter );
+        int nNotBefore = 0;
+        int nNotAfter = 0;
+        QString strNotBefore;
+        QString strNotAfter;
 
-        strNotBefore = notBefore.toString( "yyyy-MM-dd hh:mm:ss" );
-        strNotAfter = notAfter.toString( "yyyy-MM-dd hh:mm:ss" );
+        mVersionText->setText( QString("V%1").arg(certProfile.getVersion() + 1));
+        mHashText->setText( certProfile.getHash() );
+
+        nNotBefore = certProfile.getNotBefore();
+        nNotAfter = certProfile.getNotAfter();
+
+        if( nNotBefore == 0 )
+        {
+            strNotBefore = tr("Creation time");
+            strNotAfter = tr( "%1 Days" ).arg( nNotAfter );
+        }
+        else if( nNotBefore == 1 )
+        {
+            strNotBefore = tr("Creation time");
+            strNotAfter = tr( "%1 Months" ).arg( nNotAfter );
+        }
+        else if( nNotBefore == 2 )
+        {
+            strNotBefore = tr("Creation time");
+            strNotAfter = tr( "%1 Years" ).arg( nNotAfter );
+        }
+        else
+        {
+            QDateTime notBefore;
+            QDateTime notAfter;
+            notBefore.setSecsSinceEpoch( nNotBefore );
+            notAfter.setSecsSinceEpoch( nNotAfter );
+
+            strNotBefore = notBefore.toString( "yyyy-MM-dd hh:mm:ss" );
+            strNotAfter = notAfter.toString( "yyyy-MM-dd hh:mm:ss" );
+        }
+
+        mNotBeforeText->setText( strNotBefore );
+        mNotAfterText->setText( strNotAfter );
+
+        mDNTemplateText->setText( certProfile.getDNTemplate() );
+        mExtensionUsageText->setText( kExtUsageList.at(certProfile.getExtUsage()));
     }
-
-    mNotBeforeText->setText( strNotBefore );
-    mNotAfterText->setText( strNotAfter );
-
-    mDNTemplateText->setText( certProfile.getDNTemplate() );
-    mExtensionUsageText->setText( kExtUsageList.at(certProfile.getExtUsage()));
 
     QList<ProfileExtRec> extProfileList;
     dbMgr->getCertProfileExtensionList( profile_num_, extProfileList );
