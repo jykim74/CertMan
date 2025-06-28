@@ -74,7 +74,7 @@ void ViewCRLProfileDlg::initialize()
 
 void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -85,7 +85,7 @@ void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -95,7 +95,7 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -121,7 +121,7 @@ void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 

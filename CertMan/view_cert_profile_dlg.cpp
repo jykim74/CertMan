@@ -136,7 +136,7 @@ void ViewCertProfileDlg::initialize()
 
 void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -171,7 +171,7 @@ void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -181,7 +181,7 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -191,7 +191,7 @@ void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -221,7 +221,7 @@ void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -231,7 +231,7 @@ void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -260,7 +260,7 @@ void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -270,7 +270,7 @@ void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -305,7 +305,7 @@ void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -354,7 +354,7 @@ void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -386,7 +386,7 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
@@ -417,17 +417,17 @@ void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
     mSKICritLabel->setText( strCrit );
-    mSKIText->setText( profileRec.getValue() );
+    mSKIText->setText( tr("YES") );
 }
 
 void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 {
-    QString strCrit = tr("NonCriticall" );
+    QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
