@@ -374,9 +374,8 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
     mPCCritLabel->setText( strCrit );
 
     QString strVal = profileRec.getValue();
-    mPCText->setText( strVal );
+//    mPCText->setText( strVal );
 
-    /*
     QStringList valList = strVal.split("#");
 
     for( int i=0; i < valList.size(); i++ )
@@ -390,11 +389,10 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
         QString strData = infoList.at(1);
 
         if( strType == "REP" )
-            mPCExplicitText->setText( strData );
+            mPC_REPText->setText( strData );
         else if( strType == "IPM" )
-            mPCInhibitText->setText( strData );
+            mPC_IPMText->setText( strData );
     }
-    */
 }
 
 void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
