@@ -112,8 +112,7 @@ void ViewCertProfileDlg::initUI()
     mNCTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mNCTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mNCTable->setColumnWidth(0,60);
-    mNCTable->setColumnWidth(3,40);
-    mNCTable->setColumnWidth(4,40);
+    mNCTable->setColumnWidth(2,160);
 
 
     QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };

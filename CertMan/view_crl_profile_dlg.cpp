@@ -259,6 +259,8 @@ int ViewCRLProfileDlg::setProfile( int nNum )
 
     mNameText->setText( crlProfile.getName() );
     mVersionText->setText( QString("V%1").arg( crlProfile.getVersion() + 1));
+    mHashText->setText( crlProfile.getHash() );
+
     nThisUpdate = crlProfile.getThisUpdate();
     nNextUpdate = crlProfile.getNextUpdate();
 

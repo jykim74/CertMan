@@ -511,6 +511,16 @@ void MakeCertProfileDlg::initUI()
     mExtUsageCombo->addItems( kExtUsageList );
 
     mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ));
+
+    mPolicyOIDText->setPlaceholderText( QString( "Text OID" ));
+    mPolicyCPSText->setPlaceholderText( tr("String value" ));
+    mPolicyUserNoticeText->setPlaceholderText( tr( "String value" ));
+
+    mCRLDPText->setPlaceholderText( tr( "URI address" ));
+    mAIAText->setPlaceholderText( tr("URI address" ));
+
+    mPMIssuerDomainPolicyText->setPlaceholderText( tr( "Text OID" ));
+    mPMSubjectDomainPolicyText->setPlaceholderText( tr( "Text OID" ));
 }
 
 void MakeCertProfileDlg::setTableMenus()

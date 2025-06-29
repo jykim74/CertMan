@@ -1799,6 +1799,7 @@ const QString getProfileExtInfoValue( const QString strSN, const QString& strVal
     else
     {
         strShowVal = strVal;
+        strShowVal += "\n";
     }
 
     return strShowVal;
