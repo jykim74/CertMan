@@ -1462,15 +1462,8 @@ void MainWindow::viewCertProfile()
 
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
-
     int num = item->text().toInt();
 
-    /*
-    MakeCertProfileDlg makeCertProfileDlg;
-    makeCertProfileDlg.setEdit(num);
-    makeCertProfileDlg.setReadOnly();
-    makeCertProfileDlg.exec();
-    */
     ViewCertProfileDlg viewCertProfile;
     viewCertProfile.setProfile( num );
     viewCertProfile.exec();

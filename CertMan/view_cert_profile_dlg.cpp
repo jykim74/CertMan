@@ -175,8 +175,15 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
+    QString strValue = profileRec.getValue();
+
     mAKICritLabel->setText( strCrit );
-    mAKIText->setText( profileRec.getValue() );
+    mAKIText->setText( tr("Yes" ) );
+    if( strValue.contains( "ISSUER" ))
+        mAKIIssuerText->setText( "YES" );
+
+    if( strValue.contains( "SERIAL" ))
+        mAKISerialText->setText( "YES" );
 }
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
@@ -225,6 +232,9 @@ void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
+    QString strValue = profileRec.getValue();
+    strValue.replace( "#", "," );
+
     mEKUCritLabel->setText( strCrit );
     mEKUText->setText( profileRec.getValue() );
 }
@@ -264,8 +274,11 @@ void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
 
+    QString strValue = profileRec.getValue();
+    strValue.replace( "#", "," );
+
     mKeyUsageCritLabel->setText( strCrit );
-    mKeyUsageText->setText( profileRec.getValue() );
+    mKeyUsageText->setText( strValue );
 }
 
 void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )

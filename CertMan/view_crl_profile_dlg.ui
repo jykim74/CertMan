@@ -100,7 +100,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -474,13 +474,6 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="0">
-          <widget class="QLabel" name="mAKILabel">
-           <property name="text">
-            <string>Authority Key Identifier</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="2">
           <widget class="QLabel" name="mAKICritLabel">
            <property name="text">
@@ -488,17 +481,18 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QLineEdit" name="mAKIText">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
+         <item row="0" column="6">
+          <widget class="QLabel" name="mAKISerialLabel">
+           <property name="text">
+            <string>Serial</string>
            </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLineEdit" name="mAKIIssuerText">
            <property name="maximumSize">
             <size>
-             <width>80</width>
+             <width>60</width>
              <height>16777215</height>
             </size>
            </property>
@@ -534,6 +528,59 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="mAKIText">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>221</red>
+                 <green>221</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>221</red>
+                 <green>221</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled/>
+            </palette>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="mAKIIssuerLabel">
+           <property name="text">
+            <string>Issuer</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="1">
           <spacer name="horizontalSpacer_5">
            <property name="orientation">
@@ -546,6 +593,53 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="mAKILabel">
+           <property name="text">
+            <string>Authority Key Identifier</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="7">
+          <widget class="QLineEdit" name="mAKISerialText">
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>221</red>
+                 <green>221</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>221</red>
+                 <green>221</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled/>
+            </palette>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

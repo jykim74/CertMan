@@ -90,7 +90,17 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
         strCrit = tr( "Critical" );
 
     mAKICritLabel->setText( strCrit );
-    mAKIText->setText( profileRec.getValue() );
+
+    QString strValue = profileRec.getValue();
+
+    mAKIText->setText( tr("Yes" ) );
+    if( strValue.contains( "ISSUER" ))
+        mAKIIssuerText->setText( "YES" );
+
+    if( strValue.contains( "SERIAL" ))
+        mAKISerialText->setText( "YES" );
+
+    mAKIText->setText( tr("YES") );
 }
 
 void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
