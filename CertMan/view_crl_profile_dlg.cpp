@@ -93,7 +93,7 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
     QString strValue = profileRec.getValue();
 
-    mAKIText->setText( tr("Yes" ) );
+    mAKIText->setText( tr("YES" ) );
     if( strValue.contains( "ISSUER" ))
         mAKIIssuerText->setText( "YES" );
 
@@ -126,6 +126,7 @@ void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
         mIDPTable->setRowHeight( i, 10 );
         mIDPTable->setItem(i, 0, new QTableWidgetItem(strType));
         mIDPTable->setItem(i, 1, new QTableWidgetItem(strData));
+        mIDPTable->item(i,1)->setToolTip( strData );
     }
 }
 
@@ -155,12 +156,27 @@ void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
         mIANTable->setRowHeight( i, 10 );
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem( i, 1, new QTableWidgetItem(strData));
+        mIANTable->item(i,1)->setToolTip( strData );
     }
 }
 
 void ViewCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
+    QString strOID = profileRec.getSN();
+    QString strValue = profileRec.getValue();
+    QString strCrit;
 
+    if( profileRec.isCritical() )
+        strCrit = "true";
+    else
+        strCrit = "false";
+
+    int row = mExtensionsTable->rowCount();
+    mExtensionsTable->setRowCount( row + 1 );
+    mExtensionsTable->setRowHeight( row, 10 );
+    mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
+    mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
+    mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
 }
 
 int ViewCRLProfileDlg::setProfile( int nNum )

@@ -9,6 +9,8 @@
 #include "crl_profile_rec.h"
 #include "make_cert_profile_dlg.h"
 #include "make_crl_profile_dlg.h"
+#include "view_cert_profile_dlg.h"
+#include "view_crl_profile_dlg.h"
 
 #include "js_pki_x509.h"
 #include "js_pki_ext.h"
@@ -285,11 +287,15 @@ void ProfileManDlg::clickCertProfileView()
     }
 
     int num = item->data(Qt::UserRole).toInt();
-
+/*
     MakeCertProfileDlg makeCertProfileDlg;
     makeCertProfileDlg.setEdit(num);
     makeCertProfileDlg.setReadOnly();
     makeCertProfileDlg.exec();
+*/
+    ViewCertProfileDlg certProfile;
+    certProfile.setProfile( num );
+    certProfile.exec();
 }
 
 void ProfileManDlg::clickCertProfileDelete()
@@ -324,10 +330,15 @@ void ProfileManDlg::clickCRLProfileView()
 
     int num = item->data(Qt::UserRole).toInt();
 
+    /*
     MakeCRLProfileDlg makeCRLProfileDlg;
     makeCRLProfileDlg.setEdit(num);
     makeCRLProfileDlg.setReadOnly();
     makeCRLProfileDlg.exec();
+    */
+    ViewCRLProfileDlg crlProfile;
+    crlProfile.setProfile( num );
+    crlProfile.exec();
 }
 
 void ProfileManDlg::clickCRLProfileDelete()

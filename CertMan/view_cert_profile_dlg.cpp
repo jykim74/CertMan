@@ -166,6 +166,7 @@ void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
         mAIATable->setItem( i, 0, new QTableWidgetItem(strMethod));
         mAIATable->setItem( i, 1, new QTableWidgetItem(strType));
         mAIATable->setItem( i, 2, new QTableWidgetItem(strData));
+        mAIATable->item( i, 2 )->setToolTip( strData );
     }
 }
 
@@ -178,7 +179,7 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
     QString strValue = profileRec.getValue();
 
     mAKICritLabel->setText( strCrit );
-    mAKIText->setText( tr("Yes" ) );
+    mAKIText->setText( tr("YES" ) );
     if( strValue.contains( "ISSUER" ))
         mAKIIssuerText->setText( "YES" );
 
@@ -222,6 +223,7 @@ void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
         mCRLDPTable->setRowHeight( i, 10 );
         mCRLDPTable->setItem( i, 0, new QTableWidgetItem(strType));
         mCRLDPTable->setItem( i, 1, new QTableWidgetItem(strData));
+        mCRLDPTable->item( i, 1)->setToolTip( strData );
     }
 
 }
@@ -265,6 +267,7 @@ void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
         mIANTable->setRowHeight( i, 10 );
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem(i, 1, new QTableWidgetItem(strData));
+        mIANTable->item(i,1)->setToolTip( strData );
     }
 }
 
@@ -362,6 +365,10 @@ void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
         mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
         mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
         mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+
+        mPolicyTable->item( row, 0 )->setToolTip( strOID );
+        mPolicyTable->item( row, 1 )->setToolTip( strCPS );
+        mPolicyTable->item( row, 2 )->setToolTip( strUserNotice );
     }
 }
 
@@ -423,6 +430,9 @@ void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
         mPMTable->setItem(i,1,new QTableWidgetItem(strIDP));
         mPMTable->setItem(i,2,new QTableWidgetItem("subjectDomainPolicy"));
         mPMTable->setItem(i,3,new QTableWidgetItem(strSDP));
+
+        mPMTable->item( i, 1 )->setToolTip( strIDP );
+        mPMTable->item(i, 3)->setToolTip( strSDP );
     }
 }
 
@@ -460,12 +470,28 @@ void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
         mSANTable->setRowHeight( i, 10 );
         mSANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mSANTable->setItem(i, 1, new QTableWidgetItem(strData));
+
+        mSANTable->item(i,1)->setToolTip( strData );
     }
 }
 
 void ViewCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
+    QString strOID = profileRec.getSN();
+    QString strValue = profileRec.getValue();
+    QString strCrit;
 
+    if( profileRec.isCritical() )
+        strCrit = "true";
+    else
+        strCrit = "false";
+
+    int row = mExtensionsTable->rowCount();
+    mExtensionsTable->setRowCount( row + 1 );
+    mExtensionsTable->setRowHeight( row, 10 );
+    mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
+    mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
+    mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
 }
 
 int ViewCertProfileDlg::setProfile( int nNum )
