@@ -24,6 +24,13 @@ private:
     void initUI();
     void initialize();
 
+    void setCRLNumEnable( bool bVal );
+    void setAKIEnable(bool bVal );
+    void setIDPEnable( bool bVal );
+    void setIANEnable( bool bVal );
+    void setExtensionsEnable( bool bVal );
+    void setAllEnable( bool bVal );
+
     void setCRLNumUse( ProfileExtRec& profileRec );
     void setAKIUse( ProfileExtRec& profileRec );
     void setIDPUse( ProfileExtRec& profileRec );

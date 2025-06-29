@@ -100,7 +100,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -363,7 +363,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="mExtensionsLabel">
          <property name="title">
           <string>Extensions Field</string>
          </property>

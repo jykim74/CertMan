@@ -65,11 +65,59 @@ void ViewCRLProfileDlg::initUI()
     mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mExtensionsTable->setColumnWidth(0,180);
     mExtensionsTable->setColumnWidth(1,60);
+
+    setAllEnable( false );
 }
 
 void ViewCRLProfileDlg::initialize()
 {
 
+}
+
+void ViewCRLProfileDlg::setCRLNumEnable( bool bVal )
+{
+    mCRLNumCritLabel->setEnabled( bVal );
+    mCRLNumLabel->setEnabled( bVal );
+    mCRLPeriodLabel->setEnabled(bVal);
+}
+
+void ViewCRLProfileDlg::setAKIEnable(bool bVal )
+{
+    mAKICritLabel->setEnabled(bVal);
+    mAKIIssuerLabel->setEnabled(bVal);
+    mAKIIssuerText->setEnabled(bVal);
+    mAKILabel->setEnabled(bVal);
+    mAKISerialLabel->setEnabled(bVal);
+    mAKISerialText->setEnabled(bVal);
+}
+
+void ViewCRLProfileDlg::setIDPEnable( bool bVal )
+{
+    mIDPCritLabel->setEnabled(bVal);
+    mIDPLabel->setEnabled(bVal);
+    mIDPTable->setEnabled(bVal);
+}
+
+void ViewCRLProfileDlg::setIANEnable( bool bVal )
+{
+    mIANCritLabel->setEnabled(bVal);
+    mIANLabel->setEnabled(bVal);
+    mIANTable->setEnabled(bVal);
+}
+
+void ViewCRLProfileDlg::setExtensionsEnable( bool bVal )
+{
+    mExtensionsLabel->setEnabled(bVal);
+    mExtensionsTable->setEnabled(bVal);
+}
+
+void ViewCRLProfileDlg::setAllEnable( bool bVal )
+{
+    setCRLNumEnable( bVal );
+    setAKIEnable( bVal );
+    setIDPEnable( bVal );
+    setIANEnable( bVal );
+    setExtensionsEnable( bVal );
 }
 
 void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
@@ -85,6 +133,8 @@ void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
+    if( mAKILabel->isEnabled() == false ) setAKIEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -105,6 +155,8 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
+    if( mIDPLabel->isEnabled() == false ) setIDPEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -132,6 +184,8 @@ void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
+    if( mIANLabel->isEnabled() == false ) setIANEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -162,6 +216,8 @@ void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
+    if( mExtensionsLabel->isEnabled() == false ) setExtensionsEnable(true);
+
     QString strOID = profileRec.getSN();
     QString strValue = profileRec.getValue();
     QString strCrit;
