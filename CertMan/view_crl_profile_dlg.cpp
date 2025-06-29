@@ -145,10 +145,10 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
     mAKIText->setText( tr("YES" ) );
     if( strValue.contains( "ISSUER" ))
-        mAKIIssuerText->setText( "YES" );
+        mAKIIssuerText->setText( tr("YES") );
 
     if( strValue.contains( "SERIAL" ))
-        mAKISerialText->setText( "YES" );
+        mAKISerialText->setText( tr("YES") );
 
     mAKIText->setText( tr("YES") );
 }

@@ -7372,53 +7372,53 @@
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="167"/>
-        <location filename="../profile_man_dlg.cpp" line="181"/>
+        <location filename="../profile_man_dlg.cpp" line="169"/>
+        <location filename="../profile_man_dlg.cpp" line="183"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="167"/>
+        <location filename="../profile_man_dlg.cpp" line="169"/>
         <source>NotBefore</source>
         <translation>유효기간(시작)</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="167"/>
+        <location filename="../profile_man_dlg.cpp" line="169"/>
         <source>NotAfter</source>
         <translation>유효기간(끝)</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="167"/>
-        <location filename="../profile_man_dlg.cpp" line="181"/>
+        <location filename="../profile_man_dlg.cpp" line="169"/>
+        <location filename="../profile_man_dlg.cpp" line="183"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="181"/>
+        <location filename="../profile_man_dlg.cpp" line="183"/>
         <source>ThisUpdate</source>
         <translation>이번 업데이트</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="181"/>
+        <location filename="../profile_man_dlg.cpp" line="183"/>
         <source>NextUpdate</source>
         <translation>다음 업데이트</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="149"/>
-        <location filename="../profile_man_dlg.cpp" line="283"/>
-        <location filename="../profile_man_dlg.cpp" line="302"/>
-        <location filename="../profile_man_dlg.cpp" line="321"/>
-        <location filename="../profile_man_dlg.cpp" line="340"/>
+        <location filename="../profile_man_dlg.cpp" line="151"/>
+        <location filename="../profile_man_dlg.cpp" line="285"/>
+        <location filename="../profile_man_dlg.cpp" line="308"/>
+        <location filename="../profile_man_dlg.cpp" line="327"/>
+        <location filename="../profile_man_dlg.cpp" line="351"/>
         <source>There are no selected items</source>
         <translation>선택 한 아이템이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="307"/>
+        <location filename="../profile_man_dlg.cpp" line="313"/>
         <source>Are you sure to delete the certificate profile?</source>
         <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="345"/>
+        <location filename="../profile_man_dlg.cpp" line="356"/>
         <source>Are you sure to delete the CRL profile?</source>
         <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
     </message>
@@ -9147,7 +9147,7 @@
     <message>
         <location filename="../view_crl_profile_dlg.ui" line="330"/>
         <source>This Update</source>
-        <translation>이번 업데이트</translation>
+        <translation>이번 갱신</translation>
     </message>
     <message>
         <location filename="../view_crl_profile_dlg.ui" line="343"/>
@@ -9175,10 +9175,10 @@
         <location filename="../view_crl_profile_dlg.ui" line="658"/>
         <location filename="../view_crl_profile_dlg.ui" line="699"/>
         <location filename="../view_crl_profile_dlg.cpp" line="58"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="79"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="90"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="110"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="137"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="127"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="140"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="162"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="191"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
@@ -9231,43 +9231,45 @@
         <translation>OID</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="77"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="88"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="108"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="135"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="125"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="138"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="160"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="189"/>
         <source>NonCritical</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="96"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="103"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="146"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="148"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="151"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="153"/>
         <source>YES</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="200"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="256"/>
         <source>fail to get CRL profile: %1</source>
         <translation>CRL 프로파일 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="211"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="216"/>
-        <location filename="../view_crl_profile_dlg.cpp" line="221"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="267"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="272"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="277"/>
         <source>Creation time</source>
         <translation>생성시간</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="212"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="268"/>
         <source>%1 Days</source>
         <translation>%1 일</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="217"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="273"/>
         <source>%1 Months</source>
         <translation>%1 달</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.cpp" line="222"/>
+        <location filename="../view_crl_profile_dlg.cpp" line="278"/>
         <source>%1 Years</source>
         <translation>%1 년</translation>
     </message>
@@ -9312,7 +9314,7 @@
     <message>
         <location filename="../view_cert_profile_dlg.ui" line="292"/>
         <source>NotAfter</source>
-        <translation>유효기간(끝)</translation>
+        <translation>만료시간</translation>
     </message>
     <message>
         <location filename="../view_cert_profile_dlg.ui" line="339"/>
@@ -9322,7 +9324,7 @@
     <message>
         <location filename="../view_cert_profile_dlg.ui" line="346"/>
         <source>NotBefore</source>
-        <translation>유효기간(시작)</translation>
+        <translation>시작시간</translation>
     </message>
     <message>
         <location filename="../view_cert_profile_dlg.ui" line="376"/>
@@ -9357,26 +9359,26 @@
         <location filename="../view_cert_profile_dlg.ui" line="899"/>
         <location filename="../view_cert_profile_dlg.ui" line="964"/>
         <location filename="../view_cert_profile_dlg.ui" line="1012"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1099"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1130"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1175"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1228"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1357"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1402"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="120"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="141"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="177"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="194"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="204"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="235"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="248"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="278"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="291"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="326"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="379"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="409"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="443"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="453"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1105"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1190"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1235"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1288"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1417"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1462"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="119"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="268"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="306"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="325"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="344"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="377"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="392"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="424"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="439"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="476"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="531"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="563"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="599"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="611"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
@@ -9436,53 +9438,58 @@
         <translation>기본 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1137"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1132"/>
+        <source>PathLen</source>
+        <translation>경로 길이</translation>
+    </message>
+    <message>
+        <location filename="../view_cert_profile_dlg.ui" line="1197"/>
         <source>Subject Alt Name</source>
         <translation>주체 대체 이름</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1195"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1255"/>
         <source>Issuer Alt Name</source>
         <translation>발급자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1220"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1280"/>
         <source>Extension4</source>
         <translation>확장4</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1248"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1308"/>
         <source>requireExplicitPollicy</source>
         <translation>requireExplicitPollicy</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1292"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1352"/>
         <source>InhibitPolicyMapping</source>
         <translation>InhibitPolicyMapping</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1299"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1359"/>
         <source>Policy Constraint</source>
         <translation>정책 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1364"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1424"/>
         <source>Policy Mapping</source>
         <translation>정책 맵핑</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1409"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1469"/>
         <source>Name Constraint</source>
         <translation>이름 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1451"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1511"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
         <location filename="../view_cert_profile_dlg.cpp" line="43"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="120"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="119"/>
         <source>OID</source>
         <translation>OID</translation>
     </message>
@@ -9501,7 +9508,7 @@
         <location filename="../view_cert_profile_dlg.cpp" line="63"/>
         <location filename="../view_cert_profile_dlg.cpp" line="75"/>
         <location filename="../view_cert_profile_dlg.cpp" line="85"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="107"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="106"/>
         <source>Type</source>
         <translation>타입</translation>
     </message>
@@ -9511,100 +9518,103 @@
         <location filename="../view_cert_profile_dlg.cpp" line="75"/>
         <location filename="../view_cert_profile_dlg.cpp" line="85"/>
         <location filename="../view_cert_profile_dlg.cpp" line="95"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="107"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="120"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="106"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="119"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
+        <location filename="../view_cert_profile_dlg.ui" line="1125"/>
         <location filename="../view_cert_profile_dlg.cpp" line="63"/>
         <location filename="../view_cert_profile_dlg.cpp" line="95"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="107"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="106"/>
         <source>Target</source>
         <translation>대상</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="107"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="106"/>
         <source>Min</source>
         <translation>최소</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="107"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="106"/>
         <source>Max</source>
         <translation>최대</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="139"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="175"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="192"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="202"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="233"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="246"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="276"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="289"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="324"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="377"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="407"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="441"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="451"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="266"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="304"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="323"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="342"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="375"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="390"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="422"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="437"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="474"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="529"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="561"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="597"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="609"/>
         <source>NonCritical</source>
         <translation>일반</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="182"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="446"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="311"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="313"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="316"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="602"/>
         <source>YES</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="500"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="660"/>
         <source>The Certificate Extension Only</source>
         <translation>인증서 확장자만 사용</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="501"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="661"/>
         <source>The CSR Extension Only</source>
         <translation>요청서 확장자만 사용</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="502"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="662"/>
         <source>Both Certificate and CSR and the The certificate first</source>
         <translation>인증서 요청서 확장 둘다 사용 (인증서 우선)</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="503"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="663"/>
         <source>Both Certificate and CSR and the CSR first</source>
         <translation>인증서 요청서 확장 둘다 사용 (요청서 우선)</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="519"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="679"/>
         <source>fail to get certificate profile: %1</source>
         <translation>인증서 프로파일 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="538"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="698"/>
         <source>CSR Profile View</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="555"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="560"/>
-        <location filename="../view_cert_profile_dlg.cpp" line="565"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="715"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="720"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="725"/>
         <source>Creation time</source>
         <translation>생성시간</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="556"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="716"/>
         <source>%1 Days</source>
         <translation>%1 일</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="561"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="721"/>
         <source>%1 Months</source>
         <translation>%1 달</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.cpp" line="566"/>
+        <location filename="../view_cert_profile_dlg.cpp" line="726"/>
         <source>%1 Years</source>
         <translation>%1 년</translation>
     </message>

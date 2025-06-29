@@ -101,8 +101,7 @@ void ViewCertProfileDlg::initUI()
     mPMTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mPMTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mPMTable->setColumnWidth(0,160);
-    mPMTable->setColumnWidth(1,160);
-    mPMTable->setColumnWidth(2,160);
+
 
     QStringList sNCLabels = { tr("Type"), tr("Target"), tr("Value"), tr("Min"), tr("Max") };
     mNCTable->setColumnCount(5);
@@ -158,7 +157,10 @@ void ViewCertProfileDlg::setBCEnable( bool bVal )
 {
     mBCCritLabel->setEnabled(bVal);
     mBCLabel->setEnabled(bVal);
-    mBCText->setEnabled(bVal);
+    mBCTargetLabel->setEnabled(bVal);
+    mBCTargetText->setEnabled(bVal);
+    mBCPathLenLabel->setEnabled(bVal);
+    mBCPathLenText->setEnabled(bVal);
 }
 
 void ViewCertProfileDlg::setCRLDPEnable( bool bVal )
@@ -308,10 +310,10 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
     mAKICritLabel->setText( strCrit );
     mAKIText->setText( tr("YES" ) );
     if( strValue.contains( "ISSUER" ))
-        mAKIIssuerText->setText( "YES" );
+        mAKIIssuerText->setText( tr("YES") );
 
     if( strValue.contains( "SERIAL" ))
-        mAKISerialText->setText( "YES" );
+        mAKISerialText->setText( tr("YES") );
 }
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
@@ -323,7 +325,14 @@ void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
         strCrit = tr( "Critical" );
 
     mBCCritLabel->setText( strCrit );
-    mBCText->setText( profileRec.getValue() );
+    QString strVal = profileRec.getValue();
+    QStringList valList = strVal.split("#");
+
+    if( valList.size() > 0 )
+        mBCTargetText->setText( valList.at(0));
+
+    if( valList.size() > 1 )
+        mBCPathLenText->setText( valList.at(1));
 }
 
 void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
