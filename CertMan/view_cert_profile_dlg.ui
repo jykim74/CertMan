@@ -103,7 +103,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -598,7 +598,7 @@
           </spacer>
          </item>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="mPolicyLabel">
            <property name="text">
             <string>Policy</string>
            </property>

@@ -24,6 +24,22 @@ private:
     void initUI();
     void initialize();
 
+    void setAIAEnable( bool bVal );
+    void setAKIEnable( bool bVal );
+    void setBCEnable( bool bVal );
+    void setCRLDPEnable( bool bVal );
+    void setEKUEnable( bool bVal );
+    void setIANEnable( bool bVal );
+    void setKeyUsageEnable( bool bVal );
+    void setNCEnable( bool bVal );
+    void setPolicyEnable( bool bVal );
+    void setPCEnable( bool bVal );
+    void setPMEnable( bool bVal );
+    void setSKIEnable( bool bVal );
+    void setSANEnable( bool bVal );
+    void setExtensionsEnable( bool bVal );
+    void setAllEnable( bool bVal );
+
     void setAIAUse( ProfileExtRec& profileRec );
     void setAKIUse( ProfileExtRec& profileRec );
     void setBCUse( ProfileExtRec& profileRec );

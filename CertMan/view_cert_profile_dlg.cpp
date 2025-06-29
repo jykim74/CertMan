@@ -127,6 +127,8 @@ void ViewCertProfileDlg::initUI()
     mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mExtensionsTable->setColumnWidth(0,180);
     mExtensionsTable->setColumnWidth(1,60);
+
+    setAllEnable(false);
 }
 
 void ViewCertProfileDlg::initialize()
@@ -134,8 +136,131 @@ void ViewCertProfileDlg::initialize()
 
 }
 
+void ViewCertProfileDlg::setAIAEnable( bool bVal )
+{
+    mAIACritLabel->setEnabled(bVal);
+    mAIALabel->setEnabled( bVal );
+    mAIATable->setEnabled( bVal );
+}
+
+void ViewCertProfileDlg::setAKIEnable( bool bVal )
+{
+    mAKICritLabel->setEnabled(bVal);
+    mAKIIssuerLabel->setEnabled(bVal);
+    mAKILabel->setEnabled(bVal);
+    mAKISerialLabel->setEnabled(bVal);
+    mAKISerialText->setEnabled(bVal);
+    mAKIIssuerLabel->setEnabled(bVal);
+    mAKIIssuerText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setBCEnable( bool bVal )
+{
+    mBCCritLabel->setEnabled(bVal);
+    mBCLabel->setEnabled(bVal);
+    mBCText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setCRLDPEnable( bool bVal )
+{
+    mCRLDPCritLabel->setEnabled(bVal);
+    mCRLDPLabel->setEnabled(bVal);
+    mCRLDPTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setEKUEnable( bool bVal )
+{
+    mEKUCritLabel->setEnabled(bVal);
+    mEKULabel->setEnabled(bVal);
+    mEKUText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setIANEnable( bool bVal )
+{
+    mIANCritLabel->setEnabled(bVal);
+    mIANLabel->setEnabled(bVal);
+    mIANTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setKeyUsageEnable( bool bVal )
+{
+    mKeyUsageCritLabel->setEnabled(bVal);
+    mKeyUsageLabel->setEnabled(bVal);
+    mKeyUsageText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setNCEnable( bool bVal )
+{
+    mNCCritLabel->setEnabled(bVal);
+    mNCLabel->setEnabled(bVal);
+    mNCTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setPolicyEnable( bool bVal )
+{
+    mPolicyCritLabel->setEnabled(bVal);
+    mPolicyLabel->setEnabled(bVal);
+    mPolicyTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setPCEnable( bool bVal )
+{
+    mPCCritLabel->setEnabled(bVal);
+    mPCLabel->setEnabled(bVal);
+    mPC_IPMLabel->setEnabled(bVal);
+    mPC_IPMText->setEnabled(bVal);
+    mPC_IPMLabel->setEnabled(bVal);
+    mPC_IPMText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setPMEnable( bool bVal )
+{
+    mPMCritLabel->setEnabled(bVal);
+    mPMLabel->setEnabled(bVal);
+    mPMTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setSKIEnable( bool bVal )
+{
+    mSKICritLabel->setEnabled(bVal);
+    mSKILabel->setEnabled(bVal);
+    mSKIText->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setSANEnable( bool bVal )
+{
+    mSANCritLabel->setEnabled(bVal);
+    mSANLabel->setEnabled(bVal);
+    mSANTable->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setExtensionsEnable( bool bVal )
+{
+    mExtensionsGroup->setEnabled(bVal);
+}
+
+void ViewCertProfileDlg::setAllEnable( bool bVal )
+{
+    setAIAEnable( bVal );
+    setAKIEnable( bVal );
+    setBCEnable( bVal );
+    setCRLDPEnable( bVal );
+    setEKUEnable( bVal );
+    setIANEnable( bVal );
+    setKeyUsageEnable( bVal );
+    setNCEnable( bVal );
+    setPolicyEnable( bVal );
+    setPCEnable( bVal );
+    setPMEnable( bVal );
+    setSKIEnable( bVal );
+    setSANEnable( bVal );
+    setExtensionsEnable(bVal);
+}
+
 void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 {
+    if( mAIALabel->isEnabled() == false ) setAIAEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -172,6 +297,8 @@ void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
+    if( mAKILabel->isEnabled() == false ) setAKIEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -189,6 +316,8 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 {
+    if( mBCLabel->isEnabled() == false ) setBCEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -199,6 +328,8 @@ void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 {
+    if( mCRLDPLabel->isEnabled() == false ) setCRLDPEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -230,6 +361,8 @@ void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 {
+    if( mEKULabel->isEnabled() == false ) setEKUEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -243,6 +376,8 @@ void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
+    if( mIANLabel->isEnabled() == false ) setIANEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -273,6 +408,8 @@ void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 {
+    if( mKeyUsageLabel->isEnabled() == false ) setKeyUsageEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -286,6 +423,8 @@ void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 {
+    if( mNCLabel->isEnabled() == false ) setNCEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -321,6 +460,8 @@ void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 {
+    if( mPolicyLabel->isEnabled() == false ) setPolicyEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -374,6 +515,8 @@ void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 {
+    if( mPCLabel->isEnabled() == false ) setPCEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -404,6 +547,8 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 {
+    if( mPMLabel->isEnabled() == false ) setPMEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -438,6 +583,8 @@ void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 {
+    if( mSKILabel->isEnabled() == false ) setSKIEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -448,6 +595,8 @@ void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 {
+    if( mSANLabel->isEnabled() == false ) setSANEnable(true);
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -477,6 +626,8 @@ void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
+    if( mExtensionsGroup->isEnabled() == false ) setExtensionsEnable(true);
+
     QString strOID = profileRec.getSN();
     QString strValue = profileRec.getValue();
     QString strCrit;
