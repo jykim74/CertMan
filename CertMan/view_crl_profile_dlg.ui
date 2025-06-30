@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>640</height>
+    <height>520</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>500</width>
-    <height>500</height>
+    <height>0</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -93,14 +93,20 @@
    </item>
    <item>
     <widget class="QToolBox" name="mProfileToolBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>500</height>
+       <height>400</height>
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -110,8 +116,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>450</height>
+        <width>596</width>
+        <height>350</height>
        </rect>
       </property>
       <attribute name="label">
@@ -126,11 +132,37 @@
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="0" column="4">
-             <widget class="QLineEdit" name="mHashText">
+            <item row="0" column="0">
+             <widget class="QLabel" name="mVersionLabel">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Version</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="mVersionText">
               <property name="maximumSize">
                <size>
-                <width>60</width>
+                <width>40</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -179,24 +211,11 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="mVersionLabel">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Version</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="mVersionText">
+            <item row="0" column="4">
+             <widget class="QLineEdit" name="mHashText">
               <property name="maximumSize">
                <size>
-                <width>40</width>
+                <width>60</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -231,19 +250,6 @@
                <bool>true</bool>
               </property>
              </widget>
-            </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </item>
@@ -350,11 +356,38 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="mExtensionsLabel">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="mExtensionsGroup">
          <property name="title">
-          <string>Extensions Field</string>
+          <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="mExtensionsLabel_2">
+              <property name="text">
+               <string>Additional extension fields</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
           <item>
            <widget class="QTableWidget" name="mExtensionsTable"/>
           </item>
@@ -368,8 +401,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>450</height>
+        <width>596</width>
+        <height>350</height>
        </rect>
       </property>
       <attribute name="label">
@@ -458,6 +491,13 @@
           </spacer>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout_7">

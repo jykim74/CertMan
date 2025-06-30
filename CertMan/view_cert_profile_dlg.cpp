@@ -208,8 +208,8 @@ void ViewCertProfileDlg::setPCEnable( bool bVal )
 {
     mPCCritLabel->setEnabled(bVal);
     mPCLabel->setEnabled(bVal);
-    mPC_IPMLabel->setEnabled(bVal);
-    mPC_IPMText->setEnabled(bVal);
+    mPC_REPLabel->setEnabled(bVal);
+    mPC_REPText->setEnabled(bVal);
     mPC_IPMLabel->setEnabled(bVal);
     mPC_IPMText->setEnabled(bVal);
 }
@@ -237,6 +237,11 @@ void ViewCertProfileDlg::setSANEnable( bool bVal )
 
 void ViewCertProfileDlg::setExtensionsEnable( bool bVal )
 {
+    if( bVal == false )
+        mExtensionsGroup->hide();
+    else
+        mExtensionsGroup->show();
+
     mExtensionsGroup->setEnabled(bVal);
 }
 

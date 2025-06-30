@@ -107,8 +107,12 @@ void ViewCRLProfileDlg::setIANEnable( bool bVal )
 
 void ViewCRLProfileDlg::setExtensionsEnable( bool bVal )
 {
-    mExtensionsLabel->setEnabled(bVal);
-    mExtensionsTable->setEnabled(bVal);
+    if( bVal == false )
+        mExtensionsGroup->hide();
+    else
+        mExtensionsGroup->show();
+
+    mExtensionsGroup->setEnabled( bVal );
 }
 
 void ViewCRLProfileDlg::setAllEnable( bool bVal )
@@ -122,6 +126,8 @@ void ViewCRLProfileDlg::setAllEnable( bool bVal )
 
 void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
+    if( mCRLNumLabel->isEnabled() == false ) setCRLNumEnable( true );
+
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
         strCrit = tr( "Critical" );
@@ -216,7 +222,7 @@ void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
 {
-    if( mExtensionsLabel->isEnabled() == false ) setExtensionsEnable(true);
+    if( mExtensionsGroup->isEnabled() == false ) setExtensionsEnable(true);
 
     QString strOID = profileRec.getSN();
     QString strValue = profileRec.getValue();
