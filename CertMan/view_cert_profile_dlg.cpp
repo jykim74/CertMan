@@ -23,6 +23,21 @@ ViewCertProfileDlg::ViewCertProfileDlg(QWidget *parent)
     layout()->setSpacing(5);
     mProfileToolBox->layout()->setSpacing(5);
     mProfileToolBox->layout()->setMargin(5);
+
+    mBase->layout()->setSpacing(5);
+    mBase->layout()->setMargin(5);
+
+    mExtension1->layout()->setSpacing(5);
+    mExtension1->layout()->setMargin(5);
+
+    mExtension2->layout()->setSpacing(5);
+    mExtension2->layout()->setMargin(5);
+
+    mExtension3->layout()->setSpacing(5);
+    mExtension3->layout()->setMargin(5);
+
+    mExtension4->layout()->setSpacing(5);
+    mExtension4->layout()->setMargin(5);
 #endif
 
     resize(minimumSizeHint().width(), minimumSizeHint().height());

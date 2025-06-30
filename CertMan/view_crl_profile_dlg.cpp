@@ -20,6 +20,12 @@ ViewCRLProfileDlg::ViewCRLProfileDlg(QWidget *parent)
     layout()->setSpacing(5);
     mProfileToolBox->layout()->setSpacing(5);
     mProfileToolBox->layout()->setMargin(5);
+
+    mBase->layout()->setSpacing(5);
+    mBase->layout()->setMargin(5);
+
+    mExtension->layout()->setMargin(5);
+    mExtension->layout()->setSpacing(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
     initialize();
