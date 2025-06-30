@@ -4202,6 +4202,22 @@ bool isEmail( const QString strEmail )
     return mailREX.exactMatch( strEmail );
 }
 
+bool isDNS( const QString strDNS )
+{
+    QRegExp regExp("^([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$");
+    regExp.setCaseSensitivity(Qt::CaseInsensitive );
+
+    return regExp.exactMatch( strDNS );
+}
+
+bool isURL( const QString strURL )
+{
+    QRegExp regExp("^(https?|ldaps?):\\/\\/(-\\.)?([^\\s\\/?\\.#-]+\\.?)+(\\/[^\\s]*)?$");
+    regExp.setCaseSensitivity(Qt::CaseInsensitive );
+
+    return regExp.exactMatch( strURL );
+}
+
 bool isHex( const QString strHexString )
 {
     return isValidNumFormat( strHexString, 16 );

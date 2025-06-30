@@ -180,6 +180,7 @@ static QStringList kEdDSAOptionList = { kParamEd25519, kParamEd448 };
 static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
+const QString kToolBoxStyle = "QToolBox::tab {background-color: #a8d5a2; }";
 
 static QStringList kPBEv1List = { "PBE-SHA1-3DES", "PBE-SHA1-2DES" };
 static QStringList kPBEv2List = { "AES-128-CBC", "AES-256-CBC", "ARIA-128-CBC", "ARIA-256-CBC" };
@@ -287,6 +288,9 @@ bool isKMIPPrivate( const QString strKeyMech );
 bool isValidNumFormat( const QString strInput, int nNumber );
 
 bool isEmail( const QString strEmail );
+bool isDNS( const QString strDNS );
+bool isURL( const QString strURL );
+
 bool isHex( const QString strHexString );
 bool isBase64( const QString strBase64String );
 bool isURLEncode( const QString strURLEncode );

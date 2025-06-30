@@ -364,6 +364,8 @@ void MakeCRLProfileDlg::initUI()
 
     mCRLNumText->setPlaceholderText( tr( "Hex value" ) );
     mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ) );
+
+    mIDPText->setPlaceholderText( tr( "URI address" ));
 }
 
 void MakeCRLProfileDlg::connectExtends()

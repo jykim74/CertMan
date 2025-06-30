@@ -126,6 +126,18 @@ void ViewCertProfileDlg::initUI()
     mExtensionsTable->setColumnWidth(0,180);
     mExtensionsTable->setColumnWidth(1,60);
 
+    mProfileToolBox->setStyleSheet( kToolBoxStyle );
+    mProfileToolBox->setItemEnabled( 1, false );
+    mProfileToolBox->setItemEnabled( 2, false );
+    mProfileToolBox->setItemEnabled( 3, false );
+    mProfileToolBox->setItemEnabled( 4, false );
+
+    mProfileToolBox->setItemIcon( 0, QIcon( ":/images/cert_profile.png" ));
+    mProfileToolBox->setItemIcon( 1, QIcon( ":/images/cert_profile.png" ));
+    mProfileToolBox->setItemIcon( 2, QIcon( ":/images/cert_profile.png" ));
+    mProfileToolBox->setItemIcon( 3, QIcon( ":/images/cert_profile.png" ));
+    mProfileToolBox->setItemIcon( 4, QIcon( ":/images/cert_profile.png" ));
+
     setAllEnable(false);
 }
 
@@ -265,7 +277,11 @@ void ViewCertProfileDlg::setAllEnable( bool bVal )
 
 void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 {
-    if( mAIALabel->isEnabled() == false ) setAIAEnable(true);
+    if( mAIALabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 2, true );
+        setAIAEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -303,7 +319,11 @@ void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
-    if( mAKILabel->isEnabled() == false ) setAKIEnable(true);
+    if( mAKILabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setAKIEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -322,7 +342,11 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 {
-    if( mBCLabel->isEnabled() == false ) setBCEnable(true);
+    if( mBCLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 3, true );
+        setBCEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -341,7 +365,11 @@ void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 {
-    if( mCRLDPLabel->isEnabled() == false ) setCRLDPEnable(true);
+    if( mCRLDPLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 2, true );
+        setCRLDPEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -374,7 +402,11 @@ void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 {
-    if( mEKULabel->isEnabled() == false ) setEKUEnable(true);
+    if( mEKULabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 2, true );
+        setEKUEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -389,7 +421,11 @@ void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
-    if( mIANLabel->isEnabled() == false ) setIANEnable(true);
+    if( mIANLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 3, true );
+        setIANEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -421,7 +457,11 @@ void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 {
-    if( mKeyUsageLabel->isEnabled() == false ) setKeyUsageEnable(true);
+    if( mKeyUsageLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setKeyUsageEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -436,7 +476,11 @@ void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 {
-    if( mNCLabel->isEnabled() == false ) setNCEnable(true);
+    if( mNCLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 4, true );
+        setNCEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -473,7 +517,11 @@ void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 {
-    if( mPolicyLabel->isEnabled() == false ) setPolicyEnable(true);
+    if( mPolicyLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setPolicyEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -528,7 +576,11 @@ void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 {
-    if( mPCLabel->isEnabled() == false ) setPCEnable(true);
+    if( mPCLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 4, true );
+        setPCEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -560,7 +612,11 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 {
-    if( mPMLabel->isEnabled() == false ) setPMEnable(true);
+    if( mPMLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 4, true );
+        setPMEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -596,7 +652,11 @@ void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 {
-    if( mSKILabel->isEnabled() == false ) setSKIEnable(true);
+    if( mSKILabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setSKIEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -608,7 +668,11 @@ void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 
 void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 {
-    if( mSANLabel->isEnabled() == false ) setSANEnable(true);
+    if( mSANLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 3, true );
+        setSANEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )

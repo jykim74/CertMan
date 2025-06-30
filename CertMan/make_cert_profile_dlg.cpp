@@ -590,9 +590,6 @@ void MakeCertProfileDlg::setTableMenus()
     mPMTable->horizontalHeader()->setStyleSheet( kTableStyle );
     mPMTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mPMTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    mPMTable->setColumnWidth(0,160);
-    mPMTable->setColumnWidth(1,160);
-    mPMTable->setColumnWidth(2,160);
 
 
     QStringList sNCLabels = { tr("Type"), tr("Target"), tr("Value"), tr("Min"), tr("Max") };
@@ -1868,6 +1865,8 @@ void MakeCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
         mAIATable->setItem( i, 0, new QTableWidgetItem(strMethod));
         mAIATable->setItem( i, 1, new QTableWidgetItem(strType));
         mAIATable->setItem( i, 2, new QTableWidgetItem(strData));
+
+        mAIATable->item( i, 2 )->setToolTip( strData );
     }
 }
 
@@ -1936,6 +1935,8 @@ void MakeCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
         mCRLDPTable->setRowHeight( i, 10 );
         mCRLDPTable->setItem( i, 0, new QTableWidgetItem(strType));
         mCRLDPTable->setItem( i, 1, new QTableWidgetItem(strData));
+
+        mCRLDPTable->item( i, 1 )->setToolTip( strData );
     }
 }
 
@@ -1977,6 +1978,8 @@ void MakeCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
         mIANTable->setRowHeight( i, 10 );
         mIANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mIANTable->setItem(i, 1, new QTableWidgetItem(strData));
+
+        mIANTable->item( i, 1 )->setToolTip( strData );
     }
 }
 
@@ -2072,6 +2075,10 @@ void MakeCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
         mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
         mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
         mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+
+        mPolicyTable->item( row, 0 )->setToolTip( strOID );
+        mPolicyTable->item( row, 1 )->setToolTip( strCPS );
+        mPolicyTable->item( row, 2 )->setToolTip( strUserNotice );
     }
 }
 
@@ -2158,6 +2165,8 @@ void MakeCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
         mSANTable->setRowHeight( i, 10 );
         mSANTable->setItem( i, 0, new QTableWidgetItem(strType));
         mSANTable->setItem(i, 1, new QTableWidgetItem(strData));
+
+        mSANTable->item( i, 1 )->setToolTip( strData );
     }
 }
 

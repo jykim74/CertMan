@@ -66,6 +66,12 @@ void ViewCRLProfileDlg::initUI()
     mExtensionsTable->setColumnWidth(0,180);
     mExtensionsTable->setColumnWidth(1,60);
 
+    mProfileToolBox->setStyleSheet( kToolBoxStyle );
+    mProfileToolBox->setItemEnabled( 1, false );
+
+    mProfileToolBox->setItemIcon( 0, QIcon( ":/images/crl_profile.png" ));
+    mProfileToolBox->setItemIcon( 1, QIcon( ":/images/crl_profile.png" ));
+
     setAllEnable( false );
 }
 
@@ -126,7 +132,11 @@ void ViewCRLProfileDlg::setAllEnable( bool bVal )
 
 void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 {
-    if( mCRLNumLabel->isEnabled() == false ) setCRLNumEnable( true );
+    if( mCRLNumLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setCRLNumEnable( true );
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -139,7 +149,11 @@ void ViewCRLProfileDlg::setCRLNumUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
-    if( mAKILabel->isEnabled() == false ) setAKIEnable(true);
+    if( mAKILabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setAKIEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -161,7 +175,11 @@ void ViewCRLProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 {
-    if( mIDPLabel->isEnabled() == false ) setIDPEnable(true);
+    if( mIDPLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setIDPEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
@@ -190,7 +208,11 @@ void ViewCRLProfileDlg::setIDPUse( ProfileExtRec& profileRec )
 
 void ViewCRLProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
-    if( mIANLabel->isEnabled() == false ) setIANEnable(true);
+    if( mIANLabel->isEnabled() == false )
+    {
+        mProfileToolBox->setItemEnabled( 1, true );
+        setIANEnable(true);
+    }
 
     QString strCrit = tr("NonCritical" );
     if( profileRec.isCritical() == true )
