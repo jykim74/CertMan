@@ -23,6 +23,7 @@
 #include "settings_mgr.h"
 #include "profile_man_dlg.h"
 #include "ca_man_dlg.h"
+#include "view_crl_profile_dlg.h"
 
 
 MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
@@ -34,6 +35,7 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     connect( mIssuerNumText, SIGNAL(textChanged(QString)), this, SLOT(issuerNumChanged()));
     connect( mCRLDPCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(crldpChanged(int)));
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mViewProfileBtn, SIGNAL(clicked()), this, SLOT(clickViewProfile()));
     connect( mSelectIssuerBtn, SIGNAL(clicked()), this, SLOT(clickSelectIssuer()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(profileNumChanged()));
 
@@ -568,4 +570,18 @@ void MakeCRLDlg::clickSelectProfile()
     {
         mProfileNumText->setText( QString("%1").arg(profileMan.getNum()));
     }
+}
+
+void MakeCRLDlg::clickViewProfile()
+{
+    QString strNum = mProfileNumText->text();
+    if( strNum.length() < 1 )
+    {
+        manApplet->warningBox( tr("No profile selected"), this );
+        return;
+    }
+
+    ViewCRLProfileDlg crlProfile;
+    crlProfile.setProfile( strNum.toInt());
+    crlProfile.exec();
 }

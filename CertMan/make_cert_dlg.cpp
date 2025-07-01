@@ -24,6 +24,7 @@
 #include "make_dn_dlg.h"
 #include "ca_man_dlg.h"
 #include "profile_man_dlg.h"
+#include "view_cert_profile_dlg.h"
 
 #include "js_gen.h"
 #include "js_kms.h"
@@ -61,6 +62,7 @@ MakeCertDlg::MakeCertDlg(QWidget *parent) :
 
     connect( mSelectCSRBtn, SIGNAL(clicked()), this, SLOT(clickSelectCSR()));
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mViewProfileBtn, SIGNAL(clicked()), this, SLOT(clickViewProfile()));
     connect( mSelectCACertBtn, SIGNAL(clicked()), this, SLOT(clickSelectCACert()));
 
 #if defined(Q_OS_MAC)
@@ -915,6 +917,20 @@ void MakeCertDlg::clickSelectProfile()
     {
         mProfileNumText->setText( QString("%1").arg( profileMan.getNum() ));
     }
+}
+
+void MakeCertDlg::clickViewProfile()
+{
+    QString strNum = mProfileNumText->text();
+    if( strNum.length() < 1 )
+    {
+        manApplet->warningBox( tr("No profile selected"), this );
+        return;
+    }
+
+    ViewCertProfileDlg certProfile;
+    certProfile.setProfile( strNum.toInt() );
+    certProfile.exec();
 }
 
 void MakeCertDlg::clickSelectCACert()

@@ -34,6 +34,7 @@ private slots:
 
     void clickSelectIssuer();
     void clickSelectProfile();
+    void clickViewProfile();
 
 private:
     void initUI();

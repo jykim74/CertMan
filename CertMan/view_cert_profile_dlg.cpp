@@ -294,7 +294,9 @@ void ViewCertProfileDlg::setAIAUse( ProfileExtRec& profileRec )
 {
     if( mAIALabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 2, true );
+        if( mProfileToolBox->isItemEnabled( 2 ) == false )
+            mProfileToolBox->setItemEnabled( 2, true );
+
         setAIAEnable(true);
     }
 
@@ -336,7 +338,8 @@ void ViewCertProfileDlg::setAKIUse( ProfileExtRec& profileRec )
 {
     if( mAKILabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 1, true );
+        if( mProfileToolBox->isItemEnabled( 1 ) == false )
+            mProfileToolBox->setItemEnabled( 1, true );
         setAKIEnable(true);
     }
 
@@ -359,7 +362,8 @@ void ViewCertProfileDlg::setBCUse( ProfileExtRec& profileRec )
 {
     if( mBCLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 3, true );
+        if( mProfileToolBox->isItemEnabled( 3 ) == false )
+            mProfileToolBox->setItemEnabled( 3, true );
         setBCEnable(true);
     }
 
@@ -382,7 +386,8 @@ void ViewCertProfileDlg::setCRLDPUse( ProfileExtRec& profileRec )
 {
     if( mCRLDPLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 2, true );
+        if( mProfileToolBox->isItemEnabled( 2 ) == false )
+            mProfileToolBox->setItemEnabled( 2, true );
         setCRLDPEnable(true);
     }
 
@@ -419,7 +424,8 @@ void ViewCertProfileDlg::setEKUUse( ProfileExtRec& profileRec )
 {
     if( mEKULabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 2, true );
+        if( mProfileToolBox->isItemEnabled( 2 ) == false )
+            mProfileToolBox->setItemEnabled( 2, true );
         setEKUEnable(true);
     }
 
@@ -438,7 +444,8 @@ void ViewCertProfileDlg::setIANUse( ProfileExtRec& profileRec )
 {
     if( mIANLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 3, true );
+        if( mProfileToolBox->isItemEnabled( 3 ) == false )
+            mProfileToolBox->setItemEnabled( 3, true );
         setIANEnable(true);
     }
 
@@ -474,7 +481,8 @@ void ViewCertProfileDlg::setKeyUsageUse( ProfileExtRec& profileRec )
 {
     if( mKeyUsageLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 1, true );
+        if( mProfileToolBox->isItemEnabled( 1 ) == false )
+            mProfileToolBox->setItemEnabled( 1, true );
         setKeyUsageEnable(true);
     }
 
@@ -493,7 +501,8 @@ void ViewCertProfileDlg::setNCUse( ProfileExtRec& profileRec )
 {
     if( mNCLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 4, true );
+        if( mProfileToolBox->isItemEnabled( 4 ) == false )
+            mProfileToolBox->setItemEnabled( 4, true );
         setNCEnable(true);
     }
 
@@ -534,7 +543,8 @@ void ViewCertProfileDlg::setPolicyUse( ProfileExtRec& profileRec )
 {
     if( mPolicyLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 1, true );
+        if( mProfileToolBox->isItemEnabled( 1 ) == false )
+            mProfileToolBox->setItemEnabled( 1, true );
         setPolicyEnable(true);
     }
 
@@ -593,7 +603,8 @@ void ViewCertProfileDlg::setPCUse( ProfileExtRec& profileRec )
 {
     if( mPCLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 4, true );
+        if( mProfileToolBox->isItemEnabled( 4 ) == false )
+            mProfileToolBox->setItemEnabled( 4, true );
         setPCEnable(true);
     }
 
@@ -629,7 +640,8 @@ void ViewCertProfileDlg::setPMUse( ProfileExtRec& profileRec )
 {
     if( mPMLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 4, true );
+        if( mProfileToolBox->isItemEnabled( 4 ) == false )
+            mProfileToolBox->setItemEnabled( 4, true );
         setPMEnable(true);
     }
 
@@ -669,7 +681,8 @@ void ViewCertProfileDlg::setSKIUse( ProfileExtRec& profileRec )
 {
     if( mSKILabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 1, true );
+        if( mProfileToolBox->isItemEnabled( 1 ) == false )
+            mProfileToolBox->setItemEnabled( 1, true );
         setSKIEnable(true);
     }
 
@@ -685,7 +698,8 @@ void ViewCertProfileDlg::setSANUse( ProfileExtRec& profileRec )
 {
     if( mSANLabel->isEnabled() == false )
     {
-        mProfileToolBox->setItemEnabled( 3, true );
+        if( mProfileToolBox->isItemEnabled( 3 ) == false )
+            mProfileToolBox->setItemEnabled( 3, true );
         setSANEnable(true);
     }
 

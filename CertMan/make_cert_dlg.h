@@ -44,6 +44,7 @@ private slots:
     void clickSelectCSR();
     void clickSelectProfile();
     void clickSelectCACert();
+    void clickViewProfile();
 
 private:
     void initUI();

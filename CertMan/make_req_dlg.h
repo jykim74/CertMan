@@ -47,6 +47,7 @@ private slots:
 
     void clickSelectKeyPair();
     void clickSelectProfile();
+    void clickViewProfile();
 
 private:
     void initUI();

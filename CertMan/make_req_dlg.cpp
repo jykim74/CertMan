@@ -23,6 +23,7 @@
 #include "make_dn_dlg.h"
 #include "ca_man_dlg.h"
 #include "profile_man_dlg.h"
+#include "view_cert_profile_dlg.h"
 
 static QStringList sMechList = { kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
 
@@ -51,6 +52,7 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
 
     connect( mSelectKeyPairBtn, SIGNAL(clicked()), this, SLOT(clickSelectKeyPair()));
     connect( mSelectProfileBtn, SIGNAL(clicked()), this, SLOT(clickSelectProfile()));
+    connect( mViewProfileBtn, SIGNAL(clicked()), this, SLOT(clickViewProfile()));
 
     initialize();
 
@@ -736,6 +738,20 @@ void MakeReqDlg::clickSelectProfile()
     }
 }
 
+void MakeReqDlg::clickViewProfile()
+{
+    QString strNum = mProfileNumText->text();
+    if( strNum.length() < 1 )
+    {
+        manApplet->warningBox( tr( "No profile selected" ), this );
+        return;
+    }
+
+    ViewCertProfileDlg certProfile;
+    certProfile.setProfile( strNum.toInt());
+    certProfile.exec();
+}
+
 void MakeReqDlg::newOptionChanged(int index )
 {
     if( mNewOptionCombo->currentText() == "SM2" )
@@ -768,6 +784,7 @@ void MakeReqDlg::checkExtension()
     mProfileNumText->setEnabled( bVal );
     mProfileNameLabel->setEnabled( bVal );
     mSelectProfileBtn->setEnabled( bVal );
+    mViewProfileBtn->setEnabled( bVal );
 }
 
 void MakeReqDlg::clickMakeDN()
