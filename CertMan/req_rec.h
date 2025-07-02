@@ -12,7 +12,7 @@ class ReqRec
 {
 private:
     int             m_nSeq;
-    int             m_nRegTime;
+    time_t          m_tRegTime;
     int             m_nKeyNum;
     QString         m_strName;
     QString         m_strDN;
@@ -24,7 +24,7 @@ public:
     ReqRec();
 
     int getSeq() { return m_nSeq; };
-    int getRegTime() { return m_nRegTime; };
+    time_t getRegTime() { return m_tRegTime; };
     int getKeyNum() { return m_nKeyNum; };
     QString getName() { return m_strName; };
     QString getDN() { return m_strDN; };
@@ -33,7 +33,7 @@ public:
     int getStatus() { return m_nStatus; };
 
     void setSeq( int nSeq );
-    void setRegTime( int nRegTime );
+    void setRegTime( time_t tRegTime );
     void setKeyNum( int nKeyNum );
     void setName( QString strName );
     void setDN( QString strDN );

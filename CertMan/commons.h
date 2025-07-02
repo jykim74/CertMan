@@ -296,7 +296,7 @@ bool isBase64( const QString strBase64String );
 bool isURLEncode( const QString strURLEncode );
 
 const QString dateString( time_t tTime );
-void getPeriodString( long start, long end, QString& strStart, QString& strEnd );
+void getPeriodString( time_t start, time_t end, QString& strStart, QString& strEnd );
 
 const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList );
 

@@ -8,7 +8,7 @@
 UserRec::UserRec()
 {
     m_nNum = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_strName = "";
     m_strSSN = "";
     m_strEmail = "";
@@ -22,9 +22,9 @@ void UserRec::setNum( int nNum )
     m_nNum = nNum;
 }
 
-void UserRec::setRegTime(int nRegTime)
+void UserRec::setRegTime(time_t tRegTime)
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void UserRec::setName( const QString strName )

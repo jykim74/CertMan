@@ -8,7 +8,7 @@
 TSPRec::TSPRec()
 {
     m_nSeq = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_nSerial = -1;
 
     m_strSrcHash = "";
@@ -22,9 +22,9 @@ void TSPRec::setSeq( int nSeq )
     m_nSeq = nSeq;
 }
 
-void TSPRec::setRegTime( int nRegTime )
+void TSPRec::setRegTime( time_t tRegTime )
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void TSPRec::setSerial( int nSerial )

@@ -15,7 +15,7 @@ private:
     int         m_nCertNum;
     int         m_nIssuerNum;
     QString     m_strSerial;
-    int         m_nRevokeDate;
+    time_t      m_tRevokeDate;
     int         m_nReason;
     QString     m_strCRLDP;
 
@@ -26,7 +26,7 @@ public:
     int getCertNum() { return m_nCertNum; };
     int getIssuerNum() { return m_nIssuerNum; };
     QString getSerial() { return m_strSerial; };
-    int getRevokeDate() { return m_nRevokeDate; };
+    time_t getRevokeDate() { return m_tRevokeDate; };
     int getReason() { return m_nReason; };
     QString getCRLDP() { return m_strCRLDP; };
 
@@ -34,7 +34,7 @@ public:
     void setCertNum( int nCertNum );
     void setIssuerNum( int nIssuerNum );
     void setSerial( QString strSerial );
-    void setRevokeDate( int nRevokeDate );
+    void setRevokeDate( time_t tRevokeDate );
     void setReason( int nReason );
     void setCRLDP( QString strCRLDP );
 };

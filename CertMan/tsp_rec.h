@@ -12,7 +12,7 @@ class TSPRec
 {
 private:
     int         m_nSeq;
-    int         m_nRegTime;
+    time_t      m_tRegTime;
     int         m_nSerial;
     QString     m_strSrcHash;
     QString     m_strPolicy;
@@ -23,7 +23,7 @@ public:
     TSPRec();
 
     int getSeq() { return m_nSeq; };
-    int getRegTime() { return m_nRegTime; };
+    time_t getRegTime() { return m_tRegTime; };
     int getSerial() { return m_nSerial; };
     QString getSrcHash() { return m_strSrcHash; };
     QString getPolicy() { return m_strPolicy; };
@@ -31,7 +31,7 @@ public:
     QString getData() { return m_strData; };
 
     void setSeq( int nSeq );
-    void setRegTime( int nRegTime );
+    void setRegTime( time_t tRegTime );
     void setSerial( int nSerial );
     void setSrcHash( const QString strSrcHash );
     void setPolicy( const QString strPolicy );

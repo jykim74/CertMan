@@ -168,7 +168,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
         CertRec certRec;
 
         certRec.setNum( SQL.value(nPosNum).toInt() );
-        certRec.setRegTime( SQL.value(nPosRegTime).toInt());
+        certRec.setRegTime( SQL.value(nPosRegTime).toLongLong());
         certRec.setKeyNum( SQL.value(nPosKeyNum).toInt());
         certRec.setUserNum( SQL.value( nPosUserNum ).toInt());
         certRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
@@ -847,7 +847,7 @@ int DBMgr::_getKeyPairList( QString strQuery, QList<KeyPairRec>& keyPairList )
         KeyPairRec keyPairRec;
 
         keyPairRec.setNum( SQL.value(nPosNum).toInt() );
-        keyPairRec.setRegTime( SQL.value(nPosRegTime).toInt());
+        keyPairRec.setRegTime( SQL.value(nPosRegTime).toLongLong());
         keyPairRec.setAlg( SQL.value(nPosAlg).toString() );
         keyPairRec.setName( SQL.value(nPosName).toString() );
         keyPairRec.setPublicKey( SQL.value(nPosPublic).toString() );
@@ -1207,7 +1207,7 @@ int DBMgr::_getReqList( QString strQuery, QList<ReqRec>& reqList )
         ReqRec reqRec;
 
         reqRec.setSeq( SQL.value(nPosSeq).toInt() );
-        reqRec.setRegTime( SQL.value(nPosRegTime).toInt());
+        reqRec.setRegTime( SQL.value(nPosRegTime).toLongLong());
         reqRec.setKeyNum( SQL.value(nPosKeyNum).toInt() );
         reqRec.setName( SQL.value(nPosName).toString() );
         reqRec.setDN( SQL.value(nPosDN).toString() );
@@ -1388,8 +1388,8 @@ int DBMgr::_getCertProfileList( QString strQuery, QList<CertProfileRec>& certPro
         certProfile.setName( SQL.value(nPosName).toString() );
         certProfile.setType( SQL.value(nPosType).toInt());
         certProfile.setVersion( SQL.value(nPosVersion).toInt() );
-        certProfile.setNotBefore( SQL.value(nPosNotBefore).toInt() );
-        certProfile.setNotAfter( SQL.value(nPosNotAfter).toInt() );
+        certProfile.setNotBefore( SQL.value(nPosNotBefore).toLongLong() );
+        certProfile.setNotAfter( SQL.value(nPosNotAfter).toLongLong() );
         certProfile.setExtUsage( SQL.value( nPosExtUsage ).toInt());
         certProfile.setHash( SQL.value(nPosHash).toString() );
         certProfile.setDNTemplate( SQL.value(nPosDNTemplate).toString() );
@@ -1451,10 +1451,10 @@ int DBMgr::_getCRLList( QString strQuery, QList<CRLRec>& crlList )
         CRLRec crlRec;
 
         crlRec.setNum( SQL.value(nPosNum).toInt() );
-        crlRec.setRegTime( SQL.value(nPosRegTime).toInt());
+        crlRec.setRegTime( SQL.value(nPosRegTime).toLongLong());
         crlRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt() );
-        crlRec.setThisUpdate( SQL.value(nPosThisUpdate).toInt());
-        crlRec.setNextUpdate( SQL.value(nPosNextUpdate).toInt());
+        crlRec.setThisUpdate( SQL.value(nPosThisUpdate).toLongLong());
+        crlRec.setNextUpdate( SQL.value(nPosNextUpdate).toLongLong());
         crlRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
         crlRec.setCRLDP( SQL.value(nPosCRLDP).toString());
         crlRec.setCRL( SQL.value(nPosCRL).toString() );
@@ -1493,8 +1493,8 @@ int DBMgr::_getCRLProfileList( QString strQuery, QList<CRLProfileRec>& crlProfil
         crlProfile.setNum( SQL.value(nPosNum).toInt() );
         crlProfile.setName( SQL.value(nPosName).toString() );
         crlProfile.setVersion( SQL.value(nPosVersion).toInt() );
-        crlProfile.setThisUpdate( SQL.value(nPosThisUpdate).toInt() );
-        crlProfile.setNextUpdate( SQL.value(nPosNextUpdate).toInt() );
+        crlProfile.setThisUpdate( SQL.value(nPosThisUpdate).toLongLong() );
+        crlProfile.setNextUpdate( SQL.value(nPosNextUpdate).toLongLong() );
         crlProfile.setHash( SQL.value(nPosHash).toString() );
 
         crlProfileList.append( crlProfile );
@@ -1526,7 +1526,7 @@ int DBMgr::_getRevokeList( QString strQuery, QList<RevokeRec>& revokeList )
         revokeRec.setCertNum( SQL.value(nPosCertNum).toInt() );
         revokeRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt() );
         revokeRec.setSerial( SQL.value(nPosSerial).toString() );
-        revokeRec.setRevokeDate( SQL.value(nPosRevokeDate).toInt() );
+        revokeRec.setRevokeDate( SQL.value(nPosRevokeDate).toLongLong() );
         revokeRec.setReason( SQL.value(nPosReason).toInt() );
         revokeRec.setCRLDP( SQL.value(nPosCRLDP).toString() );
 
@@ -1599,7 +1599,7 @@ int DBMgr::_getUserList( QString strQuery, QList<UserRec>& userList )
         UserRec     user;
 
         user.setNum( SQL.value(nPosNum).toInt() );
-        user.setRegTime( SQL.value(nPosRegTime).toInt());
+        user.setRegTime( SQL.value(nPosRegTime).toLongLong());
         user.setName( SQL.value(nPosName).toString() );
         user.setSSN( SQL.value(nPosSSN).toString() );
         user.setEmail( SQL.value(nPosEmail).toString());
@@ -1633,7 +1633,7 @@ int DBMgr::_getSignerList( QString strQuery, QList<SignerRec>& signerList )
         SignerRec signer;
 
         signer.setNum( SQL.value(nPosNum).toInt());
-        signer.setRegTime( SQL.value(nPosRegTime).toInt());
+        signer.setRegTime( SQL.value(nPosRegTime).toLongLong());
         signer.setType( SQL.value(nPosType).toInt());
         signer.setDN( SQL.value(nPosDN).toString());
         signer.setDNHash( SQL.value(nPosDNHash).toString());
@@ -1666,7 +1666,7 @@ int DBMgr::_getKMSList( QString strQuery, QList<KMSRec>& kmsList )
         KMSRec kms;
 
         kms.setSeq( SQL.value(nPosSeq).toInt());
-        kms.setRegTime( SQL.value(nPosRegTime).toInt());
+        kms.setRegTime( SQL.value(nPosRegTime).toLongLong());
         kms.setState( SQL.value(nPosState).toInt());
         kms.setType( SQL.value(nPosType).toInt());
         kms.setAlgorithm( SQL.value(nPosAlgorithm).toInt());
@@ -1722,7 +1722,7 @@ int DBMgr::_getAuditList( QString strQuery, QList<AuditRec>& auditList )
         AuditRec audit;
 
         audit.setSeq( SQL.value(nPosSeq).toInt());
-        audit.setRegTime( SQL.value(nPosRegTime).toInt());
+        audit.setRegTime( SQL.value(nPosRegTime).toLongLong());
         audit.setKind( SQL.value(nPosKind).toInt());
         audit.setOperation( SQL.value(nPosOperation).toInt());
         audit.setUserName( SQL.value(nPosUserName).toString());
@@ -1753,7 +1753,7 @@ int DBMgr::_getTSPList( QString strQuery, QList<TSPRec>& tspList )
         TSPRec tsp;
 
         tsp.setSeq( SQL.value(nPosSeq).toInt());
-        tsp.setRegTime( SQL.value(nPosRegTime).toInt());
+        tsp.setRegTime( SQL.value(nPosRegTime).toLongLong());
         tsp.setSerial( SQL.value(nPosSerial).toInt());
         tsp.setSrcHash( SQL.value(nPosSrcHash).toString());
         tsp.setPolicy( SQL.value(nPosPolicy).toString());

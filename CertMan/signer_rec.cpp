@@ -8,7 +8,7 @@
 SignerRec::SignerRec()
 {
     m_nNum = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_nType = 0;
     m_strDN = "";
     m_strDNHash = "";
@@ -22,9 +22,9 @@ void SignerRec::setNum( int nNum )
     m_nNum = nNum;
 }
 
-void SignerRec::setRegTime(int nRegTime)
+void SignerRec::setRegTime(time_t tRegTime)
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void SignerRec::setType( int nType )

@@ -11,7 +11,7 @@ RevokeRec::RevokeRec()
     m_nCertNum = -1;
     m_nIssuerNum = -1;
     m_strSerial = "";
-    m_nRevokeDate = -1;
+    m_tRevokeDate = -1;
     m_strCRLDP = "";
 }
 
@@ -35,9 +35,9 @@ void RevokeRec::setSerial( QString strSerial )
     m_strSerial = strSerial;
 }
 
-void RevokeRec::setRevokeDate( int nRevokeDate )
+void RevokeRec::setRevokeDate( time_t tRevokeDate )
 {
-    m_nRevokeDate = nRevokeDate;
+    m_tRevokeDate = tRevokeDate;
 }
 
 void RevokeRec::setReason( int nReason )

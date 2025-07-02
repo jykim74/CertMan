@@ -10,7 +10,7 @@
 CRLRec::CRLRec()
 {
     m_nNum = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_nIssuerNum = -1;
     m_nThisUpdate = -1;
     m_nNextUpdate = -1;
@@ -23,9 +23,9 @@ void CRLRec::setNum( int nNum )
     m_nNum = nNum;
 }
 
-void CRLRec::setRegTime(int nRegTime)
+void CRLRec::setRegTime(time_t tRegTime)
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void CRLRec::setIssuerNum( int nIssuerNum )

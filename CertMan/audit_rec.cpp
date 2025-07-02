@@ -8,7 +8,7 @@
 AuditRec::AuditRec()
 {
     m_nSeq = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_nKind = -1;
     m_nOperation = -1;
 
@@ -23,9 +23,9 @@ void AuditRec::setSeq( int nSeq )
     m_nSeq = nSeq;
 }
 
-void AuditRec::setRegTime( int nRegTime )
+void AuditRec::setRegTime( time_t tRegTime )
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void AuditRec::setKind( int nKind )

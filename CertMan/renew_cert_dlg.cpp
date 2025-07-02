@@ -101,8 +101,8 @@ void RenewCertDlg::showEvent(QShowEvent *event)
 
     JS_PKI_getCertInfo( &binCert, &sCertInfo, NULL );
 
-    startDateTime.setSecsSinceEpoch( sCertInfo.uNotBefore );
-    endDateTime.setSecsSinceEpoch( sCertInfo.uNotAfter );
+    startDateTime.setSecsSinceEpoch( sCertInfo.tNotBefore );
+    endDateTime.setSecsSinceEpoch( sCertInfo.tNotAfter );
 
     mNotBeforeText->setText( startDateTime.toString( "yyyy-MM-dd HH:mm:ss" ) );
     mNotAfterText->setText( endDateTime.toString( "yyyy-MM-dd HH:mm:ss" ));
@@ -142,8 +142,8 @@ void RenewCertDlg::accept()
 
 //    int nKeyType = -1;
     int nRenewCertNum = -1;
-    long uLimitBefore = -1;
-    long uLimitAfter = -1;
+    time_t tLimitBefore = -1;
+    time_t tLimitAfter = -1;
 
 //    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
 //    QByteArray ba;
@@ -176,8 +176,8 @@ void RenewCertDlg::accept()
         JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
         JS_PKI_getCertInfo( &binSignCert, &sSignInfo, NULL );
 
-        uLimitBefore = sSignInfo.uNotBefore;
-        uLimitAfter = sSignInfo.uNotAfter;
+        tLimitBefore = sSignInfo.tNotBefore;
+        tLimitAfter = sSignInfo.tNotAfter;
 
         JS_PKI_resetCertInfo( &sSignInfo );
     }
@@ -208,14 +208,14 @@ void RenewCertDlg::accept()
         notAfter = mNotAfterDateTime->dateTime().toSecsSinceEpoch() - now_t;
     }
 
-    if( uLimitBefore > 0 )
+    if( tLimitBefore > 0 )
     {
-        if( uLimitBefore > ( notBefore + now_t ) )
+        if( tLimitBefore > ( notBefore + now_t ) )
         {
             QDateTime limitDateTime;
             QDateTime beforeDateTime;
 
-            limitDateTime.setSecsSinceEpoch( uLimitBefore );
+            limitDateTime.setSecsSinceEpoch( tLimitBefore );
             beforeDateTime.setSecsSinceEpoch( notBefore + now_t );
 
             QString strErr = tr("It(%1) cannot be earlier than issuer time(%2).")
@@ -229,14 +229,14 @@ void RenewCertDlg::accept()
         }
     }
 
-    if( uLimitAfter > 0 )
+    if( tLimitAfter > 0 )
     {
-        if( uLimitAfter < ( notAfter + now_t ) )
+        if( tLimitAfter < ( notAfter + now_t ) )
         {
             QDateTime limitDateTime;
             QDateTime afterDateTime;
 
-            limitDateTime.setSecsSinceEpoch( uLimitBefore );
+            limitDateTime.setSecsSinceEpoch(tLimitBefore );
             afterDateTime.setSecsSinceEpoch( notAfter + now_t );
 
             QString strErr = tr("It(%1) cannot be later than the issuer time(%2).")

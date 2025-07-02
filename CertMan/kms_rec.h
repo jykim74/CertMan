@@ -12,7 +12,7 @@ class KMSRec
 {
 private:
     int             m_nSeq;
-    int             m_nRegTime;
+    time_t          m_tRegTime;
     int             m_nState;
     int             m_nType;
     int             m_nAlgorithm;
@@ -23,7 +23,7 @@ public:
     KMSRec();
 
     int getSeq() { return m_nSeq; };
-    int getRegTime() { return m_nRegTime; };
+    time_t getRegTime() { return m_tRegTime; };
     int getState() { return m_nState; };
     int getType() { return m_nType; };
     int getAlgorithm() { return m_nAlgorithm; };
@@ -32,7 +32,7 @@ public:
 
 
     void setSeq( int nSeq );
-    void setRegTime( int nRegTime );
+    void setRegTime( time_t tRegTime );
     void setState( int nState );
     void setType( int nType );
     void setAlgorithm( int nAlgorithm );

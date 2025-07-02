@@ -4265,7 +4265,7 @@ const QString dateString( time_t tTime )
     return dateTime.toString( "yy-MM-dd HH:mm" );
 }
 
-void getPeriodString( long start, long end, QString& strStart, QString& strEnd )
+void getPeriodString( time_t start, time_t end, QString& strStart, QString& strEnd )
 {
     if( start == kPeriodDay )
     {

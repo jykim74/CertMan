@@ -279,8 +279,8 @@ int ViewCRLProfileDlg::setProfile( int nNum )
 
     CRLProfileRec crlProfile;
 
-    int nThisUpdate = 0;
-    int nNextUpdate = 0;
+    time_t tThisUpdate = 0;
+    time_t tNextUpdate = 0;
     QString strThisUpdate;
     QString strNextUpdate;
 
@@ -295,30 +295,30 @@ int ViewCRLProfileDlg::setProfile( int nNum )
     mVersionText->setText( QString("V%1").arg( crlProfile.getVersion() + 1));
     mHashText->setText( crlProfile.getHash() );
 
-    nThisUpdate = crlProfile.getThisUpdate();
-    nNextUpdate = crlProfile.getNextUpdate();
+    tThisUpdate = crlProfile.getThisUpdate();
+    tNextUpdate = crlProfile.getNextUpdate();
 
-    if( nThisUpdate == 0 )
+    if( tThisUpdate == 0 )
     {
         strThisUpdate = tr("Creation time");
-        strNextUpdate = tr( "%1 Days" ).arg( nNextUpdate );
+        strNextUpdate = tr( "%1 Days" ).arg( tNextUpdate );
     }
-    else if( nThisUpdate == 1 )
+    else if( tThisUpdate == 1 )
     {
         strThisUpdate = tr("Creation time");
-        strNextUpdate = tr( "%1 Months" ).arg( nNextUpdate );
+        strNextUpdate = tr( "%1 Months" ).arg( tNextUpdate );
     }
-    else if( nThisUpdate == 2 )
+    else if( tThisUpdate == 2 )
     {
         strThisUpdate = tr("Creation time");
-        strNextUpdate = tr( "%1 Years" ).arg( nNextUpdate );
+        strNextUpdate = tr( "%1 Years" ).arg( tNextUpdate );
     }
     else
     {
         QDateTime thisUpdate;
         QDateTime nextUpdate;
-        thisUpdate.setSecsSinceEpoch( nThisUpdate );
-        nextUpdate.setSecsSinceEpoch( nNextUpdate );
+        thisUpdate.setSecsSinceEpoch( tThisUpdate );
+        nextUpdate.setSecsSinceEpoch( tNextUpdate );
 
         strThisUpdate = thisUpdate.toString( "yyyy-MM-dd hh:mm:ss" );
         strNextUpdate = nextUpdate.toString( "yyyy-MM-dd hh:mm:ss" );

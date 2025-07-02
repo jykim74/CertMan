@@ -8,7 +8,7 @@
 KMSRec::KMSRec()
 {
     m_nSeq = -1;
-    m_nRegTime = -1;
+    m_tRegTime = -1;
     m_nState = -1;
     m_nType = -1;
     m_nAlgorithm = -1;
@@ -23,9 +23,9 @@ void KMSRec::setSeq( int nSeq )
     m_nSeq = nSeq;
 }
 
-void KMSRec::setRegTime( int nRegTime )
+void KMSRec::setRegTime( time_t tRegTime )
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void KMSRec::setState( int nState )

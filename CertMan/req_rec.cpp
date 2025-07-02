@@ -8,7 +8,7 @@
 ReqRec::ReqRec()
 {
     m_nSeq = -1;
-    m_nRegTime = 0;
+    m_tRegTime = 0;
     m_nKeyNum = -1;
     m_strName = "";
     m_strDN = "";
@@ -22,9 +22,9 @@ void ReqRec::setSeq( int nSeq )
     m_nSeq = nSeq;
 }
 
-void ReqRec::setRegTime( int nRegTime )
+void ReqRec::setRegTime( time_t tRegTime )
 {
-    m_nRegTime = nRegTime;
+    m_tRegTime = tRegTime;
 }
 
 void ReqRec::setKeyNum( int nKeyNum )

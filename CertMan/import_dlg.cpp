@@ -693,8 +693,8 @@ int ImportDlg::ImportCRL( const BIN *pCRL )
     crl.setRegTime( time(NULL) );
     crl.setSignAlg( sCRLInfo.pSignAlgorithm );
     crl.setIssuerNum( kImportNum );
-    crl.setThisUpdate( sCRLInfo.uThisUpdate );
-    crl.setNextUpdate( sCRLInfo.uNextUpdate );
+    crl.setThisUpdate( sCRLInfo.tThisUpdate );
+    crl.setNextUpdate( sCRLInfo.tNextUpdate );
     if( strCRLDP.length() > 0 ) crl.setCRLDP( strCRLDP );
 
     dbMgr->addCRLRec( crl );

@@ -796,38 +796,38 @@ int ViewCertProfileDlg::setProfile( int nNum )
     }
     else
     {
-        int nNotBefore = 0;
-        int nNotAfter = 0;
+        time_t tNotBefore = 0;
+        time_t tNotAfter = 0;
         QString strNotBefore;
         QString strNotAfter;
 
         mVersionText->setText( QString("V%1").arg(certProfile.getVersion() + 1));
         mHashText->setText( certProfile.getHash() );
 
-        nNotBefore = certProfile.getNotBefore();
-        nNotAfter = certProfile.getNotAfter();
+        tNotBefore = certProfile.getNotBefore();
+        tNotAfter = certProfile.getNotAfter();
 
-        if( nNotBefore == 0 )
+        if( tNotBefore == 0 )
         {
             strNotBefore = tr("Creation time");
-            strNotAfter = tr( "%1 Days" ).arg( nNotAfter );
+            strNotAfter = tr( "%1 Days" ).arg( tNotAfter );
         }
-        else if( nNotBefore == 1 )
+        else if( tNotBefore == 1 )
         {
             strNotBefore = tr("Creation time");
-            strNotAfter = tr( "%1 Months" ).arg( nNotAfter );
+            strNotAfter = tr( "%1 Months" ).arg( tNotAfter );
         }
-        else if( nNotBefore == 2 )
+        else if( tNotBefore == 2 )
         {
             strNotBefore = tr("Creation time");
-            strNotAfter = tr( "%1 Years" ).arg( nNotAfter );
+            strNotAfter = tr( "%1 Years" ).arg( tNotAfter );
         }
         else
         {
             QDateTime notBefore;
             QDateTime notAfter;
-            notBefore.setSecsSinceEpoch( nNotBefore );
-            notAfter.setSecsSinceEpoch( nNotAfter );
+            notBefore.setSecsSinceEpoch( tNotBefore );
+            notAfter.setSecsSinceEpoch( tNotAfter );
 
             strNotBefore = notBefore.toString( "yyyy-MM-dd hh:mm:ss" );
             strNotAfter = notAfter.toString( "yyyy-MM-dd hh:mm:ss" );

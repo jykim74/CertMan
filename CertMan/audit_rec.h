@@ -12,7 +12,7 @@ class AuditRec
 {
 private:
     int         m_nSeq;
-    int         m_nRegTime;
+    int         m_tRegTime;
     int         m_nKind;
     int         m_nOperation;
     QString     m_strUserName;
@@ -23,7 +23,7 @@ public:
     AuditRec();
 
     int getSeq() { return m_nSeq; };
-    int getRegTime() { return m_nRegTime; };
+    time_t getRegTime() { return m_tRegTime; };
     int getKind() { return m_nKind; };
     int getOperation() { return m_nOperation; };
     QString getUserName() { return m_strUserName; };
@@ -31,7 +31,7 @@ public:
     QString getMAC() { return m_strMAC; };
 
     void setSeq( int nSeq );
-    void setRegTime( int nRegTime );
+    void setRegTime( time_t tRegTime );
     void setKind( int nKind );
     void setOperation( int nOperation );
     void setUserName( QString strUserName );

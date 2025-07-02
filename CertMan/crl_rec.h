@@ -12,7 +12,7 @@ class CRLRec
 {
 private:
     int             m_nNum;
-    int             m_nRegTime;
+    time_t          m_tRegTime;
     int             m_nIssuerNum;
     int             m_nThisUpdate;
     int             m_nNextUpdate;
@@ -24,7 +24,7 @@ public:
     CRLRec();
 
     int getNum() { return m_nNum; };
-    int getRegTime() { return m_nRegTime; };
+    time_t getRegTime() { return m_tRegTime; };
     int getIssuerNum() { return m_nIssuerNum; };
     int getThisUpdate() { return m_nThisUpdate; };
     int getNextUpdate() { return m_nNextUpdate; };
@@ -33,7 +33,7 @@ public:
     QString getCRL() { return m_strCRL; };
 
     void setNum( int nNum );
-    void setRegTime( int nRegTime );
+    void setRegTime( time_t tRegTime );
     void setIssuerNum( int nIssuerNum );
     void setThisUpdate( int nThisUpdate );
     void setNextUpdate( int nNextUpdate );

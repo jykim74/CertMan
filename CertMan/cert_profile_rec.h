@@ -17,8 +17,8 @@ private:
     int             m_nVersion;
     QString         m_strHash;
     QString         m_strDNTemplate;
-    long            m_uNotBefore;
-    long            m_uNotAfter;
+    time_t          m_tNotBefore;
+    time_t          m_tNotAfter;
     int             m_nExtUsage;
 
 
@@ -31,8 +31,8 @@ public:
     int getVersion() { return m_nVersion; };
     QString getHash() { return m_strHash; };
     QString getDNTemplate() { return m_strDNTemplate; };
-    long getNotBefore() { return m_uNotBefore; };
-    long getNotAfter() { return m_uNotAfter; };
+    time_t getNotBefore() { return m_tNotBefore; };
+    time_t getNotAfter() { return m_tNotAfter; };
     int getExtUsage() { return m_nExtUsage; };
 
 
@@ -42,8 +42,8 @@ public:
     void setVersion( int nVersion );
     void setHash( QString strHash );
     void setDNTemplate( QString strDNTemplate );
-    void setNotBefore( long uNotBefore );
-    void setNotAfter( long uNotAfter );
+    void setNotBefore( time_t tNotBefore );
+    void setNotAfter( time_t tNotAfter );
     void setExtUsage( int nExtUsage );
 
 };
