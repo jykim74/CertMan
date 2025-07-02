@@ -1,51 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include Id="CertManInclude">
-  <?define CurrentCertManVersion="2.0.6" ?>
+  <?define CurrentCertManVersion="2.0.8" ?>
 
   <!-- CertMan Product Guid  -->
-  <?define ProductGuid="34738ec6-bc18-4f84-bb96-808517d2f685" ?> <!-- Version 2.0.6-->
-  <!-- ?define ProductGuid="27dde9c0-503e-4ad5-894b-69f703c577d5" ? --> <!-- Version 2.0.4-->
-  <!-- ?define ProductGuid="d67baae4-9778-4a1d-80e0-b99f454664d7" ? --> <!-- Version 2.0.2-->
-  <!-- ?define ProductGuid="9729ccc6-4da5-463e-950d-c0338f49f080" ? --> <!-- Version 2.0.0-->
-  <!-- ?define ProductGuid="3c72a996-6a7d-471b-a275-b80bced1b2eb" ? --> <!-- Version 1.9.8-->
-  <!-- ?define ProductGuid="e0f5c6a3-d483-4084-b7ed-5378ab590657" ? --> <!-- Version 1.9.6-->
-  <!-- ?define ProductGuid="a96505cb-e93d-4ba9-aeb1-8485f13f068f" ? --> <!-- Version 1.9.4-->
-  <!-- ?define ProductGuid="ec5e5b54-420a-450c-aeb6-fb608c2dccbf" ? --> <!-- Version 1.9.2-->
-  <!-- ?define ProductGuid="34ee5c87-39d2-40a1-804f-0f634bf90388" ? --> <!-- Version 1.9.0-->
-  <!-- ?define ProductGuid="c12c5a7a-1195-4e18-9271-6fd9e3cd3e4d" ? --> <!-- Version 1.8.8-->
-  <!-- ?define ProductGuid="7292c678-d7fa-4344-aa74-b1c28fd09613" ? --> <!-- Version 1.8.6-->
-  <!-- ?define ProductGuid="21bec678-30ed-4278-bca7-060e75ccb102" ? --> <!-- Version 1.8.4-->
-  <!-- ?define ProductGuid="325d3357-d7c0-4a1a-8c4c-7a743b5a8b32" ? --> <!-- Version 1.8.2-->
-  <!-- ?define ProductGuid="5053e667-c445-49be-9434-999a7d4626d9" ? --> <!-- Version 1.8.0-->
-  <!-- ?define ProductGuid="7cefd90c-8097-40c0-ada0-1ad2c29c2a93" ? --> <!-- Version 1.7.0-->
-  <!-- ?define ProductGuid="80aa1f0f-c1a6-4860-9120-c70be52401a8" ? --> <!-- Version 1.6.0-->
-  <!-- ?define ProductGuid="c05252f0-56a5-4f78-925f-ac56e39c4b68" ? --> <!-- Version 1.5.6-->
-  <!-- ?define ProductGuid="989beb4d-6547-4c70-81ca-7a8ae752ea97" ? --> <!-- Version 1.5.4-->
-  <!-- ?define ProductGuid="c3276622-26b4-47f3-99f7-f42df4e3c24e" ? --> <!-- Version 1.5.2-->
-  <!-- ?define ProductGuid="91a3e2f9-dab8-4d3e-8862-85dbcdab6788" ? --> <!-- Version 1.5.0-->
-  <!-- ?define ProductGuid="0319fc10-aef2-471f-b383-4a1906077563" ? --> <!-- Version 1.4.7-->
-  <!-- ?define ProductGuid="6611e87f-11d0-4198-a103-f4ae7670f382" ? --> <!-- Version 1.4.6-->
-  <!-- ?define ProductGuid="c1fab492-d6ca-484f-a8d0-575fa77aa2e2" ? --> <!-- Version 1.4.4-->
-  <!-- ?define ProductGuid="98ef24a9-0928-4098-9fa9-fc6f83d613fc" ? --> <!-- Version 1.4.3-->
-  <!-- ?define ProductGuid="12987117-a9d4-4d18-be8f-d2948f2c3a3b" ? --> <!-- Version 1.4.2-->
-  <!-- ?define ProductGuid="a933ca1c-f170-4974-a01f-f7c58347e06d" ? --> <!-- Version 1.4.1-->
-  <!-- ?define ProductGuid="620fd96b-f1ba-424e-97f7-de7b14bb9325" ? --> <!-- Version 1.4.0-->
-  <!-- ?define ProductGuid="03ca6ab2-f3d2-43d2-adf8-d41479013f60" ? --> <!-- Version 1.2.4-->
-  <!-- ?define ProductGuid="401f4a88-f053-4df0-80a8-ef6b08b8bbb1" ? --> <!-- Version 1.2.2-->
-  <!-- ?define ProductGuid="48b9f094-cfc6-4b3f-82b9-439a9bbf6dea" ? --> <!-- Version 1.2.1-->
-  <!-- ?define ProductGuid="afd1ef35-1930-4d77-8032-9480b357bb7b" ? --> <!-- Version 1.2.0-->
-  <!-- ?define ProductGuid="0d481b40-940d-417a-b808-3082a8e75515" ? --> <!-- Version 1.0.2-->
-  <!-- ?define ProductGuid="6496f357-f415-442d-bef4-f8e84aee3949" ? --> <!-- Version 1.0.1-->
-  <!-- ?define ProductGuid="627cbbaa-4b6c-4320-9d08-171128683aad" ? --> <!-- Version 1.0.0-->
-  <!-- ?define ProductGuid="fc82cc41-6873-4495-aa53-be124ce5f75b" ? --> <!-- Version 0.9.9-->
-  <!-- ?define ProductGuid="db369ed1-96d3-46c5-ae97-d00104bedcfd" ? --> <!-- Version 0.9.8-->
-  <!-- ?define ProductGuid="d6c2b77b-1bfe-4026-a76f-d3e392db0445" ? --> <!-- Version 0.9.7-->
-  <!-- ?define ProductGuid="d39fcc2c-c89e-4301-a8c4-18990d0e31c5" ? --> <!-- Version 0.9.6-->
-  <!-- ?define ProductGuid="12d2e787-396d-4f9a-bcd6-1381720eb484" ? --> <!-- Version 0.9.5-->
-  <!-- ?define ProductGuid="3ea47f28-5f58-4969-9ec0-e3f9277e3df2" ? --> <!-- Version 0.9.4-->
-  <!-- ?define ProductGuid="1be16569-96c6-4585-9369-eac5c9fdf3c4" ? --> <!-- Version 0.9.3-->
-  <!-- ?define ProductGuid="d3afe9a8-d03d-4a2b-919e-0432868c6939" ? --> <!-- Version 0.9.2-->
-  <!-- ?define ProductGuid="6c9eefe6-fc86-49cb-9d70-11e194925909" ? --> <!-- Version 0.9.1-->
+  <?define ProductGuid="ec121f1f-6b77-4b82-b843-e2627537f019" ?> <!-- Version 2.0.8-->
+  <!-- ?define ProductGuid="34738ec6-bc18-4f84-bb96-808517d2f685" ? --> <!-- Version 2.0.6-->
 
   <?define CurrentUpdateGuid="fa428219-1f75-40cf-8d30-623a47338d21" ?>
   <?define GuidOfCustomComponent="fa428219-1f75-40cf-8d30-623a47338d22" ?>
