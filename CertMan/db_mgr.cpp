@@ -1263,7 +1263,7 @@ int DBMgr::addKeyPairRec(KeyPairRec& keyPair)
                    "VALUES ( ?, ?, ?, ?, ?, ?, ?, ? )" );
 
     query.bindValue(i++, keyPair.getNum() );
-    query.bindValue(i++, keyPair.getRegTime());
+    query.bindValue(i++, (long long)keyPair.getRegTime());
     query.bindValue(i++, keyPair.getAlg() );
     query.bindValue(i++, keyPair.getName() );
     query.bindValue(i++, keyPair.getPublicKey() );
@@ -1300,7 +1300,7 @@ int DBMgr::addReqRec( ReqRec& reqRec )
                    "VALUES( ?, ?, ?, ?, ?, ?, ?, ? )" );
 
     query.bindValue( i++, reqRec.getSeq() );
-    query.bindValue( i++, reqRec.getRegTime() );
+    query.bindValue( i++, (long long)reqRec.getRegTime() );
     query.bindValue( i++, reqRec.getKeyNum() );
     query.bindValue( i++, reqRec.getName() );
     query.bindValue( i++, reqRec.getDN() );
@@ -1934,7 +1934,7 @@ int DBMgr::addCertRec( CertRec& certRec )
                       "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, certRec.getNum() );
-    sqlQuery.bindValue( i++, certRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)certRec.getRegTime() );
     sqlQuery.bindValue( i++, certRec.getKeyNum() );
     sqlQuery.bindValue( i++, certRec.getUserNum() );
     sqlQuery.bindValue( i++, certRec.getSignAlg() );
@@ -2150,7 +2150,7 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
                       "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, crlRec.getNum() );
-    sqlQuery.bindValue( i++, crlRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)crlRec.getRegTime() );
     sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
     sqlQuery.bindValue( i++, crlRec.getThisUpdate() );
     sqlQuery.bindValue( i++, crlRec.getNextUpdate() );
@@ -2340,7 +2340,7 @@ int DBMgr::addRevokeRec( RevokeRec& revokeRec )
     sqlQuery.bindValue( i++, revokeRec.getCertNum() );
     sqlQuery.bindValue( i++, revokeRec.getIssuerNum() );
     sqlQuery.bindValue( i++, revokeRec.getSerial() );
-    sqlQuery.bindValue( i++, revokeRec.getRevokeDate() );
+    sqlQuery.bindValue( i++, (long long)revokeRec.getRevokeDate() );
     sqlQuery.bindValue( i++, revokeRec.getReason() );
     sqlQuery.bindValue( i++, revokeRec.getCRLDP() );
 
@@ -2374,7 +2374,7 @@ int DBMgr::addUserRec(UserRec &userRec)
                       "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, userRec.getNum() );
-    sqlQuery.bindValue( i++, userRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)userRec.getRegTime() );
     sqlQuery.bindValue( i++, userRec.getName() );
     sqlQuery.bindValue( i++, userRec.getSSN() );
     sqlQuery.bindValue( i++, userRec.getEmail() );
@@ -2411,7 +2411,7 @@ int DBMgr::addSignerRec( SignerRec& signerRec )
                       "VALUES( ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, signerRec.getNum() );
-    sqlQuery.bindValue( i++, signerRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)signerRec.getRegTime() );
     sqlQuery.bindValue( i++, signerRec.getType() );
     sqlQuery.bindValue( i++, signerRec.getDN() );
     sqlQuery.bindValue( i++, signerRec.getDNHash() );
@@ -2449,7 +2449,7 @@ int DBMgr::addKMSRec( KMSRec& kmsRec )
                       "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, kmsRec.getSeq() );
-    sqlQuery.bindValue( i++, kmsRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)kmsRec.getRegTime() );
     sqlQuery.bindValue( i++, kmsRec.getState() );
     sqlQuery.bindValue( i++, kmsRec.getType() );
     sqlQuery.bindValue( i++, kmsRec.getAlgorithm());
@@ -2486,7 +2486,7 @@ int DBMgr::addAuditRec( AuditRec& auditRec )
                       "VALUES( ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, auditRec.getSeq() );
-    sqlQuery.bindValue( i++, auditRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)auditRec.getRegTime() );
     sqlQuery.bindValue( i++, auditRec.getKind() );
     sqlQuery.bindValue( i++, auditRec.getOperation() );
     sqlQuery.bindValue( i++, auditRec.getUserName() );
