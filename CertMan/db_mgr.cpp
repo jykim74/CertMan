@@ -2055,8 +2055,8 @@ int DBMgr::modCertProfileRec( int nProfileNum, CertProfileRec profileRec )
     sqlQuery.bindValue( i++, profileRec.getName() );
     sqlQuery.bindValue( i++, profileRec.getType() );
     sqlQuery.bindValue( i++, profileRec.getVersion() );
-    sqlQuery.bindValue( i++, (int)profileRec.getNotBefore() );
-    sqlQuery.bindValue( i++, (int)profileRec.getNotAfter() );
+    sqlQuery.bindValue( i++, (long long)profileRec.getNotBefore() );
+    sqlQuery.bindValue( i++, (long long)profileRec.getNotAfter() );
     sqlQuery.bindValue( i++, profileRec.getExtUsage() );
     sqlQuery.bindValue( i++, profileRec.getHash() );
     sqlQuery.bindValue( i++, profileRec.getDNTemplate() );
@@ -2087,8 +2087,8 @@ int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
 
     sqlQuery.bindValue( i++, profileRec.getName() );
     sqlQuery.bindValue( i++, profileRec.getVersion() );
-    sqlQuery.bindValue( i++, (int)profileRec.getThisUpdate() );
-    sqlQuery.bindValue( i++, (int)profileRec.getNextUpdate() );
+    sqlQuery.bindValue( i++, (long long)profileRec.getThisUpdate() );
+    sqlQuery.bindValue( i++, (long long)profileRec.getNextUpdate() );
     sqlQuery.bindValue( i++, profileRec.getHash() );
     sqlQuery.bindValue( i++, nProfileNum );
 

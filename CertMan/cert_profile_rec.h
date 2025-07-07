@@ -45,7 +45,6 @@ public:
     void setNotBefore( time_t tNotBefore );
     void setNotAfter( time_t tNotAfter );
     void setExtUsage( int nExtUsage );
-
 };
 
 #endif // CERT_PROFILE_REC_H
