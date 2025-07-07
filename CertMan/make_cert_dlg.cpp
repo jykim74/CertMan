@@ -389,8 +389,8 @@ void MakeCertDlg::accept()
     QString strSignAlg;
     QString strDN;
     time_t now_t = -1;
-    long notBefore = -1;
-    long notAfter = -1;
+    time_t notBefore = -1;
+    time_t notAfter = -1;
     QList<ProfileExtRec> profileExtList;
 
     KeyPairRec signKeyPair;
@@ -450,19 +450,19 @@ void MakeCertDlg::accept()
 
     if( profileRec.getNotBefore() == kPeriodDay )
     {
-        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
+        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
         notBefore = 0;
         notAfter = uValidSecs;
     }
     else if( profileRec.getNotBefore() == kPeriodMonth )
     {
-        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
+        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
         notBefore = 0;
         notAfter = uValidSecs;
     }
     else if( profileRec.getNotBefore() == kPeriodYear )
     {
-        long uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
+        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
         notBefore = 0;
         notAfter = uValidSecs;
     }

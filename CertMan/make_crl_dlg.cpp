@@ -116,8 +116,8 @@ void MakeCRLDlg::accept()
 
     int profileIdx = strProfileNum.toInt();
 
-    long uThisUpdate = -1;
-    long uNextUpdate = -1;
+    time_t uThisUpdate = -1;
+    time_t uNextUpdate = -1;
 //    int nKeyType = -1;
 
     CertRec caCert;
@@ -178,21 +178,21 @@ void MakeCRLDlg::accept()
 
     if( profile.getThisUpdate() == kPeriodDay )
     {
-        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
+        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
         uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodMonth )
     {
-        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
+        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
 
         uThisUpdate = 0;
         uNextUpdate = uValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodYear )
     {
-        long uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
+        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 
         uThisUpdate = 0;
         uNextUpdate = uValidSecs;

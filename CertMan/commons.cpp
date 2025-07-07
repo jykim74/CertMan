@@ -989,13 +989,13 @@ static int _setAltName( BIN *pBinExt, int nNid, const QString strVal )
         JS_UTIL_resetNumVal( &sNumVal );
     }
 
-    ret = JS_PKI_setAlternativNameValue( pBinExt, nNid, pNameList );
+    ret = JS_PKI_setAlternativNameValue( pBinExt, pNameList );
     if( pNameList ) JS_UTIL_resetNumValList( &pNameList );
 
     return ret;
 }
 
-static int _getAltName( const BIN *pBinExt, int nNid, bool bShow, QString& strVal )
+static int _getAltName( const BIN *pBinExt, bool bShow, QString& strVal )
 {
     int     ret = 0;
     JNumValList    *pAltNameList = NULL;
@@ -1549,7 +1549,7 @@ int transExtInfoToDBRec( const JExtensionInfo *pExtInfo, ProfileExtRec& profileE
     else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
-        ret = _getAltName( &binExt, nNid, false, strVal );
+        ret = _getAltName( &binExt, false, strVal );
     }
     else if( strSN == JS_PKI_ExtNamePM )
     {
@@ -1633,7 +1633,7 @@ void getInfoValue( const JExtensionInfo *pExtInfo, QString& strVal )
     else if( strSN == JS_PKI_ExtNameSAN || strSN == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strSN.toStdString().c_str() );
-        ret = _getAltName( &binExt, nNid, true, strVal );
+        ret = _getAltName( &binExt, true, strVal );
     }
     else if( strSN == JS_PKI_ExtNamePM )
     {
@@ -1711,7 +1711,7 @@ const QString getExtValue( const QString strName, const QString strHexValue, boo
     else if( strName == JS_PKI_ExtNameSAN || strName == JS_PKI_ExtNameIAN )
     {
         int nNid = JS_PKI_getNidFromSN( strName.toStdString().c_str() );
-        ret = _getAltName( &binExt, nNid, bShow, strVal );
+        ret = _getAltName( &binExt, bShow, strVal );
     }
     else if( strName == JS_PKI_ExtNamePM )
     {
