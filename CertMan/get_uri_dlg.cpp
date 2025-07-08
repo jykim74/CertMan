@@ -100,6 +100,7 @@ QStringList GetURIDlg::getUsedURI()
 
 void GetURIDlg::saveUsedURI( const QString &strURL )
 {
+    if( strURL.length() <= 4 ) return;
 
     QSettings settings;
     settings.beginGroup( kUsedURI );
@@ -108,6 +109,9 @@ void GetURIDlg::saveUsedURI( const QString &strURL )
     list.insert( 0, strURL );
     settings.setValue( kURL, list );
     settings.endGroup();
+
+    mURICombo->clear();
+    mURICombo->addItems( list );
 }
 
 void GetURIDlg::clickUseLDAPHost()
