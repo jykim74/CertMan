@@ -116,8 +116,8 @@ void MakeCRLDlg::accept()
 
     int profileIdx = strProfileNum.toInt();
 
-    time_t uThisUpdate = -1;
-    time_t uNextUpdate = -1;
+    time_t tThisUpdate = -1;
+    time_t tNextUpdate = -1;
 //    int nKeyType = -1;
 
     CertRec caCert;
@@ -180,34 +180,34 @@ void MakeCRLDlg::accept()
     {
         time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
-        uThisUpdate = 0;
-        uNextUpdate = uValidSecs;
+        tThisUpdate = 0;
+        tNextUpdate = uValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodMonth )
     {
         time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
 
-        uThisUpdate = 0;
-        uNextUpdate = uValidSecs;
+        tThisUpdate = 0;
+        tNextUpdate = uValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodYear )
     {
         time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 
-        uThisUpdate = 0;
-        uNextUpdate = uValidSecs;
+        tThisUpdate = 0;
+        tNextUpdate = uValidSecs;
     }
     else
     {
-        uThisUpdate = profile.getThisUpdate() - now_t;
-        uNextUpdate = profile.getNextUpdate() - now_t;
+        tThisUpdate = profile.getThisUpdate() - now_t;
+        tNextUpdate = profile.getNextUpdate() - now_t;
     }
 
     JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
                        profile.getVersion(),
                        profile.getHash().toStdString().c_str(),
-                       uThisUpdate,
-                       uNextUpdate );
+                       tThisUpdate,
+                       tNextUpdate );
 
     /* need to set revoked certificate information */
 
@@ -397,8 +397,8 @@ void MakeCRLDlg::accept()
     madeCRLRec.setNum( nSeq );
     madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
-    madeCRLRec.setThisUpdate( uThisUpdate + now_t );
-    madeCRLRec.setNextUpdate( uNextUpdate + now_t );
+    madeCRLRec.setThisUpdate( tThisUpdate + now_t );
+    madeCRLRec.setNextUpdate( tNextUpdate + now_t );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
     madeCRLRec.setCRLDP( strCRLDP );
     madeCRLRec.setCRL( pHexCRL );

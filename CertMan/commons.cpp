@@ -4268,7 +4268,8 @@ bool isValidNumFormat( const QString strInput, int nNumber )
 
 const QString dateString( time_t tTime )
 {
-    QDateTime dateTime = QDateTime::fromTime_t( tTime );
+    QDateTime dateTime;
+    dateTime.setSecsSinceEpoch( tTime );
     return dateTime.toString( "yy-MM-dd HH:mm" );
 }
 

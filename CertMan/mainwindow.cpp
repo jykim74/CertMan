@@ -5246,8 +5246,6 @@ void MainWindow::createRightRevokeList(int nIssuerNum)
 {
     search_form_->show();
 
-
-
     int nTotalCount = 0;
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
