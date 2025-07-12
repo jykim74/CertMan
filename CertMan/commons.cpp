@@ -1478,6 +1478,10 @@ int transExtInfoFromDBRec( JExtensionInfo *pExtInfo, ProfileExtRec profileExtRec
     {
 //        ret = _setOctet( &binExt, strVal );
         ret = JS_BIN_decodeHex( strVal.toStdString().c_str(), &binExt );
+        if( ret <= 0 )
+            ret = -1;
+        else
+            ret = 0;
     }
 
 

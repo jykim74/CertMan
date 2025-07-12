@@ -260,8 +260,9 @@ void MakeCRLDlg::accept()
             }
         }
 
-        transExtInfoFromDBRec( &sExtInfo, profileExt );
-        JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
+        ret = transExtInfoFromDBRec( &sExtInfo, profileExt );
+        if( ret == 0 )
+            JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
     }
 
 

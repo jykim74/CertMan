@@ -566,8 +566,10 @@ void MakeCertDlg::accept()
             }
         }
 
-        transExtInfoFromDBRec( &sExtInfo, profileExt );
-        JS_PKI_addExtensionInfoList( &pCertExtInfoList, &sExtInfo );
+        ret = transExtInfoFromDBRec( &sExtInfo, profileExt );
+
+        if( ret == 0 )
+            JS_PKI_addExtensionInfoList( &pCertExtInfoList, &sExtInfo );
     }
     /* need to support extensions end */
 
