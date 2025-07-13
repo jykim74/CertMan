@@ -368,7 +368,11 @@ void MakeReqDlg::accept()
     if( mGenKeyPairCheck->isChecked() )
     {
         ret = genKeyPair( keyRec );
-        if( ret != 0 ) return;
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr( "fail to generate keypair: %1" ).arg( ret ), this );
+            goto end;
+        }
 
         strAlg = getMechanism();
         strParam = mNewOptionCombo->currentText();

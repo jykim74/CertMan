@@ -1850,7 +1850,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
     if( ret != CKR_OK )
     {
         fprintf( stderr, "fail to run getSlotList fail(%d)\n", ret );
-        return -1;
+        return ret;
     }
 
     if( uSlotCnt < 1 || uSlotCnt < nSlotID )
@@ -1863,7 +1863,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
     if( ret != CKR_OK )
     {
         fprintf( stderr, "fail to run opensession(%s:%x)\n", JS_PKCS11_GetErrorMsg(ret), ret );
-        return -1;
+        return ret;
     }
 
     getBINFromString( &binPIN, DATA_STRING, strPass );
@@ -1874,7 +1874,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
     if( ret != 0 )
     {
         fprintf( stderr, "fail to run login hsm(%d)\n", ret );
-        return -1;
+        return ret;
     }
 
     return ret;
