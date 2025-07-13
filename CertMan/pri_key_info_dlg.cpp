@@ -722,11 +722,11 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
 
     BIN binID = {0,0};
     JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
-    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+    ret = getP11Session( pCTX, nIndex, strPIN );
 
-    if( hSession <= 0 )
+    if( ret != 0 )
     {
-        manApplet->warnLog( tr("failed to get PKCS11 Session"), this );
+        manApplet->warnLog( tr("failed to get PKCS11 Session: %1").arg(ret), this );
         return JSR_ERR;
     }
 
@@ -776,7 +776,7 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
     ret = 0;
 
 end :
-    if( hSession > 0 ) JS_PKCS11_CloseSession( pCTX );
+    JS_PKCS11_CloseSession( pCTX );
     JS_BIN_reset( &binID );
     return ret;
 }
@@ -853,11 +853,11 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
     JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
 
-    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+    ret = getP11Session( pCTX, nIndex, strPIN );
 
-    if( hSession < 0 )
+    if( ret != 0 )
     {
-        manApplet->elog( "failed to get PKCS11 Session" );
+        manApplet->elog( QString( "failed to get PKCS11 Session: %1" ).arg( ret ) );
         goto end;
     }
 

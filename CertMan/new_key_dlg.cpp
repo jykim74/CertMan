@@ -193,7 +193,6 @@ void NewKeyDlg::accept()
             goto end;
         }
 
-        int ret = 0;
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nIndex = manApplet->settingsMgr()->slotIndex();
         QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
@@ -205,11 +204,11 @@ void NewKeyDlg::accept()
             goto end;
         }
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nIndex, strPIN );
+        ret = getP11Session( pP11CTX, nIndex, strPIN );
 
-        if( hSession < 0 )
+        if( ret != 0 )
         {
-            manApplet->elog( "failed to get PKCS11 Session" );
+            manApplet->elog( QString( "failed to get PKCS11 Session: %1" ).arg( ret ) );
             goto end;
         }
 

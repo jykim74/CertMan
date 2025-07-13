@@ -1812,7 +1812,7 @@ const QString getProfileExtInfoValue( const QString strSN, const QString& strVal
     return strShowVal;
 }
 
-CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
+int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
 {
     int ret = 0;
 
@@ -1877,7 +1877,7 @@ CK_SESSION_HANDLE getP11Session( void *pP11CTX, int nSlotID, const QString strPI
         return -1;
     }
 
-    return pCTX->hSession;
+    return ret;
 }
 
 CK_OBJECT_HANDLE getHandleHSM( JP11_CTX *pCTX, CK_OBJECT_CLASS objClass, const BIN *pID )

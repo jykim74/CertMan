@@ -511,11 +511,11 @@ int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN
 
     pCTX = (JP11_CTX *)manApplet->P11CTX();
 
-    CK_SESSION_HANDLE hSession = getP11Session( pCTX, nIndex, strPIN );
+    ret = getP11Session( pCTX, nIndex, strPIN );
 
-    if( hSession < 0 )
+    if( ret != 0 )
     {
-        manApplet->elog( "failed to get P11Session" );
+        manApplet->elog( QString( "failed to get P11Session: %1" ).arg( ret ) );
         goto end;
     }
 

@@ -226,11 +226,11 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
             goto end;
         }
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nIndex, strPIN );
+        ret = getP11Session( pP11CTX, nIndex, strPIN );
 
-        if( hSession < 0 )
+        if( ret != 0 )
         {
-            manApplet->elog( "failed to get PKCS11 Session" );
+            manApplet->elog( QString( "failed to get PKCS11 Session: %1" ).arg(ret) );
             goto end;
         }
 
@@ -456,10 +456,10 @@ void MakeReqDlg::accept()
             goto end;
         }
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
-        if( hSession < 0 )
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( hSession ), this);
+            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( ret ), this);
             ret = -1;
             goto end;
         }

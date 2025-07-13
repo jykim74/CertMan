@@ -596,10 +596,10 @@ void MakeCertDlg::accept()
             goto end;
         }
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
-        if( hSession < 0 )
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( hSession ), this);
+            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( ret ), this);
             ret = -1;
             goto end;
         }

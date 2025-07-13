@@ -279,9 +279,10 @@ void RenewCertDlg::accept()
             goto end;
         }
 
-        CK_SESSION_HANDLE hSession = getP11Session( pP11CTX, nSlotID, strPIN );
-        if( hSession < 0 )
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
         {
+            manApplet->elog( QString( "failed to get PKCS11 Session: %1" ).arg( ret ) );
             goto end;
         }
 
