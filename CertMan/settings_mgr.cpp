@@ -38,6 +38,7 @@ void SettingsMgr::loadSettings()
     getDefaultHash();
     getDefaultECCParam();
 
+    getIssuerNum();
     getCertProfileNum();
     getCRLProfileNum();
 
