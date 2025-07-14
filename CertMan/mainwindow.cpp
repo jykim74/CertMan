@@ -5740,6 +5740,8 @@ void MainWindow::infoLine2()
 
 void MainWindow::infoKeyPair(int seq)
 {
+    int nFieldWidth = -24;
+
     if( manApplet->dbMgr() == NULL ) return;
     KeyPairRec keyPair;
     int nWidth = manApplet->settingsMgr()->hexAreaWidth();
@@ -5755,7 +5757,7 @@ void MainWindow::infoKeyPair(int seq)
     info( QString("Algorithm  : %1\n").arg(keyPair.getAlg()));
     info( QString("Name       : %1\n").arg(keyPair.getName()));
     info( QString("Param      : %1\n").arg(keyPair.getParam()));
-    info( QString("Status     : %1 - %2\n").arg(getRecStatusName(keyPair.getStatus())).arg(keyPair.getStatus()));
+    info( QString("Status     : %1 = %2\n").arg(getRecStatusName(keyPair.getStatus()), nFieldWidth ).arg(keyPair.getStatus()));
 
     info( QString("PublicKey\n") );
     infoLine2();
@@ -5784,6 +5786,8 @@ void MainWindow::infoKeyPair(int seq)
 
 void MainWindow::infoRequest( int seq )
 {
+    int nFieldWidth = -24;
+
     if( manApplet->dbMgr() == NULL ) return;
     int nWidth = manApplet->settingsMgr()->hexAreaWidth();
 
@@ -5797,11 +5801,11 @@ void MainWindow::infoRequest( int seq )
     info( "== Request Information\n" );
     infoLine();
     info( QString("SEQ      : %1\n").arg(reqRec.getSeq()));
-    info( QString("KeyNum   : %1 - %2\n").arg(reqRec.getKeyNum()).arg( strKeyName ));
+    info( QString("KeyNum   : %1 = %2\n").arg(reqRec.getKeyNum(), nFieldWidth).arg( strKeyName ));
     info( QString("Name     : %1\n").arg(reqRec.getName()));
     info( QString("DN       : %1\n").arg(reqRec.getDN()));
     info( QString("Hash     : %1\n").arg(reqRec.getHash()));
-    info( QString("Status   : %1 - %2\n").arg( getRecStatusName(reqRec.getStatus())).arg(reqRec.getStatus()));
+    info( QString("Status   : %1 = %2\n").arg( getRecStatusName(reqRec.getStatus()), nFieldWidth ).arg(reqRec.getStatus()));
     info( QString("Request\n") );
     infoLine2();
     info( QString("%1\n").arg( getHexStringArea( reqRec.getCSR(), nWidth )));
@@ -5856,17 +5860,17 @@ void MainWindow::infoCertificate( int seq )
     info( QString("Num           : %1\n").arg(certRec.getNum()));
     JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
     info( QString("RegDate       : %1\n").arg(sRegDate));
-    info( QString("KeyNum        : %1 - %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
+    info( QString("KeyNum        : %1 = %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
 
     if( manApplet->isPRO() )
-        info( QString("UserNum       : %1 - %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
+        info( QString("UserNum       : %1 | %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
     info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    info( QString("IsCA          : %1 - %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
-    info( QString("IsSelf        : %1 - %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
+    info( QString("IsCA          : %1 = %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
+    info( QString("IsSelf        : %1 = %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
     info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
-    info( QString("IssuerNum     : %1 - %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));
-    info( QString("Status        : %1 - %2\n").arg( getCertStatusName( certRec.getStatus() ), nFieldWidth).arg(certRec.getStatus()));
+    info( QString("IssuerNum     : %1 = %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));
+    info( QString("Status        : %1 = %2\n").arg( getCertStatusName( certRec.getStatus() ), nFieldWidth).arg(certRec.getStatus()));
     info( QString("Serial        : %1\n").arg(certRec.getSerial()));
     info( QString("DNHash        : %1\n").arg(certRec.getDNHash()));
     info( QString("KeyHash       : %1\n").arg(certRec.getKeyHash()));
@@ -5929,15 +5933,15 @@ void MainWindow::infoCertProfile( int seq )
     infoLine();
     info( QString("Num         : %1\n").arg(certProfile.getNum()));
     info( QString("Name        : %1\n").arg(certProfile.getName()));
-    info( QString("Type        : %1 - %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
-    info( QString("Version     : %1 - %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
+    info( QString("Type        : %1 = %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
+    info( QString("Version     : %1 = %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CERT )
     {
-        info( QString("NotBefore   : %1 - %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
-        info( QString("NotAfter    : %1 - %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
-        info( QString("ExtUsage    : %1 - %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
-        info( QString("DNTemplate  : %1 - %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
+        info( QString("NotBefore   : %1 = %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
+        info( QString("NotAfter    : %1 = %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
+        info( QString("ExtUsage    : %1 = %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
+        info( QString("DNTemplate  : %1 = %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
     }
 
     info( QString("Hash        : %1\n").arg(certProfile.getHash()));
@@ -6012,7 +6016,7 @@ void MainWindow::infoCRL( int seq )
     infoLine();
     info( QString("Num             : %1\n").arg(crlRec.getNum()));
     info( QString("RegTime         : %1\n").arg(sRegTime));
-    info( QString("IssuerNum       : %1 - %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
+    info( QString("IssuerNum       : %1 = %2\n").arg( strIssuerName, nFieldWidth ).arg(crlRec.getIssuerNum()));
     info( QString("SignAlgorithm   : %1\n").arg(crlRec.getSignAlg()));
     info( QString("ThisUpdate      : %1\n").arg(sThisUpdate));
     info( QString("NextUpdate      : %1\n").arg(sNextUpdate));
@@ -6067,9 +6071,9 @@ void MainWindow::infoCRLProfile( int seq )
     infoLine();
     info( QString("Num          : %1\n").arg(crlProfile.getNum()));
     info( QString("Name         : %1\n").arg(crlProfile.getName()));
-    info( QString("Version      : %1 - %2\n").arg(strVersion, nFieldWidth).arg(crlProfile.getVersion()));
-    info( QString("ThisUpdate   : %1 - %2\n").arg(strThisUpdate, nFieldWidth).arg(crlProfile.getThisUpdate()));
-    info( QString("NextUpdate   : %1 - %2\n").arg(strNextUpdate, nFieldWidth).arg(crlProfile.getNextUpdate()));
+    info( QString("Version      : %1 = %2\n").arg(strVersion, nFieldWidth).arg(crlProfile.getVersion()));
+    info( QString("ThisUpdate   : %1 = %2\n").arg(strThisUpdate, nFieldWidth).arg(crlProfile.getThisUpdate()));
+    info( QString("NextUpdate   : %1 = %2\n").arg(strNextUpdate, nFieldWidth).arg(crlProfile.getNextUpdate()));
     info( QString("Hash         : %1\n").arg(crlProfile.getHash()));
     infoLine();
 
@@ -6105,11 +6109,11 @@ void MainWindow::infoRevoke( int seq )
     info( "== Revoke Information\n" );
     infoLine();
     info( QString("Seq          : %1\n").arg( revokeRec.getSeq()));
-    info( QString("CertNum      : %1 - %2\n").arg(strCertName, nFieldWidth).arg( revokeRec.getCertNum()));
-    info( QString("IssuerNum    : %1 - %2\n").arg(strIsserName, nFieldWidth).arg( revokeRec.getIssuerNum()));
+    info( QString("CertNum      : %1 = %2\n").arg(strCertName, nFieldWidth).arg( revokeRec.getCertNum()));
+    info( QString("IssuerNum    : %1 = %2\n").arg(strIsserName, nFieldWidth).arg( revokeRec.getIssuerNum()));
     info( QString("Serial       : %1\n").arg( revokeRec.getSerial()));
     info( QString("RevokeDate   : %1\n").arg( getDateTime( revokeRec.getRevokeDate() )));
-    info( QString("Reason       : %1 - %2\n").arg(strReason, nFieldWidth).arg( revokeRec.getReason()));
+    info( QString("Reason       : %1 = %2\n").arg(strReason, nFieldWidth).arg( revokeRec.getReason()));
     info( QString("CRLDP        : %1\n").arg( revokeRec.getCRLDP()));
     infoLine();
 
@@ -6118,6 +6122,7 @@ void MainWindow::infoRevoke( int seq )
 
 void MainWindow::infoUser( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     UserRec userRec;
@@ -6132,7 +6137,7 @@ void MainWindow::infoUser( int seq )
     info( QString("Name          : %1\n").arg(userRec.getName()));
     info( QString("SSN           : %1\n").arg(userRec.getSSN()));
     info( QString("Email         : %1\n").arg(userRec.getEmail()));
-    info( QString("Status        : %1 - %2\n").arg(getUserStatusName(userRec.getStatus())).arg(userRec.getStatus()) );
+    info( QString("Status        : %1 = %2\n").arg(getUserStatusName(userRec.getStatus()), nFieldWidth).arg(userRec.getStatus()) );
     info( QString("RefNum        : %1\n").arg(userRec.getRefNum()));
     info( QString("AuthCode      : %1\n").arg(userRec.getAuthCode()));
     infoLine();
@@ -6142,6 +6147,7 @@ void MainWindow::infoUser( int seq )
 
 void MainWindow::infoAdmin( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     AdminRec adminRec;
@@ -6152,8 +6158,8 @@ void MainWindow::infoAdmin( int seq )
     info( "== Admin Information\n" );
     infoLine();
     info( QString("Seq          : %1\n").arg(adminRec.getSeq()));
-    info( QString("Status       : %1 - %2\n").arg(getStatusName(adminRec.getStatus())).arg(adminRec.getStatus()));
-    info( QString("Type         : %1 - %2\n").arg(getAdminTypeName(adminRec.getType())).arg(adminRec.getType()));
+    info( QString("Status       : %1 = %2\n").arg(getStatusName(adminRec.getStatus()), nFieldWidth).arg(adminRec.getStatus()));
+    info( QString("Type         : %1 = %2\n").arg(getAdminTypeName(adminRec.getType()), nFieldWidth ).arg(adminRec.getType()));
     info( QString("Name         : %1\n").arg(adminRec.getName()));
     info( QString("Password     : %1\n").arg(adminRec.getPassword()));
     info( QString("Email        : %1\n").arg(adminRec.getEmail()));
@@ -6164,6 +6170,7 @@ void MainWindow::infoAdmin( int seq )
 
 void MainWindow::infoConfig( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     ConfigRec configRec;
@@ -6174,7 +6181,7 @@ void MainWindow::infoConfig( int seq )
     info( "== Config Information\n" );
     infoLine();
     info( QString("Num          : %1\n").arg(configRec.getNum()));
-    info( QString("Kind         : %1 - %2\n").arg( JS_GEN_getKindName( configRec.getKind())).arg(configRec.getKind()));
+    info( QString("Kind         : %1 = %2\n").arg( JS_GEN_getKindName( configRec.getKind()), nFieldWidth).arg(configRec.getKind()));
     info( QString("Name         : %1\n").arg(configRec.getName()));
     info( QString("Value        : %1\n").arg(configRec.getValue()));
     infoLine();
@@ -6184,6 +6191,7 @@ void MainWindow::infoConfig( int seq )
 
 void MainWindow::infoKMS( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     KMSRec kmsRec;
@@ -6198,9 +6206,9 @@ void MainWindow::infoKMS( int seq )
     infoLine();
     info( QString("Seq         : %1\n").arg(kmsRec.getSeq()));
     info( QString("RegTime     : %1\n").arg(getDateTime(kmsRec.getRegTime())));
-    info( QString("State       : %1 - %2\n").arg(kmsRec.getState()).arg( getStatusName(kmsRec.getState())));
-    info( QString("Type        : %1 - %2\n").arg(kmsRec.getType()).arg(strType));
-    info( QString("Algorithm   : %1 - %2\n").arg(kmsRec.getAlgorithm()).arg( strAlgorithm ));
+    info( QString("State       : %1 = %2\n").arg(kmsRec.getState(), nFieldWidth).arg( getStatusName(kmsRec.getState())));
+    info( QString("Type        : %1 = %2\n").arg(kmsRec.getType(), nFieldWidth).arg(strType));
+    info( QString("Algorithm   : %1 = %2\n").arg(kmsRec.getAlgorithm(), nFieldWidth).arg( strAlgorithm ));
     info( QString("ID          : %1\n").arg(kmsRec.getID()));
     info( QString("Info        : %1\n").arg(kmsRec.getInfo()));
     info( "============================ Attribute =================================\n" );
@@ -6223,6 +6231,7 @@ void MainWindow::infoKMS( int seq )
 
 void MainWindow::infoAudit( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     AuditRec auditRec;
@@ -6236,8 +6245,8 @@ void MainWindow::infoAudit( int seq )
     info( "== Audit Information\n" );
     infoLine();
     info( QString("Seq          : %1\n").arg(auditRec.getSeq()));
-    info( QString("Kind         : %1 - %2\n").arg(strKind).arg(auditRec.getKind()));
-    info( QString("Operation    : %1 - %2\n").arg(strOperation).arg(auditRec.getOperation()));
+    info( QString("Kind         : %1 = %2\n").arg(strKind, nFieldWidth).arg(auditRec.getKind()));
+    info( QString("Operation    : %1 = %2\n").arg(strOperation, nFieldWidth).arg(auditRec.getOperation()));
     info( QString("UserName     : %1\n").arg(auditRec.getUserName()));
     info( QString("Info         : %1\n").arg(auditRec.getInfo()));
     info( QString("MAC          : %1\n").arg(auditRec.getMAC()));
@@ -6248,6 +6257,7 @@ void MainWindow::infoAudit( int seq )
 
 void MainWindow::infoTSP( int seq )
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     int nWidth = manApplet->settingsMgr()->hexAreaWidth();
@@ -6277,6 +6287,7 @@ void MainWindow::infoTSP( int seq )
 
 void MainWindow::infoSigner(int seq)
 {
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     int nWidth = manApplet->settingsMgr()->hexAreaWidth();
@@ -6289,10 +6300,10 @@ void MainWindow::infoSigner(int seq)
     infoLine();
     info( QString("Num          : %1\n").arg( signerRec.getNum()));
     info( QString("RegTime      : %1\n").arg(getDateTime(signerRec.getRegTime())));
-    info( QString("Type         : %1 - %2\n").arg(getSignerTypeName(signerRec.getType())).arg(signerRec.getType()));
+    info( QString("Type         : %1 = %2\n").arg(getSignerTypeName(signerRec.getType()), nFieldWidth).arg(signerRec.getType()));
     info( QString("DN           : %1\n").arg(signerRec.getDN()));
     info( QString("DNHash       : %1\n").arg(signerRec.getDNHash()));
-    info( QString("Status       : %1 - %2\n").arg(getStatusName(signerRec.getType())).arg(signerRec.getStatus()));
+    info( QString("Status       : %1 = %2\n").arg(getStatusName(signerRec.getType()), nFieldWidth).arg(signerRec.getStatus()));
     info( QString("Info         : %1\n").arg(signerRec.getInfo()));
     info( QString("Certificate\n") );
 

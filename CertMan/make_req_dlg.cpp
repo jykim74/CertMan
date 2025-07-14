@@ -640,50 +640,60 @@ void MakeReqDlg::profileNumChanged()
 
 void MakeReqDlg::clickRSA()
 {
+    QString strParamLabel = getParamLabel( kMechRSA );
+
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
     mNewExponentText->setEnabled(true);
     mNewExponentLabel->setEnabled(true);
-    mNewOptionLabel->setText( "Key Length" );
+    mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 }
 
 void MakeReqDlg::clickECDSA()
 {
+    QString strParamLabel = getParamLabel( kMechEC );
+
     mNewOptionCombo->addItems( kECCOptionList );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
-    mNewOptionLabel->setText( "Named Curve" );
+    mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 }
 
 void MakeReqDlg::clickDSA()
 {
+    QString strParamLabel = getParamLabel( kMechDSA );
+
     mNewOptionCombo->addItems( kDSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
-    mNewOptionLabel->setText( "Key Length" );
+    mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 }
 
 void MakeReqDlg::clickEdDSA()
 {
+    QString strParamLabel = getParamLabel( kMechEdDSA );
+
     mNewOptionCombo->addItems( kEdDSAOptionList );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
-    mNewOptionLabel->setText( "Named Curve" );
+    mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 }
 
 void MakeReqDlg::clickSM2()
 {
+    QString strParamLabel = getParamLabel( kMechSM2 );
+
     mNewOptionCombo->addItem( "SM2" );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
-    mNewOptionLabel->setText( "Named Curve" );
+    mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 }
 
