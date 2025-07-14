@@ -454,6 +454,7 @@ void MakeCRLDlg::issuerNumChanged()
     KeyPairRec issuerKeyPair;
     dbMgr->getKeyPairRec( issuerCert.getKeyNum(), issuerKeyPair );
 
+    mOptionLabel->setText( getParamLabel(issuerKeyPair.getAlg()) );
     mAlgorithmText->setText( issuerKeyPair.getAlg() );
     mOptionText->setText( issuerKeyPair.getParam() );
 

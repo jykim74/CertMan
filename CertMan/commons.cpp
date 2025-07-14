@@ -4322,3 +4322,21 @@ const QString getValueFromExtList( const QString strExtName, JExtensionInfoList 
 
     return strValue;
 }
+
+const QString getParamLabel( const QString strAlg )
+{
+    QString strLabel = QObject::tr( "Parameter" );
+
+    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+        strLabel = QObject::tr( "Key Length" );
+    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+        strLabel = QObject::tr( "Named Curve" );
+    else if( strAlg == kMechEdDSA )
+        strLabel = QObject::tr( "Named Curve" );
+    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
+        strLabel = QObject::tr( "Key Length" );
+    else if( strAlg == kMechSM2 )
+        strLabel = QObject::tr( "Named Curve" );
+
+    return strLabel;
+}

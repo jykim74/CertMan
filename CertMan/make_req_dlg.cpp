@@ -598,15 +598,7 @@ void MakeReqDlg::keyNumChanged()
     mAlgorithmText->setText( keyRec.getAlg() );
     mOptionText->setText( keyRec.getParam() );
 
-    if( keyRec.getAlg() == kMechRSA || keyRec.getAlg() == kMechPKCS11_RSA || keyRec.getAlg() == kMechKMIP_RSA
-            || keyRec.getAlg() == kMechDSA || keyRec.getAlg() == kMechPKCS11_DSA )
-    {
-        mOptionLabel->setText( "Key Size" );
-    }
-    else
-    {
-        mOptionLabel->setText( "NamedCurve" );
-    }
+    mOptionLabel->setText( getParamLabel( keyRec.getAlg()));
 
     if( mOptionText->text() == "SM2" )
         mHashCombo->setCurrentText( "SM3" );

@@ -772,6 +772,7 @@ void MakeCertDlg::reqNumChanged()
     dbMgr->getKeyPairRec( reqRec.getKeyNum(), keyPair );
 
     mAlgorithmText->setText( keyPair.getAlg() );
+    mReqParamLabel->setText( getParamLabel( keyPair.getAlg()));
     mOptionText->setText( keyPair.getParam() );
 }
 
@@ -796,6 +797,7 @@ void MakeCertDlg::issuerNumChanged()
 
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
+    mIssuerParamLabel->setText( getParamLabel( keyPair.getAlg()));
     mIssuerAlgorithmText->setText( keyPair.getAlg() );
     mIssuerOptionText->setText( keyPair.getParam() );
 }

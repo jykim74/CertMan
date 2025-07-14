@@ -191,13 +191,10 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="4">
-      <widget class="QComboBox" name="mOptionCombo">
-       <property name="minimumSize">
-        <size>
-         <width>140</width>
-         <height>0</height>
-        </size>
+     <item row="0" column="3">
+      <widget class="QLabel" name="mOptionLabel">
+       <property name="text">
+        <string>Key Length</string>
        </property>
       </widget>
      </item>
@@ -207,6 +204,16 @@
         <size>
          <width>100</width>
          <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QComboBox" name="mOptionCombo">
+       <property name="minimumSize">
+        <size>
+         <width>140</width>
+         <height>0</height>
         </size>
        </property>
       </widget>
@@ -230,19 +237,18 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="mOptionLabel">
-       <property name="text">
-        <string>Key Length</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Parameter</string>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

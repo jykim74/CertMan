@@ -299,5 +299,5 @@ const QString dateString( time_t tTime );
 void getPeriodString( time_t start, time_t end, QString& strStart, QString& strEnd );
 
 const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList );
-
+const QString getParamLabel( const QString strAlg );
 #endif // COMMONS_H

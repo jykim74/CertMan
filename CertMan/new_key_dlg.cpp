@@ -294,56 +294,61 @@ end:
 
 void NewKeyDlg::clickRSA()
 {
+    QString strOptionLabel = getParamLabel( kMechRSA );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
     mExponentLabel->setEnabled(true);
     mExponentText->setEnabled(true);
-    mOptionLabel->setText( "Key size");
+    mOptionLabel->setText( strOptionLabel );
 }
 
 void NewKeyDlg::clickECDSA()
 {
+    QString strOptionLabel = getParamLabel( kMechEC );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kECCOptionList);
     mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
-    mOptionLabel->setText("NamedCurve");
+    mOptionLabel->setText( strOptionLabel );
 }
 
 void NewKeyDlg::clickDSA()
 {
+    QString strOptionLabel = getParamLabel( kMechDSA );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kDSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
-    mOptionLabel->setText( "Key size");
+    mOptionLabel->setText( strOptionLabel );
 }
 
 void NewKeyDlg::clickEdDSA()
 {
+    QString strOptionLabel = getParamLabel( kMechEdDSA  );
     mOptionCombo->clear();
 
     mOptionCombo->addItems( kEdDSAOptionList );
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
-    mOptionLabel->setText( "NamedCurve" );
+    mOptionLabel->setText( strOptionLabel );
 }
 
 void NewKeyDlg::clickSM2()
 {
+    QString strOptionLabel = getParamLabel( kMechEdDSA  );
     mOptionCombo->clear();
 
     mOptionCombo->addItem( "SM2" );
     mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
-    mOptionLabel->setText("NamedCurve");
+    mOptionLabel->setText( strOptionLabel );
 }
 
 void NewKeyDlg::checkPKCS11()
