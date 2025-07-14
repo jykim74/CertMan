@@ -448,29 +448,11 @@ void MakeCertDlg::accept()
         }
     }
 
-    if( profileRec.getNotBefore() == kPeriodDay )
-    {
-        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
-        notBefore = now_t;
-        notAfter = now_t + tValidSecs;
-    }
-    else if( profileRec.getNotBefore() == kPeriodMonth )
-    {
-        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
-        notBefore = now_t;
-        notAfter = now_t + tValidSecs;
-    }
-    else if( profileRec.getNotBefore() == kPeriodYear )
-    {
-        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
-        notBefore = now_t;
-        notAfter = now_t + tValidSecs;
-    }
-    else
-    {
-        notBefore = profileRec.getNotBefore();
-        notAfter = profileRec.getNotAfter();
-    }
+    JS_PKI_getPeriod( profileRec.getNotBefore(),
+                     profileRec.getNotAfter(),
+                     now_t,
+                     &notBefore,
+                     &notAfter );
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,
                         profileRec.getVersion(),

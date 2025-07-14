@@ -176,32 +176,12 @@ void MakeCRLDlg::accept()
 
     now_t = time(NULL);
 
-    if( profile.getThisUpdate() == kPeriodDay )
-    {
-        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
-
-        tThisUpdate = now_t;
-        tNextUpdate = now_t + tValidSecs;
-    }
-    else if( profile.getThisUpdate() == kPeriodMonth )
-    {
-        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
-
-        tThisUpdate = now_t;
-        tNextUpdate = now_t + tValidSecs;
-    }
-    else if( profile.getThisUpdate() == kPeriodYear )
-    {
-        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
-
-        tThisUpdate = now_t;
-        tNextUpdate = now_t + tValidSecs;
-    }
-    else
-    {
-        tThisUpdate = profile.getThisUpdate();
-        tNextUpdate = profile.getNextUpdate();
-    }
+    JS_PKI_getPeriod(
+        profile.getThisUpdate(),
+        profile.getNextUpdate(),
+        now_t,
+        &tThisUpdate,
+        &tNextUpdate );
 
     JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
                        profile.getVersion(),

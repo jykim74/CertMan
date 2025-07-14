@@ -5883,7 +5883,7 @@ void MainWindow::infoCertificate( int seq )
 
 void MainWindow::infoCertProfile( int seq )
 {
-    int nFieldWidth = -16;
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     CertProfileRec certProfile;
@@ -5981,7 +5981,7 @@ void MainWindow::infoProfileExt( ProfileExtRec& profileExt )
 
 void MainWindow::infoCRL( int seq )
 {
-    int nFieldWidth = -20;
+    int nFieldWidth = -24;
 
     if( manApplet->dbMgr() == NULL ) return;
 
@@ -6027,7 +6027,7 @@ void MainWindow::infoCRL( int seq )
 
 void MainWindow::infoCRLProfile( int seq )
 {
-    int nFieldWidth = -16;
+    int nFieldWidth = -24;
     if( manApplet->dbMgr() == NULL ) return;
 
     CRLProfileRec crlProfile;
