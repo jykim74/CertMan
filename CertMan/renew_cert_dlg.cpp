@@ -135,15 +135,15 @@ void RenewCertDlg::accept()
     BIN binSignCert = {0,0};
 
     time_t now_t = time(NULL);
-    long notBefore = -1;
-    long notAfter = -1;
+    time_t notBefore = -1;
+    time_t notAfter = -1;
     const char *pSerial = NULL;
     QString strKeyAlg;
 
 //    int nKeyType = -1;
     int nRenewCertNum = -1;
-    time_t tLimitBefore = -1;
-    time_t tLimitAfter = -1;
+    time_t tLimitBefore = 0;
+    time_t tLimitAfter = 0;
 
 //    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
 //    QByteArray ba;
@@ -190,33 +190,33 @@ void RenewCertDlg::accept()
 
     if( mUseDayCheck->isChecked() )
     {
-        long uSecs = 0;
-        notBefore = 0;
+        time_t tSecs = 0;
+        notBefore = now_t;
 
         if( mDayTypeCombo->currentText() == "Day" )
-            uSecs = 60 * 60 * 24;
+            tSecs = 60 * 60 * 24;
         else if( mDayTypeCombo->currentText() == "Month" )
-            uSecs = 60 * 60 * 24 * 30;
+            tSecs = 60 * 60 * 24 * 30;
         else if( mDayTypeCombo->currentText() == "Year" )
-            uSecs = 60 * 60 * 24 * 365;
+            tSecs = 60 * 60 * 24 * 365;
 
-        notAfter = uSecs * mDayText->text().toInt();
+        notAfter = now_t + tSecs * mDayText->text().toLongLong();
     }
     else
     {
-        notBefore = mNotBeforeDateTime->dateTime().toSecsSinceEpoch() - now_t;
-        notAfter = mNotAfterDateTime->dateTime().toSecsSinceEpoch() - now_t;
+        notBefore = mNotBeforeDateTime->dateTime().toSecsSinceEpoch();
+        notAfter = mNotAfterDateTime->dateTime().toSecsSinceEpoch();
     }
 
     if( tLimitBefore > 0 )
     {
-        if( tLimitBefore > ( notBefore + now_t ) )
+        if( tLimitBefore > notBefore )
         {
             QDateTime limitDateTime;
             QDateTime beforeDateTime;
 
             limitDateTime.setSecsSinceEpoch( tLimitBefore );
-            beforeDateTime.setSecsSinceEpoch( notBefore + now_t );
+            beforeDateTime.setSecsSinceEpoch( notBefore );
 
             QString strErr = tr("It(%1) cannot be earlier than issuer time(%2).")
                     .arg( beforeDateTime.toString( "yyyy-MM-dd HH:mm:ss"))
@@ -231,13 +231,13 @@ void RenewCertDlg::accept()
 
     if( tLimitAfter > 0 )
     {
-        if( tLimitAfter < ( notAfter + now_t ) )
+        if( tLimitAfter < notAfter )
         {
             QDateTime limitDateTime;
             QDateTime afterDateTime;
 
             limitDateTime.setSecsSinceEpoch(tLimitBefore );
-            afterDateTime.setSecsSinceEpoch( notAfter + now_t );
+            afterDateTime.setSecsSinceEpoch( notAfter );
 
             QString strErr = tr("It(%1) cannot be later than the issuer time(%2).")
                     .arg( afterDateTime.toString( "yyyy-MM-dd HH:mm:ss"))

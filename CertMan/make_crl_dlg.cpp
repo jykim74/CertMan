@@ -178,29 +178,29 @@ void MakeCRLDlg::accept()
 
     if( profile.getThisUpdate() == kPeriodDay )
     {
-        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
+        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24;
 
-        tThisUpdate = 0;
-        tNextUpdate = uValidSecs;
+        tThisUpdate = now_t;
+        tNextUpdate = now_t + tValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodMonth )
     {
-        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
+        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 30;
 
-        tThisUpdate = 0;
-        tNextUpdate = uValidSecs;
+        tThisUpdate = now_t;
+        tNextUpdate = now_t + tValidSecs;
     }
     else if( profile.getThisUpdate() == kPeriodYear )
     {
-        time_t uValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
+        time_t tValidSecs = profile.getNextUpdate() * 60 * 60 * 24 * 365;
 
-        tThisUpdate = 0;
-        tNextUpdate = uValidSecs;
+        tThisUpdate = now_t;
+        tNextUpdate = now_t + tValidSecs;
     }
     else
     {
-        tThisUpdate = profile.getThisUpdate() - now_t;
-        tNextUpdate = profile.getNextUpdate() - now_t;
+        tThisUpdate = profile.getThisUpdate();
+        tNextUpdate = profile.getNextUpdate();
     }
 
     JS_PKI_setIssueCRLInfo( &sIssueCRLInfo,
@@ -272,7 +272,7 @@ void MakeCRLDlg::accept()
     {
         JRevokeInfo sRevokeInfo;
         const char *pSerial = NULL;
-        long uRevokeDate = -1;
+        time_t tRevokeDate = -1;
         int nReason = -1;
         JExtensionInfo sExtReason;
         ProfileExtRec profileReason;
@@ -284,7 +284,7 @@ void MakeCRLDlg::accept()
 
         pSerial = revoke.getSerial().toStdString().c_str();
         nReason = revoke.getReason();
-        uRevokeDate = revoke.getRevokeDate();
+        tRevokeDate = revoke.getRevokeDate();
 
         profileReason.setSN( JS_PKI_ExtNameCRLReason );
         profileReason.setCritical( true );
@@ -293,7 +293,7 @@ void MakeCRLDlg::accept()
 
         transExtInfoFromDBRec( &sExtReason, profileReason );
 
-        JS_PKI_setRevokeInfo( &sRevokeInfo, pSerial, uRevokeDate, &sExtReason );
+        JS_PKI_setRevokeInfo( &sRevokeInfo, pSerial, tRevokeDate, &sExtReason );
 
         if( pRevokeInfoList == NULL )
             JS_PKI_createRevokeInfoList( &sRevokeInfo, &pRevokeInfoList );
@@ -397,8 +397,8 @@ void MakeCRLDlg::accept()
     madeCRLRec.setNum( nSeq );
     madeCRLRec.setRegTime( now_t );
     madeCRLRec.setIssuerNum( caCert.getNum() );
-    madeCRLRec.setThisUpdate( tThisUpdate + now_t );
-    madeCRLRec.setNextUpdate( tNextUpdate + now_t );
+    madeCRLRec.setThisUpdate( tThisUpdate );
+    madeCRLRec.setNextUpdate( tNextUpdate );
     madeCRLRec.setSignAlg( sMadeCRLInfo.pSignAlgorithm );
     madeCRLRec.setCRLDP( strCRLDP );
     madeCRLRec.setCRL( pHexCRL );

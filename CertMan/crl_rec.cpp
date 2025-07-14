@@ -12,8 +12,8 @@ CRLRec::CRLRec()
     m_nNum = -1;
     m_tRegTime = 0;
     m_nIssuerNum = -1;
-    m_nThisUpdate = -1;
-    m_nNextUpdate = -1;
+    m_tThisUpdate = 0;
+    m_tNextUpdate = 0;
     m_strCRL = "";
     m_strCRLDP = "";
 }
@@ -33,14 +33,14 @@ void CRLRec::setIssuerNum( int nIssuerNum )
     m_nIssuerNum = nIssuerNum;
 }
 
-void CRLRec::setThisUpdate( int nThisUpdate )
+void CRLRec::setThisUpdate( time_t tThisUpdate )
 {
-    m_nThisUpdate = nThisUpdate;
+    m_tThisUpdate = tThisUpdate;
 }
 
-void CRLRec::setNextUpdate( int nNextUpdate )
+void CRLRec::setNextUpdate( time_t tNextUpdate )
 {
-    m_nNextUpdate = nNextUpdate;
+    m_tNextUpdate = tNextUpdate;
 }
 
 void CRLRec::setSignAlg( QString strSignAlg )

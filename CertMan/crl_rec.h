@@ -14,8 +14,8 @@ private:
     int             m_nNum;
     time_t          m_tRegTime;
     int             m_nIssuerNum;
-    int             m_nThisUpdate;
-    int             m_nNextUpdate;
+    time_t          m_tThisUpdate;
+    time_t          m_tNextUpdate;
     QString         m_strSignAlg;
     QString         m_strCRLDP;
     QString         m_strCRL;
@@ -26,8 +26,8 @@ public:
     int getNum() { return m_nNum; };
     time_t getRegTime() { return m_tRegTime; };
     int getIssuerNum() { return m_nIssuerNum; };
-    int getThisUpdate() { return m_nThisUpdate; };
-    int getNextUpdate() { return m_nNextUpdate; };
+    time_t getThisUpdate() { return m_tThisUpdate; };
+    time_t getNextUpdate() { return m_tNextUpdate; };
     QString getSignAlg() { return m_strSignAlg; };
     QString getCRLDP() { return m_strCRLDP; };
     QString getCRL() { return m_strCRL; };
@@ -35,8 +35,8 @@ public:
     void setNum( int nNum );
     void setRegTime( time_t tRegTime );
     void setIssuerNum( int nIssuerNum );
-    void setThisUpdate( int nThisUpdate );
-    void setNextUpdate( int nNextUpdate );
+    void setThisUpdate( time_t tThisUpdate );
+    void setNextUpdate( time_t tNextUpdate );
     void setSignAlg( QString strSignAlg );
     void setCRLDP( QString strCRLDP );
     void setCRL( QString strCRL );

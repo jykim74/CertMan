@@ -450,26 +450,26 @@ void MakeCertDlg::accept()
 
     if( profileRec.getNotBefore() == kPeriodDay )
     {
-        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
-        notBefore = 0;
-        notAfter = uValidSecs;
+        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24;
+        notBefore = now_t;
+        notAfter = now_t + tValidSecs;
     }
     else if( profileRec.getNotBefore() == kPeriodMonth )
     {
-        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
-        notBefore = 0;
-        notAfter = uValidSecs;
+        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 30;
+        notBefore = now_t;
+        notAfter = now_t + tValidSecs;
     }
     else if( profileRec.getNotBefore() == kPeriodYear )
     {
-        time_t uValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
-        notBefore = 0;
-        notAfter = uValidSecs;
+        time_t tValidSecs = profileRec.getNotAfter() * 60 * 60 * 24 * 365;
+        notBefore = now_t;
+        notAfter = now_t + tValidSecs;
     }
     else
     {
-        notBefore = profileRec.getNotBefore() - now_t;
-        notAfter = profileRec.getNotAfter() - now_t;
+        notBefore = profileRec.getNotBefore();
+        notAfter = profileRec.getNotAfter();
     }
 
     JS_PKI_setIssueCertInfo( &sIssueCertInfo,

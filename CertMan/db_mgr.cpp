@@ -2152,8 +2152,8 @@ int DBMgr::addCRLRec( CRLRec& crlRec )
     sqlQuery.bindValue( i++, crlRec.getNum() );
     sqlQuery.bindValue( i++, (long long)crlRec.getRegTime() );
     sqlQuery.bindValue( i++, crlRec.getIssuerNum() );
-    sqlQuery.bindValue( i++, crlRec.getThisUpdate() );
-    sqlQuery.bindValue( i++, crlRec.getNextUpdate() );
+    sqlQuery.bindValue( i++, (long long)crlRec.getThisUpdate() );
+    sqlQuery.bindValue( i++, (long long)crlRec.getNextUpdate() );
     sqlQuery.bindValue( i++, crlRec.getSignAlg() );
     sqlQuery.bindValue( i++, crlRec.getCRLDP() );
     sqlQuery.bindValue( i++, crlRec.getCRL() );
@@ -2182,8 +2182,8 @@ int DBMgr::addCertProfileRec( CertProfileRec& certProfileRec )
     sqlQuery.bindValue( i++, certProfileRec.getName() );
     sqlQuery.bindValue( i++, certProfileRec.getType() );
     sqlQuery.bindValue( i++, certProfileRec.getVersion() );
-    sqlQuery.bindValue( i++, QString( "%1" ).arg( certProfileRec.getNotBefore() ) );
-    sqlQuery.bindValue( i++, QString( "%1").arg( certProfileRec.getNotAfter() ) );
+    sqlQuery.bindValue( i++, (long long)certProfileRec.getNotBefore() );
+    sqlQuery.bindValue( i++, (long long)certProfileRec.getNotAfter() );
     sqlQuery.bindValue( i++, certProfileRec.getExtUsage() );
     sqlQuery.bindValue( i++, certProfileRec.getHash() );
     sqlQuery.bindValue( i++, certProfileRec.getDNTemplate() );
@@ -2204,8 +2204,8 @@ int DBMgr::addCRLProfileRec( CRLProfileRec& crlProfileRec )
     sqlQuery.bindValue( i++, crlProfileRec.getNum() );
     sqlQuery.bindValue( i++, crlProfileRec.getName() );
     sqlQuery.bindValue( i++, crlProfileRec.getVersion() );
-    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getThisUpdate()));
-    sqlQuery.bindValue( i++, QString("%1").arg(crlProfileRec.getNextUpdate()));
+    sqlQuery.bindValue( i++, (long long)crlProfileRec.getThisUpdate());
+    sqlQuery.bindValue( i++, (long long)crlProfileRec.getNextUpdate());
     sqlQuery.bindValue( i++, crlProfileRec.getHash());
 
     sqlQuery.exec();
