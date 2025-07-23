@@ -461,7 +461,8 @@ int ExportDlg::exportPublic()
 
     if( nExportType == ExportPubPEM )
     {
-        ret = JS_BIN_writePEM( &binPub, JS_PEM_TYPE_PUBLIC_KEY, strFilename.toLocal8Bit().toStdString().c_str() );
+//        ret = JS_BIN_writePEM( &binPub, JS_PEM_TYPE_PUBLIC_KEY, strFilename.toLocal8Bit().toStdString().c_str() );
+        ret = writePubKeyPEM( &binPub, strFilename );
     }
     else if( nExportType == ExportPubDER )
     {
@@ -494,7 +495,8 @@ int ExportDlg::exportPrivate()
 
     if( nExportType == ExportPriPEM )
     {
-        ret = JS_BIN_writePEM( &pri_key_, JS_PEM_TYPE_PRIVATE_KEY, strFilename.toLocal8Bit().toStdString().c_str() );
+//        ret = JS_BIN_writePEM( &pri_key_, JS_PEM_TYPE_PRIVATE_KEY, strFilename.toLocal8Bit().toStdString().c_str() );
+        ret = writePriKeyPEM( &pri_key_, strFilename );
     }
     else if( nExportType == ExportPriDER )
     {

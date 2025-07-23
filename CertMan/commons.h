@@ -300,4 +300,7 @@ void getPeriodString( time_t start, time_t end, QString& strStart, QString& strE
 
 const QString getValueFromExtList( const QString strExtName, JExtensionInfoList *pExtList );
 const QString getParamLabel( const QString strAlg );
+
+int writePriKeyPEM( const BIN *pPriKey, const QString strPath );
+int writePubKeyPEM( const BIN *pPubKey, const QString strPath );
 #endif // COMMONS_H
