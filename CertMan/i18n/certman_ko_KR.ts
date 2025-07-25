@@ -6211,7 +6211,7 @@
         <translation type="vanished">고유 이름이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="136"/>
+        <location filename="../make_dn_dlg.cpp" line="142"/>
         <source>Enter DN value</source>
         <translation>DN 을 입력하세요</translation>
     </message>

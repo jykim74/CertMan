@@ -201,11 +201,13 @@
  </widget>
  <tabstops>
   <tabstop>mEmailAddressText</tabstop>
+  <tabstop>mCNText</tabstop>
   <tabstop>mOText</tabstop>
   <tabstop>mOUText</tabstop>
   <tabstop>mLText</tabstop>
   <tabstop>mSTText</tabstop>
   <tabstop>mCText</tabstop>
+  <tabstop>mDNText</tabstop>
   <tabstop>mClearBtn</tabstop>
   <tabstop>mOKBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>

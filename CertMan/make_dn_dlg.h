@@ -29,7 +29,7 @@ private slots:
     void changeDN();
 
 private:
-
+    void initialize();
 };
 
 #endif // MAKE_DN_DLG_H

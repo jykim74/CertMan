@@ -44,7 +44,7 @@ void LoginDlg::clickLogin()
     QString strConf;
     manApplet->dbMgr()->getConfigValue( JS_GEN_KIND_CERTMAN, "Passwd", strConf );
 
-    if( strConf.length() < 1 ) return QDialog::reject();
+    if( strConf.length() < 1 ) return;
 
     QString strPasswd = mPasswdText->text();
     if( strPasswd.length() < 1 )

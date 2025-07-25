@@ -33,11 +33,17 @@ MakeDNDlg::MakeDNDlg(QWidget *parent) :
     layout()->setSpacing(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
+    initialize();
 }
 
 MakeDNDlg::~MakeDNDlg()
 {
 
+}
+
+void MakeDNDlg::initialize()
+{
+    mCNText->setFocus();
 }
 
 void MakeDNDlg::setDN( const QString strDN )
