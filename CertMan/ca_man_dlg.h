@@ -37,6 +37,10 @@ private slots:
     void showEvent(QShowEvent *event);
     void changeTab( int index );
 
+    void slotCATableMenuRequested( QPoint pos );
+    void slotKeyPairTableMenuRequested( QPoint pos );
+    void slotCSRTableMenuRequested( QPoint pos );
+
     void clickOK();
 
     void loadCACertList();

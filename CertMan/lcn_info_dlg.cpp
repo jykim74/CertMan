@@ -500,8 +500,8 @@ void LCNInfoDlg::clickRemove()
     bool bVal = manApplet->yesOrNoBox( strMsg, this );
     if( bVal == false ) return;
 
-    manApplet->settingsMgr()->removeSet( "Misc", "email" );
-    manApplet->settingsMgr()->removeSet( "Misc", "license" );
+    manApplet->settingsMgr()->removeSet( kEnvMiscGroup, "email" );
+    manApplet->settingsMgr()->removeSet( kEnvMiscGroup, "license" );
     manApplet->messageBox( tr( "Remove invalid license settings" ), this );
 }
 

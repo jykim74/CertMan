@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "profile_man_dlg.h"
 #include "ca_man_dlg.h"
 #include "commons.h"
@@ -31,7 +33,8 @@ ProfileManDlg::ProfileManDlg(QWidget *parent) :
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
     connect( mCertTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCertProfileList()));
 
-
+    connect( mCertTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCertTableMenuRequested(QPoint)));
+    connect( mCRLTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCRLTableMenuRequested(QPoint)));
 
     connect( mCertViewBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileView()));
     connect( mCertDeleteBtn, SIGNAL(clicked()), this, SLOT(clickCertProfileDelete()));
@@ -125,6 +128,38 @@ void ProfileManDlg::changeTab( int index )
         loadCertProfileList();
     else
         loadCRLProfileList();
+}
+
+void ProfileManDlg::slotCertTableMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *viewAct = new QAction( tr( "View" ), this );
+    QAction *deleteAct = new QAction( tr( "Delete" ), this );
+
+    connect( viewAct, SIGNAL(triggered()), this, SLOT(clickCertProfileView()));
+    connect( deleteAct, SIGNAL(triggered()), this, SLOT(clickCertProfileDelete()));
+
+    menu->addAction( viewAct );
+    menu->addAction( deleteAct );
+
+    menu->popup( mCertTable->viewport()->mapToGlobal(pos));
+}
+
+void ProfileManDlg::slotCRLTableMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *viewAct = new QAction( tr( "View" ), this );
+    QAction *deleteAct = new QAction( tr( "Delete" ), this );
+
+    connect( viewAct, SIGNAL(triggered()), this, SLOT(clickCRLProfileView()));
+    connect( deleteAct, SIGNAL(triggered()), this, SLOT(clickCRLProfileDelete()));
+
+    menu->addAction( viewAct );
+    menu->addAction( deleteAct );
+
+    menu->popup( mCRLTable->viewport()->mapToGlobal(pos));
 }
 
 void ProfileManDlg::clickOK()

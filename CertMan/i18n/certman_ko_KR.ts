@@ -48,47 +48,47 @@
         <translation>%1 [Unlicensed 버전 %2]</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="104"/>
+        <location filename="../about_dlg.cpp" line="108"/>
         <source>This program is a freeware tool created using open source.If you do not use this for commercial purposes, you can use it freely </source>
         <translation>본 프로그램은 오픈소스를 이용하여 제작된 프리웨어 도구입니다. 상업적인 목적으로 사용하지 않으시면 자유롭게 사용하셔도 됩니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="112"/>
+        <location filename="../about_dlg.cpp" line="116"/>
         <source>All rights reserved.</source>
         <translation>All rights reserved.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="115"/>
+        <location filename="../about_dlg.cpp" line="119"/>
         <source> Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</source>
         <translation>다음 조건이 충족되는 경우 수정 여부에 관계없이 소스 및 바이너리 형식으로 재배포 및 사용이 허용됩니다 :</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="118"/>
+        <location filename="../about_dlg.cpp" line="122"/>
         <source> - Redistributions of source code must retain the above copyright notice,this list of conditions and the following disclaimer.</source>
         <translation>- 소스 코드를 재배포할 경우 위의 저작권 고지, 이 조건 목록 및 다음 면책 조항을 유지해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="121"/>
+        <location filename="../about_dlg.cpp" line="125"/>
         <source> - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</source>
         <translation>- 바이너리 형식으로 재배포하는 경우 배포와 함께 제공되는 문서 및/또는 기타 자료에 위의 저작권 고지, 이 조건 목록 및 다음 면책 조항을 재현해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="124"/>
+        <location filename="../about_dlg.cpp" line="128"/>
         <source> - Neither the name of the author nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</source>
         <translation>- 구체적인 사전 서면 승인 없이는 작성자의 이름이나 기여자의 이름을 이 소프트웨어에서 파생된 제품을 보증하거나 홍보하는 데 사용할 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="128"/>
+        <location filename="../about_dlg.cpp" line="132"/>
         <source>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</source>
         <translation>이 소프트웨어는 저작권 보유자 및 기여자에 의해 &quot;있는 그대로&quot; 제공되며, 상품성 및 특정 목적에의 적합성에 대한 묵시적인 보증을 포함하되 이에 국한되지 않는 모든 명시적 또는 묵시적 보증은 부인됩니다. 어떠한 경우에도 저작권 소유자나 기여자는 직접적, 간접적, 부수적, 특별, 예시적 또는 결과적 손해(대체 상품이나 서비스의 조달, 사용, 데이터 또는 이익의 손실을 포함하되 이에 국한되지 않음)에 대해 책임을 지지 않습니다. 또는 사업 중단), 계약상, 엄격 책임, 또는 이 소프트웨어의 사용으로 인해 발생하는 불법 행위(과실 또는 기타 포함) 등의 책임 이론에 따라, 그러한 손해의 가능성이 통보된 경우에도 마찬가지입니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="142"/>
+        <location filename="../about_dlg.cpp" line="146"/>
         <source>This program links to software with different licenses from: </source>
         <translation>이 프로그램은 다음과 다른 라이센스를 가진 소프트웨어에 연결됩니다.</translation>
     </message>
     <message>
-        <location filename="../about_dlg.cpp" line="170"/>
+        <location filename="../about_dlg.cpp" line="174"/>
         <source>Third party software that may be contained in this application.</source>
         <translation>이 애플리케이션에 포함될 수 있는 타사 소프트웨어.</translation>
     </message>
@@ -257,74 +257,80 @@
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="101"/>
-        <location filename="../ca_man_dlg.ui" line="207"/>
-        <location filename="../ca_man_dlg.ui" line="312"/>
+        <location filename="../ca_man_dlg.ui" line="104"/>
+        <location filename="../ca_man_dlg.ui" line="213"/>
+        <location filename="../ca_man_dlg.ui" line="321"/>
+        <location filename="../ca_man_dlg.cpp" line="223"/>
+        <location filename="../ca_man_dlg.cpp" line="239"/>
+        <location filename="../ca_man_dlg.cpp" line="255"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="108"/>
-        <location filename="../ca_man_dlg.ui" line="200"/>
-        <location filename="../ca_man_dlg.ui" line="305"/>
+        <location filename="../ca_man_dlg.ui" line="111"/>
+        <location filename="../ca_man_dlg.ui" line="206"/>
+        <location filename="../ca_man_dlg.ui" line="314"/>
+        <location filename="../ca_man_dlg.cpp" line="224"/>
+        <location filename="../ca_man_dlg.cpp" line="240"/>
+        <location filename="../ca_man_dlg.cpp" line="256"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="134"/>
-        <location filename="../ca_man_dlg.ui" line="151"/>
+        <location filename="../ca_man_dlg.ui" line="137"/>
+        <location filename="../ca_man_dlg.ui" line="154"/>
         <source>Key Pair</source>
         <translation>키 쌍</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="233"/>
-        <location filename="../ca_man_dlg.ui" line="263"/>
+        <location filename="../ca_man_dlg.ui" line="239"/>
+        <location filename="../ca_man_dlg.ui" line="269"/>
         <source>CSR</source>
         <translation>CSR</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="350"/>
+        <location filename="../ca_man_dlg.ui" line="359"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="357"/>
+        <location filename="../ca_man_dlg.ui" line="366"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="136"/>
-        <location filename="../ca_man_dlg.cpp" line="164"/>
+        <location filename="../ca_man_dlg.cpp" line="142"/>
+        <location filename="../ca_man_dlg.cpp" line="170"/>
         <source>Subject DN</source>
         <translation>주체자 DN</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="136"/>
+        <location filename="../ca_man_dlg.cpp" line="142"/>
         <source>Serial</source>
         <translation>시리얼</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="136"/>
-        <location filename="../ca_man_dlg.cpp" line="150"/>
+        <location filename="../ca_man_dlg.cpp" line="142"/>
+        <location filename="../ca_man_dlg.cpp" line="156"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="136"/>
-        <location filename="../ca_man_dlg.cpp" line="150"/>
-        <location filename="../ca_man_dlg.cpp" line="164"/>
+        <location filename="../ca_man_dlg.cpp" line="142"/>
+        <location filename="../ca_man_dlg.cpp" line="156"/>
+        <location filename="../ca_man_dlg.cpp" line="170"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="150"/>
-        <location filename="../ca_man_dlg.cpp" line="164"/>
+        <location filename="../ca_man_dlg.cpp" line="156"/>
+        <location filename="../ca_man_dlg.cpp" line="170"/>
         <source>RegTime</source>
         <translation>등록시간</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="150"/>
-        <location filename="../ca_man_dlg.cpp" line="164"/>
+        <location filename="../ca_man_dlg.cpp" line="156"/>
+        <location filename="../ca_man_dlg.cpp" line="170"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
@@ -333,28 +339,28 @@
         <translation type="vanished">해쉬</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="239"/>
-        <location filename="../ca_man_dlg.cpp" line="444"/>
-        <location filename="../ca_man_dlg.cpp" line="465"/>
-        <location filename="../ca_man_dlg.cpp" line="484"/>
-        <location filename="../ca_man_dlg.cpp" line="502"/>
-        <location filename="../ca_man_dlg.cpp" line="521"/>
+        <location filename="../ca_man_dlg.cpp" line="293"/>
+        <location filename="../ca_man_dlg.cpp" line="498"/>
+        <location filename="../ca_man_dlg.cpp" line="519"/>
         <location filename="../ca_man_dlg.cpp" line="538"/>
+        <location filename="../ca_man_dlg.cpp" line="556"/>
+        <location filename="../ca_man_dlg.cpp" line="575"/>
+        <location filename="../ca_man_dlg.cpp" line="592"/>
         <source>There are no selected items</source>
         <translation>선택 한 아이템이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="470"/>
+        <location filename="../ca_man_dlg.cpp" line="524"/>
         <source>Are you sure to delete CA certificate?</source>
         <translation>CA 인증서를 정말로 삭제 하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="507"/>
+        <location filename="../ca_man_dlg.cpp" line="561"/>
         <source>Are you sure to delete the keypair?</source>
         <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.cpp" line="543"/>
+        <location filename="../ca_man_dlg.cpp" line="597"/>
         <source>Are you sure to delete the CSR?</source>
         <translation>이 CSR을 삭제 하시겠습니까?</translation>
     </message>
@@ -1273,58 +1279,58 @@
         <translation>유효하지 않는 서비스: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="473"/>
+        <location filename="../export_dlg.cpp" line="474"/>
         <source>Public Key export successfully</source>
         <translation>공개키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="506"/>
+        <location filename="../export_dlg.cpp" line="508"/>
         <source>Private Key export successfully</source>
         <translation>개인키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="537"/>
+        <location filename="../export_dlg.cpp" line="539"/>
         <source>Certificate export successfully</source>
         <translation>인증서 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="565"/>
+        <location filename="../export_dlg.cpp" line="567"/>
         <source>CRL export successfully</source>
         <translation>CRL 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="593"/>
+        <location filename="../export_dlg.cpp" line="595"/>
         <source>CSR export successfully</source>
         <translation>CSR 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="622"/>
+        <location filename="../export_dlg.cpp" line="624"/>
         <source>fail to encrypt PFX: %1</source>
         <translation>PFX 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="629"/>
+        <location filename="../export_dlg.cpp" line="631"/>
         <source>PFX export successfully</source>
         <translation>PFX 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="661"/>
+        <location filename="../export_dlg.cpp" line="663"/>
         <source>fail to encrypt private key: %1</source>
         <translation>개인키 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="672"/>
+        <location filename="../export_dlg.cpp" line="674"/>
         <source>Encrypted privateKey export successfully</source>
         <translation>암호화된 개인키 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="708"/>
-        <location filename="../export_dlg.cpp" line="781"/>
+        <location filename="../export_dlg.cpp" line="710"/>
+        <location filename="../export_dlg.cpp" line="783"/>
         <source>PKCS8 Info export successfully</source>
         <translation>PKCS8 메세지 내보내기에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="787"/>
+        <location filename="../export_dlg.cpp" line="789"/>
         <source>failed to export: %1</source>
         <translation>내보내기 실패: %1</translation>
     </message>
@@ -7407,81 +7413,85 @@
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="101"/>
-        <location filename="../profile_man_dlg.ui" line="182"/>
+        <location filename="../profile_man_dlg.ui" line="104"/>
+        <location filename="../profile_man_dlg.ui" line="188"/>
+        <location filename="../profile_man_dlg.cpp" line="138"/>
+        <location filename="../profile_man_dlg.cpp" line="154"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="108"/>
-        <location filename="../profile_man_dlg.ui" line="175"/>
+        <location filename="../profile_man_dlg.ui" line="111"/>
+        <location filename="../profile_man_dlg.ui" line="181"/>
+        <location filename="../profile_man_dlg.cpp" line="137"/>
+        <location filename="../profile_man_dlg.cpp" line="153"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="134"/>
-        <location filename="../profile_man_dlg.ui" line="145"/>
+        <location filename="../profile_man_dlg.ui" line="137"/>
+        <location filename="../profile_man_dlg.ui" line="148"/>
         <source>CRL Profile</source>
         <translation>CRL 프로파일</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="220"/>
+        <location filename="../profile_man_dlg.ui" line="226"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="227"/>
+        <location filename="../profile_man_dlg.ui" line="233"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="169"/>
-        <location filename="../profile_man_dlg.cpp" line="183"/>
+        <location filename="../profile_man_dlg.cpp" line="204"/>
+        <location filename="../profile_man_dlg.cpp" line="218"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="169"/>
+        <location filename="../profile_man_dlg.cpp" line="204"/>
         <source>NotBefore</source>
         <translation>유효기간(시작)</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="169"/>
+        <location filename="../profile_man_dlg.cpp" line="204"/>
         <source>NotAfter</source>
         <translation>유효기간(끝)</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="169"/>
-        <location filename="../profile_man_dlg.cpp" line="183"/>
+        <location filename="../profile_man_dlg.cpp" line="204"/>
+        <location filename="../profile_man_dlg.cpp" line="218"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="183"/>
+        <location filename="../profile_man_dlg.cpp" line="218"/>
         <source>ThisUpdate</source>
         <translation>이번 업데이트</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="183"/>
+        <location filename="../profile_man_dlg.cpp" line="218"/>
         <source>NextUpdate</source>
         <translation>다음 업데이트</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="151"/>
-        <location filename="../profile_man_dlg.cpp" line="285"/>
-        <location filename="../profile_man_dlg.cpp" line="308"/>
-        <location filename="../profile_man_dlg.cpp" line="327"/>
-        <location filename="../profile_man_dlg.cpp" line="351"/>
+        <location filename="../profile_man_dlg.cpp" line="186"/>
+        <location filename="../profile_man_dlg.cpp" line="320"/>
+        <location filename="../profile_man_dlg.cpp" line="343"/>
+        <location filename="../profile_man_dlg.cpp" line="362"/>
+        <location filename="../profile_man_dlg.cpp" line="386"/>
         <source>There are no selected items</source>
         <translation>선택 한 아이템이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="313"/>
+        <location filename="../profile_man_dlg.cpp" line="348"/>
         <source>Are you sure to delete the certificate profile?</source>
         <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="356"/>
+        <location filename="../profile_man_dlg.cpp" line="391"/>
         <source>Are you sure to delete the CRL profile?</source>
         <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
     </message>

@@ -31,6 +31,9 @@ private slots:
     void showEvent(QShowEvent *event);
     void changeTab( int index );
 
+    void slotCertTableMenuRequested( QPoint pos );
+    void slotCRLTableMenuRequested( QPoint pos );
+
     void clickOK();
 
     void loadCertProfileList();

@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "ca_man_dlg.h"
 #include "commons.h"
 #include "mainwindow.h"
@@ -31,6 +33,10 @@ CAManDlg::CAManDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
+
+    connect( mCACertTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCATableMenuRequested(QPoint)));
+    connect( mKeyPairTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotKeyPairTableMenuRequested(QPoint)));
+    connect( mCSRTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCSRTableMenuRequested(QPoint)));
 
     connect( mKeyPairStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadKeyPairList()));
     connect( mCSRStatusCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCSRList()));
@@ -208,6 +214,54 @@ void CAManDlg::changeTab( int index )
         loadKeyPairList();
     else
         loadCSRList();
+}
+
+void CAManDlg::slotCATableMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *viewAct = new QAction( tr( "View" ), this );
+    QAction *deleteAct = new QAction( tr( "Delete" ), this );
+
+    connect( viewAct, SIGNAL(triggered()), this, SLOT(clickCACertView()));
+    connect( deleteAct, SIGNAL(triggered()), this, SLOT(clickCACertDelete()));
+
+    menu->addAction( viewAct );
+    menu->addAction( deleteAct );
+
+    menu->popup( mCACertTable->viewport()->mapToGlobal(pos));
+}
+
+void CAManDlg::slotKeyPairTableMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *viewAct = new QAction( tr( "View" ), this );
+    QAction *deleteAct = new QAction( tr( "Delete" ), this );
+
+    connect( viewAct, SIGNAL(triggered()), this, SLOT(clickKeyPairView()));
+    connect( deleteAct, SIGNAL(triggered()), this, SLOT(clickKeyPairDelete()));
+
+    menu->addAction( viewAct );
+    menu->addAction( deleteAct );
+
+    menu->popup( mKeyPairTable->viewport()->mapToGlobal(pos));
+}
+
+void CAManDlg::slotCSRTableMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+
+    QAction *viewAct = new QAction( tr( "View" ), this );
+    QAction *deleteAct = new QAction( tr( "Delete" ), this );
+
+    connect( viewAct, SIGNAL(triggered()), this, SLOT(clickCSRView()));
+    connect( deleteAct, SIGNAL(triggered()), this, SLOT(clickCSRDelete()));
+
+    menu->addAction( viewAct );
+    menu->addAction( deleteAct );
+
+    menu->popup( mCSRTable->viewport()->mapToGlobal(pos));
 }
 
 void CAManDlg::clickOK()

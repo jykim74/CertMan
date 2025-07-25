@@ -19,22 +19,15 @@
 #include "settings_mgr.h"
 
 
-
-/*
-#define     JS_NO_LICENSE_SELF_LIMIT_COUNT          1
-#define     JS_NO_LICENSE_CA_LIMIT_COUNT            2
-#define     JS_NO_LICENSE_KEYPAIR_LIMIT_COUNT       8
-#define     JS_NO_LICENSE_CSR_LIMIT_COUNT           8
-#define     JS_NO_LICENSE_CERT_LIMIT_COUNT          32
-#define     JS_NO_LICENSE_CRL_LIMIT_COUNT           32
-*/
-
 enum {
     DATA_STRING,
     DATA_HEX,
     DATA_BASE64,
     DATA_URL
 };
+
+const QString kEnvMiscGroup = "Misc";
+const QString kEnvTempGroup = "Temp";
 
 #define VIEW_FILE           0x01000000
 #define VIEW_TOOL           0x02000000

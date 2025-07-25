@@ -406,7 +406,7 @@ QString ManApplet::getDBPath()
     QString strPath;
     QSettings settings;
 
-    settings.beginGroup("mainwindow");
+    settings.beginGroup( kEnvTempGroup );
     strPath = settings.value( "dbPath", "" ).toString();
     settings.endGroup();
 
@@ -416,7 +416,7 @@ QString ManApplet::getDBPath()
 void ManApplet::setDBPath( const QString strPath )
 {
     QSettings settings;
-    settings.beginGroup("mainwindow");
+    settings.beginGroup( kEnvTempGroup );
     settings.setValue( "dbPath", strPath );
     settings.endGroup();
 }
