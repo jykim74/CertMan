@@ -129,7 +129,7 @@ void TSPDlg::clickSend()
     else if( mSrcBase64Check->isChecked() )
         JS_BIN_decodeBase64( strSrc.toStdString().c_str(), &binSrc );
 
-    ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), strPolicy.toStdString().c_str(), &binReq );
+    ret = JS_TSP_encodeRequest( &binSrc, strHash.toStdString().c_str(), strPolicy.toStdString().c_str(), 1, &binReq );
     if( ret != 0 )
     {
         manApplet->elog( QString("failed to encode request [%1]").arg( ret ));
