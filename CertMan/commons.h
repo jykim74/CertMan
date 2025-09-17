@@ -29,6 +29,12 @@ enum {
 const QString kEnvMiscGroup = "Misc";
 const QString kEnvTempGroup = "Temp";
 
+static QString kSelectStyle =
+    "QTableWidget::item:selected { "
+    "background-color: #9370db; "
+    "color: white; "
+    "} ";
+
 #define VIEW_FILE           0x01000000
 #define VIEW_TOOL           0x02000000
 #define VIEW_DATA           0x03000000

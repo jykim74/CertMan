@@ -23,7 +23,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Password</string>
+      <string>CertMan Login</string>
      </property>
     </widget>
    </item>

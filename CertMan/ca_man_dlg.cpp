@@ -146,7 +146,9 @@ void CAManDlg::initUI()
     mCACertTable->setColumnCount( sCACertLabels.size() );
     mCACertTable->setHorizontalHeaderLabels( sCACertLabels );
     mCACertTable->verticalHeader()->setVisible(false);
+    mCACertTable->setStyleSheet( kSelectStyle );
     mCACertTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCACertTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mCACertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCACertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCACertTable->setColumnWidth( 0, 60 );
@@ -160,7 +162,9 @@ void CAManDlg::initUI()
     mKeyPairTable->setColumnCount( sKeyPairLabels.size() );
     mKeyPairTable->setHorizontalHeaderLabels( sKeyPairLabels );
     mKeyPairTable->verticalHeader()->setVisible(false);
+    mKeyPairTable->setStyleSheet( kSelectStyle );
     mKeyPairTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mKeyPairTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mKeyPairTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mKeyPairTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mKeyPairTable->setColumnWidth( 0, 60 );
@@ -174,7 +178,9 @@ void CAManDlg::initUI()
     mCSRTable->setColumnCount( sCSRLabels.size() );
     mCSRTable->setHorizontalHeaderLabels( sCSRLabels );
     mCSRTable->verticalHeader()->setVisible(false);
+    mCSRTable->setStyleSheet( kSelectStyle );
     mCSRTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCSRTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mCSRTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCSRTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCSRTable->setColumnWidth( 0, 60 );

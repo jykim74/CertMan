@@ -208,7 +208,9 @@ void ProfileManDlg::initUI()
     mCertTable->setColumnCount( sCertLabels.size() );
     mCertTable->setHorizontalHeaderLabels( sCertLabels );
     mCertTable->verticalHeader()->setVisible(false);
+    mCertTable->setStyleSheet( kSelectStyle );
     mCertTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCertTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mCertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCertTable->setColumnWidth( 0, 60 );
@@ -222,7 +224,9 @@ void ProfileManDlg::initUI()
     mCRLTable->setColumnCount( sCRLLabels.size() );
     mCRLTable->setHorizontalHeaderLabels( sCRLLabels );
     mCRLTable->verticalHeader()->setVisible(false);
+    mCRLTable->setStyleSheet( kSelectStyle );
     mCRLTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCRLTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mCRLTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCRLTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCRLTable->setColumnWidth( 0, 60 );
