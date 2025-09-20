@@ -212,6 +212,7 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
     if( ret == 0 )
     {
         mEdDSA_NameText->setText( sRawKeyVal.pAlg );
+        mEdDSA_ParamText->setText( sRawKeyVal.pParam );
         mEdDSA_RawPublicText->setPlainText( sRawKeyVal.pPub );
         mEdDSA_RawPrivateText->setPlainText( sRawKeyVal.pPri );
     }
@@ -452,7 +453,7 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
 {
     int ret = 0;
     BIN binVal = {0,0};
-    QString strName;
+    QString strParam;
 
     JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
 
@@ -468,9 +469,9 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
         if( ret == CKR_OK )
         {
             if( binVal.pVal[1] == 32 )
-                strName = JS_EDDSA_PARAM_NAME_25519;
+                strParam = JS_EDDSA_PARAM_NAME_25519;
             else
-                strName = JS_EDDSA_PARAM_NAME_448;
+                strParam = JS_EDDSA_PARAM_NAME_448;
 
             mEdDSA_RawPublicText->setPlainText( getHexString( &binVal.pVal[2], binVal.nLen - 2 ) );
             JS_BIN_reset( &binVal );
@@ -486,9 +487,9 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
         if( ret == CKR_OK )
         {
             if( binVal.nLen == 32 )
-                strName = "ED25519";
+                strParam = JS_EDDSA_PARAM_NAME_25519;
             else
-                strName = "ED448";
+                strParam = JS_EDDSA_PARAM_NAME_448;
 
             mEdDSA_RawPrivateText->setPlainText( getHexString( &binVal ) );
             JS_BIN_reset( &binVal );
@@ -499,7 +500,8 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
         }
     }
 
-    mEdDSA_NameText->setText( strName );
+    mEdDSA_ParamText->setText( strParam );
+    mEdDSA_NameText->setText( JS_PKI_KEY_NAME_EDDSA );
     JS_BIN_reset( &binVal );
 }
 
