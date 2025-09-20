@@ -25,7 +25,10 @@
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC, kMechDSA, kMechEdDSA };
+static QStringList sMechList = {
+    JS_PKI_KEY_NAME_RSA, JS_PKI_KEY_NAME_ECDSA, JS_PKI_KEY_NAME_DSA,
+    JS_PKI_KEY_NAME_EDDSA, JS_PKI_KEY_NAME_ML_DSA, JS_PKI_KEY_NAME_SLH_DSA
+};
 
 MakeReqDlg::MakeReqDlg(QWidget *parent) :
     QDialog(parent)
@@ -46,6 +49,8 @@ MakeReqDlg::MakeReqDlg(QWidget *parent) :
     connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
     connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
     connect( mSM2Radio, SIGNAL(clicked()), this, SLOT(clickSM2()));
+    connect( mML_DSARadio, SIGNAL(clicked()), this, SLOT(clickML_DSA()));
+    connect( mSLH_DSARadio, SIGNAL(clicked()), this, SLOT(clickSLH_DSA()));
 
     connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
@@ -88,7 +93,7 @@ const QString MakeReqDlg::getMechanism()
         else if( mKMIPCheck->isChecked() )
             strMech = kMechKMIP_RSA;
         else
-            strMech = kMechRSA;
+            strMech = JS_PKI_KEY_NAME_RSA;
     }
     else if( mECDSARadio->isChecked() )
     {
@@ -97,22 +102,30 @@ const QString MakeReqDlg::getMechanism()
         else if( mKMIPCheck->isChecked() )
             strMech = kMechKMIP_EC;
         else
-            strMech = kMechEC;
+            strMech = JS_PKI_KEY_NAME_ECDSA;
     }
     else if( mDSARadio->isChecked() )
     {
         if( mPKCS11Check->isChecked() )
             strMech = kMechPKCS11_DSA;
         else
-            strMech = kMechDSA;
+            strMech = JS_PKI_KEY_NAME_DSA;
     }
     else if( mEdDSARadio->isChecked() )
     {
-        strMech = kMechEdDSA;
+        strMech = JS_PKI_KEY_NAME_EDDSA;
     }
     else if( mSM2Radio->isChecked() )
     {
-        strMech = kMechSM2;
+        strMech = JS_PKI_KEY_NAME_SM2;
+    }
+    else if( mML_DSARadio->isChecked() )
+    {
+        strMech = JS_PKI_KEY_NAME_ML_DSA;
+    }
+    else if( mSLH_DSARadio->isChecked() )
+    {
+        strMech = JS_PKI_KEY_NAME_SLH_DSA;
     }
 
     return strMech;
@@ -175,36 +188,46 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
         return -1;
     }
 
-    if( strAlg == kMechRSA )
+    if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
         int nKeySize = strParam.toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
-    else if( strAlg == kMechEC )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
-    else if( strAlg == kMechSM2 )
+    else if( strAlg == JS_PKI_KEY_NAME_SM2 )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
-    else if( strAlg == kMechDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_DSA )
     {
         int nKeySize = strParam.toInt();
 
         ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
-    else if( strAlg == kMechEdDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
     {
         int nParam = 0;
 
-        if(  strParam == kParamEd25519 )
+        if(  strParam == JS_EDDSA_PARAM_NAME_25519 )
             nParam = JS_EDDSA_PARAM_25519;
-        else if( strParam == kParamEd448 )
+        else if( strParam == JS_EDDSA_PARAM_NAME_448 )
             nParam = JS_EDDSA_PARAM_448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
+    }
+    else if( strAlg == JS_PKI_KEY_NAME_ML_DSA )
+    {
+        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        ret = JS_ML_DSA_genKeyPair( nParam, &binPub, &binPri );
+    }
+    else if( strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+    {
+        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        ret = JS_SLH_DSA_genKeyPair( nParam, &binPub, &binPri );
     }
     else if( isPKCS11Private( strAlg ) == true )
     {
@@ -603,7 +626,7 @@ void MakeReqDlg::keyNumChanged()
     if( mOptionText->text() == "SM2" )
         mHashCombo->setCurrentText( "SM3" );
 
-    if( keyRec.getAlg() == kMechEdDSA )
+    if( keyRec.getAlg() == JS_PKI_KEY_NAME_EDDSA || keyRec.getAlg() == JS_PKI_KEY_NAME_ML_DSA || keyRec.getAlg() == JS_PKI_KEY_NAME_SLH_DSA )
         mHashCombo->setEnabled(false);
     else
         mHashCombo->setEnabled(true);
@@ -640,7 +663,7 @@ void MakeReqDlg::profileNumChanged()
 
 void MakeReqDlg::clickRSA()
 {
-    QString strParamLabel = getParamLabel( kMechRSA );
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_RSA );
 
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
@@ -652,7 +675,7 @@ void MakeReqDlg::clickRSA()
 
 void MakeReqDlg::clickECDSA()
 {
-    QString strParamLabel = getParamLabel( kMechEC );
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_ECDSA );
 
     mNewOptionCombo->addItems( kECCOptionList );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
@@ -664,7 +687,7 @@ void MakeReqDlg::clickECDSA()
 
 void MakeReqDlg::clickDSA()
 {
-    QString strParamLabel = getParamLabel( kMechDSA );
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_DSA );
 
     mNewOptionCombo->addItems( kDSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
@@ -676,7 +699,7 @@ void MakeReqDlg::clickDSA()
 
 void MakeReqDlg::clickEdDSA()
 {
-    QString strParamLabel = getParamLabel( kMechEdDSA );
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_EDDSA );
 
     mNewOptionCombo->addItems( kEdDSAOptionList );
     mNewExponentText->setEnabled(false);
@@ -687,7 +710,7 @@ void MakeReqDlg::clickEdDSA()
 
 void MakeReqDlg::clickSM2()
 {
-    QString strParamLabel = getParamLabel( kMechSM2 );
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_SM2 );
 
     mNewOptionCombo->addItem( "SM2" );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
@@ -695,6 +718,28 @@ void MakeReqDlg::clickSM2()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
+}
+
+void MakeReqDlg::clickML_DSA()
+{
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_ML_DSA );
+
+    mNewOptionCombo->addItems( kML_DSAOptionList );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( strParamLabel );
+    mHashCombo->setEnabled(false);
+}
+
+void MakeReqDlg::clickSLH_DSA()
+{
+    QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_SLH_DSA );
+
+    mNewOptionCombo->addItems( kSLH_DSAOptionList );
+    mNewExponentText->setEnabled(false);
+    mNewExponentLabel->setEnabled(false);
+    mNewOptionLabel->setText( strParamLabel );
+    mHashCombo->setEnabled(false);
 }
 
 void MakeReqDlg::checkPKCS11()

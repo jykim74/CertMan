@@ -409,7 +409,7 @@ void MakeCertDlg::accept()
             }
         }
     }
-    else if( signKeyPair.getAlg() != kMechEdDSA )
+    else if( signKeyPair.getAlg() != JS_PKI_KEY_NAME_SM2 )
     {
         if( profileRec.getHash() == "SM3" )
         {

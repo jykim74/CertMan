@@ -197,7 +197,7 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
 
     if( pKey == NULL || pKey->nLen <= 0 ) return;
 
-    if( strParam == kParamEd25519 )
+    if( strParam == JS_EDDSA_PARAM_NAME_25519 )
         nType = JS_EDDSA_PARAM_25519;
     else
         nType = JS_EDDSA_PARAM_448;
@@ -468,9 +468,9 @@ void PriKeyInfoDlg::setEdDSAKey( CK_OBJECT_HANDLE hKey,  bool bPri )
         if( ret == CKR_OK )
         {
             if( binVal.pVal[1] == 32 )
-                strName = kParamEd25519;
+                strName = JS_EDDSA_PARAM_NAME_25519;
             else
-                strName = kParamEd448;
+                strName = JS_EDDSA_PARAM_NAME_448;
 
             mEdDSA_RawPublicText->setPlainText( getHexString( &binVal.pVal[2], binVal.nLen - 2 ) );
             JS_BIN_reset( &binVal );
@@ -673,32 +673,33 @@ int PriKeyInfoDlg::readPrivateKey()
 
     manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
 
-    if( strAlg == kMechRSA )
+    if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPri );
     }
-    else if( strAlg == kMechEC || strAlg == kMechSM2 )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == JS_PKI_KEY_NAME_SM2 )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
 
-        if( strAlg == kMechSM2 )
+        if( strAlg == JS_PKI_KEY_NAME_SM2 )
             mInsertToHSMBtn->hide();
 
         setECCKey( &binPri );
     }
-    else if( strAlg == kMechDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_DSA )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPri );
     }
-    else if( strAlg == kMechEdDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == JS_PKI_KEY_NAME_ML_DSA || strAlg == JS_PKI_KEY_NAME_SLH_DSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
+        mKeyTab->setTabText(3, strAlg );
         setEdDSAKey( key_rec_.getParam(), &binPri );
     }
     else
@@ -790,32 +791,39 @@ void PriKeyInfoDlg::clickGetPublicKey()
 
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
 
-    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA )
+    if( strAlg == JS_PKI_KEY_NAME_RSA || strAlg == kMechPKCS11_RSA )
     {
         mKeyTab->setCurrentIndex(0);
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPub, false );
     }
-    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechSM2 )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == JS_PKI_KEY_NAME_SM2 )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
 
-        if( strAlg == kMechSM2 )
+        if( strAlg == JS_PKI_KEY_NAME_SM2 )
             mInsertToHSMBtn->hide();
 
         setECCKey( &binPub, false );
     }
-    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
+    else if( strAlg == JS_PKI_KEY_NAME_DSA || strAlg == kMechPKCS11_DSA )
     {
         mKeyTab->setCurrentIndex( 2 );
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPub, false );
     }
-    else if( strAlg == kMechEdDSA || strAlg == kMechPKCS11_EdDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == kMechPKCS11_EdDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
+        setEdDSAKey( key_rec_.getParam(), &binPub, false );
+    }
+    else if( strAlg == JS_PKI_KEY_NAME_ML_DSA || strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+    {
+        mKeyTab->setCurrentIndex( 3 );
+        mKeyTab->setTabEnabled(3, true);
+        mKeyTab->setTabText( 3, strAlg );
         setEdDSAKey( key_rec_.getParam(), &binPub, false );
     }
     else

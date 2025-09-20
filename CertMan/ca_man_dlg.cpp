@@ -17,7 +17,12 @@
 
 #include "js_pki_x509.h"
 
-static QStringList kKeyAlgList = { "Any", kMechRSA, kMechEC, kMechDSA, kMechEdDSA, kMechSM2 };
+static QStringList kKeyAlgList = {
+    "Any", JS_PKI_KEY_NAME_RSA, JS_PKI_KEY_NAME_ECDSA,
+    JS_PKI_KEY_NAME_DSA, JS_PKI_KEY_NAME_EDDSA, JS_PKI_KEY_NAME_SM2,
+    JS_PKI_KEY_NAME_ML_DSA, JS_PKI_KEY_NAME_SLH_DSA
+};
+
 static QStringList kStatus = { "NotUsed", "Used" };
 
 CAManDlg::CAManDlg(QWidget *parent) :
@@ -338,26 +343,34 @@ void CAManDlg::loadCACertList()
             nKeyType = JS_PKI_getCertKeyType( &binCert );
             JS_BIN_reset( &binCert );
 
-            if( strType == kMechRSA )
+            if( strType == JS_PKI_KEY_NAME_RSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == kMechEC )
+            else if( strType == JS_PKI_KEY_NAME_ECDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
-            else if( strType == kMechSM2 )
+            else if( strType == JS_PKI_KEY_NAME_SM2 )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
                     continue;
             }
-            else if( strType == kMechDSA )
+            else if( strType == JS_PKI_KEY_NAME_DSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == kMechEdDSA )
+            else if( strType == JS_PKI_KEY_NAME_EDDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_ML_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_ML_DSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_SLH_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SLH_DSA ) continue;
             }
         }
 
@@ -401,26 +414,34 @@ void CAManDlg::loadKeyPairList()
             nKeyType = JS_PKI_getPubKeyType( &binPub );
             JS_BIN_reset( &binPub );
 
-            if( strType == kMechRSA )
+            if( strType == JS_PKI_KEY_NAME_RSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == kMechEC )
+            else if( strType == JS_PKI_KEY_NAME_ECDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
-            else if( strType == kMechSM2 )
+            else if( strType == JS_PKI_KEY_NAME_SM2 )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
                     continue;
             }
-            else if( strType == kMechDSA )
+            else if( strType == JS_PKI_KEY_NAME_DSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == kMechEdDSA )
+            else if( strType == JS_PKI_KEY_NAME_EDDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_ML_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_ML_DSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_SLH_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SLH_DSA ) continue;
             }
         }
 
@@ -462,26 +483,34 @@ void CAManDlg::loadCSRList()
             nKeyType = JS_PKI_getCSRKeyType( &binCSR );
             JS_BIN_reset( &binCSR );
 
-            if( strType == kMechRSA )
+            if( strType == JS_PKI_KEY_NAME_RSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_RSA ) continue;
             }
-            else if( strType == kMechEC )
+            else if( strType == JS_PKI_KEY_NAME_ECDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
-            else if( strType == kMechSM2 )
+            else if( strType == JS_PKI_KEY_NAME_SM2 )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
                     continue;
             }
-            else if( strType == kMechDSA )
+            else if( strType == JS_PKI_KEY_NAME_DSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_DSA ) continue;
             }
-            else if( strType == kMechEdDSA )
+            else if( strType == JS_PKI_KEY_NAME_EDDSA )
             {
                 if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_ML_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_ML_DSA ) continue;
+            }
+            else if( strType == JS_PKI_KEY_NAME_SLH_DSA )
+            {
+                if( nKeyType != JS_PKI_KEY_TYPE_SLH_DSA ) continue;
             }
         }
 

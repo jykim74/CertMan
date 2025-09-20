@@ -19,8 +19,12 @@
 #include "js_gen.h"
 #include "js_define.h"
 #include "commons.h"
+#include "js_pqc.h"
 
-static QStringList sMechList = { kMechRSA, kMechEC, kMechEdDSA, kMechDSA };
+static QStringList sMechList = {
+    JS_PKI_KEY_NAME_RSA, JS_PKI_KEY_NAME_ECDSA, JS_PKI_KEY_NAME_DSA,
+    JS_PKI_KEY_NAME_EDDSA, JS_PKI_KEY_NAME_ML_DSA, JS_PKI_KEY_NAME_SLH_DSA
+};
 
 NewKeyDlg::NewKeyDlg(QWidget *parent) :
     QDialog(parent)
@@ -34,6 +38,8 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     connect( mDSARadio, SIGNAL(clicked()), this, SLOT(clickDSA()));
     connect( mEdDSARadio, SIGNAL(clicked()), this, SLOT(clickEdDSA()));
     connect( mSM2Radio, SIGNAL(clicked()), this, SLOT(clickSM2()));
+    connect( mML_DSARadio, SIGNAL(clicked()), this, SLOT(clickML_DSA()));
+    connect( mSLH_DSARadio, SIGNAL(clicked()), this, SLOT(clickSLH_DSA()));
 
     connect( mPKCS11Check, SIGNAL(clicked()), this, SLOT(checkPKCS11()));
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
@@ -97,7 +103,7 @@ const QString NewKeyDlg::getMechanism()
         else if( mKMIPCheck->isChecked() )
             strMech = kMechKMIP_RSA;
         else
-            strMech = kMechRSA;
+            strMech = JS_PKI_KEY_NAME_RSA;
     }
     else if( mECDSARadio->isChecked() )
     {
@@ -106,22 +112,30 @@ const QString NewKeyDlg::getMechanism()
         else if( mKMIPCheck->isChecked() )
             strMech = kMechKMIP_EC;
         else
-            strMech = kMechEC;
+            strMech = JS_PKI_KEY_NAME_ECDSA;
     }
     else if( mDSARadio->isChecked() )
     {
         if( mPKCS11Check->isChecked() )
             strMech = kMechPKCS11_DSA;
         else
-            strMech = kMechDSA;
+            strMech = JS_PKI_KEY_NAME_DSA;
     }
     else if( mSM2Radio->isChecked() )
     {
-        strMech = kMechSM2;
+        strMech = JS_PKI_KEY_NAME_SM2;
     }
     else if( mEdDSARadio->isChecked() )
     {
-        strMech = kMechEdDSA;
+        strMech = JS_PKI_KEY_NAME_EDDSA;
+    }
+    else if( mML_DSARadio->isChecked() )
+    {
+        strMech = JS_PKI_KEY_NAME_ML_DSA;
+    }
+    else if( mSLH_DSARadio->isChecked() )
+    {
+        strMech = JS_PKI_KEY_NAME_SLH_DSA;
     }
 
     return strMech;
@@ -152,34 +166,44 @@ void NewKeyDlg::accept()
     QString strMech = getMechanism();
     QString strParam = mOptionCombo->currentText();
 
-    if( strMech == kMechRSA )
+    if( strMech == JS_PKI_KEY_NAME_RSA )
     {
         int nKeySize = strParam.toInt();
         int nExponent = mExponentText->text().toInt();
 
         ret = JS_PKI_RSAGenKeyPair( nKeySize, nExponent, &binPub, &binPri );
     }
-    else if( strMech == kMechDSA )
+    else if( strMech == JS_PKI_KEY_NAME_DSA )
     {
         int nKeySize = strParam.toInt();
 
         ret = JS_PKI_DSA_GenKeyPair( nKeySize, &binPub, &binPri );
     }
-    else if( strMech == kMechEC )
+    else if( strMech == JS_PKI_KEY_NAME_ECDSA )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
-    else if( strMech == kMechSM2 )
+    else if( strMech == JS_PKI_KEY_NAME_SM2 )
     {
         ret = JS_PKI_ECCGenKeyPair( strParam.toStdString().c_str(), &binPub, &binPri );
     }
-    else if( strMech == kMechEdDSA )
+    else if( strMech == JS_PKI_KEY_NAME_ML_DSA )
+    {
+        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        ret = JS_ML_DSA_genKeyPair( nParam, &binPub, &binPri );
+    }
+    else if( strMech == JS_PKI_KEY_NAME_SLH_DSA )
+    {
+        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        ret = JS_SLH_DSA_genKeyPair( nParam, &binPub, &binPri );
+    }
+    else if( strMech == JS_PKI_KEY_NAME_EDDSA )
     {
         int nParam = 0;
 
-        if( strParam == kParamEd25519 )
+        if( strParam == JS_EDDSA_PARAM_NAME_25519 )
             nParam = JS_EDDSA_PARAM_25519;
-        else if( strParam == kParamEd448 )
+        else if( strParam == JS_EDDSA_PARAM_NAME_448 )
             nParam = JS_EDDSA_PARAM_448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
@@ -294,7 +318,7 @@ end:
 
 void NewKeyDlg::clickRSA()
 {
-    QString strOptionLabel = getParamLabel( kMechRSA );
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_RSA );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kRSAOptionList);
@@ -306,7 +330,7 @@ void NewKeyDlg::clickRSA()
 
 void NewKeyDlg::clickECDSA()
 {
-    QString strOptionLabel = getParamLabel( kMechEC );
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_ECDSA );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kECCOptionList);
@@ -318,7 +342,7 @@ void NewKeyDlg::clickECDSA()
 
 void NewKeyDlg::clickDSA()
 {
-    QString strOptionLabel = getParamLabel( kMechDSA );
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_DSA );
     mOptionCombo->clear();
 
     mOptionCombo->addItems(kDSAOptionList);
@@ -330,7 +354,7 @@ void NewKeyDlg::clickDSA()
 
 void NewKeyDlg::clickEdDSA()
 {
-    QString strOptionLabel = getParamLabel( kMechEdDSA  );
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_EDDSA  );
     mOptionCombo->clear();
 
     mOptionCombo->addItems( kEdDSAOptionList );
@@ -341,11 +365,33 @@ void NewKeyDlg::clickEdDSA()
 
 void NewKeyDlg::clickSM2()
 {
-    QString strOptionLabel = getParamLabel( kMechEdDSA  );
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_SM2  );
     mOptionCombo->clear();
 
     mOptionCombo->addItem( "SM2" );
     mOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText( strOptionLabel );
+}
+
+void NewKeyDlg::clickML_DSA()
+{
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_ML_DSA  );
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems( kML_DSAOptionList );
+    mExponentLabel->setEnabled(false);
+    mExponentText->setEnabled(false);
+    mOptionLabel->setText( strOptionLabel );
+}
+
+void NewKeyDlg::clickSLH_DSA()
+{
+    QString strOptionLabel = getParamLabel( JS_PKI_KEY_NAME_SLH_DSA  );
+    mOptionCombo->clear();
+
+    mOptionCombo->addItems( kSLH_DSAOptionList );
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );

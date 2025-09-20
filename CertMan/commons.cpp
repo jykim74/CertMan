@@ -2097,14 +2097,14 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     }
     else if( keyType == CKK_EC_EDWARDS )
     {
-        if( strParam == kParamEd25519 )
+        if( strParam == JS_EDDSA_PARAM_NAME_25519 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
             sPubTemplate[uPubCount].pValue = kOID_X25519;
             sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_X25519);
             uPubCount++;
         }
-        else if( strParam == kParamEd448 )
+        else if( strParam == JS_EDDSA_PARAM_NAME_448 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
             sPubTemplate[uPubCount].pValue = kOID_X448;
@@ -4094,18 +4094,20 @@ int getKeyType( const QString& strAlg, const QString& strParam )
 {
     int nKeyType = -1;
 
-    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+    if( strAlg == JS_PKI_KEY_NAME_RSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
         nKeyType = JS_PKI_KEY_TYPE_ECDSA;
-    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
+    else if( strAlg == JS_PKI_KEY_NAME_DSA || strAlg == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
-    else if( strAlg == kMechSM2 )
+    else if( strAlg == JS_PKI_KEY_NAME_SM2 )
         nKeyType = JS_PKI_KEY_TYPE_SM2;
-    else if( strAlg == kMechEdDSA )
-    {
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
         nKeyType = JS_PKI_KEY_TYPE_EDDSA;
-    }
+    else if( strAlg == JS_PKI_KEY_NAME_ML_DSA )
+        nKeyType = JS_PKI_KEY_TYPE_ML_DSA;
+    else if( strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+        nKeyType = JS_PKI_KEY_TYPE_SLH_DSA;
 
     return nKeyType;
 }
@@ -4171,11 +4173,13 @@ const QString getCRLDPFromInfo( const QString &strExtCRLDP )
 
 bool isInternalPrivate( const QString strKeyMech )
 {
-    if( strKeyMech == kMechRSA ) return true;
-    if( strKeyMech == kMechEC ) return true;
-    if( strKeyMech == kMechEdDSA  ) return true;
-    if( strKeyMech == kMechDSA ) return true;
-    if( strKeyMech == kMechSM2 ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_RSA ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_ECDSA ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_EDDSA  ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_DSA ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_SM2 ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_ML_DSA ) return true;
+    if( strKeyMech == JS_PKI_KEY_NAME_SLH_DSA ) return true;
 
     return false;
 }
@@ -4324,16 +4328,16 @@ const QString getParamLabel( const QString strAlg )
 {
     QString strLabel = QObject::tr( "Parameter" );
 
-    if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
+    if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+        strLabel = QObject::tr( "Named Curve" );
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
+        strLabel = QObject::tr( "Named Curve" );
+    else if( strAlg == JS_PKI_KEY_NAME_SM2 )
+        strLabel = QObject::tr( "Named Curve" );
+    else
+    {
         strLabel = QObject::tr( "Key Length" );
-    else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
-        strLabel = QObject::tr( "Named Curve" );
-    else if( strAlg == kMechEdDSA )
-        strLabel = QObject::tr( "Named Curve" );
-    else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
-        strLabel = QObject::tr( "Key Length" );
-    else if( strAlg == kMechSM2 )
-        strLabel = QObject::tr( "Named Curve" );
+    }
 
     return strLabel;
 }

@@ -17,7 +17,7 @@
 #include "js_pkcs11.h"
 #include "js_kms.h"
 #include "settings_mgr.h"
-
+#include "js_pqc.h"
 
 enum {
     DATA_STRING,
@@ -104,11 +104,13 @@ const int kPeriodDay = 0;
 const int kPeriodMonth = 1;
 const int kPeriodYear = 2;
 
+/*
 const QString kMechRSA = "RSA";
 const QString kMechEC = "EC";
 const QString kMechEdDSA = "EdDSA";
 const QString kMechDSA = "DSA";
 const QString kMechSM2 = "SM2";
+*/
 
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
@@ -117,8 +119,8 @@ const QString kMechPKCS11_EdDSA = "PKCS11_EdDSA";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_EC = "KMIP_EC";
 
-const QString kParamEd25519 = "Ed25519";
-const QString kParamEd448 = "Ed448";
+//const QString kParamEd25519 = "Ed25519";
+//const QString kParamEd448 = "Ed448";
 
 const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
 
@@ -175,8 +177,26 @@ static QStringList kECCOptionList = { "prime256v1",
 
 
 
-static QStringList kEdDSAOptionList = { kParamEd25519, kParamEd448 };
+static QStringList kEdDSAOptionList = { JS_EDDSA_PARAM_NAME_25519, JS_EDDSA_PARAM_NAME_448 };
 static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
+static QStringList kML_DSAOptionList = {
+    JS_PQC_PARAM_ML_DSA_44_NAME, JS_PQC_PARAM_ML_DSA_65_NAME, JS_PQC_PARAM_ML_DSA_87_NAME
+};
+
+static QStringList kSLH_DSAOptionList = {
+    JS_PQC_PARAM_SLH_DSA_SHA2_128S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHA2_128F_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHA2_192S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHA2_192F_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHA2_256S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHA2_256F_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_128S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_128F_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_192S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_192F_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_256S_NAME,
+    JS_PQC_PARAM_SLH_DSA_SHAKE_256F_NAME,
+};
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
 const QString kToolBoxStyle = "QToolBox::tab {background-color: #a8d5a2; }";

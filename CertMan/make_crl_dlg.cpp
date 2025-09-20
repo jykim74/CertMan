@@ -158,7 +158,7 @@ void MakeCRLDlg::accept()
             }
         }
     }
-    else if( caKeyPair.getAlg() != kMechEdDSA )
+    else if( caKeyPair.getAlg() != JS_PKI_KEY_TYPE_ECDSA )
     {
         if( profile.getHash() == "SM3" )
         {

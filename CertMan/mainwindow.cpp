@@ -1197,23 +1197,33 @@ int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const B
 
     if( nType == JS_PKI_KEY_TYPE_RSA )
     {
-        strAlg = kMechRSA;
+        strAlg = JS_PKI_KEY_NAME_RSA;
         strParam = QString( "%1" ).arg( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_ECDSA || nType == JS_PKI_KEY_TYPE_SM2 )
     {
-        strAlg = kMechEC;
+        strAlg = JS_PKI_KEY_NAME_ECDSA;
         strParam = JS_PKI_getSNFromNid( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_DSA )
     {
-        strAlg = kMechDSA;
+        strAlg = JS_PKI_KEY_NAME_DSA;
         strParam = QString( "%1" ).arg( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_EDDSA )
     {
-        strAlg = kMechEdDSA;
+        strAlg = JS_PKI_KEY_NAME_EDDSA;
         strParam = JS_EDDSA_getParamName( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_ML_DSA )
+    {
+        strAlg = JS_PKI_KEY_NAME_ML_DSA;
+        strParam = JS_PQC_paramName( nOption );
+    }
+    else if( nType == JS_PKI_KEY_TYPE_SLH_DSA )
+    {
+        strAlg = JS_PKI_KEY_NAME_SLH_DSA;
+        strParam = JS_PQC_paramName( nOption );
     }
     else {
         return -1;
