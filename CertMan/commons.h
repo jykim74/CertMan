@@ -104,14 +104,6 @@ const int kPeriodDay = 0;
 const int kPeriodMonth = 1;
 const int kPeriodYear = 2;
 
-/*
-const QString kMechRSA = "RSA";
-const QString kMechEC = "EC";
-const QString kMechEdDSA = "EdDSA";
-const QString kMechDSA = "DSA";
-const QString kMechSM2 = "SM2";
-*/
-
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_EC = "PKCS11_EC";
 const QString kMechPKCS11_DSA = "PKCS11_DSA";
@@ -119,8 +111,6 @@ const QString kMechPKCS11_EdDSA = "PKCS11_EdDSA";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_EC = "KMIP_EC";
 
-//const QString kParamEd25519 = "Ed25519";
-//const QString kParamEd448 = "Ed448";
 
 const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
 
