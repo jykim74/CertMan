@@ -39,12 +39,6 @@ MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
     connect( mSelectIssuerBtn, SIGNAL(clicked()), this, SLOT(clickSelectIssuer()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(profileNumChanged()));
 
-    QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
-    mRevokeTable->setColumnCount(3);
-    mRevokeTable->horizontalHeader()->setStretchLastSection(true);
-    mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
-    mRevokeTable->verticalHeader()->setVisible(false);
-
     initialize();
 
 #if defined(Q_OS_MAC)
@@ -471,6 +465,15 @@ void MakeCRLDlg::profileNumChanged()
 
 void MakeCRLDlg::initUI()
 {
+    QStringList sRevokeLabels = { tr("Serial"), tr("Reason"), tr("Date") };
+    mRevokeTable->setColumnCount( sRevokeLabels.size() );
+    mRevokeTable->horizontalHeader()->setStretchLastSection(true);
+    mRevokeTable->setHorizontalHeaderLabels(sRevokeLabels);
+    mRevokeTable->verticalHeader()->setVisible(false);
+    mRevokeTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    mRevokeTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     mIssuerNameText->setPlaceholderText( tr( "Select a CA certificate from CA Man" ) );
 }
 

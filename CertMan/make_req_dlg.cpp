@@ -571,11 +571,14 @@ void MakeReqDlg::accept()
 
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
+    if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == JS_PKI_KEY_NAME_ML_DSA || strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+        strHash = "NA";
+
     reqRec.setName( strName );
     reqRec.setRegTime( time(NULL) );
     reqRec.setCSR( QString(pHexCSR) );
     reqRec.setDN( strDN );
-    reqRec.setHash( mHashCombo->currentText() );
+    reqRec.setHash( strHash );
     reqRec.setKeyNum( keyRec.getNum() );
     reqRec.setStatus(0);
 
@@ -665,6 +668,7 @@ void MakeReqDlg::clickRSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_RSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
     mNewExponentText->setEnabled(true);
@@ -677,6 +681,7 @@ void MakeReqDlg::clickECDSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_ECDSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kECCOptionList );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mNewExponentText->setEnabled(false);
@@ -689,6 +694,7 @@ void MakeReqDlg::clickDSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_DSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kDSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
     mNewExponentText->setEnabled(false);
@@ -701,6 +707,7 @@ void MakeReqDlg::clickEdDSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_EDDSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kEdDSAOptionList );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
@@ -712,6 +719,7 @@ void MakeReqDlg::clickSM2()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_SM2 );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItem( "SM2" );
     mNewOptionCombo->setCurrentText( manApplet->settingsMgr()->defaultECCParam() );
     mNewExponentText->setEnabled(false);
@@ -724,6 +732,7 @@ void MakeReqDlg::clickML_DSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_ML_DSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kML_DSAOptionList );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);
@@ -735,6 +744,7 @@ void MakeReqDlg::clickSLH_DSA()
 {
     QString strParamLabel = getParamLabel( JS_PKI_KEY_NAME_SLH_DSA );
 
+    mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kSLH_DSAOptionList );
     mNewExponentText->setEnabled(false);
     mNewExponentLabel->setEnabled(false);

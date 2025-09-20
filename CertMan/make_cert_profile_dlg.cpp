@@ -531,6 +531,7 @@ void MakeCertProfileDlg::setTableMenus()
     mPolicyTable->setHorizontalHeaderLabels( sPolicyLabels );
     mPolicyTable->verticalHeader()->setVisible(false);
     mPolicyTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mPolicyTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mPolicyTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mPolicyTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mPolicyTable->setColumnWidth(0, 100);
@@ -543,6 +544,7 @@ void MakeCertProfileDlg::setTableMenus()
     mCRLDPTable->setHorizontalHeaderLabels(sCRLDPLabels);
     mCRLDPTable->verticalHeader()->setVisible(false);
     mCRLDPTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mCRLDPTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mCRLDPTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCRLDPTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCRLDPTable->setColumnWidth(0,60);
@@ -554,6 +556,7 @@ void MakeCertProfileDlg::setTableMenus()
     mAIATable->setHorizontalHeaderLabels(sAIALabels);
     mAIATable->verticalHeader()->setVisible(false);
     mAIATable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mAIATable->setSelectionMode(QAbstractItemView::SingleSelection);
     mAIATable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mAIATable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mAIATable->setColumnWidth(0,60);
@@ -566,6 +569,7 @@ void MakeCertProfileDlg::setTableMenus()
     mSANTable->setHorizontalHeaderLabels(sSANLabels);
     mSANTable->verticalHeader()->setVisible(false);
     mSANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mSANTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mSANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mSANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mSANTable->setColumnWidth(0,60);
@@ -577,6 +581,7 @@ void MakeCertProfileDlg::setTableMenus()
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
     mIANTable->verticalHeader()->setVisible(false);
     mIANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIANTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mIANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mIANTable->setColumnWidth(0,60);
@@ -588,6 +593,7 @@ void MakeCertProfileDlg::setTableMenus()
     mPMTable->setHorizontalHeaderLabels(sPMLabels);
     mPMTable->verticalHeader()->setVisible(false);
     mPMTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mPMTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mPMTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mPMTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -598,6 +604,7 @@ void MakeCertProfileDlg::setTableMenus()
     mNCTable->setHorizontalHeaderLabels(sNCLabels);
     mNCTable->verticalHeader()->setVisible(false);
     mNCTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mNCTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mNCTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mNCTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mNCTable->setColumnWidth(0,60);
@@ -608,6 +615,7 @@ void MakeCertProfileDlg::setTableMenus()
     mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);
     mExtensionsTable->verticalHeader()->setVisible(false);
     mExtensionsTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mExtensionsTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mExtensionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mExtensionsTable->setColumnWidth(0,180);

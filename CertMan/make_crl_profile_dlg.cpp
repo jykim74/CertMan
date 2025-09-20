@@ -393,6 +393,7 @@ void MakeCRLProfileDlg::setTableMenus()
     mIDPTable->setHorizontalHeaderLabels(sDPNLabels);
     mIDPTable->verticalHeader()->setVisible(false);
     mIDPTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIDPTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mIDPTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mIDPTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mIDPTable->setColumnWidth(0, 60);
@@ -403,6 +404,7 @@ void MakeCRLProfileDlg::setTableMenus()
     mIANTable->setHorizontalHeaderLabels(sIANLabels);
     mIANTable->verticalHeader()->setVisible(false);
     mIANTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mIANTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mIANTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mIANTable->setColumnWidth(0, 60);
@@ -413,6 +415,7 @@ void MakeCRLProfileDlg::setTableMenus()
     mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);
     mExtensionsTable->verticalHeader()->setVisible(false);
     mExtensionsTable->horizontalHeader()->setStyleSheet( kTableStyle );
+    mExtensionsTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mExtensionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mExtensionsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mExtensionsTable->setColumnWidth(0,180);
