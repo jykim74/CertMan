@@ -307,7 +307,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     memset( &sDSAKey, 0x00, sizeof(sDSAKey));
     memset( &sRawKey, 0x00, sizeof(sRawKey));
 
-    nKeyType = JS_PKI_getPriKeyType( pPriKey );
+    JS_PKI_getPriKeyAlgParam( pPriKey, &nKeyType, &nParam );
 
     if( manApplet->isLicense() == false )
     {
@@ -319,41 +319,32 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
         }
     }
 
+    strAlg = JS_PKI_getKeyAlgName( nKeyType );
+
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
     {
         JS_PKI_getRSAKeyVal( pPriKey, &sRSAKey );
-        strAlg = kMechRSA;
-        nParam = ( strlen( sRSAKey.pD ) / 2 ) * 8;
         JS_PKI_encodeRSAPublicKey( &sRSAKey, &binPub );
         strParam = QString("%1").arg(nParam);
     }
-    else if( nKeyType == JS_PKI_KEY_TYPE_ECC || nKeyType == JS_PKI_KEY_TYPE_SM2 )
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA || nKeyType == JS_PKI_KEY_TYPE_SM2 )
     {
-        strAlg = kMechEC;
         JS_PKI_getECKeyVal( pPriKey, &sECKey );
-        nParam = JS_PKI_getKeyParam( JS_PKI_KEY_TYPE_ECC, pPriKey );
         JS_PKI_encodeECPublicKey( &sECKey, &binPub );
-
         strParam = JS_PKI_getSNFromNid( nParam );
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
     {
-        strAlg = kMechDSA;
         JS_PKI_getDSAKeyVal( pPriKey, &sDSAKey );
-        nParam = ( strlen( sDSAKey.pG ) / 2 ) * 8;
         JS_PKI_encodeDSAPublicKey( &sDSAKey, &binPub );
         strParam = QString("%1").arg(nParam);
     }
-    else if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
-    {
-        strAlg = kMechEdDSA;
-        if( nKeyType == JS_PKI_KEY_TYPE_ED25519 )
-            strParam = kParamEd25519;
-        else
-            strParam = kParamEd448;
+    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
+    {   
+        strParam = JS_EDDSA_getParamName( nParam );
 
-        JS_PKI_getRawKeyVal( nKeyType, pPriKey, &sRawKey );
-        JS_PKI_getRawPublicKeyFromPri( nKeyType, pPriKey, &binPub );
+        JS_PKI_getRawKeyVal( pPriKey, &sRawKey );
+        JS_PKI_getRawPublicKeyFromPri( pPriKey, &binPub );
     }
     else
     {
@@ -427,7 +418,7 @@ int ImportDlg::ImportPriKeyToKMIP( int nKeyType, const BIN *pPriKey, int nParam,
 
     char *pUUID = NULL;
 
-    if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
     {
         if( nParam != NID_X9_62_prime256v1 )
         {
@@ -529,7 +520,7 @@ int ImportDlg::ImportPriKeyToPKCS11( int nKeyType, const BIN *pPriKey, const BIN
         ret = createRSAPublicKeyP11( pCTX, strName, &binHash, &sRSAKey );
         if( ret != 0 ) goto end;
     }
-    else if( nKeyType == JS_PKI_KEY_TYPE_ECC )
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
     {
         JS_PKI_getECKeyVal( pPriKey, &sECKey );
         ret = createECPrivateKeyP11( pCTX, strName, &binHash, &sECKey );

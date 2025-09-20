@@ -439,8 +439,8 @@ void MakeCertDlg::accept()
     if( nKeyType != sReqInfo.nKeyAlg )
     {
         bool bVal = manApplet->yesOrNoBox( tr( "CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?" )
-                                           .arg( JS_PKI_getKeyTypeName( sReqInfo.nKeyAlg ) )
-                                           .arg( JS_PKI_getKeyTypeName( nKeyType )), this, false );
+                                           .arg( JS_PKI_getKeyAlgName( sReqInfo.nKeyAlg ) )
+                                           .arg( JS_PKI_getKeyAlgName( nKeyType )), this, false );
         if( bVal == false )
         {
             ret = -1;

@@ -566,7 +566,7 @@ QString ManApplet::getEncPriHex( const BIN *pPri )
     if( pPri == NULL || pPri->nLen <= 0 ) return "";
 
     nKeyType = JS_PKI_getPriKeyType( pPri );
-    ret = JS_PKI_encryptPrivateKey( nKeyType, -1, pri_passwd_.toStdString().c_str(), pPri, NULL, &binEnc );
+    ret = JS_PKI_encryptPrivateKey( -1, pri_passwd_.toStdString().c_str(), pPri, NULL, &binEnc );
     if( ret != 0 ) goto end;
 
     strHex = getHexString( &binEnc );

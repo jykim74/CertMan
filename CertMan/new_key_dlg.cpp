@@ -178,9 +178,9 @@ void NewKeyDlg::accept()
         int nParam = 0;
 
         if( strParam == kParamEd25519 )
-            nParam = JS_PKI_KEY_TYPE_ED25519;
+            nParam = JS_EDDSA_PARAM_25519;
         else if( strParam == kParamEd448 )
-            nParam = JS_PKI_KEY_TYPE_ED448;
+            nParam = JS_EDDSA_PARAM_448;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }

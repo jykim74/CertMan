@@ -198,20 +198,20 @@ void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool 
     if( pKey == NULL || pKey->nLen <= 0 ) return;
 
     if( strParam == kParamEd25519 )
-        nType = JS_PKI_KEY_TYPE_ED25519;
+        nType = JS_EDDSA_PARAM_25519;
     else
-        nType = JS_PKI_KEY_TYPE_ED448;
+        nType = JS_EDDSA_PARAM_448;
 
     memset( &sRawKeyVal, 0x00, sizeof(sRawKeyVal));
 
     if( bPri == true )
-        ret = JS_PKI_getRawKeyVal( nType, pKey, &sRawKeyVal );
+        ret = JS_PKI_getRawKeyVal( pKey, &sRawKeyVal );
     else
-        ret = JS_PKI_getRawKeyValFromPub( nType, pKey, &sRawKeyVal );
+        ret = JS_PKI_getRawKeyValFromPub( pKey, &sRawKeyVal );
 
     if( ret == 0 )
     {
-        mEdDSA_NameText->setText( sRawKeyVal.pName );
+        mEdDSA_NameText->setText( sRawKeyVal.pAlg );
         mEdDSA_RawPublicText->setPlainText( sRawKeyVal.pPub );
         mEdDSA_RawPrivateText->setPlainText( sRawKeyVal.pPri );
     }
@@ -898,20 +898,10 @@ void PriKeyInfoDlg::clickInsertToHSM()
     }
     else if( strAlg == "EdDSA" )
     {
-        int nKeyType = JS_PKI_KEY_TYPE_ED25519;
         QString strED_Name = mEdDSA_NameText->text();
 
-        if( strED_Name == "ED448" )
-        {
-            nKeyType = JS_PKI_KEY_TYPE_ED448;
-        }
-        else
-        {
-            nKeyType = JS_PKI_KEY_TYPE_ED25519;
-        }
-
         addKey.setAlg( kMechPKCS11_EdDSA );
-        JS_PKI_getRawKeyVal( nKeyType, &binPri, &sRawKey );
+        JS_PKI_getRawKeyVal( &binPri, &sRawKey );
 
         ret = createEDPrivateKeyP11( pCTX, strName, &binHash, &sRawKey );
         if( ret != 0 ) goto end;

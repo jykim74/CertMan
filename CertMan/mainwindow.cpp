@@ -1200,7 +1200,7 @@ int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const B
         strAlg = kMechRSA;
         strParam = QString( "%1" ).arg( nOption );
     }
-    else if( nType == JS_PKI_KEY_TYPE_ECC || nType == JS_PKI_KEY_TYPE_SM2 )
+    else if( nType == JS_PKI_KEY_TYPE_ECDSA || nType == JS_PKI_KEY_TYPE_SM2 )
     {
         strAlg = kMechEC;
         strParam = JS_PKI_getSNFromNid( nOption );
@@ -1210,15 +1210,10 @@ int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const B
         strAlg = kMechDSA;
         strParam = QString( "%1" ).arg( nOption );
     }
-    else if( nType == JS_PKI_KEY_TYPE_ED25519 )
+    else if( nType == JS_PKI_KEY_TYPE_EDDSA )
     {
         strAlg = kMechEdDSA;
-        strParam = kParamEd25519;
-    }
-    else if( nType == JS_PKI_KEY_TYPE_ED448 )
-    {
-        strAlg = kMechEdDSA;
-        strParam = kParamEd448;
+        strParam = JS_EDDSA_getParamName( nOption );
     }
     else {
         return -1;
@@ -3265,9 +3260,9 @@ void MainWindow::issueCMP()
     {
         int nParam = 0;
         if( strParam == "Ed448" )
-            nParam = JS_PKI_KEY_TYPE_ED448;
+            nParam = JS_EDDSA_PARAM_448;
         else
-            nParam = JS_PKI_KEY_TYPE_ED25519;
+            nParam = JS_EDDSA_PARAM_25519;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binPri );
     }
@@ -3429,9 +3424,9 @@ void MainWindow::updateCMP()
     {
         int nParam = 0;
         if( strParam == "Ed448" )
-            nParam = JS_PKI_KEY_TYPE_ED448;
+            nParam = JS_EDDSA_PARAM_448;
         else
-            nParam = JS_PKI_KEY_TYPE_ED25519;
+            nParam = JS_EDDSA_PARAM_25519;
 
         ret = JS_PKI_EdDSA_GenKeyPair( nParam, &binPub, &binNewPri );
     }
@@ -3863,9 +3858,9 @@ void MainWindow::renewSCEP()
     {
         ret = JS_PKI_DSA_GenKeyPair( nOption, &binPub, &binPri );
     }
-    else if( nKeyType == JS_PKI_KEY_TYPE_ED25519 || nKeyType == JS_PKI_KEY_TYPE_ED448 )
+    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
     {
-        ret = JS_PKI_EdDSA_GenKeyPair( nKeyType, &binPub, &binPri );
+        ret = JS_PKI_EdDSA_GenKeyPair( nOption, &binPub, &binPri );
     }
 
     if( ret != 0 )
@@ -5436,7 +5431,7 @@ void MainWindow::createRightKMSList()
         right_table_->setRowHeight(i, 10 );
 
         QString strType = JS_KMS_getObjectTypeName( kms.getType() );
-        QString strAlgorithm = JS_PKI_getKeyTypeName( kms.getAlgorithm() );
+        QString strAlgorithm = JS_PKI_getKeyAlgName( kms.getAlgorithm() );
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( kms.getSeq() ));
         seq->setIcon(QIcon(":/images/kms.png"));
@@ -6198,7 +6193,7 @@ void MainWindow::infoKMS( int seq )
     manApplet->dbMgr()->getKMSRec( seq, kmsRec );
 
     QString strType = JS_KMS_getObjectTypeName( kmsRec.getType() );
-    QString strAlgorithm = JS_PKI_getKeyTypeName( kmsRec.getAlgorithm() );
+    QString strAlgorithm = JS_PKI_getKeyAlgName( kmsRec.getAlgorithm() );
 
     manApplet->mainWindow()->infoClear();
     infoLine();

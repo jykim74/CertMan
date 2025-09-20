@@ -344,7 +344,7 @@ void CAManDlg::loadCACertList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
             else if( strType == kMechSM2 )
             {
@@ -357,7 +357,7 @@ void CAManDlg::loadCACertList()
             }
             else if( strType == kMechEdDSA )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
             }
         }
 
@@ -407,7 +407,7 @@ void CAManDlg::loadKeyPairList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
             else if( strType == kMechSM2 )
             {
@@ -420,7 +420,7 @@ void CAManDlg::loadKeyPairList()
             }
             else if( strType == kMechEdDSA )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
             }
         }
 
@@ -468,7 +468,7 @@ void CAManDlg::loadCSRList()
             }
             else if( strType == kMechEC )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ECC ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_ECDSA ) continue;
             }
             else if( strType == kMechSM2 )
             {
@@ -481,7 +481,7 @@ void CAManDlg::loadCSRList()
             }
             else if( strType == kMechEdDSA )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_ED25519 && nKeyType != JS_PKI_KEY_TYPE_ED448 ) continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_EDDSA ) continue;
             }
         }
 

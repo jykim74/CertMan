@@ -2231,7 +2231,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         JS_BIN_set( &binXY, &binVal.pVal[2], binVal.nLen - 2);
 
         JS_BIN_encodeHex( &binXY, &pPubHex );
-        JS_PKI_setRawKeyVal( &sRawKey, pPubHex, NULL, strParam.toStdString().c_str() );
+        JS_PKI_setRawKeyVal( &sRawKey, JS_PKI_KEY_NAME_EDDSA, strParam.toStdString().c_str(), pPubHex, NULL );
         rv = JS_PKI_encodeRawPublicKey( &sRawKey, pPub );
 
         JS_PKI_resetRawKeyVal( &sRawKey );
@@ -2317,7 +2317,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     }
     else if( strAlg == kMechKMIP_EC )
     {
-        nAlg = JS_PKI_KEY_TYPE_ECC;
+        nAlg = JS_PKI_KEY_TYPE_ECDSA;
         nParam = KMIP_CURVE_P_256;
     }
     else
@@ -2394,7 +2394,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
     {
         JS_BIN_copy( pPub, &binData );
     }
-    else if( nAlg == JS_PKI_KEY_TYPE_ECC )
+    else if( nAlg == JS_PKI_KEY_TYPE_ECDSA )
     {
         char *pPubX = NULL;
         char *pPubY = NULL;
@@ -2922,7 +2922,7 @@ int createEDPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pI
     sTemplate[uCount].ulValueLen = sizeof(keyType);
     uCount++;
 
-    QString strECParams = pRawKeyVal->pName;
+    QString strECParams = pRawKeyVal->pParam;
     BIN binECParams = {0,0};
 
     if( !strECParams.isEmpty() )
@@ -3012,7 +3012,7 @@ int createEDPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
     sTemplate[uCount].ulValueLen = sizeof(keyType);
     uCount++;
 
-    QString strECParams = pRawKeyVal->pName;
+    QString strECParams = pRawKeyVal->pParam;
     BIN binECParams = {0,0};
 
     if( !strECParams.isEmpty() )
@@ -4097,17 +4097,14 @@ int getKeyType( const QString& strAlg, const QString& strParam )
     if( strAlg == kMechRSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
     else if( strAlg == kMechEC || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
-        nKeyType = JS_PKI_KEY_TYPE_ECC;
+        nKeyType = JS_PKI_KEY_TYPE_ECDSA;
     else if( strAlg == kMechDSA || strAlg == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
     else if( strAlg == kMechSM2 )
         nKeyType = JS_PKI_KEY_TYPE_SM2;
     else if( strAlg == kMechEdDSA )
     {
-        if( strParam == kParamEd25519 )
-            nKeyType = JS_PKI_KEY_TYPE_ED25519;
-        else
-            nKeyType = JS_PKI_KEY_TYPE_ED448;
+        nKeyType = JS_PKI_KEY_TYPE_EDDSA;
     }
 
     return nKeyType;
@@ -4356,7 +4353,7 @@ int writePriKeyPEM( const BIN *pPriKey, const QString strPath )
         nFileType = JS_PEM_TYPE_RSA_PRIVATE_KEY;
         break;
 
-    case JS_PKI_KEY_TYPE_ECC:
+    case JS_PKI_KEY_TYPE_ECDSA:
     case JS_PKI_KEY_TYPE_SM2:
         nFileType = JS_PEM_TYPE_EC_PRIVATE_KEY;
         break;
@@ -4387,7 +4384,7 @@ int writePubKeyPEM( const BIN *pPubKey, const QString strPath )
         nFileType = JS_PEM_TYPE_RSA_PUBLIC_KEY;
         break;
 
-    case JS_PKI_KEY_TYPE_ECC:
+    case JS_PKI_KEY_TYPE_ECDSA:
     case JS_PKI_KEY_TYPE_SM2:
         nFileType = JS_PEM_TYPE_EC_PUBLIC_KEY;
         break;
