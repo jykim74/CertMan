@@ -28,6 +28,15 @@ DEFINES += _USE_LCN_SRV
 
 CONFIG += sdk_no_version_check
 
+PQC = TRUE
+
+isEqual( PQC, TRUE ) {
+    DEFINES += PQC
+    OPENSSL = "openssl35"
+} else {
+    OPENSSL = "openssl3"
+}
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -260,13 +269,13 @@ mac {
     CONFIG( debug, debug | release ) {
         message( "CertMan Debug" );
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Debug" -lPKILib
-        LIBS += -L"../../lib/mac/debug/openssl3/lib" -lcrypto -lssl
-        INCLUDEPATH += "../../lib/mac/debug/openssl3/include"
+        LIBS += -L"../../lib/mac/debug/$$OPENSSL/lib" -lcrypto -lssl
+        INCLUDEPATH += "../../lib/mac/debug/$$OPENSSL/include"
     } else {
         message( "CertMan Release" );
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_15_2_clang_64bit-Release" -lPKILib
-        LIBS += -L"../../lib/mac/openssl3/lib" -lcrypto -lssl
-        INCLUDEPATH += "../../lib/mac/openssl3/include"
+        LIBS += -L"../../lib/mac/$$OPENSSL/lib" -lcrypto -lssl
+        INCLUDEPATH += "../../lib/mac/$$OPENSSL/include"
     }
 
     LIBS += -L"/usr/local/lib" -lltdl
@@ -284,10 +293,10 @@ win32 {
 
         Debug {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Debug" -lPKILib
-            LIBS += -L"../../lib/win32/debug/openssl3/lib" -lcrypto -lssl
+            LIBS += -L"../../lib/win32/debug/$$OPENSSL/lib" -lcrypto -lssl
         } else {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_32_bit-Release" -lPKILib
-            LIBS += -L"../../lib/win32/openssl3/lib" -lcrypto -lssl
+            LIBS += -L"../../lib/win32/$$OPENSSL/lib" -lcrypto -lssl
         }
 
         LIBS += -L"../../lib/win32" -lltdl -lldap -llber
@@ -299,10 +308,10 @@ win32 {
 
         Debug {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Debug" -lPKILib
-            LIBS += -L"../../lib/win64/debug/openssl3/lib64" -lcrypto -lssl
+            LIBS += -L"../../lib/win64/debug/$$OPENSSL/lib64" -lcrypto -lssl
         } else {
             LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_MinGW_64_bit-Release" -lPKILib
-            LIBS += -L"../../lib/win64/openssl3/lib64" -lcrypto -lssl
+            LIBS += -L"../../lib/win64/$$OPENSSL/lib64" -lcrypto -lssl
         }
 
         LIBS += -L"../../lib/win64" -lltdl -lldap -llber
@@ -313,10 +322,10 @@ win32 {
 linux {
     CONFIG( debug, debug | release ) {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Debug" -lPKILib
-        LIBS += -L"../../lib/linux/debug/openssl3/lib64" -lcrypto -lssl
+        LIBS += -L"../../lib/linux/debug/$$OPENSSL/lib64" -lcrypto -lssl
     } else {
         LIBS += -L"../../build-PKILib-Desktop_Qt_5_13_2_GCC_64bit-Release" -lPKILib
-        LIBS += -L"../../lib/linux/openssl3/lib64" -lcrypto -lssl
+        LIBS += -L"../../lib/linux/$$OPENSSL/lib64" -lcrypto -lssl
     }
 
     LIBS += -lltdl -lldap -llber

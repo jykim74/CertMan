@@ -154,6 +154,8 @@ void MakeReqDlg::initialize()
         mDSARadio->setEnabled(false);
         mEdDSARadio->setEnabled(false);
         mSM2Radio->setEnabled(false);
+        mML_DSARadio->setEnabled( false );
+        mSLH_DSARadio->setEnabled( false );
     }
 
     mRSARadio->click();
@@ -630,9 +632,15 @@ void MakeReqDlg::keyNumChanged()
         mHashCombo->setCurrentText( "SM3" );
 
     if( keyRec.getAlg() == JS_PKI_KEY_NAME_EDDSA || keyRec.getAlg() == JS_PKI_KEY_NAME_ML_DSA || keyRec.getAlg() == JS_PKI_KEY_NAME_SLH_DSA )
-        mHashCombo->setEnabled(false);
+    {
+        mHashLabel->setEnabled( false );
+        mHashCombo->setEnabled( false );
+    }
     else
-        mHashCombo->setEnabled(true);
+    {
+        mHashLabel->setEnabled( true );
+        mHashCombo->setEnabled( true );
+    }
 
     QString strTitle = keyRec.getName();
     strTitle += "_CSR";

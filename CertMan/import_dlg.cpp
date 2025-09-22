@@ -18,6 +18,7 @@
 #include "js_pki_eddsa.h"
 #include "js_define.h"
 #include "crl_info_dlg.h"
+#include "js_pqc.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -342,6 +343,13 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
     {   
         strParam = JS_EDDSA_getParamName( nParam );
+
+        JS_PKI_getRawKeyVal( pPriKey, &sRawKey );
+        JS_PKI_getRawPublicKeyFromPri( pPriKey, &binPub );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA || nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
+    {
+        strParam = JS_PQC_paramName( nParam );
 
         JS_PKI_getRawKeyVal( pPriKey, &sRawKey );
         JS_PKI_getRawPublicKeyFromPri( pPriKey, &binPub );
