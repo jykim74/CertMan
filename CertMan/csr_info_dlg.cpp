@@ -68,6 +68,7 @@ void CSRInfoDlg::initialize()
     int ret = 0;
     BIN binCSR = {0,0};
     BIN binPub = {0,0};
+    BIN binKID = {0,0};
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -96,6 +97,11 @@ void CSRInfoDlg::initialize()
         manApplet->warningBox( tr("fail to obtain CSR information [%1]").arg(ret), this );
         goto end;
     }
+
+    JS_PKI_getPubKeyFromCSR( &binCSR, &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binKID );
+
+    mKIDText->setText( getHexString( &binKID ));
 
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
@@ -128,7 +134,7 @@ void CSRInfoDlg::initialize()
         QString strAlg;
         QString strParam;
 
-        JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+//        JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
         JS_PKI_getPubKeyInfo( &binPub, &nKeyType, &nOption );
 
         strAlg = JS_PKI_getKeyAlgName( nKeyType );
@@ -227,6 +233,8 @@ void CSRInfoDlg::initialize()
 end :
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKID );
+
     JS_PKI_resetReqInfo( &sReqInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 }

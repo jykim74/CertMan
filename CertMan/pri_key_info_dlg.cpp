@@ -671,9 +671,16 @@ void PriKeyInfoDlg::clickGetPrivateKey()
 int PriKeyInfoDlg::readPrivateKey()
 {
     BIN binPri = {0,0};
+    BIN binPub = {0,0};
+    BIN binKID = {0,0};
+
     QString strAlg = key_rec_.getAlg();
 
     manApplet->getPriKey( key_rec_.getPrivateKey(), &binPri );
+
+    JS_PKI_getPubKeyFromPriKey( &binPri, &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binKID );
+    mKIDText->setText( getHexString(&binKID));
 
     if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
@@ -710,6 +717,9 @@ int PriKeyInfoDlg::readPrivateKey()
     }
 
     JS_BIN_reset( &binPri );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKID );
+
     return 0;
 }
 
@@ -724,6 +734,9 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
     QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
     BIN binID = {0,0};
+    BIN binPub = {0,0};
+    BIN binKID = {0,0};
+
     JP11_CTX *pCTX = (JP11_CTX *)manApplet->P11CTX();
     ret = getP11Session( pCTX, nIndex, strPIN );
 
@@ -737,6 +750,11 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
     mKeyPairCheckBtn->setEnabled( false );
 
     JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binID );
+    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binKID );
+
+    mKIDText->setText( getHexString( &binKID ));
+
     hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
     if( hKey <= 0 )
     {
@@ -781,6 +799,9 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
 end :
     JS_PKCS11_CloseSession( pCTX );
     JS_BIN_reset( &binID );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKID );
+
     return ret;
 }
 
