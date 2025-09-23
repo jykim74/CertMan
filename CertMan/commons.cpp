@@ -4403,3 +4403,11 @@ int writePubKeyPEM( const BIN *pPubKey, const QString strPath )
 
     return JS_BIN_writePEM( pPubKey, nFileType, strPath.toLocal8Bit().toStdString().c_str() );
 }
+
+void setFixedLineText( QLineEdit *pEdit, const QString strText )
+{
+    pEdit->setText( strText );
+    QFontMetrics fm( pEdit->font() );
+    int width = fm.horizontalAdvance( strText ) + 10;
+    pEdit->setFixedWidth(width);
+}

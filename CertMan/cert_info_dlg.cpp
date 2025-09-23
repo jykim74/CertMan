@@ -15,6 +15,7 @@
 #include "js_pki_pvd.h"
 #include "js_error.h"
 #include "commons.h"
+#include "pri_key_info_dlg.h"
 
 enum {
     FIELD_ALL = 0,
@@ -154,7 +155,8 @@ void CertInfoDlg::getFields()
     JS_PKI_getKeyIdentifier( &binPub, &binKID );
     JS_PKI_genHash( "SHA1", &binCert, &binFinger );
 
-    mKIDText->setText( getHexString( &binKID ));
+//    mKIDText->setText( getHexString( &binKID ));
+    setFixedLineText( mKIDText, getHexString( &binKID ));
 
     if( nType == FIELD_ALL || nType == FIELD_VERSION1_ONLY )
     {
@@ -451,6 +453,39 @@ void CertInfoDlg::clickCheck()
 
     if( pChainList ) JS_BIN_resetList( &pChainList );
     JS_BIN_reset( &binCert );
+}
+
+void CertInfoDlg::clickViewPubKey()
+{
+    BIN binCert = {0,0};
+    BIN binPub = {0,0};
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    if( cert_num_ < 0 )
+    {
+        manApplet->warningBox( tr( "Select a certificate"), this );
+        this->hide();
+        return;
+    }
+
+    clearTable();
+
+    CertRec cert;
+    dbMgr->getCertRec( cert_num_, cert );
+    JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+    JS_PKI_getPubKeyFromCert( &binCert, &binPub );
+
+    if( binPub.nLen > 0 )
+    {
+        PriKeyInfoDlg priKeyInfo;
+        priKeyInfo.setPublicKey( &binPub );
+        priKeyInfo.exec();
+    }
+
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binPub );
 }
 
 void CertInfoDlg::clickVerifyCert()

@@ -13,6 +13,8 @@
 #include "js_pki_ext.h"
 #include "js_pki_tools.h"
 
+#include "pri_key_info_dlg.h"
+
 CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -21,6 +23,7 @@ CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
 
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mViewPubKeyBtn, SIGNAL(clicked()), this, SLOT(clickViewPubKey()));
 
     mCloseBtn->setDefault(true);
 
@@ -101,7 +104,8 @@ void CSRInfoDlg::initialize()
     JS_PKI_getPubKeyFromCSR( &binCSR, &binPub );
     JS_PKI_getKeyIdentifier( &binPub, &binKID );
 
-    mKIDText->setText( getHexString( &binKID ));
+//    mKIDText->setText( getHexString( &binKID ));
+    setFixedLineText( mKIDText, getHexString( &binKID ));
 
     mFieldTable->insertRow(i);
     mFieldTable->setRowHeight(i,10);
@@ -299,4 +303,36 @@ void CSRInfoDlg::clickField(QModelIndex index)
     {
         mDetailText->setPlainText( item1->text() );
     }
+}
+
+void CSRInfoDlg::clickViewPubKey()
+{
+    BIN binCSR = {0,0};
+    BIN binPub = {0,0};
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    if( csr_num_ < 0 )
+    {
+        manApplet->warningBox( tr( "Select a CSR"), this );
+        this->hide();
+        return;
+    }
+
+    ReqRec req;
+    dbMgr->getReqRec( csr_num_, req );
+
+    JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
+    JS_PKI_getPubKeyFromCSR( &binCSR, &binPub );
+
+    if( binPub.nLen > 0 )
+    {
+        PriKeyInfoDlg priKeyInfo;
+        priKeyInfo.setPublicKey( &binPub );
+        priKeyInfo.exec();
+    }
+
+    JS_BIN_reset( &binCSR );
+    JS_BIN_reset( &binPub );
 }

@@ -27,6 +27,8 @@ public:
     ~PriKeyInfoDlg();
 
     void setKeyNum( int key_num );
+    void setPrivateKey( const BIN *pPriKey );
+    void setPublicKey( const BIN *pPubKey );
 
 private slots:
     void showEvent(QShowEvent *event);
@@ -64,11 +66,12 @@ private:
 
     int readPrivateKey();
     int readPrivateKeyHSM();
+    void setKey( const BIN *pKey, bool bPri );
 
     void setRSAKey( const BIN *pKey, bool bPri = true );
     void setECCKey( const BIN *pKey, bool bPri = true );
     void setDSAKey( const BIN *pKey, bool bPri = true );
-    void setEdDSAKey( const QString& strParam, const BIN *pKey, bool bPri = true );
+    void setEdDSAKey( const BIN *pKey, bool bPri = true );
 
     void setRSAKey( CK_OBJECT_HANDLE hKey, bool bPri = true );
     void setECCKey( CK_OBJECT_HANDLE hKey, bool bPri = true );

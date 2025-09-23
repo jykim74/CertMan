@@ -312,4 +312,6 @@ const QString getParamLabel( const QString strAlg );
 
 int writePriKeyPEM( const BIN *pPriKey, const QString strPath );
 int writePubKeyPEM( const BIN *pPubKey, const QString strPath );
+
+void setFixedLineText( QLineEdit *pEdit, const QString strText );
 #endif // COMMONS_H

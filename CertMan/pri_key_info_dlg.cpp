@@ -71,6 +71,7 @@ PriKeyInfoDlg::PriKeyInfoDlg(QWidget *parent) :
     mEdDSATab->layout()->setMargin(5);
 #endif
 
+    initialize();
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }
 
@@ -86,6 +87,18 @@ void PriKeyInfoDlg::setKeyNum( int key_num )
 
     if( dbMgr == NULL ) return;
     dbMgr->getKeyPairRec( key_num, key_rec_ );
+
+    clickGetPrivateKey();
+}
+
+void PriKeyInfoDlg::setPrivateKey( const BIN *pPriKey )
+{
+    setKey( pPriKey, true );
+}
+
+void PriKeyInfoDlg::setPublicKey( const BIN *pPubKey )
+{
+    setKey( pPubKey, false );
 }
 
 void PriKeyInfoDlg::initialize()
@@ -95,15 +108,13 @@ void PriKeyInfoDlg::initialize()
     mKeyTab->setTabEnabled(2, false);
     mKeyTab->setTabEnabled(3, false);
 
-    clickGetPrivateKey();
-
     if( manApplet->settingsMgr()->PKCS11Use() == false )
         mInsertToHSMBtn->hide();
 }
 
 void PriKeyInfoDlg::showEvent(QShowEvent *event)
 {
-    initialize();
+
 }
 
 void PriKeyInfoDlg::setRSAKey( const BIN *pKey, bool bPri )
@@ -189,18 +200,12 @@ void PriKeyInfoDlg::setDSAKey( const BIN *pKey, bool bPri )
     JS_PKI_resetDSAKeyVal( &sDSAKey );
 }
 
-void PriKeyInfoDlg::setEdDSAKey( const QString& strParam, const BIN *pKey, bool bPri )
+void PriKeyInfoDlg::setEdDSAKey( const BIN *pKey, bool bPri )
 {
     int ret = 0;
-    int nType = 0;
+
     JRawKeyVal sRawKeyVal;
-
     if( pKey == NULL || pKey->nLen <= 0 ) return;
-
-    if( strParam == JS_EDDSA_PARAM_NAME_25519 )
-        nType = JS_EDDSA_PARAM_25519;
-    else
-        nType = JS_EDDSA_PARAM_448;
 
     memset( &sRawKeyVal, 0x00, sizeof(sRawKeyVal));
 
@@ -680,7 +685,8 @@ int PriKeyInfoDlg::readPrivateKey()
 
     JS_PKI_getPubKeyFromPriKey( &binPri, &binPub );
     JS_PKI_getKeyIdentifier( &binPub, &binKID );
-    mKIDText->setText( getHexString(&binKID));
+//    mKIDText->setText( getHexString(&binKID));
+    setFixedLineText( mKIDText, getHexString( &binKID ));
 
     if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
@@ -709,7 +715,7 @@ int PriKeyInfoDlg::readPrivateKey()
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         mKeyTab->setTabText(3, strAlg );
-        setEdDSAKey( key_rec_.getParam(), &binPri );
+        setEdDSAKey( &binPri );
     }
     else
     {
@@ -750,10 +756,13 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
     mKeyPairCheckBtn->setEnabled( false );
 
     JS_BIN_decodeHex( key_rec_.getPrivateKey().toStdString().c_str(), &binID );
-    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+//    JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
+
+    JS_PKCS11_getPublicKey( pCTX, hKey, &binPub );
     JS_PKI_getKeyIdentifier( &binPub, &binKID );
 
-    mKIDText->setText( getHexString( &binKID ));
+//    mKIDText->setText( getHexString( &binKID ));
+    setFixedLineText( mKIDText, getHexString( &binKID ));
 
     hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
     if( hKey <= 0 )
@@ -805,6 +814,77 @@ end :
     return ret;
 }
 
+void PriKeyInfoDlg::setKey( const BIN *pKey, bool bPri )
+{
+    clickClear();
+
+    int nKeyType = -1;
+    BIN binPub = {0,0};
+    BIN binKID = {0,0};
+    QString strLabel;
+
+    if( pKey == NULL || pKey->nLen <= 0 )
+        return;
+
+    if( bPri == true )
+    {
+        strLabel = tr( "Private Key Information" );
+        JS_PKI_getPubKeyFromPriKey( pKey, &binPub );
+        nKeyType = JS_PKI_getPriKeyType( pKey );
+    }
+    else
+    {
+        strLabel = tr( "Public Key Information" );
+        JS_BIN_copy( &binPub, pKey );
+        nKeyType = JS_PKI_getPubKeyType( pKey );
+    }
+
+    mTitleLabel->setText( strLabel );
+    JS_PKI_getKeyIdentifier( &binPub, &binKID );
+
+    //    mKIDText->setText( getHexString( &binKID ));
+    setFixedLineText( mKIDText, getHexString( &binKID ));
+
+    if( nKeyType < 0 ) return;
+
+    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+    {
+        mKeyTab->setCurrentIndex(0);
+        mKeyTab->setTabEnabled(0, true);
+        setRSAKey( pKey, bPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA || nKeyType == JS_PKI_KEY_TYPE_SM2 )
+    {
+        mKeyTab->setCurrentIndex(1);
+        mKeyTab->setTabEnabled(1, true);
+        setECCKey( pKey, bPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+    {
+        mKeyTab->setCurrentIndex( 2 );
+        mKeyTab->setTabEnabled(2, true);
+        setDSAKey( nKeyType );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA
+             || nKeyType == JS_PKI_KEY_TYPE_ML_KEM
+             || nKeyType == JS_PKI_KEY_TYPE_ML_DSA
+             || nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
+    {
+        QString strAlg = JS_PKI_getKeyAlgName( nKeyType );
+        mKeyTab->setCurrentIndex( 3 );
+        mKeyTab->setTabText( 3, strAlg );
+        mKeyTab->setTabEnabled(3, true);
+        setEdDSAKey( pKey, bPri );
+    }
+    else
+    {
+        manApplet->warningBox( tr("Private key algorithm(%1) not supported").arg( nKeyType ), this);
+    }
+
+    JS_BIN_reset( &binKID );
+    JS_BIN_reset( &binPub );
+}
+
 void PriKeyInfoDlg::clickGetPublicKey()
 {
     BIN binPub = {0,0};
@@ -840,14 +920,14 @@ void PriKeyInfoDlg::clickGetPublicKey()
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
-        setEdDSAKey( key_rec_.getParam(), &binPub, false );
+        setEdDSAKey( &binPub, false );
     }
     else if( strAlg == JS_PKI_KEY_NAME_ML_DSA || strAlg == JS_PKI_KEY_NAME_SLH_DSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
         mKeyTab->setTabText( 3, strAlg );
-        setEdDSAKey( key_rec_.getParam(), &binPub, false );
+        setEdDSAKey( &binPub, false );
     }
     else
     {

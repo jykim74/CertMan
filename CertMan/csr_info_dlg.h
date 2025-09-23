@@ -28,6 +28,7 @@ public:
 private slots:
     void showEvent(QShowEvent *event);
     void clickField(QModelIndex index);
+    void clickViewPubKey();
 
 private:
     void initUI();
