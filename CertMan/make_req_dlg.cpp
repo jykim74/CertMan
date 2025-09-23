@@ -167,6 +167,23 @@ void MakeReqDlg::initialize()
     mNewOptionCombo->clear();
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
+
+    int nKeyType = manApplet->settingsMgr()->keyType();
+
+    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+        mRSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
+        mECDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+        mDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_SM2 )
+        mSM2Radio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
+        mEdDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA )
+        mML_DSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
+        mSLH_DSARadio->click();
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
@@ -400,6 +417,7 @@ void MakeReqDlg::accept()
         }
 
         strAlg = getMechanism();
+        manApplet->settingsMgr()->setKeyType( JS_PKI_getKeyAlg( strAlg.toStdString().c_str() ) );
         strParam = mNewOptionCombo->currentText();
     }
     else
@@ -591,6 +609,7 @@ void MakeReqDlg::accept()
         goto end;
     }
 
+
     dbMgr->modKeyPairStatus( keyRec.getNum(), JS_REC_STATUS_USED );
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_CSR, strDN );
 
@@ -683,6 +702,8 @@ void MakeReqDlg::clickRSA()
     mNewExponentLabel->setEnabled(true);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickECDSA()
@@ -696,6 +717,8 @@ void MakeReqDlg::clickECDSA()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickDSA()
@@ -709,6 +732,8 @@ void MakeReqDlg::clickDSA()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickEdDSA()
@@ -721,6 +746,8 @@ void MakeReqDlg::clickEdDSA()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickSM2()
@@ -734,6 +761,8 @@ void MakeReqDlg::clickSM2()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::clickML_DSA()
@@ -746,6 +775,8 @@ void MakeReqDlg::clickML_DSA()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::clickSLH_DSA()
@@ -758,6 +789,8 @@ void MakeReqDlg::clickSLH_DSA()
     mNewExponentLabel->setEnabled(false);
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::checkPKCS11()

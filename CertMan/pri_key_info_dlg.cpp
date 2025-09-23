@@ -223,6 +223,7 @@ void PriKeyInfoDlg::setEdDSAKey( const BIN *pKey, bool bPri )
     }
 
     JS_PKI_resetRawKeyVal( &sRawKeyVal );
+    mInsertToHSMBtn->hide();
 }
 
 void PriKeyInfoDlg::setRSAKey( CK_OBJECT_HANDLE hKey, bool bPri )
@@ -716,6 +717,9 @@ int PriKeyInfoDlg::readPrivateKey()
         mKeyTab->setTabEnabled(3, true);
         mKeyTab->setTabText(3, strAlg );
         setEdDSAKey( &binPri );
+
+        if( strAlg != JS_PKI_KEY_NAME_EDDSA )
+            mInsertToHSMBtn->hide();
     }
     else
     {

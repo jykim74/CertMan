@@ -79,6 +79,16 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     tabWidget->setCurrentIndex(0);
     mCloseBtn->setDefault(true);
 
+    connect( mFieldTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeFieldType(int)));
+
+    connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
+    connect( mVerifyCertBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCert()));
+    connect( mPathValidationBtn, SIGNAL(clicked()), this, SLOT(clickPathValidation()));
+    connect( mViewPubKeyBtn, SIGNAL(clicked()), this, SLOT(clickViewPubKey()));
+
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 
@@ -387,14 +397,7 @@ void CertInfoDlg::initUI()
     mFieldTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mFieldTable->setColumnWidth( 0, 140 );
 
-    connect( mFieldTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeFieldType(int)));
 
-    connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
-    connect( mVerifyCertBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCert()));
-    connect( mPathValidationBtn, SIGNAL(clicked()), this, SLOT(clickPathValidation()));
-
-    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
-    connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
 }
 
 void CertInfoDlg::clickField(QModelIndex index)
@@ -421,8 +424,10 @@ void CertInfoDlg::clickCheck()
     int ret = 0;
     tabWidget->setCurrentIndex(1);
 
+    QString strRes;
     BINList *pChainList = NULL;
     BIN     binCert = {0,0};
+    RevokeRec revokeRec;
 
     for( int i = 0; i < cert_list_.size(); i++ )
     {
@@ -447,8 +452,30 @@ void CertInfoDlg::clickCheck()
     }
 
     ret = JS_PKI_checkValidPath( pChainList, NULL, &binCert );
+    if( ret == X509_V_OK )
+    {
+        ret = manApplet->dbMgr()->getRevokeRecByCertNum( cert_num_, revokeRec );
+        if( ret == 0 )
+        {
+            int nReason = revokeRec.getReason();
+            time_t tRevokeTime = revokeRec.getRevokeDate();
+            char sDateTime[32];
+            QString strReason = JS_PKI_getRevokeReasonName( nReason );
 
-    QString strRes = QString( "%1 [%2]").arg( JS_PKI_checkValidPathMsg(ret) ).arg( ret );
+            JS_UTIL_getDateTime( tRevokeTime, sDateTime );
+
+            strRes = QString( "Revoked\n== Reason: %1\n== Revoked Date: %2" ).arg( strReason ).arg( sDateTime );
+        }
+        else
+        {
+            strRes = QString( "Good" );
+        }
+    }
+    else
+    {
+        strRes = QString( "%1 [%2]").arg( JS_PKI_checkValidPathMsg(ret) ).arg( ret );
+    }
+
     mCertStatusText->setPlainText( strRes );
 
     if( pChainList ) JS_BIN_resetList( &pChainList );
@@ -469,8 +496,6 @@ void CertInfoDlg::clickViewPubKey()
         this->hide();
         return;
     }
-
-    clearTable();
 
     CertRec cert;
     dbMgr->getCertRec( cert_num_, cert );

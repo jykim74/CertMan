@@ -81,7 +81,22 @@ void NewKeyDlg::initialize()
         mSLH_DSARadio->setEnabled( false );
     }
 
-    mRSARadio->click();
+    int nKeyType = manApplet->settingsMgr()->keyType();
+
+    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+        mRSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
+        mECDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+        mDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_SM2 )
+        mSM2Radio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
+        mEdDSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA )
+        mML_DSARadio->click();
+    else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
+        mSLH_DSARadio->click();
 }
 
 void NewKeyDlg::initUI()
@@ -297,6 +312,7 @@ void NewKeyDlg::accept()
     ret = dbMgr->addKeyPairRec( keyPairRec );
     if( ret != 0 ) goto end;
 
+    manApplet->settingsMgr()->setKeyType( JS_PKI_getKeyAlg( strMech.toStdString().c_str()));
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
@@ -328,6 +344,8 @@ void NewKeyDlg::clickRSA()
     mExponentLabel->setEnabled(true);
     mExponentText->setEnabled(true);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickECDSA()
@@ -340,6 +358,8 @@ void NewKeyDlg::clickECDSA()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickDSA()
@@ -352,6 +372,8 @@ void NewKeyDlg::clickDSA()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickEdDSA()
@@ -363,6 +385,8 @@ void NewKeyDlg::clickEdDSA()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickSM2()
@@ -375,6 +399,8 @@ void NewKeyDlg::clickSM2()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::clickML_DSA()
@@ -386,6 +412,8 @@ void NewKeyDlg::clickML_DSA()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::clickSLH_DSA()
@@ -397,6 +425,8 @@ void NewKeyDlg::clickSLH_DSA()
     mExponentLabel->setEnabled(false);
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
+
+    mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::checkPKCS11()
