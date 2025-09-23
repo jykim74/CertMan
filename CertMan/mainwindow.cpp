@@ -18,6 +18,7 @@
 #include "js_pki_tools.h"
 #include "js_define.h"
 #include "js_error.h"
+#include "js_pqc.h"
 
 #include "commons.h"
 #include "mainwindow.h"
@@ -3871,6 +3872,19 @@ void MainWindow::renewSCEP()
     else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
     {
         ret = JS_PKI_EdDSA_GenKeyPair( nOption, &binPub, &binPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA )
+    {
+        ret = JS_ML_DSA_genKeyPair( nOption, &binPub, &binPri );
+    }
+    else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
+    {
+        ret = JS_SLH_DSA_genKeyPair( nOption, &binPub, &binPri );
+    }
+    else
+    {
+        manApplet->warningBox( tr( "invalid key type [%1]").arg(nKeyType), this );
+        goto end;
     }
 
     if( ret != 0 )
