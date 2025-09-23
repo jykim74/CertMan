@@ -28,14 +28,7 @@ DEFINES += _USE_LCN_SRV
 
 CONFIG += sdk_no_version_check
 
-PQC = TRUE
-
-isEqual( PQC, TRUE ) {
-    DEFINES += PQC
-    OPENSSL = "openssl35"
-} else {
-    OPENSSL = "openssl3"
-}
+OPENSSL = "openssl35"
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.

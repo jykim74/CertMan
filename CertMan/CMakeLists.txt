@@ -27,16 +27,7 @@ add_definitions( -D_USE_LCN_SRV )
 # find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
 # find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core5Compat)
 
-set( PQC "TRUE" )
-
-if( ${PQC} )
-    message( "PQC ON" )
-    add_definitions( -DPQC )
-    set( OPENSSL "openssl35" )
-else()
-    message( "PQC OFF" )
-    set( OPENSSL "openssl3" )
-endif()
+set( OPENSSL "openssl35" )
 
 if(APPLE)
     SET(platform_specific_sources ${platform_specific_sources} mac_sparkle_support.mm)
