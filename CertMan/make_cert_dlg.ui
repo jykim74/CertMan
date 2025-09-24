@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>601</height>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -607,6 +607,18 @@
       <string>Issuer Certificate Information</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_6">
         <property name="topMargin">
@@ -847,6 +859,18 @@
       <string>User Information</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_8">
         <property name="topMargin">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>518</width>
-    <height>390</height>
+    <width>524</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,6 +96,18 @@
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="2">
@@ -173,6 +185,18 @@
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="1">

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>514</width>
-    <height>331</height>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,45 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Key Information</string>
+    <layout class="QGridLayout" name="gridLayout_5">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Key Information</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mKMIPCheck">
+       <property name="text">
+        <string>To KMIP</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="mPKCS11Check">
+       <property name="text">
+        <string>To PKCS#11</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line">
@@ -59,60 +93,6 @@
          <width>400</width>
          <height>0</height>
         </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QGridLayout" name="gridLayout_4">
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="mKMIPCheck">
-       <property name="text">
-        <string>KMIP</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Use Device</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QCheckBox" name="mPKCS11Check">
-       <property name="text">
-        <string>PKCS#11</string>
        </property>
       </widget>
      </item>
@@ -307,8 +287,6 @@
  </widget>
  <tabstops>
   <tabstop>mNameText</tabstop>
-  <tabstop>mPKCS11Check</tabstop>
-  <tabstop>mKMIPCheck</tabstop>
   <tabstop>mRSARadio</tabstop>
   <tabstop>mECDSARadio</tabstop>
   <tabstop>mDSARadio</tabstop>

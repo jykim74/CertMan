@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>600</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -41,6 +41,12 @@
      </property>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Name</string>
        </property>
@@ -50,7 +56,7 @@
       <widget class="QLineEdit" name="mNameText">
        <property name="minimumSize">
         <size>
-         <width>540</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -119,8 +125,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>355</height>
+        <width>576</width>
+        <height>334</height>
        </rect>
       </property>
       <attribute name="label">
@@ -139,6 +145,18 @@
           <string>Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_26">
             <item row="0" column="3">
@@ -478,13 +496,25 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>100</height>
+           <height>0</height>
           </size>
          </property>
          <property name="title">
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_7">
             <property name="topMargin">
@@ -516,8 +546,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>355</height>
+        <width>576</width>
+        <height>333</height>
        </rect>
       </property>
       <attribute name="label">
@@ -896,8 +926,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>355</height>
+        <width>576</width>
+        <height>339</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1062,8 +1092,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>355</height>
+        <width>576</width>
+        <height>333</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1292,8 +1322,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>355</height>
+        <width>576</width>
+        <height>333</height>
        </rect>
       </property>
       <attribute name="label">

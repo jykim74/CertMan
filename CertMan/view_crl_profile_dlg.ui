@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>520</height>
+    <height>555</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -106,7 +106,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -116,7 +116,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>596</width>
+        <width>590</width>
         <height>350</height>
        </rect>
       </property>
@@ -130,6 +130,18 @@
           <string>Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
@@ -356,24 +368,23 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QGroupBox" name="mExtensionsGroup">
          <property name="title">
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="topMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <property name="bottomMargin">
+           <number>9</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_6">
             <property name="topMargin">
@@ -394,6 +405,19 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="mExtension">
@@ -401,8 +425,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>596</width>
-        <height>350</height>
+        <width>590</width>
+        <height>357</height>
        </rect>
       </property>
       <attribute name="label">

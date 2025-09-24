@@ -199,6 +199,15 @@ void CertInfoDlg::getFields()
         mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sNotAfter)));
         i++;
 
+        if( sCertInfo.pIssuerName )
+        {
+            mFieldTable->insertRow(i);
+            mFieldTable->setRowHeight(i,10);
+            mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("IssuerName")));
+            mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pIssuerName)));
+            i++;
+        }
+
         if( sCertInfo.pSubjectName )
         {
             QString name = QString::fromUtf8( sCertInfo.pSubjectName );
@@ -245,15 +254,6 @@ void CertInfoDlg::getFields()
 
             item->setData( Qt::UserRole, QString( sCertInfo.pPublicKey ) );
             mFieldTable->setItem( i, 1, item );
-            i++;
-        }
-
-        if( sCertInfo.pIssuerName )
-        {
-            mFieldTable->insertRow(i);
-            mFieldTable->setRowHeight(i,10);
-            mFieldTable->setItem(i, 0, new QTableWidgetItem(tr("IssuerName")));
-            mFieldTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(sCertInfo.pIssuerName)));
             i++;
         }
 

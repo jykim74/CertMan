@@ -257,9 +257,9 @@
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="104"/>
-        <location filename="../ca_man_dlg.ui" line="213"/>
-        <location filename="../ca_man_dlg.ui" line="321"/>
+        <location filename="../ca_man_dlg.ui" line="116"/>
+        <location filename="../ca_man_dlg.ui" line="237"/>
+        <location filename="../ca_man_dlg.ui" line="357"/>
         <location filename="../ca_man_dlg.cpp" line="234"/>
         <location filename="../ca_man_dlg.cpp" line="250"/>
         <location filename="../ca_man_dlg.cpp" line="266"/>
@@ -267,9 +267,9 @@
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="111"/>
-        <location filename="../ca_man_dlg.ui" line="206"/>
-        <location filename="../ca_man_dlg.ui" line="314"/>
+        <location filename="../ca_man_dlg.ui" line="123"/>
+        <location filename="../ca_man_dlg.ui" line="230"/>
+        <location filename="../ca_man_dlg.ui" line="350"/>
         <location filename="../ca_man_dlg.cpp" line="235"/>
         <location filename="../ca_man_dlg.cpp" line="251"/>
         <location filename="../ca_man_dlg.cpp" line="267"/>
@@ -277,24 +277,24 @@
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="137"/>
-        <location filename="../ca_man_dlg.ui" line="154"/>
+        <location filename="../ca_man_dlg.ui" line="149"/>
+        <location filename="../ca_man_dlg.ui" line="166"/>
         <source>Key Pair</source>
         <translation>키 쌍</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="239"/>
-        <location filename="../ca_man_dlg.ui" line="269"/>
+        <location filename="../ca_man_dlg.ui" line="263"/>
+        <location filename="../ca_man_dlg.ui" line="293"/>
         <source>CSR</source>
         <translation>CSR</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="359"/>
+        <location filename="../ca_man_dlg.ui" line="395"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../ca_man_dlg.ui" line="366"/>
+        <location filename="../ca_man_dlg.ui" line="402"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -875,18 +875,18 @@
         <translation>유효기간(끝)</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="208"/>
+        <location filename="../cert_info_dlg.cpp" line="217"/>
         <source>SubjectName</source>
         <translation>주체자 이름</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="239"/>
+        <location filename="../cert_info_dlg.cpp" line="248"/>
         <location filename="../cert_info_dlg.cpp" line="411"/>
         <source>PublicKey</source>
         <translation>공개키</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="255"/>
+        <location filename="../cert_info_dlg.cpp" line="206"/>
         <source>IssuerName</source>
         <translation>발급자 이름</translation>
     </message>
@@ -1607,7 +1607,7 @@
         <translation type="vanished">데이타 값</translation>
     </message>
     <message>
-        <location filename="../import_dlg.ui" line="258"/>
+        <location filename="../import_dlg.ui" line="276"/>
         <source>Value Type</source>
         <translation>값의 타입</translation>
     </message>
@@ -5054,7 +5054,7 @@
     </message>
     <message>
         <location filename="../make_cert_dlg.ui" line="227"/>
-        <location filename="../make_cert_dlg.ui" line="785"/>
+        <location filename="../make_cert_dlg.ui" line="797"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
@@ -5066,7 +5066,7 @@
     <message>
         <location filename="../make_cert_dlg.ui" line="194"/>
         <location filename="../make_cert_dlg.ui" line="392"/>
-        <location filename="../make_cert_dlg.ui" line="671"/>
+        <location filename="../make_cert_dlg.ui" line="683"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -5081,7 +5081,7 @@
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="858"/>
+        <location filename="../make_cert_dlg.ui" line="882"/>
         <source>UserName</source>
         <translation>사용자 이름</translation>
     </message>
@@ -5095,7 +5095,7 @@
         <translation type="vanished">인증서 정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="874"/>
+        <location filename="../make_cert_dlg.ui" line="898"/>
         <source>SSN</source>
         <translation>SSN</translation>
     </message>
@@ -5122,7 +5122,7 @@
         <translation type="vanished">발급자 알고리즘</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="881"/>
+        <location filename="../make_cert_dlg.ui" line="905"/>
         <source>Email</source>
         <translation>이메일</translation>
     </message>
@@ -5312,7 +5312,7 @@
         <translation type="vanished">라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="847"/>
+        <location filename="../make_cert_dlg.ui" line="859"/>
         <source>User Information</source>
         <translation>사용자 정보</translation>
     </message>
@@ -5373,12 +5373,12 @@
         <translation>요청서 저장</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="630"/>
+        <location filename="../make_cert_dlg.ui" line="642"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="772"/>
+        <location filename="../make_cert_dlg.ui" line="784"/>
         <source>Param</source>
         <translation>파라미터</translation>
     </message>
@@ -5675,40 +5675,40 @@
         <translation>CSR DN 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="511"/>
+        <location filename="../make_cert_profile_dlg.ui" line="518"/>
         <source>Extend1</source>
         <translation>확장1</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="523"/>
+        <location filename="../make_cert_profile_dlg.ui" line="530"/>
         <source>Key Usage</source>
         <translation>키 용도</translation>
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="328"/>
-        <location filename="../make_cert_profile_dlg.ui" line="560"/>
-        <location filename="../make_cert_profile_dlg.ui" line="628"/>
-        <location filename="../make_cert_profile_dlg.ui" line="871"/>
-        <location filename="../make_cert_profile_dlg.ui" line="956"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1017"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1174"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1249"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1399"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1495"/>
+        <location filename="../make_cert_profile_dlg.ui" line="567"/>
+        <location filename="../make_cert_profile_dlg.ui" line="635"/>
+        <location filename="../make_cert_profile_dlg.ui" line="878"/>
+        <location filename="../make_cert_profile_dlg.ui" line="963"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1024"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1181"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1256"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1406"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1502"/>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="335"/>
-        <location filename="../make_cert_profile_dlg.ui" line="573"/>
-        <location filename="../make_cert_profile_dlg.ui" line="621"/>
-        <location filename="../make_cert_profile_dlg.ui" line="848"/>
-        <location filename="../make_cert_profile_dlg.ui" line="942"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1007"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1167"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1242"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1406"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1509"/>
+        <location filename="../make_cert_profile_dlg.ui" line="580"/>
+        <location filename="../make_cert_profile_dlg.ui" line="628"/>
+        <location filename="../make_cert_profile_dlg.ui" line="855"/>
+        <location filename="../make_cert_profile_dlg.ui" line="949"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1014"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1174"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1249"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1413"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1516"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -5718,37 +5718,37 @@
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="342"/>
-        <location filename="../make_cert_profile_dlg.ui" line="553"/>
-        <location filename="../make_cert_profile_dlg.ui" line="635"/>
-        <location filename="../make_cert_profile_dlg.ui" line="731"/>
-        <location filename="../make_cert_profile_dlg.ui" line="783"/>
-        <location filename="../make_cert_profile_dlg.ui" line="878"/>
-        <location filename="../make_cert_profile_dlg.ui" line="949"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1024"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1109"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1160"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1235"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1330"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1413"/>
-        <location filename="../make_cert_profile_dlg.ui" line="1502"/>
+        <location filename="../make_cert_profile_dlg.ui" line="560"/>
+        <location filename="../make_cert_profile_dlg.ui" line="642"/>
+        <location filename="../make_cert_profile_dlg.ui" line="738"/>
+        <location filename="../make_cert_profile_dlg.ui" line="790"/>
+        <location filename="../make_cert_profile_dlg.ui" line="885"/>
+        <location filename="../make_cert_profile_dlg.ui" line="956"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1031"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1116"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1167"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1242"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1337"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1420"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1509"/>
         <location filename="../make_cert_profile_dlg.cpp" line="612"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="607"/>
+        <location filename="../make_cert_profile_dlg.ui" line="614"/>
         <source>Policy</source>
         <translation>정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="659"/>
+        <location filename="../make_cert_profile_dlg.ui" line="666"/>
         <location filename="../make_cert_profile_dlg.cpp" line="528"/>
         <source>CPS</source>
         <translation>인증서 정책 문장</translation>
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="378"/>
-        <location filename="../make_cert_profile_dlg.ui" line="666"/>
+        <location filename="../make_cert_profile_dlg.ui" line="673"/>
         <location filename="../make_cert_profile_dlg.cpp" line="528"/>
         <location filename="../make_cert_profile_dlg.cpp" line="612"/>
         <source>OID</source>
@@ -5760,28 +5760,28 @@
         <translation>DN 만들기</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="683"/>
+        <location filename="../make_cert_profile_dlg.ui" line="690"/>
         <location filename="../make_cert_profile_dlg.cpp" line="528"/>
         <source>UserNotice</source>
         <translation>사용자 공지</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="717"/>
+        <location filename="../make_cert_profile_dlg.ui" line="724"/>
         <source>Subject Key Identifier</source>
         <translation>주체키 식별자</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="762"/>
+        <location filename="../make_cert_profile_dlg.ui" line="769"/>
         <source>Authority Key Identifier</source>
         <translation>기관키 식별자</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="790"/>
+        <location filename="../make_cert_profile_dlg.ui" line="797"/>
         <source>Certificate Issuer</source>
         <translation>인증서 발급자</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="776"/>
+        <location filename="../make_cert_profile_dlg.ui" line="783"/>
         <source>Certificate Serial</source>
         <translation>인증서 시리얼</translation>
     </message>
@@ -5796,67 +5796,67 @@
         <translation>유효 기간</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="816"/>
+        <location filename="../make_cert_profile_dlg.ui" line="823"/>
         <source>Extend2</source>
         <translation>확장2</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="828"/>
+        <location filename="../make_cert_profile_dlg.ui" line="835"/>
         <source>Extended Key Usage</source>
         <translation>확장 키 용도</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="912"/>
+        <location filename="../make_cert_profile_dlg.ui" line="919"/>
         <source>CRLDP</source>
         <translation>CRLDP</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="990"/>
+        <location filename="../make_cert_profile_dlg.ui" line="997"/>
         <source>Authority Info Access</source>
         <translation>기관 접근 정보</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1066"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1073"/>
         <source>Extend3</source>
         <translation>확장3</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1078"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1085"/>
         <source>Basic Constraints</source>
         <translation>기본 제한</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1092"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1099"/>
         <source>Path Len</source>
         <translation>경로 길이</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1143"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1150"/>
         <source>Subject Alternative Name</source>
         <translation>주체자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1221"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1228"/>
         <source>Issuer Alternative Name</source>
         <translation>발급자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1294"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1301"/>
         <source>Extend4</source>
         <translation>확장4</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1306"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1313"/>
         <source>Policy Constraints</source>
         <translation>정책 제한</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1630"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1637"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1637"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1644"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
@@ -5869,38 +5869,38 @@
         <translation type="vanished">외부</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1385"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1392"/>
         <source>Policy Mappings</source>
         <translation>정책 맵핑</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1450"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1457"/>
         <source>IssuerDomainPolicy</source>
         <translation>발급자 도메인 정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1437"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1444"/>
         <source>SubjectDomainPolicy</source>
         <translation>주체자 도메인 정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1481"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1488"/>
         <source>Name Constraints</source>
         <translation>이름 제한</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1549"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1556"/>
         <location filename="../make_cert_profile_dlg.cpp" line="601"/>
         <source>Max</source>
         <translation>최대</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1566"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1573"/>
         <source>Basic Distance</source>
         <translation>기본 거리</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1573"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1580"/>
         <location filename="../make_cert_profile_dlg.cpp" line="601"/>
         <source>Min</source>
         <translation>최소</translation>
@@ -6066,17 +6066,17 @@
         <translation type="vanished">확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="676"/>
+        <location filename="../make_cert_profile_dlg.ui" line="683"/>
         <source>SetAnyOID</source>
         <translation>Any 값 설정</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1337"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1344"/>
         <source>inhibitPolicyMapping</source>
         <translation>InhibitPolicyMapping</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.ui" line="1354"/>
+        <location filename="../make_cert_profile_dlg.ui" line="1361"/>
         <source>requireExplicitPolicy</source>
         <translation>requireExplicitPolicy</translation>
     </message>
@@ -6189,7 +6189,7 @@
         <translation type="vanished">Common Name</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="55"/>
+        <location filename="../make_dn_dlg.ui" line="67"/>
         <source>Organization (optional)</source>
         <translation>Organization (옵션)</translation>
     </message>
@@ -6207,47 +6207,47 @@
         <translation>DN 만들기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="102"/>
+        <location filename="../make_dn_dlg.ui" line="114"/>
         <source>Common Name (optional)</source>
         <translation>Common Name (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="95"/>
+        <location filename="../make_dn_dlg.ui" line="107"/>
         <source>Country or region (optional)</source>
         <translation>Country 또는 region (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="81"/>
+        <location filename="../make_dn_dlg.ui" line="93"/>
         <source>State/Province (optional)</source>
         <translation>State/Province (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="74"/>
+        <location filename="../make_dn_dlg.ui" line="86"/>
         <source>Email (optional)</source>
         <translation>Email (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="48"/>
+        <location filename="../make_dn_dlg.ui" line="60"/>
         <source>Locality (optional)</source>
         <translation>Locality (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="88"/>
+        <location filename="../make_dn_dlg.ui" line="100"/>
         <source>Organizational Unit (optional)</source>
         <translation>Organization Unit (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="167"/>
+        <location filename="../make_dn_dlg.ui" line="179"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="174"/>
+        <location filename="../make_dn_dlg.ui" line="186"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="194"/>
+        <location filename="../make_dn_dlg.ui" line="206"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -6268,8 +6268,8 @@
         <translation type="vanished">요청서 만들기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="203"/>
-        <location filename="../make_req_dlg.ui" line="466"/>
+        <location filename="../make_req_dlg.ui" line="209"/>
+        <location filename="../make_req_dlg.ui" line="472"/>
         <source>Key Name</source>
         <translation>키 이름</translation>
     </message>
@@ -6283,12 +6283,12 @@
         <translation type="vanished">해쉬</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="313"/>
+        <location filename="../make_req_dlg.ui" line="319"/>
         <source>Key size</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="306"/>
+        <location filename="../make_req_dlg.ui" line="312"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
@@ -6320,27 +6320,37 @@
         <translation>도전 암호</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="590"/>
+        <location filename="../make_req_dlg.ui" line="546"/>
         <source>ML DSA</source>
         <translation>ML DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="597"/>
+        <location filename="../make_req_dlg.ui" line="553"/>
         <source>SLH DSA</source>
         <translation>SLH DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="625"/>
+        <location filename="../make_req_dlg.ui" line="581"/>
+        <source>To KMIP</source>
+        <translation>To KMIP</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="588"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="792"/>
+        <location filename="../make_req_dlg.ui" line="595"/>
+        <source>To PKCS#11</source>
+        <translation>To PKCS#11</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.ui" line="749"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="836"/>
+        <location filename="../make_req_dlg.ui" line="793"/>
         <source>Signature Hash</source>
         <translation>서명 해쉬</translation>
     </message>
@@ -6355,58 +6365,55 @@
         <translation>요청서 만들기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="173"/>
+        <location filename="../make_req_dlg.ui" line="179"/>
         <source>Key Select</source>
         <translation>키 선택</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="184"/>
-        <location filename="../make_req_dlg.ui" line="686"/>
+        <location filename="../make_req_dlg.ui" line="190"/>
+        <location filename="../make_req_dlg.ui" line="643"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="437"/>
+        <location filename="../make_req_dlg.ui" line="443"/>
         <source>Key Generate</source>
         <translation>키 생성</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="492"/>
         <source>Use Device</source>
-        <translation>장치 사용</translation>
+        <translation type="vanished">장치 사용</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="499"/>
         <source>PKCS#11</source>
-        <translation>PKCS#11</translation>
+        <translation type="vanished">PKCS#11</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="519"/>
         <source>KMIP</source>
-        <translation>KMIP</translation>
+        <translation type="vanished">KMIP</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="576"/>
+        <location filename="../make_req_dlg.ui" line="532"/>
         <source>ECDSA</source>
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="562"/>
+        <location filename="../make_req_dlg.ui" line="518"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="555"/>
+        <location filename="../make_req_dlg.ui" line="511"/>
         <source>Mechanism</source>
         <translation>메커니즘</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="583"/>
+        <location filename="../make_req_dlg.ui" line="539"/>
         <source>EdDSA</source>
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="569"/>
+        <location filename="../make_req_dlg.ui" line="525"/>
         <source>SM2</source>
         <translation>SM2</translation>
     </message>
@@ -6415,12 +6422,12 @@
         <translation type="vanished">키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="608"/>
+        <location filename="../make_req_dlg.ui" line="574"/>
         <source>Public Exponent</source>
         <translation>Public Exponent</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="533"/>
+        <location filename="../make_req_dlg.ui" line="489"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
@@ -6438,7 +6445,7 @@
         <translation>CSR 만들기 정보</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="823"/>
+        <location filename="../make_req_dlg.ui" line="780"/>
         <source>This is for CSR signature hash algorithm</source>
         <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
     </message>
@@ -6451,12 +6458,12 @@
         <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="674"/>
+        <location filename="../make_req_dlg.ui" line="631"/>
         <source>Use Extension</source>
         <translation>확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="785"/>
+        <location filename="../make_req_dlg.ui" line="742"/>
         <source>Profile Name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -6757,72 +6764,79 @@
         <translation type="vanished">새 키쌍</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="51"/>
+        <location filename="../new_key_dlg.ui" line="85"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="82"/>
         <source>KMIP</source>
-        <translation>KMIP</translation>
+        <translation type="vanished">KMIP</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="108"/>
         <source>Use Device</source>
-        <translation>장치 사용</translation>
+        <translation type="vanished">장치 사용</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="115"/>
         <source>PKCS#11</source>
-        <translation>PKCS#11</translation>
+        <translation type="vanished">PKCS#11</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="143"/>
+        <location filename="../new_key_dlg.ui" line="123"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="157"/>
+        <location filename="../new_key_dlg.ui" line="137"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="150"/>
+        <location filename="../new_key_dlg.ui" line="130"/>
         <source>ECDSA</source>
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="164"/>
+        <location filename="../new_key_dlg.ui" line="144"/>
         <source>EdDSA</source>
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="183"/>
+        <location filename="../new_key_dlg.ui" line="163"/>
         <source>Mechanism</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="136"/>
+        <location filename="../new_key_dlg.ui" line="116"/>
         <source>SM2</source>
         <translation>SM2</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="190"/>
+        <location filename="../new_key_dlg.ui" line="32"/>
+        <source>To KMIP</source>
+        <translation>To KMIP</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="39"/>
+        <source>To PKCS#11</source>
+        <translation>To PKCS#11</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="170"/>
         <source>ML DSA</source>
         <translation>ML DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="197"/>
+        <location filename="../new_key_dlg.ui" line="177"/>
         <source>SLH DSA</source>
         <translation>SLH DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="257"/>
+        <location filename="../new_key_dlg.ui" line="237"/>
         <source>Exponent</source>
         <translation>Exponent</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="20"/>
+        <location filename="../new_key_dlg.ui" line="25"/>
         <source>Key Information</source>
         <translation>키 정보</translation>
     </message>
@@ -6836,7 +6850,7 @@
         <translation type="vanished">파라미터</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="218"/>
+        <location filename="../new_key_dlg.ui" line="198"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
@@ -7495,34 +7509,34 @@
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="104"/>
-        <location filename="../profile_man_dlg.ui" line="188"/>
+        <location filename="../profile_man_dlg.ui" line="116"/>
+        <location filename="../profile_man_dlg.ui" line="212"/>
         <location filename="../profile_man_dlg.cpp" line="138"/>
         <location filename="../profile_man_dlg.cpp" line="154"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="111"/>
-        <location filename="../profile_man_dlg.ui" line="181"/>
+        <location filename="../profile_man_dlg.ui" line="123"/>
+        <location filename="../profile_man_dlg.ui" line="205"/>
         <location filename="../profile_man_dlg.cpp" line="137"/>
         <location filename="../profile_man_dlg.cpp" line="153"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="137"/>
-        <location filename="../profile_man_dlg.ui" line="148"/>
+        <location filename="../profile_man_dlg.ui" line="149"/>
+        <location filename="../profile_man_dlg.ui" line="160"/>
         <source>CRL Profile</source>
         <translation>CRL 프로파일</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="226"/>
+        <location filename="../profile_man_dlg.ui" line="250"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.ui" line="233"/>
+        <location filename="../profile_man_dlg.ui" line="257"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
@@ -8060,42 +8074,42 @@
         <translation>원격 데이타베이스 열기</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="68"/>
+        <location filename="../remote_db_dlg.ui" line="98"/>
         <source>Username</source>
         <translation>사용자 이름</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="61"/>
+        <location filename="../remote_db_dlg.ui" line="44"/>
         <source>Database Type</source>
         <translation>데이타베이스 타입</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="54"/>
+        <location filename="../remote_db_dlg.ui" line="91"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="41"/>
+        <location filename="../remote_db_dlg.ui" line="78"/>
         <source>Hostname</source>
         <translation>호스트 이름</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="85"/>
+        <location filename="../remote_db_dlg.ui" line="112"/>
         <source>Database Name</source>
         <translation>데이타베이스 이름</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="122"/>
+        <location filename="../remote_db_dlg.ui" line="149"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="129"/>
+        <location filename="../remote_db_dlg.ui" line="156"/>
         <source>Connect</source>
         <translation>연결</translation>
     </message>
     <message>
-        <location filename="../remote_db_dlg.ui" line="136"/>
+        <location filename="../remote_db_dlg.ui" line="163"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -9307,32 +9321,32 @@
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="210"/>
+        <location filename="../view_crl_profile_dlg.ui" line="222"/>
         <source>Hash</source>
         <translation>해쉬</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="144"/>
+        <location filename="../view_crl_profile_dlg.ui" line="156"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="261"/>
+        <location filename="../view_crl_profile_dlg.ui" line="273"/>
         <source>Next Update</source>
         <translation>다음 갱신</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="268"/>
+        <location filename="../view_crl_profile_dlg.ui" line="280"/>
         <source>This Update</source>
         <translation>이번 갱신</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="315"/>
+        <location filename="../view_crl_profile_dlg.ui" line="327"/>
         <source>CRL Period</source>
         <translation>CRL 기간</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="385"/>
+        <location filename="../view_crl_profile_dlg.ui" line="396"/>
         <source>Additional extension fields</source>
         <translation>추가 확장 필드들</translation>
     </message>
@@ -9341,20 +9355,20 @@
         <translation type="vanished">확장자 필드</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="409"/>
+        <location filename="../view_crl_profile_dlg.ui" line="433"/>
         <source>Extension</source>
         <translation>확장</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="469"/>
+        <location filename="../view_crl_profile_dlg.ui" line="493"/>
         <source>CRL Number</source>
         <translation>CRL 번호</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="476"/>
-        <location filename="../view_crl_profile_dlg.ui" line="507"/>
-        <location filename="../view_crl_profile_dlg.ui" line="685"/>
-        <location filename="../view_crl_profile_dlg.ui" line="726"/>
+        <location filename="../view_crl_profile_dlg.ui" line="500"/>
+        <location filename="../view_crl_profile_dlg.ui" line="531"/>
+        <location filename="../view_crl_profile_dlg.ui" line="709"/>
+        <location filename="../view_crl_profile_dlg.ui" line="750"/>
         <location filename="../view_crl_profile_dlg.cpp" line="64"/>
         <location filename="../view_crl_profile_dlg.cpp" line="149"/>
         <location filename="../view_crl_profile_dlg.cpp" line="166"/>
@@ -9364,32 +9378,32 @@
         <translation>필수</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="514"/>
+        <location filename="../view_crl_profile_dlg.ui" line="538"/>
         <source>Serial</source>
         <translation>발급자 시리얼</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="607"/>
+        <location filename="../view_crl_profile_dlg.ui" line="631"/>
         <source>Issuer</source>
         <translation>발급자</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="627"/>
+        <location filename="../view_crl_profile_dlg.ui" line="651"/>
         <source>Authority Key Identifier</source>
         <translation>기관키 식별자</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="705"/>
+        <location filename="../view_crl_profile_dlg.ui" line="729"/>
         <source>Issuing Distribution Point</source>
         <translation>발급 배포 지점</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="733"/>
+        <location filename="../view_crl_profile_dlg.ui" line="757"/>
         <source>Issuer Alt Name</source>
         <translation>발급자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../view_crl_profile_dlg.ui" line="771"/>
+        <location filename="../view_crl_profile_dlg.ui" line="795"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -9468,52 +9482,52 @@
         <translation>인증서 프로파일 보기</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="45"/>
+        <location filename="../view_cert_profile_dlg.ui" line="51"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="127"/>
+        <location filename="../view_cert_profile_dlg.ui" line="133"/>
         <source>Base</source>
         <translation>기본</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="139"/>
+        <location filename="../view_cert_profile_dlg.ui" line="145"/>
         <source>Information</source>
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="147"/>
+        <location filename="../view_cert_profile_dlg.ui" line="165"/>
         <source>Hash</source>
         <translation>해쉬</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="200"/>
+        <location filename="../view_cert_profile_dlg.ui" line="218"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="352"/>
+        <location filename="../view_cert_profile_dlg.ui" line="370"/>
         <source>NotAfter</source>
         <translation>만료시간</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="311"/>
+        <location filename="../view_cert_profile_dlg.ui" line="329"/>
         <source>Valid Period</source>
         <translation>유효 기간</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="264"/>
+        <location filename="../view_cert_profile_dlg.ui" line="282"/>
         <source>NotBefore</source>
         <translation>시작시간</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="369"/>
+        <location filename="../view_cert_profile_dlg.ui" line="387"/>
         <source>DN Template</source>
         <translation>DN템플릿</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="420"/>
+        <location filename="../view_cert_profile_dlg.ui" line="438"/>
         <source>Extension Usage</source>
         <translation>확장 사용법</translation>
     </message>
@@ -9522,34 +9536,34 @@
         <translation type="vanished">확장자 필드</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="496"/>
+        <location filename="../view_cert_profile_dlg.ui" line="526"/>
         <source>Additional extension fields</source>
         <translation>추가 확장 필드들</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="524"/>
+        <location filename="../view_cert_profile_dlg.ui" line="554"/>
         <source>Extension1</source>
         <translation>확장1</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="535"/>
+        <location filename="../view_cert_profile_dlg.ui" line="565"/>
         <source>Key Usage</source>
         <translation>키 용도</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="542"/>
-        <location filename="../view_cert_profile_dlg.ui" line="630"/>
-        <location filename="../view_cert_profile_dlg.ui" line="671"/>
-        <location filename="../view_cert_profile_dlg.ui" line="846"/>
-        <location filename="../view_cert_profile_dlg.ui" line="919"/>
-        <location filename="../view_cert_profile_dlg.ui" line="984"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1032"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1125"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1210"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1255"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1308"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1437"/>
-        <location filename="../view_cert_profile_dlg.ui" line="1482"/>
+        <location filename="../view_cert_profile_dlg.ui" line="572"/>
+        <location filename="../view_cert_profile_dlg.ui" line="660"/>
+        <location filename="../view_cert_profile_dlg.ui" line="701"/>
+        <location filename="../view_cert_profile_dlg.ui" line="876"/>
+        <location filename="../view_cert_profile_dlg.ui" line="949"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1014"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1062"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1155"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1240"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1285"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1338"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1467"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1512"/>
         <location filename="../view_cert_profile_dlg.cpp" line="133"/>
         <location filename="../view_cert_profile_dlg.cpp" line="305"/>
         <location filename="../view_cert_profile_dlg.cpp" line="348"/>
@@ -9568,107 +9582,107 @@
         <translation>필수</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="623"/>
+        <location filename="../view_cert_profile_dlg.ui" line="653"/>
         <source>Policy</source>
         <translation>정책</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="651"/>
+        <location filename="../view_cert_profile_dlg.ui" line="681"/>
         <source>Subject Key Identifier</source>
         <translation>주체키 식별자</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="732"/>
+        <location filename="../view_cert_profile_dlg.ui" line="762"/>
         <source>Authority Key Identifier</source>
         <translation>기관키 식별자</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="832"/>
+        <location filename="../view_cert_profile_dlg.ui" line="862"/>
         <source>Serial</source>
         <translation>발급자 시리얼</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="839"/>
+        <location filename="../view_cert_profile_dlg.ui" line="869"/>
         <source>Issuer</source>
         <translation>발급자</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="904"/>
+        <location filename="../view_cert_profile_dlg.ui" line="934"/>
         <source>Extension2</source>
         <translation>확장2</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="912"/>
+        <location filename="../view_cert_profile_dlg.ui" line="942"/>
         <source>ExtendKeyUsage</source>
         <translation>확장된 키 사용</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="991"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1021"/>
         <source>CRLDP</source>
         <translation>CRLDP</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1025"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1055"/>
         <source>Authority Info Access</source>
         <translation>기관 접근 정보</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1070"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1100"/>
         <source>Extension3</source>
         <translation>확장3</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1078"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1108"/>
         <source>Basic Constraints</source>
         <translation>기본 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1152"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1182"/>
         <source>PathLen</source>
         <translation>경로 길이</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1217"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1247"/>
         <source>Subject Alt Name</source>
         <translation>주체 대체 이름</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1275"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1305"/>
         <source>Issuer Alt Name</source>
         <translation>발급자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1300"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1330"/>
         <source>Extension4</source>
         <translation>확장4</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1328"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1358"/>
         <source>requireExplicitPollicy</source>
         <translation>requireExplicitPollicy</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1372"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1402"/>
         <source>InhibitPolicyMapping</source>
         <translation>InhibitPolicyMapping</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1379"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1409"/>
         <source>Policy Constraint</source>
         <translation>정책 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1444"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1474"/>
         <source>Policy Mapping</source>
         <translation>정책 맵핑</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1489"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1519"/>
         <source>Name Constraint</source>
         <translation>이름 제한</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1531"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1561"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -9709,7 +9723,7 @@
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../view_cert_profile_dlg.ui" line="1145"/>
+        <location filename="../view_cert_profile_dlg.ui" line="1175"/>
         <location filename="../view_cert_profile_dlg.cpp" line="78"/>
         <location filename="../view_cert_profile_dlg.cpp" line="110"/>
         <location filename="../view_cert_profile_dlg.cpp" line="121"/>
