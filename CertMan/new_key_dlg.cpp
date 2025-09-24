@@ -7,7 +7,7 @@
 #include "man_applet.h"
 #include "mainwindow.h"
 #include "js_pki.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_pki_tools.h"
 #include "js_bin.h"
 #include "db_mgr.h"
@@ -125,9 +125,9 @@ const QString NewKeyDlg::getMechanism()
     else if( mECDSARadio->isChecked() )
     {
         if( mPKCS11Check->isChecked() )
-            strMech = kMechPKCS11_EC;
+            strMech = kMechPKCS11_ECDSA;
         else if( mKMIPCheck->isChecked() )
-            strMech = kMechKMIP_EC;
+            strMech = kMechKMIP_ECDSA;
         else
             strMech = JS_PKI_KEY_NAME_ECDSA;
     }
@@ -312,7 +312,7 @@ void NewKeyDlg::accept()
     ret = dbMgr->addKeyPairRec( keyPairRec );
     if( ret != 0 ) goto end;
 
-    manApplet->settingsMgr()->setKeyType( JS_PKI_getKeyAlg( strMech.toStdString().c_str()));
+    manApplet->settingsMgr()->setKeyType( getKeyMechType( strMech.toStdString().c_str()));
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
 end:
@@ -345,7 +345,7 @@ void NewKeyDlg::clickRSA()
     mExponentText->setEnabled(true);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickECDSA()
@@ -359,7 +359,7 @@ void NewKeyDlg::clickECDSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickDSA()
@@ -373,7 +373,7 @@ void NewKeyDlg::clickDSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickEdDSA()
@@ -386,7 +386,7 @@ void NewKeyDlg::clickEdDSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void NewKeyDlg::clickSM2()
@@ -400,7 +400,7 @@ void NewKeyDlg::clickSM2()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::clickML_DSA()
@@ -413,7 +413,7 @@ void NewKeyDlg::clickML_DSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::clickSLH_DSA()
@@ -426,7 +426,7 @@ void NewKeyDlg::clickSLH_DSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void NewKeyDlg::checkPKCS11()

@@ -12,7 +12,7 @@
 
 #include "db_mgr.h"
 #include "js_pki.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_pki_x509.h"
 #include "js_pkcs11.h"
 #include "js_kms.h"
@@ -105,11 +105,11 @@ const int kPeriodMonth = 1;
 const int kPeriodYear = 2;
 
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
-const QString kMechPKCS11_EC = "PKCS11_EC";
+const QString kMechPKCS11_ECDSA = "PKCS11_ECDSA";
 const QString kMechPKCS11_DSA = "PKCS11_DSA";
-const QString kMechPKCS11_EdDSA = "PKCS11_EdDSA";
+const QString kMechPKCS11_EDDSA = "PKCS11_EdDSA";
 const QString kMechKMIP_RSA = "KMIP_RSA";
-const QString kMechKMIP_EC = "KMIP_EC";
+const QString kMechKMIP_ECDSA = "KMIP_ECDSA";
 
 
 const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
@@ -293,6 +293,7 @@ const QString getCRLDPFromInfo( const QString &strExtCRLDP );
 bool isInternalPrivate( const QString strKeyMech );
 bool isPKCS11Private( const QString strKeyMech );
 bool isKMIPPrivate( const QString strKeyMech );
+int getKeyMechType( const QString strKeyMech );
 
 bool isValidNumFormat( const QString strInput, int nNumber );
 

@@ -5,7 +5,7 @@
  */
 #include "js_bin.h"
 #include "js_pki.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_pki_tools.h"
 
 #include "man_applet.h"
@@ -782,7 +782,7 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( hKey );
     }
-    else if( strAlg == kMechPKCS11_EC )
+    else if( strAlg == kMechPKCS11_ECDSA )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
@@ -794,7 +794,7 @@ int PriKeyInfoDlg::readPrivateKeyHSM()
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( hKey );
     }
-    else if( strAlg == kMechPKCS11_EdDSA )
+    else if( strAlg == kMechPKCS11_EDDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
@@ -904,7 +904,7 @@ void PriKeyInfoDlg::clickGetPublicKey()
         mKeyTab->setTabEnabled(0, true);
         setRSAKey( &binPub, false );
     }
-    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == JS_PKI_KEY_NAME_SM2 )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_ECDSA || strAlg == JS_PKI_KEY_NAME_SM2 )
     {
         mKeyTab->setCurrentIndex(1);
         mKeyTab->setTabEnabled(1, true);
@@ -920,7 +920,7 @@ void PriKeyInfoDlg::clickGetPublicKey()
         mKeyTab->setTabEnabled(2, true);
         setDSAKey( &binPub, false );
     }
-    else if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == kMechPKCS11_EdDSA )
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == kMechPKCS11_EDDSA )
     {
         mKeyTab->setCurrentIndex( 3 );
         mKeyTab->setTabEnabled(3, true);
@@ -981,7 +981,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
     JS_BIN_decodeHex( key_rec_.getPublicKey().toStdString().c_str(), &binPub );
     JS_PKI_genHash( "SHA1", &binPub, &binHash );
 
-    if( strAlg == "RSA" )
+    if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
         JS_PKI_getRSAKeyVal( &binPri, &sRSAKey );
         ret = createRSAPrivateKeyP11( pCTX, strName, &binHash, &sRSAKey );
@@ -991,7 +991,7 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
         addKey.setAlg( kMechPKCS11_RSA );
     }
-    else if( strAlg == "EC" || strAlg == "SM2" )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == JS_PKI_KEY_NAME_SM2 )
     {
         JS_PKI_getECKeyVal( &binPri, &sECKey );
         ret = createECPrivateKeyP11( pCTX, strName, &binHash, &sECKey );
@@ -999,9 +999,9 @@ void PriKeyInfoDlg::clickInsertToHSM()
         ret = createECPublicKeyP11( pCTX, strName, &binHash, &sECKey );
         if( ret != 0 ) goto end;
 
-        addKey.setAlg( kMechPKCS11_EC );
+        addKey.setAlg( kMechPKCS11_ECDSA );
     }
-    else if( strAlg == "DSA" )
+    else if( strAlg == JS_PKI_KEY_NAME_DSA )
     {
         JS_PKI_getDSAKeyVal( &binPri, &sDSAKey );
         ret = createDSAPrivateKeyP11( pCTX, strName, &binHash, &sDSAKey );
@@ -1011,11 +1011,11 @@ void PriKeyInfoDlg::clickInsertToHSM()
 
         addKey.setAlg( kMechPKCS11_DSA );
     }
-    else if( strAlg == "EdDSA" )
+    else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
     {
         QString strED_Name = mEdDSA_NameText->text();
 
-        addKey.setAlg( kMechPKCS11_EdDSA );
+        addKey.setAlg( kMechPKCS11_EDDSA );
         JS_PKI_getRawKeyVal( &binPri, &sRawKey );
 
         ret = createEDPrivateKeyP11( pCTX, strName, &binHash, &sRawKey );

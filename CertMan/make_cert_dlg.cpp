@@ -39,7 +39,7 @@ QString getSignAlg( const QString strAlg, const QString strHash )
     strSignAlgorithm += "WITH";
 
     if( strAlg == "EC" || strAlg == "ECC" )
-        strSignAlgorithm += "ECDSA";
+        strSignAlgorithm += JS_PKI_KEY_NAME_ECDSA;
     else
         strSignAlgorithm += strAlg.toUpper();
 

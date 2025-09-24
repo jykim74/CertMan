@@ -14,7 +14,7 @@
 #include "js_pki.h"
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_pki_ext.h"
 #include "js_define.h"
 #include "settings_mgr.h"
@@ -98,9 +98,9 @@ const QString MakeReqDlg::getMechanism()
     else if( mECDSARadio->isChecked() )
     {
         if( mPKCS11Check->isChecked() )
-            strMech = kMechPKCS11_EC;
+            strMech = kMechPKCS11_ECDSA;
         else if( mKMIPCheck->isChecked() )
-            strMech = kMechKMIP_EC;
+            strMech = kMechKMIP_ECDSA;
         else
             strMech = JS_PKI_KEY_NAME_ECDSA;
     }
@@ -417,7 +417,7 @@ void MakeReqDlg::accept()
         }
 
         strAlg = getMechanism();
-        manApplet->settingsMgr()->setKeyType( JS_PKI_getKeyAlg( strAlg.toStdString().c_str() ) );
+        manApplet->settingsMgr()->setKeyType( getKeyMechType( strAlg.toStdString().c_str() ) );
         strParam = mNewOptionCombo->currentText();
     }
     else
@@ -703,7 +703,7 @@ void MakeReqDlg::clickRSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickECDSA()
@@ -718,7 +718,7 @@ void MakeReqDlg::clickECDSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickDSA()
@@ -733,7 +733,7 @@ void MakeReqDlg::clickDSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickEdDSA()
@@ -747,7 +747,7 @@ void MakeReqDlg::clickEdDSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 
-    mPKCS11Check->setEnabled(true);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickSM2()
@@ -762,7 +762,7 @@ void MakeReqDlg::clickSM2()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(true);
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::clickML_DSA()
@@ -776,7 +776,7 @@ void MakeReqDlg::clickML_DSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::clickSLH_DSA()
@@ -790,7 +790,7 @@ void MakeReqDlg::clickSLH_DSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 
-    mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
 }
 
 void MakeReqDlg::checkPKCS11()

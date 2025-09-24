@@ -17,7 +17,7 @@
 #include "js_pki_x509.h"
 #include "js_pki_tools.h"
 #include "js_pki_ext.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_util.h"
 #include "pin_dlg.h"
 #include "audit_rec.h"
@@ -2031,7 +2031,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sMech.mechanism = CKM_RSA_PKCS_KEY_PAIR_GEN;
         keyType = CKK_RSA;
     }
-    else if( strAlg == kMechPKCS11_EC )
+    else if( strAlg == kMechPKCS11_ECDSA )
     {
         sMech.mechanism = CKM_ECDSA_KEY_PAIR_GEN;
         keyType = CKK_ECDSA;
@@ -2041,7 +2041,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sMech.mechanism = CKM_DSA_KEY_PAIR_GEN;
         keyType = CKK_DSA;
     }
-    else if( strAlg == kMechPKCS11_EdDSA )
+    else if( strAlg == kMechPKCS11_EDDSA )
     {
         sMech.mechanism = CKM_EC_EDWARDS_KEY_PAIR_GEN;
         keyType = CKK_EC_EDWARDS;
@@ -2315,7 +2315,7 @@ int genKeyPairWithKMIP( SettingsMgr* settingMgr, QString strAlg, QString strPara
         nAlg = JS_PKI_KEY_TYPE_RSA;
         nParam = strParam.toInt();
     }
-    else if( strAlg == kMechKMIP_EC )
+    else if( strAlg == kMechKMIP_ECDSA )
     {
         nAlg = JS_PKI_KEY_TYPE_ECDSA;
         nParam = KMIP_CURVE_P_256;
@@ -4096,7 +4096,7 @@ int getKeyType( const QString& strAlg, const QString& strParam )
 
     if( strAlg == JS_PKI_KEY_NAME_RSA || strAlg == kMechPKCS11_RSA || strAlg == kMechKMIP_RSA )
         nKeyType = JS_PKI_KEY_TYPE_RSA;
-    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+    else if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_ECDSA || strAlg == kMechKMIP_ECDSA )
         nKeyType = JS_PKI_KEY_TYPE_ECDSA;
     else if( strAlg == JS_PKI_KEY_NAME_DSA || strAlg == kMechPKCS11_DSA )
         nKeyType = JS_PKI_KEY_TYPE_DSA;
@@ -4187,9 +4187,9 @@ bool isInternalPrivate( const QString strKeyMech )
 bool isPKCS11Private( const QString strKeyMech )
 {
     if( strKeyMech == kMechPKCS11_RSA ) return true;
-    if( strKeyMech == kMechPKCS11_EC ) return true;
+    if( strKeyMech == kMechPKCS11_ECDSA ) return true;
     if( strKeyMech == kMechPKCS11_DSA ) return true;
-    if( strKeyMech == kMechPKCS11_EdDSA ) return true;
+    if( strKeyMech == kMechPKCS11_EDDSA ) return true;
 
     return false;
 }
@@ -4197,9 +4197,29 @@ bool isPKCS11Private( const QString strKeyMech )
 bool isKMIPPrivate( const QString strKeyMech )
 {
     if( strKeyMech == kMechKMIP_RSA ) return true;
-    if( strKeyMech == kMechKMIP_EC ) return true;
+    if( strKeyMech == kMechKMIP_ECDSA ) return true;
 
     return false;
+}
+
+int getKeyMechType( const QString strKeyMech )
+{
+    if( strKeyMech == JS_PKI_KEY_NAME_RSA || strKeyMech == kMechPKCS11_RSA || strKeyMech == kMechKMIP_RSA )
+        return JS_PKI_KEY_TYPE_RSA;
+    else if( strKeyMech == JS_PKI_KEY_NAME_ECDSA || strKeyMech == kMechPKCS11_ECDSA || strKeyMech == kMechKMIP_ECDSA )
+        return JS_PKI_KEY_TYPE_ECDSA;
+    else if( strKeyMech == JS_PKI_KEY_NAME_DSA || strKeyMech == kMechPKCS11_DSA )
+        return JS_PKI_KEY_TYPE_DSA;
+    else if( strKeyMech == JS_PKI_KEY_NAME_SM2 )
+        return JS_PKI_KEY_TYPE_SM2;
+    else if( strKeyMech == JS_PKI_KEY_NAME_EDDSA )
+        return JS_PKI_KEY_TYPE_EDDSA;
+    else if( strKeyMech == JS_PKI_KEY_NAME_ML_DSA )
+        return JS_PKI_KEY_TYPE_ML_DSA;
+    else if( strKeyMech == JS_PKI_KEY_NAME_SLH_DSA )
+        return JS_PKI_KEY_TYPE_SLH_DSA;
+
+    return -1;
 }
 
 bool isEmail( const QString strEmail )
@@ -4328,7 +4348,7 @@ const QString getParamLabel( const QString strAlg )
 {
     QString strLabel = QObject::tr( "Parameter" );
 
-    if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_EC || strAlg == kMechKMIP_EC )
+    if( strAlg == JS_PKI_KEY_NAME_ECDSA || strAlg == kMechPKCS11_ECDSA || strAlg == kMechKMIP_ECDSA )
         strLabel = QObject::tr( "Named Curve" );
     else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
         strLabel = QObject::tr( "Named Curve" );

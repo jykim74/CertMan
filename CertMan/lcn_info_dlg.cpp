@@ -168,9 +168,10 @@ int LCNInfoDlg::getLCN( const QString& strEmail, const QString& strKey, BIN *pLC
     QString strVersion = STRINGIZE(CERTMAN_VERSION);
 
     QSysInfo sysInfo;
-    QString strInfo = QString( "%1_%2_%3_%4")
+    QString strInfo = QString( "%1_%2_%3_%4_%5")
                           .arg( strProduct )
                           .arg( strVersion )
+                          .arg( sysInfo.currentCpuArchitecture())
                           .arg( sysInfo.productType() )
                           .arg( sysInfo.productVersion());
 
@@ -245,9 +246,11 @@ int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pL
     char *pRsp = NULL;
     JCC_NameVal sNameVal;
     QString strProduct = manApplet->getBrand();
+    QString strVersion = STRINGIZE(CERTMAN_VERSION);
     QSysInfo sysInfo;
-    QString strInfo = QString( "%1_%2_%3_%4")
-                          .arg( sysInfo.prettyProductName())
+    QString strInfo = QString( "%1_%2_%3_%4_%5")
+                          .arg( strProduct )
+                          .arg( strVersion )
                           .arg( sysInfo.currentCpuArchitecture())
                           .arg( sysInfo.productType() )
                           .arg( sysInfo.productVersion());

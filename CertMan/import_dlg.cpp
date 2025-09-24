@@ -15,7 +15,7 @@
 #include "js_pki_x509.h"
 #include "js_pki_ext.h"
 #include "commons.h"
-#include "js_pki_eddsa.h"
+#include "js_pki_raw.h"
 #include "js_define.h"
 #include "crl_info_dlg.h"
 #include "js_pqc.h"
@@ -257,6 +257,7 @@ void ImportDlg::clickFind()
 void ImportDlg::dataTypeChanged( int index )
 {
     QString strType = mDataTypeCombo->currentText();
+    mHeadLabel->setText( tr("Import %1" ).arg( strType ));
 
     if( manApplet->settingsMgr()->PKCS11Use() == true )
     {
