@@ -794,6 +794,7 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Export PrivateKey"), this, &MainWindow::exportPriKey );
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
+        menu.addAction(tr("View PublicKey"), this, &MainWindow::viewPubKey );
         menu.addAction(tr("New Key"), this, &MainWindow::newKey );
 
         int nStatus = item->data(Qt::UserRole).toInt();
@@ -1974,6 +1975,28 @@ void MainWindow::viewPriKey()
 
     PriKeyInfoDlg priKeyInfoDlg;
     priKeyInfoDlg.setKeyNum( num );
+    priKeyInfoDlg.exec();
+}
+
+void MainWindow::viewPubKey()
+{
+    int ret = 0;
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    if( row < 0 ) return;
+
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+    QTableWidgetItem* item2 = right_table_->item( row, 2 );
+    int num = item->text().toInt();
+    QString strAlg = item2->text();
+
+    PriKeyInfoDlg priKeyInfoDlg;
+    priKeyInfoDlg.setKeyNum( num, false );
     priKeyInfoDlg.exec();
 }
 

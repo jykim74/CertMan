@@ -169,6 +169,7 @@ public slots:
     void viewCRL();
     void verifyCRL();
     void viewPriKey();
+    void viewPubKey();
     void viewCSR();
 
     void viewRevokeCert();
