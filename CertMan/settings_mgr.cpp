@@ -41,7 +41,7 @@ void SettingsMgr::loadSettings()
     getIssuerNum();
     getCertProfileNum();
     getCRLProfileNum();
-    getKeyType();
+    getKeyTypeParam();
 
     getHexAreaWidth();
 
@@ -1300,25 +1300,25 @@ int SettingsMgr::getHexAreaWidth()
     return hex_area_width_;
 }
 
-void SettingsMgr::setKeyType( int nKeyType )
+void SettingsMgr::setKeyTypeParam( const QString strKeyTypeParam )
 {
     QSettings sets;
     sets.beginGroup( kBehaviorGroup );
-    sets.setValue( kKeyType, nKeyType );
+    sets.setValue( kKeyTypeParam, strKeyTypeParam );
     sets.endGroup();
 
-    key_type_ = nKeyType;
+    key_type_param_ = strKeyTypeParam;
 }
 
-int SettingsMgr::getKeyType()
+const QString SettingsMgr::getKeyTypeParam()
 {
     QSettings sets;
 
     sets.beginGroup( kBehaviorGroup );
-    key_type_ = sets.value( kKeyType, JS_PKI_KEY_TYPE_RSA ).toInt();
+    key_type_param_ = sets.value( kKeyTypeParam, JS_PKI_KEY_NAME_RSA ).toString();
     sets.endGroup();
 
-    return key_type_;
+    return key_type_param_;
 }
 
 void SettingsMgr::setShowPriInfo( bool bVal )

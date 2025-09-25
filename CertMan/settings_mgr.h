@@ -69,7 +69,7 @@ const char *kViewServer = "viewServer";
 const char *kViewHelp = "viewHelp";
 const char *kRunTime = "runTime";
 const char *kShowPriInfo = "showPriInfo";
-const char *kKeyType = "keyType";
+const char *kKeyTypeParam = "keyTypeParam";
 }
 
 
@@ -237,9 +237,9 @@ public:
     int getHexAreaWidth();
     int hexAreaWidth() { return hex_area_width_; };
 
-    void setKeyType( int nKeyType );
-    int getKeyType();
-    int keyType() { return key_type_; };
+    void setKeyTypeParam( const QString strKeyTypeParam );
+    const QString getKeyTypeParam();
+    const QString keyTypeParam() { return key_type_param_; };
 
     void loadSettings();
 
@@ -263,7 +263,7 @@ private:
     int issuer_num_;
     int hex_area_width_;
     bool show_pri_info_;
-    int key_type_;
+    QString key_type_param_;
 
     int view_file_;
     int view_tool_;

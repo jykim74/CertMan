@@ -168,7 +168,20 @@ void MakeReqDlg::initialize()
     mNewOptionCombo->addItems( kRSAOptionList );
     mNewOptionCombo->setCurrentText( "2048" );
 
-    int nKeyType = manApplet->settingsMgr()->keyType();
+    QString strKeyTypeParam = manApplet->settingsMgr()->keyTypeParam();
+    QStringList typeParam = strKeyTypeParam.split(":");
+    int nKeyType = -1;
+    QString strParam;
+
+    if( typeParam.size() > 0 )
+    {
+        nKeyType = typeParam.at(0).toInt();
+    }
+
+    if( typeParam.size() > 1 )
+    {
+        strParam = typeParam.at(1);
+    }
 
     if( nKeyType == JS_PKI_KEY_TYPE_RSA )
         mRSARadio->click();
@@ -184,6 +197,8 @@ void MakeReqDlg::initialize()
         mML_DSARadio->click();
     else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
         mSLH_DSARadio->click();
+
+    if( strParam.length() > 0 ) mNewOptionCombo->setCurrentText( strParam );
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
@@ -416,9 +431,13 @@ void MakeReqDlg::accept()
             goto end;
         }
 
-        strAlg = getMechanism();
-        manApplet->settingsMgr()->setKeyType( getKeyMechType( strAlg.toStdString().c_str() ) );
         strParam = mNewOptionCombo->currentText();
+        strAlg = getMechanism();
+        QString strKeyParam = QString( "%1:%2" )
+                                  .arg( getKeyMechType( strAlg.toStdString().c_str() ))
+                                  .arg( strParam );
+
+        manApplet->settingsMgr()->setKeyTypeParam( strKeyParam );
     }
     else
     {
