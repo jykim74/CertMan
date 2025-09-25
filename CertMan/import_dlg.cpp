@@ -24,9 +24,6 @@ static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
 };
 
-static QStringList sValueType = { "Hex", "Base64" };
-
-
 ImportDlg::ImportDlg(QWidget *parent) :
     QDialog(parent)
 {
@@ -201,7 +198,7 @@ void ImportDlg::initUI()
     mDataTypeCombo->addItems(sDataTypeList);
     dataTypeChanged(0);
 
-    mValueTypeCombo->addItems(sValueType);
+    mValueTypeCombo->addItems( kDataBinTypeList );
 
     connect( mFindBtn, SIGNAL(clicked()), this, SLOT( clickFind()));
     connect( mDataTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));

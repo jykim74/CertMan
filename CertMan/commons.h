@@ -20,11 +20,22 @@
 #include "js_pqc.h"
 
 enum {
-    DATA_STRING,
     DATA_HEX,
+    DATA_STRING,
     DATA_BASE64,
+    DATA_BASE64URL,
     DATA_URL
 };
+
+const QString kDataHex = "Hex";
+const QString kDataString = "String";
+const QString kDataBase64 = "Base64";
+const QString kDataURL = "URL";
+const QString kDataBase64URL = "Base64URL";
+
+const QStringList kDataTypeList = { kDataHex, kDataString, kDataBase64 };
+const QStringList kDataTypeList2 = { kDataHex, kDataString, kDataBase64, kDataURL, kDataBase64URL };
+const QStringList kDataBinTypeList = { kDataHex, kDataBase64 };
 
 const QString kEnvMiscGroup = "Misc";
 const QString kEnvTempGroup = "Temp";
