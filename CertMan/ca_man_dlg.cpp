@@ -144,7 +144,7 @@ void CAManDlg::initUI()
     int nWidth = width() * 8/10;
 #endif
 
-    QStringList sCACertLabels = { tr( "Num"), tr( "Serial" ), tr( "Algorithm" ), tr( "Subject DN" )  };
+    QStringList sCACertLabels = { tr( "Num"), tr( "Serial" ), tr( "Algorithm" ),  tr( "Subject DN" )  };
 
     mCACertTable->clear();
     mCACertTable->horizontalHeader()->setStretchLastSection(true);

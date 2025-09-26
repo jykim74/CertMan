@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -1267,11 +1267,14 @@
   <tabstop>mUseLogTabCheck</tabstop>
   <tabstop>mDefaultHashCombo</tabstop>
   <tabstop>mDefaultECCParamCombo</tabstop>
+  <tabstop>mFontFamilyCombo</tabstop>
   <tabstop>mSaveRemoteInfoCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
+  <tabstop>mShowPriKeyInfoCheck</tabstop>
+  <tabstop>mP11Group</tabstop>
   <tabstop>mSlotIndexText</tabstop>
-  <tabstop>mLibraryP11PathText</tabstop>
   <tabstop>mP11FindBtn</tabstop>
+  <tabstop>mLibraryP11PathText</tabstop>
   <tabstop>mPINText</tabstop>
   <tabstop>mHexAreaWidthCombo</tabstop>
   <tabstop>mUseKMIPCheck</tabstop>
@@ -1315,6 +1318,9 @@
   <tabstop>mSCEPPriKeyFindBtn</tabstop>
   <tabstop>mSCEPCertPathText</tabstop>
   <tabstop>mSCEPCertFindBtn</tabstop>
+  <tabstop>mRestoreDefautsBtn</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCancelBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>

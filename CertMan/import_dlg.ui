@@ -325,6 +325,8 @@
  </widget>
  <tabstops>
   <tabstop>mToPKCS11Check</tabstop>
+  <tabstop>mToKMSCheck</tabstop>
+  <tabstop>mDataTypeCombo</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mPasswordText</tabstop>
   <tabstop>mUseFileCheck</tabstop>

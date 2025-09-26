@@ -238,6 +238,7 @@
  </widget>
  <tabstops>
   <tabstop>mNumText</tabstop>
+  <tabstop>mKindCombo</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mValueText</tabstop>
   <tabstop>mOKBtn</tabstop>

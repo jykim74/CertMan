@@ -2652,6 +2652,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mKIDText</tabstop>
   <tabstop>mKeyTab</tabstop>
   <tabstop>mRSA_EText</tabstop>
   <tabstop>mRSA_ELenText</tabstop>
@@ -2667,9 +2668,10 @@
   <tabstop>mRSA_IQMPLenText</tabstop>
   <tabstop>mRSA_NLenText</tabstop>
   <tabstop>mRSA_NText</tabstop>
-  <tabstop>mRSA_DText</tabstop>
   <tabstop>mRSA_DLenText</tabstop>
+  <tabstop>mRSA_DText</tabstop>
   <tabstop>mECC_CurveOIDText</tabstop>
+  <tabstop>mECC_CurveSNText</tabstop>
   <tabstop>mECC_PrivateLenText</tabstop>
   <tabstop>mECC_PrivateText</tabstop>
   <tabstop>mECC_PubXLenText</tabstop>
@@ -2687,6 +2689,7 @@
   <tabstop>mDSA_PublicLenText</tabstop>
   <tabstop>mDSA_PublicText</tabstop>
   <tabstop>mRawNameText</tabstop>
+  <tabstop>mRawParamText</tabstop>
   <tabstop>mRawPrivateLenText</tabstop>
   <tabstop>mRawPrivateText</tabstop>
   <tabstop>mRawPublicLenText</tabstop>

@@ -473,8 +473,15 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mIssuerNameText</tabstop>
+  <tabstop>mIssuerNumText</tabstop>
+  <tabstop>mSelectIssuerBtn</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
+  <tabstop>mProfileNameText</tabstop>
+  <tabstop>mProfileNumText</tabstop>
+  <tabstop>mSelectProfileBtn</tabstop>
+  <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mCRLDPCombo</tabstop>
   <tabstop>mRevokeTable</tabstop>
  </tabstops>

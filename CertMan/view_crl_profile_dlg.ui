@@ -106,7 +106,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -116,8 +116,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>350</height>
+        <width>596</width>
+        <height>385</height>
        </rect>
       </property>
       <attribute name="label">
@@ -425,8 +425,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>357</height>
+        <width>596</width>
+        <height>385</height>
        </rect>
       </property>
       <attribute name="label">
@@ -813,6 +813,21 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mVersionText</tabstop>
+  <tabstop>mHashText</tabstop>
+  <tabstop>mThisUpdateText</tabstop>
+  <tabstop>mNextUpdateText</tabstop>
+  <tabstop>mExtensionsTable</tabstop>
+  <tabstop>mCRLNumText</tabstop>
+  <tabstop>mAKIText</tabstop>
+  <tabstop>mAKIIssuerText</tabstop>
+  <tabstop>mAKISerialText</tabstop>
+  <tabstop>mIDPTable</tabstop>
+  <tabstop>mIANTable</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

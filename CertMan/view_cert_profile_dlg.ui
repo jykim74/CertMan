@@ -115,7 +115,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -125,8 +125,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>334</height>
+        <width>582</width>
+        <height>368</height>
        </rect>
       </property>
       <attribute name="label">
@@ -546,8 +546,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>333</height>
+        <width>582</width>
+        <height>368</height>
        </rect>
       </property>
       <attribute name="label">
@@ -926,8 +926,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>339</height>
+        <width>582</width>
+        <height>368</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1092,8 +1092,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>333</height>
+        <width>582</width>
+        <height>368</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1322,8 +1322,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>333</height>
+        <width>582</width>
+        <height>368</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1579,6 +1579,34 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mNameText</tabstop>
+  <tabstop>mVersionText</tabstop>
+  <tabstop>mHashText</tabstop>
+  <tabstop>mNotBeforeText</tabstop>
+  <tabstop>mNotAfterText</tabstop>
+  <tabstop>mDNTemplateText</tabstop>
+  <tabstop>mExtensionUsageText</tabstop>
+  <tabstop>mExtensionsTable</tabstop>
+  <tabstop>mKeyUsageText</tabstop>
+  <tabstop>mPolicyTable</tabstop>
+  <tabstop>mSKIText</tabstop>
+  <tabstop>mAKIText</tabstop>
+  <tabstop>mAKIIssuerText</tabstop>
+  <tabstop>mAKISerialText</tabstop>
+  <tabstop>mEKUText</tabstop>
+  <tabstop>mCRLDPTable</tabstop>
+  <tabstop>mAIATable</tabstop>
+  <tabstop>mBCTargetText</tabstop>
+  <tabstop>mBCPathLenText</tabstop>
+  <tabstop>mSANTable</tabstop>
+  <tabstop>mIANTable</tabstop>
+  <tabstop>mPC_REPText</tabstop>
+  <tabstop>mPC_IPMText</tabstop>
+  <tabstop>mPMTable</tabstop>
+  <tabstop>mNCTable</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

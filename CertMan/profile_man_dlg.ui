@@ -275,6 +275,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mTabWidget</tabstop>
+  <tabstop>mCertTypeCombo</tabstop>
+  <tabstop>mCertTable</tabstop>
+  <tabstop>mCertViewBtn</tabstop>
+  <tabstop>mCertDeleteBtn</tabstop>
+  <tabstop>mCRLTable</tabstop>
+  <tabstop>mCRLViewBtn</tabstop>
+  <tabstop>mCRLDeleteBtn</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

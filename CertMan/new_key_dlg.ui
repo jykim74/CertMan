@@ -22,7 +22,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Key Information</string>
+        <string>Generate a key pair</string>
        </property>
       </widget>
      </item>
@@ -293,11 +293,16 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mPKCS11Check</tabstop>
+  <tabstop>mKMIPCheck</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mRSARadio</tabstop>
   <tabstop>mECDSARadio</tabstop>
   <tabstop>mDSARadio</tabstop>
   <tabstop>mEdDSARadio</tabstop>
+  <tabstop>mSM2Radio</tabstop>
+  <tabstop>mML_DSARadio</tabstop>
+  <tabstop>mSLH_DSARadio</tabstop>
   <tabstop>mExponentText</tabstop>
   <tabstop>mOptionCombo</tabstop>
  </tabstops>

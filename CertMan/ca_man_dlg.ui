@@ -420,6 +420,25 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>mTabWidget</tabstop>
+  <tabstop>mCACertTypeCombo</tabstop>
+  <tabstop>mCACertTable</tabstop>
+  <tabstop>mCACertViewBtn</tabstop>
+  <tabstop>mCACertDeleteBtn</tabstop>
+  <tabstop>mKeyPairStatusCombo</tabstop>
+  <tabstop>mKeyPairTypeCombo</tabstop>
+  <tabstop>mKeyPairTable</tabstop>
+  <tabstop>mKeyPairViewBtn</tabstop>
+  <tabstop>mKeyPairDeleteBtn</tabstop>
+  <tabstop>mCSRStatusCombo</tabstop>
+  <tabstop>mCSRTypeCombo</tabstop>
+  <tabstop>mCSRTable</tabstop>
+  <tabstop>mCSRViewBtn</tabstop>
+  <tabstop>mCSRDeleteBtn</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

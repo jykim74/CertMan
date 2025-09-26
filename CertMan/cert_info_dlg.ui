@@ -390,11 +390,15 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mKIDText</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>mFieldTypeCombo</tabstop>
   <tabstop>mFieldTable</tabstop>
   <tabstop>mDetailText</tabstop>
   <tabstop>mCertPathTree</tabstop>
+  <tabstop>mCheckBtn</tabstop>
   <tabstop>mCertStatusText</tabstop>
+  <tabstop>mViewPubKeyBtn</tabstop>
   <tabstop>mVerifyCertBtn</tabstop>
   <tabstop>mPathValidationBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>

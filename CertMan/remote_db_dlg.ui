@@ -182,6 +182,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mDBTypeCombo</tabstop>
   <tabstop>mHostnameText</tabstop>
   <tabstop>mDBNameText</tabstop>
   <tabstop>mUsernameText</tabstop>

@@ -857,6 +857,9 @@
   <tabstop>mUnstructuredNameText</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>
+  <tabstop>mKeyNameText</tabstop>
+  <tabstop>mKeyNumText</tabstop>
+  <tabstop>mSelectKeyPairBtn</tabstop>
   <tabstop>mAlgorithmText</tabstop>
   <tabstop>mOptionText</tabstop>
   <tabstop>mNewKeyNameText</tabstop>
@@ -864,9 +867,18 @@
   <tabstop>mECDSARadio</tabstop>
   <tabstop>mDSARadio</tabstop>
   <tabstop>mEdDSARadio</tabstop>
+  <tabstop>mSM2Radio</tabstop>
+  <tabstop>mML_DSARadio</tabstop>
+  <tabstop>mSLH_DSARadio</tabstop>
   <tabstop>mNewExponentText</tabstop>
   <tabstop>mNewOptionCombo</tabstop>
+  <tabstop>mPKCS11Check</tabstop>
+  <tabstop>mKMIPCheck</tabstop>
   <tabstop>mUseExtensionCheck</tabstop>
+  <tabstop>mProfileNameText</tabstop>
+  <tabstop>mProfileNumText</tabstop>
+  <tabstop>mSelectProfileBtn</tabstop>
+  <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mHashCombo</tabstop>
  </tabstops>
  <resources/>

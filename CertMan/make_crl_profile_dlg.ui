@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mCRLTab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -637,6 +637,36 @@
   <tabstop>mValidDaysText</tabstop>
   <tabstop>mThisUpdateDateTime</tabstop>
   <tabstop>mNextUpdateDateTime</tabstop>
+  <tabstop>mExtensionsCriticalCheck</tabstop>
+  <tabstop>mExtensionsClearBtn</tabstop>
+  <tabstop>mExtensionsAddBtn</tabstop>
+  <tabstop>mExtensionsOIDText</tabstop>
+  <tabstop>mExtensionsValueText</tabstop>
+  <tabstop>mExtensionsTable</tabstop>
+  <tabstop>mCRLNumGroup</tabstop>
+  <tabstop>mCRLNumCriticalCheck</tabstop>
+  <tabstop>mCRLNumAutoCheck</tabstop>
+  <tabstop>mCRLNumText</tabstop>
+  <tabstop>mAKIGroup</tabstop>
+  <tabstop>mAKICriticalCheck</tabstop>
+  <tabstop>mAKICertIssuerCheck</tabstop>
+  <tabstop>mAKICertSerialCheck</tabstop>
+  <tabstop>mIDPGroup</tabstop>
+  <tabstop>mIDPCriticalCheck</tabstop>
+  <tabstop>mIDPCombo</tabstop>
+  <tabstop>mIDPClearBtn</tabstop>
+  <tabstop>mIDPAddBtn</tabstop>
+  <tabstop>mIDPText</tabstop>
+  <tabstop>mIDPTable</tabstop>
+  <tabstop>mIANGroup</tabstop>
+  <tabstop>mIANCriticalCheck</tabstop>
+  <tabstop>mIANCombo</tabstop>
+  <tabstop>mIANClearBtn</tabstop>
+  <tabstop>mIANAddBtn</tabstop>
+  <tabstop>mIANText</tabstop>
+  <tabstop>mIANTable</tabstop>
+  <tabstop>mOKBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources/>
  <connections/>

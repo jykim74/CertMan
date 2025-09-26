@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>729</height>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -935,11 +935,26 @@
   <tabstop>mCSRFilePathText</tabstop>
   <tabstop>mCSRFileFindBtn</tabstop>
   <tabstop>mSaveToRequestCheck</tabstop>
+  <tabstop>mReqNameText</tabstop>
+  <tabstop>mReqNumText</tabstop>
+  <tabstop>mSelectCSRBtn</tabstop>
+  <tabstop>mAlgorithmText</tabstop>
+  <tabstop>mOptionText</tabstop>
+  <tabstop>mProfileNameText</tabstop>
+  <tabstop>mProfileNumText</tabstop>
+  <tabstop>mSelectProfileBtn</tabstop>
+  <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mMakeDNBtn</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mSelfSignCheck</tabstop>
+  <tabstop>mIssuerNameText</tabstop>
+  <tabstop>mIssuerNumText</tabstop>
+  <tabstop>mSelectCACertBtn</tabstop>
   <tabstop>mIssuerAlgorithmText</tabstop>
   <tabstop>mIssuerOptionText</tabstop>
+  <tabstop>mUserNameText</tabstop>
+  <tabstop>mSSNText</tabstop>
+  <tabstop>mEmailText</tabstop>
  </tabstops>
  <resources/>
  <connections>
