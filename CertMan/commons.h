@@ -168,7 +168,7 @@ const QStringList kRevokeReasonList = {
 
 static const QString kCSR_DN = "#CSR_DN";
 
-static QStringList kRSAOptionList = { "1024", "2048", "3072", "4096" };
+static QStringList kRSAOptionList = { "1024", "2048", "3072", "4096", "8192" };
 static QStringList kECCOptionList = { "prime256v1",
     "secp112r1", "secp112r2", "secp128r1", "secp128r2", "secp160k1",
     "secp160r1", "secp160r2", "secp192r1", "secp192k1", "secp224k1",
@@ -182,7 +182,7 @@ static QStringList kECCOptionList = { "prime256v1",
 
 
 static QStringList kEdDSAOptionList = { JS_EDDSA_PARAM_NAME_25519, JS_EDDSA_PARAM_NAME_448 };
-static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096" };
+static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096", "8192" };
 static QStringList kML_DSAOptionList = {
     JS_PQC_PARAM_ML_DSA_44_NAME, JS_PQC_PARAM_ML_DSA_65_NAME, JS_PQC_PARAM_ML_DSA_87_NAME
 };
