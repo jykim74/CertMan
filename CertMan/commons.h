@@ -182,7 +182,7 @@ static QStringList kECCOptionList = { "prime256v1",
 
 
 static QStringList kEdDSAOptionList = { JS_EDDSA_PARAM_NAME_25519, JS_EDDSA_PARAM_NAME_448 };
-static QStringList kDSAOptionList = { "1024", "2048", "3072", "4096", "8192" };
+static QStringList kDSAOptionList = { "1024", "2048", "3072" };
 static QStringList kML_DSAOptionList = {
     JS_PQC_PARAM_ML_DSA_44_NAME, JS_PQC_PARAM_ML_DSA_65_NAME, JS_PQC_PARAM_ML_DSA_87_NAME
 };
