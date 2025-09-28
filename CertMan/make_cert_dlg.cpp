@@ -632,7 +632,7 @@ void MakeCertDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to make certificate [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to make certificate [%1]").arg(JERR(ret)), this );
         goto end;
 
     }
@@ -640,7 +640,7 @@ void MakeCertDlg::accept()
     ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pMadeExtInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(ret), this );
+        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(JERR(ret)), this );
         goto end;
     }
 
@@ -677,7 +677,7 @@ void MakeCertDlg::accept()
     ret = dbMgr->addCertRec( madeCertRec );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( JERR(ret) ), this );
         goto end;
     }
 

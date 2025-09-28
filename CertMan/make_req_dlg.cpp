@@ -313,7 +313,10 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
                     &binPub );
     }
 
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        goto end;
+    }
 
     if( isInternalPrivate( strAlg ) == true )
     {
@@ -353,7 +356,7 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
     }
     else
     {
-        manApplet->warningBox( tr( "failed to generate key pair"), this );
+        manApplet->warningBox( tr( "failed to generate key pair: %1").arg(JERR(ret)), this );
     }
 
 end :
@@ -604,7 +607,7 @@ void MakeReqDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warnLog( tr( "Failed to create CSR : %1" ).arg(ret), this );
+        manApplet->warnLog( tr( "Failed to create CSR : %1" ).arg(JERR(ret)), this );
         goto end;
     }
 
@@ -624,7 +627,7 @@ void MakeReqDlg::accept()
     ret = dbMgr->addReqRec( reqRec );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( JERR(ret) ), this );
         goto end;
     }
 

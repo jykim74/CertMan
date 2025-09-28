@@ -355,14 +355,14 @@ void MakeCRLDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to make CRL [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to make CRL [%1]").arg(JERR(ret)), this );
         goto end;
     }
 
     ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pMadeExtInfoList, &pMadeRevokeInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to get CRL information [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to get CRL information [%1]").arg(JERR(ret)), this );
         goto end;
     }
 
@@ -380,7 +380,7 @@ void MakeCRLDlg::accept()
     ret = dbMgr->addCRLRec( madeCRLRec );
     if( ret != 0 )
     {
-        manApplet->warnLog( tr("Failed to save DB : %1").arg( ret ), this );
+        manApplet->warnLog( tr("Failed to save DB : %1").arg( JERR(ret) ), this );
         goto end;
     }
 

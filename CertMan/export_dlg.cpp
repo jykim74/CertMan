@@ -419,10 +419,14 @@ void ExportDlg::clickOK()
         break;
 
     default:
+        ret = JSR_INVALID_TYPE;
         break;
     }
 
-    if( ret == 0 ) QDialog::accept();
+    if( ret == 0 )
+        QDialog::accept();
+    else
+        manApplet->warningBox( tr( "failed to export: %1").arg(JERR(ret)), this );
 }
 
 int ExportDlg::exportPublic()
