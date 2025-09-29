@@ -405,6 +405,7 @@
   <tabstop>mCertPathTree</tabstop>
   <tabstop>mCheckBtn</tabstop>
   <tabstop>mCertStatusText</tabstop>
+  <tabstop>mExportBtn</tabstop>
   <tabstop>mViewPubKeyBtn</tabstop>
   <tabstop>mVerifyCertBtn</tabstop>
   <tabstop>mPathValidationBtn</tabstop>

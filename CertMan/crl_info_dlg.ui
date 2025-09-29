@@ -23,7 +23,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mCRLTab">
       <attribute name="title">
@@ -173,6 +173,7 @@
   <tabstop>mCRLDetailText</tabstop>
   <tabstop>mRevokeListTable</tabstop>
   <tabstop>mRevokeDetailTable</tabstop>
+  <tabstop>mExportBtn</tabstop>
   <tabstop>mVerifyCRLBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
