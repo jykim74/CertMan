@@ -385,6 +385,13 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mExportBtn">
+       <property name="text">
+        <string>Export</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

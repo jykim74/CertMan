@@ -12,6 +12,7 @@
 #include "js_pki_ext.h"
 #include "js_util.h"
 #include "commons.h"
+#include "export_dlg.h"
 
 QTableWidgetItem* CRLInfoDlg::getExtNameItem( const QString strSN )
 {
@@ -67,6 +68,13 @@ CRLInfoDlg::CRLInfoDlg(QWidget *parent) :
     revoke_info_list_ = NULL;
 
     memset( &crl_info_, 0x00, sizeof(crl_info_));
+
+    connect( mVerifyCRLBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCRL()));
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
+    connect( mRevokeListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickRevokeField(QModelIndex)));
+    connect( mExportBtn, SIGNAL(clicked()), this, SLOT(clickExport()));
+
     tabWidget->setCurrentIndex(0);
     mCloseBtn->setDefault(true);
 
@@ -109,7 +117,7 @@ void CRLInfoDlg::clickVerifyCRL()
     manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no CA information" ), this );
+        manApplet->warningBox( tr( "There is no CRL information" ), this );
         return;
     }
 
@@ -131,6 +139,25 @@ void CRLInfoDlg::clickVerifyCRL()
 end :
     JS_BIN_reset( &binCRL );
     JS_BIN_reset( &binCA );
+}
+
+void CRLInfoDlg::clickExport()
+{
+    BIN binCRL = {0,0};
+
+    CRLRec crlRec;
+    CertRec caRec;
+
+    manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
+
+    JS_BIN_decodeHex( crlRec.getCRL().toStdString().c_str(), &binCRL );
+
+    ExportDlg exportDlg;
+    exportDlg.setName( crl_info_.pIssuerName );
+    exportDlg.setCRL( &binCRL );
+    exportDlg.exec();
+
+    JS_BIN_reset( &binCRL );
 }
 
 void CRLInfoDlg::setCRLNum(int crl_num)
@@ -323,11 +350,6 @@ void CRLInfoDlg::initUI()
     mRevokeDetailTable->setSelectionMode(QAbstractItemView::SingleSelection);
     mRevokeDetailTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mRevokeDetailTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    connect( mVerifyCRLBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCRL()));
-    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
-    connect( mCRLListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickCRLField(QModelIndex)));
-    connect( mRevokeListTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickRevokeField(QModelIndex)));
 }
 
 void CRLInfoDlg::clearTable()

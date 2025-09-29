@@ -16,6 +16,7 @@
 #include "js_error.h"
 #include "commons.h"
 #include "pri_key_info_dlg.h"
+#include "export_dlg.h"
 
 enum {
     FIELD_ALL = 0,
@@ -82,6 +83,7 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     connect( mFieldTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeFieldType(int)));
 
     connect( mCheckBtn, SIGNAL(clicked()), this, SLOT(clickCheck()));
+    connect( mExportBtn, SIGNAL(clicked()), this, SLOT(clickExport()));
     connect( mVerifyCertBtn, SIGNAL(clicked()), this, SLOT(clickVerifyCert()));
     connect( mPathValidationBtn, SIGNAL(clicked()), this, SLOT(clickPathValidation()));
     connect( mViewPubKeyBtn, SIGNAL(clicked()), this, SLOT(clickViewPubKey()));
@@ -471,6 +473,26 @@ void CertInfoDlg::clickCheck()
     mCertStatusText->setPlainText( strRes );
 
     if( pChainList ) JS_BIN_resetList( &pChainList );
+    JS_BIN_reset( &binCert );
+}
+
+void CertInfoDlg::clickExport()
+{
+    BIN binCert = {0,0};
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    CertRec cert;
+    dbMgr->getCertRec( cert_num_, cert );
+
+    JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+
+    ExportDlg exportDlg;
+    exportDlg.setName( cert.getSubjectDN() );
+    exportDlg.setCert( &binCert );
+    exportDlg.exec();
+
     JS_BIN_reset( &binCert );
 }
 

@@ -14,6 +14,7 @@
 #include "js_pki_tools.h"
 
 #include "pri_key_info_dlg.h"
+#include "export_dlg.h"
 
 CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
     QDialog(parent)
@@ -24,6 +25,7 @@ CSRInfoDlg::CSRInfoDlg(QWidget *parent) :
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mViewPubKeyBtn, SIGNAL(clicked()), this, SLOT(clickViewPubKey()));
+    connect( mExportBtn, SIGNAL(clicked()), this, SLOT(clickExport()));
 
     mCloseBtn->setDefault(true);
 
@@ -335,4 +337,24 @@ void CSRInfoDlg::clickViewPubKey()
 
     JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binPub );
+}
+
+void CSRInfoDlg::clickExport()
+{
+    BIN binCSR;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    ReqRec req;
+    dbMgr->getReqRec( csr_num_, req );
+
+    JS_BIN_decodeHex( req.getCSR().toStdString().c_str(), &binCSR );
+
+    ExportDlg exportDlg;
+    exportDlg.setName( req.getName() );
+    exportDlg.setCSR( &binCSR );
+    exportDlg.exec();
+
+    JS_BIN_reset( &binCSR );
 }

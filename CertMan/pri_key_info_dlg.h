@@ -30,6 +30,7 @@ public:
     void setPrivateKey( const BIN *pPriKey );
     void setPublicKey( const BIN *pPubKey );
 
+
 private slots:
     void showEvent(QShowEvent *event);
 
@@ -56,16 +57,16 @@ private slots:
     void changeRawPrivate();
 
     void clickClear();
-    void clickGetPrivateKey();
-    void clickGetPublicKey();
+
     void clickInsertToHSM();
-    void clickKeyPairCheck();
+    void clickExport();
 
 private:
     void initialize();
 
-    int readPrivateKey();
-    int readPrivateKeyHSM();
+    void readPublicKey( KeyPairRec& keyRec );
+    int readPrivateKey( KeyPairRec& keyRec );
+    int readPrivateKeyHSM( KeyPairRec& keyRec );
     void setKey( const BIN *pKey, bool bPri );
 
     void setRSAKey( const BIN *pKey, bool bPri = true );
@@ -101,8 +102,9 @@ private:
     void setEnableRawPrivate( bool bVal );
 
 private:
-    int key_num_;
-    KeyPairRec key_rec_;
+    int     key_num_;
+    bool    is_pri_;
+    BIN     key_;
 };
 
 #endif // PRI_KEY_INFO_DLG_H

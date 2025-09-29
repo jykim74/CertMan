@@ -32,6 +32,7 @@ private slots:
     void showEvent(QShowEvent *event);
     void clickField( QModelIndex index );
     void clickCheck();
+    void clickExport();
     void clickViewPubKey();
     void clickVerifyCert();
     void clickPathValidation();
