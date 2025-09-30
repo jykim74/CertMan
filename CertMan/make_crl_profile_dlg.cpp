@@ -39,6 +39,9 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 
     initialize();
 
+    mCloseBtn->setDefault(true);
+    mNameText->setFocus();
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 
@@ -65,7 +68,6 @@ MakeCRLProfileDlg::MakeCRLProfileDlg(QWidget *parent) :
 #endif
 
     resize(minimumSizeHint().width(), minimumSizeHint().height());
-    mCloseBtn->setFocus();
 }
 
 MakeCRLProfileDlg::~MakeCRLProfileDlg()

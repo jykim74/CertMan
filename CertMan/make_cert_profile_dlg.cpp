@@ -63,6 +63,9 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     mCertTab->setCurrentIndex(0);
 
     initialize();
+
+    mNameText->setFocus();
+    mCloseBtn->setFocus();
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 
@@ -127,7 +130,6 @@ MakeCertProfileDlg::MakeCertProfileDlg(QWidget *parent) :
     mNCGroup->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
-    mCloseBtn->setFocus();
 }
 
 MakeCertProfileDlg::~MakeCertProfileDlg()

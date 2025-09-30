@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>528</height>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,6 +164,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line_10">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTabWidget" name="mKeyInfoTab">
      <property name="minimumSize">
       <size>
@@ -172,7 +179,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mSelTab">
       <attribute name="title">
@@ -644,6 +651,13 @@
        </item>
       </layout>
      </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_9">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>

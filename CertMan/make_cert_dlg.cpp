@@ -396,7 +396,7 @@ void MakeCertDlg::accept()
     KeyPairRec signKeyPair;
     dbMgr->getKeyPairRec( nSignKeyNum, signKeyPair );
 
-    if( signKeyPair.getParam() == "SM2" )
+    if( signKeyPair.getParam() == JS_PKI_KEY_NAME_SM2 )
     {
         if( profileRec.getHash() != "SM3" )
         {

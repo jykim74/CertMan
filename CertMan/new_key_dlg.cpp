@@ -45,6 +45,7 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
     connect( mKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIP()));
 
     initialize();
+    mNameText->setFocus();
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
