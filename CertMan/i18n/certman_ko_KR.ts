@@ -4862,7 +4862,7 @@
         <location filename="../make_crl_profile_dlg.ui" line="411"/>
         <location filename="../make_crl_profile_dlg.ui" line="470"/>
         <location filename="../make_crl_profile_dlg.ui" line="555"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="412"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="414"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
@@ -4918,9 +4918,9 @@
         <translation>발급자 대체 이름</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="102"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="112"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="136"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="104"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="114"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="138"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
@@ -4929,72 +4929,72 @@
         <translation type="vanished">이름을 입력하세요.</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="80"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="82"/>
         <source>Edit CRL profile</source>
         <translation>CRL 프로파일 편집</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="86"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="88"/>
         <source>View CRL profile</source>
         <translation>CRL 프로파일 보기</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="265"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="267"/>
         <source>Enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="286"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="288"/>
         <source>time is too early : %1</source>
         <translation>너무 이른 시간:%1</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="335"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="337"/>
         <source>failed to make CRL profile</source>
         <translation>CRL 프로파일 만들기에 실패하였습니다</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="365"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="367"/>
         <source>Hex value</source>
         <translation>16진수 값</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="368"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="370"/>
         <source>URI address</source>
         <translation>URI 주소</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="390"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="401"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="392"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="403"/>
         <source>Type</source>
         <translation>타입</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="390"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="401"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="412"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="392"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="403"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="414"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="450"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="452"/>
         <source>Enter Issuing Distribution Point value</source>
         <translation>발급 배포 지점 값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="460"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="491"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="530"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="462"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="493"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="532"/>
         <source>%1 has already been added.</source>
         <translation>%1은 이미 입력되었습니다</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="481"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="483"/>
         <source>Enter Issuer Alternative Name value</source>
         <translation>발급자 대체 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.cpp" line="514"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="516"/>
         <source>Enter OID and Value both</source>
         <translation>OID 와 값 둘다 입력하세요</translation>
     </message>
@@ -5009,7 +5009,7 @@
     </message>
     <message>
         <location filename="../make_crl_profile_dlg.ui" line="267"/>
-        <location filename="../make_crl_profile_dlg.cpp" line="412"/>
+        <location filename="../make_crl_profile_dlg.cpp" line="414"/>
         <source>OID</source>
         <translation>OID</translation>
     </message>
@@ -5757,7 +5757,7 @@
         <location filename="../make_cert_profile_dlg.ui" line="1337"/>
         <location filename="../make_cert_profile_dlg.ui" line="1420"/>
         <location filename="../make_cert_profile_dlg.ui" line="1509"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="612"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="614"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
@@ -5768,15 +5768,15 @@
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="666"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="528"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="530"/>
         <source>CPS</source>
         <translation>인증서 정책 문장</translation>
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="378"/>
         <location filename="../make_cert_profile_dlg.ui" line="673"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="528"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="612"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="530"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="614"/>
         <source>OID</source>
         <translation>OID</translation>
     </message>
@@ -5787,7 +5787,7 @@
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="690"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="528"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="530"/>
         <source>UserNotice</source>
         <translation>사용자 공지</translation>
     </message>
@@ -5916,7 +5916,7 @@
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="1556"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="601"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="603"/>
         <source>Max</source>
         <translation>최대</translation>
     </message>
@@ -5927,7 +5927,7 @@
     </message>
     <message>
         <location filename="../make_cert_profile_dlg.ui" line="1580"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="601"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="603"/>
         <source>Min</source>
         <translation>최소</translation>
     </message>
@@ -5940,145 +5940,145 @@
         <translation type="vanished">주체자 DN 을 설정 하세요.</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="142"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="144"/>
         <source>Edit certificate profile</source>
         <translation>인증서 프로파일 편집</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="151"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="153"/>
         <source>View certificate profille</source>
         <translation>인증서 프로파일 보기</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="367"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="369"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="396"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="398"/>
         <source>Please enter a subject DN</source>
         <translation>주체자 DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="410"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="412"/>
         <source>time is too early : %1</source>
         <translation>너무 이른 시간:%1</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="468"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="470"/>
         <source>failed to make certificate profile</source>
         <translation>인증서 프로파일 만들기 실패</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="516"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="517"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="518"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="519"/>
         <source>String value</source>
         <translation>문자열 값</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="519"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="520"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="521"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="522"/>
         <source>URI address</source>
         <translation>URI 주소</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="522"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="523"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="524"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="525"/>
         <source>Text OID</source>
         <translation>문자열 OID</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="541"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="553"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="566"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="578"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="601"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="543"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="555"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="568"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="580"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="603"/>
         <source>Type</source>
         <translation>타입</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="541"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="553"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="566"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="578"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="590"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="601"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="612"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="543"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="555"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="568"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="580"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="592"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="603"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="614"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="553"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="590"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="601"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="555"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="592"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="603"/>
         <source>Target</source>
         <translation>대상</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="667"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="684"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="701"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="717"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="733"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="749"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="765"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="781"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="797"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="807"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="669"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="686"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="703"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="719"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="735"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="751"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="767"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="783"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="799"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="809"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="879"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="900"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="926"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="952"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="985"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="1017"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="1049"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="1087"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="1124"/>
-        <location filename="../make_cert_profile_dlg.cpp" line="1168"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="881"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="902"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="928"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="954"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="987"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1019"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1051"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1089"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1126"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1170"/>
         <source>%1 has already been added.</source>
         <translation>%1은 이미 입력되었습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="941"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="943"/>
         <source>Enter CRLDP value</source>
         <translation>CRLDP 값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="974"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="976"/>
         <source>Enter AuthorityInfoAccess value</source>
         <translation>기관 정보 액세스를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1007"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1009"/>
         <source>Enter Subject Alternative Name value</source>
         <translation>주체자 대체 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1038"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1040"/>
         <source>Enter Issuer Alternative Name value</source>
         <translation>발급자 대체 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1070"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1072"/>
         <source>Enter issuerDomainPolicy and subjectDomainPolicy both</source>
         <translation>IssuerDomainPolicy 와 SubjectDomainPolicy 값 둘다 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1076"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1078"/>
         <source>IssuerDomainPolicy and SubjectDomainPolicy must have different values</source>
         <translation>발급자 도메인 정책과 주체자 도메인 정책은 같을 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1114"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1116"/>
         <source>Enter Name Constraints value</source>
         <translation>이름 제한 값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="1152"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="1154"/>
         <source>Enter OID and Value both</source>
         <translation>OID 와 값 둘다 입력하세요</translation>
     </message>
@@ -6175,22 +6175,22 @@
         <translation type="vanished">발급자 도메인 정책과 주체자 도메인 정책은 같을 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="483"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="485"/>
         <source>The Certificate Extension Only</source>
         <translation>인증서 확장자만 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="484"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="486"/>
         <source>The CSR Extension Only</source>
         <translation>요청서 확장자만 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="485"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="487"/>
         <source>Both Certificate and CSR and the The certificate first</source>
         <translation>인증서 요청서 확장 둘다 사용 (인증서 우선)</translation>
     </message>
     <message>
-        <location filename="../make_cert_profile_dlg.cpp" line="486"/>
+        <location filename="../make_cert_profile_dlg.cpp" line="488"/>
         <source>Both Certificate and CSR and the CSR first</source>
         <translation>인증서 요청서 확장 둘다 사용 (요청서 우선)</translation>
     </message>
@@ -6294,8 +6294,8 @@
         <translation type="vanished">요청서 만들기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="209"/>
-        <location filename="../make_req_dlg.ui" line="472"/>
+        <location filename="../make_req_dlg.ui" line="216"/>
+        <location filename="../make_req_dlg.ui" line="479"/>
         <source>Key Name</source>
         <translation>키 이름</translation>
     </message>
@@ -6309,12 +6309,12 @@
         <translation type="vanished">해쉬</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="319"/>
+        <location filename="../make_req_dlg.ui" line="326"/>
         <source>Key size</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="312"/>
+        <location filename="../make_req_dlg.ui" line="319"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
@@ -6346,42 +6346,42 @@
         <translation>도전 암호</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="553"/>
+        <location filename="../make_req_dlg.ui" line="560"/>
         <source>ML DSA</source>
         <translation>ML DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="560"/>
+        <location filename="../make_req_dlg.ui" line="567"/>
         <source>SLH DSA</source>
         <translation>SLH DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="567"/>
+        <location filename="../make_req_dlg.ui" line="574"/>
         <source>PQC</source>
         <translation>PQC</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="602"/>
+        <location filename="../make_req_dlg.ui" line="609"/>
         <source>To KMIP</source>
         <translation>To KMIP</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="609"/>
+        <location filename="../make_req_dlg.ui" line="616"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="616"/>
+        <location filename="../make_req_dlg.ui" line="623"/>
         <source>To PKCS#11</source>
         <translation>To PKCS#11</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="770"/>
+        <location filename="../make_req_dlg.ui" line="784"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="814"/>
+        <location filename="../make_req_dlg.ui" line="828"/>
         <source>Signature Hash</source>
         <translation>서명 해쉬</translation>
     </message>
@@ -6396,18 +6396,18 @@
         <translation>요청서 만들기</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="179"/>
+        <location filename="../make_req_dlg.ui" line="186"/>
         <source>Key Select</source>
         <translation>키 선택</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="190"/>
-        <location filename="../make_req_dlg.ui" line="664"/>
+        <location filename="../make_req_dlg.ui" line="197"/>
+        <location filename="../make_req_dlg.ui" line="678"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="443"/>
+        <location filename="../make_req_dlg.ui" line="450"/>
         <source>Key Generate</source>
         <translation>키 생성</translation>
     </message>
@@ -6424,27 +6424,27 @@
         <translation type="vanished">KMIP</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="539"/>
+        <location filename="../make_req_dlg.ui" line="546"/>
         <source>ECDSA</source>
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="525"/>
+        <location filename="../make_req_dlg.ui" line="532"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="518"/>
+        <location filename="../make_req_dlg.ui" line="525"/>
         <source>Mechanism</source>
         <translation>메커니즘</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="546"/>
+        <location filename="../make_req_dlg.ui" line="553"/>
         <source>EdDSA</source>
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="532"/>
+        <location filename="../make_req_dlg.ui" line="539"/>
         <source>SM2</source>
         <translation>SM2</translation>
     </message>
@@ -6453,12 +6453,12 @@
         <translation type="vanished">키 길이</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="595"/>
+        <location filename="../make_req_dlg.ui" line="602"/>
         <source>Public Exponent</source>
         <translation>Public Exponent</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="496"/>
+        <location filename="../make_req_dlg.ui" line="503"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
@@ -6476,7 +6476,7 @@
         <translation>CSR 만들기 정보</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="801"/>
+        <location filename="../make_req_dlg.ui" line="815"/>
         <source>This is for CSR signature hash algorithm</source>
         <translation>CSR 서명을 위한 해쉬 알고리즘</translation>
     </message>
@@ -6489,12 +6489,12 @@
         <translation type="vanished">라이센스가 없을 경우 %1 개 이상 CSR을 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="652"/>
+        <location filename="../make_req_dlg.ui" line="666"/>
         <source>Use Extension</source>
         <translation>확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.ui" line="763"/>
+        <location filename="../make_req_dlg.ui" line="777"/>
         <source>Profile Name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -6517,13 +6517,13 @@
         <translation>구조화 안된 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="220"/>
+        <location filename="../make_req_dlg.cpp" line="222"/>
         <source>Enter a key name</source>
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="270"/>
-        <location filename="../make_req_dlg.cpp" line="510"/>
+        <location filename="../make_req_dlg.cpp" line="272"/>
+        <location filename="../make_req_dlg.cpp" line="512"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
@@ -6532,57 +6532,57 @@
         <translation type="vanished">키 쌍 생성 실패</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="359"/>
+        <location filename="../make_req_dlg.cpp" line="361"/>
         <source>failed to generate key pair: %1</source>
         <translation>키 쌍 생성 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="393"/>
+        <location filename="../make_req_dlg.cpp" line="395"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="402"/>
+        <location filename="../make_req_dlg.cpp" line="404"/>
         <source>Please enter a DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="433"/>
+        <location filename="../make_req_dlg.cpp" line="435"/>
         <source>fail to generate keypair: %1</source>
         <translation>키 쌍 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="453"/>
+        <location filename="../make_req_dlg.cpp" line="455"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="523"/>
+        <location filename="../make_req_dlg.cpp" line="525"/>
         <source>PKCS11 library was not loaded</source>
         <translation>PKCS11 라이브러리가 로드 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="531"/>
+        <location filename="../make_req_dlg.cpp" line="533"/>
         <source>Failed to fetch session:%1 </source>
         <translation>세션 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="610"/>
+        <location filename="../make_req_dlg.cpp" line="612"/>
         <source>Failed to create CSR : %1</source>
         <translation>CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="630"/>
+        <location filename="../make_req_dlg.cpp" line="632"/>
         <source>Failed to save DB : %1</source>
         <translation>DB 저장 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="870"/>
+        <location filename="../make_req_dlg.cpp" line="872"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="933"/>
+        <location filename="../make_req_dlg.cpp" line="935"/>
         <source>Select a keypair from CA Man</source>
         <translation>CA 관리에서 키쌍을 선택하세요</translation>
     </message>
@@ -6591,7 +6591,7 @@
         <translation type="vanished">CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="416"/>
+        <location filename="../make_req_dlg.cpp" line="418"/>
         <source>Please select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -6600,12 +6600,12 @@
         <translation type="vanished">CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="844"/>
+        <location filename="../make_req_dlg.cpp" line="846"/>
         <source>Select KeyPair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="856"/>
+        <location filename="../make_req_dlg.cpp" line="858"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -6816,32 +6816,32 @@
         <translation type="vanished">PKCS#11</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="123"/>
+        <location filename="../new_key_dlg.ui" line="177"/>
         <source>DSA</source>
         <translation>DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="137"/>
+        <location filename="../new_key_dlg.ui" line="116"/>
         <source>RSA</source>
         <translation>RSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="130"/>
+        <location filename="../new_key_dlg.ui" line="137"/>
         <source>ECDSA</source>
         <translation>ECDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="144"/>
+        <location filename="../new_key_dlg.ui" line="123"/>
         <source>EdDSA</source>
         <translation>EdDSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="163"/>
+        <location filename="../new_key_dlg.ui" line="170"/>
         <source>Mechanism</source>
         <translation>알고리즘</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="116"/>
+        <location filename="../new_key_dlg.ui" line="144"/>
         <source>SM2</source>
         <translation>SM2</translation>
     </message>
@@ -6861,12 +6861,27 @@
         <translation>To PKCS#11</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="170"/>
+        <location filename="../new_key_dlg.ui" line="151"/>
         <source>ML DSA</source>
         <translation>ML DSA</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="177"/>
+        <location filename="../new_key_dlg.ui" line="298"/>
+        <source>Close</source>
+        <translation>닫기</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="305"/>
+        <source>OK</source>
+        <translation>확인</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="312"/>
+        <source>Set to default</source>
+        <translation>기본값 설정</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.ui" line="130"/>
         <source>SLH DSA</source>
         <translation>SLH DSA</translation>
     </message>
@@ -6876,7 +6891,7 @@
         <translation>PQC</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="244"/>
+        <location filename="../new_key_dlg.ui" line="251"/>
         <source>Exponent</source>
         <translation>Exponent</translation>
     </message>
@@ -6894,32 +6909,32 @@
         <translation type="vanished">파라미터</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.ui" line="205"/>
+        <location filename="../new_key_dlg.ui" line="212"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="124"/>
+        <location filename="../new_key_dlg.cpp" line="133"/>
         <source>Enter a key name</source>
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="186"/>
+        <location filename="../new_key_dlg.cpp" line="195"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="247"/>
+        <location filename="../new_key_dlg.cpp" line="257"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="294"/>
+        <location filename="../new_key_dlg.cpp" line="304"/>
         <source>failed to generate key pairs</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="352"/>
+        <location filename="../new_key_dlg.cpp" line="368"/>
         <source>failed to generate key pair</source>
         <translation>키 쌍 생성에 실패 하였습니다</translation>
     </message>

@@ -158,8 +158,6 @@ void MakeReqDlg::initialize()
         mSLH_DSARadio->setEnabled( false );
     }
 
-    mRSARadio->click();
-
     mHashCombo->addItems(kHashList);
     mHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
@@ -169,36 +167,40 @@ void MakeReqDlg::initialize()
     mNewOptionCombo->setCurrentText( "2048" );
 
     QString strKeyTypeParam = manApplet->settingsMgr()->keyTypeParam();
-    QStringList typeParam = strKeyTypeParam.split(":");
-    int nKeyType = -1;
-    QString strParam;
-
-    if( typeParam.size() > 0 )
+    if( strKeyTypeParam.length() > 1 )
     {
-        nKeyType = typeParam.at(0).toInt();
-    }
+        QStringList typeParam = strKeyTypeParam.split(":");
 
-    if( typeParam.size() > 1 )
+        if( typeParam.size() > 0 )
+        {
+            QString strAlg = typeParam.at(0);
+
+            if( strAlg == JS_PKI_KEY_NAME_RSA )
+                mRSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_ECDSA )
+                mECDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_DSA )
+                mDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_SM2 )
+                mSM2Radio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
+                mEdDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_ML_DSA )
+                mML_DSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+                mSLH_DSARadio->click();
+        }
+
+        if( typeParam.size() > 1 )
+        {
+            QString strParam = typeParam.at(1);
+            mNewOptionCombo->setCurrentText( strParam );
+        }
+    }
+    else
     {
-        strParam = typeParam.at(1);
-    }
-
-    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
         mRSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
-        mECDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
-        mDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_SM2 )
-        mSM2Radio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
-        mEdDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA )
-        mML_DSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
-        mSLH_DSARadio->click();
-
-    if( strParam.length() > 0 ) mNewOptionCombo->setCurrentText( strParam );
+    }
 }
 
 int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )

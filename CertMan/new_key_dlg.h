@@ -23,8 +23,7 @@ public:
     ~NewKeyDlg();
 
 private slots:
-    virtual void accept();
-//    void mechChanged(int index);
+    void clickOK();
 
     void clickRSA();
     void clickECDSA();

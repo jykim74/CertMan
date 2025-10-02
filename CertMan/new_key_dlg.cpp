@@ -31,7 +31,9 @@ NewKeyDlg::NewKeyDlg(QWidget *parent) :
 {
     setupUi(this);
     initUI();
-//    connect( mMechCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(mechChanged(int)));
+
+    connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
+    connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
 
     connect( mRSARadio, SIGNAL(clicked()), this, SLOT(clickRSA()));
     connect( mECDSARadio, SIGNAL(clicked()), this, SLOT(clickECDSA()));
@@ -83,41 +85,47 @@ void NewKeyDlg::initialize()
     }
 
     QString strKeyTypeParam = manApplet->settingsMgr()->keyTypeParam();
-    QStringList typeParam = strKeyTypeParam.split(":");
-    int nKeyType = -1;
-    QString strParam;
 
-    if( typeParam.size() > 0 )
+    if( strKeyTypeParam.length() > 1 )
     {
-        nKeyType = typeParam.at(0).toInt();
-    }
+        QStringList typeParam = strKeyTypeParam.split(":");
 
-    if( typeParam.size() > 1 )
+        if( typeParam.size() > 0 )
+        {
+            mSetDefaultCheck->setChecked(true);
+
+            QString strAlg = typeParam.at(0);
+
+            if( strAlg == JS_PKI_KEY_NAME_RSA )
+                mRSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_ECDSA )
+                mECDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_DSA )
+                mDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_SM2 )
+                mSM2Radio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_EDDSA )
+                mEdDSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_ML_DSA )
+                mML_DSARadio->click();
+            else if( strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+                mSLH_DSARadio->click();
+        }
+
+        if( typeParam.size() > 1 )
+        {
+            QString strParam = typeParam.at(1);
+            mOptionCombo->setCurrentText( strParam );
+        }
+    }
+    else
     {
-        strParam = typeParam.at(1);
-    }
-
-    if( nKeyType == JS_PKI_KEY_TYPE_RSA )
         mRSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
-        mECDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
-        mDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_SM2 )
-        mSM2Radio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
-        mEdDSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA )
-        mML_DSARadio->click();
-    else if( nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
-        mSLH_DSARadio->click();
-
-    if( strParam.length() > 0 ) mOptionCombo->setCurrentText( strParam );
+    }
 }
 
 void NewKeyDlg::initUI()
 {
-    // mMechCombo->addItems(sMechList);
     mOptionCombo->addItems(kRSAOptionList);
     mOptionCombo->setCurrentText( "2048" );
     mExponentText->setText( QString( "65537" ) );
@@ -174,7 +182,7 @@ const QString NewKeyDlg::getMechanism()
     return strMech;
 }
 
-void NewKeyDlg::accept()
+void NewKeyDlg::clickOK()
 {
     int ret = 0;
     QString strName = mNameText->text();
@@ -198,6 +206,7 @@ void NewKeyDlg::accept()
 //    QString strMech = mMechCombo->currentText();
     QString strMech = getMechanism();
     QString strParam = mOptionCombo->currentText();
+    QString strDefault;
 
     if( strMech == JS_PKI_KEY_NAME_RSA )
     {
@@ -328,11 +337,17 @@ void NewKeyDlg::accept()
     ret = dbMgr->addKeyPairRec( keyPairRec );
     if( ret != 0 ) goto end;
 
-    strParam = QString( "%1:%2" )
-                              .arg( getKeyMechType( strMech.toStdString().c_str() ))
-                              .arg( mOptionCombo->currentText() );
 
-    manApplet->settingsMgr()->setKeyTypeParam( strParam );
+    if( mSetDefaultCheck->isChecked() == true )
+    {
+        int nAlg = getKeyMechType( strMech );
+
+        strDefault = QString( "%1:%2" )
+                         .arg( JS_PKI_getKeyAlgName( nAlg ) )
+                         .arg( strParam );
+    }
+
+    manApplet->settingsMgr()->setKeyTypeParam( strDefault );
 
     if( manApplet->isPRO() ) addAudit( dbMgr, JS_GEN_KIND_CERTMAN, JS_GEN_OP_GEN_KEY_PAIR, "" );
 
