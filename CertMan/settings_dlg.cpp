@@ -29,27 +29,21 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     connect( mCancelBtn, SIGNAL(clicked()), this, SLOT(clickCancel()));
 
     connect( mP11FindBtn, SIGNAL(clicked()), this, SLOT(findP11Path()));
-    connect( mUseKMIPCheck, SIGNAL(clicked()), this, SLOT(checkKMIPUse()));
 
     connect( mKMIPCACertFindBtn, SIGNAL(clicked()), this, SLOT(findCACert()));
     connect( mKMIPCertFindBtn, SIGNAL(clicked()), this, SLOT(findCert()));
     connect( mKMIPPrivateKeyFindBtn, SIGNAL(clicked()), this, SLOT(findPrivateKey()));
 
-    connect( mUseOCSPCheck, SIGNAL(clicked()), this, SLOT(checkOCSPUse()));
     connect( mOCSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPSrvCert()));
     connect( mOCSPAttachSignCheck, SIGNAL(clicked()), this, SLOT(checkOCSPAttachSign()));
     connect( mOCSPSignerPriFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPPri()));
     connect( mOCSPSignerCertFindBtn, SIGNAL(clicked()), this, SLOT(findOCSPCert()));
 
-    connect( mUseREGCheck, SIGNAL(clicked()), this, SLOT(checkREGUse()));
-    connect( mUseCMPCheck, SIGNAL(clicked()), this, SLOT(checkCMPUse()));
     connect( mCMPRootCACertBtn, SIGNAL(clicked()), this, SLOT(findCMPRootCACert()));
     connect( mCMPCACertBtn, SIGNAL(clicked()), this, SLOT(findCMPCACert()));
-    connect( mUseTSPCheck, SIGNAL(clicked()), this, SLOT(checkTSPUse()));
 
     connect( mTSPSrvCertFindBtn, SIGNAL(clicked()), this, SLOT(findTSPSrvCert()));
 
-    connect( mUseSCEPCheck, SIGNAL(clicked()), this, SLOT(checkSCEPUse()));
     connect( mSCEPMutualAuthCheck, SIGNAL(clicked()), this, SLOT(checkSCEPMutualAuth()));
     connect( mSCEPPriKeyFindBtn, SIGNAL(clicked()), this, SLOT(findSCEPPriKey()));
     connect( mSCEPCertFindBtn, SIGNAL(clicked()), this, SLOT(findSCEPCert()));
@@ -148,7 +142,7 @@ void SettingsDlg::updateSettings()
 
     if( manApplet->isPRO() )
     {
-        mgr->setKMIPUse( mUseKMIPCheck->checkState() == Qt::Checked );
+        mgr->setKMIPUse( mKMIPGroup->isChecked() );
         mgr->setKMIPHost( mKMIPHostText->text() );
         mgr->setKMIPPort( mKMIPPortText->text() );
         mgr->setKMIPCACertPath( mKMIPCACertPathText->text() );
@@ -157,28 +151,28 @@ void SettingsDlg::updateSettings()
         mgr->setKMIPUserName( mKMIPUserNameText->text() );
         mgr->setKMIPPasswd( mKMIPPasswdText->text() );
 
-        mgr->setOCSPUse( mUseOCSPCheck->checkState() == Qt::Checked );
+        mgr->setOCSPUse( mOCSPGroup->isChecked());
         mgr->setOCSPURI( mOCSPURIText->text() );
         mgr->setOCSPSrvCertPath( mOCSPSrvCertPathText->text() );
         mgr->setOCSPAttachSign( mOCSPAttachSignCheck->checkState() == Qt::Checked );
         mgr->setOCSPSignerPriPath( mOCSPSignerPriPathText->text() );
         mgr->setOCSPSignerCertPath( mOCSPSignerCertPathText->text() );
 
-        mgr->setREGUse( mUseREGCheck->checkState() == Qt::Checked );
+        mgr->setREGUse( mREGGroup->isChecked() );
         mgr->setREGURI( mREGURIText->text() );
         mgr->setREGAdminName( mREGAdminNameText->text() );
         mgr->setREGPassword( mREGPasswordText->text() );
 
-        mgr->setCMPUse( mUseCMPCheck->checkState() == Qt::Checked );
+        mgr->setCMPUse( mCMPGroup->isChecked() );
         mgr->setCMPURI( mCMPURIText->text() );
         mgr->setCMPRootCACertPath( mCMPRootCACertPathText->text() );
         mgr->setCMPCACertPath( mCMPCACertPathText->text() );
 
-        mgr->setTSPUse( mUseTSPCheck->checkState() == Qt::Checked );
+        mgr->setTSPUse( mTSPGroup->isChecked() );
         mgr->setTSPURI( mTSPURIText->text() );
         mgr->setTSPSrvCertPath( mTSPSrvCertPathText->text() );
 
-        mgr->setSCEPUse( mUseSCEPCheck->checkState() == Qt::Checked );
+        mgr->setSCEPUse( mSCEPGroup->isChecked() );
         mgr->setSCEPURI( mSCEPURIText->text() );
         mgr->setSCEPMutualAuth( mSCEPMutualAuthCheck->checkState() == Qt::Checked );
         mgr->setSCEPPriKeyPath( mSCEPPriKeyPathText->text() );
@@ -194,13 +188,6 @@ void SettingsDlg::updateSettings()
     {
         mgr->setFontFamily( mFontFamilyCombo->currentText());
     }
-}
-
-void SettingsDlg::checkKMIPUse()
-{
-    bool bVal = mUseKMIPCheck->isChecked();
-
-    mKMIPGroup->setEnabled( bVal );
 }
 
 void SettingsDlg::findCACert()
@@ -247,12 +234,6 @@ void SettingsDlg::findP11Path()
     mLibraryP11PathText->setText( fileName );
 }
 
-void SettingsDlg::checkOCSPUse()
-{
-    bool bVal = mUseOCSPCheck->isChecked();
-
-    mOCSPGroup->setEnabled( bVal );
-}
 
 void SettingsDlg::checkOCSPAttachSign()
 {
@@ -294,19 +275,6 @@ void SettingsDlg::findOCSPCert()
     mOCSPSignerCertPathText->setText( fileName );
 }
 
-void SettingsDlg::checkREGUse()
-{
-    bool bVal = mUseREGCheck->isChecked();
-
-    mREGGroup->setEnabled( bVal );
-}
-
-void SettingsDlg::checkCMPUse()
-{
-    bool bVal = mUseCMPCheck->isChecked();
-    mCMPGroup->setEnabled( bVal );
-}
-
 void SettingsDlg::findCMPRootCACert()
 {
     QString strPath = mCMPRootCACertPathText->text();
@@ -327,12 +295,6 @@ void SettingsDlg::findCMPCACert()
     mCMPCACertPathText->setText( fileName );
 }
 
-void SettingsDlg::checkTSPUse()
-{
-    bool bVal = mUseTSPCheck->isChecked();
-    mTSPGroup->setEnabled( bVal );
-}
-
 void SettingsDlg::findTSPSrvCert()
 {
     QString strPath = mTSPSrvCertPathText->text();
@@ -341,14 +303,6 @@ void SettingsDlg::findTSPSrvCert()
     if( fileName.length() < 1 ) return;
 
     mTSPSrvCertPathText->setText( fileName );
-}
-
-void SettingsDlg::checkSCEPUse()
-{
-    bool bVal = mUseSCEPCheck->isChecked();
-    mSCEPGroup->setEnabled( bVal );
-
-    checkSCEPMutualAuth();
 }
 
 void SettingsDlg::checkSCEPMutualAuth()
@@ -537,8 +491,7 @@ void SettingsDlg::initialize()
 
     if( manApplet->isPRO() )
     {
-        state = mgr->KMIPUse() ? Qt::Checked : Qt::Unchecked;
-        mUseKMIPCheck->setCheckState( state );
+        mKMIPGroup->setChecked( mgr->KMIPUse() );
 
         mKMIPHostText->setText( mgr->KMIPHost() );
         mKMIPPortText->setText( mgr->KMIPPort() );
@@ -548,12 +501,7 @@ void SettingsDlg::initialize()
         mKMIPUserNameText->setText( mgr->KMIPUserName() );
         mKMIPPasswdText->setText( mgr->KMIPPasswd() );
 
-        checkKMIPUse();
-
-        state = mgr->OCSPUse() ? Qt::Checked : Qt::Unchecked;
-
-        mUseOCSPCheck->setCheckState(state);
-
+        mOCSPGroup->setChecked( mgr->OCSPUse() );
         mOCSPURIText->setText( mgr->OCSPURI() );
         mOCSPSrvCertPathText->setText( mgr->OCSPSrvCertPath() );
 
@@ -563,42 +511,28 @@ void SettingsDlg::initialize()
         mOCSPSignerPriPathText->setText( mgr->OCSPSignerPriPath() );
         mOCSPSignerCertPathText->setText( mgr->OCSPSignerCertPath() );
 
-        checkOCSPUse();
         checkOCSPAttachSign();
 
-        state = mgr->REGUse() ? Qt::Checked : Qt::Unchecked;
-        mUseREGCheck->setCheckState( state );
-
+        mREGGroup->setChecked( mgr->REGUse() );
         mREGURIText->setText( mgr->REGURI() );
         mREGAdminNameText->setText( mgr->REGAdminName() );
         mREGPasswordText->setText( mgr->REGPassword() );
 
-        checkREGUse();
-
-        state = mgr->CMPUse() ? Qt::Checked : Qt::Unchecked;
-        mUseCMPCheck->setCheckState( state );
+        mCMPGroup->setChecked( mgr->CMPUse() );
         mCMPURIText->setText( mgr->CMPURI() );
         mCMPRootCACertPathText->setText( mgr->CMPRootCACertPath() );
         mCMPCACertPathText->setText( mgr->CMPCACertPath() );
 
-        checkCMPUse();
-
-        state = mgr->TSPUse() ? Qt::Checked : Qt::Unchecked;
-        mUseTSPCheck->setCheckState( state );
+        mTSPGroup->setChecked( mgr->TSPUse() );
         mTSPURIText->setText( mgr->TSPURI() );
         mTSPSrvCertPathText->setText( mgr->TSPSrvCertPath() );
 
-        checkTSPUse();
-
-        state = mgr->SCEPUse() ? Qt::Checked : Qt::Unchecked;
-        mUseSCEPCheck->setCheckState( state );
+        mSCEPGroup->setChecked( mgr->SCEPUse() );
         mSCEPURIText->setText( mgr->SCEPURI() );
         state = mgr->SCEPMutualAuth() ? Qt::Checked : Qt::Unchecked;
         mSCEPMutualAuthCheck->setCheckState( state );
         mSCEPPriKeyPathText->setText( mgr->SCEPPriKeyPath() );
         mSCEPCertPathText->setText( mgr->SCEPCertPath() );
-
-        checkSCEPUse();
     }
     else
     {

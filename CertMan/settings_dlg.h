@@ -28,26 +28,20 @@ private slots:
     void clickRestoreDefaults();
 
     void findP11Path();
-    void checkKMIPUse();
 
     void findCACert();
     void findCert();
     void findPrivateKey();
 
-    void checkOCSPUse();
     void findOCSPSrvCert();
     void checkOCSPAttachSign();
     void findOCSPPri();
     void findOCSPCert();
 
-    void checkREGUse();
-    void checkCMPUse();
     void findCMPRootCACert();
     void findCMPCACert();
-    void checkTSPUse();
     void findTSPSrvCert();
 
-    void checkSCEPUse();
     void checkSCEPMutualAuth();
     void findSCEPPriKey();
     void findSCEPCert();

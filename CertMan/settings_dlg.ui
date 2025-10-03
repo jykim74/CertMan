@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>510</width>
-    <height>456</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -506,16 +506,15 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QCheckBox" name="mUseKMIPCheck">
-         <property name="text">
-          <string>Use KMIP</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
         <widget class="QGroupBox" name="mKMIPGroup">
          <property name="title">
           <string>KMIP Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="leftMargin">
@@ -687,21 +686,21 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -710,17 +709,29 @@
        <string>OCSP</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="mUseOCSPCheck">
-         <property name="text">
-          <string>Use OCSP</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
         <widget class="QGroupBox" name="mOCSPGroup">
          <property name="title">
           <string>OCSP Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <property name="leftMargin">
@@ -849,19 +860,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -872,17 +870,29 @@
        <string>CMP</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_10">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="mUseCMPCheck">
-         <property name="text">
-          <string>Use CMP</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
         <widget class="QGroupBox" name="mCMPGroup">
          <property name="title">
           <string>CMP Server Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <property name="leftMargin">
@@ -967,19 +977,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -990,17 +987,29 @@
        <string>REG</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="mUseREGCheck">
-         <property name="text">
-          <string>Use REG</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0">
         <widget class="QGroupBox" name="mREGGroup">
          <property name="title">
           <string>RegServer Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <property name="leftMargin">
@@ -1056,19 +1065,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -1079,17 +1075,29 @@
        <string>TSP</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_12">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="mUseTSPCheck">
-         <property name="text">
-          <string>Use TSP</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
+        <spacer name="verticalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
         <widget class="QGroupBox" name="mTSPGroup">
          <property name="title">
           <string>TSP Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <property name="leftMargin">
@@ -1157,19 +1165,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -1180,17 +1175,29 @@
        <string>SCEP</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_15">
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="mUseSCEPCheck">
-         <property name="text">
-          <string>Use SCEP</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
+        <spacer name="verticalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
         <widget class="QGroupBox" name="mSCEPGroup">
          <property name="title">
           <string>SCEP Information</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
           <property name="leftMargin">
@@ -1289,19 +1296,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
        </item>
@@ -1314,6 +1308,26 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="3">
+      <widget class="QPushButton" name="mCancelBtn">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="mOKBtn">
        <property name="text">
@@ -1327,26 +1341,6 @@
         <string>Restore defaults</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QPushButton" name="mCancelBtn">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -1373,7 +1367,6 @@
   <tabstop>mLibraryP11PathText</tabstop>
   <tabstop>mPINText</tabstop>
   <tabstop>mHexAreaWidthCombo</tabstop>
-  <tabstop>mUseKMIPCheck</tabstop>
   <tabstop>mKMIPHostText</tabstop>
   <tabstop>mKMIPPortText</tabstop>
   <tabstop>mKMIPCACertPathText</tabstop>
@@ -1384,7 +1377,6 @@
   <tabstop>mKMIPPrivateKeyFindBtn</tabstop>
   <tabstop>mKMIPUserNameText</tabstop>
   <tabstop>mKMIPPasswdText</tabstop>
-  <tabstop>mUseOCSPCheck</tabstop>
   <tabstop>mOCSPURIText</tabstop>
   <tabstop>mOCSPSrvCertPathText</tabstop>
   <tabstop>mOCSPSrvCertFindBtn</tabstop>
@@ -1393,21 +1385,17 @@
   <tabstop>mOCSPSignerCertFindBtn</tabstop>
   <tabstop>mOCSPSignerPriPathText</tabstop>
   <tabstop>mOCSPSignerPriFindBtn</tabstop>
-  <tabstop>mUseCMPCheck</tabstop>
   <tabstop>mCMPURIText</tabstop>
   <tabstop>mCMPRootCACertPathText</tabstop>
   <tabstop>mCMPRootCACertBtn</tabstop>
   <tabstop>mCMPCACertPathText</tabstop>
   <tabstop>mCMPCACertBtn</tabstop>
-  <tabstop>mUseREGCheck</tabstop>
   <tabstop>mREGURIText</tabstop>
   <tabstop>mREGAdminNameText</tabstop>
   <tabstop>mREGPasswordText</tabstop>
-  <tabstop>mUseTSPCheck</tabstop>
   <tabstop>mTSPURIText</tabstop>
   <tabstop>mTSPSrvCertPathText</tabstop>
   <tabstop>mTSPSrvCertFindBtn</tabstop>
-  <tabstop>mUseSCEPCheck</tabstop>
   <tabstop>mSCEPURIText</tabstop>
   <tabstop>mSCEPMutualAuthCheck</tabstop>
   <tabstop>mSCEPPriKeyPathText</tabstop>
