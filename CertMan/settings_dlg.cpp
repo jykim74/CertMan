@@ -63,6 +63,30 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     initialize();
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
+
+    mBaseTab->layout()->setSpacing(5);
+    mBaseTab->layout()->setMargin(5);
+
+    mAdvancedTab->layout()->setSpacing(5);
+    mAdvancedTab->layout()->setMargin(5);
+
+    mKMIPTab->layout()->setSpacing(5);
+    mKMIPTab->layout()->setMargin(5);
+
+    mTSPTab->layout()->setSpacing(5);
+    mTSPTab->layout()->setMargin(5);
+
+    mOCSPTab->layout()->setSpacing(5);
+    mOCSPTab->layout()->setMargin(5);
+
+    mCMPTab->layout()->setSpacing(5);
+    mCMPTab->layout()->setMargin(5);
+
+    mREGTab->layout()->setSpacing(5);
+    mREGTab->layout()->setMargin(5);
+
+    mKMIPTab->layout()->setSpacing(5);
+    mKMIPTab->layout()->setMargin(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
 }

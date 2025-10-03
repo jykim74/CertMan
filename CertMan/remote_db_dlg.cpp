@@ -26,6 +26,7 @@ RemoteDBDlg::RemoteDBDlg(QWidget *parent) :
     initialize();
 
     mConnectBtn->setDefault(true);
+    mUsernameText->setFocus();
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);

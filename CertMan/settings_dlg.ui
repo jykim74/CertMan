@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>510</width>
-    <height>404</height>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>7</number>
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
        <string>Base</string>
       </attribute>
@@ -37,6 +37,18 @@
           <string>LDAP Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_11">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_30">
             <property name="topMargin">
@@ -264,7 +276,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="mAdvancedTab">
       <attribute name="title">
        <string>Advanced</string>
       </attribute>
@@ -318,6 +330,18 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_18">
             <item row="0" column="0">
@@ -476,7 +500,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="mKMIPTab">
       <attribute name="title">
        <string>KMIP</string>
       </attribute>
@@ -494,6 +518,18 @@
           <string>KMIP Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_5">
             <property name="topMargin">
@@ -669,7 +705,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5">
+     <widget class="QWidget" name="mOCSPTab">
       <attribute name="title">
        <string>OCSP</string>
       </attribute>
@@ -687,6 +723,18 @@
           <string>OCSP Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_7">
             <property name="topMargin">
@@ -819,7 +867,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_6">
+     <widget class="QWidget" name="mCMPTab">
       <attribute name="title">
        <string>CMP</string>
       </attribute>
@@ -837,6 +885,18 @@
           <string>CMP Server Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_11">
             <property name="topMargin">
@@ -925,7 +985,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_7">
+     <widget class="QWidget" name="mREGTab">
       <attribute name="title">
        <string>REG</string>
       </attribute>
@@ -943,6 +1003,18 @@
           <string>RegServer Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_9">
             <property name="topMargin">
@@ -1002,7 +1074,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_8">
+     <widget class="QWidget" name="mTSPTab">
       <attribute name="title">
        <string>TSP</string>
       </attribute>
@@ -1020,6 +1092,18 @@
           <string>TSP Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_13">
             <property name="topMargin">
@@ -1091,7 +1175,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_9">
+     <widget class="QWidget" name="mSCEPTab">
       <attribute name="title">
        <string>SCEP</string>
       </attribute>
@@ -1109,6 +1193,18 @@
           <string>SCEP Information</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_16">
             <property name="topMargin">

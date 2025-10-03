@@ -34,6 +34,11 @@ LoginDlg::~LoginDlg()
 
 }
 
+void LoginDlg::setHead( const QString strLabel )
+{
+    mHeadLabel->setText( strLabel );
+}
+
 void LoginDlg::initialize()
 {
 

@@ -37,7 +37,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mCertTab">
       <attribute name="title">
@@ -96,17 +96,20 @@
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="topMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="rightMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="bottomMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
@@ -185,17 +188,20 @@
           <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="topMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="rightMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <property name="bottomMargin">
-           <number>9</number>
+           <number>6</number>
           </property>
           <item>
            <layout class="QGridLayout" name="gridLayout_3">

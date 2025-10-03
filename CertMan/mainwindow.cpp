@@ -2472,6 +2472,8 @@ void MainWindow::changePasswd()
     }
 
     LoginDlg loginDlg;
+    loginDlg.setHead( tr( "Please enter your current password first" ) );
+
     if( loginDlg.exec() != QDialog::Accepted )
     {
 //        manApplet->warningBox( tr( "fail to login" ), this );
@@ -2592,7 +2594,7 @@ void MainWindow::publishLDAP()
 
     if( right_type_ != RightType::TYPE_CERTIFICATE && right_type_ != RightType::TYPE_CRL )
     {
-        manApplet->warningBox(tr("Invalid data type"), this );
+        manApplet->warningBox(tr("Can be used in certificate or CRL lists"), this );
         return;
     }
 

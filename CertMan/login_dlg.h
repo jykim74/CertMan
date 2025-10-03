@@ -21,6 +21,7 @@ public:
     explicit LoginDlg(QWidget *parent = nullptr);
     ~LoginDlg();
 
+    void setHead( const QString strLabel );
     const QString getPasswd() { return mPasswdText->text(); };
 
 private slots:
