@@ -22,6 +22,7 @@ public:
     explicit SignerDlg(QWidget *parent = nullptr);
     ~SignerDlg();
     void setType( int nType );
+    void setHead( const QString strLabel );
 
 private slots:
     void findCert();

@@ -552,11 +552,11 @@ void CertInfoDlg::clickVerifyCert()
     }
 
     ret = JS_PKI_verifyCert( &binCA, NULL, &binCert, sRes );
+    manApplet->log( QString( "verifyCert : %1").arg(ret));
 
-    manApplet->log( QString( "PVDCertValid : %1").arg(ret));
     if( ret == JSR_VALID )
     {
-        QString strOK = "Path Validation is successfull";
+        QString strOK = tr( "Certificate verification was successful" );
         manApplet->log( strOK );
         manApplet->messageBox( strOK, this );
     }

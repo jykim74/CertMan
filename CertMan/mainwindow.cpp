@@ -1713,6 +1713,7 @@ void MainWindow::registerREGSigner()
     }
 
     SignerDlg signerDlg;
+    signerDlg.setHead( tr( "Register REG signer" ));
     signerDlg.setType( SIGNER_TYPE_REG );
     signerDlg.exec();
 }
@@ -1726,6 +1727,7 @@ void MainWindow::registerOCSPSigner()
     }
 
     SignerDlg signerDlg;
+    signerDlg.setHead( tr( "Register OCSP signer" ));
     signerDlg.setType( SIGNER_TYPE_OCSP );
     signerDlg.exec();
 }

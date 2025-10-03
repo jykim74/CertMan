@@ -41,6 +41,11 @@ void SignerDlg::setType(int nType)
     mTypeCombo->setCurrentIndex( nType );
 }
 
+void SignerDlg::setHead( const QString strLabel )
+{
+    mHeadLabel->setText( strLabel );
+}
+
 void SignerDlg::findCert()
 {
     QString strPath;
