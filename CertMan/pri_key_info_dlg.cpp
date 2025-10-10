@@ -1090,10 +1090,11 @@ void PriKeyInfoDlg::clickInsertToHSM()
     KeyPairRec keyRec;
     DBMgr* dbMgr = manApplet->dbMgr();
 
-    QString strAlg = keyRec.getAlg();
-    QString strName = keyRec.getName();
-
-    if( manApplet->settingsMgr()->PKCS11Use() == false ) return;
+    if( manApplet->settingsMgr()->PKCS11Use() == false )
+    {
+        manApplet->warningBox( tr( "There is no HSM setting" ), this );
+        return;
+    }
 
     if( key_num_ <= 0 )
     {
@@ -1102,6 +1103,9 @@ void PriKeyInfoDlg::clickInsertToHSM()
     }
 
     dbMgr->getKeyPairRec( key_num_, keyRec );
+
+    QString strAlg = keyRec.getAlg();
+    QString strName = keyRec.getName();
 
     memset( &sRSAKey, 0x00, sizeof(sRSAKey));
     memset( &sECKey, 0x00, sizeof(sECKey));

@@ -203,7 +203,7 @@ static QStringList kSLH_DSAOptionList = {
 };
 
 const QString kTableStyle = "QHeaderView::section {background-color:#404040;color:#FFFFFF;}";
-const QString kToolBoxStyle = "QToolBox::tab {background-color: #a8d5a2; }";
+const QString kToolBoxStyle = "QToolBox::tab {background-color: #aabbcc; }";
 
 static QStringList kPBEv1List = { "PBE-SHA1-3DES", "PBE-SHA1-2DES" };
 static QStringList kPBEv2List = { "AES-128-CBC", "AES-256-CBC", "ARIA-128-CBC", "ARIA-256-CBC" };
