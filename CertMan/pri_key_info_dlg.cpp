@@ -178,12 +178,25 @@ void PriKeyInfoDlg::setRSAKey( const BIN *pKey, bool bPri )
     {
         mRSA_NText->setPlainText( sRSAKey.pN );
         mRSA_EText->setText( sRSAKey.pE );
-        mRSA_DText->setPlainText( sRSAKey.pD );
-        mRSA_PText->setText( sRSAKey.pP );
-        mRSA_QText->setText( sRSAKey.pQ );
-        mRSA_DMP1Text->setText( sRSAKey.pDMP1 );
-        mRSA_DMQ1Text->setText( sRSAKey.pDMQ1 );
-        mRSA_IQMPText->setText( sRSAKey.pIQMP );
+
+        if( manApplet->settingsMgr()->showPriInfo() == true )
+        {
+            mRSA_DText->setPlainText( sRSAKey.pD );
+            mRSA_PText->setText( sRSAKey.pP );
+            mRSA_QText->setText( sRSAKey.pQ );
+            mRSA_DMP1Text->setText( sRSAKey.pDMP1 );
+            mRSA_DMQ1Text->setText( sRSAKey.pDMQ1 );
+            mRSA_IQMPText->setText( sRSAKey.pIQMP );
+        }
+        else
+        {
+            mRSA_DText->setPlainText( "[hidden]" );
+            mRSA_PText->setText( "[hidden]" );
+            mRSA_QText->setText( "[hidden]" );
+            mRSA_DMP1Text->setText( "[hidden]" );
+            mRSA_DMQ1Text->setText( "[hidden]" );
+            mRSA_IQMPText->setText( "[hidden]" );
+        }
     }
 
     JS_PKI_resetRSAKeyVal( &sRSAKey );
@@ -216,7 +229,11 @@ void PriKeyInfoDlg::setECCKey( const BIN *pKey, bool bPri )
 
         mECC_PubXText->setPlainText( sECKey.pPubX );
         mECC_PubYText->setPlainText( sECKey.pPubY );
-        mECC_PrivateText->setPlainText( sECKey.pPrivate );
+
+        if( manApplet->settingsMgr()->showPriInfo() == true )
+            mECC_PrivateText->setPlainText( sECKey.pPrivate );
+        else
+            mECC_PrivateText->setPlainText( "[hidden]" );
     }
 
     JS_PKI_resetECKeyVal( &sECKey );
@@ -247,7 +264,11 @@ void PriKeyInfoDlg::setDSAKey( const BIN *pKey, bool bPri )
         mDSA_PText->setPlainText( sDSAKey.pP );
         mDSA_QText->setText( sDSAKey.pQ );
         mDSA_PublicText->setPlainText( sDSAKey.pPublic );
-        mDSA_PrivateText->setText( sDSAKey.pPrivate );
+
+        if( manApplet->settingsMgr()->showPriInfo() == true )
+            mDSA_PrivateText->setText( sDSAKey.pPrivate );
+        else
+            mDSA_PrivateText->setText( "[hidden]" );
     }
 
     JS_PKI_resetDSAKeyVal( &sDSAKey );
@@ -278,7 +299,11 @@ void PriKeyInfoDlg::setRawKey( const BIN *pKey, bool bPri )
         mRawNameText->setText( sRawKeyVal.pAlg );
         mRawParamText->setText( sRawKeyVal.pParam );
         mRawPublicText->setPlainText( sRawKeyVal.pPub );
-        mRawPrivateText->setPlainText( sRawKeyVal.pPri );
+
+        if( manApplet->settingsMgr()->showPriInfo() == true )
+            mRawPrivateText->setPlainText( sRawKeyVal.pPri );
+        else
+            mRawPrivateText->setPlainText( "[hidden]" );
     }
 
     JS_PKI_resetRawKeyVal( &sRawKeyVal );
