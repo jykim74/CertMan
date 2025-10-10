@@ -101,10 +101,27 @@ void MakeCertDlg::initialize()
     if( dbMgr == NULL ) return;
 
     if( manApplet->settingsMgr()->issuerNum() > 0 )
-        mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
+    {
+        mIssuerSetDefaultCheck->setChecked(true);
+
+        if( manApplet->settingsMgr()->issuerNum() == 1 )
+        {
+            mSelfSignCheck->setChecked( true );
+        }
+        else
+        {
+            mSelfSignCheck->setChecked( false );
+            mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
+        }
+
+        clickSelfSign();
+    }
 
     if( manApplet->settingsMgr()->certProfileNum() > 0 )
+    {
+        mProfileSetDefaultCheck->setChecked(true);
         mProfileNumText->setText( QString( "%1").arg( manApplet->settingsMgr()->certProfileNum() ));
+    }
 
     setSubjectDN();
     clickUseCSRFile();
@@ -726,9 +743,26 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
-        manApplet->settingsMgr()->setCertProfileNum( mProfileNumText->text().toInt() );
 
-        if( bSelf == false ) manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
+        if( mProfileSetDefaultCheck->isChecked() == true )
+            manApplet->settingsMgr()->setCertProfileNum( mProfileNumText->text().toInt() );
+        else
+            manApplet->settingsMgr()->setCertProfileNum( 0 );
+
+        if( bSelf == false )
+        {
+            if( mIssuerSetDefaultCheck->isChecked() == true )
+                manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
+            else
+                manApplet->settingsMgr()->setIssuerNum( 0 );
+        }
+        else
+        {
+            if( mIssuerSetDefaultCheck->isChecked() == true )
+                manApplet->settingsMgr()->setIssuerNum( 1 );
+            else
+                manApplet->settingsMgr()->setIssuerNum( 0 );
+        }
 
         QDialog::accept();
     }

@@ -401,8 +401,13 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
-        manApplet->settingsMgr()->setCRLProfileNum( mProfileNumText->text().toInt() );
-        manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
+
+        if( mProfileSetDefaultCheck->isChecked() == true )
+            manApplet->settingsMgr()->setCRLProfileNum( mProfileNumText->text().toInt() );
+        else
+            manApplet->settingsMgr()->setCRLProfileNum( 0 );
+
+//        manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
     }
@@ -484,11 +489,14 @@ void MakeCRLDlg::initialize()
 
     mCRLDPCombo->setEditable(true);
 
-    if( manApplet->settingsMgr()->issuerNum() > 0 )
-        mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
+//    if( manApplet->settingsMgr()->issuerNum() > 0 )
+//        mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
 
     if( manApplet->settingsMgr()->CRLProfileNum() > 0 )
+    {
+        mProfileSetDefaultCheck->setChecked(true);
         mProfileNumText->setText( QString("%1").arg( manApplet->settingsMgr()->CRLProfileNum() ));
+    }
 
     setRevokeList();
 
