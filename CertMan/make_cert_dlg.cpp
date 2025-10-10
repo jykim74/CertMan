@@ -862,11 +862,6 @@ void MakeCertDlg::clickUseCSRFile()
     mCSRFileFindBtn->setEnabled(bVal);
 
     mReqGroup->setEnabled( !bVal );
-
-    if( mSelfSignCheck->isChecked() )
-        mSelfSignCheck->setChecked( false );
-
-    mSelfSignCheck->setDisabled( bVal );
     setSubjectDN();
 }
 
