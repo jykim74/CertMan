@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>601</height>
+    <height>714</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,6 +84,21 @@
       <string>Request</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <property name="bottomMargin">
+       <number>6</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_9">
         <property name="topMargin">
@@ -597,7 +612,7 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="1">
+     <item row="0" column="2">
       <widget class="QLabel" name="mSelfSignLabel">
        <property name="enabled">
         <bool>false</bool>
@@ -607,12 +622,25 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
+     <item row="0" column="4">
       <widget class="QCheckBox" name="mIssuerSetDefaultCheck">
        <property name="text">
         <string>Set to default</string>
        </property>
       </widget>
+     </item>
+     <item row="0" column="3">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item row="0" column="0">
       <widget class="QCheckBox" name="mSelfSignCheck">
@@ -633,18 +661,12 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <spacer name="horizontalSpacer_3">
+     <item row="0" column="1">
+      <widget class="Line" name="line_6">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>
@@ -660,17 +682,20 @@
       <string>Issuer Certificate Information</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>6</number>
+      </property>
       <property name="leftMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="topMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="rightMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="bottomMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_6">
@@ -912,17 +937,20 @@
       <string>User Information</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>6</number>
+      </property>
       <property name="leftMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="topMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="rightMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <property name="bottomMargin">
-       <number>9</number>
+       <number>6</number>
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_8">

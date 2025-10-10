@@ -1174,11 +1174,11 @@ void PriKeyInfoDlg::clickInsertToHSM()
     }
     else
     {
-        manApplet->elog( QString( "Invalid Algorithm: %1").arg(strAlg));
+        manApplet->warningBox( QString( "Invalid Algorithm: %1").arg(strAlg), this );
         goto end;
     }
 
-    if( ret == 0 )
+    if( ret == JSR_OK )
     {
         QString strMsg = tr("Successfully added private key and public key to HSM");
         manApplet->messageBox( strMsg, this );

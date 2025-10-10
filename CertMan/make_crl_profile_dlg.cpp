@@ -365,7 +365,7 @@ void MakeCRLProfileDlg::initUI()
     mNextUpdateDateTime->setDateTime( now );
 
     mCRLNumText->setPlaceholderText( tr( "Hex value" ) );
-    mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ) );
+    mExtensionsOIDText->setPlaceholderText( QString( "Object Identifier" ) );
 
     mIDPText->setPlaceholderText( tr( "URI address" ));
 }

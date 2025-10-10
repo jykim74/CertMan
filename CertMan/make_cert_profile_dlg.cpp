@@ -512,7 +512,7 @@ void MakeCertProfileDlg::initUI()
 
     mExtUsageCombo->addItems( kExtUsageList );
 
-    mExtensionsOIDText->setPlaceholderText( QString( "1.2.3.4" ));
+    mExtensionsOIDText->setPlaceholderText( QString( "Object Identifier" ));
 
     mPolicyOIDText->setPlaceholderText( QString( "Text OID" ));
     mPolicyCPSText->setPlaceholderText( tr("String value" ));

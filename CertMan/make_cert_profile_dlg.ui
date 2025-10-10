@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>592</width>
-    <height>729</height>
+    <height>713</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -128,6 +128,9 @@
           <string>Valid Period</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_19">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -332,6 +335,9 @@
           <string>Extensions</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -572,6 +578,12 @@
           <property name="bottomMargin">
            <number>6</number>
           </property>
+          <property name="horizontalSpacing">
+           <number>6</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
           <item row="0" column="0">
            <layout class="QGridLayout" name="gridLayout_25">
             <item row="1" column="0">
@@ -656,6 +668,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -778,6 +793,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -835,6 +853,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_9">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -913,6 +934,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_10">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1009,6 +1033,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_11">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1099,6 +1126,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_12">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1199,6 +1229,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_13">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1276,6 +1309,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_14">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1366,6 +1402,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_15">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1463,6 +1502,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_16">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1554,6 +1596,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_17">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
@@ -1662,6 +1707,9 @@
           <bool>false</bool>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_18">
+          <property name="spacing">
+           <number>6</number>
+          </property>
           <property name="leftMargin">
            <number>6</number>
           </property>
