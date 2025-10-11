@@ -130,7 +130,7 @@ void ViewCertProfileDlg::initUI()
     mNCTable->setColumnWidth(2,160);
 
 
-    QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };
+    QStringList sExtensionsLabels = { tr("OID"), tr("Crit"), tr("Value") };
     mExtensionsTable->setColumnCount(sExtensionsLabels.size());
     mExtensionsTable->horizontalHeader()->setStretchLastSection(true);
     mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);
@@ -781,7 +781,9 @@ int ViewCertProfileDlg::setProfile( int nNum )
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
     {
+        /*
         mVersionText->setText( "V1" );
+        mHashText->setText( certProfile.getHash());
         mValidPeriodLabel->setEnabled(false);
         mNotBeforeLabel->setEnabled(false);
         mNotBeforeText->setEnabled(false);
@@ -791,7 +793,10 @@ int ViewCertProfileDlg::setProfile( int nNum )
         mDNTemplateText->setEnabled(false);
         mExtensionUsageLabel->setEnabled(false);
         mExtensionUsageText->setEnabled(false);
+        */
 
+        mBaseGroup->hide();
+        mBaseGroup->setEnabled(false);
         mTitleLabel->setText( tr( "CSR Profile View" ));
     }
     else

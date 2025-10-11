@@ -61,7 +61,7 @@ void ViewCRLProfileDlg::initUI()
     mIANTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mIANTable->setColumnWidth(0, 60);
 
-    QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };
+    QStringList sExtensionsLabels = { tr("OID"), tr("Crit"), tr("Value") };
     mExtensionsTable->setColumnCount(sExtensionsLabels.size());
     mExtensionsTable->horizontalHeader()->setStretchLastSection(true);
     mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);

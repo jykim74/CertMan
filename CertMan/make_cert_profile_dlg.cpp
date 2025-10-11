@@ -611,7 +611,7 @@ void MakeCertProfileDlg::setTableMenus()
     mNCTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mNCTable->setColumnWidth(0,60);
 
-    QStringList sExtensionsLabels = { tr("OID"), tr("Critical"), tr("Value") };
+    QStringList sExtensionsLabels = { tr("OID"), tr("Crit"), tr("Value") };
     mExtensionsTable->setColumnCount(sExtensionsLabels.size());
     mExtensionsTable->horizontalHeader()->setStretchLastSection(true);
     mExtensionsTable->setHorizontalHeaderLabels(sExtensionsLabels);
@@ -839,12 +839,14 @@ void MakeCertProfileDlg::clickUseCSR_DN()
     if( mForCSRCheck->isChecked() == true )
     {
         mUseCSR_DNCheck->setEnabled( false );
+        mSubjectDNLabel->setEnabled( false );
         mSubjectDNText->setEnabled( false );
         mMakeDNBtn->setEnabled( false );
     }
     else
     {
         bool bStatus = mUseCSR_DNCheck->isChecked();
+        mSubjectDNLabel->setEnabled( true );
         mSubjectDNText->setEnabled( !bStatus );
         mMakeDNBtn->setEnabled( !bStatus );
     }
@@ -1277,6 +1279,10 @@ void MakeCertProfileDlg::checkForCSR()
 {
     bool bVal = mForCSRCheck->isChecked();
 
+    mVersionLabel->setEnabled( !bVal );
+    mVersionCombo->setEnabled( !bVal );
+    mHashLabel->setEnabled( !bVal );
+    mHashCombo->setEnabled( !bVal );
     mPeriodGroup->setEnabled( !bVal );
 
 /*
@@ -1290,23 +1296,10 @@ void MakeCertProfileDlg::checkForCSR()
 */
 
     mUseCSR_DNCheck->setEnabled( !bVal );
+
     clickUseCSR_DN();
+    mExtUsageLabel->setEnabled( !bVal );
     mExtUsageCombo->setEnabled( !bVal );
-
-    mVersionCombo->clear();
-
-    if( bVal )
-    {
-        mVersionCombo->addItem( "V1" );
-        mVersionCombo->setCurrentIndex(0);
-    }
-    else
-    {
-        mVersionCombo->addItems( kCertVersionList );
-        mVersionCombo->setCurrentIndex(2);
-    }
-
-
 }
 
 void MakeCertProfileDlg::clickMakeDN()

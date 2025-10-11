@@ -5983,17 +5983,17 @@ void MainWindow::infoCertProfile( int seq )
     info( QString("Num         : %1\n").arg(certProfile.getNum()));
     info( QString("Name        : %1\n").arg(certProfile.getName()));
     info( QString("Type        : %1 = %2\n").arg( getProfileType( certProfile.getType()), nFieldWidth).arg(certProfile.getType()));
-    info( QString("Version     : %1 = %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CERT )
     {
+        info( QString("Version     : %1 = %2\n").arg( strVersion, nFieldWidth ).arg(certProfile.getVersion()));
+        info( QString("Hash        : %1\n").arg(certProfile.getHash()));
         info( QString("NotBefore   : %1 = %2\n").arg( strNotBefore, nFieldWidth).arg(certProfile.getNotBefore()));
         info( QString("NotAfter    : %1 = %2\n").arg( strNotAfter, nFieldWidth).arg(certProfile.getNotAfter()));
         info( QString("ExtUsage    : %1 = %2\n").arg(getExtUsage(certProfile.getExtUsage()), nFieldWidth).arg(certProfile.getExtUsage()));
         info( QString("DNTemplate  : %1 = %2\n").arg(strDNTemplate, nFieldWidth).arg(certProfile.getDNTemplate()));
     }
 
-    info( QString("Hash        : %1\n").arg(certProfile.getHash()));
     infoLine();
 
     QList<ProfileExtRec> extList;

@@ -809,13 +809,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_11">
-       <property name="text">
-        <string>This is for CSR signature hash algorithm</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
       <widget class="QLabel" name="mHashLabel">
        <property name="minimumSize">
@@ -829,8 +822,15 @@
        </property>
       </widget>
      </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Digest for signature</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="3">
-      <spacer name="horizontalSpacer_5">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
