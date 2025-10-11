@@ -56,6 +56,9 @@ private:
     void initialize();
     int genKeyPair( KeyPairRec& keyPair );
     const QString getMechanism();
+
+    void setDefault( const QString strDefault );
+    const QString getDefault();
 };
 
 #endif // MAKE_REQ_DLG_H

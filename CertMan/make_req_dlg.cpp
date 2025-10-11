@@ -25,6 +25,8 @@
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
 
+const QString sUseExtension = "UseExtension";
+
 static QStringList sMechList = {
     JS_PKI_KEY_NAME_RSA, JS_PKI_KEY_NAME_ECDSA, JS_PKI_KEY_NAME_DSA,
     JS_PKI_KEY_NAME_EDDSA, JS_PKI_KEY_NAME_ML_DSA, JS_PKI_KEY_NAME_SLH_DSA
@@ -649,6 +651,17 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightRequestList();
+
+        if( mUseExtensionCheck->isChecked() == true )
+        {
+            QString strDefault = QString( "%1:%2" ).arg( mUseExtensionCheck->isChecked() ).arg( mProfileNumText->text().toInt());
+            setDefault( strDefault );
+        }
+        else
+        {
+            setDefault( "" );
+        }
+
         QDialog::accept();
     }
 }
@@ -933,6 +946,39 @@ void MakeReqDlg::initUI()
     checkExtension();
 
     mKeyNameText->setPlaceholderText( tr( "Select a keypair from CA Man" ));
+
+    QString strDefault = getDefault();
+
+    QStringList listDefault = strDefault.split( ":" );
+    if( listDefault.size() > 0 )
+    {
+        mUseExtensionCheck->setChecked( listDefault.at(0).toInt());
+        checkExtension();
+    }
+
+    if( listDefault.size() > 1 )
+    {
+        mProfileNumText->setText( QString( "%1" ).arg( listDefault.at(1).toInt()));
+        profileNumChanged();
+    }
 }
 
+void MakeReqDlg::setDefault( const QString strDefault )
+{
+    QSettings sets;
+    sets.beginGroup( kEnvTempGroup );
+    sets.setValue( sUseExtension, strDefault );
+    sets.endGroup();
+}
 
+const QString MakeReqDlg::getDefault()
+{
+    QString strDefault;
+
+    QSettings sets;
+    sets.beginGroup( kEnvTempGroup );
+    strDefault = sets.value( sUseExtension, "" ).toString();
+    sets.endGroup();
+
+    return strDefault;
+}

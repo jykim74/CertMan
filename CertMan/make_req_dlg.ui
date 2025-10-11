@@ -661,11 +661,38 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="mUseExtensionCheck">
-     <property name="text">
-      <string>Use Extension</string>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="mExtensionSetDefaultCheck">
+       <property name="text">
+        <string>Set to default</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QCheckBox" name="mUseExtensionCheck">
+       <property name="text">
+        <string>Use Extension</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_9">
@@ -763,18 +790,18 @@
       <widget class="QLabel" name="mProfileNameLabel">
        <property name="minimumSize">
         <size>
-         <width>90</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>90</width>
+         <width>16777215</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Profile Name</string>
+        <string>CSR Profile</string>
        </property>
       </widget>
      </item>
@@ -888,7 +915,6 @@
   <tabstop>mNewOptionCombo</tabstop>
   <tabstop>mPKCS11Check</tabstop>
   <tabstop>mKMIPCheck</tabstop>
-  <tabstop>mUseExtensionCheck</tabstop>
   <tabstop>mProfileNameText</tabstop>
   <tabstop>mProfileNumText</tabstop>
   <tabstop>mSelectProfileBtn</tabstop>
