@@ -871,9 +871,10 @@ void MakeCertProfileDlg::setExtends()
 
 void MakeCertProfileDlg::addKeyUsage()
 {
+    int i = 0;
     QString strVal = mKeyUsageCombo->currentText();
 
-    for( int i = 0; i < mKeyUsageList->count(); i++ )
+    for( i = 0; i < mKeyUsageList->count(); i++ )
     {
         QListWidgetItem *item = mKeyUsageList->item(i);
         if( item->text() == strVal )
@@ -884,6 +885,7 @@ void MakeCertProfileDlg::addKeyUsage()
     }
 
     mKeyUsageList->addItem( strVal );
+    mKeyUsageList->setCurrentRow(i);
 }
 
 void MakeCertProfileDlg::addPolicy()
@@ -918,9 +920,10 @@ void MakeCertProfileDlg::addPolicy()
 
 void MakeCertProfileDlg::addEKU()
 {
+    int i = 0;
     QString strVal = mEKUCombo->currentText();
 
-    for( int i = 0; i < mEKUList->count(); i++ )
+    for( i = 0; i < mEKUList->count(); i++ )
     {
         QListWidgetItem *item = mEKUList->item(i);
         if( item->text() == strVal )
@@ -931,6 +934,7 @@ void MakeCertProfileDlg::addEKU()
     }
 
     mEKUList->addItem( strVal );
+    mEKUList->setCurrentRow(i);
 }
 
 void MakeCertProfileDlg::addCRLDP()
