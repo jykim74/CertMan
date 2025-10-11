@@ -906,6 +906,18 @@ void MakeReqDlg::checkGenKeyPair()
         mKeyInfoTab->setCurrentIndex(1);
         mKeyInfoTab->setTabEnabled(1, true );
         mKeyInfoTab->setTabEnabled(0, false);
+
+        QString strName = mNameText->text();
+
+        if( mNewKeyNameText->text().length() < 1 )
+        {
+            if( strName.length() > 0 )
+            {
+                strName += "_keyPair";
+                mNewKeyNameText->setText( strName );
+                mNewKeyNameText->setSelection(0, strName.length());
+            }
+        }
     }
     else
     {
@@ -952,6 +964,7 @@ void MakeReqDlg::initUI()
     QStringList listDefault = strDefault.split( ":" );
     if( listDefault.size() > 0 )
     {
+        mExtensionSetDefaultCheck->setChecked(true);
         mUseExtensionCheck->setChecked( listDefault.at(0).toInt());
         checkExtension();
     }

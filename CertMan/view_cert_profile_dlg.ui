@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>613</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -115,7 +115,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -126,7 +126,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>334</height>
+        <height>351</height>
        </rect>
       </property>
       <attribute name="label">
@@ -479,17 +479,11 @@
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <widget class="Line" name="line_11">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="mExtensionsGroup">
@@ -538,6 +532,19 @@
           </item>
          </layout>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -668,6 +675,13 @@
          <attribute name="horizontalHeaderHighlightSections">
           <bool>false</bool>
          </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line_12">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -1323,7 +1337,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>333</height>
+        <height>320</height>
        </rect>
       </property>
       <attribute name="label">

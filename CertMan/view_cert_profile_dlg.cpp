@@ -142,6 +142,7 @@ void ViewCertProfileDlg::initUI()
     mExtensionsTable->setColumnWidth(1,60);
 
     mProfileToolBox->setStyleSheet( kToolBoxStyle );
+    mProfileToolBox->setItemEnabled( 0, false );
     mProfileToolBox->setItemEnabled( 1, false );
     mProfileToolBox->setItemEnabled( 2, false );
     mProfileToolBox->setItemEnabled( 3, false );
@@ -264,6 +265,9 @@ void ViewCertProfileDlg::setSANEnable( bool bVal )
 
 void ViewCertProfileDlg::setExtensionsEnable( bool bVal )
 {
+    if( mProfileToolBox->isItemEnabled( 0 ) == false )
+        mProfileToolBox->setItemEnabled( 0, true );
+
     if( bVal == false )
         mExtensionsGroup->hide();
     else
@@ -739,9 +743,9 @@ void ViewCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
     QString strCrit;
 
     if( profileRec.isCritical() )
-        strCrit = "true";
+        strCrit = kTrue;
     else
-        strCrit = "false";
+        strCrit = kFalse;
 
     int row = mExtensionsTable->rowCount();
     mExtensionsTable->setRowCount( row + 1 );
@@ -768,8 +772,6 @@ int ViewCertProfileDlg::setProfile( int nNum )
 
     CertProfileRec certProfile;
 
-
-
     ret = dbMgr->getCertProfileRec( profile_num_, certProfile );
     if( ret < 0 )
     {
@@ -781,23 +783,11 @@ int ViewCertProfileDlg::setProfile( int nNum )
 
     if( certProfile.getType() == JS_PKI_PROFILE_TYPE_CSR )
     {
-        /*
-        mVersionText->setText( "V1" );
-        mHashText->setText( certProfile.getHash());
-        mValidPeriodLabel->setEnabled(false);
-        mNotBeforeLabel->setEnabled(false);
-        mNotBeforeText->setEnabled(false);
-        mNotAfterLabel->setEnabled(false);
-        mNotAfterText->setEnabled(false);
-        mDNTemplateLabel->setEnabled(false);
-        mDNTemplateText->setEnabled(false);
-        mExtensionUsageLabel->setEnabled(false);
-        mExtensionUsageText->setEnabled(false);
-        */
-
         mBaseGroup->hide();
         mBaseGroup->setEnabled(false);
-        mTitleLabel->setText( tr( "CSR Profile View" ));
+        mTitleLabel->setText( tr( "CSR Extensions Profile" ));
+        mProfileToolBox->setItemEnabled(0, false);
+        mProfileToolBox->setCurrentIndex(1);
     }
     else
     {

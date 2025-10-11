@@ -298,6 +298,12 @@ void NewKeyDlg::clickOK()
                     &binPri,
                     &binPub );
     }
+    else
+    {
+        manApplet->warningBox( tr( "No algorithm selected" ), this );
+        ret = JSR_ERR;
+        goto end;
+    }
 
     if( ret != 0 )
     {
@@ -365,8 +371,7 @@ end:
     }
     else
     {
-        manApplet->warningBox( tr( "failed to generate key pair" ), this );
-        QDialog::reject();
+        manApplet->warningBox( tr( "failed to generate key pair: %1" ).arg( JERR(ret)), this );
     }
 }
 

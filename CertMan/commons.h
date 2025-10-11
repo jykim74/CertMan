@@ -49,6 +49,9 @@ static QString kSelectStyle =
 const QString kReadOnlyStyle = "background-color:#ddddff";
 const QString kDisableStyle = "background-color:#cccccc";
 
+const QString kTrue = "true";
+const QString kFalse = "false";
+
 #define VIEW_FILE           0x01000000
 #define VIEW_TOOL           0x02000000
 #define VIEW_DATA           0x03000000

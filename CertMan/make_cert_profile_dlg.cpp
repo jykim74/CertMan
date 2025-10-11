@@ -1162,9 +1162,9 @@ void MakeCertProfileDlg::addExtensions()
     }
 
     if( bCrit )
-        strCrit = "true";
+        strCrit = kTrue;
     else
-        strCrit = "false";
+        strCrit = kFalse;
 
     int row = mExtensionsTable->rowCount();
 
@@ -1829,7 +1829,7 @@ void MakeCertProfileDlg::saveExtensionsUse( int nProfileNum )
         QString strCrit = mExtensionsTable->takeItem( i, 1 )->text();
         QString strValue = mExtensionsTable->takeItem( i, 2)->text();
 
-        if( strCrit == "true" ) bCrit = true;
+        if( strCrit == kTrue ) bCrit = true;
 
         ProfileExtRec profileRec;
         profileRec.setProfileNum( nProfileNum );
@@ -2184,9 +2184,9 @@ void MakeCertProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
     QString strCrit;
 
     if( profileRec.isCritical() )
-        strCrit = "true";
+        strCrit = kTrue;
     else
-        strCrit = "false";
+        strCrit = kFalse;
 
     int row = mExtensionsTable->rowCount();
     mExtensionsTable->setRowCount( row + 1 );

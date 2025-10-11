@@ -257,9 +257,9 @@ void ViewCRLProfileDlg::setExtensionsUse( ProfileExtRec& profileRec )
     QString strCrit;
 
     if( profileRec.isCritical() )
-        strCrit = "true";
+        strCrit = kTrue;
     else
-        strCrit = "false";
+        strCrit = kFalse;
 
     int row = mExtensionsTable->rowCount();
     mExtensionsTable->setRowCount( row + 1 );
