@@ -518,7 +518,7 @@ void MakeCRLProfileDlg::addExtensions()
     }
 
     if( bCrit )
-        strCrit = "ture";
+        strCrit = "true";
     else
         strCrit = "false";
 
