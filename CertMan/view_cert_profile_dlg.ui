@@ -95,6 +95,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line_13">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QToolBox" name="mProfileToolBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -115,7 +122,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -126,7 +133,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>351</height>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="label">
@@ -142,7 +149,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Information</string>
+          <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <property name="leftMargin">
@@ -554,7 +561,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>333</height>
+        <height>305</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1107,7 +1114,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>333</height>
+        <height>309</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1337,7 +1344,7 @@
         <x>0</x>
         <y>0</y>
         <width>576</width>
-        <height>320</height>
+        <height>309</height>
        </rect>
       </property>
       <attribute name="label">

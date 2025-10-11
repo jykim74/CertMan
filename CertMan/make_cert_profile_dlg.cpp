@@ -479,6 +479,22 @@ void MakeCertProfileDlg::changeDaysType( int index )
     mDaysLabel->setText( strType.toLower() + "s" );
 }
 
+void MakeCertProfileDlg::changeBC()
+{
+    QString strBC = mBCCombo->currentText();
+
+    if( strBC == "CA" )
+    {
+        mBCPathLenLabel->setEnabled( true );
+        mBCPathLenText->setEnabled( true );
+    }
+    else
+    {
+        mBCPathLenLabel->setEnabled( false );
+        mBCPathLenText->setEnabled( false );
+    }
+}
+
 void MakeCertProfileDlg::initUI()
 {
     static QStringList kExtUsageList = {
@@ -628,6 +644,8 @@ void MakeCertProfileDlg::connectExtends()
 {
     connect( mUseCSR_DNCheck, SIGNAL(clicked()), this, SLOT(clickUseCSR_DN()));
     connect( mUseDaysCheck, SIGNAL(clicked()), this, SLOT(clickUseDays()));
+
+    connect( mBCCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeBC()));
 
     connect( mKeyUsageAddBtn, SIGNAL(clicked()), this, SLOT(addKeyUsage()));
     connect( mPolicyAddBtn, SIGNAL(clicked()), this, SLOT(addPolicy()));

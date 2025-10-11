@@ -31,6 +31,7 @@ public:
 private slots:
     void clickOK();
     void changeDaysType( int index );
+    void changeBC();
 
     void slotKeyUsageMenuRequested(QPoint pos);
     void deleteKeyUsageMenu();

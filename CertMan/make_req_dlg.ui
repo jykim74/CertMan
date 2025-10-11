@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>526</width>
-    <height>672</height>
+    <width>611</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -179,7 +179,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mSelTab">
       <attribute name="title">
@@ -507,6 +507,41 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="1">
+          <widget class="QRadioButton" name="mML_DSARadio">
+           <property name="text">
+            <string>ML DSA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QRadioButton" name="mSLH_DSARadio">
+           <property name="text">
+            <string>SLH DSA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QRadioButton" name="mEdDSARadio">
+           <property name="text">
+            <string>EdDSA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>PQC</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QRadioButton" name="mSM2Radio">
+           <property name="text">
+            <string>SM2</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_13">
            <property name="minimumSize">
@@ -526,20 +561,6 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QRadioButton" name="mDSARadio">
-           <property name="text">
-            <string>DSA</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QRadioButton" name="mSM2Radio">
-           <property name="text">
-            <string>SM2</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="2">
           <widget class="QRadioButton" name="mECDSARadio">
            <property name="text">
@@ -547,31 +568,17 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="4">
-          <widget class="QRadioButton" name="mEdDSARadio">
+         <item row="0" column="3">
+          <widget class="QRadioButton" name="mDSARadio">
            <property name="text">
-            <string>EdDSA</string>
+            <string>DSA</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QRadioButton" name="mML_DSARadio">
-           <property name="text">
-            <string>ML DSA</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QRadioButton" name="mSLH_DSARadio">
-           <property name="text">
-            <string>SLH DSA</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>PQC</string>
+         <item row="1" column="1" colspan="5">
+          <widget class="Line" name="line_11">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
@@ -588,6 +595,12 @@
         <layout class="QGridLayout" name="gridLayout_7">
          <item row="0" column="1">
           <widget class="QLineEdit" name="mNewExponentText">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>60</width>

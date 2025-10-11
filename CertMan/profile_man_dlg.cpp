@@ -214,8 +214,8 @@ void ProfileManDlg::initUI()
     mCertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCertTable->setColumnWidth( 0, 60 );
-    mCertTable->setColumnWidth( 1, 80 );
-    mCertTable->setColumnWidth( 2, 80 );
+    mCertTable->setColumnWidth( 1, 100 );
+    mCertTable->setColumnWidth( 2, 100 );
 
     QStringList sCRLLabels = { tr( "Num"), tr( "ThisUpdate" ), tr( "NextUpdate" ), tr( "Name") };
 
@@ -230,8 +230,8 @@ void ProfileManDlg::initUI()
     mCRLTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCRLTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCRLTable->setColumnWidth( 0, 60 );
-    mCRLTable->setColumnWidth( 1, 80 );
-    mCRLTable->setColumnWidth( 2, 80 );
+    mCRLTable->setColumnWidth( 1, 100 );
+    mCRLTable->setColumnWidth( 2, 100 );
 }
 
 void ProfileManDlg::initialize()
@@ -275,12 +275,12 @@ void ProfileManDlg::loadCertProfileList()
 
         getPeriodString( profile.getNotBefore(), profile.getNotAfter(), strNotBefore, strNotAfter );
 
-        mCertTable->insertRow(0);
-        mCertTable->setRowHeight(0, 10);
-        mCertTable->setItem( 0, 0, item );
-        mCertTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strNotBefore )));
-        mCertTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNotAfter )));
-        mCertTable->setItem( 0, 3, new QTableWidgetItem(QString("%1").arg( profile.getName())) );
+        mCertTable->insertRow(i);
+        mCertTable->setRowHeight(i, 10);
+        mCertTable->setItem( i, 0, item );
+        mCertTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg( strNotBefore )));
+        mCertTable->setItem( i, 2, new QTableWidgetItem(QString("%1").arg( strNotAfter )));
+        mCertTable->setItem( i, 3, new QTableWidgetItem(QString("%1").arg( profile.getName())) );
     }
 }
 
@@ -305,12 +305,12 @@ void ProfileManDlg::loadCRLProfileList()
 
         getPeriodString( profile.getThisUpdate(), profile.getNextUpdate(), strThisUpdate, strNextUpdate );
 
-        mCRLTable->insertRow(0);
+        mCRLTable->insertRow(i);
         mCRLTable->setRowHeight(0, 10);
-        mCRLTable->setItem( 0, 0, item );
-        mCRLTable->setItem( 0, 1, new QTableWidgetItem(QString("%1").arg( strThisUpdate )));
-        mCRLTable->setItem( 0, 2, new QTableWidgetItem(QString("%1").arg( strNextUpdate )));
-        mCRLTable->setItem( 0, 3, new QTableWidgetItem(QString("%1").arg( profile.getName() )) );
+        mCRLTable->setItem( i, 0, item );
+        mCRLTable->setItem( i, 1, new QTableWidgetItem(QString("%1").arg( strThisUpdate )));
+        mCRLTable->setItem( i, 2, new QTableWidgetItem(QString("%1").arg( strNextUpdate )));
+        mCRLTable->setItem( i, 3, new QTableWidgetItem(QString("%1").arg( profile.getName() )) );
     }
 }
 

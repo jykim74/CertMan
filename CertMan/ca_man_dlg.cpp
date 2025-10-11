@@ -374,12 +374,12 @@ void CAManDlg::loadCACertList()
             }
         }
 
-        mCACertTable->insertRow(0);
-        mCACertTable->setRowHeight(0, 10);
-        mCACertTable->setItem( 0, 0, item );
-        mCACertTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( cert.getSerial() )));
-        mCACertTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
-        mCACertTable->setItem( 0, 3, item2 );
+        mCACertTable->insertRow(i);
+        mCACertTable->setRowHeight(i, 10);
+        mCACertTable->setItem( i, 0, item );
+        mCACertTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( cert.getSerial() )));
+        mCACertTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
+        mCACertTable->setItem( i, 3, item2 );
     }
 }
 
@@ -446,12 +446,12 @@ void CAManDlg::loadKeyPairList()
         }
 
 
-        mKeyPairTable->insertRow(0);
-        mKeyPairTable->setRowHeight(0,10);
-        mKeyPairTable->setItem( 0, 0, item );
-        mKeyPairTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
-        mKeyPairTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
-        mKeyPairTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( keyPair.getName())) );
+        mKeyPairTable->insertRow(i);
+        mKeyPairTable->setRowHeight(i,10);
+        mKeyPairTable->setItem( i, 0, item );
+        mKeyPairTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
+        mKeyPairTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
+        mKeyPairTable->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( keyPair.getName())) );
     }
 }
 
@@ -514,12 +514,12 @@ void CAManDlg::loadCSRList()
             }
         }
 
-        mCSRTable->insertRow(0);
-        mCSRTable->setRowHeight(0,10);
-        mCSRTable->setItem( 0, 0, item );
-        mCSRTable->setItem( 0, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
-        mCSRTable->setItem( 0, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
-        mCSRTable->setItem( 0, 3, new QTableWidgetItem( QString("%1").arg( req.getName())) );
+        mCSRTable->insertRow(i);
+        mCSRTable->setRowHeight(i,10);
+        mCSRTable->setItem( i, 0, item );
+        mCSRTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
+        mCSRTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
+        mCSRTable->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( req.getName())) );
     }
 }
 

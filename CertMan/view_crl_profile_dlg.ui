@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>555</height>
+    <height>570</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -92,6 +92,13 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line_7">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QToolBox" name="mProfileToolBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -106,7 +113,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -116,8 +123,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>596</width>
-        <height>385</height>
+        <width>590</width>
+        <height>350</height>
        </rect>
       </property>
       <attribute name="label">
@@ -127,7 +134,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Information</string>
+          <string/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="leftMargin">
@@ -368,6 +375,13 @@
         </widget>
        </item>
        <item>
+        <widget class="Line" name="line_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="mExtensionsGroup">
          <property name="title">
           <string/>
@@ -425,8 +439,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>596</width>
-        <height>385</height>
+        <width>590</width>
+        <height>357</height>
        </rect>
       </property>
       <attribute name="label">
