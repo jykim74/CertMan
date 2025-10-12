@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>427</width>
-    <height>443</height>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -273,6 +273,13 @@
     </widget>
    </item>
    <item>
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="mReqGroup">
      <property name="title">
       <string>Request License</string>
@@ -320,6 +327,13 @@
        <widget class="QLineEdit" name="mEmailText"/>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>

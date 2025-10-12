@@ -7,23 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>424</width>
-    <height>348</height>
+    <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TST Information</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QTableWidget" name="mInfoTable">
      <property name="minimumSize">
@@ -47,6 +37,23 @@
        <width>16777215</width>
        <height>100</height>
       </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

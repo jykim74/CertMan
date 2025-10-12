@@ -12,8 +12,6 @@ SetPassDlg::SetPassDlg(QWidget *parent) :
 {
     setupUi(this);
 
-    connect( mUsePasswdCheck, SIGNAL(clicked()), this, SLOT(checkUsePasswd()));
-
     initialize();
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -28,19 +26,12 @@ SetPassDlg::~SetPassDlg()
 
 void SetPassDlg::initialize()
 {
-    mUsePasswdCheck->setChecked(true);
-}
-
-void SetPassDlg::checkUsePasswd()
-{
-    bool bVal = mUsePasswdCheck->isChecked();
-
-    mPasswdGroup->setEnabled( bVal );
+    mPasswdGroup->setChecked(true);
 }
 
 void SetPassDlg::accept()
 {
-    if( mUsePasswdCheck->isChecked() == false )
+    if( mPasswdGroup->isChecked() == false )
         return QDialog::accept();
 
     QString strPasswd = mPasswdText->text();

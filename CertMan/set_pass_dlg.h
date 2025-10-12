@@ -22,11 +22,10 @@ public:
     ~SetPassDlg();
 
     const QString getPasswd() { return mPasswdText->text(); };
-    bool usePasswd() { return mUsePasswdCheck->isChecked(); };
+    bool usePasswd() { return mPasswdGroup->isChecked(); };
 
 private slots:
     virtual void accept();
-    void checkUsePasswd();
 
 private:
     void initialize();

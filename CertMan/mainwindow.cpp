@@ -2366,7 +2366,7 @@ void MainWindow::setPasswd()
     */
 
     SetPassDlg setPassDlg;
-    setPassDlg.mUsePasswdCheck->setEnabled(false);
+    setPassDlg.mPasswdGroup->setChecked(false);
 
     if( setPassDlg.exec() != QDialog::Accepted )
         return;
@@ -2485,7 +2485,7 @@ void MainWindow::changePasswd()
     strOldPass = loginDlg.getPasswd();
 
     SetPassDlg setPassDlg;
-    setPassDlg.mUsePasswdCheck->setEnabled(false);
+    setPassDlg.mPasswdGroup->setChecked(false);
 
     if( setPassDlg.exec() != QDialog::Accepted )
     {
