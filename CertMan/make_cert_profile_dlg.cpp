@@ -904,8 +904,7 @@ void MakeCertProfileDlg::addKeyUsage()
         }
     }
 
-    mKeyUsageList->addItem( strVal );
-    mKeyUsageList->setCurrentRow(i);
+    mKeyUsageList->insertItem( 0, strVal );
 }
 
 void MakeCertProfileDlg::addPolicy()
@@ -926,12 +925,11 @@ void MakeCertProfileDlg::addPolicy()
         }
     }
 
-    mPolicyTable->setRowCount( row + 1 );
-
-    mPolicyTable->setRowHeight( row, 10 );
-    mPolicyTable->setItem( row, 0, new QTableWidgetItem(strOID));
-    mPolicyTable->setItem( row, 1, new QTableWidgetItem(strCPS));
-    mPolicyTable->setItem( row, 2, new QTableWidgetItem(strUserNotice));
+    mPolicyTable->insertRow(0);
+    mPolicyTable->setRowHeight( 0, 10 );
+    mPolicyTable->setItem( 0, 0, new QTableWidgetItem(strOID));
+    mPolicyTable->setItem( 0, 1, new QTableWidgetItem(strCPS));
+    mPolicyTable->setItem( 0, 2, new QTableWidgetItem(strUserNotice));
 
     mPolicyOIDText->clear();
     mPolicyCPSText->clear();
@@ -953,8 +951,7 @@ void MakeCertProfileDlg::addEKU()
         }
     }
 
-    mEKUList->addItem( strVal );
-    mEKUList->setCurrentRow(i);
+    mEKUList->insertItem( 0, strVal );
 }
 
 void MakeCertProfileDlg::addCRLDP()
@@ -980,11 +977,10 @@ void MakeCertProfileDlg::addCRLDP()
         }
     }
 
-    mCRLDPTable->setRowCount( row + 1 );
-
-    mCRLDPTable->setRowHeight( row, 10 );
-    mCRLDPTable->setItem( row, 0, new QTableWidgetItem( strType ));
-    mCRLDPTable->setItem( row, 1, new QTableWidgetItem( strVal ));
+    mCRLDPTable->insertRow(0);
+    mCRLDPTable->setRowHeight( 0, 10 );
+    mCRLDPTable->setItem( 0, 0, new QTableWidgetItem( strType ));
+    mCRLDPTable->setItem( 0, 1, new QTableWidgetItem( strVal ));
 
     mCRLDPText->clear();
 }
@@ -1013,12 +1009,11 @@ void MakeCertProfileDlg::addAIA()
         }
     }
 
-    mAIATable->setRowCount( row + 1 );
-
-    mAIATable->setRowHeight( row, 10 );
-    mAIATable->setItem( row, 0, new QTableWidgetItem( strTarget ));
-    mAIATable->setItem( row, 1, new QTableWidgetItem( strType) );
-    mAIATable->setItem( row, 2, new QTableWidgetItem( strVal ));
+    mAIATable->insertRow(0);
+    mAIATable->setRowHeight( 0, 10 );
+    mAIATable->setItem( 0, 0, new QTableWidgetItem( strTarget ));
+    mAIATable->setItem( 0, 1, new QTableWidgetItem( strType) );
+    mAIATable->setItem( 0, 2, new QTableWidgetItem( strVal ));
 
     mAIAText->clear();
 }
@@ -1045,11 +1040,10 @@ void MakeCertProfileDlg::addSAN()
         }
     }
 
-    mSANTable->setRowCount( row + 1 );
-
-    mSANTable->setRowHeight( row, 10 );
-    mSANTable->setItem( row, 0, new QTableWidgetItem(strType));
-    mSANTable->setItem( row, 1, new QTableWidgetItem(strVal));
+    mSANTable->insertRow(0);
+    mSANTable->setRowHeight( 0, 10 );
+    mSANTable->setItem( 0, 0, new QTableWidgetItem(strType));
+    mSANTable->setItem( 0, 1, new QTableWidgetItem(strVal));
 
     mSANText->clear();
 }
@@ -1077,11 +1071,10 @@ void MakeCertProfileDlg::addIAN()
         }
     }
 
-    mIANTable->setRowCount( row + 1 );
-
-    mIANTable->setRowHeight( row, 10 );
-    mIANTable->setItem( row, 0, new QTableWidgetItem(strType));
-    mIANTable->setItem( row, 1, new QTableWidgetItem(strVal));
+    mIANTable->insertRow(0);
+    mIANTable->setRowHeight( 0, 10 );
+    mIANTable->setItem( 0, 0, new QTableWidgetItem(strType));
+    mIANTable->setItem( 0, 1, new QTableWidgetItem(strVal));
 
     mIANText->clear();
 }
@@ -1115,13 +1108,12 @@ void MakeCertProfileDlg::addPM()
         }
     }
 
-    mPMTable->setRowCount( row + 1 );
-
-    mPMTable->setRowHeight( row, 10 );
-    mPMTable->setItem( row, 0, new QTableWidgetItem( "IssuerDomainPolicy"));
-    mPMTable->setItem( row, 1, new QTableWidgetItem( strIDP));
-    mPMTable->setItem( row, 2, new QTableWidgetItem( "SubjectDomainPolicy"));
-    mPMTable->setItem( row, 3, new QTableWidgetItem( strSDP));
+    mPMTable->insertRow(0);
+    mPMTable->setRowHeight( 0, 10 );
+    mPMTable->setItem( 0, 0, new QTableWidgetItem( "IssuerDomainPolicy"));
+    mPMTable->setItem( 0, 1, new QTableWidgetItem( strIDP));
+    mPMTable->setItem( 0, 2, new QTableWidgetItem( "SubjectDomainPolicy"));
+    mPMTable->setItem( 0, 3, new QTableWidgetItem( strSDP));
 
     mPMIssuerDomainPolicyText->clear();
     mPMSubjectDomainPolicyText->clear();
@@ -1152,14 +1144,13 @@ void MakeCertProfileDlg::addNC()
         }
     }
 
-    mNCTable->setRowCount( row + 1 );
-
-    mNCTable->setRowHeight( row, 10 );
-    mNCTable->setItem( row, 0, new QTableWidgetItem(strType));
-    mNCTable->setItem( row, 1, new QTableWidgetItem(strSubType));
-    mNCTable->setItem( row, 2, new QTableWidgetItem(strVal));
-    mNCTable->setItem( row, 3, new QTableWidgetItem(strMin));
-    mNCTable->setItem( row, 4, new QTableWidgetItem(strMax));
+    mNCTable->insertRow(0);
+    mNCTable->setRowHeight( 0, 10 );
+    mNCTable->setItem( 0, 0, new QTableWidgetItem(strType));
+    mNCTable->setItem( 0, 1, new QTableWidgetItem(strSubType));
+    mNCTable->setItem( 0, 2, new QTableWidgetItem(strVal));
+    mNCTable->setItem( 0, 3, new QTableWidgetItem(strMin));
+    mNCTable->setItem( 0, 4, new QTableWidgetItem(strMax));
 
     mNCSubText->clear();
     mNCMinText->clear();
@@ -1196,11 +1187,11 @@ void MakeCertProfileDlg::addExtensions()
         }
     }
 
-    mExtensionsTable->setRowCount( row + 1 );
-    mExtensionsTable->setRowHeight( row, 10 );
-    mExtensionsTable->setItem( row, 0, new QTableWidgetItem(strOID));
-    mExtensionsTable->setItem( row, 1, new QTableWidgetItem(strCrit));
-    mExtensionsTable->setItem( row, 2, new QTableWidgetItem(strValue));
+    mExtensionsTable->insertRow(0);
+    mExtensionsTable->setRowHeight( 0, 10 );
+    mExtensionsTable->setItem( 0, 0, new QTableWidgetItem(strOID));
+    mExtensionsTable->setItem( 0, 1, new QTableWidgetItem(strCrit));
+    mExtensionsTable->setItem( 0, 2, new QTableWidgetItem(strValue));
 
     mExtensionsOIDText->clear();
     mExtensionsValueText->clear();

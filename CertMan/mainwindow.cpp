@@ -408,7 +408,7 @@ void MainWindow::createActions()
     }
 
     const QIcon certProfileIcon = QIcon::fromTheme("cert-profile", QIcon(":/images/cert_profile.png"));
-    make_cert_profile_act_ = new QAction( certProfileIcon, tr("Make Cert &Profile"), this );
+    make_cert_profile_act_ = new QAction( certProfileIcon, tr("&Make Cert Profile"), this );
     make_cert_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F6 ));
     make_cert_profile_act_->setStatusTip(tr( "Create a certificate profile"));
     connect( make_cert_profile_act_, &QAction::triggered, this, &MainWindow::makeCertProfile );
@@ -416,7 +416,7 @@ void MainWindow::createActions()
     if( isView( ACT_TOOL_MAKE_CERT_PROFILE ) ) tool_tool_->addAction( make_cert_profile_act_ );
 
     const QIcon crlProfileIcon = QIcon::fromTheme("crl-profile", QIcon(":/images/crl_profile.png"));
-    make_crl_profile_act_ = new QAction( crlProfileIcon, tr("Make C&RL Profile"), this );
+    make_crl_profile_act_ = new QAction( crlProfileIcon, tr("Make CR&L Profile"), this );
     make_crl_profile_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F7 ));
     make_crl_profile_act_->setStatusTip(tr("Create a CRL profille"));
     connect( make_crl_profile_act_, &QAction::triggered, this, &MainWindow::makeCRLProfile);
@@ -449,7 +449,7 @@ void MainWindow::createActions()
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
 
     const QIcon caIcon = QIcon::fromTheme("CA Manager", QIcon(":/images/ca.png"));
-    ca_man_act_ = new QAction( caIcon, tr("CA Manager"), this );
+    ca_man_act_ = new QAction( caIcon, tr("CA &Manager"), this );
     ca_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
     ca_man_act_->setStatusTip( tr("CA Manager" ));
     connect( ca_man_act_, &QAction::triggered, this, &MainWindow::CAMan );
@@ -457,7 +457,7 @@ void MainWindow::createActions()
     if( isView( ACT_TOOL_CA_MAN ) ) tool_tool_->addAction( ca_man_act_ );
 
     const QIcon profileIcon = QIcon::fromTheme("Profile Manager", QIcon(":/images/profile.png"));
-    profile_man_act_ = new QAction( profileIcon, tr("Profile Manager"), this );
+    profile_man_act_ = new QAction( profileIcon, tr("&Profile Manager"), this );
     profile_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
     profile_man_act_->setStatusTip( tr("Profile Manager" ));
     connect( profile_man_act_, &QAction::triggered, this, &MainWindow::profileMan );
