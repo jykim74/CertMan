@@ -4393,7 +4393,7 @@ void MainWindow::expandItem( ManTreeItem *item )
 
         if( nCACount > 0 ) expandItem( pSubCAItem );
 
-        left_tree_->expand( pCAItem->index() );
+//        left_tree_->expand( pCAItem->index() );
     }
 
     left_tree_->expand( item->index() );
