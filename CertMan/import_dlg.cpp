@@ -4,6 +4,9 @@
  * All rights reserved.
  */
 #include <QFileDialog>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 
 #include "import_dlg.h"
 #include "mainwindow.h"
@@ -28,6 +31,8 @@ ImportDlg::ImportDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    setAcceptDrops( true );
+
     initUI();
     initialize();
 
@@ -40,6 +45,44 @@ ImportDlg::ImportDlg(QWidget *parent) :
 ImportDlg::~ImportDlg()
 {
 
+}
+
+void ImportDlg::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls() || event->mimeData()->hasText()) {
+        event->acceptProposedAction();  // 드랍 허용
+    }
+}
+
+void ImportDlg::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        QList<QUrl> urls = event->mimeData()->urls();
+
+        for (const QUrl &url : urls)
+        {
+            manApplet->log( QString( "url: %1").arg( url.toLocalFile() ));
+
+            if( mUseFileCheck->isChecked() == true )
+            {
+                mPathText->setText( url.toLocalFile() );
+            }
+            else
+            {
+                BIN binData = {0,0};
+                QString strValue;
+
+                JS_BIN_fileReadBER( url.toLocalFile().toLocal8Bit().toStdString().c_str(), &binData );
+                strValue = getStringFromBIN( &binData, mValueTypeCombo->currentText() );
+                mValueText->setPlainText( strValue );
+                JS_BIN_reset( &binData );
+            }
+
+            break;
+        }
+    } else if (event->mimeData()->hasText()) {
+
+    }
 }
 
 void ImportDlg::setType(int index)

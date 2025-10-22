@@ -290,7 +290,11 @@
        </layout>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="mValueText"/>
+       <widget class="QPlainTextEdit" name="mValueText">
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
