@@ -493,6 +493,12 @@ void ManApplet::warnLog( const QString strLog, QWidget *parent )
     elog( strLog );
 }
 
+void ManApplet::formatWarn( int rv, QWidget *parent )
+{
+    warningBox( tr( "There is an invalid format character: %1" ).arg(JERR(rv)), parent );
+}
+
+
 QMessageBox::StandardButton
 ManApplet::yesNoCancelBox(const QString& msg, QWidget *parent, QMessageBox::StandardButton default_btn)
 {

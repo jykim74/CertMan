@@ -1667,57 +1667,57 @@
         <translation type="vanished">값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="66"/>
+        <location filename="../import_dlg.cpp" line="109"/>
         <source>Please enter a password</source>
         <translation>암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="78"/>
+        <location filename="../import_dlg.cpp" line="121"/>
         <source>Select the file to import</source>
         <translation>가져올 파일을 선택하세요.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="93"/>
+        <location filename="../import_dlg.cpp" line="136"/>
         <source>Please enter a value</source>
         <translation>값을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="118"/>
+        <location filename="../import_dlg.cpp" line="166"/>
         <source>Private key decryption failed [%1]</source>
         <translation>개인키 암호화에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="139"/>
+        <location filename="../import_dlg.cpp" line="187"/>
         <source>Key management server does not support importing CSR</source>
         <translation>키관리 서버는 CSR 가져오기를 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="161"/>
+        <location filename="../import_dlg.cpp" line="209"/>
         <source>Key management server does not support importing CRL</source>
         <translation>키관리 서버는 CRL 가져오기를 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="184"/>
+        <location filename="../import_dlg.cpp" line="232"/>
         <source>import failed [%1]</source>
         <translation>가져오기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="191"/>
+        <location filename="../import_dlg.cpp" line="239"/>
         <source>import success</source>
         <translation>가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="209"/>
+        <location filename="../import_dlg.cpp" line="257"/>
         <source>Find a data file</source>
         <translation>데이타 파일을 찾으세요</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="257"/>
+        <location filename="../import_dlg.cpp" line="305"/>
         <source>Import %1</source>
         <translation>%1 가져오기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="315"/>
+        <location filename="../import_dlg.cpp" line="363"/>
         <source>Unlicense version support only RSA algorithm: %1</source>
         <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
     </message>
@@ -1772,7 +1772,7 @@
         <translation type="vanished">가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="85"/>
+        <location filename="../import_dlg.cpp" line="128"/>
         <source>fail to read : %1</source>
         <translation>파일 읽기 실패 : %1</translation>
     </message>
@@ -6714,23 +6714,28 @@
     <message>
         <location filename="../man_applet.cpp" line="462"/>
         <location filename="../man_applet.cpp" line="476"/>
-        <location filename="../man_applet.cpp" line="503"/>
-        <location filename="../man_applet.cpp" line="527"/>
+        <location filename="../man_applet.cpp" line="509"/>
+        <location filename="../man_applet.cpp" line="533"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
         <location filename="../man_applet.cpp" line="463"/>
-        <location filename="../man_applet.cpp" line="504"/>
-        <location filename="../man_applet.cpp" line="528"/>
+        <location filename="../man_applet.cpp" line="510"/>
+        <location filename="../man_applet.cpp" line="534"/>
         <source>No</source>
         <translation>아니오</translation>
     </message>
     <message>
         <location filename="../man_applet.cpp" line="477"/>
-        <location filename="../man_applet.cpp" line="505"/>
+        <location filename="../man_applet.cpp" line="511"/>
         <source>Cancel</source>
         <translation>취소</translation>
+    </message>
+    <message>
+        <location filename="../man_applet.cpp" line="498"/>
+        <source>There is an invalid format character: %1</source>
+        <translation>잘못된 문자 형식이 있습니다: %1</translation>
     </message>
 </context>
 <context>
@@ -7879,146 +7884,146 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../man_applet.cpp" line="613"/>
+        <location filename="../man_applet.cpp" line="619"/>
         <source>Cert Files</source>
         <translation>인증서 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="618"/>
+        <location filename="../man_applet.cpp" line="624"/>
         <source>CRL Files</source>
         <translation>CRL 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="623"/>
+        <location filename="../man_applet.cpp" line="629"/>
         <source>CSR Files</source>
         <translation>CSR 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="628"/>
-        <location filename="../man_applet.cpp" line="693"/>
+        <location filename="../man_applet.cpp" line="634"/>
+        <location filename="../man_applet.cpp" line="699"/>
         <source>PrivateKey Files</source>
         <translation>개인키 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="633"/>
+        <location filename="../man_applet.cpp" line="639"/>
         <source>DB Files</source>
         <translation>데이타 베이스 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="639"/>
+        <location filename="../man_applet.cpp" line="645"/>
         <source>DLL Files</source>
         <translation>DLL 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="642"/>
+        <location filename="../man_applet.cpp" line="648"/>
         <source>SO Files</source>
         <translation>SO 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="648"/>
+        <location filename="../man_applet.cpp" line="654"/>
         <source>Text Files</source>
         <translation>텍스트 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="653"/>
+        <location filename="../man_applet.cpp" line="659"/>
         <source>BER Files</source>
         <translation>BER 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="658"/>
+        <location filename="../man_applet.cpp" line="664"/>
         <source>Config Files</source>
         <translation>설정 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="663"/>
-        <location filename="../man_applet.cpp" line="701"/>
+        <location filename="../man_applet.cpp" line="669"/>
+        <location filename="../man_applet.cpp" line="707"/>
         <source>PFX Files</source>
         <translation>PFX 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="668"/>
+        <location filename="../man_applet.cpp" line="674"/>
         <source>Binary Files</source>
         <translation>바이너리 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="673"/>
+        <location filename="../man_applet.cpp" line="679"/>
         <source>PKCS7 Files</source>
         <translation>PKCS7 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="678"/>
-        <location filename="../man_applet.cpp" line="697"/>
+        <location filename="../man_applet.cpp" line="684"/>
+        <location filename="../man_applet.cpp" line="703"/>
         <source>PKCS8 Files</source>
         <translation>PKCS8 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="683"/>
+        <location filename="../man_applet.cpp" line="689"/>
         <source>JSON Files</source>
         <translation>JSON 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="688"/>
+        <location filename="../man_applet.cpp" line="694"/>
         <source>License Files</source>
         <translation>라이선스 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="706"/>
+        <location filename="../man_applet.cpp" line="712"/>
         <source>All Files (*.*)</source>
         <translation>모든 파일들 (*.*)</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="789"/>
-        <location filename="../man_applet.cpp" line="813"/>
+        <location filename="../man_applet.cpp" line="795"/>
+        <location filename="../man_applet.cpp" line="819"/>
         <source>Open %1</source>
         <translation>%1 열기</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="837"/>
-        <location filename="../man_applet.cpp" line="873"/>
+        <location filename="../man_applet.cpp" line="843"/>
+        <location filename="../man_applet.cpp" line="879"/>
         <source>Save %1</source>
         <translation>%1 저장</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="894"/>
+        <location filename="../man_applet.cpp" line="900"/>
         <source>Open Directory</source>
         <translation>디렉토리 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3537"/>
+        <location filename="../commons.cpp" line="3538"/>
         <source>Key Files (*.key);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3539"/>
+        <location filename="../commons.cpp" line="3540"/>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3542"/>
+        <location filename="../commons.cpp" line="3543"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4301"/>
-        <location filename="../commons.cpp" line="4306"/>
-        <location filename="../commons.cpp" line="4311"/>
+        <location filename="../commons.cpp" line="4309"/>
+        <location filename="../commons.cpp" line="4314"/>
+        <location filename="../commons.cpp" line="4319"/>
         <source>CreationTime</source>
         <translation>생성시간</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4349"/>
+        <location filename="../commons.cpp" line="4357"/>
         <source>Parameter</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4359"/>
+        <location filename="../commons.cpp" line="4367"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4352"/>
-        <location filename="../commons.cpp" line="4354"/>
-        <location filename="../commons.cpp" line="4356"/>
+        <location filename="../commons.cpp" line="4360"/>
+        <location filename="../commons.cpp" line="4362"/>
+        <location filename="../commons.cpp" line="4364"/>
         <source>Named Curve</source>
         <translation>커브 이름</translation>
     </message>

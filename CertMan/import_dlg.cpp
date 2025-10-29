@@ -138,7 +138,12 @@ void ImportDlg::accept()
             return;
         }
 
-        getBINFromString( &binSrc, mValueTypeCombo->currentText(), strValue );
+        ret = getBINFromString( &binSrc, mValueTypeCombo->currentText(), strValue );
+        if( ret < 0 )
+        {
+            manApplet->formatWarn( ret, this );
+            return;
+        }
     }
 
     if( nSelType == IMPORT_TYPE_PRIKEY || nSelType == IMPORT_TYPE_ENC_PRIKEY )

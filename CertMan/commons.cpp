@@ -1866,7 +1866,8 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
         return ret;
     }
 
-    getBINFromString( &binPIN, DATA_STRING, strPass );
+    ret = getBINFromString( &binPIN, DATA_STRING, strPass );
+    if( ret < 0 ) return ret;
 
     ret = JS_PKCS11_Login( pCTX, nUserType, binPIN.pVal, binPIN.nLen );
     JS_BIN_reset( &binPIN );
@@ -3916,7 +3917,7 @@ const QString getDataLenString( const QString strType, const QString strData )
     return getDataLenString( nType, strData );
 }
 
-void getBINFromString( BIN *pBin, const QString& strType, const QString& strString )
+int getBINFromString( BIN *pBin, const QString& strType, const QString& strString )
 {
     int nType = 0;
 
@@ -3929,37 +3930,38 @@ void getBINFromString( BIN *pBin, const QString& strType, const QString& strStri
     else
         nType = DATA_STRING;
 
-    getBINFromString( pBin, nType, strString );
+    return getBINFromString( pBin, nType, strString );
 }
 
-void getBINFromString( BIN *pBin, int nType, const QString& strString )
+int getBINFromString( BIN *pBin, int nType, const QString& strString )
 {
+    int ret = -1;
     QString srcString = strString;
 
-    if( pBin == NULL ) return;
+    if( pBin == NULL ) return JSR_ERR;
 
     if( nType == DATA_HEX )
     {
         srcString.remove( QRegularExpression("[\t\r\n\\s]") );
-        if( isHex( srcString ) == false ) return;
+        if( isHex( srcString ) == false ) return JSR_BAD_HEX;
 
-        JS_BIN_decodeHex( srcString.toStdString().c_str(), pBin );
+        ret = JS_BIN_decodeHex( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_BASE64 )
     {
         srcString.remove( QRegularExpression( "-----BEGIN [^-]+-----") );
         srcString.remove( QRegularExpression("-----END [^-]+-----") );
         srcString.remove( QRegularExpression("[\t\r\n\\s]") );
-        if( isBase64( srcString ) == false ) return;
+        if( isBase64( srcString ) == false ) return JSR_BAD_BASE64;
 
-        JS_BIN_decodeBase64( srcString.toStdString().c_str(), pBin );
+        ret = JS_BIN_decodeBase64( srcString.toStdString().c_str(), pBin );
     }
     else if( nType == DATA_URL )
     {
         char *pStr = NULL;
-        if( isURLEncode( srcString ) == false ) return;
+        if( isURLEncode( srcString ) == false ) return JSR_BAD_URL;
 
-        JS_BIN_decodeURL( srcString.toStdString().c_str(), &pStr );
+        ret = JS_BIN_decodeURL( srcString.toStdString().c_str(), &pStr );
 
         if( pStr )
         {
@@ -3970,7 +3972,10 @@ void getBINFromString( BIN *pBin, int nType, const QString& strString )
     else
     {
         JS_BIN_set( pBin, (unsigned char *)srcString.toStdString().c_str(), srcString.toUtf8().length() );
+        ret = srcString.toUtf8().length();
     }
+
+    return ret;
 }
 
 QString getStringFromBIN( const BIN *pBin, const QString& strType, bool bSeenOnly )
@@ -4053,13 +4058,16 @@ QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly )
 
 const QString getPasswdHMAC( const QString &strPasswd )
 {
+    int ret = -1;
     QString strHex;
     BIN binHMAC = {0,0};
     BIN binKey = {0,0};
     BIN binSrc = {0,0};
 
     JS_GEN_getHMACKey( &binKey );
-    getBINFromString( &binSrc, DATA_STRING, strPasswd );
+    ret = getBINFromString( &binSrc, DATA_STRING, strPasswd );
+    if( ret < 0 ) return "";
+
     JS_PKI_genHMAC( "SHA256", &binSrc, &binKey, &binHMAC );
 
     strHex = getHexString( &binHMAC );

@@ -100,6 +100,18 @@ const QString kFalse = "false";
 #define ACT_HELP_QNA                    VIEW_HELP | 0x00000040
 #define ACT_HELP_ABOUT                  VIEW_HELP | 0x00000080
 
+#define FORMAT_WARN_GO(x) if( x < 0 ) \
+{ \
+        manApplet->formatWarn( x, this ); \
+        goto end; \
+}
+
+#define FORMAT_WARN_RET(x) if( x < 0 ) \
+{ \
+        manApplet->formatWarn( x, this ); \
+        return x; \
+}
+
 static const int kFileDefault = ACT_FILE_NEW | ACT_FILE_OPEN | ACT_FILE_REMOTE_DB | ACT_FILE_LOGOUT;
 
 static const int kToolDefault = ACT_TOOL_NEW_KEY | ACT_TOOL_MAKE_REQ | ACT_TOOL_MAKE_CONFIG \
@@ -293,8 +305,8 @@ int getDataLen( const QString strType, const QString strData );
 const QString getDataLenString( int nType, const QString strData );
 const QString getDataLenString( const QString strType, const QString strData );
 
-void getBINFromString( BIN *pBin, const QString& strType, const QString& strString );
-void getBINFromString( BIN *pBin, int nType, const QString& strString );
+int getBINFromString( BIN *pBin, const QString& strType, const QString& strString );
+int getBINFromString( BIN *pBin, int nType, const QString& strString );
 QString getStringFromBIN( const BIN *pBin, const QString& strType, bool bSeenOnly = false );
 QString getStringFromBIN( const BIN *pBin, int nType, bool bSeenOnly = false );
 
