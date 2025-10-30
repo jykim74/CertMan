@@ -3940,6 +3940,8 @@ int getBINFromString( BIN *pBin, int nType, const QString& strString )
 
     if( pBin == NULL ) return JSR_ERR;
 
+    if( srcString.length() < 1 ) return 0;
+
     if( nType == DATA_HEX )
     {
         srcString.remove( QRegularExpression("[\t\r\n\\s]") );
