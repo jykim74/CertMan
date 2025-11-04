@@ -69,6 +69,8 @@ void GetURIDlg::showEvent(QShowEvent *event)
 void GetURIDlg::initUI()
 {
     mURICombo->setEditable( true );
+    mURICombo->addItems( getUsedURI() );
+    mURICombo->setFocus();
 
     mTypeCombo->addItems(sDataAttributeList);
     mScopeCombo->addItems(sFilterList);
@@ -83,7 +85,6 @@ void GetURIDlg::initUI()
 void GetURIDlg::initialize()
 {
     clickUseLDAPHost();
-    mURICombo->addItems( getUsedURI() );
 }
 
 QStringList GetURIDlg::getUsedURI()
