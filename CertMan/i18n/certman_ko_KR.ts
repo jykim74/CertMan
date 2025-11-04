@@ -1290,104 +1290,104 @@
         <translation type="vanished">내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="209"/>
+        <location filename="../export_dlg.cpp" line="210"/>
         <source>Private Key Export</source>
         <translation>개인키 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="228"/>
+        <location filename="../export_dlg.cpp" line="229"/>
         <source>Public Key Export</source>
         <translation>공개키 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="241"/>
+        <location filename="../export_dlg.cpp" line="242"/>
         <source>Certificate Export</source>
         <translation>인증서 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="256"/>
+        <location filename="../export_dlg.cpp" line="257"/>
         <source>CRL Export</source>
         <translation>CRL 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="269"/>
+        <location filename="../export_dlg.cpp" line="270"/>
         <source>CSR Export</source>
         <translation>CSR 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="285"/>
+        <location filename="../export_dlg.cpp" line="286"/>
         <source>Certificate and Private Key Export</source>
         <translation>인증서와 개인키 내보내기</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="356"/>
+        <location filename="../export_dlg.cpp" line="357"/>
         <source>Unlicense version support only RSA algorithm: %1</source>
         <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="363"/>
+        <location filename="../export_dlg.cpp" line="364"/>
         <source>That file name already exists. Do you want to overwrite it?</source>
         <translation>해당 파일명은 이미 존재 합니다. 덮어쓰겠습니까?</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="457"/>
+        <location filename="../export_dlg.cpp" line="458"/>
         <source>invalid service: %1</source>
         <translation>유효하지 않는 서비스: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="476"/>
+        <location filename="../export_dlg.cpp" line="477"/>
         <source>Public Key export successfully</source>
         <translation>공개키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="510"/>
+        <location filename="../export_dlg.cpp" line="511"/>
         <source>Private Key export successfully</source>
         <translation>개인키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="547"/>
+        <location filename="../export_dlg.cpp" line="548"/>
         <source>Certificate export successfully</source>
         <translation>인증서 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="575"/>
+        <location filename="../export_dlg.cpp" line="576"/>
         <source>CRL export successfully</source>
         <translation>CRL 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="603"/>
+        <location filename="../export_dlg.cpp" line="604"/>
         <source>CSR export successfully</source>
         <translation>CSR 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="632"/>
+        <location filename="../export_dlg.cpp" line="633"/>
         <source>fail to encrypt PFX: %1</source>
         <translation>PFX 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="639"/>
+        <location filename="../export_dlg.cpp" line="640"/>
         <source>PFX export successfully</source>
         <translation>PFX 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="671"/>
+        <location filename="../export_dlg.cpp" line="672"/>
         <source>fail to encrypt private key: %1</source>
         <translation>개인키 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="682"/>
+        <location filename="../export_dlg.cpp" line="683"/>
         <source>Encrypted privateKey export successfully</source>
         <translation>암호화된 개인키 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="718"/>
-        <location filename="../export_dlg.cpp" line="791"/>
+        <location filename="../export_dlg.cpp" line="719"/>
+        <location filename="../export_dlg.cpp" line="792"/>
         <source>PKCS8 Info export successfully</source>
         <translation>PKCS8 메세지 내보내기에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="423"/>
-        <location filename="../export_dlg.cpp" line="797"/>
+        <location filename="../export_dlg.cpp" line="424"/>
+        <location filename="../export_dlg.cpp" line="798"/>
         <source>failed to export: %1</source>
         <translation>내보내기 실패: %1</translation>
     </message>
@@ -1530,52 +1530,52 @@
         <translation type="vanished">URI 를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="157"/>
+        <location filename="../get_uri_dlg.cpp" line="158"/>
         <source>Please enter Host</source>
         <translation>호스트명을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="164"/>
+        <location filename="../get_uri_dlg.cpp" line="165"/>
         <source>Please enter DN value</source>
         <translation>DN 을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="180"/>
+        <location filename="../get_uri_dlg.cpp" line="181"/>
         <source>Please enter URL value</source>
         <translation>URL 을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="232"/>
+        <location filename="../get_uri_dlg.cpp" line="233"/>
         <source>CRL</source>
         <translation>인증서 폐기 목록</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="237"/>
+        <location filename="../get_uri_dlg.cpp" line="238"/>
         <source>Certificate</source>
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="254"/>
+        <location filename="../get_uri_dlg.cpp" line="255"/>
         <source>URL retrieval successful: %1</source>
         <translation>URL 가져오기 성공 [%1]</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="259"/>
+        <location filename="../get_uri_dlg.cpp" line="260"/>
         <source>Failed to get URL [%1]</source>
         <translation>URL 가져오기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="332"/>
+        <location filename="../get_uri_dlg.cpp" line="333"/>
         <source>Failed to connect to LDAP server</source>
         <translation>LDAP 서버 연결 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="339"/>
+        <location filename="../get_uri_dlg.cpp" line="340"/>
         <source>Failed to bind to LDAP server</source>
         <translation>LDAP 서버 바인딩 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="346"/>
+        <location filename="../get_uri_dlg.cpp" line="347"/>
         <source>Failed to retrieve data from LDAP server[%1]</source>
         <translation>LDAP 서버로 부터 데이타 가져오기 실패 [%1]</translation>
     </message>
@@ -6277,9 +6277,8 @@
         <translation type="vanished">Common Name</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="67"/>
         <source>Organization (optional)</source>
-        <translation>Organization (옵션)</translation>
+        <translation type="vanished">Organization (옵션)</translation>
     </message>
     <message>
         <source>Country or resion (optional)</source>
@@ -6295,47 +6294,81 @@
         <translation>DN 만들기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="114"/>
         <source>Common Name (optional)</source>
-        <translation>Common Name (옵션)</translation>
+        <translation type="vanished">Common Name (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="107"/>
         <source>Country or region (optional)</source>
-        <translation>Country 또는 region (옵션)</translation>
+        <translation type="vanished">Country 또는 region (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="93"/>
         <source>State/Province (optional)</source>
-        <translation>State/Province (옵션)</translation>
+        <translation type="vanished">State/Province (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="86"/>
         <source>Email (optional)</source>
-        <translation>Email (옵션)</translation>
+        <translation type="vanished">Email (옵션)</translation>
+    </message>
+    <message>
+        <source>Locality (optional)</source>
+        <translation type="vanished">Locality (옵션)</translation>
+    </message>
+    <message>
+        <source>Organizational Unit (optional)</source>
+        <translation type="vanished">Organization Unit (옵션)</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="60"/>
-        <source>Locality (optional)</source>
-        <translation>Locality (옵션)</translation>
+        <source>Locality(L)</source>
+        <translation>Locality(L)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="70"/>
+        <source>Email(emailAddress)</source>
+        <translation>Email(emailAddress)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="83"/>
+        <source>Organization(O)</source>
+        <translation>Organization(O)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="93"/>
+        <source>Organizational Unit(OU)</source>
+        <translation>Organizational Unit(OU)</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="100"/>
-        <source>Organizational Unit (optional)</source>
-        <translation>Organization Unit (옵션)</translation>
+        <source>Common Name(CN)</source>
+        <translation>Common Name(CN)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="186"/>
+        <location filename="../make_dn_dlg.ui" line="114"/>
+        <source>Country(C)</source>
+        <translation>Country(C)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="121"/>
+        <source>State/Province(ST)</source>
+        <translation>State/Province(ST)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="182"/>
+        <source>Add</source>
+        <translation>추가</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="260"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="193"/>
+        <location filename="../make_dn_dlg.ui" line="267"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="213"/>
+        <location filename="../make_dn_dlg.ui" line="287"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -6344,9 +6377,34 @@
         <translation type="vanished">고유 이름이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="142"/>
+        <location filename="../make_dn_dlg.cpp" line="62"/>
+        <source>Name</source>
+        <translation>이름</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.cpp" line="62"/>
+        <source>Value</source>
+        <translation>값</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.cpp" line="317"/>
+        <source>Delete</source>
+        <translation>삭제</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.cpp" line="331"/>
         <source>Enter DN value</source>
         <translation>DN 을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.cpp" line="366"/>
+        <source>Enter a name</source>
+        <translation>이름을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.cpp" line="373"/>
+        <source>Enter a value</source>
+        <translation>값을 입력하세요</translation>
     </message>
 </context>
 <context>
@@ -8004,26 +8062,26 @@
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4309"/>
-        <location filename="../commons.cpp" line="4314"/>
-        <location filename="../commons.cpp" line="4319"/>
+        <location filename="../commons.cpp" line="4313"/>
+        <location filename="../commons.cpp" line="4318"/>
+        <location filename="../commons.cpp" line="4323"/>
         <source>CreationTime</source>
         <translation>생성시간</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4357"/>
+        <location filename="../commons.cpp" line="4361"/>
         <source>Parameter</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4367"/>
+        <location filename="../commons.cpp" line="4371"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4360"/>
-        <location filename="../commons.cpp" line="4362"/>
         <location filename="../commons.cpp" line="4364"/>
+        <location filename="../commons.cpp" line="4366"/>
+        <location filename="../commons.cpp" line="4368"/>
         <source>Named Curve</source>
         <translation>커브 이름</translation>
     </message>

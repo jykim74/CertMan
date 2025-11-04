@@ -24,12 +24,18 @@ public:
     const QString getDN();
 
 private slots:
+    void slotTableMenuRequested( QPoint pos );
+
     void clickOK();
     void clickClear();
     void changeDN();
+    void clickRDNAdd();
+    void deleteRDN();
 
 private:
+    void initUI();
     void initialize();
+    void appendRDNTable( const QString strName, const QString strValue );
 };
 
 #endif // MAKE_DN_DLG_H
