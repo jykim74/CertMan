@@ -6318,57 +6318,85 @@
         <translation type="vanished">Organization Unit (옵션)</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="60"/>
         <source>Locality(L)</source>
-        <translation>Locality(L)</translation>
+        <translation type="vanished">Locality(L)</translation>
+    </message>
+    <message>
+        <source>Email(emailAddress)</source>
+        <translation type="vanished">Email(emailAddress)</translation>
+    </message>
+    <message>
+        <source>Organization(O)</source>
+        <translation type="vanished">Organization(O)</translation>
+    </message>
+    <message>
+        <source>Organizational Unit(OU)</source>
+        <translation type="vanished">Organizational Unit(OU)</translation>
+    </message>
+    <message>
+        <source>Common Name(CN)</source>
+        <translation type="vanished">Common Name(CN)</translation>
+    </message>
+    <message>
+        <source>Country(C)</source>
+        <translation type="vanished">Country(C)</translation>
+    </message>
+    <message>
+        <source>State/Province(ST)</source>
+        <translation type="vanished">State/Province(ST)</translation>
+    </message>
+    <message>
+        <location filename="../make_dn_dlg.ui" line="60"/>
+        <source>L</source>
+        <translation>L</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="70"/>
-        <source>Email(emailAddress)</source>
-        <translation>Email(emailAddress)</translation>
+        <source>emailAddress</source>
+        <translation>emailAddress</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="83"/>
-        <source>Organization(O)</source>
-        <translation>Organization(O)</translation>
+        <source>O</source>
+        <translation>O</translation>
     </message>
     <message>
         <location filename="../make_dn_dlg.ui" line="93"/>
-        <source>Organizational Unit(OU)</source>
-        <translation>Organizational Unit(OU)</translation>
+        <source>OU</source>
+        <translation>OU</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="100"/>
-        <source>Common Name(CN)</source>
-        <translation>Common Name(CN)</translation>
+        <location filename="../make_dn_dlg.ui" line="106"/>
+        <source>CN</source>
+        <translation>CN</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="114"/>
-        <source>Country(C)</source>
-        <translation>Country(C)</translation>
+        <location filename="../make_dn_dlg.ui" line="120"/>
+        <source>C</source>
+        <translation>C</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="121"/>
-        <source>State/Province(ST)</source>
-        <translation>State/Province(ST)</translation>
+        <location filename="../make_dn_dlg.ui" line="127"/>
+        <source>ST</source>
+        <translation>ST</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="182"/>
+        <location filename="../make_dn_dlg.ui" line="174"/>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="260"/>
+        <location filename="../make_dn_dlg.ui" line="252"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="267"/>
+        <location filename="../make_dn_dlg.ui" line="259"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.ui" line="287"/>
+        <location filename="../make_dn_dlg.ui" line="279"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
@@ -6377,32 +6405,32 @@
         <translation type="vanished">고유 이름이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="62"/>
+        <location filename="../make_dn_dlg.cpp" line="71"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="62"/>
+        <location filename="../make_dn_dlg.cpp" line="71"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="317"/>
+        <location filename="../make_dn_dlg.cpp" line="326"/>
         <source>Delete</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="331"/>
+        <location filename="../make_dn_dlg.cpp" line="340"/>
         <source>Enter DN value</source>
         <translation>DN 을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="366"/>
+        <location filename="../make_dn_dlg.cpp" line="375"/>
         <source>Enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_dn_dlg.cpp" line="373"/>
+        <location filename="../make_dn_dlg.cpp" line="382"/>
         <source>Enter a value</source>
         <translation>값을 입력하세요</translation>
     </message>
