@@ -304,7 +304,7 @@ void MakeCRLDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( ret ), this);
+            manApplet->warningBox( tr( "Failed to fetch session: %1 ").arg( JERR(ret) ), this);
             ret = -1;
             goto end;
         }
@@ -355,14 +355,14 @@ void MakeCRLDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to make CRL [%1]").arg(JERR(ret)), this );
+        manApplet->warningBox( tr("failed to make CRL: %1").arg(JERR(ret)), this );
         goto end;
     }
 
     ret = JS_PKI_getCRLInfo( &binCRL, &sMadeCRLInfo, &pMadeExtInfoList, &pMadeRevokeInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to get CRL information [%1]").arg(JERR(ret)), this );
+        manApplet->warningBox( tr("failed to get CRL information: %1").arg(JERR(ret)), this );
         goto end;
     }
 
@@ -401,13 +401,12 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
+        manApplet->messageBox( tr("CRL has been generated"), this );
 
         if( mProfileSetDefaultCheck->isChecked() == true )
             manApplet->settingsMgr()->setCRLProfileNum( mProfileNumText->text().toInt() );
         else
             manApplet->settingsMgr()->setCRLProfileNum( 0 );
-
-//        manApplet->settingsMgr()->setIssuerNum( mIssuerNumText->text().toInt() );
 
         QDialog::accept();
     }

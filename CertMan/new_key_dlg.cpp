@@ -305,11 +305,7 @@ void NewKeyDlg::clickOK()
         goto end;
     }
 
-    if( ret != 0 )
-    {
-        manApplet->warningBox( tr("failed to generate key pairs"), this );
-        goto end;
-    }
+    if( ret != 0 ) goto end;
 
     if( isInternalPrivate( strMech ) == true )
     {
@@ -364,9 +360,10 @@ end:
     if( pPubHex ) JS_free( pPubHex );
 
 
-    if( ret == 0 )
-    {
+    if( ret == JSR_OK )
+    {   
         manApplet->mainWindow()->createRightKeyPairList();
+        manApplet->messageLog( tr( "Key pair generated" ), this );
         QDialog::accept();
     }
     else

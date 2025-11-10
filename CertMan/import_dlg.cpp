@@ -229,14 +229,14 @@ void ImportDlg::accept()
     if( ret != 0 )
     {
         JS_BIN_reset( &binSrc );
-        QString strMsg = tr( "import failed [%1]").arg( ret );
+        QString strMsg = tr( "import failed: %1").arg( JERR(ret) );
         manApplet->warningBox( strMsg, this );
         manApplet->elog( strMsg );
         QDialog::reject();
         return;
     }
 
-    manApplet->messageBox( tr( "import success"), this );
+    manApplet->messageBox( tr( "Import was successful"), this );
     JS_BIN_reset( &binSrc );
     QDialog::accept();
 }

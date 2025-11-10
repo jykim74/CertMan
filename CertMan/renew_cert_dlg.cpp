@@ -331,7 +331,7 @@ void RenewCertDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to make certificate [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to make certificate: %1").arg(JERR(ret)), this );
         goto end;
 
     }
@@ -339,7 +339,7 @@ void RenewCertDlg::accept()
     ret = JS_PKI_getCertInfo( &binRenewCert, &sMadeCertInfo, NULL );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(ret), this );
+        manApplet->warningBox(tr("failed to get certificate information: %1").arg(JERR(ret)), this );
         goto end;
     }
 
@@ -406,11 +406,12 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
+        manApplet->messageBox( tr("Certificate renewal was successful"), this );
         QDialog::accept();
     }
     else
     {
-        manApplet->warningBox( tr( "failed to renew certificate" ), this );
+        manApplet->warningBox( tr( "failed to renew certificate: %1" ).arg(JERR(ret)), this );
         QDialog::reject();
     }
 }

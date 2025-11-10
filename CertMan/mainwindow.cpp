@@ -1074,6 +1074,7 @@ void MainWindow::newFile()
     }
 
     SetPassDlg setPassDlg;
+    setPassDlg.setHead( tr("Set private key password"));
     if( setPassDlg.exec() != QDialog::Accepted )
         return;
 
@@ -1307,12 +1308,7 @@ void MainWindow::open()
     QString fileName = manApplet->findFile( this, JS_FILE_TYPE_DB, strPath, false );
     if( fileName.length() < 1 ) return;
 
-    int ret = openDB( fileName );
-    if( ret != 0 )
-    {
-        manApplet->warningBox( tr( "failed to open database[%1]" ).arg( JSR_DB_OPEN_FAIL ), this );
-        return;
-    }
+    openDB( fileName );
 }
 
 void MainWindow::remoteDB()
@@ -2343,17 +2339,19 @@ void MainWindow::setPasswd()
         return;
     }
 
+    if( manApplet->isLicense() == false )
+    {
+        manApplet->warningBox( tr( "There is no license"), this );
+        return;
+    }
+
     if( manApplet->isPasswd() == true )
     {
         manApplet->warningBox( tr( "The PrivateKeys are already encrypted."), this );
         return;
     }
 
-    if( manApplet->isLicense() == false )
-    {
-        manApplet->warningBox( tr( "There is no license"), this );
-        return;
-    }
+
 
     int nKeyCount = manApplet->dbMgr()->getKeyPairCountAll();
 
@@ -2366,10 +2364,17 @@ void MainWindow::setPasswd()
     */
 
     SetPassDlg setPassDlg;
-    setPassDlg.mPasswdGroup->setChecked(false);
+    setPassDlg.setHead( tr("Set private key password"));
+    setPassDlg.setPassNeed( true );
 
     if( setPassDlg.exec() != QDialog::Accepted )
         return;
+
+    if( setPassDlg.getPasswd().length() < 1 )
+    {
+        manApplet->warningBox( tr( "Password required" ), this );
+        return;
+    }
 
     QString strPass = setPassDlg.getPasswd();
     ConfigRec config;
@@ -2461,15 +2466,15 @@ void MainWindow::changePasswd()
         return;
     }
 
-    if( manApplet->isPasswd() == false )
-    {
-        manApplet->warningBox( tr( "The PrivateKeys are not encrypted."), this );
-        return;
-    }
-
     if( manApplet->isLicense() == false )
     {
         manApplet->warningBox( tr( "There is no license"), this );
+        return;
+    }
+
+    if( manApplet->isPasswd() == false )
+    {
+        manApplet->warningBox( tr( "The PrivateKeys are not encrypted."), this );
         return;
     }
 
@@ -2485,11 +2490,18 @@ void MainWindow::changePasswd()
     strOldPass = loginDlg.getPasswd();
 
     SetPassDlg setPassDlg;
-    setPassDlg.mPasswdGroup->setChecked(false);
+    setPassDlg.setHead( tr("Change private key password"));
+    setPassDlg.setPassNeed( true );
 
     if( setPassDlg.exec() != QDialog::Accepted )
     {
-        manApplet->warningBox( tr( "fail to set new password" ), this );
+//        manApplet->warningBox( tr( "fail to set new password" ), this );
+        return;
+    }
+
+    if( setPassDlg.getPasswd().length() < 1 )
+    {
+        manApplet->warningBox( tr( "Password required" ), this );
         return;
     }
 

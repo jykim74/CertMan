@@ -307,7 +307,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ), this);
+            manApplet->warningBox( tr( "Invalid CSR file: %1" ).arg( JERR(ret) ), this);
             return;
         }
 
@@ -334,7 +334,7 @@ void MakeCertDlg::accept()
 
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Invalid CSR file [%1]" ).arg( ret ), this);
+            manApplet->warningBox( tr( "Invalid CSR file: %1" ).arg( JERR(ret) ), this);
             return;
         }
     }
@@ -355,7 +355,7 @@ void MakeCertDlg::accept()
     ret = JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
     if( ret != 0 )
     {
-        manApplet->elog( QString( "failed to get KeyIdentifier: %1").arg( ret ));
+        manApplet->elog( QString( "failed to get KeyIdentifier: %1").arg( JERR(ret) ));
         return;
     }
 
@@ -598,7 +598,7 @@ void MakeCertDlg::accept()
         ret = getP11Session( pP11CTX, nSlotID, strPIN );
         if( ret != 0 )
         {
-            manApplet->warningBox( tr( "Failed to fetch session:%1 ").arg( ret ), this);
+            manApplet->warningBox( tr( "Failed to fetch session: %1 ").arg( JERR(ret) ), this);
             ret = -1;
             goto end;
         }
@@ -649,7 +649,7 @@ void MakeCertDlg::accept()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("failed to make certificate [%1]").arg(JERR(ret)), this );
+        manApplet->warningBox( tr("failed to make certificate: %1").arg(JERR(ret)), this );
         goto end;
 
     }
@@ -657,7 +657,7 @@ void MakeCertDlg::accept()
     ret = JS_PKI_getCertInfo( &binCert, &sMadeCertInfo, &pMadeExtInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox(tr("failed to get certificate information [%1]").arg(JERR(ret)), this );
+        manApplet->warningBox(tr("failed to get certificate information: %1").arg(JERR(ret)), this );
         goto end;
     }
 
@@ -743,6 +743,7 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCertList( nIssuerNum );
+        manApplet->messageBox( tr("Certificate has been created"), this );
 
         if( mProfileSetDefaultCheck->isChecked() == true )
             manApplet->settingsMgr()->setCertProfileNum( mProfileNumText->text().toInt() );

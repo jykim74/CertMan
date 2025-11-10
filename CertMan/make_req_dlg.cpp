@@ -432,11 +432,7 @@ void MakeReqDlg::accept()
     if( mGenKeyPairCheck->isChecked() )
     {
         ret = genKeyPair( keyRec );
-        if( ret != 0 )
-        {
-            manApplet->warningBox( tr( "fail to generate keypair: %1" ).arg( ret ), this );
-            goto end;
-        }
+        if( ret != JSR_OK ) goto end;
 
         strParam = mNewOptionCombo->currentText();
         strAlg = getMechanism();
@@ -648,9 +644,10 @@ end :
     if( pHexCSR ) JS_free( pHexCSR );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
-    if( ret == 0 )
+    if( ret == JSR_OK )
     {
         manApplet->mainWindow()->createRightRequestList();
+        manApplet->messageBox( tr("CSR created"), this );
 
         if( mUseExtensionCheck->isChecked() == true )
         {

@@ -20,14 +20,18 @@ class SetPassDlg : public QDialog, public Ui::SetPassDlg
 public:
     explicit SetPassDlg(QWidget *parent = nullptr);
     ~SetPassDlg();
+    void setHead( const QString& strHead );
+    void setPassNeed( bool bVal );
 
     const QString getPasswd() { return mPasswdText->text(); };
-    bool usePasswd() { return mPasswdGroup->isChecked(); };
+    bool usePasswd() { return mUsePassCheck->isChecked(); };
 
 private slots:
     virtual void accept();
+    void checkUsePasswd();
 
 private:
+    void initUI();
     void initialize();
 };
 

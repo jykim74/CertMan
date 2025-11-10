@@ -463,11 +463,12 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCertProfileList();
+        manApplet->messageBox( tr("Certificate profile created"), this );
         QDialog::accept();
     }
     else
     {
-        manApplet->warningBox( tr( "failed to make certificate profile"), this );
+        manApplet->warningBox( tr( "failed to make certificate profile: %1").arg( JERR(ret)), this );
         QDialog::reject();
     }
 }
@@ -529,6 +530,7 @@ void MakeCertProfileDlg::initUI()
     mExtUsageCombo->addItems( kExtUsageList );
 
     mExtensionsOIDText->setPlaceholderText( QString( "Object Identifier" ));
+    mExtensionsValueText->setPlaceholderText( tr("Hex value" ));
 
     mPolicyOIDText->setPlaceholderText( QString( "Text OID" ));
     mPolicyCPSText->setPlaceholderText( tr("String value" ));

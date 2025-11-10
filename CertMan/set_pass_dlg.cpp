@@ -11,12 +11,15 @@ SetPassDlg::SetPassDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 
-    initialize();
+    connect( mUsePassCheck, SIGNAL(clicked()), this, SLOT(checkUsePasswd()));
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
+    initialize();
 }
 
 SetPassDlg::~SetPassDlg()
@@ -24,14 +27,50 @@ SetPassDlg::~SetPassDlg()
 
 }
 
+void SetPassDlg::setHead( const QString& strHead )
+{
+    mHeadLabel->setText( strHead );
+}
+
+void SetPassDlg::setPassNeed( bool bVal )
+{
+    mUsePassCheck->setChecked( bVal );
+    checkUsePasswd();
+
+    if( bVal == true )
+        mUsePassCheck->hide();
+    else
+        mUsePassCheck->show();
+}
+
 void SetPassDlg::initialize()
 {
-    mPasswdGroup->setChecked(true);
+    checkUsePasswd();
+}
+
+void SetPassDlg::initUI()
+{
+    mUsePassCheck->setChecked( true );
+}
+
+void SetPassDlg::checkUsePasswd()
+{
+    bool bVal = mUsePassCheck->isChecked();
+
+    if( bVal == true )
+        mDescLabel->setText( tr("Please enter password, that will be used to encrypt private keys") );
+    else
+        mDescLabel->setText( tr("It is set to be unsafe") );
+
+    mPasswdLabel->setEnabled( bVal );
+    mPasswdText->setEnabled( bVal );
+    mPasswdConfirmLabel->setEnabled( bVal );
+    mPasswdConfirmText->setEnabled( bVal );
 }
 
 void SetPassDlg::accept()
 {
-    if( mPasswdGroup->isChecked() == false )
+    if( mUsePassCheck->isChecked() == false )
         return QDialog::accept();
 
     QString strPasswd = mPasswdText->text();

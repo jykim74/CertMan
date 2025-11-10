@@ -330,11 +330,12 @@ end :
     if( ret == 0 )
     {
         manApplet->mainWindow()->createRightCRLProfileList();
+        manApplet->messageBox( tr("CRL profile created"), this );
         QDialog::accept();
     }
     else
     {
-        manApplet->warningBox( tr( "failed to make CRL profile"), this );
+        manApplet->warningBox( tr( "failed to make CRL profile: %1").arg(JERR(ret)), this );
         QDialog::reject();
     }
 }
@@ -366,6 +367,7 @@ void MakeCRLProfileDlg::initUI()
 
     mCRLNumText->setPlaceholderText( tr( "Hex value" ) );
     mExtensionsOIDText->setPlaceholderText( QString( "Object Identifier" ) );
+    mExtensionsValueText->setPlaceholderText( tr("Hex value" ) );
 
     mIDPText->setPlaceholderText( tr( "URI address" ));
 }
