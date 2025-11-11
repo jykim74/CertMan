@@ -25,6 +25,7 @@
 #include "ca_man_dlg.h"
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
+#include "man_tree_view.h"
 
 #include "js_gen.h"
 #include "js_kms.h"
@@ -100,21 +101,24 @@ void MakeCertDlg::initialize()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
-    if( manApplet->settingsMgr()->issuerNum() > 0 )
+    if( mIssuerNumText->text().length() < 1 )
     {
-        mIssuerSetDefaultCheck->setChecked(true);
-
-        if( manApplet->settingsMgr()->issuerNum() == 1 )
+        if( manApplet->settingsMgr()->issuerNum() > 0 )
         {
-            mSelfSignCheck->setChecked( true );
-        }
-        else
-        {
-            mSelfSignCheck->setChecked( false );
-            mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
-        }
+            mIssuerSetDefaultCheck->setChecked(true);
 
-        clickSelfSign();
+            if( manApplet->settingsMgr()->issuerNum() == 1 )
+            {
+                mSelfSignCheck->setChecked( true );
+            }
+            else
+            {
+                mSelfSignCheck->setChecked( false );
+                mIssuerNumText->setText( QString("%1").arg( manApplet->settingsMgr()->issuerNum() ));
+            }
+
+            clickSelfSign();
+        }
     }
 
     if( manApplet->settingsMgr()->certProfileNum() > 0 )
@@ -190,7 +194,12 @@ QString MakeCertDlg::getReplacedValue( QString &strVal )
 
 void MakeCertDlg::setIssuer( int nCertNum )
 {
-    mIssuerNumText->setText( QString("%1").arg( nCertNum ) );
+    if( nCertNum > 0 )
+    {
+        mSelfSignCheck->setChecked( false );
+        clickSelfSign();
+        mIssuerNumText->setText( QString("%1").arg( nCertNum ) );
+    }
 }
 
 void MakeCertDlg::setReqNum( int nReqNum )
@@ -203,6 +212,8 @@ void MakeCertDlg::setReqNum( int nReqNum )
 void MakeCertDlg::accept()
 {
     int ret = 0;
+    int nType = CM_ITEM_TYPE_CA;
+
     JIssueCertInfo sIssueCertInfo;
     JCertInfo sMadeCertInfo;
     JReqInfo    sReqInfo;
@@ -720,7 +731,12 @@ void MakeCertDlg::accept()
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );
     */
-    if( madeCertRec.isCA() ) manApplet->mainWindow()->refreshRootCA();
+    if( madeCertRec.isCA() )
+    {
+        if( bSelf ) nType = CM_ITEM_TYPE_ROOTCA;
+
+        manApplet->mainWindow()->refreshRootCA();
+    }
 
 end :
     JS_BIN_reset( &binCSR );
@@ -742,7 +758,12 @@ end :
 
     if( ret == 0 )
     {
-        manApplet->mainWindow()->createRightCertList( nIssuerNum );
+//        manApplet->mainWindow()->createRightCertList( nIssuerNum );
+        if( nType == CM_ITEM_TYPE_ROOTCA )
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_ROOTCA );
+        else
+            manApplet->mainWindow()->clickRootTreeMenu( nType, nIssuerNum );
+
         manApplet->messageBox( tr("Certificate has been created"), this );
 
         if( mProfileSetDefaultCheck->isChecked() == true )

@@ -113,7 +113,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -123,8 +123,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>350</height>
+        <width>596</width>
+        <height>391</height>
        </rect>
       </property>
       <attribute name="label">
@@ -439,12 +439,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>590</width>
-        <height>357</height>
+        <width>596</width>
+        <height>391</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>Extension</string>
+       <string>Extension [ CRLNumber, AKI, IDP, IAN ]</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>

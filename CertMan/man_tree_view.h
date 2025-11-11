@@ -7,6 +7,7 @@
 #define MAN_TREE_VIEW_H
 
 #include <QTreeView>
+#include "man_tree_item.h"
 
 class ManTreeItem;
 
@@ -15,6 +16,7 @@ class ManTreeView : public QTreeView
     Q_OBJECT
 public:
     ManTreeView( QWidget* parent = 0 );
+    ManTreeItem* getItem( const ManTreeItem* parent, int nType, int nNum = -1 );
 
 private slots:
     void showContextMenu( QPoint point );

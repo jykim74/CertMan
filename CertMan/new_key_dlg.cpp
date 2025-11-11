@@ -6,6 +6,7 @@
 #include "new_key_dlg.h"
 #include "man_applet.h"
 #include "mainwindow.h"
+#include "man_tree_item.h"
 #include "js_pki.h"
 #include "js_pki_raw.h"
 #include "js_pki_tools.h"
@@ -361,8 +362,9 @@ end:
 
 
     if( ret == JSR_OK )
-    {   
-        manApplet->mainWindow()->createRightKeyPairList();
+    {
+//        manApplet->mainWindow()->createRightKeyPairList();
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
         manApplet->messageLog( tr( "Key pair generated" ), this );
         QDialog::accept();
     }

@@ -22,6 +22,7 @@
 #include "js_define.h"
 #include "crl_info_dlg.h"
 #include "js_pqc.h"
+#include "man_tree_view.h"
 
 static QStringList sDataTypeList = {
     "PrivateKey", "Encrypted PrivateKey", "Request(CSR)", "Certificate", "CRL", "PFX"
@@ -177,7 +178,8 @@ void ImportDlg::accept()
 
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightKeyPairList();
+//            manApplet->mainWindow()->createRightKeyPairList();
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
         }
     }
     else if( nSelType == IMPORT_TYPE_CSR )
@@ -191,7 +193,8 @@ void ImportDlg::accept()
         ret = ImportRequest( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightRequestList();
+//            manApplet->mainWindow()->createRightRequestList();
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
         }
     }
     else if( nSelType == IMPORT_TYPE_CERT )
@@ -199,7 +202,8 @@ void ImportDlg::accept()
         ret = ImportCert( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCertList( kImportNum );
+//            manApplet->mainWindow()->createRightCertList( kImportNum );
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
         }
     }
     else if( nSelType == IMPORT_TYPE_CRL )
@@ -214,7 +218,8 @@ void ImportDlg::accept()
         ret = ImportCRL( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCRLList( kImportNum );
+//            manApplet->mainWindow()->createRightCRLList( kImportNum );
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
         }
     }
     else if( nSelType == IMPORT_TYPE_PFX )
@@ -222,7 +227,8 @@ void ImportDlg::accept()
         ret = ImportPFX( &binSrc );
         if( ret == 0 )
         {
-            manApplet->mainWindow()->createRightCertList( kImportNum );
+//            manApplet->mainWindow()->createRightCertList( kImportNum );
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
         }
     }
 

@@ -24,6 +24,7 @@
 #include "ca_man_dlg.h"
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
+#include "man_tree_item.h"
 
 const QString sUseExtension = "UseExtension";
 
@@ -646,7 +647,8 @@ end :
 
     if( ret == JSR_OK )
     {
-        manApplet->mainWindow()->createRightRequestList();
+//        manApplet->mainWindow()->createRightRequestList();
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
         manApplet->messageBox( tr("CSR created"), this );
 
         if( mUseExtensionCheck->isChecked() == true )

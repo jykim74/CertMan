@@ -87,5 +87,6 @@
         <file>images/profile.png</file>
         <file>images/hsm.png</file>
         <file>images/self.png</file>
+        <file>images/online.png</file>
     </qresource>
 </RCC>

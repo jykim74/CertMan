@@ -13,6 +13,7 @@
 #include "revoke_rec.h"
 #include "cert_rec.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 
 RevokeCertDlg::RevokeCertDlg(QWidget *parent) :
@@ -87,7 +88,8 @@ void RevokeCertDlg::accept()
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REVOKE_CERT, "" );
 
-    manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
+//    manApplet->mainWindow()->createRightRevokeList( cert.getIssuerNum() );
+    manApplet->mainWindow()->clickRootTreeMenu( CM_ITEM_TYPE_REVOKE, cert.getIssuerNum() );
     QDialog::accept();
 }
 

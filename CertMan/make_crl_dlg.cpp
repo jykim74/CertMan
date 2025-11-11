@@ -24,6 +24,7 @@
 #include "profile_man_dlg.h"
 #include "ca_man_dlg.h"
 #include "view_crl_profile_dlg.h"
+#include "man_tree_view.h"
 
 
 MakeCRLDlg::MakeCRLDlg(QWidget *parent) :
@@ -400,7 +401,8 @@ end :
 
     if( ret == 0 )
     {
-        manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
+//        manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
+        manApplet->mainWindow()->clickRootTreeMenu( CM_ITEM_TYPE_CRL, caCert.getNum() );
         manApplet->messageBox( tr("CRL has been generated"), this );
 
         if( mProfileSetDefaultCheck->isChecked() == true )

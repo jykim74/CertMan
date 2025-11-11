@@ -14,6 +14,7 @@
 #include "js_http.h"
 #include "crl_info_dlg.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 const char *kUsedURI = "UsedURI";
 const char *kURL = "URL";
@@ -406,6 +407,8 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
+    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
+
     return 0;
 }
 
@@ -448,6 +451,8 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     JS_PKI_resetCRLInfo( &sCRLInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
+
+    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
 
     return 0;
 }

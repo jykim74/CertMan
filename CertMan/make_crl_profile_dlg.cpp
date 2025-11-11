@@ -13,6 +13,7 @@
 #include "crl_profile_rec.h"
 #include "db_mgr.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 static QStringList sTypeList = { "URI", "email", "DNS" };
 static QStringList sVersionList = { "V1", "V2" };
@@ -329,7 +330,8 @@ void MakeCRLProfileDlg::clickOK()
 end :
     if( ret == 0 )
     {
-        manApplet->mainWindow()->createRightCRLProfileList();
+//        manApplet->mainWindow()->createRightCRLProfileList();
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
         manApplet->messageBox( tr("CRL profile created"), this );
         QDialog::accept();
     }

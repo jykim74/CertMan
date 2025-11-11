@@ -478,7 +478,7 @@ void MainWindow::createActions()
     dataMenu->addAction( import_data_act_ );
     if( isView( ACT_DATA_IMPORT_DATA ) ) data_tool_->addAction( import_data_act_ );
 
-    const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/get_ldap.png"));
+    const QIcon getURIIcon = QIcon::fromTheme("Get-LDAP", QIcon(":/images/online.png"));
     get_uri_act_ = new QAction( getURIIcon, tr("&Get data from URI"), this);
     get_uri_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_U ));
     get_uri_act_->setStatusTip( tr( "Get data from URI" ));
@@ -900,6 +900,34 @@ void MainWindow::doubleClickRightTable(QModelIndex index)
         viewCRLProfile();
     else if( right_type_ == RightType::TYPE_REVOKE )
         viewRevokeCert();
+}
+
+void MainWindow::clickTreeMenu( int nType, int nNum )
+{
+    ManTreeItem *topItem = (ManTreeItem *)left_model_->invisibleRootItem();
+    if( topItem == NULL ) return;
+
+    ManTreeItem* item = left_tree_->getItem( topItem, nType, nNum );
+    if( item )
+    {
+        left_tree_->clicked( item->index() );
+        left_tree_->setCurrentIndex( item->index() );
+        left_tree_->setFocus();
+    }
+}
+
+void MainWindow::clickRootTreeMenu( int nType, int nNum )
+{
+    if( root_ca_ == NULL ) return;
+
+    ManTreeItem* item = left_tree_->getItem( root_ca_, nType, nNum );
+    if( item )
+    {
+        left_tree_->expand( item->index() );
+        left_tree_->clicked( item->index() );
+        left_tree_->setCurrentIndex( item->index() );
+        left_tree_->setFocus();
+    }
 }
 
 void MainWindow::createTreeMenu()
@@ -1590,6 +1618,11 @@ void MainWindow::makeCertificate()
         {
             makeCertDlg.setIssuer( pItem->getDataNum() );
         }
+        else
+        {
+            ManTreeItem *parentItem = (ManTreeItem*)pItem->parent();
+            if( parentItem ) makeCertDlg.setIssuer( parentItem->getDataNum() );
+        }
     }
 
     makeCertDlg.exec();
@@ -1628,6 +1661,11 @@ void MainWindow::makeCRL()
         {
             makeCRLDlg.setIssuerNum( pItem->getDataNum() );
         }
+        else
+        {
+            ManTreeItem *parentItem = (ManTreeItem*)pItem->parent();
+            if( parentItem ) makeCRLDlg.setIssuerNum( parentItem->getDataNum() );
+        }
     }
 
     makeCRLDlg.exec();
@@ -1655,6 +1693,7 @@ void MainWindow::renewCert()
     int num = item->text().toInt();
 
     RenewCertDlg renewCertDlg;
+    renewCertDlg.setItemType( pItem->getType() );
     renewCertDlg.setCertNum( num );
     renewCertDlg.exec();
 }
@@ -2673,7 +2712,8 @@ void MainWindow::deleteCertProfile()
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CERT_PROFILE, "" );
 
-    createRightCertProfileList();
+//    createRightCertProfileList();
+    clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
 }
 
 void MainWindow::deleteCRLProfile()
@@ -2698,7 +2738,8 @@ void MainWindow::deleteCRLProfile()
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CRL_PROFILE, "" );
 
-    createRightCRLProfileList();
+//    createRightCRLProfileList();
+    clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
 }
 
 void MainWindow::deleteCertificate()
@@ -2759,7 +2800,8 @@ void MainWindow::deleteCertificate()
     manApplet->log( QString( "CertNum : %1 is deleted").arg( num ));
     if( cert.isCA() ) manApplet->mainWindow()->refreshRootCA();
 
-    createRightCertList( cert.getIssuerNum() );
+//    createRightCertList( cert.getIssuerNum() );
+    clickRootTreeMenu( CM_ITEM_TYPE_CERT, cert.getIssuerNum() );
 }
 
 void MainWindow::deleteCRL()
@@ -2784,7 +2826,8 @@ void MainWindow::deleteCRL()
     manApplet->dbMgr()->delCRLRec( num );
     manApplet->log( QString("CRLNum:%1 is deleted").arg(num));
 
-    createRightCRLList( crl.getIssuerNum() );
+//    createRightCRLList( crl.getIssuerNum() );
+    clickRootTreeMenu( CM_ITEM_TYPE_CRL, crl.getIssuerNum() );
 }
 
 void MainWindow::deleteKeyPair()
@@ -2817,7 +2860,8 @@ void MainWindow::deleteKeyPair()
     manApplet->dbMgr()->delKeyPairRec( num );
     manApplet->log( QString("KeyNum:%1 is deleted").arg(num));
 
-    createRightKeyPairList();
+//    createRightKeyPairList();
+    clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
 }
 
 void MainWindow::deleteRequest()
@@ -2838,7 +2882,8 @@ void MainWindow::deleteRequest()
     manApplet->dbMgr()->delReqRec( num );
     manApplet->log( QString("ReqNum:%1 is deleted").arg(num));
 
-    createRightRequestList();
+//    createRightRequestList();
+    clickTreeMenu( CM_ITEM_TYPE_REQUEST );
 }
 
 void MainWindow::deleteUser()
@@ -2863,7 +2908,8 @@ void MainWindow::deleteUser()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_USER, "" );
 
 
-    createRightUserList();
+//    createRightUserList();
+    clickTreeMenu( CM_ITEM_TYPE_USER );
 }
 
 void MainWindow::deleteSigner()
@@ -2890,7 +2936,12 @@ void MainWindow::deleteSigner()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_SIGNER, "" );
 
 
-    createRightSignerList( signer.getType() );
+    if( signer.getType() == SIGNER_TYPE_REG )
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
+    else
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
+
+//    createRightSignerList( signer.getType() );
 }
 
 void MainWindow::registerAdmin()
@@ -4396,14 +4447,14 @@ void MainWindow::expandItem( ManTreeItem *item )
         pCAItem->appendRow( pRevokeItem );
 
         int nCACount = manApplet->dbMgr()->getCACount( certRec.getNum() );
-
-        ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA[%1]").arg( nCACount )));
-        pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
-        pSubCAItem->setIcon(QIcon(":/images/ca.png"));
-        pSubCAItem->setDataNum( certRec.getNum() );
-        pCAItem->appendRow( pSubCAItem );
-
-        if( nCACount > 0 ) expandItem( pSubCAItem );
+        if( nCACount > 0 )
+        {
+            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA[%1]").arg( nCACount )));
+            pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
+            pSubCAItem->setIcon(QIcon(":/images/ca.png"));
+            pSubCAItem->setDataNum( certRec.getNum() );
+            pCAItem->appendRow( pSubCAItem );
+        }
 
 //        left_tree_->expand( pCAItem->index() );
     }

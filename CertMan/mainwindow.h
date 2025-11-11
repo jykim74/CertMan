@@ -85,6 +85,9 @@ public:
 
     void refreshRootCA();
 
+    void clickTreeMenu( int nType, int nNum = -1 );
+    void clickRootTreeMenu( int nType, int nNum = -1 );
+
     void createTreeMenu();
     void createRightList( int nType, int nNum );
     void createRightKeyPairList();

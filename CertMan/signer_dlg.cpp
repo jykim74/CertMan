@@ -11,6 +11,7 @@
 #include "signer_dlg.h"
 #include "signer_rec.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 #include "js_gen.h"
 #include "js_bin.h"
@@ -113,7 +114,13 @@ end :
         if( manApplet->isPRO() )
             addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_SIGNER, "" );
 
-        manApplet->mainWindow()->createRightSignerList(nType);
+//        manApplet->mainWindow()->createRightSignerList(nType);
+        if( nType == SIGNER_TYPE_REG )
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
+        else
+            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
+
+        manApplet->messageBox( tr( "The signer has been registered." ), this );
     }
     else
     {

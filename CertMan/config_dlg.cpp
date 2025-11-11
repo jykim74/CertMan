@@ -11,6 +11,7 @@
 #include "db_mgr.h"
 #include "config_rec.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 const QStringList kKindList = { "CMPServer", "REGServer", "OCSPServer", "TSPServer", "CCServer", "KMSServer" };
 
@@ -123,6 +124,9 @@ void ConfigDlg::clickOK()
             addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_ADD_CONFIG, "" );
     }
 
-    manApplet->mainWindow()->createRightConfigList( nKind );
+//    manApplet->mainWindow()->createRightConfigList( nKind );
+    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CONFIG, nKind );
+    manApplet->messageBox( tr("Added settings"), this );
+
     close();
 }

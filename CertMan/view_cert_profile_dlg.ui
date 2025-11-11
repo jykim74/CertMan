@@ -122,7 +122,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -132,8 +132,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>345</height>
+        <width>582</width>
+        <height>346</height>
        </rect>
       </property>
       <attribute name="label">
@@ -560,12 +560,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>305</height>
+        <width>582</width>
+        <height>346</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>Extension1</string>
+       <string>Extension1 [ KeyUsage, Policy, SKI, AKI ]</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -947,12 +947,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>339</height>
+        <width>582</width>
+        <height>346</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>Extension2</string>
+       <string>Extension2 [ EKU, CRLDP, AIA ]</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -960,7 +960,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="mEKULabel">
            <property name="text">
-            <string>ExtendKeyUsage</string>
+            <string>Extend Key Usage</string>
            </property>
           </widget>
          </item>
@@ -1113,12 +1113,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>309</height>
+        <width>582</width>
+        <height>346</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>Extension3</string>
+       <string>Extension3 [ BasicConstraints, SAN, IAN ]</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
@@ -1343,12 +1343,12 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>576</width>
-        <height>309</height>
+        <width>582</width>
+        <height>346</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>Extension4</string>
+       <string>Extension4 [ PolicyConstraint, PolicyMapping, NameConstraint ]</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>

@@ -18,6 +18,7 @@
 #include "commons.h"
 #include "settings_mgr.h"
 #include "make_dn_dlg.h"
+#include "man_tree_view.h"
 
 
 static QStringList sExtNames = {
@@ -462,7 +463,8 @@ void MakeCertProfileDlg::clickOK()
 end :
     if( ret == 0 )
     {
-        manApplet->mainWindow()->createRightCertProfileList();
+//        manApplet->mainWindow()->createRightCertProfileList();
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
         manApplet->messageBox( tr("Certificate profile created"), this );
         QDialog::accept();
     }
@@ -507,6 +509,11 @@ void MakeCertProfileDlg::initUI()
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
+
+    mExtend1Tab->setToolTip( "KeyUsage, Policy, SubjectKeyIdentifier, AuthorityKeyIdentifier" );
+    mExtend2Tab->setToolTip( "ExtendKeyUsage, CRLDP, AuthorityInfoAccess" );
+    mExtend3Tab->setToolTip( "BasicConstraints, SubjectAltName, IssuerAltName" );
+    mExtend4Tab->setToolTip( "PolicyConstraints, PolicyMappings, NameConstraints" );
 
     mKeyUsageCombo->addItems(kKeyUsageList);
     mEKUCombo->addItems(kExtKeyUsageList);

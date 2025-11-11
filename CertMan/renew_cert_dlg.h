@@ -23,6 +23,7 @@ public:
     ~RenewCertDlg();
 
     void setCertNum( int cert_num );
+    void setItemType( int type );
 
 private slots:
     virtual void accept();
@@ -37,6 +38,7 @@ private:
     void initialize();
 
     int cert_num_;
+    int item_type_;
     bool is_self_;
 };
 

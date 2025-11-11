@@ -19,6 +19,7 @@
 #include "mainwindow.h"
 #include "settings_mgr.h"
 #include "commons.h"
+#include "man_tree_view.h"
 
 const QStringList kUserStatus = { "Invalid", "Register", "Issue", "Stop" };
 
@@ -205,8 +206,9 @@ void UserDlg::regServer()
 
     if( strcasecmp( sUserRsp.pResCode, "0000" ) == 0 )
     {
+//        manApplet->mainWindow()->createRightUserList();
+        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_USER );
         manApplet->messageBox( tr( "User registration successful" ), this );
-        manApplet->mainWindow()->createRightUserList();
         ret = 0;
     }
     else

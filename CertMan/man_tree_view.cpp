@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "man_applet.h"
 #include "settings_mgr.h"
+#include "commons.h"
 
 ManTreeView::ManTreeView( QWidget *parent )
     : QTreeView (parent)
@@ -30,6 +31,44 @@ ManTreeView::ManTreeView( QWidget *parent )
     QString strFont = manApplet->settingsMgr()->getFontFamily();
     font.setFamily( strFont );
     setFont(font);
+}
+
+ManTreeItem* ManTreeView::getItem( const ManTreeItem* parent, int nType, int nNum )
+{
+    if( parent == NULL ) return nullptr;
+
+    int row = parent->rowCount();
+    QString strName = parent->text();
+
+    for( int i = 0; i < row; i++ )
+    {
+        ManTreeItem* item = (ManTreeItem *)parent->child(i);
+
+        if( item == nullptr ) continue;
+
+        QString strChildName = item->text();
+
+        if( item->getType() == nType )
+        {
+            if( nNum >= 0 || nNum == kImportNum )
+            {
+                if( item->getDataNum() == nNum )
+                    return item;
+            }
+            else
+            {
+                return item;
+            }
+        }
+
+        if( item->hasChildren() == true )
+        {
+            ManTreeItem* child = getItem( item, nType, nNum );
+            if( child != nullptr ) return child;
+        }
+    }
+
+    return nullptr;
 }
 
 void ManTreeView::showContextMenu(QPoint point)
@@ -80,7 +119,11 @@ void ManTreeView::showContextMenu(QPoint point)
     }
     else if( item->getType() == CM_ITEM_TYPE_CERT )
     {
-
+        menu.addAction(tr("Make Certificate"), manApplet->mainWindow(), &MainWindow::makeCertificate );
+    }
+    else if( item->getType() == CM_ITEM_TYPE_CRL )
+    {
+        menu.addAction(tr("Make CRL"), manApplet->mainWindow(), &MainWindow::makeCRL );
     }
     else if( item->getType() == CM_ITEM_TYPE_ADMIN )
     {

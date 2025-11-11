@@ -21,6 +21,7 @@ RenewCertDlg::RenewCertDlg(QWidget *parent) :
 {
     setupUi(this);
     is_self_ = false;
+    item_type_ = -1;
 
     connect( mDayTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(changeDayType(int)));
     connect( mUseDayCheck, SIGNAL(clicked()), this, SLOT(clickUseDay()));
@@ -43,6 +44,11 @@ RenewCertDlg::~RenewCertDlg()
 void RenewCertDlg::setCertNum(int cert_num)
 {
     cert_num_ = cert_num;
+}
+
+void RenewCertDlg::setItemType( int type )
+{
+    item_type_ = type;
 }
 
 void RenewCertDlg::initialize()
@@ -405,7 +411,8 @@ end :
 
     if( ret == 0 )
     {
-        manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
+//        manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
+        manApplet->mainWindow()->clickRootTreeMenu( item_type_, cert.getIssuerNum() );
         manApplet->messageBox( tr("Certificate renewal was successful"), this );
         QDialog::accept();
     }
