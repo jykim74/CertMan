@@ -4454,6 +4454,8 @@ void MainWindow::expandItem( ManTreeItem *item )
             pSubCAItem->setIcon(QIcon(":/images/ca.png"));
             pSubCAItem->setDataNum( certRec.getNum() );
             pCAItem->appendRow( pSubCAItem );
+
+            expandItem( pSubCAItem );
         }
 
 //        left_tree_->expand( pCAItem->index() );
