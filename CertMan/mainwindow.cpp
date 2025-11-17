@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     createActions();
     createStatusBar();
-    createMemberDlg();
+//    createMemberDlg();
 
     setUnifiedTitleAndToolBarOnMac(true);
     setAcceptDrops(true);
@@ -120,7 +120,9 @@ MainWindow::~MainWindow()
     delete left_tree_;
     delete left_model_;
 
-    if( pki_srv_ ) delete pki_srv_;
+    delete pki_srv_;
+    delete ca_man_dlg_;
+    delete profile_man_dlg_;
 
     delete log_text_;
     delete info_text_;
@@ -670,15 +672,15 @@ void MainWindow::createTableMenu()
 
 void MainWindow::createMemberDlg()
 {
-    if( manApplet->isPRO() == true )
-        pki_srv_ = new PKISrvDlg;
-    else
-        pki_srv_ = NULL;
+//    if( manApplet->isPRO() == true )
+//        pki_srv_ = new PKISrvDlg;
+//    else
+//        pki_srv_ = NULL;
 
-    ca_man_dlg_ = new CAManDlg;
-    ca_man_dlg_->setMode( CAManModeManage );
-    profile_man_dlg_ = new ProfileManDlg;
-    profile_man_dlg_->setMode( ProfileManModeManage );
+//    ca_man_dlg_ = new CAManDlg;
+//    ca_man_dlg_->setMode( CAManModeManage );
+//    profile_man_dlg_ = new ProfileManDlg;
+//    profile_man_dlg_->setMode( ProfileManModeManage );
 }
 
 void MainWindow::refreshRootCA()
@@ -4297,6 +4299,12 @@ void MainWindow::CAMan()
         return;
     }
 
+    if( ca_man_dlg_ == nullptr )
+    {
+        ca_man_dlg_ = new CAManDlg;
+        ca_man_dlg_->setMode( CAManModeManage );
+    }
+
     ca_man_dlg_->show();
     ca_man_dlg_->raise();
     ca_man_dlg_->activateWindow();
@@ -4308,6 +4316,12 @@ void MainWindow::profileMan()
     {
         manApplet->warningBox( tr("The database is not connected."), this );
         return;
+    }
+
+    if( profile_man_dlg_ == nullptr )
+    {
+        profile_man_dlg_ = new ProfileManDlg;
+        profile_man_dlg_->setMode( ProfileManModeManage );
     }
 
     profile_man_dlg_->show();
@@ -4323,7 +4337,9 @@ void MainWindow::OCSPSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_OCSP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -4338,7 +4354,9 @@ void MainWindow::TSPSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_TSP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -4353,7 +4371,9 @@ void MainWindow::CMPSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_CMP_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -4368,7 +4388,9 @@ void MainWindow::RegSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_REG_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -4383,7 +4405,9 @@ void MainWindow::CCSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_CC_SRV );
     pki_srv_->show();
     pki_srv_->raise();
@@ -4398,7 +4422,9 @@ void MainWindow::KMSSrv()
         return;
     }
 
-    if( pki_srv_ == NULL ) return;
+    if( pki_srv_ == nullptr )
+        pki_srv_ = new PKISrvDlg;
+
     pki_srv_->setSrvKind( JS_GEN_KIND_KMS_SRV );
     pki_srv_->show();
     pki_srv_->raise();

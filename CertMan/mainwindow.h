@@ -348,9 +348,9 @@ private:
 
     bool            log_halt_;
 
-    PKISrvDlg       *pki_srv_;
-    CAManDlg        *ca_man_dlg_;
-    ProfileManDlg   *profile_man_dlg_;
+    PKISrvDlg       *pki_srv_ = nullptr;
+    CAManDlg        *ca_man_dlg_ = nullptr;
+    ProfileManDlg   *profile_man_dlg_ = nullptr;
 
     QToolBar*       file_tool_;
     QAction*        new_act_;
