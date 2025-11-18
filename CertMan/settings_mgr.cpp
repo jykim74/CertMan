@@ -52,6 +52,7 @@ void SettingsMgr::loadSettings()
     getViewValue( VIEW_HELP );
 
     getShowPriInfo();
+    getPriEncMethod();
 }
 
 int SettingsMgr::viewValue( int nType )
@@ -1341,4 +1342,25 @@ bool SettingsMgr::getShowPriInfo()
     sets.endGroup();
 
     return show_pri_info_;
+}
+
+void SettingsMgr::setPriEncMethod( const QString strMethod )
+{
+    QSettings sets;
+    sets.beginGroup( kBehaviorGroup );
+    sets.setValue( kPriEncMethod, strMethod );
+    sets.endGroup();
+
+    pri_enc_method_ = strMethod;
+}
+
+QString SettingsMgr::getPriEncMethod()
+{
+    QSettings sets;
+
+    sets.beginGroup( kBehaviorGroup );
+    pri_enc_method_ = sets.value( kPriEncMethod, "AES-128-CBC" ).toString();
+    sets.endGroup();
+
+    return pri_enc_method_;
 }

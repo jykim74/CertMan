@@ -48,6 +48,7 @@ private slots:
 
 private:
     void initFontFamily();
+    void initUI();
     void initialize();
 
     Q_DISABLE_COPY(SettingsDlg)

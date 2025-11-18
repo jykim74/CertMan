@@ -615,6 +615,7 @@ int ExportDlg::exportPFX()
     int nExportType = mFormatCombo->currentData().toInt();
     QString strFilename = mPathText->text();
     QString strPass;
+    int nPBE = -1;
 
     if( data_type_ != DataPriKeyCert ) return -1;
 
@@ -626,8 +627,9 @@ int ExportDlg::exportPFX()
         return -1;
 
     strPass = newPass.mPasswdText->text();
+    nPBE = JS_PKI_getNidFromSN( manApplet->settingsMgr()->priEncMethod().toStdString().c_str() );
 
-    ret = JS_PKI_encodePFX( &binPFX, strPass.toStdString().c_str(), -1, &data_, &data2_ );
+    ret = JS_PKI_encodePFX( &binPFX, strPass.toStdString().c_str(), nPBE, &data_, &data2_ );
     if( ret != 0 )
     {
         manApplet->warningBox( tr( "fail to encrypt PFX: %1").arg(ret), this);
@@ -653,6 +655,7 @@ int ExportDlg::exportP8Enc()
     int nExportType = mFormatCombo->currentData().toInt();
     QString strFilename = mPathText->text();
     QString strPass;
+    int nPBE = -1;
 
     if( data_type_ != DataPriKey && data_type_ != DataPriKeyCert )
         return -1;
@@ -665,8 +668,9 @@ int ExportDlg::exportP8Enc()
         return -1;
 
     strPass = newPass.mPasswdText->text();
+    nPBE = JS_PKI_getNidFromSN( manApplet->settingsMgr()->priEncMethod().toStdString().c_str() );
 
-    ret = JS_PKI_encryptPrivateKey( -1, strPass.toStdString().c_str(), &data_, NULL, &binEncPri );
+    ret = JS_PKI_encryptPrivateKey( nPBE, strPass.toStdString().c_str(), &data_, NULL, &binEncPri );
     if( ret != 0 )
     {
         manApplet->warningBox( tr( "fail to encrypt private key: %1").arg(ret), this);

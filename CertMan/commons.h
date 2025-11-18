@@ -40,6 +40,11 @@ const QStringList kDataBinTypeList = { kDataHex, kDataBase64 };
 const QString kEnvMiscGroup = "Misc";
 const QString kEnvTempGroup = "Temp";
 
+static QStringList kPBEList = {
+    "AES-128-CBC", "AES-256-CBC", "ARIA-128-CBC", "ARIA-256-CBC",   // Version2
+    "PBE-SHA1-3DES", "PBE-SHA1-2DES"                                // Version1
+};
+
 static QString kSelectStyle =
     "QTableWidget::item:selected { "
     "background-color: #9370db; "

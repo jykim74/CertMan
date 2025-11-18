@@ -70,6 +70,7 @@ const char *kViewHelp = "viewHelp";
 const char *kRunTime = "runTime";
 const char *kShowPriInfo = "showPriInfo";
 const char *kKeyTypeParam = "keyTypeParam";
+const char *kPriEncMethod = "priEncMethod";
 }
 
 
@@ -255,6 +256,10 @@ public:
     bool getShowPriInfo();
     bool showPriInfo() { return show_pri_info_; };
 
+    void setPriEncMethod( const QString strMethod );
+    QString getPriEncMethod();
+    QString priEncMethod() { return pri_enc_method_; };
+
 private:
     QString default_hash_;
     QString default_ecc_param_;
@@ -264,6 +269,7 @@ private:
     int hex_area_width_;
     bool show_pri_info_;
     QString key_type_param_;
+    QString pri_enc_method_;
 
     int view_file_;
     int view_tool_;

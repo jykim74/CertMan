@@ -42,6 +42,7 @@
 #include "js_json_msg.h".h"
 #include "js_http.h"
 #include "js_error.h"
+#include "js_pki_tools.h"
 
 ManApplet *manApplet;
 
@@ -567,12 +568,15 @@ QString ManApplet::getEncPriHex( const BIN *pPri )
     BIN binEnc = {0,0};
     int nKeyType = -1;
     QString strHex;
+    int nPBE = -1;
 
     if( is_passwd_ == false ) return "";
     if( pPri == NULL || pPri->nLen <= 0 ) return "";
 
     nKeyType = JS_PKI_getPriKeyType( pPri );
-    ret = JS_PKI_encryptPrivateKey( -1, pri_passwd_.toStdString().c_str(), pPri, NULL, &binEnc );
+    nPBE = JS_PKI_getNidFromSN( settings_mgr_->priEncMethod().toStdString().c_str() );
+
+    ret = JS_PKI_encryptPrivateKey( nPBE, pri_passwd_.toStdString().c_str(), pPri, NULL, &binEnc );
     if( ret != 0 ) goto end;
 
     strHex = getHexString( &binEnc );

@@ -21,6 +21,7 @@ SettingsDlg::SettingsDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    initUI();
 
     mLangCombo->addItems(I18NHelper::getInstance()->getLanguages());
 
@@ -125,6 +126,7 @@ void SettingsDlg::updateSettings()
     mgr->setListCount( mListCountCombo->currentText().toInt() );
     mgr->setDefaultHash( mDefaultHashCombo->currentText() );
     mgr->setHexAreaWidth( mHexAreaWidthCombo->currentText().toInt());
+    mgr->setPriEncMethod( mPriEncMethodCombo->currentText() );
 
     mgr->setShowPriInfo( mShowPriKeyInfoCheck->isChecked() );
     mgr->setPKCS11Pin( mPINText->text() );
@@ -378,6 +380,7 @@ void SettingsDlg::clickRestoreDefaults()
     mgr->removeSet( kBehaviorGroup, kHexAreaWidth );
     mgr->removeSet( kBehaviorGroup, kSetListCount );
     mgr->removeSet( kBehaviorGroup, kShowPriInfo );
+    mgr->removeSet( kBehaviorGroup, kPriEncMethod );
 
     if( manApplet->isPRO() == true )
     {
@@ -417,6 +420,11 @@ void SettingsDlg::clickRestoreDefaults()
         manApplet->restartApp();
 
     close();
+}
+
+void SettingsDlg::initUI()
+{
+    mPriEncMethodCombo->addItems( kPBEList );
 }
 
 void SettingsDlg::initialize()
@@ -486,7 +494,7 @@ void SettingsDlg::initialize()
     mDefaultHashCombo->setCurrentText( manApplet->settingsMgr()->defaultHash() );
 
     mFontFamilyCombo->setCurrentText( manApplet->settingsMgr()->getFontFamily() );
-
+    mPriEncMethodCombo->setCurrentText( mgr->getPriEncMethod() );
     mLangCombo->setCurrentIndex(I18NHelper::getInstance()->preferredLanguage());
 
     if( manApplet->isPRO() )
