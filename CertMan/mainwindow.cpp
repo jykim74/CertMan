@@ -4283,11 +4283,13 @@ void MainWindow::toggleLog()
     {
         log_halt_ = false;
         log( "Log is activated" );
+        manApplet->messageBox( tr( "Start logging" ), this );
     }
     else
     {
         log( "Log is halt" );
         log_halt_ = true;
+        manApplet->messageBox( tr( "Stop logging" ), this );
     }
 }
 
