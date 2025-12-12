@@ -342,7 +342,7 @@ void MainWindow::viewFileNew( bool bChecked )
 
     if( bChecked == true )
     {
-        file_tool_->addAction( new_act_ );
+        file_tool_->insertAction( open_act_, new_act_ );
         setView( nAct );
     }
     else
@@ -360,7 +360,7 @@ void MainWindow::viewFileOpen( bool bChecked )
 
     if( bChecked == true )
     {
-        file_tool_->addAction( open_act_ );
+        file_tool_->insertAction( remote_db_act_, open_act_ );
         setView( nAct );
     }
     else
@@ -378,7 +378,7 @@ void MainWindow::viewFileRemoteDB( bool bChecked )
 
     if( bChecked == true )
     {
-        file_tool_->addAction( remote_db_act_ );
+        file_tool_->insertAction( logout_act_, remote_db_act_ );
         setView( nAct );
     }
     else
@@ -396,7 +396,7 @@ void MainWindow::viewFileLogout( bool bChecked )
 
     if( bChecked == true )
     {
-        file_tool_->addAction( logout_act_ );
+        file_tool_->insertAction( quit_act_, logout_act_ );
         setView( nAct );
     }
     else
@@ -433,7 +433,7 @@ void MainWindow::viewToolNewKey( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( new_key_act_ );
+        tool_tool_->insertAction( make_req_act_, new_key_act_ );
         setView( nAct );
     }
     else
@@ -451,7 +451,7 @@ void MainWindow::viewToolMakeReq( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_req_act_ );
+        tool_tool_->insertAction( make_req_act_, make_req_act_ );
         setView( nAct );
     }
     else
@@ -469,7 +469,7 @@ void MainWindow::viewToolMakeConfig( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_config_act_ );
+        tool_tool_->insertAction( reg_user_act_, make_req_act_ );
         setView( nAct );
     }
     else
@@ -487,7 +487,7 @@ void MainWindow::viewToolRegUser( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( reg_user_act_ );
+        tool_tool_->insertAction( reg_signer_act_, reg_user_act_ );
         setView( nAct );
     }
     else
@@ -505,7 +505,7 @@ void MainWindow::viewToolRegSigner( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( reg_signer_act_ );
+        tool_tool_->insertAction( make_cert_profile_act_, reg_signer_act_ );
         setView( nAct );
     }
     else
@@ -523,7 +523,7 @@ void MainWindow::viewToolMakeCertProfile( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_cert_profile_act_ );
+        tool_tool_->insertAction( make_crl_profile_act_, make_cert_profile_act_ );
         setView( nAct );
     }
     else
@@ -541,7 +541,7 @@ void MainWindow::viewToolMakeCRLProfile( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_crl_profile_act_ );
+        tool_tool_->insertAction( make_cert_act_, make_crl_profile_act_ );
         setView( nAct );
     }
     else
@@ -559,7 +559,7 @@ void MainWindow::viewToolMakeCert( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_cert_act_ );
+        tool_tool_->insertAction( make_crl_act_, make_cert_act_ );
         setView( nAct );
     }
     else
@@ -577,7 +577,7 @@ void MainWindow::viewToolMakeCRL( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( make_crl_act_ );
+        tool_tool_->insertAction( revoke_cert_act_, make_crl_act_ );
         setView( nAct );
     }
     else
@@ -595,7 +595,7 @@ void MainWindow::viewToolRevokeCert( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( revoke_cert_act_ );
+        tool_tool_->insertAction( ca_man_act_, revoke_cert_act_ );
         setView( nAct );
     }
     else
@@ -613,7 +613,7 @@ void MainWindow::viewToolCAMan( bool bChecked )
 
     if( bChecked == true )
     {
-        tool_tool_->addAction( ca_man_act_ );
+        tool_tool_->insertAction( profile_man_act_, ca_man_act_ );
         setView( nAct );
     }
     else
@@ -649,7 +649,7 @@ void MainWindow::viewDataImportData( bool bChecked )
 
     if( bChecked == true )
     {
-        data_tool_->addAction( import_data_act_ );
+        data_tool_->insertAction( get_uri_act_, import_data_act_ );
         setView( nAct );
     }
     else
@@ -667,7 +667,7 @@ void MainWindow::viewDataGetURI( bool bChecked )
 
     if( bChecked == true )
     {
-        data_tool_->addAction( get_uri_act_ );
+        data_tool_->insertAction( publish_ldap_act_, get_uri_act_ );
         setView( nAct );
     }
     else
@@ -685,7 +685,7 @@ void MainWindow::viewDataPublishLDAP( bool bChecked )
 
     if( bChecked == true )
     {
-        data_tool_->addAction( publish_ldap_act_ );
+        data_tool_->insertAction( set_passwd_act_, publish_ldap_act_ );
         setView( nAct );
     }
     else
@@ -703,7 +703,7 @@ void MainWindow::viewDataSetPasswd( bool bChecked )
 
     if( bChecked == true )
     {
-        data_tool_->addAction( set_passwd_act_ );
+        data_tool_->insertAction( change_passwd_act_, set_passwd_act_ );
         setView( nAct );
     }
     else
@@ -721,7 +721,7 @@ void MainWindow::viewDataChangePasswd( bool bChecked )
 
     if( bChecked == true )
     {
-        data_tool_->addAction( change_passwd_act_ );
+        data_tool_->insertAction( tsp_client_act_, change_passwd_act_ );
         setView( nAct );
     }
     else
@@ -758,7 +758,7 @@ void MainWindow::viewServerOCSP( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( ocsp_act_ );
+        server_tool_->insertAction( tsp_act_, ocsp_act_ );
         setView( nAct );
     }
     else
@@ -776,7 +776,7 @@ void MainWindow::viewServerTSP( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( tsp_act_ );
+        server_tool_->insertAction( cmp_act_, tsp_act_ );
         setView( nAct );
     }
     else
@@ -794,7 +794,7 @@ void MainWindow::viewServerCMP( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( cmp_act_ );
+        server_tool_->insertAction( reg_act_, cmp_act_ );
         setView( nAct );
     }
     else
@@ -812,7 +812,7 @@ void MainWindow::viewServerREG( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( reg_act_ );
+        server_tool_->insertAction( cc_act_, reg_act_ );
         setView( nAct );
     }
     else
@@ -830,7 +830,7 @@ void MainWindow::viewServerCC( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( cc_act_ );
+        server_tool_->insertAction( kms_act_, cc_act_ );
         setView( nAct );
     }
     else
@@ -867,7 +867,7 @@ void MainWindow::viewHelpServerStatus( bool bChecked )
 
     if( bChecked == true )
     {
-        help_tool_->addAction( server_status_act_ );
+        help_tool_->insertAction( setting_act_, server_status_act_ );
         setView( nAct );
     }
     else
@@ -885,7 +885,7 @@ void MainWindow::viewHelpSetting( bool bChecked )
 
     if( bChecked == true )
     {
-        help_tool_->addAction( setting_act_ );
+        help_tool_->insertAction( clear_log_act_, setting_act_ );
         setView( nAct );
     }
     else
@@ -903,7 +903,7 @@ void MainWindow::viewHelpClearLog( bool bChecked )
 
     if( bChecked == true )
     {
-        help_tool_->addAction( clear_log_act_ );
+        help_tool_->insertAction( halt_log_act_, clear_log_act_ );
         setView( nAct );
     }
     else
@@ -921,7 +921,7 @@ void MainWindow::viewHelpHaltLog( bool bChecked )
 
     if( bChecked == true )
     {
-        help_tool_->addAction( halt_log_act_ );
+        help_tool_->insertAction( about_act_, halt_log_act_ );
         setView( nAct );
     }
     else

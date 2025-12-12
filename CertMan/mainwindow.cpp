@@ -286,18 +286,13 @@ void MainWindow::initialize()
     setTitle("");
 }
 
-
-void MainWindow::createActions()
+void MainWindow::createFileActions()
 {
-    int nWidth = 24;
-    int nHeight = 24;
-    int nSpacing = 0;
-
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     file_tool_ = addToolBar(tr("File"));
 
-    file_tool_->setIconSize( QSize(nWidth, nHeight));
-    file_tool_->layout()->setSpacing(nSpacing);
+    file_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+    file_tool_->layout()->setSpacing(0);
 
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
     new_act_ = new QAction( newIcon, tr("&New"), this);
@@ -356,14 +351,15 @@ void MainWindow::createActions()
     quit_act_->setStatusTip( tr("Quit CertMan") );
     connect( quit_act_, &QAction::triggered, this, &MainWindow::quit);
     fileMenu->addAction( quit_act_ );
+}
 
-    if( manApplet->isLicense() ) createViewActions();
-
+void MainWindow::createToolsActions()
+{
     QMenu *toolsMenu = menuBar()->addMenu(tr("&Tools"));
     tool_tool_ = addToolBar(tr("Tools"));
 
-    tool_tool_->setIconSize( QSize(nWidth, nHeight));
-    tool_tool_->layout()->setSpacing(nSpacing);
+    tool_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+    tool_tool_->layout()->setSpacing(0);
 
     const QIcon newKeyIcon = QIcon::fromTheme("new-key", QIcon(":/images/key_reg.png"));
     new_key_act_ = new QAction( newKeyIcon, tr("&New keypair"), this );
@@ -465,12 +461,15 @@ void MainWindow::createActions()
     connect( profile_man_act_, &QAction::triggered, this, &MainWindow::profileMan );
     toolsMenu->addAction( profile_man_act_ );
     if( isView( ACT_TOOL_PROFILE_MAN ) ) tool_tool_->addAction( profile_man_act_ );
+}
 
+void MainWindow::createDataActions()
+{
     QMenu *dataMenu = menuBar()->addMenu(tr("&Data"));
     data_tool_ = addToolBar(tr("Data"));
 
-    data_tool_->setIconSize( QSize(nWidth, nHeight));
-    data_tool_->layout()->setSpacing(nSpacing);
+    data_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+    data_tool_->layout()->setSpacing(0);
 
     const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
     import_data_act_ = new QAction( diskIcon, tr("&Import data"), this );
@@ -533,8 +532,8 @@ void MainWindow::createActions()
         QMenu *serverMenu = menuBar()->addMenu(tr("&Server"));
         server_tool_ = addToolBar(tr("Server"));
 
-        server_tool_->setIconSize( QSize(nWidth, nHeight));
-        server_tool_->layout()->setSpacing(nSpacing);
+        server_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+        server_tool_->layout()->setSpacing(0);
 
         const QIcon ocspIcon = QIcon::fromTheme("OCSP", QIcon(":/images/ocsp_srv.png"));
         ocsp_act_ = new QAction( ocspIcon, tr("&OCSP Server"), this);
@@ -585,12 +584,15 @@ void MainWindow::createActions()
         if( isView( ACT_SERVER_KMS ) ) server_tool_->addAction( kms_act_ );
     }
 
+}
 
+void MainWindow::createHelpActions()
+{
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
     help_tool_ = addToolBar(tr("Help"));
 
-    help_tool_->setIconSize( QSize(nWidth, nHeight));
-    help_tool_->layout()->setSpacing(nSpacing);
+    help_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+    help_tool_->layout()->setSpacing(0);
 
     if( manApplet->isPRO() )
     {
@@ -658,6 +660,18 @@ void MainWindow::createActions()
     about_act_->setShortcut( QKeySequence(Qt::Key_F1));
     about_act_->setStatusTip(tr("About CertMan"));
     if( isView( ACT_HELP_ABOUT ) ) help_tool_->addAction( about_act_ );
+}
+
+
+void MainWindow::createActions()
+{
+    createFileActions();
+
+    if( manApplet->isLicense() ) createViewActions();
+
+    createToolsActions();
+    createDataActions();
+    createHelpActions();
 }
 
 void MainWindow::createStatusBar()

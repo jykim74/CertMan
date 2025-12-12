@@ -77,6 +77,11 @@ public:
     void infoClear();
     void infoCursorTop();
 
+    void createFileActions();
+    void createToolsActions();
+    void createDataActions();
+    void createHelpActions();
+
     void createActions();
     void createViewActions();
     void createStatusBar();

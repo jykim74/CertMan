@@ -27,6 +27,9 @@ enum {
     DATA_URL
 };
 
+#define TOOL_BAR_WIDTH      24
+#define TOOL_BAR_HEIGHT     24
+
 const QString kDataHex = "Hex";
 const QString kDataString = "String";
 const QString kDataBase64 = "Base64";
