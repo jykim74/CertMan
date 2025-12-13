@@ -63,7 +63,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    ManTreeItem* currentTreeItem();
+//    ManTreeItem* currentTreeItem();
+    ManTreeModel* getTreeModel() { return left_model_; };
 
     void initialize();
     void showWindow();
@@ -88,12 +89,12 @@ public:
     void createTableMenu();
     void createMemberDlg();
 
-    void refreshRootCA();
-
+/*
     void clickTreeMenu( int nType, int nNum = -1 );
     void clickRootTreeMenu( int nType, int nNum = -1 );
-
     void createTreeMenu();
+    void expandItem( ManTreeItem *item );
+*/
     void createRightList( int nType, int nNum );
     void createRightKeyPairList();
     void createRightRequestList();
@@ -214,11 +215,11 @@ public slots:
     void publishLDAP();
     void getURI();
     void expandMenu();
-    void expandItem( ManTreeItem *item );
+
     void licenseInfo();
     void bugIssueReport();
     void qnaDiscussion();
-    void addRootCA( CertRec& certRec );
+
     void certStatus();
 
 #ifdef USE_OCSP
@@ -335,7 +336,6 @@ private:
     QSplitter       *hsplitter_;
     QSplitter       *vsplitter_;
 
-    ManTreeView     *left_tree_;
     ManTreeModel    *left_model_;
     QTableWidget    *right_table_;
     QTabWidget      *text_tab_;
@@ -344,7 +344,6 @@ private:
     SearchForm      *search_form_;
 
     int             right_type_;
-    ManTreeItem     *root_ca_;
 
 #ifdef _ENABLE_CHARTS
     QStackedLayout  *stack_;

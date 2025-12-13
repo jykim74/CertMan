@@ -402,7 +402,7 @@ end :
     if( ret == 0 )
     {
 //        manApplet->mainWindow()->createRightCRLList( caCert.getNum() );
-        manApplet->mainWindow()->clickRootTreeMenu( CM_ITEM_TYPE_CRL, caCert.getNum() );
+        manApplet->clickRootTreeMenu( CM_ITEM_TYPE_CRL, caCert.getNum() );
         manApplet->messageBox( tr("CRL has been generated"), this );
 
         if( mProfileSetDefaultCheck->isChecked() == true )

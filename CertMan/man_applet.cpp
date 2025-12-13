@@ -43,6 +43,7 @@
 #include "js_http.h"
 #include "js_error.h"
 #include "js_pki_tools.h"
+#include "man_tree_model.h"
 
 ManApplet *manApplet;
 
@@ -228,6 +229,16 @@ int ManApplet::getPriKey( const QString strHexPri, BIN *pPri )
         ret = JS_BIN_decodeHex( strHexPri.toStdString().c_str(), pPri );
 
     return ret;
+}
+
+void ManApplet::clickTreeMenu( int nType, int nNum )
+{
+    main_win_->getTreeModel()->clickTreeMenu( nType, nNum );
+}
+
+void ManApplet::clickRootTreeMenu( int nType, int nNum )
+{
+    main_win_->getTreeModel()->clickRootTreeMenu( nType, nNum );
 }
 
 int ManApplet::loignRegServer( QString& strToken )

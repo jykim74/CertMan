@@ -56,6 +56,8 @@ public:
 
     int getPriKey( const QString strHexPri, BIN *pPri );
 
+    void clickTreeMenu( int nType, int nNum = -1 );
+    void clickRootTreeMenu( int nType, int nNum = -1 );
 
     static QString getBrand();
     void restartApp();

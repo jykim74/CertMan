@@ -150,7 +150,7 @@ void AdminDlg::clickRegister()
 
     dbMgr->addAdminRec( admin );
 //    manApplet->mainWindow()->createRightAdminList();
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
 
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REG_ADMIN, "" );
@@ -169,7 +169,7 @@ void AdminDlg::clickDelete()
     DBMgr *dbMgr = manApplet->dbMgr();
     dbMgr->delAdminRec( seq_ );
 //    manApplet->mainWindow()->createRightAdminList();
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
 
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_ADMIN, "" );
@@ -231,7 +231,7 @@ void AdminDlg::clickModify()
 
     dbMgr->modAdminRec( seq_, admin );
 //    manApplet->mainWindow()->createRightAdminList();
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_ADMIN );
 
     if( manApplet->isPRO() )
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_MOD_ADMIN, "" );

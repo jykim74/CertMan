@@ -26,6 +26,7 @@
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
 #include "man_tree_view.h"
+#include "man_tree_model.h"
 
 #include "js_gen.h"
 #include "js_kms.h"
@@ -735,7 +736,7 @@ void MakeCertDlg::accept()
     {
         if( bSelf ) nType = CM_ITEM_TYPE_ROOTCA;
 
-        manApplet->mainWindow()->refreshRootCA();
+        manApplet->mainWindow()->getTreeModel()->refreshRootCA();
     }
 
 end :
@@ -760,9 +761,9 @@ end :
     {
 //        manApplet->mainWindow()->createRightCertList( nIssuerNum );
         if( nType == CM_ITEM_TYPE_ROOTCA )
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_ROOTCA );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_ROOTCA );
         else
-            manApplet->mainWindow()->clickRootTreeMenu( nType, nIssuerNum );
+            manApplet->clickRootTreeMenu( nType, nIssuerNum );
 
         manApplet->messageBox( tr("Certificate has been created"), this );
 

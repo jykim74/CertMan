@@ -364,7 +364,7 @@ end:
     if( ret == JSR_OK )
     {
 //        manApplet->mainWindow()->createRightKeyPairList();
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
         manApplet->messageLog( tr( "Key pair generated" ), this );
         QDialog::accept();
     }

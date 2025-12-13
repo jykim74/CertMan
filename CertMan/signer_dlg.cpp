@@ -116,9 +116,9 @@ end :
 
 //        manApplet->mainWindow()->createRightSignerList(nType);
         if( nType == SIGNER_TYPE_REG )
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
         else
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
 
         manApplet->messageBox( tr( "The signer has been registered." ), this );
     }

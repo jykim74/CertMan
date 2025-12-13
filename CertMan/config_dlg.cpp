@@ -12,6 +12,7 @@
 #include "config_rec.h"
 #include "commons.h"
 #include "man_tree_view.h"
+#include "man_tree_model.h"
 
 const QStringList kKindList = { "CMPServer", "REGServer", "OCSPServer", "TSPServer", "CCServer", "KMSServer" };
 
@@ -125,7 +126,7 @@ void ConfigDlg::clickOK()
     }
 
 //    manApplet->mainWindow()->createRightConfigList( nKind );
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CONFIG, nKind );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_CONFIG, nKind );
     manApplet->messageBox( tr("Added settings"), this );
 
     close();

@@ -331,7 +331,7 @@ end :
     if( ret == 0 )
     {
 //        manApplet->mainWindow()->createRightCRLProfileList();
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
         manApplet->messageBox( tr("CRL profile created"), this );
         QDialog::accept();
     }

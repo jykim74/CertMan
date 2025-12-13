@@ -13,6 +13,7 @@
 #include "man_tray_icon.h"
 #include "mainwindow.h"
 #include "settings_mgr.h"
+#include "man_tree_model.h"
 
 RemoteDBDlg::RemoteDBDlg(QWidget *parent) :
     QDialog(parent)
@@ -150,7 +151,7 @@ void RemoteDBDlg::clickConnect()
         manApplet->setPasswdKey( strPasswd );
     }
 
-    manApplet->mainWindow()->createTreeMenu();
+    manApplet->mainWindow()->getTreeModel()->createTreeMenu();
 
     if( manApplet->isPRO() == true )
     {

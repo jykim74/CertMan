@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     right_type_ = -1;
-    root_ca_ = NULL;
+//    root_ca_ = NULL;
     log_halt_ = false;
 #if defined( Q_OS_MAC )
     layout()->setSpacing(5);
@@ -115,9 +115,6 @@ MainWindow::~MainWindow()
 {
     recent_file_list_.clear();
 
-    delete root_ca_;
-
-    delete left_tree_;
     delete left_model_;
 
     delete pki_srv_;
@@ -183,21 +180,12 @@ void MainWindow::setTitle(const QString strName)
     setWindowTitle( strTitle );
 }
 
-ManTreeItem* MainWindow::currentTreeItem()
-{
-    ManTreeItem *item = NULL;
-    QModelIndex index = left_tree_->currentIndex();
-
-    item = (ManTreeItem *)left_model_->itemFromIndex( index );
-
-    return item;
-}
 
 void MainWindow::initialize()
 {
     hsplitter_ = new QSplitter(Qt::Horizontal);
     vsplitter_ = new QSplitter(Qt::Vertical);
-    left_tree_ = new ManTreeView(this);
+
 
     right_table_ = new QTableWidget;
     left_model_ = new ManTreeModel(this);
@@ -208,8 +196,6 @@ void MainWindow::initialize()
 #else
     search_form_->setMaximumHeight( 23 );
 #endif
-
-    left_tree_->setModel(left_model_);
 
     log_text_ = new QPlainTextEdit();
     log_text_->setReadOnly(true);
@@ -230,8 +216,7 @@ void MainWindow::initialize()
 
     QWidget *rightWidget = new QWidget;
 
-
-    hsplitter_->addWidget(left_tree_);
+    hsplitter_->addWidget( left_model_->getTreeView() );
 
 #ifdef _ENABLE_CHARTS
     stack_ = new QStackedLayout();
@@ -275,8 +260,8 @@ void MainWindow::initialize()
     setCentralWidget(hsplitter_);
 
 
-    connect( left_tree_, SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
-    connect( left_tree_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
+    connect( left_model_->getTreeView(), SIGNAL(clicked(QModelIndex)), this, SLOT(treeMenuClick(QModelIndex)));
+    connect( left_model_->getTreeView(), SIGNAL(doubleClicked(QModelIndex)), this, SLOT(treeMenuDoubleClick(QModelIndex)));
     connect( right_table_, SIGNAL(clicked(QModelIndex)), this, SLOT(tableClick(QModelIndex)));
     connect( right_table_, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClickRightTable(QModelIndex)));
 
@@ -697,13 +682,6 @@ void MainWindow::createMemberDlg()
 //    profile_man_dlg_->setMode( ProfileManModeManage );
 }
 
-void MainWindow::refreshRootCA()
-{
-    int rows = root_ca_->rowCount();
-    root_ca_->removeRows( 0, rows );
-    expandItem( root_ca_ );
-}
-
 void MainWindow::removeAllRight()
 {
     info_text_->clear();
@@ -733,7 +711,7 @@ void MainWindow::showRightMenu(QPoint point)
 
     QMenu menu(this);
 
-    ManTreeItem* treeItem = currentTreeItem();
+    ManTreeItem* treeItem = left_model_->currentItem();
 
     if( right_type_ == RightType::TYPE_CERTIFICATE)
     {
@@ -918,194 +896,6 @@ void MainWindow::doubleClickRightTable(QModelIndex index)
         viewRevokeCert();
 }
 
-void MainWindow::clickTreeMenu( int nType, int nNum )
-{
-    ManTreeItem *topItem = (ManTreeItem *)left_model_->invisibleRootItem();
-    if( topItem == NULL ) return;
-
-    ManTreeItem* item = left_tree_->getItem( topItem, nType, nNum );
-    if( item )
-    {
-        left_tree_->clicked( item->index() );
-        left_tree_->setCurrentIndex( item->index() );
-        left_tree_->setFocus();
-    }
-}
-
-void MainWindow::clickRootTreeMenu( int nType, int nNum )
-{
-    if( root_ca_ == NULL ) return;
-
-    ManTreeItem* item = left_tree_->getItem( root_ca_, nType, nNum );
-    if( item )
-    {
-        left_tree_->expand( item->index() );
-        left_tree_->clicked( item->index() );
-        left_tree_->setCurrentIndex( item->index() );
-        left_tree_->setFocus();
-    }
-}
-
-void MainWindow::createTreeMenu()
-{
-    left_model_->clear();
-    left_tree_->header()->setVisible(false);
-
-    ManTreeItem *pRootItem = (ManTreeItem *)left_model_->invisibleRootItem();
-
-    ManTreeItem *pTopItem = new ManTreeItem( QString( tr("CertMan") ) );
-    pTopItem->setIcon(QIcon(":/images/man.png"));
-    pRootItem->insertRow( 0, pTopItem );
-
-    ManTreeItem *pKeyPairItem = new ManTreeItem( QString( tr("KeyPair")) );
-    pKeyPairItem->setIcon(QIcon(":/images/key_reg.png"));
-    pKeyPairItem->setType( CM_ITEM_TYPE_KEYPAIR );
-    pTopItem->appendRow( pKeyPairItem );
-
-    ManTreeItem *pCSRItem = new ManTreeItem( QString( tr("CSR")));
-    pCSRItem->setIcon(QIcon(":/images/csr.png"));
-    pCSRItem->setType( CM_ITEM_TYPE_REQUEST );
-    pTopItem->appendRow( pCSRItem );
-
-    if( manApplet->isPRO() )
-    {
-        ManTreeItem *pManItem = new ManTreeItem( QString(tr("Manage")));
-        pManItem->setIcon(QIcon(":/images/manage.png"));
-        pTopItem->appendRow( pManItem );
-
-        ManTreeItem *pAdminItem = new ManTreeItem( QString(tr("Admin")) );
-        pAdminItem->setIcon(QIcon(":/images/admin.png"));
-        pAdminItem->setType( CM_ITEM_TYPE_ADMIN );
-        pManItem->appendRow( pAdminItem );
-
-        ManTreeItem *pConfigItem = new ManTreeItem( QString(tr("Config")));
-        pConfigItem->setIcon(QIcon(":/images/config.png"));
-        pConfigItem->setType( CM_ITEM_TYPE_CONFIG );
-        pConfigItem->setDataNum( -1 );
-        pManItem->appendRow( pConfigItem );
-
-        ManTreeItem *pOCSPSrvItem = new ManTreeItem( QString( tr( "OCSP Server" )));
-        pOCSPSrvItem->setIcon(QIcon(":/images/config.png"));
-        pOCSPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pOCSPSrvItem->setDataNum( JS_GEN_KIND_OCSP_SRV );
-        pConfigItem->appendRow( pOCSPSrvItem );
-
-        ManTreeItem *pTSPSrvItem = new ManTreeItem( QString( tr( "TSP Server" )));
-        pTSPSrvItem->setIcon(QIcon(":/images/config.png"));
-        pTSPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pTSPSrvItem->setDataNum( JS_GEN_KIND_TSP_SRV );
-        pConfigItem->appendRow( pTSPSrvItem );
-
-        ManTreeItem *pCMPSrvItem = new ManTreeItem( QString( tr( "CMP Server" )));
-        pCMPSrvItem->setIcon(QIcon(":/images/config.png"));
-        pCMPSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pCMPSrvItem->setDataNum( JS_GEN_KIND_CMP_SRV );
-        pConfigItem->appendRow( pCMPSrvItem );
-
-        ManTreeItem *pRegSrvItem = new ManTreeItem( QString( tr( "Reg Server" )));
-        pRegSrvItem->setIcon(QIcon(":/images/config.png"));
-        pRegSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pRegSrvItem->setDataNum( JS_GEN_KIND_REG_SRV );
-        pConfigItem->appendRow( pRegSrvItem );
-
-        ManTreeItem *pCCSrvItem = new ManTreeItem( QString( tr( "CC Server" )));
-        pCCSrvItem->setIcon(QIcon(":/images/config.png"));
-        pCCSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pCCSrvItem->setDataNum( JS_GEN_KIND_CC_SRV );
-        pConfigItem->appendRow( pCCSrvItem );
-
-        ManTreeItem *pKMSSrvItem = new ManTreeItem( QString( tr( "KMS Server" )));
-        pKMSSrvItem->setIcon(QIcon(":/images/config.png"));
-        pKMSSrvItem->setType( CM_ITEM_TYPE_CONFIG );
-        pKMSSrvItem->setDataNum( JS_GEN_KIND_KMS_SRV );
-        pConfigItem->appendRow( pKMSSrvItem );
-
-        ManTreeItem *pRegSignerItem = new ManTreeItem( QString(tr("REGSigner")) );
-        pRegSignerItem->setIcon(QIcon(":/images/reg_signer.png"));
-        pRegSignerItem->setType( CM_ITEM_TYPE_REG_SIGNER );
-        pManItem->appendRow( pRegSignerItem );
-
-        ManTreeItem *pOCSPSignerItem = new ManTreeItem( QString(tr("OCSPSigner")) );
-        pOCSPSignerItem->setIcon(QIcon(":/images/ocsp_signer.png"));
-        pOCSPSignerItem->setType( CM_ITEM_TYPE_OCSP_SIGNER );
-        pManItem->appendRow( pOCSPSignerItem );
-
-        left_tree_->expand( pManItem->index() );
-
-        ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
-        pUserItem->setIcon(QIcon(":/images/user.png"));
-        pUserItem->setType( CM_ITEM_TYPE_USER );
-        pTopItem->appendRow( pUserItem );
-    }
-
-
-    ManTreeItem *pCertProfileItem = new ManTreeItem( QString(tr("CertProfile") ) );
-    pCertProfileItem->setIcon(QIcon(":/images/cert_profile.png"));
-    pCertProfileItem->setType( CM_ITEM_TYPE_CERT_PROFILE );
-    pTopItem->appendRow( pCertProfileItem );
-
-    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString( tr("CRLProfile") ) );
-    pCRLProfileItem->setIcon(QIcon(":/images/crl_profile.png"));
-    pCRLProfileItem->setType( CM_ITEM_TYPE_CRL_PROFILE );
-    pTopItem->appendRow( pCRLProfileItem );
-
-    ManTreeItem *pRootCAItem = new ManTreeItem( QString(tr("RootCA")) );
-    pRootCAItem->setIcon( QIcon(":/images/root_cert.png") );
-    pRootCAItem->setType(CM_ITEM_TYPE_ROOTCA);
-    pRootCAItem->setDataNum( kSelfNum );
-    pTopItem->appendRow( pRootCAItem );
-    expandItem( pRootCAItem );
-    root_ca_ = pRootCAItem;
-
-    ManTreeItem *pImportCertItem = new ManTreeItem( QString( tr("Import Cert") ) );
-    pImportCertItem->setIcon(QIcon(":/images/im_cert.png"));
-    pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
-    pTopItem->appendRow( pImportCertItem );
-
-    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( tr("Import CRL") ) );
-    pImportCRLItem->setIcon(QIcon(":/images/im_crl.png"));
-    pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
-    pTopItem->appendRow( pImportCRLItem );
-
-    if( manApplet->isPRO() )
-    {
-        ManTreeItem *pServiceItem = new ManTreeItem( QString( tr("Service") ));
-        pServiceItem->setIcon(QIcon(":/images/group.png"));
-        pTopItem->appendRow( pServiceItem );
-
-        ManTreeItem *pKMSItem = new ManTreeItem( QString( tr("KMS") ));
-        pKMSItem->setIcon(QIcon(":/images/kms.png"));
-        pKMSItem->setType( CM_ITEM_TYPE_KMS );
-        pServiceItem->appendRow( pKMSItem );
-
-        ManTreeItem *pTSPItem = new ManTreeItem( QString( tr("TSP") ));
-        pTSPItem->setIcon(QIcon(":/images/timestamp.png"));
-        pTSPItem->setType( CM_ITEM_TYPE_TSP );
-        pServiceItem->appendRow( pTSPItem );
-
-        left_tree_->expand( pServiceItem->index() );
-
-#ifdef _ENABLE_CHARTS
-        ManTreeItem *pStatisticsItem = new ManTreeItem( QString( tr("Statistics") ));
-        pStatisticsItem->setIcon(QIcon(":/images/statistics.png"));
-        pStatisticsItem->setType( CM_ITEM_TYPE_STATISTICS );
-        pTopItem->appendRow( pStatisticsItem );
-#endif
-
-        ManTreeItem *pAuditItem = new ManTreeItem( QString( tr("Audit")) );
-        pAuditItem->setIcon( QIcon(":/images/audit.png"));
-        pAuditItem->setType( CM_ITEM_TYPE_AUDIT );
-        pTopItem->appendRow( pAuditItem );
-
-    }
-
-
-    QModelIndex ri = left_model_->index(0,0);
-    left_tree_->expand(ri);
-
-//    expandItem( pRootCAItem );
-}
-
 void MainWindow::newFile()
 {
     BIN binDB = {0,0};
@@ -1179,7 +969,7 @@ void MainWindow::newFile()
 
     manApplet->setDBPath( fileName );
     setTitle( fileName );
-    createTreeMenu();
+    left_model_->createTreeMenu();
 }
 
 int MainWindow::openDB( const QString dbPath )
@@ -1208,7 +998,7 @@ int MainWindow::openDB( const QString dbPath )
         }
     }
 
-    createTreeMenu();
+    left_model_->createTreeMenu();
 
     if( manApplet->isPRO() == true )
     {
@@ -1612,7 +1402,7 @@ void MainWindow::makeCertificate()
         return;
     }
 
-    ManTreeItem *pItem = currentTreeItem();
+    ManTreeItem *pItem = left_model_->currentItem();
     MakeCertDlg makeCertDlg;
 
     if( right_type_ == RightType::TYPE_REQUEST )
@@ -1662,7 +1452,7 @@ void MainWindow::makeCRL()
         return;
     }
 
-    ManTreeItem *pItem = currentTreeItem();
+    ManTreeItem *pItem = left_model_->currentItem();
     if( pItem == NULL )
     {
         manApplet->warningBox( tr( "No items selected" ), this );
@@ -1695,7 +1485,7 @@ void MainWindow::renewCert()
         return;
     }
 
-    ManTreeItem *pItem = currentTreeItem();
+    ManTreeItem *pItem = left_model_->currentItem();
     if( pItem == NULL )
     {
         manApplet->warningBox( tr( "No items selected" ), this );
@@ -1792,7 +1582,7 @@ void MainWindow::makeConfig()
     }
 
     int nNum = -1;
-    ManTreeItem* item = currentTreeItem();
+    ManTreeItem* item = left_model_->currentItem();
     if( item ) nNum = item->getDataNum();
 
     ConfigDlg configDlg;
@@ -1851,7 +1641,7 @@ void MainWindow::serverConfig()
     }
 
     int nNum = -1;
-    ManTreeItem* item = currentTreeItem();
+    ManTreeItem* item = left_model_->currentItem();
     if( item ) nNum = item->getDataNum();
 
     if( nNum == JS_GEN_KIND_OCSP_SRV )
@@ -2729,7 +2519,7 @@ void MainWindow::deleteCertProfile()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CERT_PROFILE, "" );
 
 //    createRightCertProfileList();
-    clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
+    left_model_->clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
 }
 
 void MainWindow::deleteCRLProfile()
@@ -2755,7 +2545,7 @@ void MainWindow::deleteCRLProfile()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_DEL_CRL_PROFILE, "" );
 
 //    createRightCRLProfileList();
-    clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
+    left_model_->clickTreeMenu( CM_ITEM_TYPE_CRL_PROFILE );
 }
 
 void MainWindow::deleteCertificate()
@@ -2814,10 +2604,10 @@ void MainWindow::deleteCertificate()
 
     dbMgr->delCertRec( num );
     manApplet->log( QString( "CertNum : %1 is deleted").arg( num ));
-    if( cert.isCA() ) manApplet->mainWindow()->refreshRootCA();
+    if( cert.isCA() ) left_model_->refreshRootCA();
 
 //    createRightCertList( cert.getIssuerNum() );
-    clickRootTreeMenu( CM_ITEM_TYPE_CERT, cert.getIssuerNum() );
+    left_model_->clickRootTreeMenu( CM_ITEM_TYPE_CERT, cert.getIssuerNum() );
 }
 
 void MainWindow::deleteCRL()
@@ -2843,7 +2633,7 @@ void MainWindow::deleteCRL()
     manApplet->log( QString("CRLNum:%1 is deleted").arg(num));
 
 //    createRightCRLList( crl.getIssuerNum() );
-    clickRootTreeMenu( CM_ITEM_TYPE_CRL, crl.getIssuerNum() );
+    left_model_->clickRootTreeMenu( CM_ITEM_TYPE_CRL, crl.getIssuerNum() );
 }
 
 void MainWindow::deleteKeyPair()
@@ -2877,7 +2667,7 @@ void MainWindow::deleteKeyPair()
     manApplet->log( QString("KeyNum:%1 is deleted").arg(num));
 
 //    createRightKeyPairList();
-    clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
+    left_model_->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
 }
 
 void MainWindow::deleteRequest()
@@ -2899,7 +2689,7 @@ void MainWindow::deleteRequest()
     manApplet->log( QString("ReqNum:%1 is deleted").arg(num));
 
 //    createRightRequestList();
-    clickTreeMenu( CM_ITEM_TYPE_REQUEST );
+    left_model_->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
 }
 
 void MainWindow::deleteUser()
@@ -2925,7 +2715,7 @@ void MainWindow::deleteUser()
 
 
 //    createRightUserList();
-    clickTreeMenu( CM_ITEM_TYPE_USER );
+    left_model_->clickTreeMenu( CM_ITEM_TYPE_USER );
 }
 
 void MainWindow::deleteSigner()
@@ -2953,9 +2743,9 @@ void MainWindow::deleteSigner()
 
 
     if( signer.getType() == SIGNER_TYPE_REG )
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_REG_SIGNER );
     else
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_OCSP_SIGNER );
 
 //    createRightSignerList( signer.getType() );
 }
@@ -3086,10 +2876,10 @@ void MainWindow::treeMenuDoubleClick(QModelIndex index)
     if( pItem->getType() == CM_ITEM_TYPE_SUBCA )
     {   
         if( pItem->hasChildren() == false )
-            expandItem( pItem );
+            left_model_->expandItem( pItem );
     }
 
-    left_tree_->expand(index);
+    left_model_->getTreeView()->expand(index);
 }
 
 void MainWindow::tableClick(QModelIndex index )
@@ -4449,67 +4239,10 @@ void MainWindow::KMSSrv()
 
 void MainWindow::expandMenu()
 {
-    ManTreeItem* item = left_tree_->currentItem();
-    expandItem( item );
+    ManTreeItem* item = left_model_->currentItem();
+    left_model_->expandItem( item );
 }
 
-void MainWindow::expandItem( ManTreeItem *item )
-{
-    int nIssuerNum = item->getDataNum();
-
-    QList<CertRec> certList;
-    manApplet->dbMgr()->getCACertList( nIssuerNum, certList );
-
-    for( int i=0; i < certList.size(); i++ )
-    {
-        CertRec certRec = certList.at(i);
-
-        ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
-        pCAItem->setType( CM_ITEM_TYPE_CA );
-        pCAItem->setDataNum( certRec.getNum() );
-
-        if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
-            pCAItem->setIcon( QIcon(":/images/ca_revoked.png") );
-        else
-            pCAItem->setIcon( QIcon(":/images/ca.png"));
-
-        item->appendRow( pCAItem );
-
-        ManTreeItem *pCertItem = new ManTreeItem( QString(tr("Certificate")));
-        pCertItem->setType( CM_ITEM_TYPE_CERT );
-        pCertItem->setDataNum( certRec.getNum() );
-        pCertItem->setIcon(QIcon(":/images/cert.png"));
-        pCAItem->appendRow( pCertItem );
-
-        ManTreeItem *pCRLItem = new ManTreeItem( QString(tr("CRL")) );
-        pCRLItem->setType( CM_ITEM_TYPE_CRL );
-        pCRLItem->setDataNum( certRec.getNum() );
-        pCRLItem->setIcon(QIcon(":/images/crl.png"));
-        pCAItem->appendRow( pCRLItem );
-
-        ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoke")));
-        pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
-        pRevokeItem->setDataNum( certRec.getNum() );
-        pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
-        pCAItem->appendRow( pRevokeItem );
-
-        int nCACount = manApplet->dbMgr()->getCACount( certRec.getNum() );
-        if( nCACount > 0 )
-        {
-            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA[%1]").arg( nCACount )));
-            pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
-            pSubCAItem->setIcon(QIcon(":/images/ca.png"));
-            pSubCAItem->setDataNum( certRec.getNum() );
-            pCAItem->appendRow( pSubCAItem );
-
-            expandItem( pSubCAItem );
-        }
-
-//        left_tree_->expand( pCAItem->index() );
-    }
-
-    left_tree_->expand( item->index() );
-}
 
 void MainWindow::licenseInfo()
 {
@@ -4534,42 +4267,6 @@ void MainWindow::qnaDiscussion()
     QDesktopServices::openUrl(QUrl(link));
 }
 
-void MainWindow::addRootCA( CertRec& certRec )
-{
-   if( root_ca_ == NULL ) return;
-
-   ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
-   pCAItem->setType( CM_ITEM_TYPE_CA );
-   pCAItem->setDataNum( certRec.getNum() );
-   pCAItem->setIcon( QIcon(":/images/ca.png"));
-   root_ca_->appendRow( pCAItem );
-
-   ManTreeItem *pCertItem = new ManTreeItem( QString(tr("Certificate")));
-   pCertItem->setType( CM_ITEM_TYPE_CERT );
-   pCertItem->setDataNum( certRec.getNum() );
-   pCertItem->setIcon(QIcon(":/images/cert.png"));
-   pCAItem->appendRow( pCertItem );
-
-   ManTreeItem *pCRLItem = new ManTreeItem( QString(tr("CRL")) );
-   pCRLItem->setType( CM_ITEM_TYPE_CRL );
-   pCRLItem->setDataNum( certRec.getNum() );
-   pCRLItem->setIcon(QIcon(":/images/crl.png"));
-   pCAItem->appendRow( pCRLItem );
-
-   ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoke")));
-   pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
-   pRevokeItem->setDataNum( certRec.getNum() );
-   pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
-   pCAItem->appendRow( pRevokeItem );
-
-   ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA")));
-   pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
-   pSubCAItem->setIcon(QIcon(":/images/ca.png"));
-   pSubCAItem->setDataNum( certRec.getNum() );
-   pCAItem->appendRow( pSubCAItem );
-
-   left_tree_->expand( root_ca_->index() );
-}
 
 
 void MainWindow::certStatus()

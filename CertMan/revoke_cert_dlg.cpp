@@ -89,7 +89,7 @@ void RevokeCertDlg::accept()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_REVOKE_CERT, "" );
 
 //    manApplet->mainWindow()->createRightRevokeList( cert.getIssuerNum() );
-    manApplet->mainWindow()->clickRootTreeMenu( CM_ITEM_TYPE_REVOKE, cert.getIssuerNum() );
+    manApplet->clickRootTreeMenu( CM_ITEM_TYPE_REVOKE, cert.getIssuerNum() );
     QDialog::accept();
 }
 

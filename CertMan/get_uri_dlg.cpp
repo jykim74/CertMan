@@ -407,7 +407,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
     JS_PKI_resetCertInfo( &sCertInfo );
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
 
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
 
     return 0;
 }
@@ -452,7 +452,7 @@ int GetURIDlg::ImportCRL( const BIN *pCRL, const QString strURI )
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
     if( pRevokeInfoList ) JS_PKI_resetRevokeInfoList( &pRevokeInfoList );
 
-    manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
+    manApplet->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
 
     return 0;
 }

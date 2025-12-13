@@ -648,7 +648,7 @@ end :
     if( ret == JSR_OK )
     {
 //        manApplet->mainWindow()->createRightRequestList();
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
         manApplet->messageBox( tr("CSR created"), this );
 
         if( mUseExtensionCheck->isChecked() == true )

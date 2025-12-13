@@ -179,7 +179,7 @@ void ImportDlg::accept()
         if( ret == 0 )
         {
 //            manApplet->mainWindow()->createRightKeyPairList();
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_KEYPAIR );
         }
     }
     else if( nSelType == IMPORT_TYPE_CSR )
@@ -194,7 +194,7 @@ void ImportDlg::accept()
         if( ret == 0 )
         {
 //            manApplet->mainWindow()->createRightRequestList();
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_REQUEST );
         }
     }
     else if( nSelType == IMPORT_TYPE_CERT )
@@ -203,7 +203,7 @@ void ImportDlg::accept()
         if( ret == 0 )
         {
 //            manApplet->mainWindow()->createRightCertList( kImportNum );
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
         }
     }
     else if( nSelType == IMPORT_TYPE_CRL )
@@ -219,7 +219,7 @@ void ImportDlg::accept()
         if( ret == 0 )
         {
 //            manApplet->mainWindow()->createRightCRLList( kImportNum );
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CRL );
         }
     }
     else if( nSelType == IMPORT_TYPE_PFX )
@@ -228,7 +228,7 @@ void ImportDlg::accept()
         if( ret == 0 )
         {
 //            manApplet->mainWindow()->createRightCertList( kImportNum );
-            manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
+            manApplet->clickTreeMenu( CM_ITEM_TYPE_IMPORT_CERT );
         }
     }
 

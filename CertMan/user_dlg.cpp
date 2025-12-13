@@ -207,7 +207,7 @@ void UserDlg::regServer()
     if( strcasecmp( sUserRsp.pResCode, "0000" ) == 0 )
     {
 //        manApplet->mainWindow()->createRightUserList();
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_USER );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_USER );
         manApplet->messageBox( tr( "User registration successful" ), this );
         ret = 0;
     }

@@ -13,6 +13,7 @@
 #include "js_pki_x509.h"
 #include "js_define.h"
 #include "commons.h"
+#include "man_tree_model.h"
 
 static QStringList kPeriodTypes = { "Day", "Month", "Year" };
 
@@ -398,7 +399,7 @@ void RenewCertDlg::accept()
 
 
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
-        manApplet->mainWindow()->addRootCA( madeCertRec );
+        manApplet->mainWindow()->getTreeModel()->addRootCA( madeCertRec );
 
 end :
     JS_PKI_resetCertInfo( &sCertInfo );
@@ -412,7 +413,7 @@ end :
     if( ret == 0 )
     {
 //        manApplet->mainWindow()->createRightCertList( cert.getIssuerNum() );
-        manApplet->mainWindow()->clickRootTreeMenu( item_type_, cert.getIssuerNum() );
+        manApplet->clickRootTreeMenu( item_type_, cert.getIssuerNum() );
         manApplet->messageBox( tr("Certificate renewal was successful"), this );
         QDialog::accept();
     }

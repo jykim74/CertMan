@@ -464,7 +464,7 @@ end :
     if( ret == 0 )
     {
 //        manApplet->mainWindow()->createRightCertProfileList();
-        manApplet->mainWindow()->clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
+        manApplet->clickTreeMenu( CM_ITEM_TYPE_CERT_PROFILE );
         manApplet->messageBox( tr("Certificate profile created"), this );
         QDialog::accept();
     }
