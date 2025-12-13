@@ -4467,7 +4467,12 @@ void MainWindow::expandItem( ManTreeItem *item )
         ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
         pCAItem->setType( CM_ITEM_TYPE_CA );
         pCAItem->setDataNum( certRec.getNum() );
-        pCAItem->setIcon( QIcon(":/images/ca.png"));
+
+        if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
+            pCAItem->setIcon( QIcon(":/images/ca_revoked.png") );
+        else
+            pCAItem->setIcon( QIcon(":/images/ca.png"));
+
         item->appendRow( pCAItem );
 
         ManTreeItem *pCertItem = new ManTreeItem( QString(tr("Certificate")));
