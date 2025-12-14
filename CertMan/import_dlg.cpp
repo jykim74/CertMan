@@ -319,8 +319,12 @@ void ImportDlg::dataTypeChanged( int index )
     }
 
     if( strType == "Encrypted PrivateKey" || strType == "PFX" )
+    {
+        mPasswordLabel->setEnabled( true );
         mPasswordText->setEnabled(true);
+    }
     else {
+        mPasswordLabel->setEnabled( false );
         mPasswordText->setEnabled(false);
     }
 
