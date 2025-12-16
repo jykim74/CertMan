@@ -328,20 +328,9 @@ void CAManDlg::loadCACertList()
         CertRec cert = certList.at(i);
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
         item->setData(Qt::UserRole, cert.getNum() );
-
-        if( cert.getNotAfter() < now_t )
-            item->setIcon( QIcon(":/images/cert_expired.png"));
-        else
-            item->setIcon( QIcon(":/images/cert.png" ));
+        item->setIcon( cert.getIcon( now_t ) );
 
         QTableWidgetItem *item2 = new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN()));
-        if( cert.isSelf() )
-        {
-            if( cert.getNotAfter() < now_t )
-                item2->setIcon( QIcon(":/images/self_expired.png" ));
-            else
-                item2->setIcon( QIcon(":/images/self.png" ));
-        }
 
         if( strType != "Any" )
         {

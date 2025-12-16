@@ -12,6 +12,7 @@
 #include "man_applet.h"
 #include "settings_mgr.h"
 #include "commons.h"
+#include "cert_info_dlg.h"
 
 ManTreeView::ManTreeView( QWidget *parent )
     : QTreeView (parent)
@@ -116,6 +117,7 @@ void ManTreeView::showContextMenu(QPoint point)
     {
         menu.addAction(tr("Make Certificate"), manApplet->mainWindow(), &MainWindow::makeCertificate );
         menu.addAction(tr("Make CRL"), manApplet->mainWindow(), &MainWindow::makeCRL );
+        menu.addAction(tr( "View Certificate" ), this, SLOT(viewCert()) );
     }
     else if( item->getType() == CM_ITEM_TYPE_CERT )
     {
@@ -155,6 +157,17 @@ void ManTreeView::showContextMenu(QPoint point)
     menu.exec(QCursor::pos());
 }
 
+void ManTreeView::viewCert()
+{
+    ManTreeItem* item = currentItem();
+    if( item == NULL ) return;
+
+    int num = item->getDataNum();
+
+    CertInfoDlg certInfoDlg;
+    certInfoDlg.setCertNum( num );
+    certInfoDlg.exec();
+}
 
 ManTreeItem* ManTreeView::currentItem()
 {

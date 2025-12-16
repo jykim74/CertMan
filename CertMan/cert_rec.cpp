@@ -4,6 +4,8 @@
  * All rights reserved.
  */
 #include "cert_rec.h"
+#include "commons.h"
+#include "js_define.h"
 
 CertRec::CertRec()
 {
@@ -107,4 +109,46 @@ void CertRec::setKeyHash( QString strKeyHash )
 void CertRec::setCRLDP(QString strCRLDP)
 {
     m_strCRLDP = strCRLDP;
+}
+
+const QIcon CertRec::getIcon( time_t now_t )
+{
+    if( m_nIssuerNum == kImportNum )
+    {
+        if( m_tNotAfter < now_t )
+            return QIcon( ":/images/im_cert_expired.png" );
+        else
+            return QIcon( ":/images/im_cert.png" );
+    }
+
+    if( m_nSelf == true )
+    {
+        if( m_tNotAfter < now_t )
+            return QIcon( ":/images/rca_expired.png" );
+        else
+            return QIcon( ":/images/rca.png" );
+    }
+
+    if( m_nCA == true )
+    {
+        if( m_tNotAfter < now_t )
+            return QIcon( ":/images/ca_expired.png" );
+        else
+        {
+            if( m_nStatus == JS_CERT_STATUS_REVOKE )
+                return QIcon( ":/images/ca_revoked.png" );
+            else
+                return QIcon( ":/images/ca.png" );
+        }
+    }
+
+    if( m_tNotAfter < now_t )
+        return QIcon( ":/images/cert_expired.png" );
+    else
+    {
+        if( m_nStatus == JS_CERT_STATUS_REVOKE )
+            return QIcon( ":/images/cert_revoked.png" );
+    }
+
+    return QIcon( ":/images/cert.png" );
 }

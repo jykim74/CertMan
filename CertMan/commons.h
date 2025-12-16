@@ -18,6 +18,8 @@
 #include "js_kms.h"
 #include "settings_mgr.h"
 #include "js_pqc.h"
+#include "cert_rec.h"
+#include "crl_rec.h"
 
 enum {
     DATA_HEX,
@@ -352,4 +354,5 @@ int writePriKeyPEM( const BIN *pPriKey, const QString strPath );
 int writePubKeyPEM( const BIN *pPubKey, const QString strPath );
 
 void setFixedLineText( QLineEdit *pEdit, const QString strText );
+
 #endif // COMMONS_H

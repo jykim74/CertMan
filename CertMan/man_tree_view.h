@@ -20,6 +20,7 @@ public:
 
 private slots:
     void showContextMenu( QPoint point );
+    void viewCert();
 
 public:
     ManTreeItem* currentItem();

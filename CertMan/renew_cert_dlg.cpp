@@ -147,13 +147,10 @@ void RenewCertDlg::accept()
     const char *pSerial = NULL;
     QString strKeyAlg;
 
-//    int nKeyType = -1;
     int nRenewCertNum = -1;
     time_t tLimitBefore = 0;
     time_t tLimitAfter = 0;
 
-//    QTextCodec *codec = QTextCodec::codecForName("UTF-16");
-//    QByteArray ba;
 
     DBMgr* dbMgr = manApplet->dbMgr();
     memset( &sCertInfo, 0x00, sizeof(sCertInfo));
@@ -178,6 +175,20 @@ void RenewCertDlg::accept()
         {
             manApplet->elog( QString("Key number is incorrect").arg( caCert.getKeyNum() ));
             return;
+        }
+
+        if( caCert.getStatus() == JS_CERT_STATUS_REVOKE )
+        {
+            QString strMsg = tr( "The CA certificate has been revoked. continue?" );
+            bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+            if( bVal == false ) return;
+        }
+
+        if( caCert.getNotAfter() < now_t )
+        {
+            QString strMsg = tr( "The CA certificate has been expired. continue?" );
+            bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+            if( bVal == false ) return;
         }
 
         JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
@@ -355,8 +366,6 @@ void RenewCertDlg::accept()
     madeCertRec.setSignAlg( sMadeCertInfo.pSignAlgorithm );
     madeCertRec.setCert( getHexString( &binRenewCert) );
 
-//    ba = sMadeCertInfo.pSubjectName;
-//    madeCertRec.setSubjectDN( codec->toUnicode( ba ) );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
 
     nRenewCertNum = dbMgr->getNextVal( "TB_CERT" );

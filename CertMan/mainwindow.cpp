@@ -4981,45 +4981,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         if( cert.isSelf() ) item->setIcon( QIcon( ":/images/self.png" ) );
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
-
-        if( nIssuerNum == kImportNum )
-        {
-            if( cert.getNotAfter() < now_t )
-                seq->setIcon( QIcon(":/images/im_cert_expired.png" ));
-            else
-                seq->setIcon( QIcon(":/images/im_cert.png"));
-        }
-        else
-        {
-            if( cert.isCA() )
-            {
-                if( cert.getNotAfter() < now_t )
-                {
-                    seq->setIcon( QIcon(":/images/ca_expired.png" ));
-                }
-                else
-                {
-                    if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                        seq->setIcon(QIcon(":/images/ca_revoked.png"));
-                    else
-                        seq->setIcon(QIcon(":/images/ca.png"));
-                }
-            }
-            else
-            {
-                if( cert.getNotAfter() < now_t )
-                {
-                    seq->setIcon(QIcon(":/images/cert_expired.png" ));
-                }
-                else
-                {
-                    if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                        seq->setIcon(QIcon(":/images/cert_revoked.png"));
-                    else
-                        seq->setIcon(QIcon(":/images/cert.png"));
-                }
-            }
-        }
+        seq->setIcon( cert.getIcon( now_t ));
 
         QString strUserName;
 
@@ -5096,21 +5058,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         QString strIssuerName;
 
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
-
-        if( nIssuerNum == kImportNum )
-        {
-            if( crl.getNextUpdate() < now_t )
-                seq->setIcon( QIcon(":/images/im_crl_expired.png" ));
-            else
-                seq->setIcon( QIcon(":/images/im_crl.png"));
-        }
-        else
-        {
-            if( crl.getNextUpdate() < now_t )
-                seq->setIcon(QIcon(":/images/crl_expired.png" ));
-            else
-                seq->setIcon(QIcon(":/images/crl.png"));
-        }
+        seq->setIcon( crl.getIcon( now_t ) );
 
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );

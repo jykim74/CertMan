@@ -84,6 +84,8 @@ void MakeCRLDlg::accept()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
 
+    time_t now_t = time(NULL);
+
     if( mIssuerNumText->text().length() < 1 )
     {
         clickSelectIssuer();
@@ -113,7 +115,6 @@ void MakeCRLDlg::accept()
 
     time_t tThisUpdate = -1;
     time_t tNextUpdate = -1;
-//    int nKeyType = -1;
 
     CertRec caCert;
     CRLProfileRec profile;
@@ -129,12 +130,19 @@ void MakeCRLDlg::accept()
         if( bVal == false ) return;
     }
 
+    if( caCert.getNotAfter() < now_t )
+    {
+        QString strMsg = tr( "The CA certificate has been expired. continue?" );
+        bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+        if( bVal == false ) return;
+    }
+
     memset( &sIssueCRLInfo, 0x00, sizeof(sIssueCRLInfo));
     memset( &sMadeCRLInfo, 0x00, sizeof(sMadeCRLInfo));
 
     dbMgr->getKeyPairRec( caCert.getKeyNum(), caKeyPair );
 
-    time_t now_t = -1;
+
     QList<ProfileExtRec> profileExtList;
     QList<RevokeRec> revokeList;
     QString strCRLDP = mCRLDPCombo->currentText();
@@ -167,9 +175,6 @@ void MakeCRLDlg::accept()
     }
 
     JS_BIN_decodeHex( caCert.getCert().toStdString().c_str(), &binSignCert );
-
-
-    now_t = time(NULL);
 
     JS_PKI_getPeriod(
         profile.getThisUpdate(),

@@ -95,5 +95,8 @@
         <file>images/im_crl_expired.png</file>
         <file>images/self_expired.png</file>
         <file>images/nemo.png</file>
+        <file>images/rca.png</file>
+        <file>images/rca_expired.png</file>
+        <file>images/sub_ca.png</file>
     </qresource>
 </RCC>

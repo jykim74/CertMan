@@ -6,8 +6,8 @@
 #ifndef CERT_REC_H
 #define CERT_REC_H
 
-
 #include <QString>
+#include <QIcon>
 
 class CertRec
 {
@@ -68,6 +68,8 @@ public:
     void setDNHash( QString strDNHash );
     void setKeyHash( QString strKeyHash );
     void setCRLDP( QString strCRLDP );
+
+    const QIcon getIcon( time_t now_t );
 };
 
 

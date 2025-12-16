@@ -232,18 +232,7 @@ void ManTreeModel::expandItem( ManTreeItem *item )
         ManTreeItem *pCAItem = new ManTreeItem( certRec.getSubjectDN() );
         pCAItem->setType( CM_ITEM_TYPE_CA );
         pCAItem->setDataNum( certRec.getNum() );
-
-        if( now_t > certRec.getNotAfter() )
-        {
-            pCAItem->setIcon( QIcon(":/images/ca_expired.png" ));
-        }
-        else
-        {
-            if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
-                pCAItem->setIcon( QIcon(":/images/ca_revoked.png") );
-            else
-                pCAItem->setIcon( QIcon(":/images/ca.png"));
-        }
+        pCAItem->setIcon( certRec.getIcon( now_t ) );
 
         item->appendRow( pCAItem );
 
@@ -268,9 +257,9 @@ void ManTreeModel::expandItem( ManTreeItem *item )
         int nCACount = manApplet->dbMgr()->getCACount( certRec.getNum() );
         if( nCACount > 0 )
         {
-            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("CA[%1]").arg( nCACount )));
+            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("Sub CA[%1]").arg( nCACount )));
             pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
-            pSubCAItem->setIcon(QIcon(":/images/ca.png"));
+            pSubCAItem->setIcon(QIcon(":/images/sub_ca.png"));
             pSubCAItem->setDataNum( certRec.getNum() );
             pCAItem->appendRow( pSubCAItem );
 

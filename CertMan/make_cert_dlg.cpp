@@ -252,6 +252,8 @@ void MakeCertDlg::accept()
     QString strProfileNum;
     QString strIssuerNum;
 
+    time_t now_t = time(NULL);
+
     if( mUseCSRFileCheck->isChecked() )
     {
         if( mCSRFilePathText->text().length() <= 0 )
@@ -401,7 +403,20 @@ void MakeCertDlg::accept()
             {
                 JS_BIN_reset( &binCSR );
                 JS_PKI_resetReqInfo( &sReqInfo );
+                JS_BIN_reset( &binPub );
+
+                return;
+            }
+        }
+
+        if( issuerCert.getNotAfter() < now_t )
+        {
+            QString strMsg = tr( "The CA certificate has been expired. continue?" );
+            bool bVal = manApplet->yesOrNoBox( strMsg, NULL );
+            if( bVal == false )
+            {
                 JS_BIN_reset( &binCSR );
+                JS_PKI_resetReqInfo( &sReqInfo );
                 JS_BIN_reset( &binPub );
 
                 return;
@@ -417,7 +432,7 @@ void MakeCertDlg::accept()
     int nSeq = -1;
     QString strSignAlg;
     QString strDN;
-    time_t now_t = -1;
+
     time_t notBefore = -1;
     time_t notAfter = -1;
     QList<ProfileExtRec> profileExtList;
@@ -462,7 +477,7 @@ void MakeCertDlg::accept()
 
     nKeyType = getKeyType( signKeyPair.getAlg(), signKeyPair.getParam() );
     strDN = getRealSubjectDN();
-    now_t = time(NULL);
+
 
 
     if( nKeyType != sReqInfo.nKeyAlg )

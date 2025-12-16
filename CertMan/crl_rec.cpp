@@ -4,8 +4,7 @@
  * All rights reserved.
  */
 #include "crl_rec.h"
-
-
+#include "commons.h"
 
 CRLRec::CRLRec()
 {
@@ -56,4 +55,20 @@ void CRLRec::setCRL( QString strCRL )
 void CRLRec::setCRLDP(QString strCRLDP)
 {
     m_strCRLDP = strCRLDP;
+}
+
+const QIcon CRLRec::getIcon( time_t now_t )
+{
+    if( m_nIssuerNum == kImportNum )
+    {
+        if( m_tNextUpdate < now_t )
+            return QIcon( ":/images/im_crl_expired.png" );
+        else
+            return QIcon( ":/images/im_crl.png" );
+    }
+
+    if( m_tNextUpdate < now_t )
+        return QIcon( ":/images/crl_expired.png" );
+
+    return QIcon( ":/images/crl.png" );
 }

@@ -7,6 +7,7 @@
 #define CRL_REC_H
 
 #include <QString>
+#include <QIcon>
 
 class CRLRec
 {
@@ -40,6 +41,8 @@ public:
     void setSignAlg( QString strSignAlg );
     void setCRLDP( QString strCRLDP );
     void setCRL( QString strCRL );
+
+    const QIcon getIcon( time_t now_t );
 };
 
 #endif // CRL_REC_H
