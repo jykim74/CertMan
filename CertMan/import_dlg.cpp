@@ -330,11 +330,13 @@ void ImportDlg::dataTypeChanged( int index )
 
     if( strType == "Certificate" || strType == "CRL" )
     {
-        mNameText->setEnabled(false);
+        mNameLabel->setEnabled( false );
+        mNameText->setEnabled( false );
     }
     else
     {
-        mNameText->setEnabled(true);
+        mNameLabel->setEnabled( true );
+        mNameText->setEnabled( true );
     }
 }
 
