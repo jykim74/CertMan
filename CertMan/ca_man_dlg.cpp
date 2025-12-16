@@ -144,7 +144,7 @@ void CAManDlg::initUI()
     int nWidth = width() * 8/10;
 #endif
 
-    QStringList sCACertLabels = { tr( "Num"), tr( "Serial" ), tr( "Algorithm" ),  tr( "Subject DN" )  };
+    QStringList sCACertLabels = { tr( "Num"), tr( "Expire" ), tr( "Algorithm" ),  tr( "Subject DN" )  };
 
     mCACertTable->clear();
     mCACertTable->horizontalHeader()->setStretchLastSection(true);
@@ -157,7 +157,7 @@ void CAManDlg::initUI()
     mCACertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCACertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCACertTable->setColumnWidth( 0, 60 );
-    mCACertTable->setColumnWidth( 1, 80 );
+    mCACertTable->setColumnWidth( 1, 100 );
     mCACertTable->setColumnWidth( 2, 80 );
 
     QStringList sKeyPairLabels = { tr("Num"), tr("RegTime"), tr( "Algorithm" ), tr( "Name" ) };
@@ -173,7 +173,7 @@ void CAManDlg::initUI()
     mKeyPairTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mKeyPairTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mKeyPairTable->setColumnWidth( 0, 60 );
-    mKeyPairTable->setColumnWidth( 1, 80 );
+    mKeyPairTable->setColumnWidth( 1, 100 );
     mKeyPairTable->setColumnWidth( 2, 80 );
 
     QStringList sCSRLabels = { tr( "Num" ), tr("RegTime"), tr( "Subject DN" ), tr( "Name" ) };
@@ -189,7 +189,7 @@ void CAManDlg::initUI()
     mCSRTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     mCSRTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     mCSRTable->setColumnWidth( 0, 60 );
-    mCSRTable->setColumnWidth( 1, 80 );
+    mCSRTable->setColumnWidth( 1, 100 );
     mCSRTable->setColumnWidth( 2, 120 );
 
     mKeyPairStatusCombo->addItems( kStatus );
@@ -387,7 +387,7 @@ void CAManDlg::loadCACertList()
         mCACertTable->insertRow(i);
         mCACertTable->setRowHeight(i, 10);
         mCACertTable->setItem( i, 0, item );
-        mCACertTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( cert.getSerial() )));
+        mCACertTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(cert.getNotAfter()) )));
         mCACertTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
         mCACertTable->setItem( i, 3, item2 );
     }

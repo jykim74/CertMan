@@ -1526,7 +1526,16 @@ void MainWindow::revokeCertificate()
     }
 
     QTableWidgetItem* item = right_table_->item( row, 0 );
+    if( item == NULL ) return;
+
     int num = item->text().toInt();
+    CertRec cert;
+    manApplet->dbMgr()->getCertRec( num, cert );
+    if( cert.isSelf() && cert.isCA() )
+    {
+        manApplet->warningBox( tr("RootCA cannot be revoked"), this );
+        return;
+    }
 
     RevokeCertDlg revokeCertDlg;
     revokeCertDlg.setCertNum(num);
@@ -4913,7 +4922,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     time_t now_t = time(NULL);
 
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("SubjectDN") };
+    QStringList headerList = { tr("Num"), tr("Expire"), tr("Algorithm"), tr("SubjectDN") };
 
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
@@ -5024,7 +5033,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, pos++, seq );
-        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( dateString(cert.getRegTime())  ) ));
+        right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( dateString(cert.getNotAfter())  ) ));
         right_table_->setItem( i, pos++, new QTableWidgetItem( QString("%1").arg( strAlg )));
         right_table_->setItem( i, pos++, item );
     }
@@ -5045,7 +5054,7 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QString strTarget = search_form_->getCondName();
     QString strWord = search_form_->getInputWord();
 
-    QStringList headerList = { tr("Num"), tr("RegTime"), tr("ThisUpdate"), tr("SignAlg"), tr("CRLDP") };
+    QStringList headerList = { tr("Num"), tr("ThisUpdate"), tr("NextUpdate"), tr("SignAlg"), tr("CRLDP") };
     QList<CRLRec> crlList;
 
     time_t now_t = time(NULL);
@@ -5106,8 +5115,8 @@ void MainWindow::createRightCRLList( int nIssuerNum )
         right_table_->insertRow(i);
         right_table_->setRowHeight(i, 10 );
         right_table_->setItem( i, 0, seq );
-        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(crl.getRegTime()) )));
-        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( dateString(crl.getThisUpdate()) )) );
+        right_table_->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(crl.getThisUpdate()) )));
+        right_table_->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( dateString(crl.getNextUpdate()) )) );
         right_table_->setItem( i, 3, new QTableWidgetItem( crl.getSignAlg() ));
         right_table_->setItem( i, 4, new QTableWidgetItem( crl.getCRLDP() ));
     }
