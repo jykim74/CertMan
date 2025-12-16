@@ -688,6 +688,8 @@ void MakeCertDlg::accept()
     madeCertRec.setNum( nSeq );
 
     madeCertRec.setRegTime( now_t );
+    madeCertRec.setNotBefore( notBefore );
+    madeCertRec.setNotAfter( notAfter );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
     madeCertRec.setCA( bCA );

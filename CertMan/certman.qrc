@@ -88,5 +88,12 @@
         <file>images/hsm.png</file>
         <file>images/self.png</file>
         <file>images/online.png</file>
+        <file>images/ca_expired.png</file>
+        <file>images/cert_expired.png</file>
+        <file>images/crl_expired.png</file>
+        <file>images/im_cert_expired.png</file>
+        <file>images/im_crl_expired.png</file>
+        <file>images/self_expired.png</file>
+        <file>images/nemo.png</file>
     </qresource>
 </RCC>

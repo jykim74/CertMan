@@ -317,6 +317,7 @@ void CAManDlg::loadCACertList()
 
     QList<CertRec> certList;
     QString strType = mCACertTypeCombo->currentText();
+    time_t now_t = time(NULL);
 
     mCACertTable->setRowCount(0);
 
@@ -328,10 +329,19 @@ void CAManDlg::loadCACertList()
         QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
         item->setData(Qt::UserRole, cert.getNum() );
 
-        item->setIcon( QIcon(":/images/cert.png" ));
+        if( cert.getNotAfter() < now_t )
+            item->setIcon( QIcon(":/images/cert_expired.png"));
+        else
+            item->setIcon( QIcon(":/images/cert.png" ));
 
         QTableWidgetItem *item2 = new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN()));
-        if( cert.isSelf() ) item2->setIcon( QIcon(":/images/self.png" ));
+        if( cert.isSelf() )
+        {
+            if( cert.getNotAfter() < now_t )
+                item2->setIcon( QIcon(":/images/self_expired.png" ));
+            else
+                item2->setIcon( QIcon(":/images/self.png" ));
+        }
 
         if( strType != "Any" )
         {

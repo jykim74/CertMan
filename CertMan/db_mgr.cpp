@@ -149,6 +149,8 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 
     int nPosNum = SQL.record().indexOf( "Num" );
     int nPosRegTime = SQL.record().indexOf( "RegTime" );
+    int nPosNotBefore = SQL.record().indexOf( "NotBefore" );
+    int nPosNotAfter = SQL.record().indexOf( "NotAfter" );
     int nPosKeyNum = SQL.record().indexOf( "KeyNum" );
     int nPosUserNum = SQL.record().indexOf( "UserNum" );
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
@@ -169,6 +171,8 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
 
         certRec.setNum( SQL.value(nPosNum).toInt() );
         certRec.setRegTime( SQL.value(nPosRegTime).toLongLong());
+        certRec.setNotBefore( SQL.value(nPosNotBefore).toLongLong());
+        certRec.setNotAfter( SQL.value( nPosNotAfter ).toLongLong());
         certRec.setKeyNum( SQL.value(nPosKeyNum).toInt());
         certRec.setUserNum( SQL.value( nPosUserNum ).toInt());
         certRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
@@ -1930,11 +1934,13 @@ int DBMgr::addCertRec( CertRec& certRec )
 
 
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, REGTIME, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
-                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
+                      "( NUM, REGTIME, NOTBEFORE, NOTAFTER, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
+                      "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, certRec.getNum() );
     sqlQuery.bindValue( i++, (long long)certRec.getRegTime() );
+    sqlQuery.bindValue( i++, (long long)certRec.getNotBefore() );
+    sqlQuery.bindValue( i++, (long long)certRec.getNotAfter() );
     sqlQuery.bindValue( i++, certRec.getKeyNum() );
     sqlQuery.bindValue( i++, certRec.getUserNum() );
     sqlQuery.bindValue( i++, certRec.getSignAlg() );

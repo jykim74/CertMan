@@ -702,6 +702,8 @@ int ImportDlg::ImportCert( const BIN *pCert )
         CertRec     cert;
         cert.setCert( pHexCert );
         cert.setRegTime( time(NULL) );
+        cert.setNotBefore( sCertInfo.tNotBefore );
+        cert.setNotAfter( sCertInfo.tNotAfter );
         cert.setSubjectDN( sCertInfo.pSubjectName );
         cert.setIssuerNum( kImportNum );
         cert.setSignAlg( sCertInfo.pSignAlgorithm );

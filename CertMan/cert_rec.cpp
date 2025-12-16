@@ -9,6 +9,8 @@ CertRec::CertRec()
 {
     m_nNum = -1;
     m_tRegTime = 0;
+    m_tNotBefore = 0;
+    m_tNotAfter = 0;
     m_nKeyNum = -1;
     m_nUserNum = -1;
     m_strCert = "";
@@ -30,6 +32,16 @@ void CertRec::setNum( int nNum )
 void CertRec::setRegTime(time_t tRegTime)
 {
     m_tRegTime = tRegTime;
+}
+
+void CertRec::setNotBefore( time_t tNotBefore )
+{
+    m_tNotBefore = tNotBefore;
+}
+
+void CertRec::setNotAfter( time_t tNotAfter )
+{
+    m_tNotAfter = tNotAfter;
 }
 
 void CertRec::setKeyNum( int nKeyNum )

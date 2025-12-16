@@ -89,12 +89,6 @@ public:
     void createTableMenu();
     void createMemberDlg();
 
-/*
-    void clickTreeMenu( int nType, int nNum = -1 );
-    void clickRootTreeMenu( int nType, int nNum = -1 );
-    void createTreeMenu();
-    void expandItem( ManTreeItem *item );
-*/
     void createRightList( int nType, int nNum );
     void createRightKeyPairList();
     void createRightRequestList();

@@ -363,6 +363,8 @@ void RenewCertDlg::accept()
     madeCertRec.setNum( nRenewCertNum );
 
     madeCertRec.setRegTime( now_t );
+    madeCertRec.setNotBefore( notBefore );
+    madeCertRec.setNotAfter( notAfter );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( cert.getKeyNum() );
     madeCertRec.setCA( cert.isCA() );

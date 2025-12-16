@@ -14,6 +14,8 @@ class CertRec
 private:
     int         m_nNum;
     time_t      m_tRegTime;
+    time_t      m_tNotBefore;
+    time_t      m_tNotAfter;
     int         m_nKeyNum;
     int         m_nUserNum;
     QString     m_strSignAlg;
@@ -33,6 +35,8 @@ public:
 
     int getNum() { return m_nNum; };
     time_t getRegTime() { return m_tRegTime; };
+    time_t getNotBefore() { return m_tNotBefore; };
+    time_t getNotAfter() { return m_tNotAfter; };
     int getKeyNum() { return m_nKeyNum; };
     int getUserNum() { return m_nUserNum; };
     QString getSignAlg() { return m_strSignAlg; };
@@ -49,6 +53,8 @@ public:
 
     void setNum( int nNum );
     void setRegTime( time_t tRegTime );
+    void setNotBefore( time_t tNotBefore );
+    void setNotAfter( time_t tNotAfter );
     void setKeyNum( int nKeyNum );
     void setUserNum( int nUserNum );
     void setSignAlg( QString strSignAlg );

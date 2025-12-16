@@ -220,6 +220,7 @@ void ManTreeModel::createTreeMenu()
 void ManTreeModel::expandItem( ManTreeItem *item )
 {
     int nIssuerNum = item->getDataNum();
+    time_t now_t = time(NULL);
 
     QList<CertRec> certList;
     manApplet->dbMgr()->getCACertList( nIssuerNum, certList );
@@ -232,10 +233,17 @@ void ManTreeModel::expandItem( ManTreeItem *item )
         pCAItem->setType( CM_ITEM_TYPE_CA );
         pCAItem->setDataNum( certRec.getNum() );
 
-        if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
-            pCAItem->setIcon( QIcon(":/images/ca_revoked.png") );
+        if( now_t > certRec.getNotAfter() )
+        {
+            pCAItem->setIcon( QIcon(":/images/ca_expired.png" ));
+        }
         else
-            pCAItem->setIcon( QIcon(":/images/ca.png"));
+        {
+            if( certRec.getStatus() == JS_CERT_STATUS_REVOKE )
+                pCAItem->setIcon( QIcon(":/images/ca_revoked.png") );
+            else
+                pCAItem->setIcon( QIcon(":/images/ca.png"));
+        }
 
         item->appendRow( pCAItem );
 

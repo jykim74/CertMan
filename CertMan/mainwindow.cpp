@@ -4910,7 +4910,7 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
     int nLimit = manApplet->settingsMgr()->listCount();;
     int nPage = search_form_->curPage();
     int nOffset = nPage * nLimit;
-
+    time_t now_t = time(NULL);
 
 
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("Algorithm"), tr("SubjectDN") };
@@ -4975,23 +4975,40 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
 
         if( nIssuerNum == kImportNum )
         {
-            seq->setIcon( QIcon(":/images/im_cert.png"));
+            if( cert.getNotAfter() < now_t )
+                seq->setIcon( QIcon(":/images/im_cert_expired.png" ));
+            else
+                seq->setIcon( QIcon(":/images/im_cert.png"));
         }
         else
         {
             if( cert.isCA() )
             {
-                if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                    seq->setIcon(QIcon(":/images/ca_revoked.png"));
+                if( cert.getNotAfter() < now_t )
+                {
+                    seq->setIcon( QIcon(":/images/ca_expired.png" ));
+                }
                 else
-                    seq->setIcon(QIcon(":/images/ca.png"));
+                {
+                    if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                        seq->setIcon(QIcon(":/images/ca_revoked.png"));
+                    else
+                        seq->setIcon(QIcon(":/images/ca.png"));
+                }
             }
             else
             {
-                if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
-                    seq->setIcon(QIcon(":/images/cert_revoked.png"));
+                if( cert.getNotAfter() < now_t )
+                {
+                    seq->setIcon(QIcon(":/images/cert_expired.png" ));
+                }
                 else
-                    seq->setIcon(QIcon(":/images/cert.png"));
+                {
+                    if( cert.getStatus() == JS_CERT_STATUS_REVOKE )
+                        seq->setIcon(QIcon(":/images/cert_revoked.png"));
+                    else
+                        seq->setIcon(QIcon(":/images/cert.png"));
+                }
             }
         }
 
@@ -5031,6 +5048,8 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     QStringList headerList = { tr("Num"), tr("RegTime"), tr("ThisUpdate"), tr("SignAlg"), tr("CRLDP") };
     QList<CRLRec> crlList;
 
+    time_t now_t = time(NULL);
+
 
     if( strWord.length() > 0 )
     {
@@ -5066,25 +5085,22 @@ void MainWindow::createRightCRLList( int nIssuerNum )
     {
         CRLRec crl = crlList.at(i);
         QString strIssuerName;
-/*
-        if( crl.getIssuerNum() >= 0 )
-            strIssuerName = manApplet->dbMgr()->getNumName( crl.getIssuerNum(), "TB_CERT", "SUBJECTDN" );
-        else if( crl.getIssuerNum() == kImportNum )
-            strIssuerName = "Import (None)";
-        else
-            strIssuerName = "None";
-*/
 
-//        QTableWidgetItem *item = new QTableWidgetItem( strIssuerName );
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( crl.getNum() ));
 
         if( nIssuerNum == kImportNum )
         {
-            seq->setIcon( QIcon(":/images/im_crl.png"));
+            if( crl.getNextUpdate() < now_t )
+                seq->setIcon( QIcon(":/images/im_crl_expired.png" ));
+            else
+                seq->setIcon( QIcon(":/images/im_crl.png"));
         }
         else
         {
-            seq->setIcon(QIcon(":/images/crl.png"));
+            if( crl.getNextUpdate() < now_t )
+                seq->setIcon(QIcon(":/images/crl_expired.png" ));
+            else
+                seq->setIcon(QIcon(":/images/crl.png"));
         }
 
         right_table_->insertRow(i);
@@ -5679,6 +5695,8 @@ void MainWindow::infoCertificate( int seq )
     if( manApplet->dbMgr() == NULL ) return;
 
     char    sRegDate[64];
+    char    sNotBefore[64];
+    char    sNotAfter[64];
 
     CertRec certRec;
     manApplet->dbMgr()->getCertRec( seq, certRec );
@@ -5711,13 +5729,18 @@ void MainWindow::infoCertificate( int seq )
     else
         strUserName = "Unknown";
 
+    JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
+    JS_UTIL_getDateTime( certRec.getNotBefore(), sNotBefore );
+    JS_UTIL_getDateTime( certRec.getNotAfter(), sNotAfter );
+
     manApplet->mainWindow()->infoClear();
     infoLine();
     info( "== Certificate Information\n" );
     infoLine();
     info( QString("Num           : %1\n").arg(certRec.getNum()));
-    JS_UTIL_getDateTime( certRec.getRegTime(), sRegDate );
     info( QString("RegDate       : %1\n").arg(sRegDate));
+    info( QString("NotBefore     : %1\n").arg(sNotBefore));
+    info( QString("NotAfter      : %1\n").arg(sNotAfter));
     info( QString("KeyNum        : %1 = %2\n").arg( strKeyName, nFieldWidth ).arg(certRec.getKeyNum()));
 
     if( manApplet->isPRO() )
