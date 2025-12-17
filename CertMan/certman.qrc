@@ -9,7 +9,6 @@
         <file>images/new.png</file>
         <file>images/open.png</file>
         <file>images/paste.png</file>
-        <file>images/penguin_960_720.png</file>
         <file>images/save.png</file>
         <file>images/trash.png</file>
         <file>i18n/certman_ko_KR.ts</file>
@@ -98,5 +97,6 @@
         <file>images/rca.png</file>
         <file>images/rca_expired.png</file>
         <file>images/sub_ca.png</file>
+        <file>images/caman.png</file>
     </qresource>
 </RCC>

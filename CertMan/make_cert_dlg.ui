@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>607</height>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,7 +88,7 @@
    <item>
     <widget class="QGroupBox" name="mReqGroup">
      <property name="title">
-      <string>Request</string>
+      <string>Select CSR for certificate issuance</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="spacing">
@@ -347,6 +347,13 @@
     <widget class="Line" name="line_5">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Select a certificate profile</string>
      </property>
     </widget>
    </item>
@@ -693,7 +700,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Issuer Certificate Information</string>
+      <string>Select a CA certificate for certificate issuance</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">

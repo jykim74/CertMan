@@ -431,7 +431,7 @@ void MainWindow::createToolsActions()
     toolsMenu->addAction( revoke_cert_act_ );
     if( isView( ACT_TOOL_REVOKE_CERT ) ) tool_tool_->addAction( revoke_cert_act_ );
 
-    const QIcon caIcon = QIcon::fromTheme("CA Manager", QIcon(":/images/ca.png"));
+    const QIcon caIcon = QIcon::fromTheme("CA Manager", QIcon(":/images/caman.png"));
     ca_man_act_ = new QAction( caIcon, tr("CA &Manager"), this );
     ca_man_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F11 ));
     ca_man_act_->setStatusTip( tr("CA Manager" ));
@@ -4976,8 +4976,6 @@ void MainWindow::createRightCertList( int nIssuerNum, bool bIsCA )
         CertRec cert = certList.at(i);
 
         QTableWidgetItem *item = new QTableWidgetItem( cert.getSubjectDN() );
-        if( cert.isSelf() ) item->setIcon( QIcon( ":/images/self.png" ) );
-
         QTableWidgetItem *seq = new QTableWidgetItem( QString("%1").arg( cert.getNum() ));
         seq->setIcon( cert.getIcon( now_t ));
 

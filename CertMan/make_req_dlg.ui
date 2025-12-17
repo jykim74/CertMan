@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>701</height>
+    <height>557</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,7 +150,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Key information</string>
+        <string>Select the key pair used in the CSR</string>
        </property>
       </widget>
      </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>522</height>
+    <height>411</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -78,7 +78,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Account information</string>
+      <string>LDAP Account information</string>
      </property>
     </widget>
    </item>
@@ -210,13 +210,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Data information</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QGridLayout" name="gridLayout_4">
      <property name="topMargin">
       <number>0</number>
@@ -240,7 +233,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Type</string>
+        <string>Data Type</string>
        </property>
       </widget>
      </item>
