@@ -150,12 +150,12 @@ void ManTreeModel::createTreeMenu()
     }
 
 
-    ManTreeItem *pCertProfileItem = new ManTreeItem( QString(tr("CertProfile") ) );
+    ManTreeItem *pCertProfileItem = new ManTreeItem( QString(tr("Certificate Profile") ) );
     pCertProfileItem->setIcon(QIcon(":/images/cert_profile.png"));
     pCertProfileItem->setType( CM_ITEM_TYPE_CERT_PROFILE );
     pTopItem->appendRow( pCertProfileItem );
 
-    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString( tr("CRLProfile") ) );
+    ManTreeItem *pCRLProfileItem = new ManTreeItem( QString( tr("CRL Profile") ) );
     pCRLProfileItem->setIcon(QIcon(":/images/crl_profile.png"));
     pCRLProfileItem->setType( CM_ITEM_TYPE_CRL_PROFILE );
     pTopItem->appendRow( pCRLProfileItem );
@@ -168,12 +168,12 @@ void ManTreeModel::createTreeMenu()
     expandItem( pRootCAItem );
     root_ca_ = pRootCAItem;
 
-    ManTreeItem *pImportCertItem = new ManTreeItem( QString( tr("Import Cert") ) );
+    ManTreeItem *pImportCertItem = new ManTreeItem( QString( tr("Imported Certificate") ) );
     pImportCertItem->setIcon(QIcon(":/images/im_cert.png"));
     pImportCertItem->setType( CM_ITEM_TYPE_IMPORT_CERT );
     pTopItem->appendRow( pImportCertItem );
 
-    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( tr("Import CRL") ) );
+    ManTreeItem *pImportCRLItem = new ManTreeItem( QString( tr("Imported CRL") ) );
     pImportCRLItem->setIcon(QIcon(":/images/im_crl.png"));
     pImportCRLItem->setType( CM_ITEM_TYPE_IMPORT_CRL );
     pTopItem->appendRow( pImportCRLItem );
@@ -248,7 +248,7 @@ void ManTreeModel::expandItem( ManTreeItem *item )
         pCRLItem->setIcon(QIcon(":/images/crl.png"));
         pCAItem->appendRow( pCRLItem );
 
-        ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoke")));
+        ManTreeItem *pRevokeItem = new ManTreeItem( QString(tr("Revoked List")));
         pRevokeItem->setType( CM_ITEM_TYPE_REVOKE );
         pRevokeItem->setDataNum( certRec.getNum() );
         pRevokeItem->setIcon(QIcon(":/images/revoke.png"));
@@ -257,7 +257,7 @@ void ManTreeModel::expandItem( ManTreeItem *item )
         int nCACount = manApplet->dbMgr()->getCACount( certRec.getNum() );
         if( nCACount > 0 )
         {
-            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("Sub CA[%1]").arg( nCACount )));
+            ManTreeItem *pSubCAItem = new ManTreeItem( QString(tr("SubCA[%1]").arg( nCACount )));
             pSubCAItem->setType( CM_ITEM_TYPE_SUBCA );
             pSubCAItem->setIcon(QIcon(":/images/sub_ca.png"));
             pSubCAItem->setDataNum( certRec.getNum() );

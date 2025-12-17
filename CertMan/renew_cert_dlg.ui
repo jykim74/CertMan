@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>448</width>
+    <width>450</width>
     <height>359</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Certficate Renewal Information</string>
+      <string>Renew Certificate</string>
      </property>
     </widget>
    </item>

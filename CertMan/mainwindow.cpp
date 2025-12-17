@@ -790,7 +790,6 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Delete KeyPair"), this, &MainWindow::deleteKeyPair);
         menu.addAction(tr("View PrivateKey"), this, &MainWindow::viewPriKey );
         menu.addAction(tr("View PublicKey"), this, &MainWindow::viewPubKey );
-        menu.addAction(tr("New Key"), this, &MainWindow::newKey );
 
         int nStatus = item->data(Qt::UserRole).toInt();
 
@@ -803,7 +802,6 @@ void MainWindow::showRightMenu(QPoint point)
         menu.addAction(tr("Delete Request"), this, &MainWindow::deleteRequest );
         menu.addAction(tr("Import CSR"), this, &MainWindow::importCSR );
         menu.addAction(tr("View CSR"), this, &MainWindow::viewCSR );
-        menu.addAction(tr("Make Request"), this, &MainWindow::makeRequest );
 
         int nStatus = item->data(Qt::UserRole).toInt();
         if( nStatus == JS_REC_STATUS_NOT_USED )

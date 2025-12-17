@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label_10">
      <property name="text">
-      <string>Make CSR Information</string>
+      <string>Make Certificate Signing Request</string>
      </property>
     </widget>
    </item>

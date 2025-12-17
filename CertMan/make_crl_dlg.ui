@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Issuer information</string>
+      <string>Make Certificate Revocation List</string>
      </property>
     </widget>
    </item>
