@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>426</height>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -271,24 +271,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_9">
-     <property name="text">
-      <string>Select a CRL profile</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QGridLayout" name="gridLayout_5">
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>CRL policy</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <widget class="QCheckBox" name="mProfileSetDefaultCheck">
        <property name="text">
@@ -308,6 +294,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Select a CRL profile</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
