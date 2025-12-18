@@ -15,11 +15,44 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QLabel" name="label_10">
-     <property name="text">
-      <string>Make Certificate Signing Request</string>
+    <layout class="QGridLayout" name="gridLayout_11">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Make Certificate Signing Request</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>16</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+       <property name="icon">
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/csr.png</normaloff>:/images/csr.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line_4">
@@ -934,7 +967,9 @@
   <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mHashCombo</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

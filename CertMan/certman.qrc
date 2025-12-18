@@ -98,5 +98,8 @@
         <file>images/rca_expired.png</file>
         <file>images/sub_ca.png</file>
         <file>images/caman.png</file>
+        <file>images/export.png</file>
+        <file>images/import.png</file>
+        <file>images/pin.png</file>
     </qresource>
 </RCC>

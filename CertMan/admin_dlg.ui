@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>283</height>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,44 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Admin Information</string>
+    <layout class="QGridLayout" name="gridLayout_5">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Admin Information</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>16</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/admin.png</normaloff>:/images/admin.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line_2">
@@ -286,6 +319,8 @@
   <tabstop>mRegisterBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>

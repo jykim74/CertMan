@@ -19,21 +19,7 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>LDAP Host Information</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
-      <widget class="QCheckBox" name="mSetToDefaultCheck">
-       <property name="text">
-        <string>Set to default</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -45,6 +31,46 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mSetToDefaultCheck">
+       <property name="text">
+        <string>Set to default</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>LDAP Host Information</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>16</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/get_ldap.png</normaloff>:/images/get_ldap.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -328,7 +354,9 @@
   <tabstop>mAttributeCombo</tabstop>
   <tabstop>mPublishDNText</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

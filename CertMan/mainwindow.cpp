@@ -4269,8 +4269,8 @@ void MainWindow::bugIssueReport()
 
 void MainWindow::qnaDiscussion()
 {
-//    QString link = "https://github.com/jykim74/CertMan/discussions/new?category=q-a";
-    QString link = "https://groups.google.com/g/certman";
+    QString link = "https://github.com/jykim74/CertMan/discussions";
+//    QString link = "https://groups.google.com/g/certman";
     QDesktopServices::openUrl(QUrl(link));
 }
 
