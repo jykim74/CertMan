@@ -65,7 +65,7 @@
        </property>
        <property name="icon">
         <iconset resource="certman.qrc">
-         <normaloff>:/images/get_ldap.png</normaloff>:/images/get_ldap.png</iconset>
+         <normaloff>:/images/pub_ldap.png</normaloff>:/images/pub_ldap.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>

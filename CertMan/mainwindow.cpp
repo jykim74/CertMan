@@ -456,8 +456,8 @@ void MainWindow::createDataActions()
     data_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
     data_tool_->layout()->setSpacing(0);
 
-    const QIcon diskIcon = QIcon::fromTheme("disk", QIcon(":/images/disk.png"));
-    import_data_act_ = new QAction( diskIcon, tr("&Import data"), this );
+    const QIcon importIcon = QIcon::fromTheme("import", QIcon(":/images/import.png"));
+    import_data_act_ = new QAction( importIcon, tr("&Import data"), this );
     import_data_act_->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_I ));
     import_data_act_->setStatusTip( tr( "Import data" ));
     connect( import_data_act_, &QAction::triggered, this, &MainWindow::importData );
