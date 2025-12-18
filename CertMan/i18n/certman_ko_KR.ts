@@ -377,22 +377,27 @@
         <translation>CRL 정보</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.ui" line="149"/>
+        <location filename="../crl_info_dlg.ui" line="51"/>
+        <source>Certificate Revocation List</source>
+        <translation>인증서 폐기 목록</translation>
+    </message>
+    <message>
+        <location filename="../crl_info_dlg.ui" line="209"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.ui" line="169"/>
+        <location filename="../crl_info_dlg.ui" line="229"/>
         <source>Export</source>
         <translation>내보내기</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.ui" line="30"/>
+        <location filename="../crl_info_dlg.ui" line="90"/>
         <source>CRL</source>
         <translation>인증서 폐기 목록</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.ui" line="100"/>
+        <location filename="../crl_info_dlg.ui" line="160"/>
         <source>Revoke</source>
         <translation>폐기</translation>
     </message>
@@ -459,7 +464,7 @@
         <translation>서명</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.ui" line="142"/>
+        <location filename="../crl_info_dlg.ui" line="202"/>
         <source>VerifyCRL</source>
         <translation>CRL 검증</translation>
     </message>
@@ -599,37 +604,41 @@
         <translation>CSR 정보</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="68"/>
         <source>CSR</source>
-        <translation>CSR</translation>
+        <translation type="vanished">CSR</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="75"/>
+        <location filename="../csr_info_dlg.ui" line="25"/>
+        <source>Certificate Signing Request</source>
+        <translation>인증서 서명 요청</translation>
+    </message>
+    <message>
+        <location filename="../csr_info_dlg.ui" line="32"/>
         <source>KID</source>
         <translation>KID</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="104"/>
+        <location filename="../csr_info_dlg.ui" line="130"/>
         <source>Field List</source>
         <translation>필드 목록</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="134"/>
+        <location filename="../csr_info_dlg.ui" line="160"/>
         <source>Detail Value</source>
         <translation>상세 값</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="210"/>
+        <location filename="../csr_info_dlg.ui" line="236"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="230"/>
+        <location filename="../csr_info_dlg.ui" line="256"/>
         <source>Export</source>
         <translation>내보내기</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.ui" line="203"/>
+        <location filename="../csr_info_dlg.ui" line="229"/>
         <source>View PubKey</source>
         <translation>공개키 보기</translation>
     </message>
@@ -796,7 +805,7 @@
         <translation type="vanished">상세 값</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="371"/>
+        <location filename="../cert_info_dlg.ui" line="397"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -813,128 +822,128 @@
         <translation type="vanished">인증서 정보 가져오기에 실패</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="378"/>
+        <location filename="../cert_info_dlg.cpp" line="385"/>
         <source>Field</source>
         <translation>필드</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="378"/>
+        <location filename="../cert_info_dlg.cpp" line="385"/>
         <source>Value</source>
         <translation>값</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="68"/>
+        <location filename="../cert_info_dlg.ui" line="88"/>
         <source>Certificate</source>
         <translation>인증서</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="75"/>
+        <location filename="../cert_info_dlg.ui" line="68"/>
         <source>KID</source>
         <translation>KID</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="114"/>
+        <location filename="../cert_info_dlg.ui" line="140"/>
         <source>Information</source>
         <translation>정보</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="205"/>
+        <location filename="../cert_info_dlg.ui" line="231"/>
         <source>Field List</source>
         <translation>필드 목록</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="398"/>
+        <location filename="../cert_info_dlg.ui" line="424"/>
         <source>Export</source>
         <translation>내보내기</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="190"/>
+        <location filename="../cert_info_dlg.ui" line="216"/>
         <source>Detail Value</source>
         <translation>상세 값</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="228"/>
+        <location filename="../cert_info_dlg.ui" line="254"/>
         <source>Certificate Path</source>
         <translation>인증서 경로</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="291"/>
+        <location filename="../cert_info_dlg.ui" line="317"/>
         <source>Certificate Path Tree</source>
         <translation>인증서 경로 트리</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="319"/>
+        <location filename="../cert_info_dlg.ui" line="345"/>
         <source>Certificate Status</source>
         <translation>인증서 상태</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="312"/>
+        <location filename="../cert_info_dlg.ui" line="338"/>
         <source>Check</source>
         <translation>점검</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="391"/>
+        <location filename="../cert_info_dlg.ui" line="417"/>
         <source>View PubKey</source>
         <translation>공개키 보기</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="177"/>
+        <location filename="../cert_info_dlg.cpp" line="184"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="185"/>
+        <location filename="../cert_info_dlg.cpp" line="192"/>
         <source>Serial</source>
         <translation>일련번호</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="193"/>
+        <location filename="../cert_info_dlg.cpp" line="200"/>
         <source>NotBefore</source>
         <translation>유효기간(시작)</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="200"/>
+        <location filename="../cert_info_dlg.cpp" line="207"/>
         <source>NotAfter</source>
         <translation>유효기간(끝)</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="219"/>
+        <location filename="../cert_info_dlg.cpp" line="226"/>
         <source>SubjectName</source>
         <translation>주체자 이름</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="242"/>
-        <location filename="../cert_info_dlg.cpp" line="405"/>
+        <location filename="../cert_info_dlg.cpp" line="249"/>
+        <location filename="../cert_info_dlg.cpp" line="412"/>
         <source>PublicKey</source>
         <translation>공개키</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="208"/>
+        <location filename="../cert_info_dlg.cpp" line="215"/>
         <source>IssuerName</source>
         <translation>발급자 이름</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="258"/>
+        <location filename="../cert_info_dlg.cpp" line="265"/>
         <source>SigAlgorithm</source>
         <translation>서명 알고리즘</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="267"/>
+        <location filename="../cert_info_dlg.cpp" line="274"/>
         <source>Signature</source>
         <translation>서명</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="364"/>
+        <location filename="../cert_info_dlg.ui" line="390"/>
         <source>VerifyCert</source>
         <translation>인증서 검증</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.ui" line="357"/>
+        <location filename="../cert_info_dlg.ui" line="383"/>
         <source>PathValidation</source>
         <translation>경로 검증</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="311"/>
+        <location filename="../cert_info_dlg.cpp" line="318"/>
         <source>FingerPrint</source>
         <translation>지문</translation>
     </message>
@@ -1023,43 +1032,48 @@
         <translation>폐기 사유</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="144"/>
-        <location filename="../cert_info_dlg.cpp" line="509"/>
+        <location filename="../cert_info_dlg.cpp" line="145"/>
+        <location filename="../cert_info_dlg.cpp" line="516"/>
         <source>Select a certificate</source>
         <translation>인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="160"/>
+        <location filename="../cert_info_dlg.cpp" line="161"/>
         <source>fail to obtain certificate information [%1]</source>
         <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="379"/>
+        <location filename="../cert_info_dlg.cpp" line="170"/>
+        <source>Certificate [Expired]</source>
+        <translation>인증서 [만료됨]</translation>
+    </message>
+    <message>
+        <location filename="../cert_info_dlg.cpp" line="386"/>
         <source>All</source>
         <translation>전체</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="379"/>
+        <location filename="../cert_info_dlg.cpp" line="386"/>
         <source>Version1 Only</source>
         <translation>버전1 필드만</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="379"/>
+        <location filename="../cert_info_dlg.cpp" line="386"/>
         <source>Extension Only</source>
         <translation>확장 필드만</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="379"/>
+        <location filename="../cert_info_dlg.cpp" line="386"/>
         <source>Critical Extension Only</source>
         <translation>중요 확장 필드만</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="379"/>
+        <location filename="../cert_info_dlg.cpp" line="386"/>
         <source>Attribute Only</source>
         <translation>속성만</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="559"/>
+        <location filename="../cert_info_dlg.cpp" line="566"/>
         <source>Certificate verification was successful</source>
         <translation>인증서 검증에 성공하였습니다.</translation>
     </message>
