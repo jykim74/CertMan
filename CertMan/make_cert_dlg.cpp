@@ -95,6 +95,13 @@ void MakeCertDlg::showEvent(QShowEvent *event)
 void MakeCertDlg::initUI()
 {
     mReqNameText->setPlaceholderText( tr( "Select a CSR from CA Man" ) );
+    mReqNumText->setPlaceholderText( tr("Num" ));
+    mProfileNameText->setPlaceholderText( tr( "Profile Name" ));
+    mProfileNumText->setPlaceholderText( tr("Num" ));
+
+    mSubjectDNText->setPlaceholderText( tr( "Distinguished Name" ) );
+    mIssuerNameText->setPlaceholderText( tr("Issuer Name" ));
+    mIssuerNumText->setPlaceholderText( tr("Num") );
 }
 
 void MakeCertDlg::initialize()

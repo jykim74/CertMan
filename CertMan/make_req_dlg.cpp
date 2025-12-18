@@ -956,7 +956,15 @@ void MakeReqDlg::initUI()
     mKeyInfoTab->setTabEnabled( 1, false );
     checkExtension();
 
+    mNameText->setPlaceholderText( tr( "Request Name" ));
     mKeyNameText->setPlaceholderText( tr( "Select a keypair from CA Man" ));
+    mDNText->setPlaceholderText( tr( "Distinguished Name" ) );
+    mChallengePassText->setPlaceholderText( tr( "String value" ));
+    mUnstructuredNameText->setPlaceholderText( tr( "String value" ));
+    mKeyNumText->setPlaceholderText( tr("Num" ));
+
+    mNewKeyNameText->setPlaceholderText( tr( "KeyPair Name" ));
+
 
     QString strDefault = getDefault();
 

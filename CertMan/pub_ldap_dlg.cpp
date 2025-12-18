@@ -11,13 +11,19 @@
 #include "js_ldap.h"
 #include "js_pki_tools.h"
 #include "settings_mgr.h"
+#include "commons.h"
 
 static QStringList sTypeList = { "Certificate", "CRL" };
+
+const char *kPubLDAP = "PubLDAP";
 
 static QStringList sCertAttributeList = {
     "caCertificate", "signCertificate", "userCertificate"
 };
 
+const QString kHost = "Host";
+const QString kPort = "Port";
+const QString kBindDN = "BindDN";
 
 static QStringList sCRLAttributeList = {
     "certificateRevocationList", "authorityRevocationList"
@@ -32,6 +38,8 @@ PubLDAPDlg::PubLDAPDlg(QWidget *parent) :
 
     data_type_ = -1;
     data_num_ = -1;
+
+    connect( mTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -65,6 +73,8 @@ void PubLDAPDlg::accept()
     QString strBindDN = mBindDNText->text();
     QString strPasswd = mPasswordText->text();
     QString strPubDN = mPublishDNText->text();
+
+    QString strDefault;
 
     if( strHost.length() < 1 )
     {
@@ -113,6 +123,16 @@ void PubLDAPDlg::accept()
         return;
     }
 
+    if( mSetToDefaultCheck->isChecked() == true )
+    {
+        strDefault = QString ( "%1$%2#%3$%4#%5$%6" )
+                         .arg( kHost ).arg( strHost )
+                         .arg( kPort ).arg( strPort )
+                         .arg( kBindDN ).arg( strBindDN );
+    }
+
+    setDefault( strDefault );
+
     nType = JS_LDAP_getType( mAttributeCombo->currentText().toStdString().c_str() );
     pLD = JS_LDAP_init( mLDAPHostText->text().toStdString().c_str(), mLDAPPortText->text().toInt());
 
@@ -146,13 +166,51 @@ void PubLDAPDlg::initUI()
     QString strHost = manApplet->settingsMgr()->LDAPHost();
     QString strPort = QString("%1").arg( manApplet->settingsMgr()->LDAPPort() );
 
+    mLDAPHostText->setPlaceholderText( tr( "LDAP Server hostname or ipaddress" ) );
+    mLDAPPortText->setPlaceholderText( tr( "Num" ));
 
+    mBindDNText->setPlaceholderText( tr("Distinguished Name") );
+    mPublishDNText->setPlaceholderText( tr("Distinguished Name") );
+
+/*
     mLDAPHostText->setText( strHost );
     mLDAPPortText->setText( strPort );
     mBindDNText->setText( "cn=Manager,c=kr" );
-//    mPasswordText->setText( "secret" );
+*/
 
-    connect( mTypeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(dataTypeChanged(int)));
+    QString strDefault = getDefault();
+
+    if( strDefault.length() > 0 )
+    {
+        mSetToDefaultCheck->setChecked( true );
+        QStringList valList = strDefault.split( "#" );
+
+        for( int i = 0; i < valList.size(); i++ )
+        {
+            QString strPart = valList.at(i);
+            QString strName;
+            QString strValue;
+
+            QStringList nameVal = strPart.split( "$" );
+            if( nameVal.size() < 2 ) continue;
+
+            strName = nameVal.at(0);
+            strValue = nameVal.at(1);
+
+            if( strName == kHost )
+                mLDAPHostText->setText( strValue );
+            else if( strName == kPort )
+                mLDAPPortText->setText( strValue );
+            else if( strName == kBindDN )
+                mBindDNText->setText( strValue );
+        }
+    }
+
+    if( mLDAPHostText->text().length() < 1 )
+        mLDAPHostText->setText( "localhost" );
+
+    if( mLDAPPortText->text().length() < 1 )
+        mLDAPPortText->setText( "389" );
 }
 
 void PubLDAPDlg::initialize()
@@ -225,4 +283,24 @@ void PubLDAPDlg::dataTypeChanged(int index)
     else {
         mAttributeCombo->addItems( sCRLAttributeList );
     }
+}
+
+QString PubLDAPDlg::getDefault()
+{
+    QString strDefault;
+    QSettings set;
+
+    set.beginGroup( kEnvTempGroup );
+    strDefault = set.value( kPubLDAP ).toString();
+    set.endGroup();
+
+    return strDefault;
+}
+
+void PubLDAPDlg::setDefault( const QString& strDefault )
+{
+    QSettings set;
+    set.beginGroup( kEnvTempGroup );
+    set.setValue( kPubLDAP, strDefault );
+    set.endGroup();
 }

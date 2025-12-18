@@ -34,6 +34,9 @@ private slots:
     virtual void accept();
     void dataTypeChanged(int index);
 
+    QString getDefault();
+    void setDefault( const QString& strDefault );
+
 
 private:
     void initUI();

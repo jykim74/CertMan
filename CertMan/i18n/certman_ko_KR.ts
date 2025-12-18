@@ -4501,16 +4501,15 @@
         <translation type="vanished">정책 이름</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="288"/>
         <source>CRL policy</source>
-        <translation>CRL 정책</translation>
+        <translation type="vanished">CRL 정책</translation>
     </message>
     <message>
         <source>Name</source>
         <translation type="vanished">이름</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="444"/>
+        <location filename="../make_crl_dlg.ui" line="437"/>
         <source>Revoke list</source>
         <translation>폐기 목록</translation>
     </message>
@@ -4534,7 +4533,7 @@
     </message>
     <message>
         <location filename="../make_crl_dlg.ui" line="145"/>
-        <location filename="../make_crl_dlg.ui" line="387"/>
+        <location filename="../make_crl_dlg.ui" line="380"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -4549,22 +4548,22 @@
         <translation>CRL 발급을 위한 CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="276"/>
+        <location filename="../make_crl_dlg.ui" line="301"/>
         <source>Select a CRL profile</source>
         <translation>CRL 프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="295"/>
+        <location filename="../make_crl_dlg.ui" line="281"/>
         <source>Set to default</source>
         <translation>기본값 설정</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="428"/>
+        <location filename="../make_crl_dlg.ui" line="421"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="468"/>
+        <location filename="../make_crl_dlg.ui" line="461"/>
         <source>CRLDP</source>
         <translation>CRLDP</translation>
     </message>
@@ -4574,7 +4573,7 @@
         <translation>키 파라미터</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="487"/>
+        <location filename="../make_crl_dlg.ui" line="480"/>
         <source>Revoked List</source>
         <translation>폐기 목록</translation>
     </message>
@@ -4692,7 +4691,18 @@
         <translation>CA 관리에서 CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="579"/>
+        <location filename="../make_crl_dlg.cpp" line="489"/>
+        <location filename="../make_crl_dlg.cpp" line="491"/>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <location filename="../make_crl_dlg.cpp" line="490"/>
+        <source>Profile Name</source>
+        <translation>프로파일 이름</translation>
+    </message>
+    <message>
+        <location filename="../make_crl_dlg.cpp" line="582"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
@@ -4701,22 +4711,22 @@
         <translation type="vanished">CA 관리에서 키쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="509"/>
+        <location filename="../make_crl_dlg.cpp" line="512"/>
         <source>Select a profile from Profile Man</source>
         <translation>프로파일 관리에서 프로파일 선택</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="553"/>
+        <location filename="../make_crl_dlg.cpp" line="556"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.cpp" line="565"/>
+        <location filename="../make_crl_dlg.cpp" line="568"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_dlg.ui" line="380"/>
+        <location filename="../make_crl_dlg.ui" line="373"/>
         <source>Profile name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -5172,17 +5182,18 @@
         <translation type="vanished">정책 이름</translation>
     </message>
     <message>
+        <location filename="../make_cert_dlg.cpp" line="103"/>
         <source>Issuer Name</source>
-        <translation type="vanished">발급자 이름</translation>
+        <translation>발급자 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="674"/>
+        <location filename="../make_cert_dlg.ui" line="667"/>
         <source>SelfSign</source>
         <translation>자신 서명</translation>
     </message>
     <message>
         <location filename="../make_cert_dlg.ui" line="249"/>
-        <location filename="../make_cert_dlg.ui" line="896"/>
+        <location filename="../make_cert_dlg.ui" line="889"/>
         <source>Algorithm</source>
         <translation>알고리즘</translation>
     </message>
@@ -5197,8 +5208,8 @@
     </message>
     <message>
         <location filename="../make_cert_dlg.ui" line="216"/>
-        <location filename="../make_cert_dlg.ui" line="448"/>
-        <location filename="../make_cert_dlg.ui" line="782"/>
+        <location filename="../make_cert_dlg.ui" line="441"/>
+        <location filename="../make_cert_dlg.ui" line="775"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -5208,33 +5219,33 @@
         <translation>키 파라미터</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="356"/>
+        <location filename="../make_cert_dlg.ui" line="381"/>
         <source>Select a certificate profile</source>
         <translation>인증서 프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="368"/>
-        <location filename="../make_cert_dlg.ui" line="642"/>
+        <location filename="../make_cert_dlg.ui" line="374"/>
+        <location filename="../make_cert_dlg.ui" line="635"/>
         <source>Set to default</source>
         <translation>기본값 설정</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="508"/>
+        <location filename="../make_cert_dlg.ui" line="501"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="703"/>
+        <location filename="../make_cert_dlg.ui" line="696"/>
         <source>Select a CA certificate for certificate issuance</source>
         <translation>인증서 발급을 위한 CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="984"/>
+        <location filename="../make_cert_dlg.ui" line="977"/>
         <source>UserName</source>
         <translation>사용자 이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="541"/>
+        <location filename="../make_cert_dlg.ui" line="534"/>
         <source>SubjectDN</source>
         <translation>주체자 DN</translation>
     </message>
@@ -5243,7 +5254,7 @@
         <translation type="vanished">인증서 정책</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="1000"/>
+        <location filename="../make_cert_dlg.ui" line="993"/>
         <source>SSN</source>
         <translation>SSN</translation>
     </message>
@@ -5269,7 +5280,7 @@
         <translation type="vanished">발급자 알고리즘</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="1007"/>
+        <location filename="../make_cert_dlg.ui" line="1000"/>
         <source>Email</source>
         <translation>이메일</translation>
     </message>
@@ -5282,7 +5293,7 @@
         <translation type="vanished">인증서 정책이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="261"/>
+        <location filename="../make_cert_dlg.cpp" line="268"/>
         <source>Find a CSR file</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
@@ -5299,43 +5310,43 @@
         <translation type="vanished">유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="359"/>
+        <location filename="../make_cert_dlg.cpp" line="366"/>
         <source>CSR verification failed</source>
         <translation>CSR 검증 실패</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="382"/>
-        <location filename="../make_cert_dlg.cpp" line="885"/>
+        <location filename="../make_cert_dlg.cpp" line="389"/>
+        <location filename="../make_cert_dlg.cpp" line="892"/>
         <source>You cannot create a Self-Sign certificate using CSR</source>
         <translation>CSR파일 사용 셀프 사인 인증서를 만들 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="400"/>
+        <location filename="../make_cert_dlg.cpp" line="407"/>
         <source>The CA certificate has been revoked. continue?</source>
         <translation>CA 인증서가 폐기 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="447"/>
+        <location filename="../make_cert_dlg.cpp" line="454"/>
         <source>The hash(%1) in the profile is not SM3. Would you like to change to SM3?</source>
         <translation>프로파일 해쉬(%1)가 SM3아닙니다. 인증서 해쉬를 SM3로 변경 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="460"/>
+        <location filename="../make_cert_dlg.cpp" line="467"/>
         <source>SM3 hash cannot be used in profiles (%1:%2)</source>
         <translation>프로파일 SM3 해시는 사용 할 수 없습니다(%1:%2)</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="485"/>
+        <location filename="../make_cert_dlg.cpp" line="492"/>
         <source>CSR KeyAlg[%1] and SignKey Alg[%2] are different. Continue?</source>
         <translation>요청서 키 알고리즘[%1] 과 서명용 키 알고리즘[%2]가 다릅니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="608"/>
+        <location filename="../make_cert_dlg.cpp" line="615"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="620"/>
+        <location filename="../make_cert_dlg.cpp" line="627"/>
         <source>PKCS11 library was not loaded</source>
         <translation>PKCS11 라이브러리가 로드 되지 않았습니다</translation>
     </message>
@@ -5352,18 +5363,18 @@
         <translation type="vanished">인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="726"/>
+        <location filename="../make_cert_dlg.cpp" line="733"/>
         <source>Failed to save DB : %1</source>
         <translation>DB 저장 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="956"/>
+        <location filename="../make_cert_dlg.cpp" line="963"/>
         <source>Select CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="285"/>
-        <location filename="../make_cert_dlg.cpp" line="968"/>
+        <location filename="../make_cert_dlg.cpp" line="292"/>
+        <location filename="../make_cert_dlg.cpp" line="975"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -5373,63 +5384,80 @@
         <translation>CA 관리에서 CSR을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="134"/>
+        <location filename="../make_cert_dlg.cpp" line="98"/>
+        <location filename="../make_cert_dlg.cpp" line="100"/>
+        <location filename="../make_cert_dlg.cpp" line="104"/>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="99"/>
+        <source>Profile Name</source>
+        <translation>프로파일 이름</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="102"/>
+        <source>Distinguished Name</source>
+        <translation>고유 이름</translation>
+    </message>
+    <message>
+        <location filename="../make_cert_dlg.cpp" line="141"/>
         <source>Select a profile from Profile Man</source>
         <translation>프로파일 관리에서 프로파일 선택</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="135"/>
+        <location filename="../make_cert_dlg.cpp" line="142"/>
         <source>Select a certificate from CA Man</source>
         <translation>CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="273"/>
+        <location filename="../make_cert_dlg.cpp" line="280"/>
         <source>Select a CSR</source>
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="299"/>
+        <location filename="../make_cert_dlg.cpp" line="306"/>
         <source>Select a CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="324"/>
-        <location filename="../make_cert_dlg.cpp" line="351"/>
+        <location filename="../make_cert_dlg.cpp" line="331"/>
+        <location filename="../make_cert_dlg.cpp" line="358"/>
         <source>Invalid CSR file: %1</source>
         <translation>유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="414"/>
+        <location filename="../make_cert_dlg.cpp" line="421"/>
         <source>The CA certificate has been expired. continue?</source>
         <translation>CA 인증서가 만료 되었습니다. 계속 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="628"/>
+        <location filename="../make_cert_dlg.cpp" line="635"/>
         <source>Failed to fetch session: %1 </source>
         <translation>세션 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="679"/>
+        <location filename="../make_cert_dlg.cpp" line="686"/>
         <source>failed to make certificate: %1</source>
         <translation>인증서 만들기에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="687"/>
+        <location filename="../make_cert_dlg.cpp" line="694"/>
         <source>failed to get certificate information: %1</source>
         <translation>인증서 정보 가져오기 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="785"/>
+        <location filename="../make_cert_dlg.cpp" line="792"/>
         <source>Certificate has been created</source>
         <translation>인증서가 생성 되었습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="982"/>
+        <location filename="../make_cert_dlg.cpp" line="989"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.cpp" line="994"/>
+        <location filename="../make_cert_dlg.cpp" line="1001"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
@@ -5456,7 +5484,7 @@
         <translation>CSR 파일 사용</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="501"/>
+        <location filename="../make_cert_dlg.ui" line="494"/>
         <source>Profile name</source>
         <translation>프로파일 이름</translation>
     </message>
@@ -5485,17 +5513,16 @@
         <translation type="vanished">라이센스가 없을 경우 최대 인증서 개수(%1) 이상 인증서를 만들 수 없습니다.</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="958"/>
+        <location filename="../make_cert_dlg.ui" line="951"/>
         <source>User Information</source>
         <translation>사용자 정보</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="375"/>
         <source>Certificate Profile</source>
-        <translation>인증서 프로파일</translation>
+        <translation type="vanished">인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="635"/>
+        <location filename="../make_cert_dlg.ui" line="628"/>
         <source>Sign yourself with your own key.</source>
         <translation>자신의 키로 서명 하기</translation>
     </message>
@@ -5550,12 +5577,12 @@
         <translation>인증서 발급을 위한 CSR을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="741"/>
+        <location filename="../make_cert_dlg.ui" line="734"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="883"/>
+        <location filename="../make_cert_dlg.ui" line="876"/>
         <source>Param</source>
         <translation>파라미터</translation>
     </message>
@@ -5564,7 +5591,7 @@
         <translation type="vanished">유효하지 않은 요청서 입니다: %1</translation>
     </message>
     <message>
-        <location filename="../make_cert_dlg.ui" line="548"/>
+        <location filename="../make_cert_dlg.ui" line="541"/>
         <source>Make DN</source>
         <translation>DN 만들기</translation>
     </message>
@@ -6867,8 +6894,34 @@
     </message>
     <message>
         <location filename="../make_req_dlg.cpp" line="959"/>
+        <source>Request Name</source>
+        <translation>요청자 이름</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="960"/>
         <source>Select a keypair from CA Man</source>
         <translation>CA 관리에서 키쌍을 선택하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="961"/>
+        <source>Distinguished Name</source>
+        <translation>고유 이름</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="962"/>
+        <location filename="../make_req_dlg.cpp" line="963"/>
+        <source>String value</source>
+        <translation>문자열 값</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="964"/>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="966"/>
+        <source>KeyPair Name</source>
+        <translation>키 쌍 이름</translation>
     </message>
     <message>
         <source>Select a certificate from CA Man</source>
@@ -8172,12 +8225,12 @@
         <translation type="vanished">LDAP 서버</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="280"/>
+        <location filename="../pub_ldap_dlg.ui" line="293"/>
         <source>Publish DN</source>
         <translation>게시 DN</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="105"/>
+        <location filename="../pub_ldap_dlg.ui" line="118"/>
         <source>Bind DN</source>
         <translation>바인드 DN</translation>
     </message>
@@ -8187,12 +8240,16 @@
         <translation>LDAP 게시하기</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="81"/>
-        <source>LDAP Account information</source>
-        <translation>LDAP 계정 정보</translation>
+        <location filename="../pub_ldap_dlg.ui" line="32"/>
+        <source>Set to default</source>
+        <translation>기본값 설정</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="236"/>
+        <source>LDAP Account information</source>
+        <translation type="vanished">LDAP 계정 정보</translation>
+    </message>
+    <message>
+        <location filename="../pub_ldap_dlg.ui" line="249"/>
         <source>Data Type</source>
         <translation>데이타 타입</translation>
     </message>
@@ -8201,12 +8258,12 @@
         <translation type="vanished">타입</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="243"/>
+        <location filename="../pub_ldap_dlg.ui" line="256"/>
         <source>Attribute</source>
         <translation>속성</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="262"/>
+        <location filename="../pub_ldap_dlg.ui" line="275"/>
         <source>ex) CN=Test,OU=devel,O=company,C=kr</source>
         <translation>예) CN=Test,OU=devel,O=company,C=kr</translation>
     </message>
@@ -8215,7 +8272,7 @@
         <translation type="vanished">LDAP 포트</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="128"/>
+        <location filename="../pub_ldap_dlg.ui" line="141"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
@@ -8224,7 +8281,7 @@
         <translation type="vanished">데이타 정보</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="151"/>
+        <location filename="../pub_ldap_dlg.ui" line="164"/>
         <source>Source information</source>
         <translation>소스 정보</translation>
     </message>
@@ -8237,57 +8294,73 @@
         <translation type="vanished">서버 정보</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="71"/>
+        <location filename="../pub_ldap_dlg.cpp" line="81"/>
         <source>Enter a Host</source>
         <translation>호스트 명을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="80"/>
+        <location filename="../pub_ldap_dlg.cpp" line="90"/>
         <source>Enter a bind DN</source>
         <translation>바인드 DN 입력하세요</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="87"/>
+        <location filename="../pub_ldap_dlg.cpp" line="97"/>
         <source>Enter a password</source>
         <translation>암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="94"/>
+        <location filename="../pub_ldap_dlg.cpp" line="104"/>
         <source>Enter a publish DN</source>
         <translation>배포 할 DN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="122"/>
+        <location filename="../pub_ldap_dlg.cpp" line="142"/>
         <source>LDAP bind fail: %1</source>
         <translation>LDAP 바인딩 실패: %1</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="129"/>
+        <location filename="../pub_ldap_dlg.cpp" line="149"/>
         <source>LDAP Publish fail: %1</source>
         <translation>LDAP 배포 실패: %1</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="133"/>
+        <location filename="../pub_ldap_dlg.cpp" line="153"/>
         <source>publish to LDAP successfully</source>
         <translation>LDAP 배포에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="201"/>
+        <location filename="../pub_ldap_dlg.cpp" line="169"/>
+        <source>LDAP Server hostname or ipaddress</source>
+        <translation>LDAP 서버 호스트 명 또는 IP 주소</translation>
+    </message>
+    <message>
+        <location filename="../pub_ldap_dlg.cpp" line="170"/>
+        <source>Num</source>
+        <translation>번호</translation>
+    </message>
+    <message>
+        <location filename="../pub_ldap_dlg.cpp" line="172"/>
+        <location filename="../pub_ldap_dlg.cpp" line="173"/>
+        <source>Distinguished Name</source>
+        <translation>고유 이름</translation>
+    </message>
+    <message>
+        <location filename="../pub_ldap_dlg.cpp" line="259"/>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="48"/>
+        <location filename="../pub_ldap_dlg.ui" line="75"/>
         <source>Host</source>
         <translation>호스트</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="55"/>
+        <location filename="../pub_ldap_dlg.ui" line="82"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.ui" line="20"/>
+        <location filename="../pub_ldap_dlg.ui" line="25"/>
         <source>LDAP Host Information</source>
         <translation>LDAP 호스트 정보</translation>
     </message>

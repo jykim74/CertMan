@@ -486,6 +486,9 @@ void MakeCRLDlg::initUI()
     mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     mIssuerNameText->setPlaceholderText( tr( "Select a CA certificate from CA Man" ) );
+    mIssuerNumText->setPlaceholderText( tr("Num") );
+    mProfileNameText->setPlaceholderText( tr( "Profile Name" ));
+    mProfileNumText->setPlaceholderText( tr("Num") );
 }
 
 void MakeCRLDlg::initialize()
