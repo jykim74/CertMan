@@ -92,6 +92,7 @@ void PriKeyInfoDlg::setKeyNum( int key_num, bool bPri )
     if( dbMgr == NULL ) return;
     dbMgr->getKeyPairRec( key_num_, keyRec );
     QString strAlg = keyRec.getAlg();
+    QString strLabel;
 
     if( bPri == true )
     {
@@ -103,12 +104,20 @@ void PriKeyInfoDlg::setKeyNum( int key_num, bool bPri )
         {
             readPrivateKey( keyRec );
         }
+
+        strLabel = tr( "Private Key Information" );
+        mKeyBtn->setIcon( QIcon(":/images/pri_key.png" ));
     }
     else
     {
         mInsertToHSMBtn->hide();
         readPublicKey( keyRec );
+
+        strLabel = tr( "Public Key Information" );
+        mKeyBtn->setIcon( QIcon(":/images/pub_key.png" ));
     }
+
+    mTitleLabel->setText( strLabel );
 }
 
 void PriKeyInfoDlg::setPrivateKey( const BIN *pPriKey )
@@ -963,12 +972,14 @@ void PriKeyInfoDlg::setKey( const BIN *pKey, bool bPri )
         strLabel = tr( "Private Key Information" );
         JS_PKI_getPubKeyFromPriKey( pKey, &binPub );
         nKeyType = JS_PKI_getPriKeyType( pKey );
+        mKeyBtn->setIcon( QIcon(":/images/pri_key.png" ));
     }
     else
     {
         strLabel = tr( "Public Key Information" );
         JS_BIN_copy( &binPub, pKey );
         nKeyType = JS_PKI_getPubKeyType( pKey );
+        mKeyBtn->setIcon( QIcon(":/images/pub_key.png" ));
     }
 
     mTitleLabel->setText( strLabel );

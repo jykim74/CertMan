@@ -100,5 +100,7 @@
         <file>images/export.png</file>
         <file>images/import.png</file>
         <file>images/pin.png</file>
+        <file>images/pri_key.png</file>
+        <file>images/pub_key.png</file>
     </qresource>
 </RCC>

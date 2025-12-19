@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>523</width>
-    <height>546</height>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,7 +90,7 @@
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="mKeyBtn">
        <property name="minimumSize">
         <size>
          <width>16</width>
@@ -108,7 +108,7 @@
        </property>
        <property name="icon">
         <iconset resource="certman.qrc">
-         <normaloff>:/images/key_reg.png</normaloff>:/images/key_reg.png</iconset>
+         <normaloff>:/images/pri_key.png</normaloff>:/images/pri_key.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>

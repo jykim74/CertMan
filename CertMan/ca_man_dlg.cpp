@@ -318,6 +318,7 @@ void CAManDlg::loadCACertList()
     QList<CertRec> certList;
     QString strType = mCACertTypeCombo->currentText();
     time_t now_t = time(NULL);
+    int row = 0;
 
     mCACertTable->setRowCount(0);
 
@@ -326,17 +327,11 @@ void CAManDlg::loadCACertList()
     for( int i = 0; i < certList.size(); i++ )
     {
         CertRec cert = certList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
-        item->setData(Qt::UserRole, cert.getNum() );
-        item->setIcon( cert.getIcon( now_t ) );
-
-        QTableWidgetItem *item2 = new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN()));
 
         if( strType != "Any" )
         {
             BIN binCert = {0,0};
             int nKeyType = -1;
-
 
             JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
             nKeyType = JS_PKI_getCertKeyType( &binCert );
@@ -352,8 +347,7 @@ void CAManDlg::loadCACertList()
             }
             else if( strType == JS_PKI_KEY_NAME_SM2 )
             {
-                if( nKeyType != JS_PKI_KEY_TYPE_SM2 )
-                    continue;
+                if( nKeyType != JS_PKI_KEY_TYPE_SM2 ) continue;
             }
             else if( strType == JS_PKI_KEY_NAME_DSA )
             {
@@ -373,12 +367,19 @@ void CAManDlg::loadCACertList()
             }
         }
 
-        mCACertTable->insertRow(i);
-        mCACertTable->setRowHeight(i, 10);
-        mCACertTable->setItem( i, 0, item );
-        mCACertTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString(cert.getNotAfter()) )));
-        mCACertTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
-        mCACertTable->setItem( i, 3, item2 );
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( cert.getNum() ) );
+        item->setData(Qt::UserRole, cert.getNum() );
+        item->setIcon( cert.getIcon( now_t ) );
+
+        QTableWidgetItem *item2 = new QTableWidgetItem( QString("%1").arg( cert.getSubjectDN()));
+
+        mCACertTable->insertRow( row );
+        mCACertTable->setRowHeight( row, 10);
+        mCACertTable->setItem( row, 0, item );
+        mCACertTable->setItem( row, 1, new QTableWidgetItem( QString("%1").arg( dateString(cert.getNotAfter()) )));
+        mCACertTable->setItem( row, 2, new QTableWidgetItem( QString("%1").arg( cert.getSignAlg() )));
+        mCACertTable->setItem( row, 3, item2 );
+        row++;
     }
 }
 
@@ -391,19 +392,13 @@ void CAManDlg::loadKeyPairList()
 
     DBMgr *dbMgr = manApplet->dbMgr();
     int nStatus = mKeyPairStatusCombo->currentIndex();
+    int row = 0;
 
     int ret = dbMgr->getKeyPairList( nStatus, keyPairList );
 
     for( int i = 0; i < keyPairList.size(); i++ )
     {
         KeyPairRec keyPair = keyPairList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( keyPair.getNum() ) );
-        item->setData(Qt::UserRole, keyPair.getNum() );
-
-        if( isPKCS11Private( keyPair.getAlg() ))
-            item->setIcon( QIcon( ":/images/hsm.png" ));
-        else
-            item->setIcon( QIcon( ":/images/key_reg.png" ));
 
         if( strType != "Any" )
         {
@@ -444,13 +439,21 @@ void CAManDlg::loadKeyPairList()
             }
         }
 
+        QTableWidgetItem *item = new QTableWidgetItem( QString("%1").arg( keyPair.getNum() ) );
+        item->setData(Qt::UserRole, keyPair.getNum() );
 
-        mKeyPairTable->insertRow(i);
-        mKeyPairTable->setRowHeight(i,10);
-        mKeyPairTable->setItem( i, 0, item );
-        mKeyPairTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
-        mKeyPairTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
-        mKeyPairTable->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( keyPair.getName())) );
+        if( isPKCS11Private( keyPair.getAlg() ))
+            item->setIcon( QIcon( ":/images/hsm.png" ));
+        else
+            item->setIcon( QIcon( ":/images/key_reg.png" ));
+
+        mKeyPairTable->insertRow( row );
+        mKeyPairTable->setRowHeight( row, 10 );
+        mKeyPairTable->setItem( row, 0, item );
+        mKeyPairTable->setItem( row, 1, new QTableWidgetItem( QString("%1").arg( dateString( keyPair.getRegTime() ) )));
+        mKeyPairTable->setItem( row, 2, new QTableWidgetItem( QString("%1").arg( keyPair.getAlg() )));
+        mKeyPairTable->setItem( row, 3, new QTableWidgetItem( QString("%1").arg( keyPair.getName())) );
+        row++;
     }
 }
 
@@ -463,16 +466,13 @@ void CAManDlg::loadCSRList()
     QString strType = mCSRTypeCombo->currentText();
     DBMgr *dbMgr = manApplet->dbMgr();
     int nStatus = mCSRStatusCombo->currentIndex();
+    int row = 0;
 
     int ret = dbMgr->getReqList( nStatus, reqList );
 
     for( int i = 0; i < reqList.size(); i++ )
     {
         ReqRec req = reqList.at(i);
-        QTableWidgetItem *item = new QTableWidgetItem( QString( "%1").arg( req.getSeq() ) );
-        item->setData(Qt::UserRole, req.getSeq() );
-
-        item->setIcon( QIcon(":/images/csr.png" ));
 
         if( strType != "Any" )
         {
@@ -513,12 +513,17 @@ void CAManDlg::loadCSRList()
             }
         }
 
-        mCSRTable->insertRow(i);
-        mCSRTable->setRowHeight(i,10);
-        mCSRTable->setItem( i, 0, item );
-        mCSRTable->setItem( i, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
-        mCSRTable->setItem( i, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
-        mCSRTable->setItem( i, 3, new QTableWidgetItem( QString("%1").arg( req.getName())) );
+        QTableWidgetItem *item = new QTableWidgetItem( QString( "%1").arg( req.getSeq() ) );
+        item->setData(Qt::UserRole, req.getSeq() );
+        item->setIcon( QIcon(":/images/csr.png" ));
+
+        mCSRTable->insertRow( row );
+        mCSRTable->setRowHeight( row, 10 );
+        mCSRTable->setItem( row, 0, item );
+        mCSRTable->setItem( row, 1, new QTableWidgetItem( QString("%1").arg( dateString( req.getRegTime() ) )));
+        mCSRTable->setItem( row, 2, new QTableWidgetItem( QString("%1").arg( req.getDN() )));
+        mCSRTable->setItem( row, 3, new QTableWidgetItem( QString("%1").arg( req.getName())) );
+        row++;
     }
 }
 
