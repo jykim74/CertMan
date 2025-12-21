@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>424</height>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -83,16 +83,6 @@
           <number>0</number>
          </property>
          <item row="0" column="2">
-          <widget class="QComboBox" name="mCACertTypeCombo"/>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Certificate</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -104,6 +94,42 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="3">
+          <widget class="QComboBox" name="mCACertTypeCombo"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Certificate</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="minimumSize">
+            <size>
+             <width>16</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="certman.qrc">
+             <normaloff>:/images/ca.png</normaloff>:/images/ca.png</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -190,7 +216,7 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="0">
+         <item row="0" column="1">
           <widget class="QLabel" name="label_2">
            <property name="minimumSize">
             <size>
@@ -203,7 +229,10 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
+         <item row="0" column="4">
+          <widget class="QComboBox" name="mKeyPairTypeCombo"/>
+         </item>
+         <item row="0" column="3">
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -216,11 +245,34 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="3">
-          <widget class="QComboBox" name="mKeyPairTypeCombo"/>
-         </item>
-         <item row="0" column="1">
+         <item row="0" column="2">
           <widget class="QComboBox" name="mKeyPairStatusCombo"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="minimumSize">
+            <size>
+             <width>16</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16</width>
+             <height>16777207</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="certman.qrc">
+             <normaloff>:/images/key_reg.png</normaloff>:/images/key_reg.png</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -307,7 +359,7 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="0" column="2">
+         <item row="0" column="3">
           <spacer name="horizontalSpacer_4">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -320,7 +372,10 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="0">
+         <item row="0" column="4">
+          <widget class="QComboBox" name="mCSRTypeCombo"/>
+         </item>
+         <item row="0" column="1">
           <widget class="QLabel" name="label_3">
            <property name="minimumSize">
             <size>
@@ -333,11 +388,34 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QComboBox" name="mCSRTypeCombo"/>
-         </item>
-         <item row="0" column="1">
+         <item row="0" column="2">
           <widget class="QComboBox" name="mCSRStatusCombo"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="pushButton_4">
+           <property name="minimumSize">
+            <size>
+             <width>16</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="certman.qrc">
+             <normaloff>:/images/csr.png</normaloff>:/images/csr.png</iconset>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
