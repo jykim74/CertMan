@@ -175,6 +175,7 @@ void CRLInfoDlg::initialize()
 
     char    sThisUpdate[64];
     char    sNextUpdate[64];
+    time_t now_t = time(NULL);
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
@@ -205,6 +206,12 @@ void CRLInfoDlg::initialize()
         JS_BIN_reset( &binCRL );
         close();
         return;
+    }
+
+    if( now_t > crl_info_.tNextUpdate )
+    {
+        mCRLBtn->setIcon( QIcon( ":/images/crl_expired.png" ));
+        mHeadLabel->setText( tr( "Ceritificat Revocation List [Expired]" ));
     }
 
     JS_PKI_genHash( "SHA1", &binCRL, &binFinger );
