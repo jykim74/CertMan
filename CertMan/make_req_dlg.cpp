@@ -930,6 +930,7 @@ void MakeReqDlg::checkExtension()
 {
     bool bVal = mUseExtensionCheck->isChecked();
 
+    mCSRBtn->setEnabled( bVal );
     mProfileNameText->setEnabled( bVal );
     mProfileNumText->setEnabled( bVal );
     mProfileNameLabel->setEnabled( bVal );

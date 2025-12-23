@@ -102,5 +102,7 @@
         <file>images/pin.png</file>
         <file>images/pri_key.png</file>
         <file>images/pub_key.png</file>
+        <file>images/log_en.png</file>
+        <file>images/passwd.png</file>
     </qresource>
 </RCC>

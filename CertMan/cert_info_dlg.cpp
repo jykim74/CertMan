@@ -339,6 +339,7 @@ void CertInfoDlg::pathInit()
     dbMgr->getCertRec( cert_num_, cert );
     cert_list_.push_front( cert );
 
+    time_t now_t = time(NULL);
     int nIssueNum = cert.getIssuerNum();
 
     while ( nIssueNum > 0 )
@@ -365,12 +366,20 @@ void CertInfoDlg::pathInit()
 
         if( i == 0 )
         {
-            item->setIcon( 0, QIcon(":/images/root_cert.png"));
+            if( now_t > cert.getNotAfter() )
+                item->setIcon( 0, QIcon(":/images/rca_expired.png" ));
+            else
+                item->setIcon( 0, QIcon(":/images/rca.png"));
+
             mCertPathTree->insertTopLevelItem(0, item );
         }
         else
         {
-            item->setIcon( 0, QIcon(":/images/cert.png"));
+            if( now_t > cert.getNotAfter() )
+                item->setIcon( 0, QIcon(":/images/cert_expired.png" ));
+            else
+                item->setIcon( 0, QIcon(":/images/cert.png"));
+
             pPrevItem->addChild( item );
         }
 
