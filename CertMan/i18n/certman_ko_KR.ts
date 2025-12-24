@@ -3086,6 +3086,11 @@
         <translation>로그 지우기</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="609"/>
+        <source>&amp;Log</source>
+        <translation>로그(&amp;L)</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="612"/>
         <source>Halt log</source>
         <translation>로그 중지</translation>
@@ -4503,9 +4508,8 @@
         <translation>패스워드 변경에 성공 하였습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="609"/>
         <source>&amp;Log Halt</source>
-        <translation>로그 중지(&amp;L)</translation>
+        <translation type="vanished">로그 중지(&amp;L)</translation>
     </message>
     <message>
         <source>Log Halt</source>
@@ -4925,12 +4929,12 @@
         <translation>서명 해쉬</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="716"/>
+        <location filename="../make_crl_profile_dlg.ui" line="745"/>
         <source>OK</source>
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="723"/>
+        <location filename="../make_crl_profile_dlg.ui" line="752"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
@@ -4940,12 +4944,12 @@
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="128"/>
+        <location filename="../make_crl_profile_dlg.ui" line="140"/>
         <source>CRL Period</source>
         <translation>CRL 기간</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="173"/>
+        <location filename="../make_crl_profile_dlg.ui" line="170"/>
         <source>Use From Now</source>
         <translation>지금 시간 사용</translation>
     </message>
@@ -4954,12 +4958,12 @@
         <translation type="vanished">일</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="137"/>
+        <location filename="../make_crl_profile_dlg.ui" line="163"/>
         <source>Valid Period</source>
         <translation>유효 기간</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="203"/>
+        <location filename="../make_crl_profile_dlg.ui" line="236"/>
         <source>Next Update</source>
         <translation>다음 갱신</translation>
     </message>
@@ -4968,21 +4972,21 @@
         <translation type="vanished">마지막 갱신</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="347"/>
+        <location filename="../make_crl_profile_dlg.ui" line="376"/>
         <source>Extend</source>
         <translation>확장</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="359"/>
+        <location filename="../make_crl_profile_dlg.ui" line="388"/>
         <source>CRL number</source>
         <translation>CRL 번호</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="265"/>
-        <location filename="../make_crl_profile_dlg.ui" line="399"/>
-        <location filename="../make_crl_profile_dlg.ui" line="480"/>
-        <location filename="../make_crl_profile_dlg.ui" line="558"/>
-        <location filename="../make_crl_profile_dlg.ui" line="662"/>
+        <location filename="../make_crl_profile_dlg.ui" line="294"/>
+        <location filename="../make_crl_profile_dlg.ui" line="428"/>
+        <location filename="../make_crl_profile_dlg.ui" line="509"/>
+        <location filename="../make_crl_profile_dlg.ui" line="587"/>
+        <location filename="../make_crl_profile_dlg.ui" line="691"/>
         <source>Critical</source>
         <translation>필수</translation>
     </message>
@@ -4999,41 +5003,41 @@
         <translation type="vanished">자동 번호</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="447"/>
+        <location filename="../make_crl_profile_dlg.ui" line="476"/>
         <source>Authority Key Identifier</source>
         <translation>기관키 식별자</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="487"/>
+        <location filename="../make_crl_profile_dlg.ui" line="516"/>
         <source>Ceritificate Issuer</source>
         <translation>인증서 발급자</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="473"/>
+        <location filename="../make_crl_profile_dlg.ui" line="502"/>
         <source>Certificate Serial</source>
         <translation>인증서 시리얼</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="525"/>
+        <location filename="../make_crl_profile_dlg.ui" line="554"/>
         <source>Issuing Distribution Point</source>
         <translation>발급 배포 지점</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="272"/>
-        <location filename="../make_crl_profile_dlg.ui" line="568"/>
-        <location filename="../make_crl_profile_dlg.ui" line="645"/>
+        <location filename="../make_crl_profile_dlg.ui" line="301"/>
+        <location filename="../make_crl_profile_dlg.ui" line="597"/>
+        <location filename="../make_crl_profile_dlg.ui" line="674"/>
         <source>Clear</source>
         <translation>지우기</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="258"/>
-        <location filename="../make_crl_profile_dlg.ui" line="551"/>
-        <location filename="../make_crl_profile_dlg.ui" line="652"/>
+        <location filename="../make_crl_profile_dlg.ui" line="287"/>
+        <location filename="../make_crl_profile_dlg.ui" line="580"/>
+        <location filename="../make_crl_profile_dlg.ui" line="681"/>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="619"/>
+        <location filename="../make_crl_profile_dlg.ui" line="648"/>
         <source>Issuer Alternative Name</source>
         <translation>발급자 대체 이름</translation>
     </message>
@@ -5134,7 +5138,7 @@
         <translation>OID 와 값 둘다 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="235"/>
+        <location filename="../make_crl_profile_dlg.ui" line="264"/>
         <source>Extensions</source>
         <translation>확장 필드</translation>
     </message>
@@ -5143,13 +5147,13 @@
         <translation type="vanished">확장 필드 사용</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="305"/>
+        <location filename="../make_crl_profile_dlg.ui" line="334"/>
         <location filename="../make_crl_profile_dlg.cpp" line="418"/>
         <source>OID</source>
         <translation>OID</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="156"/>
+        <location filename="../make_crl_profile_dlg.ui" line="189"/>
         <source>days</source>
         <translation>일</translation>
     </message>
@@ -5174,7 +5178,7 @@
         <translation type="vanished">OID 와 값 둘다 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="210"/>
+        <location filename="../make_crl_profile_dlg.ui" line="229"/>
         <source>This Update</source>
         <translation>이번 업데이트</translation>
     </message>
@@ -5183,12 +5187,12 @@
         <translation type="vanished">%1 이 이미 추가 되었습니다.</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="392"/>
+        <location filename="../make_crl_profile_dlg.ui" line="421"/>
         <source>FixedNumer</source>
         <translation>고정된 번호</translation>
     </message>
     <message>
-        <location filename="../make_crl_profile_dlg.ui" line="385"/>
+        <location filename="../make_crl_profile_dlg.ui" line="414"/>
         <source>Auto ( Use Sequence )</source>
         <translation>자동 할당(시퀀스 사용)</translation>
     </message>
