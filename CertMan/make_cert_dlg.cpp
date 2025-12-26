@@ -96,10 +96,13 @@ void MakeCertDlg::initUI()
 {
     mReqNameText->setPlaceholderText( tr( "Select a CSR from CA Man" ) );
     mReqNumText->setPlaceholderText( tr("Num" ));
+    mReqKeyDescText->setPlaceholderText( tr( "Key pair description" ));
+
     mProfileNameText->setPlaceholderText( tr( "Profile Name" ));
     mProfileNumText->setPlaceholderText( tr("Num" ));
 
     mSubjectDNText->setPlaceholderText( tr( "Distinguished Name" ) );
+    mIssuerKeyDescText->setPlaceholderText( tr( "Key pair description" ));
     mIssuerNameText->setPlaceholderText( tr("Issuer Name" ));
     mIssuerNumText->setPlaceholderText( tr("Num") );
 }
@@ -834,9 +837,7 @@ void MakeCertDlg::reqNumChanged()
     KeyPairRec keyPair;
     dbMgr->getKeyPairRec( reqRec.getKeyNum(), keyPair );
 
-    mAlgorithmText->setText( keyPair.getAlg() );
-    mReqParamLabel->setText( getParamLabel( keyPair.getAlg()));
-    mOptionText->setText( keyPair.getParam() );
+    mReqKeyDescText->setText( keyPair.getDesc() );
 }
 
 void MakeCertDlg::issuerNumChanged()
@@ -860,9 +861,7 @@ void MakeCertDlg::issuerNumChanged()
 
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
-    mIssuerParamLabel->setText( getParamLabel( keyPair.getAlg()));
-    mIssuerAlgorithmText->setText( keyPair.getAlg() );
-    mIssuerOptionText->setText( keyPair.getParam() );
+    mIssuerKeyDescText->setText( keyPair.getDesc() );
 }
 
 void MakeCertDlg::profileNumChanged()

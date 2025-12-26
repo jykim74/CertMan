@@ -460,8 +460,8 @@ void MakeReqDlg::accept()
 
         int keyIdx = strKeyNum.toInt();
         manApplet->dbMgr()->getKeyPairRec( keyIdx, keyRec );
-        strAlg = mAlgorithmText->text();
-        strParam = mOptionText->text();
+        strAlg = keyRec.getAlg();
+        strParam = keyRec.getParam();
     }
 
     JS_BIN_decodeHex( keyRec.getPublicKey().toStdString().c_str(), &binPubKey );
@@ -501,8 +501,6 @@ void MakeReqDlg::accept()
             JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
         }
     }
-
- //   nAlg = getKeyType( strAlg, strParam );
 
     if( isPKCS11Private( strAlg ) == true )
     {
@@ -678,12 +676,9 @@ void MakeReqDlg::keyNumChanged()
     }
 
     mKeyNameText->setText( keyRec.getName() );
-    mAlgorithmText->setText( keyRec.getAlg() );
-    mOptionText->setText( keyRec.getParam() );
+    mKeyDescText->setText( keyRec.getDesc() );
 
-    mOptionLabel->setText( getParamLabel( keyRec.getAlg()));
-
-    if( mOptionText->text() == "SM2" )
+    if( keyRec.getParam() == "SM2" )
         mHashCombo->setCurrentText( "SM3" );
 
     if( keyRec.getAlg() == JS_PKI_KEY_NAME_EDDSA || keyRec.getAlg() == JS_PKI_KEY_NAME_ML_DSA || keyRec.getAlg() == JS_PKI_KEY_NAME_SLH_DSA )
@@ -965,6 +960,7 @@ void MakeReqDlg::initUI()
     mKeyNumText->setPlaceholderText( tr("Num" ));
 
     mNewKeyNameText->setPlaceholderText( tr( "KeyPair Name" ));
+    mKeyDescText->setPlaceholderText( tr( "Key pair description" ));
 
 
     QString strDefault = getDefault();

@@ -67,7 +67,12 @@ void ProgressDlg::clickStart()
 
     DBMgr* dbMgr = manApplet->dbMgr();
 
-    dbMgr->beginTransaction();
+    ret = dbMgr->beginTransaction();
+    if( ret != CKR_OK )
+    {
+        manApplet->warningBox( tr( "Transaction failed"), this );
+        return;
+    }
 
     switch (cmd_) {
     case kCmdEncPriKey:

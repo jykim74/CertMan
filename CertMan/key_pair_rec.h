@@ -22,6 +22,7 @@ private:
 
 public:
     KeyPairRec();
+    const QString getDesc();
 
     int getNum() { return m_nNum; };
     time_t getRegTime() { return m_tRegTime; };

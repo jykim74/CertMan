@@ -4,6 +4,7 @@
  * All rights reserved.
  */
 #include "key_pair_rec.h"
+#include "commons.h"
 
 KeyPairRec::KeyPairRec()
 {
@@ -15,6 +16,20 @@ KeyPairRec::KeyPairRec()
     m_strPrivateKey = "";
     m_strParam = "";
     m_nStatus = -1;
+}
+
+const QString KeyPairRec::getDesc()
+{
+    QString strDesc;
+
+    QString strParam = getParamLabel( m_strAlg );
+
+    strDesc = QString( "Algorithm[ %1 ] %2[ %3 ]")
+                  .arg( m_strAlg )
+                  .arg( strParam )
+                  .arg( m_strParam );
+
+    return strDesc;
 }
 
 void KeyPairRec::setNum( int nNum )

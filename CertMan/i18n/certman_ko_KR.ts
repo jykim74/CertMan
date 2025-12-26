@@ -9180,7 +9180,7 @@
     </message>
     <message>
         <location filename="../set_pass_dlg.ui" line="98"/>
-        <location filename="../set_pass_dlg.cpp" line="61"/>
+        <location filename="../set_pass_dlg.cpp" line="62"/>
         <source>Please enter password, that will be used to encrypt private keys</source>
         <translation>개인키 암호화를 위해 패스워드를 입력하세요.</translation>
     </message>
@@ -9207,22 +9207,22 @@
         <translation type="vanished">암호와 확인 값이 다릅니다</translation>
     </message>
     <message>
-        <location filename="../set_pass_dlg.cpp" line="63"/>
+        <location filename="../set_pass_dlg.cpp" line="64"/>
         <source>It is set to be unsafe</source>
         <translation>안전하지 않게 설정 됨</translation>
     </message>
     <message>
-        <location filename="../set_pass_dlg.cpp" line="81"/>
+        <location filename="../set_pass_dlg.cpp" line="82"/>
         <source>Please enter a password</source>
         <translation>암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../set_pass_dlg.cpp" line="88"/>
+        <location filename="../set_pass_dlg.cpp" line="89"/>
         <source>Please enter a confirm password</source>
         <translation>확인 암호를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../set_pass_dlg.cpp" line="95"/>
+        <location filename="../set_pass_dlg.cpp" line="96"/>
         <source>Password and confirm values are different</source>
         <translation>암호와 확인 값이 다릅니다</translation>
     </message>

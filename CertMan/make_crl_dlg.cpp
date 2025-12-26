@@ -439,9 +439,7 @@ void MakeCRLDlg::issuerNumChanged()
     KeyPairRec issuerKeyPair;
     dbMgr->getKeyPairRec( issuerCert.getKeyNum(), issuerKeyPair );
 
-    mOptionLabel->setText( getParamLabel(issuerKeyPair.getAlg()) );
-    mAlgorithmText->setText( issuerKeyPair.getAlg() );
-    mOptionText->setText( issuerKeyPair.getParam() );
+    mIssuerKeyDescText->setText( issuerKeyPair.getDesc() );
 
     QList<QString> crldpList;
     dbMgr->getCRLDPListFromCert( nNum, crldpList );
@@ -486,6 +484,7 @@ void MakeCRLDlg::initUI()
     mRevokeTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     mIssuerNameText->setPlaceholderText( tr( "Select a CA certificate from CA Man" ) );
+    mIssuerKeyDescText->setPlaceholderText( tr( "Key pair description" ));
     mIssuerNumText->setPlaceholderText( tr("Num") );
     mProfileNameText->setPlaceholderText( tr( "Profile Name" ));
     mProfileNumText->setPlaceholderText( tr("Num") );
