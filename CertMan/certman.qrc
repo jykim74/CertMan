@@ -104,5 +104,6 @@
         <file>images/pub_key.png</file>
         <file>images/log_en.png</file>
         <file>images/passwd.png</file>
+        <file>images/progbar.png</file>
     </qresource>
 </RCC>

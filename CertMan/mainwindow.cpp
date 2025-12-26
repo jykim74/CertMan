@@ -88,6 +88,7 @@
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
 #include "view_crl_profile_dlg.h"
+#include "progress_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -2203,16 +2204,8 @@ void MainWindow::setPasswd()
     }
 
 
-
+#if 0
     int nKeyCount = manApplet->dbMgr()->getKeyPairCountAll();
-
-    /*
-    if( nKeyCount > 0 )
-    {
-        manApplet->warningBox( tr( "KeyPair has to be empty"), this );
-        return;
-    }
-    */
 
     SetPassDlg setPassDlg;
     setPassDlg.setHead( tr("Set private key password"));
@@ -2302,13 +2295,15 @@ void MainWindow::setPasswd()
     }
 
     manApplet->messageBox( tr( "Set Password successfully" ), this );
+#else
+    ProgressDlg progDlg;
+    progDlg.setCmd( kCmdEncPriKey );
+    progDlg.exec();
+#endif
 }
 
 void MainWindow::changePasswd()
 {
-    QString strOldPass;
-    QString strNewPass;
-
     DBMgr* dbMgr = manApplet->dbMgr();
 
     if( dbMgr->isOpen() == false )
@@ -2329,6 +2324,9 @@ void MainWindow::changePasswd()
         return;
     }
 
+#if 0
+    QString strOldPass;
+    QString strNewPass;
     LoginDlg loginDlg;
     loginDlg.setHead( tr( "Please enter your current password first" ) );
 
@@ -2439,7 +2437,11 @@ void MainWindow::changePasswd()
     }
 
     manApplet->messageBox( tr( "Change Password successfully" ), this );
-
+#else
+    ProgressDlg progDlg;
+    progDlg.setCmd( kCmdChangeEnc );
+    progDlg.exec();
+#endif
 }
 
 void MainWindow::publishLDAP()

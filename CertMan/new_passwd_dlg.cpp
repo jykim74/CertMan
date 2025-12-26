@@ -10,6 +10,7 @@ NewPasswdDlg::NewPasswdDlg(QWidget *parent)
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mCancelBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    mPasswdText->setFocus();
     mOKBtn->setDefault(true);
 
 #if defined(Q_OS_MAC)

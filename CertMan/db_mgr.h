@@ -49,7 +49,10 @@ public:
     const QString getDBPath() { return db_path_; };
 
     QString getNumName( int nNum, QString strTable, QString strColName );
-//    QString getSeqName( int nSeq, QString strTable, QString strColName );
+
+    int beginTransaction();
+    int commit();
+    int rollback();
 
     int getCertCountAll();
     int getCRLCountAll();

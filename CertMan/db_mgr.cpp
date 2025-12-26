@@ -123,6 +123,55 @@ QString DBMgr::getNumName( int nNum, QString strTable, QString strColName )
     return strName;
 }
 
+int DBMgr::beginTransaction()
+{
+    QSqlQuery query;
+
+    query.prepare( "BEGIN TRANSACTION" );
+    if( query.exec() == false )
+    {
+        query.prepare( "START TRANSACTION" );
+        if( query.exec() == false )
+        {
+            query.finish();
+            return -1;
+        }
+    }
+
+    query.finish();
+    return 0;
+}
+
+int DBMgr::commit()
+{
+    QSqlQuery query;
+
+    query.prepare( "COMMIT" );
+    if( query.exec() == false )
+    {
+        query.finish();
+        return -1;
+    }
+
+    query.finish();
+    return 0;
+}
+
+int DBMgr::rollback()
+{
+    QSqlQuery query;
+
+    query.prepare( "ROLLBACK" );
+    if( query.exec() == false )
+    {
+        query.finish();
+        return -1;
+    }
+
+    query.finish();
+    return 0;
+}
+
 /*
 QString DBMgr::getSeqName( int nSeq, QString strTable, QString strColName )
 {

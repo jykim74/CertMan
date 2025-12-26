@@ -20,6 +20,7 @@ public:
     ~ProgressDlg();
 
     void setCmd( int nCmd );
+    void setHead( const QString& strLabel );
 
 private slots:
     void clickStart();

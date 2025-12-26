@@ -555,16 +555,16 @@ bool ManApplet::detailedYesOrNoBox(const QString& msg, const QString& detailed_t
 
 void ManApplet::setPasswdKey( const QString strPasswd )
 {
-    /*
-    BIN binSalt = {0,0};
-
-    JS_GEN_getHMACKey( &binSalt );
-    JS_BIN_reset( &pass_key_ );
-    JS_PKI_PBKDF2( strPasswd.toStdString().c_str(), &binSalt, 1024, "SHA256", 16, &pass_key_ );
-    JS_BIN_reset( &binSalt );
-    */
-    pri_passwd_ = strPasswd;
-    is_passwd_ = true;
+    if( strPasswd.length() > 0 )
+    {
+        pri_passwd_ = strPasswd;
+        is_passwd_ = true;
+    }
+    else
+    {
+        pri_passwd_.clear();
+        is_passwd_ = false;
+    }
 }
 
 void ManApplet::clearPasswdKey()
