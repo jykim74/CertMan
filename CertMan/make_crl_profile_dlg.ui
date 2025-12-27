@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>542</width>
-    <height>580</height>
+    <width>589</width>
+    <height>714</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,14 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="mCRLTab">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -72,25 +78,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>CRL Information</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
             <string>Version</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Signature Hash</string>
            </property>
           </widget>
          </item>
@@ -112,6 +104,13 @@
          </item>
          <item row="0" column="4">
           <widget class="QComboBox" name="mHashCombo"/>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Signature Hash</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -221,7 +220,14 @@
           <item>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="1">
-             <widget class="QDateTimeEdit" name="mThisUpdateDateTime"/>
+             <widget class="QDateTimeEdit" name="mThisUpdateDateTime">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_9">
@@ -244,7 +250,14 @@
              </widget>
             </item>
             <item row="0" column="3">
-             <widget class="QDateTimeEdit" name="mNextUpdateDateTime"/>
+             <widget class="QDateTimeEdit" name="mNextUpdateDateTime">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -252,7 +265,7 @@
         </widget>
        </item>
        <item>
-        <widget class="Line" name="line_6">
+        <widget class="Line" name="line_8">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -361,19 +374,6 @@
           </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
