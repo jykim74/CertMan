@@ -155,7 +155,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>2</number>
      </property>
      <property name="tabSpacing">
       <number>1</number>
@@ -165,8 +165,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>336</height>
+        <width>576</width>
+        <height>345</height>
        </rect>
       </property>
       <attribute name="label">
@@ -593,8 +593,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>336</height>
+        <width>576</width>
+        <height>304</height>
        </rect>
       </property>
       <attribute name="label">
@@ -980,8 +980,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>336</height>
+        <width>576</width>
+        <height>339</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1092,7 +1092,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableWidget" name="mCRLDPTable"/>
+        <widget class="QTableWidget" name="mCRLDPTable">
+         <attribute name="horizontalHeaderHighlightSections">
+          <bool>false</bool>
+         </attribute>
+        </widget>
        </item>
        <item>
         <widget class="Line" name="line_8">
@@ -1146,8 +1150,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>336</height>
+        <width>576</width>
+        <height>309</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1376,8 +1380,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>336</height>
+        <width>576</width>
+        <height>309</height>
        </rect>
       </property>
       <attribute name="label">
