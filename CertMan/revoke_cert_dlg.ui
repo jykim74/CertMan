@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>209</height>
+    <height>219</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/revoke.png</normaloff>:/images/revoke.png</iconset>
        </property>
        <property name="flat">
@@ -282,14 +282,13 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mSerialText</tabstop>
   <tabstop>mRevokeDateTime</tabstop>
   <tabstop>mReasonCombo</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

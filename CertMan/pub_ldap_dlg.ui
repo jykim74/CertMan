@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>386</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,7 +64,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/pub_ldap.png</normaloff>:/images/pub_ldap.png</iconset>
        </property>
        <property name="flat">
@@ -345,6 +345,8 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>mSetToDefaultCheck</tabstop>
   <tabstop>mLDAPHostText</tabstop>
   <tabstop>mLDAPPortText</tabstop>
   <tabstop>mBindDNText</tabstop>
@@ -354,9 +356,7 @@
   <tabstop>mAttributeCombo</tabstop>
   <tabstop>mPublishDNText</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

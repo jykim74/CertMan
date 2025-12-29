@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/profile.png</normaloff>:/images/profile.png</iconset>
        </property>
        <property name="flat">
@@ -70,7 +70,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mCertTab">
       <attribute name="title">
@@ -123,7 +123,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="certman.qrc">
+            <iconset>
              <normaloff>:/images/cert_profile.png</normaloff>:/images/cert_profile.png</iconset>
            </property>
            <property name="flat">
@@ -241,7 +241,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="certman.qrc">
+            <iconset>
              <normaloff>:/images/crl_profile.png</normaloff>:/images/crl_profile.png</iconset>
            </property>
            <property name="flat">
@@ -367,19 +367,20 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mTabWidget</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>mCertTypeCombo</tabstop>
   <tabstop>mCertTable</tabstop>
   <tabstop>mCertViewBtn</tabstop>
   <tabstop>mCertDeleteBtn</tabstop>
+  <tabstop>pushButton_3</tabstop>
   <tabstop>mCRLTable</tabstop>
   <tabstop>mCRLViewBtn</tabstop>
   <tabstop>mCRLDeleteBtn</tabstop>
   <tabstop>mOKBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

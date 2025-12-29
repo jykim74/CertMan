@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
          <normaloff>:/images/csr.png</normaloff>:/images/csr.png</iconset>
        </property>
        <property name="flat">
@@ -212,7 +212,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/key_reg.png</normaloff>:/images/key_reg.png</iconset>
        </property>
        <property name="flat">
@@ -238,7 +238,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mSelTab">
       <attribute name="title">
@@ -809,7 +809,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/cert_profile.png</normaloff>:/images/cert_profile.png</iconset>
        </property>
        <property name="flat">
@@ -896,16 +896,19 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mMakeDNBtn</tabstop>
   <tabstop>mDNText</tabstop>
   <tabstop>mChallengePassText</tabstop>
   <tabstop>mUnstructuredNameText</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>mGenKeyPairCheck</tabstop>
   <tabstop>mKeyInfoTab</tabstop>
   <tabstop>mKeyNameText</tabstop>
   <tabstop>mKeyNumText</tabstop>
   <tabstop>mSelectKeyPairBtn</tabstop>
+  <tabstop>mKeyDescText</tabstop>
   <tabstop>mNewKeyNameText</tabstop>
   <tabstop>mRSARadio</tabstop>
   <tabstop>mECDSARadio</tabstop>
@@ -918,15 +921,16 @@
   <tabstop>mNewOptionCombo</tabstop>
   <tabstop>mPKCS11Check</tabstop>
   <tabstop>mKMIPCheck</tabstop>
+  <tabstop>mUseExtensionCheck</tabstop>
+  <tabstop>mExtensionSetDefaultCheck</tabstop>
+  <tabstop>mCSRBtn</tabstop>
   <tabstop>mProfileNameText</tabstop>
   <tabstop>mProfileNumText</tabstop>
   <tabstop>mSelectProfileBtn</tabstop>
   <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mHashCombo</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/signer_reg.png</normaloff>:/images/signer_reg.png</iconset>
        </property>
        <property name="flat">
@@ -193,15 +193,14 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mSignerBtn</tabstop>
   <tabstop>mTypeCombo</tabstop>
   <tabstop>mStatusCombo</tabstop>
   <tabstop>mCertPathText</tabstop>
   <tabstop>mFindCertBtn</tabstop>
   <tabstop>mInfoText</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/crl.png</normaloff>:/images/crl.png</iconset>
        </property>
        <property name="flat">
@@ -197,7 +197,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/ca.png</normaloff>:/images/ca.png</iconset>
        </property>
        <property name="flat">
@@ -298,7 +298,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/crl_profile.png</normaloff>:/images/crl_profile.png</iconset>
        </property>
        <property name="flat">
@@ -518,9 +518,14 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>mIssuerNameText</tabstop>
   <tabstop>mIssuerNumText</tabstop>
   <tabstop>mSelectIssuerBtn</tabstop>
+  <tabstop>mIssuerKeyDescText</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>mProfileSetDefaultCheck</tabstop>
   <tabstop>mProfileNameText</tabstop>
   <tabstop>mProfileNumText</tabstop>
   <tabstop>mSelectProfileBtn</tabstop>
@@ -528,9 +533,7 @@
   <tabstop>mCRLDPCombo</tabstop>
   <tabstop>mRevokeTable</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

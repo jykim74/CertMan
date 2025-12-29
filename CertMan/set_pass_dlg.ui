@@ -70,7 +70,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/setpass.png</normaloff>:/images/setpass.png</iconset>
        </property>
        <property name="flat">
@@ -165,9 +165,13 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>mUsePassCheck</tabstop>
+  <tabstop>mPasswdText</tabstop>
+  <tabstop>mPasswdConfirmText</tabstop>
+ </tabstops>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

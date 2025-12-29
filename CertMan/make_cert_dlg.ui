@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
          <normaloff>:/images/cert.png</normaloff>:/images/cert.png</iconset>
        </property>
        <property name="flat">
@@ -268,7 +268,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="certman.qrc">
+           <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
             <normaloff>:/images/csr.png</normaloff>:/images/csr.png</iconset>
           </property>
           <property name="flat">
@@ -372,7 +372,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/cert_profile.png</normaloff>:/images/cert_profile.png</iconset>
        </property>
        <property name="flat">
@@ -838,7 +838,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="certman.qrc">
+           <iconset>
             <normaloff>:/images/ca.png</normaloff>:/images/ca.png</iconset>
           </property>
           <property name="flat">
@@ -972,13 +972,18 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mUseCSRFileCheck</tabstop>
   <tabstop>mCSRFilePathText</tabstop>
   <tabstop>mCSRFileFindBtn</tabstop>
   <tabstop>mSaveToRequestCheck</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>mReqNameText</tabstop>
   <tabstop>mReqNumText</tabstop>
   <tabstop>mSelectCSRBtn</tabstop>
+  <tabstop>mReqKeyDescText</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>mProfileSetDefaultCheck</tabstop>
   <tabstop>mProfileNameText</tabstop>
   <tabstop>mProfileNumText</tabstop>
   <tabstop>mSelectProfileBtn</tabstop>
@@ -986,16 +991,17 @@
   <tabstop>mMakeDNBtn</tabstop>
   <tabstop>mSubjectDNText</tabstop>
   <tabstop>mSelfSignCheck</tabstop>
+  <tabstop>mIssuerSetDefaultCheck</tabstop>
+  <tabstop>pushButton_4</tabstop>
   <tabstop>mIssuerNameText</tabstop>
   <tabstop>mIssuerNumText</tabstop>
   <tabstop>mSelectCACertBtn</tabstop>
+  <tabstop>mIssuerKeyDescText</tabstop>
   <tabstop>mUserNameText</tabstop>
   <tabstop>mSSNText</tabstop>
   <tabstop>mEmailText</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

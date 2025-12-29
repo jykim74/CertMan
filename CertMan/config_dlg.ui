@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/config.png</normaloff>:/images/config.png</iconset>
        </property>
        <property name="flat">
@@ -277,6 +277,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mNumText</tabstop>
   <tabstop>mKindCombo</tabstop>
   <tabstop>mNameText</tabstop>
@@ -284,8 +285,6 @@
   <tabstop>mOKBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

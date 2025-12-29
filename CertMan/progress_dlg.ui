@@ -54,7 +54,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/progbar.png</normaloff>:/images/progbar.png</iconset>
        </property>
        <property name="flat">
@@ -251,8 +251,13 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>mTotalText</tabstop>
+  <tabstop>mCurrentText</tabstop>
+  <tabstop>mStartBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+ </tabstops>
+ <resources/>
  <connections/>
 </ui>

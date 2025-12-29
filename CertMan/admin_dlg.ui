@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset>
          <normaloff>:/images/admin.png</normaloff>:/images/admin.png</iconset>
        </property>
        <property name="flat">
@@ -308,6 +308,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mNameText</tabstop>
   <tabstop>mPasswordText</tabstop>
   <tabstop>mGenPasswordMACCheck</tabstop>
@@ -319,8 +320,6 @@
   <tabstop>mRegisterBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

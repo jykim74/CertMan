@@ -107,7 +107,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
          <normaloff>:/images/cert.png</normaloff>:/images/cert.png</iconset>
        </property>
        <property name="flat">
@@ -133,7 +133,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mInfoTab">
       <attribute name="title">
@@ -430,6 +430,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mCertBtn</tabstop>
   <tabstop>mKIDText</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>mFieldTypeCombo</tabstop>
@@ -444,8 +445,6 @@
   <tabstop>mPathValidationBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

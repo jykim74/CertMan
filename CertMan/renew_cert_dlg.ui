@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="certman.qrc">
+        <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
          <normaloff>:/images/cert.png</normaloff>:/images/cert.png</iconset>
        </property>
        <property name="flat">
@@ -484,6 +484,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mCertDNText</tabstop>
   <tabstop>mSignKeyName</tabstop>
   <tabstop>mNotBeforeText</tabstop>
@@ -498,9 +499,7 @@
   <tabstop>mRevokeCheck</tabstop>
   <tabstop>mRevokeReasonCombo</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -90,7 +90,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="certman.qrc">
+           <iconset>
             <normaloff>:/images/online.png</normaloff>:/images/online.png</iconset>
           </property>
           <property name="flat">
@@ -388,6 +388,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mURICombo</tabstop>
   <tabstop>mClearUsedURIBtn</tabstop>
   <tabstop>mUseLDAPCheck</tabstop>
@@ -400,8 +401,6 @@
   <tabstop>mGetBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="certman.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
