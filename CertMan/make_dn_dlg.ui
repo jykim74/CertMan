@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>362</height>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,11 +15,41 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Distinguished Name</string>
-     </property>
-    </widget>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Distinguished Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="minimumSize">
+        <size>
+         <width>16</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="certman.qrc">
+         <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="Line" name="line">
@@ -285,11 +315,25 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
+  <tabstop>mEmailAddressText</tabstop>
+  <tabstop>mCNText</tabstop>
+  <tabstop>mOUText</tabstop>
+  <tabstop>mOText</tabstop>
+  <tabstop>mLText</tabstop>
+  <tabstop>mSTText</tabstop>
+  <tabstop>mCText</tabstop>
+  <tabstop>mRDNNameCombo</tabstop>
+  <tabstop>mRDNValueText</tabstop>
+  <tabstop>mRDNAddBtn</tabstop>
+  <tabstop>mRDNTable</tabstop>
   <tabstop>mDNText</tabstop>
   <tabstop>mClearBtn</tabstop>
   <tabstop>mOKBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -541,16 +541,20 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton</tabstop>
   <tabstop>mTabWidget</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>mCACertTypeCombo</tabstop>
   <tabstop>mCACertTable</tabstop>
   <tabstop>mCACertViewBtn</tabstop>
   <tabstop>mCACertDeleteBtn</tabstop>
+  <tabstop>pushButton_3</tabstop>
   <tabstop>mKeyPairStatusCombo</tabstop>
   <tabstop>mKeyPairTypeCombo</tabstop>
   <tabstop>mKeyPairTable</tabstop>
   <tabstop>mKeyPairViewBtn</tabstop>
   <tabstop>mKeyPairDeleteBtn</tabstop>
+  <tabstop>pushButton_4</tabstop>
   <tabstop>mCSRStatusCombo</tabstop>
   <tabstop>mCSRTypeCombo</tabstop>
   <tabstop>mCSRTable</tabstop>

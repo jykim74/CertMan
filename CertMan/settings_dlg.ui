@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="mTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>7</number>
      </property>
      <widget class="QWidget" name="mBaseTab">
       <attribute name="title">
@@ -1427,15 +1427,17 @@
   <tabstop>mDefaultHashCombo</tabstop>
   <tabstop>mDefaultECCParamCombo</tabstop>
   <tabstop>mFontFamilyCombo</tabstop>
+  <tabstop>mPriEncMethodCombo</tabstop>
   <tabstop>mSaveRemoteInfoCheck</tabstop>
   <tabstop>mLangCombo</tabstop>
   <tabstop>mShowPriKeyInfoCheck</tabstop>
   <tabstop>mP11Group</tabstop>
   <tabstop>mSlotIndexText</tabstop>
-  <tabstop>mP11FindBtn</tabstop>
   <tabstop>mLibraryP11PathText</tabstop>
+  <tabstop>mP11FindBtn</tabstop>
   <tabstop>mPINText</tabstop>
   <tabstop>mHexAreaWidthCombo</tabstop>
+  <tabstop>mKMIPGroup</tabstop>
   <tabstop>mKMIPHostText</tabstop>
   <tabstop>mKMIPPortText</tabstop>
   <tabstop>mKMIPCACertPathText</tabstop>
@@ -1446,6 +1448,7 @@
   <tabstop>mKMIPPrivateKeyFindBtn</tabstop>
   <tabstop>mKMIPUserNameText</tabstop>
   <tabstop>mKMIPPasswdText</tabstop>
+  <tabstop>mOCSPGroup</tabstop>
   <tabstop>mOCSPURIText</tabstop>
   <tabstop>mOCSPSrvCertPathText</tabstop>
   <tabstop>mOCSPSrvCertFindBtn</tabstop>
@@ -1454,17 +1457,21 @@
   <tabstop>mOCSPSignerCertFindBtn</tabstop>
   <tabstop>mOCSPSignerPriPathText</tabstop>
   <tabstop>mOCSPSignerPriFindBtn</tabstop>
+  <tabstop>mCMPGroup</tabstop>
   <tabstop>mCMPURIText</tabstop>
   <tabstop>mCMPRootCACertPathText</tabstop>
   <tabstop>mCMPRootCACertBtn</tabstop>
   <tabstop>mCMPCACertPathText</tabstop>
   <tabstop>mCMPCACertBtn</tabstop>
+  <tabstop>mREGGroup</tabstop>
   <tabstop>mREGURIText</tabstop>
   <tabstop>mREGAdminNameText</tabstop>
   <tabstop>mREGPasswordText</tabstop>
+  <tabstop>mTSPGroup</tabstop>
   <tabstop>mTSPURIText</tabstop>
   <tabstop>mTSPSrvCertPathText</tabstop>
   <tabstop>mTSPSrvCertFindBtn</tabstop>
+  <tabstop>mSCEPGroup</tabstop>
   <tabstop>mSCEPURIText</tabstop>
   <tabstop>mSCEPMutualAuthCheck</tabstop>
   <tabstop>mSCEPPriKeyPathText</tabstop>

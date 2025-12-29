@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>427</width>
-    <height>380</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -468,6 +468,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>mCurEmailText</tabstop>
   <tabstop>mCurIssueDateText</tabstop>

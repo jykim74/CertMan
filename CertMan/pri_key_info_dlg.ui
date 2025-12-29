@@ -2651,6 +2651,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mKeyBtn</tabstop>
   <tabstop>mKIDText</tabstop>
   <tabstop>mKeyTab</tabstop>
   <tabstop>mRSA_EText</tabstop>
@@ -2693,6 +2694,8 @@
   <tabstop>mRawPrivateText</tabstop>
   <tabstop>mRawPublicLenText</tabstop>
   <tabstop>mRawPublicText</tabstop>
+  <tabstop>mExportBtn</tabstop>
+  <tabstop>mInsertToHSMBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
  <resources>

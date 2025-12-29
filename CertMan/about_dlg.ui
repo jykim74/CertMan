@@ -201,6 +201,11 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>mCheckUpdateBtn</tabstop>
+  <tabstop>mCloseBtn</tabstop>
+  <tabstop>mAboutText</tabstop>
+  <tabstop>mCopyRightText</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>pushButton</tabstop>
  </tabstops>
  <resources>
