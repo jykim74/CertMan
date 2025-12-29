@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/revoke.png</normaloff>:/images/revoke.png</iconset>
        </property>
        <property name="flat">
@@ -118,6 +118,9 @@
          </disabled>
         </palette>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -181,6 +184,9 @@
           </colorrole>
          </disabled>
         </palette>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -288,7 +294,9 @@
   <tabstop>mRevokeDateTime</tabstop>
   <tabstop>mReasonCombo</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

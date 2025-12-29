@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../../CryptokiMan/CryptokiMan/cryptokiman.qrc">
+        <iconset resource="certman.qrc">
          <normaloff>:/images/csr.png</normaloff>:/images/csr.png</iconset>
        </property>
        <property name="flat">
@@ -212,7 +212,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/key_reg.png</normaloff>:/images/key_reg.png</iconset>
        </property>
        <property name="flat">
@@ -238,7 +238,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mSelTab">
       <attribute name="title">
@@ -305,6 +305,9 @@
              <disabled/>
             </palette>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -351,6 +354,9 @@
              <disabled/>
             </palette>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
@@ -388,6 +394,9 @@
              </inactive>
              <disabled/>
             </palette>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -726,6 +735,9 @@
          <disabled/>
         </palette>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -772,6 +784,9 @@
          <disabled/>
         </palette>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -809,7 +824,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/cert_profile.png</normaloff>:/images/cert_profile.png</iconset>
        </property>
        <property name="flat">
@@ -930,7 +945,9 @@
   <tabstop>mViewProfileBtn</tabstop>
   <tabstop>mHashCombo</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

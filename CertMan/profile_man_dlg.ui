@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/profile.png</normaloff>:/images/profile.png</iconset>
        </property>
        <property name="flat">
@@ -123,7 +123,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="certman.qrc">
              <normaloff>:/images/cert_profile.png</normaloff>:/images/cert_profile.png</iconset>
            </property>
            <property name="flat">
@@ -241,7 +241,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="certman.qrc">
              <normaloff>:/images/crl_profile.png</normaloff>:/images/crl_profile.png</iconset>
            </property>
            <property name="flat">
@@ -381,6 +381,8 @@
   <tabstop>mOKBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>

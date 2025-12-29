@@ -81,6 +81,9 @@
        <disabled/>
       </palette>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
     </widget>
    </item>
   </layout>

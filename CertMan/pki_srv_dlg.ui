@@ -44,7 +44,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/config.png</normaloff>:/images/config.png</iconset>
        </property>
        <property name="flat">
@@ -253,6 +253,9 @@
          <disabled/>
         </palette>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -296,6 +299,9 @@
          </inactive>
          <disabled/>
         </palette>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="readOnly">
         <bool>true</bool>
@@ -450,7 +456,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="certman.qrc">
          <normaloff>:/images/on.png</normaloff>:/images/on.png</iconset>
        </property>
        <property name="flat">
@@ -491,6 +497,8 @@
   <tabstop>mCheckBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="certman.qrc"/>
+ </resources>
  <connections/>
 </ui>
