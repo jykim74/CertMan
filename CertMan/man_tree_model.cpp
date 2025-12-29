@@ -25,7 +25,6 @@ ManTreeModel::ManTreeModel( QObject *parent )
 
 ManTreeModel::~ManTreeModel()
 {
-    if( root_ca_ ) delete root_ca_;
     if( tree_view_ ) delete tree_view_;
 }
 
