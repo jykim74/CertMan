@@ -109,7 +109,8 @@ SOURCES += \
         ca_man_dlg.cpp \
         profile_man_dlg.cpp \
         view_cert_profile_dlg.cpp \
-        view_crl_profile_dlg.cpp
+        view_crl_profile_dlg.cpp \
+        progress_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -182,7 +183,8 @@ HEADERS += \
         ca_man_dlg.h \
         profile_man_dlg.h \
         view_cert_profile_dlg.h \
-        view_crl_profile_dlg.h
+        view_crl_profile_dlg.h \
+        progress_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -229,7 +231,8 @@ FORMS += \
         ca_man_dlg.ui \
         profile_man_dlg.ui \
         view_cert_profile_dlg.ui \
-        view_crl_profile_dlg.ui
+        view_crl_profile_dlg.ui \
+        progress_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
