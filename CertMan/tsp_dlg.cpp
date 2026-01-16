@@ -237,7 +237,7 @@ void TSPDlg::clickVerifyTSP()
         }
     }
 
-    ret = JS_PKCS7_verifySignedData( &binData, &binCert, &binData );
+    ret = JS_PKCS7_verifySignedData( &binData, &binCert, NULL, -1, &binData );
     strVerify = QString( "Verification result value : %1" ).arg( ret );
 
     manApplet->messageBox( strVerify, this );
