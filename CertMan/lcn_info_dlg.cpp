@@ -26,6 +26,7 @@ LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
 
     connect( mLCNRequestBtn, SIGNAL(clicked()), this, SLOT(clickLCNRequest()));
     connect( mGetBtn, SIGNAL(clicked()), this, SLOT(clickGet()));
+    connect( mFreeBtn, SIGNAL(clicked()), this, SLOT(clickFree()));
     connect( mUpdateBtn, SIGNAL(clicked()), this, SLOT(clickUpdate()));
     connect( mRemoveBtn, SIGNAL(clicked()), this, SLOT(clickRemove()));
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
@@ -98,11 +99,14 @@ void LCNInfoDlg::initialize()
         {
             mCurGroup->setEnabled( true );
             mUpdateBtn->show();
+            mFreeBtn->hide();
             mRemoveBtn->hide();
         }
         else
         {
             mCurGroup->setEnabled( false );
+            mFreeBtn->show();
+            mUpdateBtn->hide();
         }
 
         mMessageLabel->setText( tr("The CertMan is licensed version") );
@@ -236,6 +240,87 @@ end :
 
     return ret;
 }
+
+int LCNInfoDlg::getFreeLCN( const QString& strEmail, BIN *pLCN, QString& strError )
+{
+    int ret = 0;
+    int status = 0;
+    QString strURL;
+    char *pRsp = NULL;
+    JCC_NameVal sNameVal;
+
+    QString strProduct = manApplet->getBrand();
+    QString strVersion = STRINGIZE(CERTMAN_VERSION);
+
+    QSysInfo sysInfo;
+    QString strInfo = QString( "%1_%2_%3_%4_%5")
+                          .arg( strProduct )
+                          .arg( strVersion )
+                          .arg( sysInfo.currentCpuArchitecture())
+                          .arg( sysInfo.productType() )
+                          .arg( sysInfo.productVersion());
+
+
+    memset( &sNameVal, 0x00, sizeof(sNameVal));
+
+    strURL = getLicenseURI();
+    strURL += JS_LCN_FREE_PATH;
+
+    QString strBody = QString( "email=%1&product=%3&sid=%4&version=%5&sysinfo=%6")
+                          .arg( strEmail.simplified() )
+                          .arg(strProduct).arg( SID_.simplified() )
+                          .arg( strVersion )
+                          .arg(strInfo.simplified());
+
+#ifdef QT_DEBUG
+    manApplet->log( QString( "Body: %1" ).arg( strBody ));
+#endif
+
+    manApplet->log( QString( "Body: %1" ).arg( strBody ));
+
+    ret = JS_HTTP_requestPost2(
+        strURL.toStdString().c_str(),
+        NULL,
+        NULL,
+        "application/x-www-form-urlencoded",
+        strBody.toStdString().c_str(),
+        &status,
+        &pRsp );
+
+    if( status != JS_HTTP_STATUS_OK)
+    {
+        manApplet->elog( QString("HTTP get ret:%1 status: %2").arg( ret ).arg( status ));
+        strError = QString( "[STATUS Error:%1]" ).arg( status );
+        ret = JSR_HTTP_STATUS_FAIL;
+        goto end;
+    }
+
+#ifdef QT_DEBUG
+    manApplet->log( QString( "Rsp : %1").arg( pRsp ));
+#endif
+
+    JS_CC_decodeNameVal( pRsp, &sNameVal );
+
+    if( sNameVal.pValue && strcasecmp( sNameVal.pName, "LICENSE") == 0 )
+    {
+        int nType = -1;
+        JS_BIN_decodePEM( sNameVal.pValue, &nType, pLCN );
+    }
+    else
+    {
+        manApplet->elog( QString("HTTP Rsp Name: %1 Value: %2").arg( sNameVal.pName ).arg( sNameVal.pValue ));
+        strError = QString( "[%1:%2]" ).arg( sNameVal.pName ).arg( sNameVal.pValue );
+        ret = JSR_HTTP_BODY_ERROR;
+        goto end;
+    }
+
+end :
+    if( pRsp ) JS_free( pRsp );
+    JS_UTIL_resetNameVal( &sNameVal );
+
+    return ret;
+}
+
 
 int LCNInfoDlg::updateLCN( const QString strEmail, const QString strKey, BIN *pLCN, QString& strError )
 {
@@ -418,6 +503,48 @@ end :
     {
         manApplet->settingsMgr()->setRunTime(0);
 
+        if( manApplet->yesOrNoBox(tr("You have changed license. Restart to apply it?"), this, true))
+            manApplet->restartApp();
+
+        QDialog::accept();
+    }
+}
+
+void LCNInfoDlg::clickFree()
+{
+    int ret = 0;
+    BIN binLCN = {0,0};
+
+    JS_LICENSE_INFO sInfo;
+    QString strErr;
+
+    QString strEmail = mEmailText->text();
+
+    memset( &sInfo, 0x00, sizeof(sInfo));
+
+    if( strEmail.length() <= 0 )
+    {
+        manApplet->warningBox( tr( "Enter a email" ), this );
+        mEmailText->setFocus();
+        return;
+    }
+
+    ret = getFreeLCN( strEmail, &binLCN, strErr );
+    if( ret != 0 )
+    {
+        strErr = tr( "failed to get free license %1 : %2").arg( ret ).arg( strErr );
+        manApplet->warnLog( strErr, this );
+        goto end;
+    }
+
+    settingsLCN( QString(strEmail), &binLCN );
+    ret = 0;
+
+end :
+    JS_BIN_reset( &binLCN );
+
+    if( ret == 0 )
+    {
         if( manApplet->yesOrNoBox(tr("You have changed license. Restart to apply it?"), this, true))
             manApplet->restartApp();
 

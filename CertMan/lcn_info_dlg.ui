@@ -75,7 +75,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mCurLCNTab">
       <attribute name="title">
@@ -381,20 +381,6 @@
    <item>
     <layout class="QGridLayout" name="gridLayout_3">
      <item row="0" column="2">
-      <widget class="QPushButton" name="mGetBtn">
-       <property name="text">
-        <string>Get</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QCheckBox" name="mUseFileCheck">
-       <property name="text">
-        <string>Use License File</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -406,6 +392,34 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="0" column="5">
+      <widget class="QPushButton" name="mGetBtn">
+       <property name="text">
+        <string>Get</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QPushButton" name="mFreeBtn">
+       <property name="text">
+        <string>Free License</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mUseFileCheck">
+       <property name="text">
+        <string>Use License File</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="mUpdateBtn">
+       <property name="text">
+        <string>Update License</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -435,13 +449,6 @@
       <widget class="QPushButton" name="mCloseBtn">
        <property name="text">
         <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="mUpdateBtn">
-       <property name="text">
-        <string>Update</string>
        </property>
       </widget>
      </item>
@@ -489,7 +496,6 @@
   <tabstop>mUseFileCheck</tabstop>
   <tabstop>mGetBtn</tabstop>
   <tabstop>mLCNRequestBtn</tabstop>
-  <tabstop>mUpdateBtn</tabstop>
   <tabstop>mRemoveBtn</tabstop>
   <tabstop>mCloseBtn</tabstop>
  </tabstops>
