@@ -75,7 +75,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mCurLCNTab">
       <attribute name="title">
@@ -486,13 +486,12 @@
  <tabstops>
   <tabstop>pushButton_2</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>mCurEmailText</tabstop>
-  <tabstop>mCurIssueDateText</tabstop>
-  <tabstop>mCurExpireDateText</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>mStopMessageCheck</tabstop>
   <tabstop>mEmailText</tabstop>
   <tabstop>mKeyText</tabstop>
+  <tabstop>mFreeBtn</tabstop>
+  <tabstop>mUpdateBtn</tabstop>
   <tabstop>mUseFileCheck</tabstop>
   <tabstop>mGetBtn</tabstop>
   <tabstop>mLCNRequestBtn</tabstop>
