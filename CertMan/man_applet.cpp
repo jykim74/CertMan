@@ -352,17 +352,6 @@ int ManApplet::checkLicense()
         is_license_ = true;
         settings_mgr_->setRunTime( now_t );
     }
-    else
-    {
-        QString strMsg;
-
-        if( ret == JSR_LCN_ERR_EXPIRED )
-            strMsg = tr( "The license has expired" );
-        else
-            strMsg = tr( "The license is invalid: %1" ).arg(ret);
-
-        manApplet->warningBox( strMsg, nullptr );
-    }
 
 end :
     JS_BIN_reset( &binLCN );

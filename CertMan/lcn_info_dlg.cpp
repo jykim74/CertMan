@@ -305,6 +305,7 @@ int LCNInfoDlg::getFreeLCN( const QString& strEmail, BIN *pLCN, QString& strErro
     {
         int nType = -1;
         JS_BIN_decodePEM( sNameVal.pValue, &nType, pLCN );
+        ret = JSR_OK;
     }
     else
     {
@@ -521,6 +522,9 @@ void LCNInfoDlg::clickFree()
     QString strEmail = mEmailText->text();
 
     memset( &sInfo, 0x00, sizeof(sInfo));
+
+    bool bVal = manApplet->yesOrCancelBox( tr("Would you like to request a free license?"), this, true );
+    if( bVal == false ) return;
 
     if( strEmail.length() <= 0 )
     {
