@@ -399,15 +399,15 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
         strParam = QString("%1").arg(nParam);
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_EDDSA )
-    {   
-        strParam = JS_EDDSA_getParamName( nParam );
+    {
+        strParam = JS_RAW_getParamName( nParam );
 
         JS_PKI_getRawKeyVal( pPriKey, &sRawKey );
         JS_PKI_getRawPublicKeyFromPri( pPriKey, &binPub );
     }
     else if( nKeyType == JS_PKI_KEY_TYPE_ML_DSA || nKeyType == JS_PKI_KEY_TYPE_SLH_DSA )
     {
-        strParam = JS_PQC_paramName( nParam );
+        strParam = JS_RAW_getParamName( nParam );
 
         JS_PKI_getRawKeyVal( pPriKey, &sRawKey );
         JS_PKI_getRawPublicKeyFromPri( pPriKey, &binPub );

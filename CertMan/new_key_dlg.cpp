@@ -232,12 +232,12 @@ void NewKeyDlg::clickOK()
     }
     else if( strMech == JS_PKI_KEY_NAME_ML_DSA )
     {
-        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        int nParam = JS_RAW_getParam( strParam.toStdString().c_str() );
         ret = JS_ML_DSA_genKeyPair( nParam, &binPub, &binPri );
     }
     else if( strMech == JS_PKI_KEY_NAME_SLH_DSA )
     {
-        int nParam = JS_PQC_param( strParam.toStdString().c_str() );
+        int nParam = JS_RAW_getParam( strParam.toStdString().c_str() );
         ret = JS_SLH_DSA_genKeyPair( nParam, &binPub, &binPri );
     }
     else if( strMech == JS_PKI_KEY_NAME_EDDSA )

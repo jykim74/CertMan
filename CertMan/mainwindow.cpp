@@ -1049,17 +1049,17 @@ int MainWindow::saveKeyPair( const QString strName, const BIN *pPubInfo, const B
     else if( nType == JS_PKI_KEY_TYPE_EDDSA )
     {
         strAlg = JS_PKI_KEY_NAME_EDDSA;
-        strParam = JS_EDDSA_getParamName( nOption );
+        strParam = JS_RAW_getParamName( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_ML_DSA )
     {
         strAlg = JS_PKI_KEY_NAME_ML_DSA;
-        strParam = JS_PQC_paramName( nOption );
+        strParam = JS_RAW_getParamName( nOption );
     }
     else if( nType == JS_PKI_KEY_TYPE_SLH_DSA )
     {
         strAlg = JS_PKI_KEY_NAME_SLH_DSA;
-        strParam = JS_PQC_paramName( nOption );
+        strParam = JS_RAW_getParamName( nOption );
     }
     else {
         return -1;
