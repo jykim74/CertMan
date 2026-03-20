@@ -287,7 +287,7 @@ int ViewCRLProfileDlg::setProfile( int nNum )
     ret = dbMgr->getCRLProfileRec( profile_num_, crlProfile );
     if( ret < 0 )
     {
-        manApplet->warningBox( tr( "fail to get CRL profile: %1" ).arg( ret ), this );
+        manApplet->warningBox( tr( "failed to get CRL profile: %1" ).arg( ret ), this );
         return ret;
     }
 

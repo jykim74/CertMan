@@ -1849,7 +1849,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
     ret = JS_PKCS11_GetSlotList2( pCTX, CK_TRUE, sSlotList, &uSlotCnt );
     if( ret != CKR_OK )
     {
-        fprintf( stderr, "fail to run getSlotList fail(%d)\n", ret );
+        fprintf( stderr, "failed to run getSlotList fail(%d)\n", ret );
         return ret;
     }
 
@@ -1862,7 +1862,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
     ret = JS_PKCS11_OpenSession( pCTX, sSlotList[nSlotID], nFlags );
     if( ret != CKR_OK )
     {
-        fprintf( stderr, "fail to run opensession(%s:%x)\n", JS_PKCS11_GetErrorMsg(ret), ret );
+        fprintf( stderr, "failed to run opensession(%s:%x)\n", JS_PKCS11_GetErrorMsg(ret), ret );
         return ret;
     }
 
@@ -1874,7 +1874,7 @@ int getP11Session( void *pP11CTX, int nSlotID, const QString strPIN )
 
     if( ret != 0 )
     {
-        fprintf( stderr, "fail to run login hsm(%d)\n", ret );
+        fprintf( stderr, "failed to run login hsm(%d)\n", ret );
         return ret;
     }
 
@@ -2540,7 +2540,7 @@ int createRSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create RSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
+        fprintf( stderr, "failed to create RSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
         return rv;
     }
 
@@ -2711,7 +2711,7 @@ int createRSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create RSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
+        fprintf( stderr, "failed to create RSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv) );
         return rv;
     }
 
@@ -2802,7 +2802,7 @@ int createECPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pI
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create EC public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf( stderr, "failed to create EC public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -2894,7 +2894,7 @@ int createECPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create EC private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf( stderr, "failed to create EC private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -2984,7 +2984,7 @@ int createEDPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *pI
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create EC public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf( stderr, "failed to create EC public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -3075,7 +3075,7 @@ int createEDPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create EC private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf( stderr, "failed to create EC private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -3194,7 +3194,7 @@ int createDSAPublicKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *p
 
     if( rv != CKR_OK )
     {
-        fprintf( stderr, "fail to create DSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf( stderr, "failed to create DSA public key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -3327,7 +3327,7 @@ int createDSAPrivateKeyP11( JP11_CTX *pCTX, const QString& strLabel, const BIN *
 
     if( rv != CKR_OK )
     {
-        fprintf(stderr, "fail to create DSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
+        fprintf(stderr, "failed to create DSA private key(%s)\n", JS_PKCS11_GetErrorMsg(rv));
         return rv;
     }
 
@@ -3437,7 +3437,7 @@ int writeCertDB( DBMgr *dbMgr, const BIN *pCert )
     nRet = JS_PKI_getCertInfo( pCert, &sCertInfo, NULL );
     if( nRet != 0 )
     {
-        fprintf( stderr, "fail to parse certificate : %d\n", nRet );
+        fprintf( stderr, "failed to parse certificate : %d\n", nRet );
         nRet = -1;
         goto end;
     }
@@ -3474,7 +3474,7 @@ int writeCRLDB( DBMgr *dbMgr, const BIN *pCRL )
     nRet = JS_PKI_getCRLInfo( pCRL, &sCRLInfo, NULL, NULL );
     if( nRet != 0 )
     {
-        fprintf( stderr, "fail to parse crl data : %d\n", nRet);
+        fprintf( stderr, "failed to parse crl data : %d\n", nRet);
         goto end;
     }
 

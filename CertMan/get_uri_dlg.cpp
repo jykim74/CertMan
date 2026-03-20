@@ -258,7 +258,7 @@ end :
     }
     else
     {
-        manApplet->warningBox( tr( "Failed to get URL [%1]" ).arg( ret ), this );
+        manApplet->warningBox( tr( "Failed to retrieve URL [%1]" ).arg( ret ), this );
         QDialog::reject();
     }
 }

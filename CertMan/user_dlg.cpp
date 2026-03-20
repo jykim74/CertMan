@@ -80,7 +80,7 @@ void UserDlg::accept()
 
     if( strEmail.length() < 1 )
     {
-        manApplet->warningBox( tr( "Enter a email" ), this );
+        manApplet->warningBox( tr( "Enter an email" ), this );
         mEmailText->setFocus();
         return;
     }

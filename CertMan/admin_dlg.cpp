@@ -136,7 +136,7 @@ void AdminDlg::clickRegister()
 
     if( strEmail.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please enter a email" ), this );
+        manApplet->warningBox( tr( "Please enter an email" ), this );
         mEmailText->setFocus();
         return;
     }
@@ -218,7 +218,7 @@ void AdminDlg::clickModify()
 
     if( strEmail.isEmpty() )
     {
-        manApplet->warningBox( tr( "Please enter a email" ), this );
+        manApplet->warningBox( tr( "Please enter an email" ), this );
         mEmailText->setFocus();
         return;
     }

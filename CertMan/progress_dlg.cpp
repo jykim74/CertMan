@@ -165,7 +165,7 @@ int ProgressDlg::runEncryptPrivateKey()
                     QString strEncPri = manApplet->getEncPriHex( &binPri );
                     if( strEncPri.length() < 1 )
                     {
-                        manApplet->elog( QString( "KeyNum(%1) is fail to encrypt").arg( keyPair.getNum() ));
+                        manApplet->elog( QString( "KeyNum(%1) failed to encrypt").arg( keyPair.getNum() ));
                         ret = JSR_ERR;
                         goto end;
                     }
@@ -285,14 +285,14 @@ int ProgressDlg::runChangeEncrypt()
                     ret = manApplet->getDecPriBIN( strOldPass, keyPair.getPrivateKey(), &binPri );
                     if( ret != 0 )
                     {
-                        manApplet->elog( QString( "KeyNum(%1) is fail to decrypt" ).arg( keyPair.getNum() ));
+                        manApplet->elog( QString( "KeyNum(%1) failed to decrypt" ).arg( keyPair.getNum() ));
                         goto end;
                     }
 
                     QString strEncPri = manApplet->getEncPriHex( &binPri );
                     if( strEncPri.length() < 1 )
                     {
-                        manApplet->elog( QString( "KeyNum(%1) is fail to encrypt" ).arg( keyPair.getNum() ));
+                        manApplet->elog( QString( "KeyNum(%1) failed to encrypt" ).arg( keyPair.getNum() ));
                         ret = JSR_ERR;
                         goto end;
                     }

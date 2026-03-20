@@ -434,7 +434,7 @@ void LCNInfoDlg::clickGet()
 
         if( strEmail.length() < 1 )
         {
-            manApplet->warningBox( tr("Please enter a email"), this );
+            manApplet->warningBox( tr("Please enter an email"), this );
             mEmailText->setFocus();
             return;
         }

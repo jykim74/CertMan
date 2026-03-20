@@ -99,7 +99,7 @@ void CSRInfoDlg::initialize()
 
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to obtain CSR information [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to obtain CSR information [%1]").arg(ret), this );
         goto end;
     }
 

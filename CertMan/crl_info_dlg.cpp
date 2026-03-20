@@ -117,7 +117,7 @@ void CRLInfoDlg::clickVerifyCRL()
     manApplet->dbMgr()->getCRLRec( crl_num_, crlRec );
     if( crlRec.getIssuerNum() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no CRL information" ), this );
+        manApplet->warningBox( tr( "No CRL information available" ), this );
         return;
     }
 
@@ -129,7 +129,7 @@ void CRLInfoDlg::clickVerifyCRL()
     ret = JS_PKI_verifyCRL( &binCRL, &binCA );
     if( ret == 1 )
     {
-        manApplet->messageBox( tr("CRL Verification is successfull"), this );
+        manApplet->messageBox( tr("CRL Verification was successfull"), this );
     }
     else
     {
@@ -202,7 +202,7 @@ void CRLInfoDlg::initialize()
     ret = JS_PKI_getCRLInfo( &binCRL, &crl_info_, &ext_info_list_, &revoke_info_list_ );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to obtain CRL information"), this );
+        manApplet->warningBox( tr("failed to obtain CRL information"), this );
         JS_BIN_reset( &binCRL );
         close();
         return;
@@ -211,7 +211,7 @@ void CRLInfoDlg::initialize()
     if( now_t > crl_info_.tNextUpdate )
     {
         mCRLBtn->setIcon( QIcon( ":/images/crl_expired.png" ));
-        mHeadLabel->setText( tr( "Ceritificat Revocation List [Expired]" ));
+        mHeadLabel->setText( tr( "Certificate Revocation List [Expired]" ));
     }
 
     JS_PKI_genHash( "SHA1", &binCRL, &binFinger );

@@ -775,7 +775,7 @@ int ViewCertProfileDlg::setProfile( int nNum )
     ret = dbMgr->getCertProfileRec( profile_num_, certProfile );
     if( ret < 0 )
     {
-        manApplet->warningBox( tr( "fail to get certificate profile: %1" ).arg( ret ), this );
+        manApplet->warningBox( tr( "failed to get certificate profile: %1" ).arg( ret ), this );
         return ret;
     }
 

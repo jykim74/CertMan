@@ -1446,7 +1446,7 @@ void MainWindow::makeCRL()
 
     if( dbMgr->getCRLProfileCount() <= 0 )
     {
-        manApplet->warningBox( tr( "There is no CRL profile"), this );
+        manApplet->warningBox( tr( "No CRL profile available"), this );
         return;
     }
 
@@ -1623,7 +1623,7 @@ void MainWindow::deleteConfig()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this config?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this config?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2271,7 +2271,7 @@ void MainWindow::setPasswd()
                     QString strEncPri = manApplet->getEncPriHex( &binPri );
                     if( strEncPri.length() < 1 )
                     {
-                        manApplet->elog( QString( "KeyNum(%1) is fail to encrypt").arg( keyPair.getNum() ));
+                        manApplet->elog( QString( "KeyNum(%1) failed to encrypt").arg( keyPair.getNum() ));
                         nFail++;
                     }
                     else
@@ -2332,7 +2332,7 @@ void MainWindow::changePasswd()
 
     if( loginDlg.exec() != QDialog::Accepted )
     {
-//        manApplet->warningBox( tr( "fail to login" ), this );
+//        manApplet->warningBox( tr( "failed to login" ), this );
         return;
     }
 
@@ -2344,7 +2344,7 @@ void MainWindow::changePasswd()
 
     if( setPassDlg.exec() != QDialog::Accepted )
     {
-//        manApplet->warningBox( tr( "fail to set new password" ), this );
+//        manApplet->warningBox( tr( "failed to set new password" ), this );
         return;
     }
 
@@ -2512,7 +2512,7 @@ void MainWindow::deleteCertProfile()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this certificate profile?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this certificate profile?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2538,7 +2538,7 @@ void MainWindow::deleteCRLProfile()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this CRL profile?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this CRL profile?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2566,7 +2566,7 @@ void MainWindow::deleteCertificate()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this certificate?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this certificate?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2626,7 +2626,7 @@ void MainWindow::deleteCRL()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this CRL?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this CRL?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2652,7 +2652,7 @@ void MainWindow::deleteKeyPair()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this key pair?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this key pair?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2686,7 +2686,7 @@ void MainWindow::deleteRequest()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this request?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this request?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2708,7 +2708,7 @@ void MainWindow::deleteUser()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this user?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this user?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -2734,7 +2734,7 @@ void MainWindow::deleteSigner()
         return;
     }
 
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete this signer?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete this signer?" ), this, false );
     if( bVal == false ) return;
 
     int row = right_table_->currentRow();
@@ -4035,7 +4035,7 @@ void MainWindow::getCRLSCEP()
 
     if( ret != 0 || nStatus != JS_HTTP_STATUS_OK )
     {
-        manApplet->warningBox( QString("fail to request HTTP post [%1:%2]").arg(ret).arg(nStatus), this );
+        manApplet->warningBox( QString("failed to request HTTP post [%1:%2]").arg(ret).arg(nStatus), this );
         goto end;
     }
 
@@ -4298,7 +4298,7 @@ void MainWindow::certStatus()
 
     if( certRec.getNum() <= 0 )
     {
-        manApplet->warningBox( tr("fail to get certificate information : %1").arg(ret), this );
+        manApplet->warningBox( tr("failed to get certificate information : %1").arg(ret), this );
         return;
     }
 
@@ -4307,7 +4307,7 @@ void MainWindow::certStatus()
         ret = manApplet->dbMgr()->getRevokeRecByCertNum( certRec.getNum(), revokeRec );
         if( revokeRec.getSeq() <= 0 )
         {
-            manApplet->warningBox( tr("fail to get revoke information : %1").arg(ret), this );
+            manApplet->warningBox( tr("failed to get revoke information : %1").arg(ret), this );
             return;
         }
     }

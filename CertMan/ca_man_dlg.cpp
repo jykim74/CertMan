@@ -301,7 +301,7 @@ void CAManDlg::clickOK()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
@@ -534,7 +534,7 @@ void CAManDlg::clickCACertView()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
@@ -555,12 +555,12 @@ void CAManDlg::clickCACertDelete()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
     int num = item->data(Qt::UserRole).toInt();
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete CA certificate?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the CA certificate?" ), this, false );
     if( bVal == false ) return;
 
     int ret = manApplet->dbMgr()->delCertRec( num );
@@ -574,7 +574,7 @@ void CAManDlg::clickKeyPairView()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
@@ -592,12 +592,12 @@ void CAManDlg::clickKeyPairDelete()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
     int num = item->data(Qt::UserRole).toInt();
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the keypair?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the keypair?" ), this, false );
     if( bVal == false ) return;
 
     int ret = manApplet->dbMgr()->delKeyPairRec( num );
@@ -611,7 +611,7 @@ void CAManDlg::clickCSRView()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
@@ -628,12 +628,12 @@ void CAManDlg::clickCSRDelete()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
     int num = item->data(Qt::UserRole).toInt();
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the CSR?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the CSR?" ), this, false );
     if( bVal == false ) return;
 
     int ret = manApplet->dbMgr()->delReqRec( num );

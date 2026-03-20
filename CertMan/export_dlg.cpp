@@ -354,7 +354,7 @@ void ExportDlg::clickOK()
     {
         if( data_type_ != DataCRL && key_type_ != JS_PKI_KEY_TYPE_RSA )
         {
-            manApplet->warnLog( tr("Unlicense version support only RSA algorithm: %1").arg( key_type_ ), this );
+            manApplet->warnLog( tr("The unlicensed version supports only the RSA algorithm: %1").arg( key_type_ ), this );
             return;
         }
     }
@@ -474,7 +474,7 @@ int ExportDlg::exportPublic()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "Public Key export successfully" ), this );
+        manApplet->messageBox( tr( "Public Key exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -508,7 +508,7 @@ int ExportDlg::exportPrivate()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "Private Key export successfully" ), this );
+        manApplet->messageBox( tr( "Private Key exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -545,7 +545,7 @@ int ExportDlg::exportCert()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "Certificate export successfully" ), this );
+        manApplet->messageBox( tr( "Certificate exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -573,7 +573,7 @@ int ExportDlg::exportCRL()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "CRL export successfully" ), this );
+        manApplet->messageBox( tr( "CRL exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -601,7 +601,7 @@ int ExportDlg::exportCSR()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "CSR export successfully" ), this );
+        manApplet->messageBox( tr( "CSR exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -632,14 +632,14 @@ int ExportDlg::exportPFX()
     ret = JS_PKI_encodePFX( &binPFX, strPass.toStdString().c_str(), nPBE, &data_, &data2_ );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to encrypt PFX: %1").arg(ret), this);
+        manApplet->warningBox( tr( "failed to encrypt PFX: %1").arg(ret), this);
         goto end;
     }
 
     ret = JS_BIN_fileWrite( &binPFX, strFilename.toLocal8Bit().toStdString().c_str() );
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "PFX export successfully" ), this );
+        manApplet->messageBox( tr( "PFX exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -673,7 +673,7 @@ int ExportDlg::exportP8Enc()
     ret = JS_PKI_encryptPrivateKey( nPBE, strPass.toStdString().c_str(), &data_, NULL, &binEncPri );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "fail to encrypt private key: %1").arg(ret), this);
+        manApplet->warningBox( tr( "failed to encrypt private key: %1").arg(ret), this);
         goto end;
     }
 
@@ -684,7 +684,7 @@ int ExportDlg::exportP8Enc()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "Encrypted privateKey export successfully" ), this );
+        manApplet->messageBox( tr( "Encrypted privateKey exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -720,7 +720,7 @@ int ExportDlg::exportP8Info()
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "PKCS8 Info export successfully" ), this );
+        manApplet->messageBox( tr( "PKCS8 Info exported successfully" ), this );
         ret = JSR_OK;
     }
 
@@ -793,7 +793,7 @@ int ExportDlg::exportChain( bool bFull )
 
     if( ret > 0 )
     {
-        manApplet->messageBox( tr( "PKCS8 Info export successfully" ), this );
+        manApplet->messageBox( tr( "PKCS8 Info exported successfully" ), this );
         accept();
         ret = JSR_OK;
     }

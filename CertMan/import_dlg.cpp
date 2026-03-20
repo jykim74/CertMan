@@ -126,7 +126,7 @@ void ImportDlg::accept()
         ret = JS_BIN_fileReadBER( strPath.toLocal8Bit().toStdString().c_str(), &binSrc );
         if( ret <= 0 )
         {
-            manApplet->warningBox( tr( "fail to read : %1").arg( strPass ), this );
+            manApplet->warningBox( tr( "failed to read : %1").arg( strPass ), this );
             return;
         }
     }
@@ -372,7 +372,7 @@ int ImportDlg::ImportKeyPair( const BIN *pPriKey, int nStatus )
     {
         if( nKeyType != JS_PKI_KEY_TYPE_RSA )
         {
-            manApplet->warnLog( tr("Unlicense version support only RSA algorithm: %1").arg( nKeyType ), this );
+            manApplet->warnLog( tr("The unlicensed version supports only the RSA algorithm: %1").arg( nKeyType ), this );
             ret = -1;
             goto end;
         }

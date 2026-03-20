@@ -349,7 +349,7 @@ void ProfileManDlg::clickCertProfileDelete()
     }
 
     int num = item->data(Qt::UserRole).toInt();
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the certificate profile?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the certificate profile?" ), this, false );
     if( bVal == false ) return;
 
     int ret = manApplet->dbMgr()->delCertProfile(num);
@@ -387,12 +387,12 @@ void ProfileManDlg::clickCRLProfileDelete()
 
     if( item == NULL )
     {
-        manApplet->warningBox( tr( "There are no selected items"), this );
+        manApplet->warningBox( tr( "No items selected"), this );
         return;
     }
 
     int num = item->data(Qt::UserRole).toInt();
-    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure to delete the CRL profile?" ), this, false );
+    bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the CRL profile?" ), this, false );
     if( bVal == false ) return;
 
     int ret = manApplet->dbMgr()->delCertProfile(num);

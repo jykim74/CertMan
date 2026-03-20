@@ -158,7 +158,7 @@ void CertInfoDlg::getFields()
     ret = JS_PKI_getCertInfo( &binCert, &sCertInfo, &pExtInfoList );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr("fail to obtain certificate information [%1]").arg(ret), this );
+        manApplet->warningBox( tr("failed to obtain certificate information [%1]").arg(ret), this );
         JS_BIN_reset( &binCert );
         this->hide();
         return;
@@ -634,7 +634,7 @@ void CertInfoDlg::clickPathValidation()
     manApplet->log( QString( "PVDCertValid : %1").arg(ret));
     if( ret == 1 )
     {
-        QString strOK = "Path Validation is successfull";
+        QString strOK = "Path Validation was successfull";
         manApplet->log( strOK );
         manApplet->messageBox( strOK, this );
     }

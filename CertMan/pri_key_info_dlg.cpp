@@ -904,7 +904,7 @@ int PriKeyInfoDlg::readPrivateKeyHSM( KeyPairRec& keyRec )
     hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
     if( hKey <= 0 )
     {
-        manApplet->warnLog( tr("fail to get private key handle"), this );
+        manApplet->warnLog( tr("failed to get private key handle"), this );
         ret = JSR_ERR2;
         goto end;
     }

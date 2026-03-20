@@ -23,8 +23,12 @@
     </message>
     <message>
         <location filename="../about_dlg.ui" line="188"/>
-        <source>Check For Update</source>
+        <source>Check for Updates</source>
         <translation>업데이트 확인</translation>
+    </message>
+    <message>
+        <source>Check For Update</source>
+        <translation type="vanished">업데이트 확인</translation>
     </message>
     <message>
         <location filename="../about_dlg.ui" line="25"/>
@@ -220,8 +224,12 @@
     <message>
         <location filename="../admin_dlg.cpp" line="139"/>
         <location filename="../admin_dlg.cpp" line="221"/>
-        <source>Please enter a email</source>
+        <source>Please enter an email</source>
         <translation>이메일을 입력하세요</translation>
+    </message>
+    <message>
+        <source>Please enter a email</source>
+        <translation type="vanished">이메일을 입력하세요</translation>
     </message>
     <message>
         <location filename="../admin_dlg.cpp" line="165"/>
@@ -339,10 +347,6 @@
         <translation>이름</translation>
     </message>
     <message>
-        <source>Hash</source>
-        <translation type="vanished">해쉬</translation>
-    </message>
-    <message>
         <location filename="../ca_man_dlg.cpp" line="304"/>
         <location filename="../ca_man_dlg.cpp" line="537"/>
         <location filename="../ca_man_dlg.cpp" line="558"/>
@@ -350,23 +354,43 @@
         <location filename="../ca_man_dlg.cpp" line="595"/>
         <location filename="../ca_man_dlg.cpp" line="614"/>
         <location filename="../ca_man_dlg.cpp" line="631"/>
-        <source>There are no selected items</source>
-        <translation>선택 한 아이템이 없습니다.</translation>
+        <source>No items selected</source>
+        <translation>선택된 아이템이 없습니다</translation>
     </message>
     <message>
         <location filename="../ca_man_dlg.cpp" line="563"/>
-        <source>Are you sure to delete CA certificate?</source>
+        <source>Are you sure you want to delete the CA certificate?</source>
         <translation>CA 인증서를 정말로 삭제 하겠습니까?</translation>
     </message>
     <message>
         <location filename="../ca_man_dlg.cpp" line="600"/>
-        <source>Are you sure to delete the keypair?</source>
+        <source>Are you sure you want to delete the keypair?</source>
         <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../ca_man_dlg.cpp" line="636"/>
-        <source>Are you sure to delete the CSR?</source>
+        <source>Are you sure you want to delete the CSR?</source>
         <translation>이 CSR을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Hash</source>
+        <translation type="vanished">해쉬</translation>
+    </message>
+    <message>
+        <source>There are no selected items</source>
+        <translation type="vanished">선택 한 아이템이 없습니다.</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete CA certificate?</source>
+        <translation type="vanished">CA 인증서를 정말로 삭제 하겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete the keypair?</source>
+        <translation type="vanished">이 키 쌍을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <source>Are you sure to delete the CSR?</source>
+        <translation type="vanished">이 CSR을 삭제 하시겠습니까?</translation>
     </message>
 </context>
 <context>
@@ -435,9 +459,8 @@
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.cpp" line="120"/>
         <source>There is no CRL information</source>
-        <translation>CRL 정보가 없습니다</translation>
+        <translation type="vanished">CRL 정보가 없습니다</translation>
     </message>
     <message>
         <location filename="../crl_info_dlg.cpp" line="229"/>
@@ -567,13 +590,32 @@
         <translation>데이타 베이스를 열어야 합니다</translation>
     </message>
     <message>
+        <location filename="../crl_info_dlg.cpp" line="120"/>
+        <source>No CRL information available</source>
+        <translation>CRL 정보가 없습니다</translation>
+    </message>
+    <message>
+        <location filename="../crl_info_dlg.cpp" line="132"/>
+        <source>CRL Verification was successfull</source>
+        <translation>CRL 검증에 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../crl_info_dlg.cpp" line="205"/>
+        <source>failed to obtain CRL information</source>
+        <translation>CRL 정보 가져오기에 실패 하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../crl_info_dlg.cpp" line="214"/>
+        <source>Certificate Revocation List [Expired]</source>
+        <translation>인증서 폐기 목록 [만료됨]</translation>
+    </message>
+    <message>
         <source>There is no CA information</source>
         <translation type="vanished">CA 정보가 없습니다</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.cpp" line="132"/>
         <source>CRL Verification is successfull</source>
-        <translation>CRL 검증에 성공하였습니다.</translation>
+        <translation type="vanished">CRL 검증에 성공하였습니다.</translation>
     </message>
     <message>
         <location filename="../crl_info_dlg.cpp" line="136"/>
@@ -586,14 +628,12 @@
         <translation>CRL 을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.cpp" line="205"/>
         <source>fail to obtain CRL information</source>
-        <translation>CRL 정보 가져오기에 실패 하였습니다</translation>
+        <translation type="vanished">CRL 정보 가져오기에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../crl_info_dlg.cpp" line="214"/>
         <source>Ceritificat Revocation List [Expired]</source>
-        <translation>인증서 폐기 목록 [만료됨]</translation>
+        <translation type="vanished">인증서 폐기 목록 [만료됨]</translation>
     </message>
     <message>
         <location filename="../crl_info_dlg.cpp" line="238"/>
@@ -697,9 +737,8 @@
         <translation>CSR을 선택 하세요</translation>
     </message>
     <message>
-        <location filename="../csr_info_dlg.cpp" line="102"/>
         <source>fail to obtain CSR information [%1]</source>
-        <translation>CSR 정보 가져오기에 실패 하였습니다 [%1]</translation>
+        <translation type="vanished">CSR 정보 가져오기에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
         <location filename="../csr_info_dlg.cpp" line="195"/>
@@ -791,6 +830,11 @@
         <location filename="../csr_info_dlg.cpp" line="299"/>
         <source>PublicKey</source>
         <translation>공개키</translation>
+    </message>
+    <message>
+        <location filename="../csr_info_dlg.cpp" line="102"/>
+        <source>failed to obtain CSR information [%1]</source>
+        <translation>CSR 정보 가져오기에 실패 하였습니다 [%1]</translation>
     </message>
     <message>
         <location filename="../csr_info_dlg.cpp" line="204"/>
@@ -928,6 +972,11 @@
         <translation>발급자 이름</translation>
     </message>
     <message>
+        <location filename="../cert_info_dlg.cpp" line="161"/>
+        <source>failed to obtain certificate information [%1]</source>
+        <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
+    </message>
+    <message>
         <location filename="../cert_info_dlg.cpp" line="265"/>
         <source>SigAlgorithm</source>
         <translation>서명 알고리즘</translation>
@@ -1043,9 +1092,8 @@
         <translation>인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../cert_info_dlg.cpp" line="161"/>
         <source>fail to obtain certificate information [%1]</source>
-        <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
+        <translation type="vanished">인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
         <location filename="../cert_info_dlg.cpp" line="170"/>
@@ -1349,8 +1397,63 @@
     </message>
     <message>
         <location filename="../export_dlg.cpp" line="357"/>
-        <source>Unlicense version support only RSA algorithm: %1</source>
+        <source>The unlicensed version supports only the RSA algorithm: %1</source>
         <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="477"/>
+        <source>Public Key exported successfully</source>
+        <translation>공개키 내보내기 성공하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="511"/>
+        <source>Private Key exported successfully</source>
+        <translation>개인키 내보내기 성공하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="548"/>
+        <source>Certificate exported successfully</source>
+        <translation>인증서 내보내기 성공하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="576"/>
+        <source>CRL exported successfully</source>
+        <translation>CRL 내보내기 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="604"/>
+        <source>CSR exported successfully</source>
+        <translation>CSR 내보내기 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="635"/>
+        <source>failed to encrypt PFX: %1</source>
+        <translation>PFX 암호화 실패: %1</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="642"/>
+        <source>PFX exported successfully</source>
+        <translation>PFX 내보내기 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="676"/>
+        <source>failed to encrypt private key: %1</source>
+        <translation>개인키 암호화에 실패 하였습니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="687"/>
+        <source>Encrypted privateKey exported successfully</source>
+        <translation>암호화된 개인키 내보내기 성공하였습니다.</translation>
+    </message>
+    <message>
+        <location filename="../export_dlg.cpp" line="723"/>
+        <location filename="../export_dlg.cpp" line="796"/>
+        <source>PKCS8 Info exported successfully</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>Unlicense version support only RSA algorithm: %1</source>
+        <translation type="vanished">라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
     </message>
     <message>
         <location filename="../export_dlg.cpp" line="364"/>
@@ -1363,55 +1466,44 @@
         <translation>유효하지 않는 서비스: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="477"/>
         <source>Public Key export successfully</source>
-        <translation>공개키 저장에 성공하였습니다.</translation>
+        <translation type="vanished">공개키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="511"/>
         <source>Private Key export successfully</source>
-        <translation>개인키 저장에 성공하였습니다.</translation>
+        <translation type="vanished">개인키 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="548"/>
         <source>Certificate export successfully</source>
-        <translation>인증서 저장에 성공하였습니다.</translation>
+        <translation type="vanished">인증서 저장에 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="576"/>
         <source>CRL export successfully</source>
-        <translation>CRL 내보내기 성공하였습니다.</translation>
+        <translation type="vanished">CRL 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="604"/>
         <source>CSR export successfully</source>
-        <translation>CSR 내보내기 성공하였습니다.</translation>
+        <translation type="vanished">CSR 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="635"/>
         <source>fail to encrypt PFX: %1</source>
-        <translation>PFX 암호화 실패: %1</translation>
+        <translation type="vanished">PFX 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="642"/>
         <source>PFX export successfully</source>
-        <translation>PFX 내보내기 성공하였습니다.</translation>
+        <translation type="vanished">PFX 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="676"/>
         <source>fail to encrypt private key: %1</source>
-        <translation>개인키 암호화 실패: %1</translation>
+        <translation type="vanished">개인키 암호화 실패: %1</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="687"/>
         <source>Encrypted privateKey export successfully</source>
-        <translation>암호화된 개인키 내보내기 성공하였습니다.</translation>
+        <translation type="vanished">암호화된 개인키 내보내기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../export_dlg.cpp" line="723"/>
-        <location filename="../export_dlg.cpp" line="796"/>
         <source>PKCS8 Info export successfully</source>
-        <translation>PKCS8 메세지 내보내기에 성공하였습니다</translation>
+        <translation type="vanished">PKCS8 메세지 내보내기에 성공하였습니다</translation>
     </message>
     <message>
         <location filename="../export_dlg.cpp" line="424"/>
@@ -1593,8 +1685,12 @@
     </message>
     <message>
         <location filename="../get_uri_dlg.cpp" line="261"/>
-        <source>Failed to get URL [%1]</source>
+        <source>Failed to retrieve URL [%1]</source>
         <translation>URL 가져오기 실패 [%1]</translation>
+    </message>
+    <message>
+        <source>Failed to get URL [%1]</source>
+        <translation type="vanished">URL 가져오기 실패 [%1]</translation>
     </message>
     <message>
         <location filename="../get_uri_dlg.cpp" line="334"/>
@@ -1709,6 +1805,11 @@
         <translation>가져올 파일을 선택하세요.</translation>
     </message>
     <message>
+        <location filename="../import_dlg.cpp" line="129"/>
+        <source>failed to read : %1</source>
+        <translation>파일 읽기 실패 : %1</translation>
+    </message>
+    <message>
         <location filename="../import_dlg.cpp" line="137"/>
         <source>Please enter a value</source>
         <translation>값을 입력하세요</translation>
@@ -1739,6 +1840,11 @@
         <translation>가져오기 성공하였습니다.</translation>
     </message>
     <message>
+        <location filename="../import_dlg.cpp" line="375"/>
+        <source>The unlicensed version supports only the RSA algorithm: %1</source>
+        <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
+    </message>
+    <message>
         <source>import failed [%1]</source>
         <translation type="vanished">가져오기 실패 [%1]</translation>
     </message>
@@ -1757,9 +1863,8 @@
         <translation>%1 가져오기</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="375"/>
         <source>Unlicense version support only RSA algorithm: %1</source>
-        <translation>라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
+        <translation type="vanished">라이선스가 없는 버전은 RSA 알고리즈만 지원합니다: %1</translation>
     </message>
     <message>
         <source>Import files</source>
@@ -1812,9 +1917,8 @@
         <translation type="vanished">가져오기 성공하였습니다.</translation>
     </message>
     <message>
-        <location filename="../import_dlg.cpp" line="129"/>
         <source>fail to read : %1</source>
-        <translation>파일 읽기 실패 : %1</translation>
+        <translation type="vanished">파일 읽기 실패 : %1</translation>
     </message>
 </context>
 <context>
@@ -2004,8 +2108,12 @@
         <translation>아직 지원하지 않는 서비스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="437"/>
         <source>Please enter a email</source>
+        <translation type="vanished">이메일을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="437"/>
+        <source>Please enter an email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
@@ -3148,6 +3256,11 @@
         <translation>데이타(%1) 생성에 성공하였습니다</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="1449"/>
+        <source>No CRL profile available</source>
+        <translation>CRL 프로파일이 없습니다</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="1456"/>
         <location filename="../mainwindow.cpp" line="1489"/>
         <source>No items selected</source>
@@ -3162,6 +3275,11 @@
         <location filename="../mainwindow.cpp" line="1578"/>
         <source>Register OCSP signer</source>
         <translation>OCSP 서명자 등록하기</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1626"/>
+        <source>Are you sure you want to delete this config?</source>
+        <translation>정말로 이 설정을 지우겠습니까?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1726"/>
@@ -3327,6 +3445,16 @@
         <location filename="../mainwindow.cpp" line="4065"/>
         <source>The getCRL was successful with SCEP</source>
         <translation>CRL 가져오기가 SCEP로 성공 하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4301"/>
+        <source>failed to get certificate information : %1</source>
+        <translation>인증서 정보 가져오기 실패하였습니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="4310"/>
+        <source>failed to get revoke information : %1</source>
+        <translation>폐기 정보 가져오기에 실패: %1</translation>
     </message>
     <message>
         <source>The license has been changed. Restart to apply it?</source>
@@ -3572,44 +3700,36 @@
         <translation>인증서 또는 CRL 목록에서 사용 될 수 있습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2515"/>
         <source>Are you sure to delete this certificate profile?</source>
-        <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">인증서 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2541"/>
         <source>Are you sure to delete this CRL profile?</source>
-        <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 CRL 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2569"/>
         <source>Are you sure to delete this certificate?</source>
-        <translation>이 인증서를 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 인증서를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2629"/>
         <source>Are you sure to delete this CRL?</source>
-        <translation>이 CRL을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 CRL을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2655"/>
         <source>Are you sure to delete this key pair?</source>
-        <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 키 쌍을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2689"/>
         <source>Are you sure to delete this request?</source>
-        <translation>이 요청서를 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 요청서를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2711"/>
         <source>Are you sure to delete this user?</source>
-        <translation>이 사용자를 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 사용자를 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2737"/>
         <source>Are you sure to delete this signer?</source>
-        <translation>이 서명자를 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 서명자를 삭제 하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="369"/>
@@ -3747,9 +3867,8 @@
         <translation>인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1626"/>
         <source>Are you sure to delete this config?</source>
-        <translation>정말로 이 설정을 지우겠습니까?</translation>
+        <translation type="vanished">정말로 이 설정을 지우겠습니까?</translation>
     </message>
     <message>
         <source>There is no ca certificate</source>
@@ -4344,6 +4463,46 @@
         <translation>CSR 보기</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="2515"/>
+        <source>Are you sure you want to delete this certificate profile?</source>
+        <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2541"/>
+        <source>Are you sure you want to delete this CRL profile?</source>
+        <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2569"/>
+        <source>Are you sure you want to delete this certificate?</source>
+        <translation>인증서를 정말로 삭제 하겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2629"/>
+        <source>Are you sure you want to delete this CRL?</source>
+        <translation>CRL 을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2655"/>
+        <source>Are you sure you want to delete this key pair?</source>
+        <translation>이 키 쌍을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2689"/>
+        <source>Are you sure you want to delete this request?</source>
+        <translation>이 요청서를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2711"/>
+        <source>Are you sure you want to delete this user?</source>
+        <translation>사용자를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="2737"/>
+        <source>Are you sure you want to delete this signer?</source>
+        <translation>서명자를 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="4099"/>
         <source>Start logging</source>
         <translation>로그기록 시작</translation>
@@ -4354,14 +4513,12 @@
         <translation>로그 기록 중지</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4301"/>
         <source>fail to get certificate information : %1</source>
-        <translation>인증서 정보 가져오기 실패하였습니다 [%1]</translation>
+        <translation type="vanished">인증서 정보 가져오기 실패하였습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4310"/>
         <source>fail to get revoke information : %1</source>
-        <translation>폐기 정보 가져오기에 실패: %1</translation>
+        <translation type="vanished">폐기 정보 가져오기에 실패: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4824"/>
@@ -4451,9 +4608,8 @@
         <translation>인증서 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1449"/>
         <source>There is no CRL profile</source>
-        <translation>CRL 프로파일이 없습니다</translation>
+        <translation type="vanished">CRL 프로파일이 없습니다</translation>
     </message>
     <message>
         <source>There is no valid request</source>
@@ -8126,15 +8282,19 @@
         <translation>PKCS11 세션 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../pri_key_info_dlg.cpp" line="907"/>
         <source>fail to get private key handle</source>
-        <translation>개인키 핸들 가져오기 실패</translation>
+        <translation type="vanished">개인키 핸들 가져오기 실패</translation>
     </message>
     <message>
         <location filename="../pri_key_info_dlg.cpp" line="116"/>
         <location filename="../pri_key_info_dlg.cpp" line="979"/>
         <source>Public Key Information</source>
         <translation>공개키 정보</translation>
+    </message>
+    <message>
+        <location filename="../pri_key_info_dlg.cpp" line="907"/>
+        <source>failed to get private key handle</source>
+        <translation>개인키 핸들 가져오기 실패</translation>
     </message>
     <message>
         <location filename="../pri_key_info_dlg.cpp" line="1081"/>
@@ -8257,23 +8417,35 @@
         <translation>다음 업데이트</translation>
     </message>
     <message>
+        <location filename="../profile_man_dlg.cpp" line="352"/>
+        <source>Are you sure you want to delete the certificate profile?</source>
+        <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
+        <location filename="../profile_man_dlg.cpp" line="390"/>
+        <source>No items selected</source>
+        <translation>선택된 아이템이 없습니다</translation>
+    </message>
+    <message>
+        <location filename="../profile_man_dlg.cpp" line="395"/>
+        <source>Are you sure you want to delete the CRL profile?</source>
+        <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
+    </message>
+    <message>
         <location filename="../profile_man_dlg.cpp" line="186"/>
         <location filename="../profile_man_dlg.cpp" line="324"/>
         <location filename="../profile_man_dlg.cpp" line="347"/>
         <location filename="../profile_man_dlg.cpp" line="366"/>
-        <location filename="../profile_man_dlg.cpp" line="390"/>
         <source>There are no selected items</source>
         <translation>선택 한 아이템이 없습니다.</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="352"/>
         <source>Are you sure to delete the certificate profile?</source>
-        <translation>인증서 프로파일을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">인증서 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../profile_man_dlg.cpp" line="395"/>
         <source>Are you sure to delete the CRL profile?</source>
-        <translation>이 CRL 프로파일을 삭제 하시겠습니까?</translation>
+        <translation type="vanished">이 CRL 프로파일을 삭제 하시겠습니까?</translation>
     </message>
     <message>
         <source>Are you sure to delete CA certificate?</source>
@@ -10112,8 +10284,12 @@
         <translation>SSN을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../user_dlg.cpp" line="83"/>
         <source>Enter a email</source>
+        <translation type="vanished">이메일을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../user_dlg.cpp" line="83"/>
+        <source>Enter an email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
@@ -10294,8 +10470,12 @@
     </message>
     <message>
         <location filename="../view_crl_profile_dlg.cpp" line="290"/>
-        <source>fail to get CRL profile: %1</source>
+        <source>failed to get CRL profile: %1</source>
         <translation>CRL 프로파일 가져오기 실패: %1</translation>
+    </message>
+    <message>
+        <source>fail to get CRL profile: %1</source>
+        <translation type="vanished">CRL 프로파일 가져오기 실패: %1</translation>
     </message>
     <message>
         <location filename="../view_crl_profile_dlg.cpp" line="303"/>
@@ -10661,8 +10841,12 @@
     </message>
     <message>
         <location filename="../view_cert_profile_dlg.cpp" line="778"/>
-        <source>fail to get certificate profile: %1</source>
+        <source>failed to get certificate profile: %1</source>
         <translation>인증서 프로파일 가져오기 실패: %1</translation>
+    </message>
+    <message>
+        <source>fail to get certificate profile: %1</source>
+        <translation type="vanished">인증서 프로파일 가져오기 실패: %1</translation>
     </message>
     <message>
         <location filename="../view_cert_profile_dlg.cpp" line="788"/>
