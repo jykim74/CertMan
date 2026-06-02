@@ -4119,6 +4119,7 @@ void MainWindow::CAMan()
     {
         ca_man_dlg_ = new CAManDlg;
         ca_man_dlg_->setMode( CAManModeManage );
+        setModaless( ca_man_dlg_ );
     }
 
     ca_man_dlg_->show();
@@ -4138,6 +4139,7 @@ void MainWindow::profileMan()
     {
         profile_man_dlg_ = new ProfileManDlg;
         profile_man_dlg_->setMode( ProfileManModeManage );
+        setModaless( profile_man_dlg_ );
     }
 
     profile_man_dlg_->show();
@@ -4154,7 +4156,10 @@ void MainWindow::OCSPSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_OCSP_SRV );
     pki_srv_->show();
@@ -4171,7 +4176,10 @@ void MainWindow::TSPSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_TSP_SRV );
     pki_srv_->show();
@@ -4188,7 +4196,10 @@ void MainWindow::CMPSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_CMP_SRV );
     pki_srv_->show();
@@ -4205,7 +4216,10 @@ void MainWindow::RegSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_REG_SRV );
     pki_srv_->show();
@@ -4222,7 +4236,10 @@ void MainWindow::CCSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_CC_SRV );
     pki_srv_->show();
@@ -4239,7 +4256,10 @@ void MainWindow::KMSSrv()
     }
 
     if( pki_srv_ == nullptr )
+    {
         pki_srv_ = new PKISrvDlg;
+        setModaless( pki_srv_ );
+    }
 
     pki_srv_->setSrvKind( JS_GEN_KIND_KMS_SRV );
     pki_srv_->show();

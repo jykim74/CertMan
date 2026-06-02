@@ -284,6 +284,8 @@ private:
     void setView( int nAct );
     void unsetView( int nAct );
 
+    void setModaless( QDialog* dlg );
+
     void viewFileNew( bool bChecked );
     void viewFileOpen( bool bChecked );
     void viewFileRemoteDB( bool bChecked );

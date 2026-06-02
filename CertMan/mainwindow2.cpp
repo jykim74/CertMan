@@ -71,6 +71,14 @@ void MainWindow::unsetView( int nAct )
     manApplet->settingsMgr()->setViewValue( nValue );
 }
 
+void MainWindow::setModaless( QDialog* dlg )
+{
+    dlg->setStyleSheet( kModalessStyle );
+    QString strTitle = dlg->windowTitle();
+    strTitle += " [MODALESS]";
+    dlg->setWindowTitle( strTitle );
+}
+
 void MainWindow::createViewActions()
 {
     bool bVal = false;

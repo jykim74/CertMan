@@ -62,6 +62,8 @@ const QString kDisableStyle = "background-color:#cccccc";
 const QString kTrue = "true";
 const QString kFalse = "false";
 
+const QString kModalessStyle = "QDialog { background:#EEF4FF; }";
+
 #define VIEW_FILE           0x01000000
 #define VIEW_TOOL           0x02000000
 #define VIEW_DATA           0x03000000
