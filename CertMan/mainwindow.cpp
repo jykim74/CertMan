@@ -3512,6 +3512,8 @@ void MainWindow::verifyTSMessage()
     BIN binCert = {0,0};
     BIN binData = {0,0};
 
+    char sResMsg[1024];
+
     int row = right_table_->currentRow();
     QTableWidgetItem* item = right_table_->item( row, 0 );
     if( item == NULL ) return;
@@ -3521,6 +3523,8 @@ void MainWindow::verifyTSMessage()
     TSPRec tspRec;
     manApplet->dbMgr()->getTSPRec( num, tspRec );
     JS_BIN_decodeHex( tspRec.getData().toStdString().c_str(), &binTS );
+
+    memset( sResMsg, 0x00, sizeof(sResMsg));
 
 
     SettingsMgr *smgr = manApplet->settingsMgr();
@@ -3532,8 +3536,8 @@ void MainWindow::verifyTSMessage()
         }
     }
 
-    ret = JS_PKCS7_verifySignedData( &binTS, &binCert, NULL, -1, NULL, NULL, &binData );
-    QString strVerify = QString( "SignedData verification result : %1" ).arg( ret );
+    ret = JS_PKCS7_verifySignedData( &binTS, &binCert, NULL, -1, time(NULL), NULL, NULL, &binData, sResMsg );
+    QString strVerify = QString( "SignedData verification result : %1(%2)" ).arg( JERR(ret) ).arg(sResMsg);
 
     manApplet->messageBox( strVerify, this );
 

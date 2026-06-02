@@ -143,7 +143,7 @@ void TSPDlg::clickSend()
         goto end;
     }
 
-    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
+    ret = JS_TSP_decodeResponse( &binRsp, &nStatus, &binData, &binTST );
     if( ret != 0 )
     {
         manApplet->elog( QString( "failed to decode response message [%1]").arg(ret));
@@ -175,6 +175,7 @@ void TSPDlg::clickViewTSTInfo()
     BIN binRsp = {0,0};
 
     TSTInfoDlg tstInfoDlg;
+    int nStatus = 0;
 
     QString strOut = mOutputText->toPlainText();
     if( strOut.length() < 1 )
@@ -184,7 +185,7 @@ void TSPDlg::clickViewTSTInfo()
     }
 
     JS_BIN_decodeHex( strOut.toStdString().c_str(), &binRsp );
-    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
+    ret = JS_TSP_decodeResponse( &binRsp, &nStatus, &binData, &binTST );
     if( ret != 0 )
     {
         manApplet->warningBox(tr( "failed to decode TSP response"), this );
@@ -211,6 +212,8 @@ void TSPDlg::clickVerifyTSP()
 
     SettingsMgr *smgr = manApplet->settingsMgr();
     QString strVerify;
+    int nStatus = 0;
+    char sResMsg[1024];
 
     QString strOut = mOutputText->toPlainText();
     if( strOut.length() < 1 )
@@ -219,8 +222,10 @@ void TSPDlg::clickVerifyTSP()
         return;
     }
 
+    memset(sResMsg, 0x00, sizeof(sResMsg));
+
     JS_BIN_decodeHex( strOut.toStdString().c_str(), &binRsp );
-    ret = JS_TSP_decodeResponse( &binRsp, &binData, &binTST );
+    ret = JS_TSP_decodeResponse( &binRsp, &nStatus, &binData, &binTST );
     if( ret != 0 )
     {
         manApplet->warningBox(tr( "failed to decode TSP response"), this );
@@ -237,8 +242,8 @@ void TSPDlg::clickVerifyTSP()
         }
     }
 
-    ret = JS_PKCS7_verifySignedData( &binData, &binCert, NULL, -1, NULL, NULL, &binData );
-    strVerify = QString( "Verification result value : %1" ).arg( ret );
+    ret = JS_PKCS7_verifySignedData( &binData, &binCert, NULL, -1, time(NULL), NULL, NULL, &binData, sResMsg );
+    strVerify = QString( "Verification result value : %1(%2)" ).arg( JERR(ret) ).arg( sResMsg );
 
     manApplet->messageBox( strVerify, this );
 
