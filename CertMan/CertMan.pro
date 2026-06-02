@@ -110,7 +110,10 @@ SOURCES += \
         profile_man_dlg.cpp \
         view_cert_profile_dlg.cpp \
         view_crl_profile_dlg.cpp \
-        progress_dlg.cpp
+        progress_dlg.cpp \
+        ocsp_server.cpp \
+        tsp_server.cpp \
+        work_thread.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -184,7 +187,10 @@ HEADERS += \
         profile_man_dlg.h \
         view_cert_profile_dlg.h \
         view_crl_profile_dlg.h \
-        progress_dlg.h
+        progress_dlg.h \
+        ocsp_server.h \
+        tsp_server.h \
+        work_thread.h
 
 FORMS += \
         about_dlg.ui \

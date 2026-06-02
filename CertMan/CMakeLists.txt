@@ -21,7 +21,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 
 add_definitions( -D_USE_LCN_SRV )
-# add_definitions( -DJS_PRO )
+add_definitions( -DJS_PRO )
 
 # Qt Charts 라이브러리는 GPL 라이센스라서 LGPL-3.0 라이센스로 사용하면 안됨
 # find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Charts)
@@ -234,6 +234,8 @@ add_executable(${PROJECT_NAME}
     view_cert_profile_dlg.h view_cert_profile_dlg.cpp view_cert_profile_dlg.ui
     view_crl_profile_dlg.h view_crl_profile_dlg.cpp view_crl_profile_dlg.ui
     progress_dlg.h progress_dlg.cpp progress_dlg.ui
+    ocsp_server.h tsp_server.h work_thread.h
+    ocsp_server.cpp tsp_server.cpp work_thread.cpp
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )
