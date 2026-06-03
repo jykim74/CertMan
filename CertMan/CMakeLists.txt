@@ -236,6 +236,7 @@ add_executable(${PROJECT_NAME}
     progress_dlg.h progress_dlg.cpp progress_dlg.ui
     ocsp_server.h tsp_server.h work_thread.h
     ocsp_server.cpp tsp_server.cpp work_thread.cpp
+    tsp_server_dlg.h tsp_server_dlg.cpp tsp_server_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

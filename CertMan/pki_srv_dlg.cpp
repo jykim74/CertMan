@@ -15,6 +15,7 @@
 #include "mainwindow.h"
 #include "db_mgr.h"
 #include "config_rec.h"
+#include "tsp_server_dlg.h"
 
 static QStringList sNameList;
 
@@ -71,6 +72,8 @@ PKISrvDlg::PKISrvDlg(QWidget *parent) :
 {
     kind_ = -1;
     setupUi(this);
+
+    connect( mRunBtn, SIGNAL(clicked()), this, SLOT(clickRun()));
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mDelBtn, SIGNAL(clicked()), this, SLOT(clickDel()));
@@ -250,6 +253,12 @@ void PKISrvDlg::loadTable()
         mConfigTable->setItem(i,1, new QTableWidgetItem(QString("%1").arg( config.getName() )));
         mConfigTable->setItem(i,2, new QTableWidgetItem(QString("%1").arg( config.getValue() )));
     }
+}
+
+void PKISrvDlg::clickRun()
+{
+    TSPServerDlg tspServer;
+    tspServer.exec();
 }
 
 void PKISrvDlg::clickDel()

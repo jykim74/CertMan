@@ -3,6 +3,8 @@
 
 #include <QtCore/QObject>
 #include <QtNetwork/QTcpServer>
+#include <QPlainTextEdit>
+
 
 class TSPServer : public QTcpServer
 {
@@ -10,14 +12,19 @@ class TSPServer : public QTcpServer
 
 public:
     explicit TSPServer( QObject *parent = nullptr );
-    void startServer();
+    void startServer( int nPort );
+    void setLogEdit( QPlainTextEdit *pEdit );
 
 public slots:
 
 private:
+    QPlainTextEdit* log_edit_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
+
+    void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
+    void elog( const QString strLog );
 };
 
 #endif // TSP_SERVER_H

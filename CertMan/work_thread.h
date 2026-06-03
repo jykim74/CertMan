@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QtNetwork/QTcpSocket>
+#include <QPlainTextEdit>
 
 class WorkThread : public QThread
 {
@@ -10,6 +11,8 @@ class WorkThread : public QThread
 
 public:
     explicit WorkThread( qintptr ID, QObject *parent = 0 );
+
+    void setLogEdit( QPlainTextEdit *pEdit );
 
     void run();
 
@@ -23,6 +26,11 @@ public slots:
 private:
     QTcpSocket *socket;
     qintptr     socketDescriptor;
+
+    QPlainTextEdit* log_edit_;
+
+    void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
+    void elog( const QString strLog );
 };
 
 #endif // WORK_THREAD_H

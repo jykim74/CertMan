@@ -14,7 +14,7 @@ void WorkThread::run()
 
     if( !socket->setSocketDescriptor(this->socketDescriptor) )
     {
-        qDebug() << "setSocketDescriptor fail";
+        elog( "setSocketDescriptor fail" );
         emit error( socket->error() );
         return;
     }
@@ -27,11 +27,16 @@ void WorkThread::run()
     exec();
 }
 
+void WorkThread::setLogEdit( QPlainTextEdit *pEdit )
+{
+    log_edit_ = pEdit;
+}
+
 void WorkThread::readyRead()
 {
     QByteArray Data = socket->readAll();
 
-    qDebug() << "Data size : " << Data.size();
+    log( QString( "Data size: %1" ).arg( Data.size() ));
 
     QString strData = Data.data();
 
@@ -45,8 +50,40 @@ void WorkThread::readyRead()
 
 void WorkThread::disconnected()
 {
-    qDebug() << socketDescriptor << " Disconnected";
+    log( QString( QString( "Disconnected: %1" ).arg( socketDescriptor )));
 
     socket->deleteLater();
     exit(0);
+}
+
+void WorkThread::log( const QString strLog, QColor cr )
+{
+    QDateTime date;
+    date.setTime_t( time(NULL));
+    QString strMsg;
+    strMsg = QString( "[%1] %2\n" ).arg( date.toString("HH:mm:ss") ).arg( strLog );
+
+    if( log_edit_ )
+    {
+        QTextCursor cursor = log_edit_->textCursor();
+
+        QTextCharFormat format;
+        format.setForeground( cr );
+        cursor.mergeCharFormat(format);
+
+
+        cursor.insertText( strMsg );
+
+        log_edit_->setTextCursor( cursor );
+        log_edit_->repaint();
+    }
+    else
+    {
+        qDebug() << strMsg;
+    }
+}
+
+void WorkThread::elog( const QString strLog )
+{
+    log( strLog, QColor(0xFF,0x00,0x00));
 }
