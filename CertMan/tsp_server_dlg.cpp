@@ -4,7 +4,7 @@
 
 #include "tsp_server_dlg.h"
 #include "tsp_server.h"
-#include "work_thread.h"
+#include "tsp_work.h"
 
 #include "man_applet.h"
 

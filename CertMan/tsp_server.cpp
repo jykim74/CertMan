@@ -2,7 +2,7 @@
 #include <QtNetwork/QtNetwork>
 
 #include "tsp_server.h"
-#include "work_thread.h"
+#include "tsp_work.h"
 #include "man_applet.h"
 
 TSPServer::TSPServer( QObject *parent ) :
@@ -30,9 +30,9 @@ void TSPServer::startServer( int nPort )
 
 void TSPServer::incomingConnection( qintptr socketDescriptor )
 {
-    qDebug() << socketDescriptor << " Connecting...";
+    log( "Connecting..." );
 
-    WorkThread *thread = new WorkThread( socketDescriptor, this );
+    TspWork *thread = new TspWork( socketDescriptor, this );
 
     connect( thread, SIGNAL(finished()), thread, SLOT(deleteLater()) );
 

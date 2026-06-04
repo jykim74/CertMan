@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
 #include "ocsp_server.h"
-#include "work_thread.h"
+#include "tsp_work.h"
 
 
 OCSPServer::OCSPServer( QObject *parent ) :
@@ -28,7 +28,7 @@ void OCSPServer::incomingConnection( qintptr socketDescriptor )
 {
     qDebug() << socketDescriptor << " Connecting...";
 
-    WorkThread *thread = new WorkThread( socketDescriptor, this );
+    TspWork *thread = new TspWork( socketDescriptor, this );
 
     connect( thread, SIGNAL(finished()), thread, SLOT(deleteLater()) );
 
