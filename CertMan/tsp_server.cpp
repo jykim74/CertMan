@@ -9,11 +9,32 @@ TSPServer::TSPServer( QObject *parent ) :
     QTcpServer(parent)
 {
     log_edit_ = nullptr;
+
+    memset( &tsp_cert_, 0x00, sizeof(BIN));
+    memset( &tsp_pri_key_, 0x00, sizeof(BIN));
+}
+
+TSPServer::~TSPServer()
+{
+    JS_BIN_reset( &tsp_cert_ );
+    JS_BIN_reset( &tsp_pri_key_ );
 }
 
 void TSPServer::setLogEdit( QPlainTextEdit *pEdit )
 {
     log_edit_ = pEdit;
+}
+
+void TSPServer::setTSPCert( const BIN *pCert )
+{
+    JS_BIN_reset( &tsp_cert_ );
+    JS_BIN_copy( &tsp_cert_, pCert );
+}
+
+void TSPServer::setTSPPriKey( const BIN *pPriKey )
+{
+    JS_BIN_reset( &tsp_pri_key_ );
+    JS_BIN_copy( &tsp_pri_key_, pPriKey );
 }
 
 void TSPServer::startServer( int nPort )
@@ -28,7 +49,7 @@ void TSPServer::startServer( int nPort )
     }
 }
 
-void TSPServer::incomingConnection( qintptr socketDescriptor )
+void TSPServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
 

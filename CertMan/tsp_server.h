@@ -5,6 +5,9 @@
 #include <QtNetwork/QTcpServer>
 #include <QPlainTextEdit>
 
+#include "js_bin.h"
+#include "js_pkcs11.h"
+
 
 class TSPServer : public QTcpServer
 {
@@ -12,13 +15,20 @@ class TSPServer : public QTcpServer
 
 public:
     explicit TSPServer( QObject *parent = nullptr );
+    ~TSPServer();
+
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
+    void setTSPCert( const BIN *pCert );
+    void setTSPPriKey( const BIN *pPriKey );
 
 public slots:
 
 private:
     QPlainTextEdit* log_edit_;
+
+    BIN tsp_cert_;
+    BIN tsp_pri_key_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
