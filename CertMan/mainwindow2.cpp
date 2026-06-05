@@ -90,6 +90,7 @@ void MainWindow::createViewActions()
     QMenu *toolMenu = viewMenu->addMenu( tr("Tool ToolBar"));
     QMenu *dataMenu = viewMenu->addMenu( tr( "Data ToolBar" ) );
     QMenu *serverMenu = NULL;
+    QMenu *serviceMenu = viewMenu->addMenu( tr( "Service ToolBar" ));
 
     if( manApplet->isPRO() )
     {
@@ -307,6 +308,27 @@ void MainWindow::createViewActions()
         connect( helpServerStatusAct, &QAction::triggered, this, &MainWindow::viewHelpServerStatus );
         helpMenu->addAction( helpServerStatusAct );
     }
+
+    QAction *serviceTSPAct = new QAction( tr( "TSP Service" ), this );
+    bVal = isView( ACT_SERVICE_TSP );
+    serviceTSPAct->setCheckable( true );
+    serviceTSPAct->setChecked( bVal );
+    connect( serviceTSPAct, &QAction::triggered, this, &MainWindow::viewServiceTSP );
+    serviceMenu->addAction( serviceTSPAct );
+
+    QAction *serviceOCSPAct = new QAction( tr( "OCSP Service" ), this );
+    bVal = isView( ACT_SERVICE_OCSP );
+    serviceOCSPAct->setCheckable( true );
+    serviceOCSPAct->setChecked( bVal );
+    connect( serviceOCSPAct, &QAction::triggered, this, &MainWindow::viewServiceOCSP );
+    serviceMenu->addAction( serviceOCSPAct );
+
+    QAction *serviceCAAct = new QAction( tr( "CA Service" ), this );
+    bVal = isView( ACT_SERVER_CMP );
+    serviceCAAct->setCheckable( true );
+    serviceCAAct->setChecked( bVal );
+    connect( serviceCAAct, &QAction::triggered, this, &MainWindow::viewServiceCA );
+    serviceMenu->addAction( serviceCAAct );
 
     QAction *helpSettingAct = new QAction( tr( "Settings" ), this );
     bVal = isView( ACT_HELP_SETTING );
@@ -862,6 +884,60 @@ void MainWindow::viewServerKMS( bool bChecked )
     else
     {
         server_tool_->removeAction( kms_act_ );
+        unsetView( nAct );
+    }
+}
+
+void MainWindow::viewServiceTSP( bool bChecked )
+{
+    int nAct = ACT_SERVICE_TSP;
+
+    if( tsp_service_act_ == nullptr ) return;
+
+    if( bChecked == true )
+    {
+        service_tool_->addAction( tsp_service_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        service_tool_->removeAction( tsp_service_act_ );
+        unsetView( nAct );
+    }
+}
+
+void MainWindow::viewServiceOCSP( bool bChecked )
+{
+    int nAct = ACT_SERVICE_OCSP;
+
+    if( ocsp_service_act_ == nullptr ) return;
+
+    if( bChecked == true )
+    {
+        service_tool_->addAction( ocsp_service_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        service_tool_->removeAction( ocsp_service_act_ );
+        unsetView( nAct );
+    }
+}
+
+void MainWindow::viewServiceCA( bool bChecked )
+{
+    int nAct = ACT_SERVICE_CA;
+
+    if( ca_service_act_ == nullptr ) return;
+
+    if( bChecked == true )
+    {
+        service_tool_->addAction( ca_service_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        service_tool_->removeAction( ca_service_act_ );
         unsetView( nAct );
     }
 }

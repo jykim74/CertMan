@@ -15,7 +15,7 @@
 #include "mainwindow.h"
 #include "db_mgr.h"
 #include "config_rec.h"
-#include "tsp_server_dlg.h"
+#include "tsp_service_dlg.h"
 
 static QStringList sNameList;
 
@@ -257,8 +257,8 @@ void PKISrvDlg::loadTable()
 
 void PKISrvDlg::clickRun()
 {
-    TSPServerDlg tspServer;
-    tspServer.exec();
+    TSPServiceDlg tspService;
+    tspService.exec();
 }
 
 void PKISrvDlg::clickDel()

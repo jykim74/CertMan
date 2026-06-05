@@ -25,6 +25,9 @@ class SearchForm;
 class CertRec;
 class CAManDlg;
 class ProfileManDlg;
+class TSPServiceDlg;
+class OCSPServiceDlg;
+class CAServiceDlg;
 
 #ifdef _ENABLE_CHARTS
 class StatForm;
@@ -81,6 +84,7 @@ public:
     void createFileActions();
     void createToolsActions();
     void createDataActions();
+    void createServiceActions();
     void createHelpActions();
 
     void createActions();
@@ -264,6 +268,10 @@ public slots:
     void CCSrv();
     void KMSSrv();
 
+    void TSPService();
+    void OCSPService();
+    void CAService();
+
 private slots:
     void showRightMenu( QPoint point );
     void doubleClickRightTable(QModelIndex index);
@@ -319,6 +327,10 @@ private:
     void viewServerCC( bool bChecked );
     void viewServerKMS( bool bChecked );
 
+    void viewServiceTSP( bool bChecked );
+    void viewServiceOCSP( bool bChecked );
+    void viewServiceCA( bool bChecked );
+
     void viewHelpServerStatus( bool bChecked );
     void viewHelpSetting( bool bChecked );
     void viewHelpClearLog( bool bChecked );
@@ -351,6 +363,9 @@ private:
     PKISrvDlg       *pki_srv_ = nullptr;
     CAManDlg        *ca_man_dlg_ = nullptr;
     ProfileManDlg   *profile_man_dlg_ = nullptr;
+    TSPServiceDlg   *tsp_service_dlg_ = nullptr;
+    OCSPServiceDlg  *ocsp_service_dlg_ = nullptr;
+    CAServiceDlg    *ca_service_dlg_ = nullptr;
 
     QToolBar*       file_tool_;
     QAction*        new_act_;
@@ -388,6 +403,11 @@ private:
     QAction*        reg_act_;
     QAction*        cc_act_;
     QAction*        kms_act_;
+
+    QToolBar*       service_tool_;
+    QAction*        tsp_service_act_;
+    QAction*        ocsp_service_act_;
+    QAction*        ca_service_act_;
 
     QToolBar*       help_tool_;
     QAction*        server_status_act_;

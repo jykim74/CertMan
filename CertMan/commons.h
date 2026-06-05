@@ -68,7 +68,8 @@ const QString kModalessStyle = "QDialog { background:#EEF4FF; }";
 #define VIEW_TOOL           0x02000000
 #define VIEW_DATA           0x03000000
 #define VIEW_SERVER         0x04000000
-#define VIEW_HELP           0x05000000
+#define VIEW_SERVICE        0x05000000
+#define VIEW_HELP           0x06000000
 
 #define ACT_FILE_NEW                    VIEW_FILE | 0x00000001
 #define ACT_FILE_OPEN                   VIEW_FILE | 0x00000002
@@ -102,6 +103,10 @@ const QString kModalessStyle = "QDialog { background:#EEF4FF; }";
 #define ACT_SERVER_REG                  VIEW_SERVER | 0x00000008
 #define ACT_SERVER_CC                   VIEW_SERVER | 0x00000010
 #define ACT_SERVER_KMS                  VIEW_SERVER | 0x00000020
+
+#define ACT_SERVICE_TSP                 VIEW_SERVICE | 0x00000001
+#define ACT_SERVICE_OCSP                VIEW_SERVICE | 0x00000002
+#define ACT_SERVICE_CA                  VIEW_SERVICE | 0x00000004
 
 #define ACT_HELP_SERVER_STATUS          VIEW_HELP | 0x00000001
 #define ACT_HELP_SETTING                VIEW_HELP | 0x00000002

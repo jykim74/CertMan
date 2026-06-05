@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(CertMan
     VERSION 2.3.0
     DESCRIPTION "CertMan Application"
-    LANGUAGES CXX )
+    LANGUAGES CXX C )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -234,9 +234,12 @@ add_executable(${PROJECT_NAME}
     view_cert_profile_dlg.h view_cert_profile_dlg.cpp view_cert_profile_dlg.ui
     view_crl_profile_dlg.h view_crl_profile_dlg.cpp view_crl_profile_dlg.ui
     progress_dlg.h progress_dlg.cpp progress_dlg.ui
-    ocsp_server.h tsp_server.h tsp_work.h
-    ocsp_server.cpp tsp_server.cpp tsp_work.cpp
-    tsp_server_dlg.h tsp_server_dlg.cpp tsp_server_dlg.ui
+    ocsp_server.h tsp_server.h
+    ocsp_server.cpp tsp_server.cpp
+    tsp_service_dlg.h tsp_service_dlg.cpp tsp_service_dlg.ui
+    ocsp_service_dlg.h ocsp_service_dlg.cpp ocsp_service_dlg.ui
+    ca_server.h ca_server.cpp
+    ca_service_dlg.h ca_service_dlg.cpp ca_service_dlg.ui
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

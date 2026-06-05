@@ -111,10 +111,12 @@ SOURCES += \
         view_cert_profile_dlg.cpp \
         view_crl_profile_dlg.cpp \
         progress_dlg.cpp \
-        ocsp_server.cpp \
         tsp_server_dlg.cpp \
         tsp_server.cpp \
-        tsp_work.cpp
+        ocsp_server.cpp \
+        ocsp_service_dlg.cpp \
+        ca_server.cpp \
+        ca_service_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -189,10 +191,12 @@ HEADERS += \
         view_cert_profile_dlg.h \
         view_crl_profile_dlg.h \
         progress_dlg.h \
-        ocsp_server.h \
-        tsp_server_dlg.h \
+        tsp_service_dlg.h \
         tsp_server.h \
-        tsp_work.h
+        ocsp_server.h \
+        ocsp_service_dlg.h \
+        ca_server.h \
+        ca_service_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -241,7 +245,9 @@ FORMS += \
         view_cert_profile_dlg.ui \
         view_crl_profile_dlg.ui \
         progress_dlg.ui \
-        tsp_server_dlg.ui
+        tsp_service_dlg.ui \
+        ocsp_service_dlg.ui \
+        ca_service_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

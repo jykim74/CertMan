@@ -4,25 +4,28 @@
 #include <QDialog>
 
 
-#include "ui_tsp_server_dlg.h"
+#include "ui_tsp_service_dlg.h"
 #include "tsp_server.h"
 
 
 namespace Ui {
-class TSPServerDlg;
+class TSPServiceDlg;
 }
 
-class TSPServerDlg : public QDialog, public Ui::TSPServerDlg
+class TSPServiceDlg : public QDialog, public Ui::TSPServiceDlg
 {
     Q_OBJECT
 
 public:
-    explicit TSPServerDlg(QWidget *parent = nullptr);
-    ~TSPServerDlg();
+    explicit TSPServiceDlg(QWidget *parent = nullptr);
+    ~TSPServiceDlg();
 
 private slots:
     void clickStart();
     void clickLogClear();
+    void clickSelect();
+    void clickView();
+    void changeNum();
 
 private:
     void initUI();

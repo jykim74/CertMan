@@ -23,12 +23,18 @@ public:
     void setTSPPriKey( const BIN *pPriKey );
 
 public slots:
+    int readReady();
+
+private :
+    int procTSP( const BIN *pReq, BIN *pRsp );
+
 
 private:
     QPlainTextEdit* log_edit_;
 
     BIN tsp_cert_;
     BIN tsp_pri_key_;
+    QTcpSocket *client_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );

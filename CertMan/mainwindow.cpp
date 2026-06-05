@@ -89,6 +89,9 @@
 #include "view_cert_profile_dlg.h"
 #include "view_crl_profile_dlg.h"
 #include "progress_dlg.h"
+#include "tsp_service_dlg.h"
+#include "ocsp_service_dlg.h"
+#include "ca_service_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -572,6 +575,46 @@ void MainWindow::createDataActions()
 
 }
 
+void MainWindow::createServiceActions()
+{
+    QMenu *serviceMenu = menuBar()->addMenu( tr("&Service" ));
+    service_tool_ = addToolBar(tr("Service"));
+
+    service_tool_->setIconSize( QSize(TOOL_BAR_WIDTH, TOOL_BAR_HEIGHT));
+    service_tool_->layout()->setSpacing(0);
+
+    const QIcon tspIcon = QIcon::fromTheme("TSP", QIcon(":/images/tsp_srv.png"));
+    tsp_service_act_ = new QAction( tspIcon, tr("&TSP Service"), this);
+    tsp_service_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_T));
+    connect( tsp_service_act_, &QAction::triggered, this, &MainWindow::TSPService);
+    tsp_service_act_->setStatusTip(tr("Setting up an TSP service"));
+    serviceMenu->addAction( tsp_service_act_ );
+    if( isView( ACT_SERVICE_TSP ) ) service_tool_->addAction( tsp_service_act_ );
+
+    const QIcon ocspIcon = QIcon::fromTheme("OCSP", QIcon(":/images/ocsp_srv.png"));
+    ocsp_service_act_ = new QAction( ocspIcon, tr("&OCSP Service"), this);
+    ocsp_service_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_O));
+    connect( ocsp_service_act_, &QAction::triggered, this, &MainWindow::OCSPService);
+    ocsp_service_act_->setStatusTip(tr("Setting up an OCSP service"));
+    serviceMenu->addAction( ocsp_service_act_ );
+    if( isView( ACT_SERVICE_OCSP ) ) service_tool_->addAction( ocsp_service_act_ );
+
+    const QIcon cmpIcon = QIcon::fromTheme("CMP", QIcon(":/images/cmp_srv.png"));
+    ca_service_act_ = new QAction( cmpIcon, tr("&CA Service"), this);
+    ca_service_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_C));
+    connect( ca_service_act_, &QAction::triggered, this, &MainWindow::CAService);
+    ca_service_act_->setStatusTip(tr("Setting up an CMP server"));
+    serviceMenu->addAction( ca_service_act_ );
+    if( isView( ACT_SERVICE_CA ) ) service_tool_->addAction( ca_service_act_ );
+
+    if( manApplet->isLicense() == false )
+    {
+        tsp_service_act_->setEnabled( false );
+        ocsp_service_act_->setEnabled( false );
+        ca_service_act_->setEnabled( false );
+    }
+}
+
 void MainWindow::createHelpActions()
 {
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -656,6 +699,7 @@ void MainWindow::createActions()
 
     createToolsActions();
     createDataActions();
+    createServiceActions();
     createHelpActions();
 }
 
@@ -4269,6 +4313,63 @@ void MainWindow::KMSSrv()
     pki_srv_->show();
     pki_srv_->raise();
     pki_srv_->activateWindow();
+}
+
+void MainWindow::TSPService()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    if( tsp_service_dlg_ == nullptr )
+    {
+        tsp_service_dlg_ = new TSPServiceDlg;
+        setModaless( tsp_service_dlg_ );
+    }
+
+    tsp_service_dlg_->show();
+    tsp_service_dlg_->raise();
+    tsp_service_dlg_->activateWindow();
+}
+
+void MainWindow::OCSPService()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    if( ocsp_service_dlg_ == nullptr )
+    {
+        ocsp_service_dlg_ = new OCSPServiceDlg;
+        setModaless( ocsp_service_dlg_ );
+    }
+
+    ocsp_service_dlg_->show();
+    ocsp_service_dlg_->raise();
+    ocsp_service_dlg_->activateWindow();
+}
+
+void MainWindow::CAService()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    if( ca_service_dlg_ == nullptr )
+    {
+        ca_service_dlg_ = new CAServiceDlg;
+        setModaless( ca_service_dlg_ );
+    }
+
+    ca_service_dlg_->show();
+    ca_service_dlg_->raise();
+    ca_service_dlg_->activateWindow();
 }
 
 void MainWindow::expandMenu()
