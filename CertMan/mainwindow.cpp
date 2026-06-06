@@ -1573,7 +1573,7 @@ void MainWindow::revokeCertificate()
     int num = item->text().toInt();
     CertRec cert;
     manApplet->dbMgr()->getCertRec( num, cert );
-    if( cert.isSelf() && cert.isCA() )
+    if( cert.isSelf() && cert.getKind() == JS_CERT_TYPE_CA )
     {
         manApplet->warningBox( tr("RootCA cannot be revoked"), this );
         return;
@@ -2621,7 +2621,7 @@ void MainWindow::deleteCertificate()
     CertRec cert;
     dbMgr->getCertRec( num, cert );
 
-    if( cert.isCA() )
+    if( cert.getKind() == JS_CERT_TYPE_CA )
     {
         int nCertCnt = dbMgr->getCertSearchCount( num );
         manApplet->log( QString("Issued Cert Cnt : %1").arg( nCertCnt ));
@@ -2656,7 +2656,7 @@ void MainWindow::deleteCertificate()
 
     dbMgr->delCertRec( num );
     manApplet->log( QString( "CertNum : %1 is deleted").arg( num ));
-    if( cert.isCA() ) left_model_->refreshRootCA();
+    if( cert.getKind() == JS_CERT_TYPE_CA ) left_model_->refreshRootCA();
 
 //    createRightCertList( cert.getIssuerNum() );
     left_model_->clickRootTreeMenu( CM_ITEM_TYPE_CERT, cert.getIssuerNum() );
@@ -5828,7 +5828,7 @@ void MainWindow::infoCertificate( int seq )
         info( QString("UserNum       : %1 | %2\n").arg( strUserName, nFieldWidth ).arg(certRec.getUserNum()));
 
     info( QString("SignAlgorithm : %1\n").arg(certRec.getSignAlg()));
-    info( QString("IsCA          : %1 = %2\n").arg( certRec.isCA() ? "Yes" : "No", nFieldWidth ).arg(certRec.isCA()));
+    info( QString("Kind          : %1 = %2\n").arg( JS_PKI_nameCertType( certRec.getKind() ), nFieldWidth ).arg(certRec.getKind()));
     info( QString("IsSelf        : %1 = %2\n").arg( certRec.isSelf() ? "Yes" : "No", nFieldWidth ).arg(certRec.isSelf()));
     info( QString("SubjectDN     : %1\n").arg(certRec.getSubjectDN()));
     info( QString("IssuerNum     : %1 = %2\n").arg( strIssuerName, nFieldWidth).arg(certRec.getIssuerNum()));

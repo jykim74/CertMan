@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS TB_CERT (
  signAlg VARCHAR(256),
  Cert Text,
  IsSelf INT,
- IsCA INT,
+ Kind INT,
  IssuerNum INT,
  SubjectDN VARCHAR(256),
  Status INT,

@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <iostream>
 
+#include "js_define.h"
 #include "db_mgr.h"
 #include "cert_rec.h"
 #include "cert_profile_rec.h"
@@ -205,7 +206,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
     int nPosSignAlg = SQL.record().indexOf( "SignAlg" );
     int nPosCert = SQL.record().indexOf( "CERT" );
     int nPosSelf = SQL.record().indexOf( "IsSelf" );
-    int nPosCA = SQL.record().indexOf( "IsCA" );
+    int nPosKind = SQL.record().indexOf( "Kind" );
     int nPosIssuerNum = SQL.record().indexOf( "IssuerNum" );
     int nPosSubjectDN = SQL.record().indexOf( "SubjectDN" );
     int nPosStatus = SQL.record().indexOf( "Status" );
@@ -227,7 +228,7 @@ int DBMgr::_getCertList( QString strQuery, QList<CertRec>& certList )
         certRec.setSignAlg( SQL.value(nPosSignAlg).toString() );
         certRec.setCert( SQL.value(nPosCert).toString() );
         certRec.setSelf( SQL.value(nPosSelf).toBool() );
-        certRec.setCA( SQL.value(nPosCA).toBool() );
+        certRec.setKind( SQL.value(nPosKind).toInt() );
         certRec.setIssuerNum( SQL.value(nPosIssuerNum).toInt());
         certRec.setSubjectDN( SQL.value(nPosSubjectDN).toString() );
         certRec.setStatus( SQL.value(nPosStatus).toInt());
@@ -331,7 +332,7 @@ int DBMgr::getCACount()
 {
     int nCount = -1;
 
-    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISCA = 1");
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE Kind = %1").arg( JS_CERT_TYPE_CA );
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
@@ -347,7 +348,7 @@ int DBMgr::getCACount( int nIssuerNum )
 {
     int nCount = -1;
 
-    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE ISCA = 1 AND ISSUERNUM = %1").arg( nIssuerNum );
+    QString strSQL = QString( "SELECT COUNT(*) FROM TB_CERT WHERE Kind = %1 AND ISSUERNUM = %2").arg( JS_CERT_TYPE_CA ).arg( nIssuerNum );
     QSqlQuery SQL(strSQL);
 
     while( SQL.next() )
@@ -739,14 +740,21 @@ int DBMgr::getTSPSearchCount( QString strTarget, QString strWord)
 
 int DBMgr::getCACertList( QList<CertRec>& certList )
 {
-    QString strSQL  = "SELECT * FROM TB_CERT WHERE ISCA=1 ORDER BY NUM DESC";
+    QString strSQL  =  QString( "SELECT * FROM TB_CERT WHERE Kind=%1 ORDER BY NUM DESC").arg( JS_CERT_TYPE_CA );
 
     return _getCertList( strSQL, certList );
 }
 
 int DBMgr::getIssuerCertList( QList<CertRec>& certList )
 {
-    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE ISCA=1 AND ISSUERNUM >= %1 ORDER BY NUM DESC" ).arg( kSelfNum );
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE Kind=%1 AND ISSUERNUM >= %2 ORDER BY NUM DESC" ).arg(JS_CERT_TYPE_CA).arg( kSelfNum );
+
+    return _getCertList( strSQL, certList );
+}
+
+int DBMgr::getSignerCertList( QList<CertRec>& certList )
+{
+    QString strSQL  = QString( "SELECT * FROM TB_CERT WHERE Kind > 0 AND ISSUERNUM >= %2 ORDER BY NUM DESC" ).arg( kSelfNum );
 
     return _getCertList( strSQL, certList );
 }
@@ -754,7 +762,7 @@ int DBMgr::getIssuerCertList( QList<CertRec>& certList )
 int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
 {
     QString strSQL  = QString( "SELECT * FROM TB_CERT "
-                               "WHERE ISCA=1 AND ISSUERNUM = %1 ORDER BY NUM DESC").arg( nIssuerNum );
+                             "WHERE KIND=%1 AND ISSUERNUM = %2 ORDER BY NUM DESC").arg( JS_CERT_TYPE_CA ).arg( nIssuerNum );
 
     return _getCertList( strSQL, certList );
 }
@@ -762,8 +770,9 @@ int DBMgr::getCACertList( int nIssuerNum, QList<CertRec>& certList )
 int DBMgr::getCACertList( int nIssuerNum, QString strTarget, QString strWord, QList<CertRec>& certList )
 {
     QString strSQL  = QString( "SELECT * FROM TB_CERT "
-                               "WHERE ISCA=1 AND ISSUERNUM = %1 AND %2 LIKE '%%3%' "
+                               "WHERE Kind=%1 AND ISSUERNUM = %2 AND %3 LIKE '%%4%' "
                                "ORDER BY NUM DESC")
+                         .arg( JS_CERT_TYPE_CA )
             .arg( nIssuerNum )
             .arg( strTarget )
             .arg( strWord );
@@ -2023,7 +2032,7 @@ int DBMgr::addCertRec( CertRec& certRec )
 
 
     sqlQuery.prepare( "INSERT INTO TB_CERT "
-                      "( NUM, REGTIME, NOTBEFORE, NOTAFTER, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, ISCA, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
+                      "( NUM, REGTIME, NOTBEFORE, NOTAFTER, KEYNUM, USERNUM, SIGNALG, CERT, ISSELF, KIND, ISSUERNUM, SUBJECTDN, STATUS, SERIAL, DNHASH, KEYHASH, CRLDP ) "
                       "VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );" );
 
     sqlQuery.bindValue( i++, certRec.getNum() );
@@ -2035,7 +2044,7 @@ int DBMgr::addCertRec( CertRec& certRec )
     sqlQuery.bindValue( i++, certRec.getSignAlg() );
     sqlQuery.bindValue( i++, certRec.getCert() );
     sqlQuery.bindValue( i++, certRec.isSelf() );
-    sqlQuery.bindValue( i++, certRec.isCA() );
+    sqlQuery.bindValue( i++, certRec.getKind() );
     sqlQuery.bindValue( i++, certRec.getIssuerNum() );
     sqlQuery.bindValue( i++, certRec.getSubjectDN() );
     sqlQuery.bindValue( i++, certRec.getStatus() );

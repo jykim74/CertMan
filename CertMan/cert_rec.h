@@ -21,7 +21,7 @@ private:
     QString     m_strSignAlg;
     QString     m_strCert;
     int         m_nSelf;
-    int         m_nCA;
+    int         m_nKind;
     int         m_nIssuerNum;
     QString     m_strSubjectDN;
     int         m_nStatus;
@@ -42,7 +42,7 @@ public:
     QString getSignAlg() { return m_strSignAlg; };
     QString getCert() { return m_strCert; };
     int isSelf() { return m_nSelf; };
-    int isCA() { return m_nCA; };
+    int getKind() { return m_nKind; };
     int getIssuerNum() { return m_nIssuerNum; };
     QString getSubjectDN() { return m_strSubjectDN; };
     int getStatus() { return m_nStatus; };
@@ -60,7 +60,7 @@ public:
     void setSignAlg( QString strSignAlg );
     void setCert( QString strCert );
     void setSelf( bool bSelf );
-    void setCA( bool bCA );
+    void setKind( int nKind );
     void setIssuerNum( int nIssuerNum );
     void setSubjectDN( QString strSubjectDN );
     void setStatus( int nStatus );

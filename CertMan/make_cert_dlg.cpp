@@ -235,6 +235,8 @@ void MakeCertDlg::accept()
     BIN binCert = {0,0};
     char *pHexCert = NULL;
     bool bCA = false;
+    bool bTSP = false;
+    bool bOCSP = false;
     BIN binPub = {0,0};
     BIN binKeyID = {0,0};
 
@@ -553,6 +555,16 @@ void MakeCertDlg::accept()
             QString strReplace = getReplacedValue( strAltName );
             profileExt.setValue( strAltName );
         }
+        else if( profileExt.getSN() == JS_PKI_ExtNameEKU )
+        {
+            QString strEKUValue = profileExt.getValue();
+
+            if( strEKUValue.contains( "OCSPSigning") == true )
+                bOCSP = true;
+
+            if( strEKUValue.contains( "timeStamping" ) == true )
+                bTSP = true;
+        }
         else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
         {
             if( bSelf == false )
@@ -717,7 +729,24 @@ void MakeCertDlg::accept()
     madeCertRec.setNotAfter( notAfter );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( reqRec.getKeyNum() );
-    madeCertRec.setCA( bCA );
+    if( bCA )
+    {
+        madeCertRec.setKind( JS_CERT_TYPE_CA );
+    }
+    else
+    {
+        if( bTSP == true )
+        {
+            bool bVal = manApplet->yesOrNoBox( tr( "Would you like to designate it for the TSP server?" ), this, true );
+            if( bVal ) madeCertRec.setKind( JS_CERT_TYPE_TSP );
+        }
+
+        if( bOCSP == true )
+        {
+            bool bVal = manApplet->yesOrNoBox( tr( "Would you like to designate it for the OCSP server?" ), this, true );
+            if( bVal ) madeCertRec.setKind( JS_CERT_TYPE_OCSP );
+        }
+    }
     madeCertRec.setIssuerNum( nIssuerNum );
     madeCertRec.setSerial( sMadeCertInfo.pSerial );
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
@@ -759,7 +788,7 @@ void MakeCertDlg::accept()
     if( madeCertRec.isCA() && madeCertRec.isSelf() )
         manApplet->mainWindow()->addRootCA( madeCertRec );
     */
-    if( madeCertRec.isCA() )
+    if( madeCertRec.getKind() == JS_CERT_TYPE_CA )
     {
         if( bSelf ) nType = CM_ITEM_TYPE_ROOTCA;
 

@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS "TB_CERT" (
 	"signAlg"	TEXT,
 	"Cert"	TEXT,
 	"IsSelf"	INTEGER,
-	"IsCA"	INTEGER,
+        "Kind"	INTEGER,
 	"IssuerNum"	INTEGER,
 	"SubjectDN"	TEXT,
 	"Status"	INTEGER,

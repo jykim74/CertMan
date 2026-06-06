@@ -376,7 +376,7 @@ void RenewCertDlg::accept()
     madeCertRec.setNotAfter( notAfter );
     madeCertRec.setSubjectDN( sMadeCertInfo.pSubjectName );
     madeCertRec.setKeyNum( cert.getKeyNum() );
-    madeCertRec.setCA( cert.isCA() );
+    madeCertRec.setKind( cert.getKind() );
     madeCertRec.setIssuerNum( cert.getIssuerNum() );
     madeCertRec.setSerial( sMadeCertInfo.pSerial );
     madeCertRec.setDNHash( sMadeCertInfo.pDNHash );
@@ -409,7 +409,7 @@ void RenewCertDlg::accept()
         addAudit( manApplet->dbMgr(), JS_GEN_KIND_CERTMAN, JS_GEN_OP_RENEW_CERT, "" );
 
 
-    if( madeCertRec.isCA() && madeCertRec.isSelf() )
+    if( madeCertRec.getKind() == JS_CERT_TYPE_CA && madeCertRec.isSelf() )
         manApplet->mainWindow()->getTreeModel()->addRootCA( madeCertRec );
 
 end :

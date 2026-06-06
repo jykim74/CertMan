@@ -18,7 +18,7 @@ CertRec::CertRec()
     m_strCert = "";
     m_strSignAlg = "";
     m_nSelf = 0;
-    m_nCA = 0;
+    m_nKind = 0;
     m_nIssuerNum = -1;
     m_strSubjectDN = "";
     m_nStatus = -1;
@@ -71,9 +71,9 @@ void CertRec::setSelf( bool bSelf )
     m_nSelf = bSelf;
 }
 
-void CertRec::setCA( bool bCA )
+void CertRec::setKind( int nKind )
 {
-    m_nCA = bCA;
+    m_nKind = nKind;
 }
 
 void CertRec::setIssuerNum( int nIssuerNum )
@@ -129,7 +129,7 @@ const QIcon CertRec::getIcon( time_t now_t )
             return QIcon( ":/images/rca.png" );
     }
 
-    if( m_nCA == true )
+    if( m_nKind == JS_CERT_TYPE_CA )
     {
         if( m_tNotAfter < now_t )
             return QIcon( ":/images/ca_expired.png" );

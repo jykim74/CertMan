@@ -399,7 +399,7 @@ int GetURIDlg::ImportCert( const BIN *pCert )
 
     /* need to check IsCA */
     if( mTypeCombo->currentIndex() == 0 )
-        cert.setCA(1);
+        cert.setKind( JS_CERT_TYPE_CA );
 
     dbMgr->addCertRec( cert );
 

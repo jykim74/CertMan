@@ -42,6 +42,7 @@ private slots:
     void slotCSRTableMenuRequested( QPoint pos );
 
     void clickOK();
+    void checkSigner();
 
     void loadCACertList();
     void loadKeyPairList();

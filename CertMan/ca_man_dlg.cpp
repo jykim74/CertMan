@@ -39,6 +39,8 @@ CAManDlg::CAManDlg(QWidget *parent) :
     connect( mOKBtn, SIGNAL(clicked()), this, SLOT(clickOK()));
     connect( mTabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeTab(int)));
 
+    connect( mSignerCheck, SIGNAL(clicked()), this, SLOT(checkSigner()));
+
     connect( mCACertTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCATableMenuRequested(QPoint)));
     connect( mKeyPairTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotKeyPairTableMenuRequested(QPoint)));
     connect( mCSRTable, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( slotCSRTableMenuRequested(QPoint)));
@@ -310,6 +312,11 @@ void CAManDlg::clickOK()
     accept();
 }
 
+void CAManDlg::checkSigner()
+{
+    loadCACertList();
+}
+
 void CAManDlg::loadCACertList()
 {
     int ret = 0;
@@ -322,7 +329,10 @@ void CAManDlg::loadCACertList()
 
     mCACertTable->setRowCount(0);
 
-    ret = dbMgr->getIssuerCertList( certList );
+    if( mSignerCheck->isChecked() == true )
+        ret = dbMgr->getSignerCertList( certList );
+    else
+        ret = dbMgr->getIssuerCertList( certList );
 
     for( int i = 0; i < certList.size(); i++ )
     {

@@ -111,6 +111,7 @@ void OCSPServiceDlg::clickSelect()
     CAManDlg caMan;
     caMan.setTitle( tr( "Select CA certificate" ));
     caMan.setMode( CAManModeSelectCACert );
+    caMan.mSignerCheck->setChecked(true);
 
     if( caMan.exec() == QDialog::Accepted )
     {
