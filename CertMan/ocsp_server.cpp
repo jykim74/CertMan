@@ -15,6 +15,7 @@ OCSPServer::OCSPServer( QObject *parent ) :
     QTcpServer(parent)
 {
     log_edit_ = nullptr;
+    need_sign_ = false;
 
     memset( &ocsp_cert_, 0x00, sizeof(BIN));
     memset( &ocsp_pri_key_, 0x00, sizeof(BIN));
@@ -43,6 +44,11 @@ void OCSPServer::setOCSPPriKey( const BIN *pPriKey )
 {
     JS_BIN_reset( &ocsp_pri_key_ );
     JS_BIN_copy( &ocsp_pri_key_, pPriKey );
+}
+
+void OCSPServer::setNeedSign( bool bVal )
+{
+
 }
 
 void OCSPServer::startServer( int nPort )
@@ -159,15 +165,13 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     DBMgr* dbMgr = manApplet->dbMgr();
 
     bool bP11 = false;
-    bool bNeedSign = false;
 
     SignerRec signerRec;
 
     memset( &sIDInfo, 0x00, sizeof(sIDInfo));
     memset( &sStatusInfo, 0x00, sizeof(sStatusInfo));
 
-
-    if( bNeedSign )
+    if( need_sign_ == true )
     {
         ret = JS_OCSP_getReqSignerName( pReq, &pSignerName, &pDNHash );
         if( ret != 0 )

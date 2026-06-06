@@ -91,6 +91,7 @@ void OCSPServiceDlg::clickStart()
 
     ocsp_srv_ = new OCSPServer;
     int nPort = strPort.toInt();
+    ocsp_srv_->setNeedSign( mNeedSignCheck->isChecked() );
     ocsp_srv_->setLogEdit( mLogText );
     ocsp_srv_->setOCSPCert( &binCert );
     ocsp_srv_->setOCSPPriKey( &binPriKey );

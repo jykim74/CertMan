@@ -17,6 +17,7 @@ public:
     explicit OCSPServer( QObject *parent = nullptr );
     ~OCSPServer();
 
+    void setNeedSign( bool bVal );
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setOCSPCert( const BIN *pCert );
@@ -36,6 +37,7 @@ private:
     BIN ocsp_cert_;
     BIN ocsp_pri_key_;
     QTcpSocket *client_;
+    bool need_sign_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
