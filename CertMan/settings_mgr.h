@@ -65,6 +65,7 @@ const char *kHexAreaWidth = "hexAreaWidth";
 const char *kViewFile = "viewFile";
 const char *kViewTool = "viewTool";
 const char *kViewData = "viewData";
+const char *kViewService = "viewService";
 const char *kViewServer = "viewServer";
 const char *kViewHelp = "viewHelp";
 const char *kRunTime = "runTime";
@@ -275,6 +276,7 @@ private:
     int view_tool_;
     int view_data_;
     int view_server_;
+    int view_service_;
     int view_help_;
 private:
     Q_DISABLE_COPY(SettingsMgr)

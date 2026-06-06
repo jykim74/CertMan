@@ -61,6 +61,7 @@ int SettingsMgr::viewValue( int nType )
     case VIEW_FILE: return view_file_;
     case VIEW_TOOL: return view_tool_;
     case VIEW_DATA: return view_data_;
+    case VIEW_SERVICE: return view_service_;
     case VIEW_SERVER: return view_server_;
     case VIEW_HELP: return view_help_;
     default:
@@ -88,6 +89,10 @@ int SettingsMgr::getViewValue( int nType )
     case VIEW_DATA:
         ret = settings.value( kViewData, kDataDefault ).toInt();
         view_data_ = ret;
+        break;
+    case VIEW_SERVICE:
+        ret = settings.value( kViewService, kServiceDefault ).toInt();
+        view_service_ = ret;
         break;
     case VIEW_SERVER:
         ret = settings.value( kViewServer, kServerDefault ).toInt();
@@ -131,6 +136,10 @@ void SettingsMgr::setViewValue( int nVal )
         settings.setValue( kViewServer, nVal );
         view_server_ = nVal;
         break;
+    case VIEW_SERVICE:
+        settings.setValue( kViewService, nVal );
+        view_service_ = nVal;
+        break;
     case VIEW_HELP:
         settings.setValue( kViewHelp, nVal );
         view_help_ = nVal;
@@ -156,6 +165,9 @@ void SettingsMgr::clearViewValue( int nType )
         break;
     case VIEW_DATA:
         settings.remove( kViewData );
+        break;
+    case VIEW_SERVICE:
+        settings.remove( kViewService );
         break;
     case VIEW_SERVER:
         settings.remove( kViewServer );

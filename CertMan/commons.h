@@ -139,6 +139,7 @@ static const int kToolDefault = ACT_TOOL_NEW_KEY | ACT_TOOL_MAKE_REQ | ACT_TOOL_
 static const int kDataDefault = ACT_DATA_IMPORT_DATA | ACT_DATA_GET_URI | ACT_DATA_PUBLISH_LDAP \
                                 | ACT_DATA_SET_PASSWD | ACT_DATA_CHANGE_PASSWD;
 
+static const int kServiceDefault = 0;
 static const int kServerDefault = 0;
 
 static const int kHelpDefault = ACT_HELP_SERVER_STATUS | ACT_HELP_LCN_INFO | ACT_HELP_BUG_ISSUE | ACT_HELP_QNA \
