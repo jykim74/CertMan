@@ -9,6 +9,7 @@
 #include "js_tsp.h"
 #include "db_mgr.h"
 #include "tsp_rec.h"
+#include "audit_rec.h"
 
 TSPServer::TSPServer( QObject *parent ) :
     QTcpServer(parent)
@@ -88,6 +89,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
     BIN     binP7 = {0,0};
     int64_t nSerial = -1;
     TSPRec  tspRec;
+    AuditRec auditRec;
 
     char *pHexTSTInfo = NULL;
     char *pHexData = NULL;
@@ -139,18 +141,19 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
 
     JS_BIN_encodeHex( &binTST, &pHexTSTInfo );
     JS_BIN_encodeHex( &binP7, &pHexData );
-    /*
-    JS_DB_setTSP( &sTSP, -1, time(NULL), nSerial, sHash, sPolicy, pHexTSTInfo, pHexData );
 
-    ret = JS_DB_addTSP( db, &sTSP );
-    if( ret != 0 )
-    {
-        LE( "fail to add TSP to DB(%d)", ret );
-        goto end;
-    }
+    tspRec.setData( pHexData );
+    tspRec.setRegTime( time(NULL ));
+    tspRec.setSerial( nSerial );
+    tspRec.setSrcHash( sHash );
+    tspRec.setPolicy( sPolicy );
+    tspRec.setTSTInfo( pHexTSTInfo );
+    dbMgr->addTSPRec( tspRec );
 
-    JS_addAudit( db, JS_GEN_KIND_TSP_SRV, JS_GEN_OP_MAKE_TSP, NULL );
-*/
+    auditRec.setKind( JS_GEN_KIND_CERTMAN );
+    auditRec.setOperation( JS_GEN_OP_MAKE_TSP );
+    dbMgr->addAuditRec( auditRec );
+
     log( "TSP success" );
 
 end :

@@ -68,7 +68,6 @@ void TSPServiceDlg::clickStart()
     }
 
     int nNum = mNumText->text().toInt();
-    nNum = 103;
 
     CertRec certRec;
     KeyPairRec keyPair;

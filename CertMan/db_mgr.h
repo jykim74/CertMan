@@ -16,6 +16,8 @@
 #include "profile_ext_rec.h"
 #include "req_rec.h"
 #include "revoke_rec.h"
+#include "signer_rec.h"
+#include "audit_rec.h"
 
 class CertRec;
 class KeyPairRec;
@@ -33,6 +35,7 @@ class AuditRec;
 class TSPRec;
 class AdminRec;
 class ConfigRec;
+
 
 const int kSelfNum = 0;
 const int kImportNum = -99;
@@ -85,6 +88,9 @@ public:
     int getTSPSearchCount( QString strTarget, QString strWord);
 
     int getCertRec( int nNum, CertRec& cert );
+    int getCertRecByKeyHash( const QString strKeyHash, CertRec& cert );
+    int getCertRecBySerial( const QString strSerial, CertRec& cert );
+
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
     int getCertList( int nIssuerNum, int nOffset, int nLimit, QList<CertRec>& certList );
     int getCertList( int nIssuerNum, QString strTarget, QString strWord, int nOffset, int nLimit, QList<CertRec>& certList );
@@ -150,6 +156,7 @@ public:
     int getAuditRec( int nSeq, AuditRec& auditRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );
     int getSignerRec( int nNum, SignerRec& signerRec );
+    int getSignerRecByDNHash( int nType, const QString strDNHash, SignerRec& signerRec );
     int getTSPRec( int nSeq, TSPRec& tspRec );
 
     int getCRLDPListFromCert( int nIssuerNum, QList<QString>& crldpList );
@@ -168,6 +175,7 @@ public:
     int addKMSRec( KMSRec& kmsRec );
     int addAuditRec( AuditRec& auditRec );
     int addAdminRec( AdminRec& adminRec );
+    int addTSPRec( TSPRec& tspRec );
 
     int modKeyPairStatus( int nNum, int nStatus );
     int modKeyPairPrivate( int nNum, const QString strPrivate );

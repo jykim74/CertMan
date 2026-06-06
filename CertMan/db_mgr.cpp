@@ -784,6 +784,32 @@ int DBMgr::getCertRec( int nNum, CertRec& cert )
     return 0;
 }
 
+int DBMgr::getCertRecByKeyHash( const QString strKeyHash, CertRec& cert )
+{
+    QList<CertRec> certList;
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE KEYHASH = %1").arg( strKeyHash );
+
+    _getCertList( strSQL, certList );
+    if( certList.size() <= 0 ) return -1;
+
+    cert = certList.at(0);
+    return 0;
+}
+
+int DBMgr::getCertRecBySerial( const QString strSerial, CertRec& cert )
+{
+    QList<CertRec> certList;
+    QString strSQL = "";
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE SERIAL = %1").arg( strSerial );
+
+    _getCertList( strSQL, certList );
+    if( certList.size() <= 0 ) return -1;
+
+    cert = certList.at(0);
+    return 0;
+}
+
 int DBMgr::getCertList( int nIssuerNum, QList<CertRec>& certList )
 {
     QString strSQL = "";
@@ -1172,6 +1198,20 @@ int DBMgr::getSignerRec( int nNum, SignerRec& signerRec )
 {
     QList<SignerRec> signerList;
     QString strQuery = QString( "SELECT * FROM TB_SIGNER WHERE NUM = %1").arg( nNum );
+
+    _getSignerList( strQuery, signerList );
+    if( signerList.size() <= 0 ) return -1;
+
+    signerRec = signerList.at(0);
+
+    return 0;
+}
+
+int DBMgr::getSignerRecByDNHash( int nType, const QString strDNHash, SignerRec& signerRec )
+{
+    QList<SignerRec> signerList;
+    QString strQuery = QString( "SELECT * FROM TB_SIGNER WHERE DNHASH = %1 AND TYPE = %2")
+                           .arg( strDNHash ).arg( nType );
 
     _getSignerList( strQuery, signerList );
     if( signerList.size() <= 0 ) return -1;
@@ -2587,6 +2627,42 @@ int DBMgr::addAdminRec( AdminRec& adminRec )
     if( sqlQuery.exec() == false )
     {
 //        qDebug() << sqlQuery.lastError();
+        sqlQuery.finish();
+        return -2;
+    }
+
+    sqlQuery.finish();
+    return 0;
+}
+
+int DBMgr::addTSPRec( TSPRec& tspRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+
+    if( tspRec.getSeq() < 0 )
+    {
+        int nSeq = getNextVal( "TB_TSP" );
+        if( nSeq < 0 ) return -1;
+
+        tspRec.setSeq( nSeq );
+    }
+
+    sqlQuery.prepare( "INSERT INTO TB_TSP "
+                     "( SEQ, REGTIME, SERIAL, SRCHASH, POLICY, TSTINFO, DATA ) "
+                     "VALUES( ?, ?, ?, ?, ?, ? );" );
+
+    sqlQuery.bindValue( i++, tspRec.getSeq() );
+    sqlQuery.bindValue( i++, (long long)tspRec.getRegTime() );
+    sqlQuery.bindValue( i++, tspRec.getSerial() );
+    sqlQuery.bindValue( i++, tspRec.getSrcHash() );
+    sqlQuery.bindValue( i++, tspRec.getPolicy() );
+    sqlQuery.bindValue( i++, tspRec.getTSTInfo() );
+    sqlQuery.bindValue( i++, tspRec.getData() );
+
+    if( sqlQuery.exec() == false )
+    {
+        //        qDebug() << sqlQuery.lastError();
         sqlQuery.finish();
         return -2;
     }

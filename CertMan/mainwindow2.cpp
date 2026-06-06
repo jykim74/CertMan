@@ -878,7 +878,7 @@ void MainWindow::viewServerKMS( bool bChecked )
 
     if( bChecked == true )
     {
-        server_tool_->addAction( kms_act_ );
+        server_tool_->insertAction( tsp_service_act_, kms_act_ );
         setView( nAct );
     }
     else
@@ -896,7 +896,7 @@ void MainWindow::viewServiceTSP( bool bChecked )
 
     if( bChecked == true )
     {
-        service_tool_->addAction( tsp_service_act_ );
+        service_tool_->insertAction( ocsp_service_act_, tsp_service_act_ );
         setView( nAct );
     }
     else
@@ -914,7 +914,7 @@ void MainWindow::viewServiceOCSP( bool bChecked )
 
     if( bChecked == true )
     {
-        service_tool_->addAction( ocsp_service_act_ );
+        service_tool_->insertAction( ca_service_act_, ocsp_service_act_ );
         setView( nAct );
     }
     else

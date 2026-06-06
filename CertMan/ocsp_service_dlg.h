@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_ocsp_service_dlg.h"
+#include "ocsp_server.h"
 
 namespace Ui {
 class OCSPServiceDlg;
@@ -16,8 +17,18 @@ public:
     explicit OCSPServiceDlg(QWidget *parent = nullptr);
     ~OCSPServiceDlg();
 
-private:
+private slots:
+    void clickStart();
+    void clickLogClear();
+    void clickSelect();
+    void clickView();
+    void changeNum();
 
+private:
+    void initUI();
+    void initialize();
+
+    OCSPServer *ocsp_srv_;
 };
 
 #endif // OCSP_SERVICE_DLG_H
