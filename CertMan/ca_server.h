@@ -41,7 +41,7 @@ private:
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
-    int workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp )
+    int workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp );
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
