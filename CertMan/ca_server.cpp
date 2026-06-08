@@ -5,7 +5,8 @@
 #include "commons.h"
 
 #include "js_http.h"
-#include "js_ocsp.h"
+#include "js_cmp.h"
+#include "js_cmp_srv.h"
 #include "db_mgr.h"
 #include "audit_rec.h"
 #include "signer_rec.h"
@@ -95,9 +96,54 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     return 0;
 }
 
-int CAServer::procSCEP( const BIN *pReq, BIN *pRsp )
+int CAServer::workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp )
 {
     return 0;
+}
+
+int CAServer::procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pRsp )
+{
+    int ret = 0;
+    const char *pOper = NULL;
+    JS_UTIL_printNameValList( stdout, "ParamList", pParamList );
+
+    pOper = JS_UTIL_valueFromNameValList( pParamList, "operation" );
+
+    if( pOper == NULL )
+    {
+        log( "There is no operation" );
+        return -1;
+    }
+
+    log( "SCEP Operation: %s", pOper );
+
+    if( strcasecmp( pOper, "GetCACaps") == 0 )
+    {
+        const char *pMsg = "POSTPKIOperation\r\nRenewal\r\nSHA-1";
+        JS_BIN_set( pRsp, (const unsigned char *)pMsg, strlen( pMsg ) );
+    }
+    else if( strcasecmp( pOper, "GetCACert" ) == 0 )
+    {
+        if( ca_cert_.nLen <= 0 )
+        {
+            log( "CA certificate is empty" );
+        }
+        else
+        {
+            JS_BIN_copy( pRsp, &ca_cert_ );
+        }
+    }
+    else if( strcasecmp( pOper, "PKIOperation" ) == 0 )
+    {
+        ret = workPKIOperation( pReq, pRsp );
+    }
+    else
+    {
+        log( "invalid operation : %s", pOper );
+        return -1;
+    }
+
+    return ret;
 }
 
 int CAServer::readReady()
@@ -185,7 +231,7 @@ int CAServer::readReady()
         client_->write( rsp );
         client_->flush();
     }
-    else if( strcasecmp( pPath, "/SCEP" ) == 0 )
+    else if( strcasecmp( pPath, "/pkiclient.exe" ) == 0 )
     {
         QByteArray content = client_->readAll();
         QByteArray rsp;
@@ -195,7 +241,7 @@ int CAServer::readReady()
 
         log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
-        ret = procSCEP( &binReq, &binRsp );
+        ret = procSCEP( pParamList, &binReq, &binRsp );
         if( ret != 0 )
         {
             log( QString( "fail procSCEP(%1)" ).arg(ret) );

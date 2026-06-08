@@ -30,7 +30,7 @@ public slots:
 
 private :
     int procCMP( const BIN *pReq, BIN *pRsp );
-    int procSCEP( const BIN *pReq, BIN *pRsp );
+    int procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pRsp );
 
 private:
     QPlainTextEdit* log_edit_;
@@ -41,6 +41,7 @@ private:
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
+    int workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp )
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
