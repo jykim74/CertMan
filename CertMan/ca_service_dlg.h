@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_ca_service_dlg.h"
+#include "ca_server.h"
 
 namespace Ui {
 class CAServiceDlg;
@@ -16,8 +17,18 @@ public:
     explicit CAServiceDlg(QWidget *parent = nullptr);
     ~CAServiceDlg();
 
-private:
+private slots:
+    void clickStart();
+    void clickLogClear();
+    void clickSelect();
+    void clickView();
+    void changeNum();
 
+private:
+    void initUI();
+    void initialize();
+
+    CAServer *ca_srv_;
 };
 
 #endif // CA_SERVICE_DLG_H
