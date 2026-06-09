@@ -24,6 +24,10 @@ private slots:
     void clickView();
     void changeNum();
 
+    void clickProfileSelect();
+    void clickProfileView();
+    void changeProfileNum();
+
 private:
     void initUI();
     void initialize();

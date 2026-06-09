@@ -10,6 +10,8 @@
 #include "ca_man_dlg.h"
 #include "db_mgr.h"
 #include "cert_info_dlg.h"
+#include "profile_man_dlg.h"
+#include "view_cert_profile_dlg.h"
 
 CAServiceDlg::CAServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -25,6 +27,10 @@ CAServiceDlg::CAServiceDlg(QWidget *parent)
     connect( mSelectBtn, SIGNAL(clicked()), this, SLOT(clickSelect()));
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
     connect( mNumText, SIGNAL(textChanged(QString)), this, SLOT(changeNum()));
+
+    connect( mProfileSelectBtn, SIGNAL(clicked()), this, SLOT(clickProfileSelect()));
+    connect( mProfileViewBtn, SIGNAL(clicked()), this, SLOT(clickProfileView()));
+    connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(changeProfileNum()));
 
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
@@ -68,6 +74,7 @@ void CAServiceDlg::clickStart()
     }
 
     int nNum = mNumText->text().toInt();
+    int nProfileNum = mProfileNumText->text().toInt();
 
     CertRec certRec;
     KeyPairRec keyPair;
@@ -94,6 +101,7 @@ void CAServiceDlg::clickStart()
     ca_srv_->setLogEdit( mLogText );
     ca_srv_->setCACert( &binCert );
     ca_srv_->setCANum( nNum );
+    ca_srv_->setProfileNum( nProfileNum );
     ca_srv_->setCAPriKey( &binPriKey );
     ca_srv_->startServer( nPort );
 
@@ -154,4 +162,44 @@ void CAServiceDlg::changeNum()
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mInfoText->setText( keyPair.getDesc() );
+}
+
+void CAServiceDlg::clickProfileSelect()
+{
+    ProfileManDlg profileMan;
+    profileMan.setTitle( tr( "Select a profile" ));
+    profileMan.setMode( ProfileManModeSelectCertProfile );
+
+    if( profileMan.exec() == QDialog::Accepted )
+    {
+        mProfileNumText->setText( QString("%1").arg( profileMan.getNum() ));
+    }
+}
+
+void CAServiceDlg::clickProfileView()
+{
+    QString strNum = mProfileNumText->text();
+    if( strNum.length() < 1 )
+    {
+        manApplet->warningBox( tr("No profile selected"), this );
+        return;
+    }
+
+    ViewCertProfileDlg certProfile;
+    certProfile.setProfile( strNum.toInt() );
+    certProfile.exec();
+}
+
+void CAServiceDlg::changeProfileNum()
+{
+    int nNum = mProfileNumText->text().toInt();
+    CertProfileRec profile;
+    int ret = manApplet->dbMgr()->getCertProfileRec( nNum, profile );
+    if( ret != 0 )
+    {
+        mProfileNumText->clear();
+        return;
+    }
+
+    mProfileNameText->setText( profile.getName() );
 }

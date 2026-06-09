@@ -49,6 +49,11 @@ void CAServer::setCANum( int nNum )
     ca_num_ = nNum;
 }
 
+void CAServer::setProfileNum( int nNum )
+{
+    profile_num_ = nNum;
+}
+
 void CAServer::setCAPriKey( const BIN *pPriKey )
 {
     JS_BIN_reset( &ca_pri_key_ );

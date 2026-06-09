@@ -24,6 +24,7 @@ public:
     void setLogEdit( QPlainTextEdit *pEdit );
     void setCACert( const BIN *pCert );
     void setCANum( int nNum );
+    void setProfileNum( int nNum );
     void setCAPriKey( const BIN *pPriKey );
 
 public slots:
@@ -37,6 +38,7 @@ private:
     QPlainTextEdit* log_edit_;
 
     int ca_num_;
+    int profile_num_;
     BIN ca_cert_;
     BIN ca_pri_key_;
     QTcpSocket *client_;
