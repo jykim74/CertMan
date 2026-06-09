@@ -23,6 +23,7 @@ public:
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setCACert( const BIN *pCert );
+    void setCANum( int nNum );
     void setCAPriKey( const BIN *pPriKey );
 
 public slots:
@@ -35,13 +36,16 @@ private :
 private:
     QPlainTextEdit* log_edit_;
 
+    int ca_num_;
     BIN ca_cert_;
     BIN ca_pri_key_;
     QTcpSocket *client_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
-    int workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp );
+    int workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp );
+    int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
+    int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );

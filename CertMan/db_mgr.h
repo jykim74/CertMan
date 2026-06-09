@@ -112,6 +112,7 @@ public:
 
     int getReqRec( int nNum, ReqRec& reqRec );
     int getCRLRec( int nNum, CRLRec& crlRec );
+    int getLatestCRLRec( int nIssuerNum, CRLRec& crlRec );
     int getReqList( int nStatus, QList<ReqRec>& reqList );
     int getReqList( int nStatus, int nOffset, int nLimit, QList<ReqRec>& reqList );
     int getReqList( int nStatus, QString strTarget, QString strWord, int nOffset, int nLimit, QList<ReqRec>& reqList );

@@ -93,6 +93,7 @@ void CAServiceDlg::clickStart()
     int nPort = strPort.toInt();
     ca_srv_->setLogEdit( mLogText );
     ca_srv_->setCACert( &binCert );
+    ca_srv_->setCANum( nNum );
     ca_srv_->setCAPriKey( &binPriKey );
     ca_srv_->startServer( nPort );
 

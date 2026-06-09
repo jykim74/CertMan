@@ -1255,6 +1255,20 @@ int DBMgr::getCRLRec(int nNum, CRLRec &crlRec)
     return 0;
 }
 
+int DBMgr::getLatestCRLRec( int nIssuerNum, CRLRec& crlRec )
+{
+    QList<CRLRec> crlList;
+    QString strQuery = QString( "SELECT "
+                               "NUM, REGTIME, ISSUERNUM, SIGNALG, THISUPDATE, NEXTUPDATE, CRLDP, CRL "
+                               "FROM TB_CRL WHERE ISSUERNUM = %1 ORDER BY num DESC LIMIT 1").arg(nIssuerNum);
+
+    _getCRLList( strQuery, crlList );
+    if( crlList.size() <= 0 ) return -1;
+
+    crlRec = crlList.at(0);
+    return 0;
+}
+
 int DBMgr::getReqList( int nStatus, QList<ReqRec>& reqList )
 {
     QString strSQL;

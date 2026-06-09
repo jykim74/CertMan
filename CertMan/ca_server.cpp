@@ -7,6 +7,8 @@
 #include "js_http.h"
 #include "js_cmp.h"
 #include "js_cmp_srv.h"
+#include "js_pkcs7.h"
+
 #include "db_mgr.h"
 #include "audit_rec.h"
 #include "signer_rec.h"
@@ -17,6 +19,7 @@ CAServer::CAServer( QObject *parent ) :
     QTcpServer(parent)
 {
     log_edit_ = nullptr;
+    ca_num_ = -1;
 
     memset( &ca_cert_, 0x00, sizeof(BIN));
     memset( &ca_pri_key_, 0x00, sizeof(BIN));
@@ -39,6 +42,11 @@ void CAServer::setCACert( const BIN *pCert )
 {
     JS_BIN_reset( &ca_cert_ );
     JS_BIN_copy( &ca_cert_, pCert );
+}
+
+void CAServer::setCANum( int nNum )
+{
+    ca_num_ = nNum;
 }
 
 void CAServer::setCAPriKey( const BIN *pPriKey )
@@ -95,10 +103,156 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
-
-int CAServer::workPKIOperation( const BIN *pPKIReq, BIN *pCertRsp )
+int CAServer::runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData )
 {
     return 0;
+}
+
+int CAServer::runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData )
+{
+    int ret = 0;
+    PKCS7_ISSUER_AND_SERIAL *pXIAS = NULL;
+    const unsigned char *pPos = pData->pVal;
+    BIN binCRL = {0,0};
+    CRLRec crlRec;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    pXIAS = d2i_PKCS7_ISSUER_AND_SERIAL( NULL, &pPos, pData->nLen );
+    ret = dbMgr->getLatestCRLRec( ca_num_, crlRec );
+
+    if( ret != JSR_OK )
+    {
+        log( QString( "fail to get latest CRL [IssuerNum: %1]" ).arg( ret) );
+        goto end;
+    }
+
+    JS_BIN_decodeHex( crlRec.getCRL().toStdString().c_str(), &binCRL );
+
+    ret = JS_SCEP_genSignedDataWithoutSign( NULL, &binCRL, pSignedData );
+
+end :
+    if( pXIAS ) PKCS7_ISSUER_AND_SERIAL_free( pXIAS );
+    JS_BIN_reset( &binCRL );
+
+    return ret;
+}
+
+int CAServer::workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp )
+{
+    int ret = 0;
+    int nType = 0;
+    int nFlag = 0;
+
+    BIN binSignCert = {0,0};
+    BIN binSenderNonce = {0,0};
+    char *pTransID = NULL;
+    BIN binData = {0,0};
+    BIN binDevData = {0,0};
+    BIN binResData = {0,0};
+    BIN binEnvData = {0,0};
+
+    BIN binSrvSenderNonce = {0,0};
+    char sResMsg[1024];
+
+    bool bP11 = true;
+
+    memset( sResMsg, 0x00, sizeof(sResMsg));
+
+    ret = JS_SCEP_verifyParseSignedData( pPKIReq, &nType, &binSignCert, &binSenderNonce, &pTransID, &binData );
+    if( ret != 0 )
+    {
+        log( QString( "fail to veriyf signeddata : %1" ).arg( ret ));
+        goto end;
+    }
+
+    if( bP11 )
+    {
+        ret = JS_PKCS7_makeDevelopedDataByP11( &binData, &ca_pri_key_, NULL, &ca_cert_, nFlag, &binDevData, sResMsg );
+    }
+    else
+    {
+        ret = JS_PKCS7_makeDevelopedData( &binData, &ca_pri_key_, &ca_cert_, nFlag, &binDevData, sResMsg );
+    }
+
+    if( ret != 0 )
+    {
+        log( QString( "fail to develop data : %1" ).arg( ret ));
+        goto end;
+    }
+
+    if( nType == JS_SCEP_REQUEST_PKCSREQ )
+    {
+        log( QString( "REQUEST_PKCSREQ" ) );
+        ret = runSCEP_PKIReq( &binSignCert, &binDevData, &binResData );
+//        if( ret == 0 ) JS_DB_addAuditInfo( db, JS_GEN_KIND_CMP_SRV, JS_GEN_OP_SCEP_PKCS_REQ, "Admin", NULL );
+    }
+    else if( nType == JS_SCEP_REQUEST_GETCRL )
+    {
+        log( "REQUEST_GETCRL" );
+        ret = runSCEP_GetCRL( &binSignCert, &binDevData, &binResData );
+//        if( ret == 0 ) JS_DB_addAuditInfo( db, JS_GEN_KIND_CMP_SRV, JS_GEN_OP_SCEP_GET_CRL, "Admin", NULL );
+    }
+    else if( nType == JS_SCEP_REQUEST_GETCERT )
+    {
+        log( "REQUEST_GETCERT" );
+        elog( "Not implemented" );
+    }
+    else if( nType == JS_SCEP_REQUEST_GETCERTINIT )
+    {
+        log( "REQUEST_GETCERTINIT" );
+        elog( "Not implemented" );
+    }
+    else
+    {
+        log( "Invalid request type : %d", nType );
+        ret = -1;
+        goto end;
+    }
+
+    ret = JS_PKCS7_makeEnvelopedData( "aes-256-cbc", &binResData, &binSignCert, nFlag, &binEnvData );
+
+    JS_PKI_genRandom( 16, &binSrvSenderNonce );
+
+    if( bP11 )
+    {
+        ret = JS_SCEP_makeSignedDataByP11( JS_SCEP_REPLY_CERTREP,
+                                          "SHA256",
+                                          &binEnvData,
+                                          &ca_pri_key_,
+                                          NULL,
+                                          &ca_cert_,
+                                          &binSrvSenderNonce,
+                                          &binSenderNonce,
+                                          pTransID,
+                                          "0",
+                                          pCertRsp );
+    }
+    else
+    {
+        ret = JS_SCEP_makeSignedData( JS_SCEP_REPLY_CERTREP,
+                                     "SHA256",
+                                     &binEnvData,
+                                     &ca_pri_key_,
+                                     &ca_cert_,
+                                     &binSrvSenderNonce,
+                                     &binSenderNonce,
+                                     pTransID,
+                                     "0",
+                                     pCertRsp );
+    }
+
+end :
+    JS_BIN_reset( &binSignCert );
+    JS_BIN_reset( &binSenderNonce );
+    JS_BIN_reset( &binSrvSenderNonce );
+    JS_BIN_reset( &binData );
+    JS_BIN_reset( &binDevData );
+    if( pTransID ) JS_free( pTransID );
+    JS_BIN_reset( &binResData );
+    JS_BIN_reset( &binEnvData );
+
+    return ret;
 }
 
 int CAServer::procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pRsp )
@@ -135,7 +289,7 @@ int CAServer::procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pR
     }
     else if( strcasecmp( pOper, "PKIOperation" ) == 0 )
     {
-        ret = workPKIOperation( pReq, pRsp );
+        ret = workSCEPOperation( pReq, pRsp );
     }
     else
     {
