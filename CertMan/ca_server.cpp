@@ -8,6 +8,8 @@
 #include "js_cmp.h"
 #include "js_cmp_srv.h"
 #include "js_pkcs7.h"
+#include "js_pki_ext.h"
+#include "js_pki_tools.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
@@ -104,13 +106,201 @@ void CAServer::elog( const QString strLog )
     log( strLog, QColor(0xFF,0x00,0x00));
 }
 
+int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
+{
+    int ret = 0;
+    bool bP11 = false;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    JExtensionInfoList  *pExtInfoList = NULL;
+    CertProfileRec profileRec;
+    QList<ProfileExtRec> profileExtList;
+
+    dbMgr->getCertProfileRec( profile_num_, profileRec );
+    dbMgr->getCertProfileExtensionList( profile_num_, profileExtList );
+
+    for( int i = 0; i < profileExtList.size(); i++ )
+    {
+        JExtensionInfo sExtInfo;
+        ProfileExtRec profileExt = profileExtList.at(i);
+
+        memset( &sExtInfo, 0x00, sizeof(sExtInfo));
+
+        if( profileExt.getSN() == JS_PKI_ExtNameSKI )
+        {
+            BIN binPub = {0,0};
+            BIN binPubKeyID = {0,0};
+
+            JS_BIN_decodeHex(pIssueCertInfo->pPublicKey, &binPub);
+            ret = JS_PKI_getKeyIdentifier( &binPub, &binPubKeyID );
+            if( ret != 0 )
+            {
+                log( QString( "fail to get KeyIdentifier: %1").arg( ret ) );
+                goto end;
+            }
+
+            profileExt.setValue( getHexString( &binPubKeyID ));
+            JS_BIN_reset( &binPubKeyID );
+        }
+        else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
+        {
+            char    sHexID[128];
+            char    sHexSerial[128];
+            char    sHexIssuer[1024];
+
+            char    sBuf[2048];
+
+            memset( sHexID, 0x00, sizeof(sHexID));
+            memset( sHexSerial, 0x00, sizeof(sHexSerial));
+            memset( sHexIssuer, 0x00, sizeof(sHexIssuer));
+            memset( sBuf, 0x00, sizeof(sBuf));
+
+            ret = JS_PKI_getAuthorityKeyIdentifier( &ca_cert_, sHexID, sHexSerial, sHexIssuer );
+            if( ret != 0 )
+            {
+                log( QString( "fail to get AuthorityKeyIdentifier: %1").arg( ret ));
+                goto end;
+            }
+
+            sprintf( sBuf, "KEYID$%s#ISSUER$%s#SERIAL$%s", sHexID, sHexIssuer, sHexSerial );
+            profileExt.setValue( sBuf );
+        }
+
+        ret = transExtInfoFromDBRec( &sExtInfo, profileExt );
+        if( ret == 0 )
+            JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
+    }
+
+
+    if( bP11 )
+        ret = JS_PKI_makeCertificateByP11( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, NULL, pCert );
+    else
+        ret = JS_PKI_makeCertificate( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, pCert );
+
+end :
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+
+    return ret;
+}
+
 int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
+
 int CAServer::runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData )
 {
-    return 0;
+    int ret = 0;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    CertProfileRec profileRec;
+    QList<ProfileExtRec> profileExtList;
+    CertRec certRec;
+
+    JCertInfo   sNewCertInfo;
+
+    dbMgr->getCertProfileRec( profile_num_, profileRec );
+    dbMgr->getCertProfileExtensionList( profile_num_, profileExtList );
+
+    time_t now_t = time(NULL);
+    time_t notBefore = 0;
+    time_t notAfter = 0;
+
+    JReqInfo sReqInfo;
+    char        sSerial[64];
+    JIssueCertInfo sIssueCertInfo;
+    int nSeq = -1;
+    int nKeyType = -1;
+    BIN binNewCert ={0,0};
+    char        *pHexCert = NULL;
+    BIN binPub = {0,0};
+    BIN binKeyID = {0,0};
+
+    memset( &sReqInfo, 0x00, sizeof(sReqInfo));
+    memset( sSerial, 0x00, sizeof(sSerial));
+    memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
+
+    JS_PKI_getPeriod( profileRec.getNotBefore(),
+                     profileRec.getNotAfter(),
+                     now_t,
+                     &notBefore,
+                     &notAfter );
+
+    ret = JS_PKI_getReqInfo( pData, &sReqInfo, 1, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to parse request : %1" ).arg(ret ));
+        goto end;
+    }
+
+    JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+    nKeyType = JS_PKI_getPubKeyType( &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
+
+    nSeq = dbMgr->getNextVal( "TB_CERT" );
+    sprintf( sSerial, "%d", nSeq );
+
+    JS_PKI_setIssueCertInfo( &sIssueCertInfo,
+                            profileRec.getVersion(),
+                            sSerial,
+                            profileRec.getHash().toStdString().c_str(),
+                            sReqInfo.pSubjectDN,
+                            notBefore,
+                            notAfter,
+                            nKeyType,
+                            sReqInfo.pPublicKey );
+
+    ret = makeCert( &sIssueCertInfo, &binNewCert );
+
+    if( ret != 0 )
+    {
+        log( QString( "fail to make certificate : %1").arg( ret ) );
+        goto end;
+    }
+
+    JS_BIN_encodeHex( &binNewCert, &pHexCert );
+
+    ret = JS_PKI_getCertInfo( &binNewCert, &sNewCertInfo, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        goto end;
+    }
+
+    certRec.setRegTime( now_t );
+    certRec.setNotBefore( notBefore );
+    certRec.setNotAfter( notAfter );
+    certRec.setSignAlg( sNewCertInfo.pSignAlgorithm );
+    certRec.setCert( getHexString( &binNewCert ));
+    certRec.setIssuerNum( ca_num_ );
+    certRec.setSubjectDN( sNewCertInfo.pSubjectName );
+    certRec.setSerial( sNewCertInfo.pSerial );
+    certRec.setDNHash( sNewCertInfo.pDNHash );
+    certRec.setKeyHash( getHexString( &binKeyID) );
+
+    dbMgr->addCertRec( certRec );
+
+    ret = JS_SCEP_genSignedDataWithoutSign( &binNewCert, NULL, pSignedData );
+    if( ret != 0 )
+    {
+        log( QString( "fail to make response signeddata : %1" ).arg( ret ));
+        goto end;
+    }
+
+    log( QString( "SignedData Length : %1" ).arg( pSignedData->nLen ));
+
+end :
+    JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
+    JS_PKI_resetReqInfo( &sReqInfo );
+    JS_BIN_reset( &binNewCert );
+    JS_PKI_resetCertInfo( &sNewCertInfo );
+    if( pHexCert ) JS_free( pHexCert );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKeyID );
+
+    return ret;
 }
 
 int CAServer::runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData )
@@ -466,4 +656,34 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
     client_->setSocketDescriptor( socketDescriptor );
 
     connect( client_, &QTcpSocket::readyRead, this, &CAServer::readReady );
+}
+
+int CAServer::runCMP_GENM( void *pCTX, void *pBody )
+{
+    return 0;
+}
+
+int CAServer::runCMP_IR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert )
+{
+    return 0;
+}
+
+int CAServer::runCMP_P10CR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert )
+{
+    return 0;
+}
+
+int CAServer::runCMP_RR( void *pCTX, CertRec *pDBCert, void *pBody )
+{
+    return 0;
+}
+
+int CAServer::runCMP_KUR( void *pCTX, CertRec *pDBCert, void *pBody, BIN *pNewCert )
+{
+    return 0;
+}
+
+int CAServer::runCMP_CertConf( void *pCTX, UserRec *pDBUser, CertRec *pDBCert, void *pBody, BIN *pCert )
+{
+    return 0;
 }

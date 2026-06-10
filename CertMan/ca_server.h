@@ -11,6 +11,10 @@
 #include "js_pkcs11.h"
 #include "js_cmp.h"
 #include "js_scep.h"
+#include "js_pki_x509.h"
+#include "js_cmp.h"
+
+#include "db_mgr.h"
 
 class CAServer : public QTcpServer
 {
@@ -48,6 +52,15 @@ protected:
     int workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp );
     int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
     int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
+
+    int runCMP_GENM( void *pCTX, void *pBody );
+    int runCMP_IR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert );
+    int runCMP_P10CR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert );
+    int runCMP_RR( void *pCTX, CertRec *pDBCert, void *pBody );
+    int runCMP_KUR( void *pCTX, CertRec *pDBCert, void *pBody, BIN *pNewCert );
+    int runCMP_CertConf( void *pCTX, UserRec *pDBUser, CertRec *pDBCert, void *pBody, BIN *pCert );
+
+    int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
