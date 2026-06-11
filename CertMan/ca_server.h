@@ -53,12 +53,12 @@ protected:
     int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
     int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
 
-    int runCMP_GENM( void *pCTX, void *pBody );
-    int runCMP_IR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert );
-    int runCMP_P10CR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert );
-    int runCMP_RR( void *pCTX, CertRec *pDBCert, void *pBody );
-    int runCMP_KUR( void *pCTX, CertRec *pDBCert, void *pBody, BIN *pNewCert );
-    int runCMP_CertConf( void *pCTX, UserRec *pDBUser, CertRec *pDBCert, void *pBody, BIN *pCert );
+    int runCMP_GENM( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_IR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_RR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_KUR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
 
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
 

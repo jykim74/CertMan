@@ -10,6 +10,7 @@
 #include "js_pkcs7.h"
 #include "js_pki_ext.h"
 #include "js_pki_tools.h"
+#include "js_cmp_srv.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
@@ -186,7 +187,54 @@ end :
 
 int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+
+    JCMPReqInfo sReqInfo;
+    int nReqType = -1;
+    void *pSrvCTX = NULL;
+
+    memset( &sReqInfo, 0x00, sizeof(sReqInfo));
+
+    ret = JS_CMP_decodeReq( pReq, &sReqInfo );
+    if( ret != JSR_OK )
+    {
+        goto end;
+    }
+
+    nReqType = sReqInfo.nType;
+
+    switch (nReqType) {
+    case JS_CMP_PKIBODY_GENM:
+        ret = runCMP_GENM( pSrvCTX, pReq, pRsp );
+        break;
+    case JS_CMP_PKIBODY_IR:
+    case JS_CMP_PKIBODY_CR:
+        ret = runCMP_IR( pSrvCTX, pReq, pRsp );
+        break;
+
+    case JS_CMP_PKIBODY_P10CR:
+        ret = runCMP_P10CR( pSrvCTX, pReq, pRsp );
+        break;
+
+    case JS_CMP_PKIBODY_KUR:
+        ret = runCMP_KUR( pSrvCTX, pReq, pRsp );
+        break;
+
+    case JS_CMP_PKIBODY_RR:
+        ret = runCMP_RR( pSrvCTX, pReq, pRsp );
+        break;
+
+    case JS_CMP_PKIBODY_CERTCONF:
+        ret = runCMP_CertConf( pSrvCTX, pReq, pRsp );
+        break;
+    default:
+        ret = JSR_INVALID_ALG;
+        break;
+    }
+
+end :
+    JS_CMP_resetReqInfo( &sReqInfo );
+    return ret;
 }
 
 int CAServer::runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData )
@@ -658,32 +706,32 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
     connect( client_, &QTcpSocket::readyRead, this, &CAServer::readReady );
 }
 
-int CAServer::runCMP_GENM( void *pCTX, void *pBody )
+int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int CAServer::runCMP_IR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert )
+int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int CAServer::runCMP_P10CR( void *pCTX, UserRec *pDBUser, void *pBody, BIN *pNewCert )
+int CAServer::runCMP_P10CR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int CAServer::runCMP_RR( void *pCTX, CertRec *pDBCert, void *pBody )
+int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int CAServer::runCMP_KUR( void *pCTX, CertRec *pDBCert, void *pBody, BIN *pNewCert )
+int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int CAServer::runCMP_CertConf( void *pCTX, UserRec *pDBUser, CertRec *pDBCert, void *pBody, BIN *pCert )
+int CAServer::runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
