@@ -15,6 +15,7 @@
 #include "db_mgr.h"
 #include "audit_rec.h"
 #include "signer_rec.h"
+#include "user_rec.h"
 
 #include "ca_server.h"
 
@@ -192,8 +193,15 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     JCMPReqInfo sReqInfo;
     int nReqType = -1;
     void *pSrvCTX = NULL;
+    DBMgr* dbMgr = manApplet->dbMgr();
+    UserRec userRec;
+    CertRec certRec;
+    char sKID[1024];
+    BIN binSignCert = {0,0};
+    QString strAuthCode;
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
+    memset( sKID, 0x00, sizeof(sKID));
 
     ret = JS_CMP_decodeReq( pReq, &sReqInfo );
     if( ret != JSR_OK )
@@ -201,27 +209,53 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
+    memcpy( sKID, sReqInfo.binSendKID.pVal, sReqInfo.binSendKID.nLen );
     nReqType = sReqInfo.nType;
+
+    ret = dbMgr->getUserRecByRefNum( sKID, userRec );
+    if( ret == JSR_OK )
+    {
+        strAuthCode = userRec.getAuthCode();
+    }
+    else
+    {
+        ret = dbMgr->getCertRecByKeyHash( sKID, certRec );
+        if( ret != JSR_OK )
+        {
+            log( "There is no certificate" );
+            goto end;
+        }
+
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSignCert );
+    }
+
+
+    pSrvCTX = JS_CMP_getSrvCTX( NULL, &ca_cert_, &ca_pri_key_ );
+    if( pSrvCTX == NULL )
+    {
+        log( QString( "failed to get server ctx" ) );
+        goto end;
+    }
 
     switch (nReqType) {
     case JS_CMP_PKIBODY_GENM:
-        ret = runCMP_GENM( pSrvCTX, pReq, pRsp );
+        ret = runCMP_GENM( pSrvCTX, pReq, strAuthCode, &binSignCert, pRsp );
         break;
     case JS_CMP_PKIBODY_IR:
     case JS_CMP_PKIBODY_CR:
-        ret = runCMP_IR( pSrvCTX, pReq, pRsp );
+        ret = runCMP_IR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, userRec.getName(), pRsp );
         break;
 
     case JS_CMP_PKIBODY_P10CR:
-        ret = runCMP_P10CR( pSrvCTX, pReq, pRsp );
+        ret = runCMP_P10CR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, userRec.getName(), pRsp );
         break;
 
     case JS_CMP_PKIBODY_KUR:
-        ret = runCMP_KUR( pSrvCTX, pReq, pRsp );
+        ret = runCMP_KUR( pSrvCTX, pReq, certRec, &sReqInfo.binPubKey, pRsp );
         break;
 
     case JS_CMP_PKIBODY_RR:
-        ret = runCMP_RR( pSrvCTX, pReq, pRsp );
+        ret = runCMP_RR( pSrvCTX, pReq, certRec, sReqInfo.nNum, pRsp );
         break;
 
     case JS_CMP_PKIBODY_CERTCONF:
@@ -234,6 +268,10 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 
 end :
     JS_CMP_resetReqInfo( &sReqInfo );
+    JS_BIN_reset( &binSignCert );
+    if( pSrvCTX ) JS_CMP_release( &pSrvCTX );
+
+
     return ret;
 }
 
@@ -269,6 +307,7 @@ int CAServer::runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSign
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
     memset( sSerial, 0x00, sizeof(sSerial));
     memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
+    memset( &sNewCertInfo, 0x00, sizeof(sNewCertInfo));
 
     JS_PKI_getPeriod( profileRec.getNotBefore(),
                      profileRec.getNotAfter(),
@@ -706,32 +745,267 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
     connect( client_, &QTcpSocket::readyRead, this, &CAServer::readReady );
 }
 
-int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
+int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+
+    if( strAuthCode.length() > 1 )
+    {
+        ret = JS_CMP_encodeRspGENM( pSrvCTX, pReq, &ca_cert_, strAuthCode.toStdString().c_str(), pRsp );
+    }
+    else
+    {
+        ret = JS_CMP_encodeRspGENM_Cert( pSrvCTX, pReq, &ca_cert_, pSignCert, pRsp );
+    }
+
+    return ret;
 }
 
-int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
+int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+    BIN binNewCert = {0,0};
+    DBMgr* dbMgr = manApplet->dbMgr();
+    CertProfileRec profileRec;
+    QList<ProfileExtRec> profileExtList;
+    CertRec certRec;
+
+    time_t now_t = time(NULL);
+    time_t notBefore = 0;
+    time_t notAfter = 0;
+
+    JIssueCertInfo sIssueCertInfo;
+    JCertInfo   sCertInfo;
+
+    int nKeyType = -1;
+    QString strSerial;
+    BIN binKeyID = {0,0};
+
+    memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    dbMgr->getCertProfileRec( profile_num_, profileRec );
+
+    JS_PKI_getPeriod( profileRec.getNotBefore(),
+                     profileRec.getNotAfter(),
+                     now_t,
+                     &notBefore,
+                     &notAfter );
+
+    nKeyType = JS_PKI_getPubKeyType( pPubKey );
+    JS_PKI_getKeyIdentifier( pPubKey, &binKeyID );
+
+    strSerial = QString("%1").arg( dbMgr->getNextVal( "TB_CERT" ) );
+
+    JS_PKI_setIssueCertInfo( &sIssueCertInfo,
+                            profileRec.getVersion(),
+                            strSerial.toStdString().c_str(),
+                            profileRec.getHash().toStdString().c_str(),
+                            strDN.toStdString().c_str(),
+                            notBefore,
+                            notAfter,
+                            nKeyType,
+                            getHexString( pPubKey).toStdString().c_str() );
+
+    ret = makeCert( &sIssueCertInfo, &binNewCert );
+    if( ret != 0 )
+    {
+        log( QString( "fail to make certificate : %1").arg( ret ) );
+        goto end;
+    }
+
+    ret = JS_CMP_encodeRspIR( pSrvCTX, pReq, strAuthCode.toStdString().c_str(), &binNewCert, pRsp );
+    if( ret != 0 )
+    {
+        log( QString( "fail to make certificate : %1").arg( ret ) );
+        goto end;
+    }
+
+    ret = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        goto end;
+    }
+
+    certRec.setRegTime( now_t );
+    certRec.setNotBefore( notBefore );
+    certRec.setNotAfter( notAfter );
+    certRec.setSignAlg( sCertInfo.pSignAlgorithm );
+    certRec.setCert( getHexString( &binNewCert ));
+    certRec.setIssuerNum( ca_num_ );
+    certRec.setSubjectDN( sCertInfo.pSubjectName );
+    certRec.setSerial( sCertInfo.pSerial );
+    certRec.setDNHash( sCertInfo.pDNHash );
+    certRec.setKeyHash( getHexString( &binKeyID) );
+
+    dbMgr->addCertRec( certRec );
+
+end :
+    JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
+    JS_PKI_resetCertInfo( &sCertInfo );
+    JS_BIN_reset( &binKeyID );
+    JS_BIN_reset( &binNewCert );
+
+    return ret;
 }
 
-int CAServer::runCMP_P10CR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
+int CAServer::runCMP_P10CR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp  )
 {
-    return 0;
+    return runCMP_IR( pSrvCTX, pReq, strAuthCode, pPubKey, strDN, pRsp );
 }
 
-int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
+int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nReason, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+    RevokeRec revoke;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+    time_t now_t = time(NULL);
+    BIN binCert = {0,0};
+
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+
+    revoke.setCertNum( certRec.getNum() );
+    revoke.setIssuerNum( certRec.getIssuerNum() );
+    revoke.setSerial( certRec.getSerial() );
+    revoke.setReason( nReason );
+    revoke.setRevokeDate( now_t );
+    revoke.setCRLDP( certRec.getCRLDP() );
+
+    dbMgr->addRevokeRec( revoke );
+    dbMgr->modCertStatus( certRec.getNum(), JS_CERT_STATUS_REVOKE );
+
+    ret = JS_CMP_encodeRspRR( pSrvCTX, pReq, &binCert, pRsp );
+    if( ret != 0 )
+    {
+        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        goto end;
+    }
+
+end :
+    JS_BIN_reset( &binCert );
+    return ret;
 }
 
-int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
+int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const BIN *pPubKey, BIN *pRsp )
 {
-    return 0;
-}
+    return 0;    int ret = 0;
+    BIN binNewCert = {0,0};
+    DBMgr* dbMgr = manApplet->dbMgr();
+    CertProfileRec profileRec;
+    QList<ProfileExtRec> profileExtList;
+    CertRec certNewRec;
+
+    time_t now_t = time(NULL);
+    time_t notBefore = 0;
+    time_t notAfter = 0;
+
+    JIssueCertInfo sIssueCertInfo;
+    JCertInfo   sCertInfo;
+
+    int nKeyType = -1;
+    QString strSerial;
+    BIN binKeyID = {0,0};
+    QString strDN = certRec.getSubjectDN();
+
+    BIN binCert = {0,0};
+    RevokeRec revoke;
+
+    memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    dbMgr->getCertProfileRec( profile_num_, profileRec );
+
+    JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+
+    JS_PKI_getPeriod( profileRec.getNotBefore(),
+                     profileRec.getNotAfter(),
+                     now_t,
+                     &notBefore,
+                     &notAfter );
+
+    nKeyType = JS_PKI_getPubKeyType( pPubKey );
+    JS_PKI_getKeyIdentifier( pPubKey, &binKeyID );
+
+    strSerial = QString("%1").arg( dbMgr->getNextVal( "TB_CERT" ) );
+
+    JS_PKI_setIssueCertInfo( &sIssueCertInfo,
+                            profileRec.getVersion(),
+                            strSerial.toStdString().c_str(),
+                            profileRec.getHash().toStdString().c_str(),
+                            strDN.toStdString().c_str(),
+                            notBefore,
+                            notAfter,
+                            nKeyType,
+                            getHexString( pPubKey).toStdString().c_str() );
+
+    ret = makeCert( &sIssueCertInfo, &binNewCert );
+    if( ret != 0 )
+    {
+        log( QString( "fail to make certificate : %1").arg( ret ) );
+        goto end;
+    }
+
+    ret = JS_CMP_encodeRspKUR( pSrvCTX, pReq, &binCert, &binNewCert, pRsp );
+    if( ret != 0 )
+    {
+        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        goto end;
+    }
+
+    ret = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        goto end;
+    }
+
+
+    revoke.setCertNum( certRec.getNum() );
+    revoke.setIssuerNum( certRec.getIssuerNum() );
+    revoke.setSerial( certRec.getSerial() );
+    revoke.setReason( 1 );
+    revoke.setRevokeDate( now_t );
+    revoke.setCRLDP( certRec.getCRLDP() );
+
+    dbMgr->addRevokeRec( revoke );
+    dbMgr->modCertStatus( certRec.getNum(), JS_CERT_STATUS_REVOKE );
+
+    certNewRec.setRegTime( now_t );
+    certNewRec.setNotBefore( notBefore );
+    certNewRec.setNotAfter( notAfter );
+    certNewRec.setSignAlg( sCertInfo.pSignAlgorithm );
+    certNewRec.setCert( getHexString( &binNewCert ));
+    certNewRec.setIssuerNum( ca_num_ );
+    certNewRec.setSubjectDN( sCertInfo.pSubjectName );
+    certNewRec.setSerial( sCertInfo.pSerial );
+    certNewRec.setDNHash( sCertInfo.pDNHash );
+    certNewRec.setKeyHash( getHexString( &binKeyID) );
+
+    dbMgr->addCertRec( certNewRec );
+
+end :
+    JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
+    JS_PKI_resetCertInfo( &sCertInfo );
+    JS_BIN_reset( &binKeyID );
+    JS_BIN_reset( &binNewCert );
+    JS_BIN_reset( &binCert );
+
+    return ret;}
 
 int CAServer::runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+
+    ret = JS_CMP_encodeRspCertConf( pSrvCTX, pReq, pRsp );
+    if( ret != 0 )
+    {
+        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        goto end;
+    }
+
+end :
+
+    return ret;
 }

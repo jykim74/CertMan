@@ -15,6 +15,7 @@
 #include "js_cmp.h"
 
 #include "db_mgr.h"
+#include "js_cmp_srv.h"
 
 class CAServer : public QTcpServer
 {
@@ -53,11 +54,12 @@ protected:
     int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
     int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
 
-    int runCMP_GENM( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
-    int runCMP_IR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
-    int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
-    int runCMP_RR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
-    int runCMP_KUR( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
+    int runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, BIN *pRsp );
+    int runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
+
+    int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
+    int runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nReason, BIN *pRsp );
+    int runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const BIN *pPubKey, BIN *pRsp );
     int runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
 
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );

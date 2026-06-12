@@ -154,6 +154,7 @@ public:
     int getTSPList( QString strTarget, QString strWord, int nOffset, int nLimit, QList<TSPRec>& tspList );
 
     int getUserRec( int nSeq, UserRec& userRec );
+    int getUserRecByRefNum( QString strRefNum, UserRec& userRec );
     int getKMSRec( int nSeq, KMSRec& kmsRec );
     int getAuditRec( int nSeq, AuditRec& auditRec );
     int getSignerList( int nType, QList<SignerRec>& signerList );

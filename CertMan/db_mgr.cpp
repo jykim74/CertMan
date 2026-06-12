@@ -1061,6 +1061,20 @@ int DBMgr::getUserRec( int nSeq, UserRec& userRec )
     return 0;
 }
 
+int DBMgr::getUserRecByRefNum( QString strRefNum, UserRec& userRec )
+{
+    QList<UserRec> userList;
+
+    QString strQuery = QString( "SELECT * FROM TB_USER WHERE REFNUM = %1").arg( strRefNum );
+
+    _getUserList( strQuery, userList );
+    if( userList.size() <= 0 ) return -1;
+
+    userRec = userList.at(0);
+
+    return 0;
+}
+
 int DBMgr::getKMSRec( int nSeq, KMSRec& kmsRec )
 {
     QList<KMSRec> kmsList;
