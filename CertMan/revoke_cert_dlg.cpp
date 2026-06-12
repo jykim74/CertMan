@@ -77,7 +77,7 @@ void RevokeCertDlg::accept()
     RevokeRec revoke;
     revoke.setCertNum( cert_num_ );
     revoke.setIssuerNum( cert.getIssuerNum() );
-    revoke.setSerial( QString("%1").arg(cert.getNum()));
+    revoke.setSerial( cert.getSerial() );
     revoke.setReason( nReason );
     revoke.setRevokeDate( mRevokeDateTime->dateTime().toSecsSinceEpoch() );
     revoke.setCRLDP( cert.getCRLDP() );

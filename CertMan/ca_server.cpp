@@ -965,7 +965,7 @@ int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const
     revoke.setCertNum( certRec.getNum() );
     revoke.setIssuerNum( certRec.getIssuerNum() );
     revoke.setSerial( certRec.getSerial() );
-    revoke.setReason( 1 );
+    revoke.setReason( JS_PKI_REVOKE_REASON_KEY_COMPROMISE );
     revoke.setRevokeDate( now_t );
     revoke.setCRLDP( certRec.getCRLDP() );
 
