@@ -49,6 +49,7 @@ void SettingsMgr::loadSettings()
     getViewValue( VIEW_TOOL );
     getViewValue( VIEW_DATA );
     getViewValue( VIEW_SERVER );
+    getViewValue( VIEW_SERVICE );
     getViewValue( VIEW_HELP );
 
     getShowPriInfo();

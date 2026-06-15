@@ -29,6 +29,9 @@ bool MainWindow::isView( int nAct )
         case VIEW_SERVER:
             nValue = kServerDefault;
             break;
+        case VIEW_SERVICE:
+            nValue = kServiceDefault;
+            break;
         case VIEW_HELP:
             nValue = kHelpDefault;
             break;
@@ -324,7 +327,7 @@ void MainWindow::createViewActions()
     serviceMenu->addAction( serviceOCSPAct );
 
     QAction *serviceCAAct = new QAction( tr( "CA Service" ), this );
-    bVal = isView( ACT_SERVER_CMP );
+    bVal = isView( ACT_SERVICE_CA );
     serviceCAAct->setCheckable( true );
     serviceCAAct->setChecked( bVal );
     connect( serviceCAAct, &QAction::triggered, this, &MainWindow::viewServiceCA );
