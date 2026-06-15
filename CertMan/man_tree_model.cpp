@@ -141,12 +141,12 @@ void ManTreeModel::createTreeMenu()
         pManItem->appendRow( pOCSPSignerItem );
 
         tree_view_->expand( pManItem->index() );
-
-        ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
-        pUserItem->setIcon(QIcon(":/images/user.png"));
-        pUserItem->setType( CM_ITEM_TYPE_USER );
-        pTopItem->appendRow( pUserItem );
     }
+
+    ManTreeItem *pUserItem = new ManTreeItem( QString(tr("User")) );
+    pUserItem->setIcon(QIcon(":/images/user.png"));
+    pUserItem->setType( CM_ITEM_TYPE_USER );
+    pTopItem->appendRow( pUserItem );
 
 
     ManTreeItem *pCertProfileItem = new ManTreeItem( QString(tr("Certificate Profile") ) );

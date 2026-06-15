@@ -186,6 +186,7 @@ public:
     int modCertStatus( int nNum, int nStatus );
     int modCertProfileRec( int nProfileNum, CertProfileRec profileRec );
     int modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec );
+    int modUserRec( int nSeq, UserRec userRec );
     int modAdminRec( int nSeq, AdminRec adminRec );
 
  //   int getSeq( QString strTable );

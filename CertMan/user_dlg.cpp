@@ -27,6 +27,7 @@ UserDlg::UserDlg(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
+    user_num_ = -1;
 
     initUI();
 
@@ -39,6 +40,28 @@ UserDlg::UserDlg(QWidget *parent) :
 UserDlg::~UserDlg()
 {
 
+}
+
+int UserDlg::loadUser( int nNum )
+{
+    UserRec userRec;
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    int ret = dbMgr->getUserRec( nNum, userRec );
+    if( ret == JSR_OK )
+    {
+        mNameText->setText( userRec.getName() );
+        mSSNText->setText( userRec.getSSN() );
+        mEmailText->setText( userRec.getEmail() );
+        mAuthCodeText->setText( userRec.getAuthCode() );
+        mRefNumText->setText( userRec.getRefNum() );
+
+        user_num_ = nNum;
+
+        setWindowTitle( tr( "Modify a user" ));
+    }
+
+    return 0;
 }
 
 void UserDlg::showEvent(QShowEvent *event)
@@ -96,7 +119,10 @@ void UserDlg::accept()
     user.setRefNum( strRefNum );
     user.setAuthCode( strAuthCode );
 
-    dbMgr->addUserRec( user );
+    if( user_num_ > 0 )
+        dbMgr->modUserRec( user_num_, user );
+    else
+        dbMgr->addUserRec( user );
 
     JS_BIN_reset( &binRef );
 //    if( pHexRef ) JS_free( pHexRef );
@@ -139,6 +165,11 @@ void UserDlg::initUI()
     connect( mRefNumBtn, SIGNAL(clicked()), this, SLOT(getRefNum()));
     connect( mAuthCodeBtn, SIGNAL(clicked()), this, SLOT(getAuthCode()));
     connect( mRegServerBtn, SIGNAL(clicked()), this, SLOT(regServer()));
+
+    if( manApplet->isPRO() == false )
+    {
+        mRegServerBtn->hide();
+    }
 }
 
 void UserDlg::initialize()

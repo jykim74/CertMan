@@ -205,6 +205,7 @@ public slots:
     void deleteRequest();
 
     void deleteUser();
+    void modifyUser();
     void deleteSigner();
 
     void registerAdmin();

@@ -141,6 +141,13 @@ void MainWindow::createViewActions()
     connect( toolMakeReqAct, &QAction::triggered, this, &MainWindow::viewToolMakeReq );
     toolMenu->addAction( toolMakeReqAct );
 
+    QAction *toolRegUserAct = new QAction( tr( "Register User" ), this );
+    bVal = isView( ACT_TOOL_REG_USER );
+    toolRegUserAct->setCheckable( true );
+    toolRegUserAct->setChecked( bVal );
+    connect( toolRegUserAct, &QAction::triggered, this, &MainWindow::viewToolRegUser );
+    toolMenu->addAction( toolRegUserAct );
+
     if( manApplet->isPRO() == true )
     {
         QAction *toolMakeConfigAct = new QAction( tr( "Make Config" ), this );
@@ -149,13 +156,6 @@ void MainWindow::createViewActions()
         toolMakeConfigAct->setChecked( bVal );
         connect( toolMakeConfigAct, &QAction::triggered, this, &MainWindow::viewToolMakeConfig );
         toolMenu->addAction( toolMakeConfigAct );
-
-        QAction *toolRegUserAct = new QAction( tr( "Register User" ), this );
-        bVal = isView( ACT_TOOL_REG_USER );
-        toolRegUserAct->setCheckable( true );
-        toolRegUserAct->setChecked( bVal );
-        connect( toolRegUserAct, &QAction::triggered, this, &MainWindow::viewToolRegUser );
-        toolMenu->addAction( toolRegUserAct );
 
         QAction *toolRegSignerAct = new QAction( tr( "Register Signer" ), this );
         bVal = isView( ACT_TOOL_REG_SIGNER );

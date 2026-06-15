@@ -2235,6 +2235,38 @@ int DBMgr::modCRLProfileRec( int nProfileNum, CRLProfileRec profileRec )
     return 0;
 }
 
+int DBMgr::modUserRec( int nSeq, UserRec userRec )
+{
+    int i = 0;
+    QSqlQuery sqlQuery;
+    sqlQuery.prepare( "UPDATE TB_USER SET "
+                     "NAME = ?, "
+                     "SSN = ?, "
+                     "EMAIL = ?, "
+                     "STATUS = ?, "
+                     "REFNUM = ? "
+                     "AUTHCODE = ? "
+                     "WHERE NUM = ?;" );
+
+    sqlQuery.bindValue( i++, userRec.getName() );
+    sqlQuery.bindValue( i++, userRec.getSSN() );
+    sqlQuery.bindValue( i++, userRec.getEmail() );
+    sqlQuery.bindValue( i++, userRec.getStatus() );
+    sqlQuery.bindValue( i++, userRec.getRefNum() );
+    sqlQuery.bindValue( i++, userRec.getAuthCode() );
+    sqlQuery.bindValue( i++, nSeq );
+
+    if( sqlQuery.exec() == false )
+    {
+        sqlQuery.finish();
+        //        qDebug() << sqlQuery.lastError();
+        return -1;
+    }
+
+    sqlQuery.finish();
+    return 0;
+}
+
 int DBMgr::modAdminRec( int nSeq, AdminRec adminRec )
 {
     int i = 0;

@@ -366,6 +366,14 @@ void MainWindow::createToolsActions()
     toolsMenu->addAction( make_req_act_ );
     if( isView( ACT_TOOL_MAKE_REQ ) ) tool_tool_->addAction( make_req_act_ );
 
+    const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
+    reg_user_act_ = new QAction( userRegIcon, tr("Register &User"), this );
+    reg_user_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F4 ));
+    reg_user_act_->setStatusTip(tr( "Register a user"));
+    connect( reg_user_act_, &QAction::triggered, this, &MainWindow::registerUser );
+    toolsMenu->addAction( reg_user_act_ );
+    if( isView( ACT_TOOL_REG_USER ) ) tool_tool_->addAction( reg_user_act_ );
+
     if( manApplet->isPRO() )
     {
         const QIcon configIcon = QIcon::fromTheme( "make config", QIcon(":/images/config.png"));
@@ -375,15 +383,6 @@ void MainWindow::createToolsActions()
         connect( make_config_act_, &QAction::triggered, this, &MainWindow::makeConfig );
         toolsMenu->addAction( make_config_act_ );
         if( isView( ACT_TOOL_MAKE_CONFIG ) ) tool_tool_->addAction( make_config_act_ );
-
-
-        const QIcon userRegIcon = QIcon::fromTheme("user-register", QIcon(":/images/user_reg.png"));
-        reg_user_act_ = new QAction( userRegIcon, tr("Register &User"), this );
-        reg_user_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_F4 ));
-        reg_user_act_->setStatusTip(tr( "Register a user"));
-        connect( reg_user_act_, &QAction::triggered, this, &MainWindow::registerUser );
-        toolsMenu->addAction( reg_user_act_ );
-        if( isView( ACT_TOOL_REG_USER ) ) tool_tool_->addAction( reg_user_act_ );
 
         const QIcon signerRegIcon = QIcon::fromTheme("signer-register", QIcon(":/images/signer_reg.png"));
         reg_signer_act_ = new QAction( signerRegIcon, tr("Register &Signer"), this );
@@ -883,8 +882,9 @@ void MainWindow::showRightMenu(QPoint point)
     }
     else if( right_type_ == RightType::TYPE_USER )
     {
-        menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
         menu.addAction( tr( "Register User"), this, &MainWindow::registerUser );
+        menu.addAction(tr("Delete User"), this, &MainWindow::deleteUser );
+        menu.addAction(tr("Modify User"), this, &MainWindow::modifyUser );
 
         if( manApplet->isPRO() )
         {
@@ -2768,6 +2768,23 @@ void MainWindow::deleteUser()
 
 //    createRightUserList();
     left_model_->clickTreeMenu( CM_ITEM_TYPE_USER );
+}
+
+void MainWindow::modifyUser()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    int row = right_table_->currentRow();
+    QTableWidgetItem* item = right_table_->item( row, 0 );
+
+    int num = item->text().toInt();
+    UserDlg userDlg;
+    userDlg.loadUser( num );
+    userDlg.exec();
 }
 
 void MainWindow::deleteSigner()

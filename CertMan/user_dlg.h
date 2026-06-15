@@ -20,6 +20,7 @@ class UserDlg : public QDialog, public Ui::UserDlg
 public:
     explicit UserDlg(QWidget *parent = nullptr);
     ~UserDlg();
+    int loadUser( int nNum );
 
 private slots:
     void showEvent(QShowEvent *event);
@@ -33,6 +34,7 @@ private:
     void initUI();
     void initialize();
 
+    int user_num_;
 };
 
 #endif // USER_DLG_H
