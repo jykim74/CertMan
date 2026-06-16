@@ -21,7 +21,7 @@ public:
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setOCSPCert( const BIN *pCert );
-    void setOCSPPriKey( const BIN *pPriKey );
+    void setOCSPPriKey( const BIN *pPriKey, bool bP11 = false );
 
 public slots:
     int readReady();
@@ -38,6 +38,7 @@ private:
     BIN ocsp_pri_key_;
     QTcpSocket *client_;
     bool need_sign_;
+    bool p11_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );

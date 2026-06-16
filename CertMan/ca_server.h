@@ -30,7 +30,7 @@ public:
     void setCACert( const BIN *pCert );
     void setCANum( int nNum );
     void setProfileNum( int nNum );
-    void setCAPriKey( const BIN *pPriKey );
+    void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
 
 public slots:
     int readReady();
@@ -47,6 +47,7 @@ private:
     BIN ca_cert_;
     BIN ca_pri_key_;
     QTcpSocket *client_;
+    bool p11_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );

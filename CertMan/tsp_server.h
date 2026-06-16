@@ -20,7 +20,7 @@ public:
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setTSPCert( const BIN *pCert );
-    void setTSPPriKey( const BIN *pPriKey );
+    void setTSPPriKey( const BIN *pPriKey, bool bP11 = false );
 
 public slots:
     int readReady();
@@ -35,6 +35,7 @@ private:
     BIN tsp_cert_;
     BIN tsp_pri_key_;
     QTcpSocket *client_;
+    bool p11_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );

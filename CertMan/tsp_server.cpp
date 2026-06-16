@@ -15,6 +15,7 @@ TSPServer::TSPServer( QObject *parent ) :
     QTcpServer(parent)
 {
     log_edit_ = nullptr;
+    p11_ = false;
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -38,10 +39,11 @@ void TSPServer::setTSPCert( const BIN *pCert )
     JS_BIN_copy( &tsp_cert_, pCert );
 }
 
-void TSPServer::setTSPPriKey( const BIN *pPriKey )
+void TSPServer::setTSPPriKey( const BIN *pPriKey, bool bP11 )
 {
     JS_BIN_reset( &tsp_pri_key_ );
     JS_BIN_copy( &tsp_pri_key_, pPriKey );
+    p11_ = bP11;
 }
 
 void TSPServer::startServer( int nPort )
@@ -93,7 +95,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
 
     char *pHexTSTInfo = NULL;
     char *pHexData = NULL;
-    int     bP11 = false;
+
     DBMgr   *dbMgr = manApplet->dbMgr();
 
     memset( sPolicy, 0x00, sizeof(sPolicy));
@@ -109,14 +111,38 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
 
     //    if( g_nMsgDump ) msgDump( 1, pReq );
 
-    if( bP11 )
+    if( p11_ == true )
     {
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        int nSlotID = manApplet->settingsMgr()->slotIndex();
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+        if( pP11CTX == NULL )
+        {
+            log( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
+        {
+            log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
+            JS_PKCS11_Logout( pP11CTX );
+            JS_PKCS11_CloseSession( pP11CTX );
+            ret = -1;
+            goto end;
+        }
+
         ret = JS_TSP_encodeResponseByP11(
-            pReq, sHash, sPolicy, &tsp_cert_, &tsp_pri_key_, NULL,
+            pReq, sHash, sPolicy, &tsp_cert_, &tsp_pri_key_, pP11CTX,
             (void (*)(void *))serialCallback, (void *)dbMgr,
             &nSerial, &binTST, &binP7, pRsp );
 
         log( QString( "EncodeResponseByP11 Ret: %1" ).arg( ret ));
+
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
     }
     else
     {

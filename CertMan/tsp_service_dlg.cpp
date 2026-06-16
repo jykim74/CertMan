@@ -9,6 +9,7 @@
 #include "ca_man_dlg.h"
 #include "db_mgr.h"
 #include "cert_info_dlg.h"
+#include "commons.h"
 
 
 TSPServiceDlg::TSPServiceDlg(QWidget *parent)
@@ -58,6 +59,7 @@ void TSPServiceDlg::clickStart()
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
     QString strPort = mPortText->text();
+    bool bP11 = false;
 
     if( strPort.length() < 1 )
     {
@@ -84,6 +86,8 @@ void TSPServiceDlg::clickStart()
         return;
     }
 
+    bP11 = isPKCS11Private( keyPair.getAlg() );
+
     if( tsp_srv_ ) delete tsp_srv_;
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
@@ -93,7 +97,7 @@ void TSPServiceDlg::clickStart()
     int nPort = strPort.toInt();
     tsp_srv_->setLogEdit( mLogText );
     tsp_srv_->setTSPCert( &binCert );
-    tsp_srv_->setTSPPriKey( &binPriKey );
+    tsp_srv_->setTSPPriKey( &binPriKey, bP11 );
     tsp_srv_->startServer( nPort );
 
 end :

@@ -9,13 +9,14 @@
 #include "db_mgr.h"
 #include "audit_rec.h"
 #include "signer_rec.h"
-
+#include "commons.h"
 
 OCSPServer::OCSPServer( QObject *parent ) :
     QTcpServer(parent)
 {
     log_edit_ = nullptr;
     need_sign_ = false;
+    p11_ = false;
 
     memset( &ocsp_cert_, 0x00, sizeof(BIN));
     memset( &ocsp_pri_key_, 0x00, sizeof(BIN));
@@ -40,10 +41,11 @@ void OCSPServer::setOCSPCert( const BIN *pCert )
     JS_BIN_copy( &ocsp_cert_, pCert );
 }
 
-void OCSPServer::setOCSPPriKey( const BIN *pPriKey )
+void OCSPServer::setOCSPPriKey( const BIN *pPriKey, bool bP11 )
 {
     JS_BIN_reset( &ocsp_pri_key_ );
     JS_BIN_copy( &ocsp_pri_key_, pPriKey );
+    p11_ = bP11;
 }
 
 void OCSPServer::setNeedSign( bool bVal )
@@ -161,10 +163,7 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     char *pDNHash = NULL;
 
     BIN binSigner = {0,0};
-
     DBMgr* dbMgr = manApplet->dbMgr();
-
-    bool bP11 = false;
 
     SignerRec signerRec;
 
@@ -218,10 +217,34 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
-    if( bP11 )
+    if( p11_ == true )
     {
-        ret = JS_OCSP_encodeResponseByP11( pReq, &ocsp_cert_, &ocsp_pri_key_, NULL, "SHA1", &sIDInfo, &sStatusInfo, pRsp );
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        int nSlotID = manApplet->settingsMgr()->slotIndex();
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+        if( pP11CTX == NULL )
+        {
+            log( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
+        {
+            log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
+            JS_PKCS11_Logout( pP11CTX );
+            JS_PKCS11_CloseSession( pP11CTX );
+            ret = -1;
+            goto end;
+        }
+
+        ret = JS_OCSP_encodeResponseByP11( pReq, &ocsp_cert_, &ocsp_pri_key_, pP11CTX, "SHA1", &sIDInfo, &sStatusInfo, pRsp );
         log( QString( "EncodeResponsByP11 Ret: %1").arg( ret ));
+
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
     }
     else
     {

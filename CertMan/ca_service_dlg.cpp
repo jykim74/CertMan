@@ -12,6 +12,7 @@
 #include "cert_info_dlg.h"
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
+#include "commons.h"
 
 CAServiceDlg::CAServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -65,6 +66,8 @@ void CAServiceDlg::clickStart()
     if( dbMgr == NULL ) return;
     QString strPort = mPortText->text();
 
+    bool bP11 = false;
+
     if( strPort.length() < 1 )
     {
         manApplet->warningBox( tr( "Enter a port" ), this );
@@ -91,6 +94,8 @@ void CAServiceDlg::clickStart()
         return;
     }
 
+    bP11 = isPKCS11Private( keyPair.getAlg() );
+
     if( ca_srv_ ) delete ca_srv_;
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
@@ -102,7 +107,7 @@ void CAServiceDlg::clickStart()
     ca_srv_->setCACert( &binCert );
     ca_srv_->setCANum( nNum );
     ca_srv_->setProfileNum( nProfileNum );
-    ca_srv_->setCAPriKey( &binPriKey );
+    ca_srv_->setCAPriKey( &binPriKey, bP11 );
     ca_srv_->startServer( nPort );
 
 end :

@@ -11,6 +11,7 @@
 #include "ca_man_dlg.h"
 #include "db_mgr.h"
 #include "cert_info_dlg.h"
+#include "commons.h"
 
 OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -68,6 +69,7 @@ void OCSPServiceDlg::clickStart()
     }
 
     int nNum = mNumText->text().toInt();
+    bool bP11 = false;
 
     CertRec certRec;
     KeyPairRec keyPair;
@@ -84,6 +86,8 @@ void OCSPServiceDlg::clickStart()
         return;
     }
 
+    bP11 = isPKCS11Private( keyPair.getAlg() );
+
     if( ocsp_srv_ ) delete ocsp_srv_;
 
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
@@ -94,7 +98,7 @@ void OCSPServiceDlg::clickStart()
     ocsp_srv_->setNeedSign( mNeedSignCheck->isChecked() );
     ocsp_srv_->setLogEdit( mLogText );
     ocsp_srv_->setOCSPCert( &binCert );
-    ocsp_srv_->setOCSPPriKey( &binPriKey );
+    ocsp_srv_->setOCSPPriKey( &binPriKey, bP11 );
     ocsp_srv_->startServer( nPort );
 
 end :

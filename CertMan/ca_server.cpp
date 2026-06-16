@@ -11,11 +11,13 @@
 #include "js_pki_ext.h"
 #include "js_pki_tools.h"
 #include "js_cmp_srv.h"
+#include "js_pkcs11.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
 #include "signer_rec.h"
 #include "user_rec.h"
+#include "commons.h"
 
 #include "ca_server.h"
 
@@ -58,10 +60,11 @@ void CAServer::setProfileNum( int nNum )
     profile_num_ = nNum;
 }
 
-void CAServer::setCAPriKey( const BIN *pPriKey )
+void CAServer::setCAPriKey( const BIN *pPriKey, bool bP11 )
 {
     JS_BIN_reset( &ca_pri_key_ );
     JS_BIN_copy( &ca_pri_key_, pPriKey );
+    p11_ = bP11;
 }
 
 void CAServer::startServer( int nPort )
@@ -111,7 +114,6 @@ void CAServer::elog( const QString strLog )
 int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
 {
     int ret = 0;
-    bool bP11 = false;
 
     DBMgr* dbMgr = manApplet->dbMgr();
 
@@ -175,10 +177,38 @@ int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
     }
 
 
-    if( bP11 )
-        ret = JS_PKI_makeCertificateByP11( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, NULL, pCert );
+    if( p11_ == true )
+    {
+        JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
+        int nSlotID = manApplet->settingsMgr()->slotIndex();
+        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
+
+        if( pP11CTX == NULL )
+        {
+            log( QString("PKCS11 library was not loaded") );
+            ret = -1;
+            goto end;
+        }
+
+        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        if( ret != 0 )
+        {
+            log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
+            JS_PKCS11_Logout( pP11CTX );
+            JS_PKCS11_CloseSession( pP11CTX );
+            ret = -1;
+            goto end;
+        }
+
+        ret = JS_PKI_makeCertificateByP11( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, pP11CTX, pCert );
+
+        JS_PKCS11_Logout( pP11CTX );
+        JS_PKCS11_CloseSession( pP11CTX );
+    }
     else
+    {
         ret = JS_PKI_makeCertificate( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, pCert );
+    }
 
 end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
