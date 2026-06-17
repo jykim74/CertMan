@@ -2244,7 +2244,7 @@ int DBMgr::modUserRec( int nSeq, UserRec userRec )
                      "SSN = ?, "
                      "EMAIL = ?, "
                      "STATUS = ?, "
-                     "REFNUM = ? "
+                     "REFNUM = ?, "
                      "AUTHCODE = ? "
                      "WHERE NUM = ?;" );
 
