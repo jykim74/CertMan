@@ -366,21 +366,19 @@ int OCSPServer::readReady()
 end :
     client_->disconnectFromHost();
     client_->waitForDisconnected();
-    delete client_;
-    client_ = nullptr;
+    client_->deleteLater();
 
     if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
     if( pPath ) JS_free( pPath );
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    return ret;
 }
 
 void OCSPServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
-
-    if( client_ == nullptr ) delete client_;
 
     client_ = new QTcpSocket;
     client_->setSocketDescriptor( socketDescriptor );

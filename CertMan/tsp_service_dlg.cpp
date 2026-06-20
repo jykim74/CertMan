@@ -77,12 +77,14 @@ void TSPServiceDlg::clickStart()
     int ret = dbMgr->getCertRec( nNum, certRec );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get TSP certificate" ), this );
         return;
     }
 
     ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get TSP private key" ), this );
         return;
     }
 
