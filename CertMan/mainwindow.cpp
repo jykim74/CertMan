@@ -728,7 +728,6 @@ void MainWindow::createMemberDlg()
 void MainWindow::removeAllRight()
 {
     info_text_->clear();
-    log_text_->clear();
 
     int rowCnt = right_table_->rowCount();
 
