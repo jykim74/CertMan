@@ -57,11 +57,11 @@ void OCSPServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
     {
-        qDebug() << "Could not start server";
+        log( "Could not start server" );
     }
     else
     {
-        qDebug() << "Listening to port " << nPort << "...";
+        log( QString( "Listening to port: %1" ).arg( nPort ) );
     }
 }
 
@@ -116,6 +116,7 @@ int OCSPServer::getCertStatus( JCertIDInfo *pIDInfo, JCertStatusInfo *pStatusInf
     {
         log( QString("fail to get Issuer by KeyHash(%1)").arg( pIDInfo->pKeyHash ));
         nStatus = JS_OCSP_CERT_STATUS_UNKNOWN;
+        ret = JSR_OK;
         goto end;
     }
 
@@ -124,6 +125,7 @@ int OCSPServer::getCertStatus( JCertIDInfo *pIDInfo, JCertStatusInfo *pStatusInf
     {
         log( QString("fail to get cert by serial(%1)").arg( pIDInfo->pSerial ));
         nStatus = JS_OCSP_CERT_STATUS_UNKNOWN;
+        ret = JSR_OK;
         goto end;
     }
 
