@@ -20,6 +20,7 @@ public:
     void setNeedSign( bool bVal );
     void startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
+    void setCACert( const BIN *pCert );
     void setOCSPCert( const BIN *pCert );
     void setOCSPPriKey( const BIN *pPriKey, bool bP11 = false );
 
@@ -34,6 +35,7 @@ private :
 private:
     QPlainTextEdit* log_edit_;
 
+    BIN ca_cert_;
     BIN ocsp_cert_;
     BIN ocsp_pri_key_;
     QTcpSocket *client_;

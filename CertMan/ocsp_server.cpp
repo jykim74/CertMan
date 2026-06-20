@@ -18,12 +18,14 @@ OCSPServer::OCSPServer( QObject *parent ) :
     need_sign_ = false;
     p11_ = false;
 
+    memset( &ca_cert_, 0x00, sizeof(BIN));
     memset( &ocsp_cert_, 0x00, sizeof(BIN));
     memset( &ocsp_pri_key_, 0x00, sizeof(BIN));
 }
 
 OCSPServer::~OCSPServer()
 {
+    JS_BIN_reset( &ca_cert_ );
     JS_BIN_reset( &ocsp_cert_ );
     JS_BIN_reset( &ocsp_pri_key_ );
 
@@ -33,6 +35,12 @@ OCSPServer::~OCSPServer()
 void OCSPServer::setLogEdit( QPlainTextEdit *pEdit )
 {
     log_edit_ = pEdit;
+}
+
+void OCSPServer::setCACert( const BIN *pCert )
+{
+    JS_BIN_reset( &ca_cert_ );
+    JS_BIN_copy( &ca_cert_, pCert );
 }
 
 void OCSPServer::setOCSPCert( const BIN *pCert )
@@ -107,19 +115,51 @@ int OCSPServer::getCertStatus( JCertIDInfo *pIDInfo, JCertStatusInfo *pStatusInf
 
     DBMgr* dbMgr = manApplet->dbMgr();
     CertRec certRec;
-    CertRec issuerRec;
+//    CertRec issuerRec;
     RevokeRec revokeRec;
     AuditRec auditRec;
+
+    BIN binCA_KeyHash = {0,0};
+    BIN binCA_DNHash = {0,0};
+
+    BIN binKeyHash = {0,0};
+    BIN binDNHash = {0,0};
 
     log( QString( "Hash: %1").arg( pIDInfo->pHash ));
     log( QString( "KeyHash: %1").arg( pIDInfo->pKeyHash ));
     log( QString( "DNHash: %1" ).arg( pIDInfo->pNameHash ));
     log( QString( "Serial: %1" ).arg( pIDInfo->pSerial ));
 
+    JS_BIN_decodeHex( pIDInfo->pKeyHash, &binKeyHash );
+    JS_BIN_decodeHex( pIDInfo->pNameHash, &binDNHash );
+/*
     ret = dbMgr->getCertRecByKeyHash( pIDInfo->pKeyHash, issuerRec );
     if( ret != JSR_OK )
     {
         log( QString("fail to get Issuer by KeyHash(%1)").arg( pIDInfo->pKeyHash ));
+        nStatus = JS_OCSP_CERT_STATUS_UNKNOWN;
+        ret = JSR_OK;
+        goto end;
+    }
+*/
+    ret = JS_PKI_getKeyDNHash( &ca_cert_, pIDInfo->pHash, &binCA_KeyHash, &binCA_DNHash );
+    if( ret != JSR_OK )
+    {
+        ret = JSR_SYSTEM_FAIL;
+        goto end;
+    }
+
+    if( JS_BIN_cmp( &binCA_KeyHash, &binKeyHash ) != 0 )
+    {
+        log( QString("KeyHash is mismatched(%1)").arg( pIDInfo->pKeyHash ));
+        nStatus = JS_OCSP_CERT_STATUS_UNKNOWN;
+        ret = JSR_OK;
+        goto end;
+    }
+
+    if( JS_BIN_cmp( &binCA_DNHash, &binDNHash ) != 0 )
+    {
+        log( QString("DNHash is mismatched(%1)").arg( pIDInfo->pKeyHash ));
         nStatus = JS_OCSP_CERT_STATUS_UNKNOWN;
         ret = JSR_OK;
         goto end;
@@ -154,9 +194,13 @@ int OCSPServer::getCertStatus( JCertIDInfo *pIDInfo, JCertStatusInfo *pStatusInf
     auditRec.setKind( JS_GEN_KIND_CERTMAN );
     auditRec.setOperation( JS_GEN_OP_CHECK_OCSP );
     dbMgr->addAuditRec( auditRec );
+    JS_OCSP_setCertStatusInfo( pStatusInfo, nStatus, nReason, tRevokedTime, NULL );
 
 end :
-    JS_OCSP_setCertStatusInfo( pStatusInfo, nStatus, nReason, tRevokedTime, NULL );
+    JS_BIN_reset( &binCA_KeyHash );
+    JS_BIN_reset( &binCA_DNHash );
+    JS_BIN_reset( &binKeyHash );
+    JS_BIN_reset( &binDNHash );
 
     return ret;
 }

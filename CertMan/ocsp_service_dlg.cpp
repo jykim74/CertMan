@@ -24,6 +24,11 @@ OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
     connect( mLogClearBtn, SIGNAL(clicked()), this, SLOT(clickLogClear()));
+
+    connect( mCASelectBtn, SIGNAL(clicked()), this, SLOT(clickCASelect()));
+    connect( mCAViewBtn, SIGNAL(clicked()), this, SLOT(clickCAView()));
+    connect( mCANumText, SIGNAL(textChanged(QString)), this, SLOT(changeCANum()));
+
     connect( mSelectBtn, SIGNAL(clicked()), this, SLOT(clickSelect()));
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
     connect( mNumText, SIGNAL(textChanged(QString)), this, SLOT(changeNum()));
@@ -53,6 +58,8 @@ void OCSPServiceDlg::initialize()
 
 void OCSPServiceDlg::clickStart()
 {
+    int ret = 0;
+    BIN binCA = {0,0};
     BIN binCert = {0,0};
     BIN binPriKey = {0,0};
 
@@ -68,13 +75,23 @@ void OCSPServiceDlg::clickStart()
         return;
     }
 
+    CertRec caRec;
+    int nCANum = mCANumText->text().toInt();
+
+    ret = dbMgr->getCertRec( nCANum, caRec );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr("failed to get CA certificate" ), this );
+        return;
+    }
+
     int nNum = mNumText->text().toInt();
     bool bP11 = false;
 
     CertRec certRec;
     KeyPairRec keyPair;
 
-    int ret = dbMgr->getCertRec( nNum, certRec );
+    ret = dbMgr->getCertRec( nNum, certRec );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("failed to get OCSP certificate" ), this );
@@ -92,6 +109,7 @@ void OCSPServiceDlg::clickStart()
 
     if( ocsp_srv_ ) delete ocsp_srv_;
 
+    JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
@@ -99,11 +117,13 @@ void OCSPServiceDlg::clickStart()
     int nPort = strPort.toInt();
     ocsp_srv_->setNeedSign( mNeedSignCheck->isChecked() );
     ocsp_srv_->setLogEdit( mLogText );
+    ocsp_srv_->setCACert( &binCA );
     ocsp_srv_->setOCSPCert( &binCert );
     ocsp_srv_->setOCSPPriKey( &binPriKey, bP11 );
     ocsp_srv_->startServer( nPort );
 
 end :
+    JS_BIN_reset( &binCA );
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPriKey );
 }
@@ -113,10 +133,58 @@ void OCSPServiceDlg::clickLogClear()
     mLogText->clear();
 }
 
-void OCSPServiceDlg::clickSelect()
+void OCSPServiceDlg::clickCASelect()
 {
     CAManDlg caMan;
     caMan.setTitle( tr( "Select CA certificate" ));
+    caMan.setMode( CAManModeSelectCACert );
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+        mCANumText->setText(QString("%1").arg( caMan.getNum() ));
+    }
+}
+
+void OCSPServiceDlg::clickCAView()
+{
+    int num = mCANumText->text().toInt();
+    CertRec cert;
+    int ret = manApplet->dbMgr()->getCertRec( num, cert );
+    if( ret != 0 ) return;
+
+    CertInfoDlg certInfo;
+    certInfo.setCertNum( num );
+    certInfo.exec();
+}
+
+void OCSPServiceDlg::changeCANum()
+{
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    int nNum = mCANumText->text().toInt();
+
+    CertRec certRec;
+    KeyPairRec keyPair;
+
+    int ret = dbMgr->getCertRec( nNum, certRec );
+    if( ret != 0 )
+    {
+        mCANumText->clear();
+        return;
+    }
+
+    mCANameText->setText( certRec.getSubjectDN() );
+
+    dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+    mCAInfoText->setText( keyPair.getDesc() );
+}
+
+void OCSPServiceDlg::clickSelect()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select OCSP server certificate" ));
     caMan.setMode( CAManModeSelectCACert );
     caMan.mSignerCheck->setChecked(true);
 
