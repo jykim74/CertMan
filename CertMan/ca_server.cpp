@@ -752,7 +752,7 @@ int CAServer::readReady()
 
 end :
     client_->disconnectFromHost();
-    client_->waitForDisconnected();
+//    client_->waitForDisconnected();
     client_->deleteLater();
 
     if( pParamList ) JS_UTIL_resetNameValList( &pParamList );

@@ -85,12 +85,14 @@ void CAServiceDlg::clickStart()
     int ret = dbMgr->getCertRec( nNum, certRec );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get CA certificate" ), this );
         return;
     }
 
     ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get CA private key" ), this );
         return;
     }
 

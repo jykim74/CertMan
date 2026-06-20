@@ -77,12 +77,14 @@ void OCSPServiceDlg::clickStart()
     int ret = dbMgr->getCertRec( nNum, certRec );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get OCSP certificate" ), this );
         return;
     }
 
     ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
     if( ret != 0 )
     {
+        manApplet->warningBox( tr("failed to get OCSP private key" ), this );
         return;
     }
 

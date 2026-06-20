@@ -103,7 +103,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
     ret = JS_TSP_decodeRequest( pReq, &binMsg, sHash, sPolicy, &binNonce );
     if( ret != 0 )
     {
-        log( QString( "fail to decode tsp request(%1)" ).arg( ret ));
+        log( QString( "fail to decode tsp request(%1)" ).arg( JERR(ret) ));
         ret = JS_TSP_encodeFailResponse( JS_TS_STATUS_REJECTION, pRsp );
 
         goto end;
@@ -139,7 +139,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             (void (*)(void *))serialCallback, (void *)dbMgr,
             &nSerial, &binTST, &binP7, pRsp );
 
-        log( QString( "EncodeResponseByP11 Ret: %1" ).arg( ret ));
+        log( QString( "EncodeResponseByP11 Ret: %1" ).arg( JERR(ret) ));
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
@@ -151,12 +151,12 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             (void (*)(void *))serialCallback, dbMgr,
             &nSerial, &binTST, &binP7, pRsp );
 
-        log( QString( "EncodeResponse Ret: %1" ).arg( ret ) );
+        log( QString( "EncodeResponse Ret: %1" ).arg( JERR(ret) ) );
     }
 
     if( ret != 0 )
     {
-        log( QString( "fail to encode tsp response(%1)" ).arg( ret ) );
+        log( QString( "fail to encode tsp response(%1)" ).arg( JERR(ret) ) );
         ret = JS_TSP_encodeFailResponse( JS_TS_STATUS_REJECTION, pRsp );
         goto end;
     }
@@ -289,7 +289,7 @@ int TSPServer::readReady()
 
 end :
     client_->disconnectFromHost();
-    client_->waitForDisconnected();
+//    client_->waitForDisconnected();
     client_->deleteLater();
 
     if( pParamList ) JS_UTIL_resetNameValList( &pParamList );

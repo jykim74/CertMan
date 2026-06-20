@@ -204,7 +204,7 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     ret = JS_OCSP_decodeRequest( pReq, &binSigner, &sIDInfo );
     if( ret != 0 )
     {
-        log( QString( "fail to decode request(%1)").arg(ret ));
+        log( QString( "fail to decode request(%1)").arg(JERR(ret) ));
         ret = JS_OCSP_encodeFailResponse( JS_OCSP_RESPONSE_STATUS_MALFORMEDREQUEST, pRsp );
         goto end;
     }
@@ -212,7 +212,7 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     ret = getCertStatus( &sIDInfo, &sStatusInfo );
     if( ret != 0 )
     {
-        log( QString( "fail to get cert status(%1)").arg( ret ));
+        log( QString( "fail to get cert status(%1)").arg( JERR(ret) ));
         ret = JS_OCSP_encodeFailResponse( JS_OCSP_RESPONSE_STATUS_INTERNALERROR, pRsp );
         goto end;
     }
@@ -241,7 +241,7 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
         }
 
         ret = JS_OCSP_encodeResponseByP11( pReq, &ocsp_cert_, &ocsp_pri_key_, pP11CTX, "SHA1", &sIDInfo, &sStatusInfo, pRsp );
-        log( QString( "EncodeResponsByP11 Ret: %1").arg( ret ));
+        log( QString( "EncodeResponsByP11 Ret: %1").arg( JERR(ret) ));
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
@@ -249,12 +249,12 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     else
     {
         ret = JS_OCSP_encodeResponse( pReq, &ocsp_cert_, &ocsp_pri_key_, "SHA1", &sIDInfo, &sStatusInfo, pRsp );
-        log( QString( "EncodeResponse Ret: %1").arg( ret ));
+        log( QString( "EncodeResponse Ret: %1").arg( JERR(ret) ));
     }
 
     if( ret != 0 )
     {
-        log( QString( "fail to encode OCSP response message(%1)").arg( ret ));
+//        log( QString( "fail to encode OCSP response message(%1)").arg( ret ));
         ret = JS_OCSP_encodeFailResponse( JS_OCSP_RESPONSE_STATUS_INTERNALERROR, pRsp );
         goto end;
     }
@@ -365,7 +365,7 @@ int OCSPServer::readReady()
 
 end :
     client_->disconnectFromHost();
-    client_->waitForDisconnected();
+//    client_->waitForDisconnected();
     client_->deleteLater();
 
     if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
