@@ -797,7 +797,7 @@ int DBMgr::getCertRecByKeyHash( const QString strKeyHash, CertRec& cert )
 {
     QList<CertRec> certList;
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE KEYHASH = %1").arg( strKeyHash );
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE KEYHASH = '%1'").arg( strKeyHash );
 
     _getCertList( strSQL, certList );
     if( certList.size() <= 0 ) return -1;
@@ -810,7 +810,7 @@ int DBMgr::getCertRecBySerial( const QString strSerial, CertRec& cert )
 {
     QList<CertRec> certList;
     QString strSQL = "";
-    strSQL = QString( "SELECT * FROM TB_CERT WHERE SERIAL = %1").arg( strSerial );
+    strSQL = QString( "SELECT * FROM TB_CERT WHERE SERIAL = '%1'").arg( strSerial );
 
     _getCertList( strSQL, certList );
     if( certList.size() <= 0 ) return -1;

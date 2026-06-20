@@ -111,6 +111,11 @@ int OCSPServer::getCertStatus( JCertIDInfo *pIDInfo, JCertStatusInfo *pStatusInf
     RevokeRec revokeRec;
     AuditRec auditRec;
 
+    log( QString( "Hash: %1").arg( pIDInfo->pHash ));
+    log( QString( "KeyHash: %1").arg( pIDInfo->pKeyHash ));
+    log( QString( "DNHash: %1" ).arg( pIDInfo->pNameHash ));
+    log( QString( "Serial: %1" ).arg( pIDInfo->pSerial ));
+
     ret = dbMgr->getCertRecByKeyHash( pIDInfo->pKeyHash, issuerRec );
     if( ret != JSR_OK )
     {
