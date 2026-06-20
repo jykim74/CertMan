@@ -631,6 +631,7 @@ int CAServer::readReady()
     Line = client_->readLine();
 
     JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
+    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
 
     while( Line.length() > 0 )
     {
