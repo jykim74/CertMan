@@ -59,6 +59,7 @@ void CAServiceDlg::initialize()
 
 void CAServiceDlg::clickStart()
 {
+    int ret = 0;
     BIN binCert = {0,0};
     BIN binPriKey = {0,0};
 
@@ -76,13 +77,19 @@ void CAServiceDlg::clickStart()
         return;
     }
 
-    int nNum = mNumText->text().toInt();
-    int nProfileNum = mProfileNumText->text().toInt();
-
     CertRec certRec;
     KeyPairRec keyPair;
 
-    int ret = dbMgr->getCertRec( nNum, certRec );
+    int nNum = mNumText->text().toInt();
+    int nProfileNum = mProfileNumText->text().toInt();
+
+    if( nProfileNum <= 0 )
+    {
+        manApplet->warningBox( tr( "Select a profile" ), this );
+        return;
+    }
+
+    ret = dbMgr->getCertRec( nNum, certRec );
     if( ret != 0 )
     {
         manApplet->warningBox( tr("failed to get CA certificate" ), this );
@@ -127,7 +134,7 @@ void CAServiceDlg::clickSelect()
     CAManDlg caMan;
     caMan.setTitle( tr( "Select CA certificate" ));
     caMan.setMode( CAManModeSelectCACert );
-    caMan.mSignerCheck->setChecked(true);
+//    caMan.mSignerCheck->setChecked(true);
 
     if( caMan.exec() == QDialog::Accepted )
     {

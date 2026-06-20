@@ -71,11 +71,11 @@ void CAServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
     {
-        qDebug() << "Could not start server";
+        log( "Could not start server" );
     }
     else
     {
-        qDebug() << "Listening to port " << nPort << "...";
+        log( QString( "Listening to port: %1" ).arg( nPort ));
     }
 }
 
@@ -93,8 +93,6 @@ void CAServer::log( const QString strLog, QColor cr )
         QTextCharFormat format;
         format.setForeground( cr );
         cursor.mergeCharFormat(format);
-
-
         cursor.insertText( strMsg );
 
         log_edit_->setTextCursor( cursor );
@@ -233,6 +231,13 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
     memset( sKID, 0x00, sizeof(sKID));
 
+    pSrvCTX = JS_CMP_getSrvCTX( NULL, &ca_cert_, &ca_pri_key_ );
+    if( pSrvCTX == NULL )
+    {
+        log( QString( "failed to get server ctx" ) );
+        goto end;
+    }
+
     ret = JS_CMP_decodeReq( pReq, &sReqInfo );
     if( ret != JSR_OK )
     {
@@ -242,10 +247,13 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     memcpy( sKID, sReqInfo.binSendKID.pVal, sReqInfo.binSendKID.nLen );
     nReqType = sReqInfo.nType;
 
+    log( QString( "KID: %1" ).arg( sKID ));
+
     ret = dbMgr->getUserRecByRefNum( sKID, userRec );
     if( ret == JSR_OK )
     {
         strAuthCode = userRec.getAuthCode();
+        log( QString( "AuthCode: %1" ).arg( strAuthCode ));
     }
     else
     {
@@ -259,13 +267,6 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSignCert );
     }
 
-
-    pSrvCTX = JS_CMP_getSrvCTX( NULL, &ca_cert_, &ca_pri_key_ );
-    if( pSrvCTX == NULL )
-    {
-        log( QString( "failed to get server ctx" ) );
-        goto end;
-    }
 
     switch (nReqType) {
     case JS_CMP_PKIBODY_GENM:
@@ -297,6 +298,11 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     }
 
 end :
+    if( ret != JSR_OK )
+    {
+        JS_CMP_encodeRspError( pSrvCTX, pReq, ret, pRsp );
+    }
+
     JS_CMP_resetReqInfo( &sReqInfo );
     JS_BIN_reset( &binSignCert );
     if( pSrvCTX ) JS_CMP_release( &pSrvCTX );
