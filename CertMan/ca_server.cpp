@@ -300,7 +300,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 end :
     if( ret != JSR_OK )
     {
-        ret = JS_CMP_encodeRspError( pSrvCTX, pReq, ret, pRsp );
+        ret = JS_CMP_encodeRspError( pSrvCTX, pReq, strAuthCode.length() > 1 ? strAuthCode.toStdString().c_str() : NULL, &binSignCert, ret, pRsp );
     }
 
     JS_CMP_resetReqInfo( &sReqInfo );
