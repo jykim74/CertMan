@@ -227,6 +227,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     char sKID[1024];
     BIN binSignCert = {0,0};
     QString strAuthCode;
+    QString strDN;
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
     memset( sKID, 0x00, sizeof(sKID));
@@ -253,6 +254,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     if( ret == JSR_OK )
     {
         strAuthCode = userRec.getAuthCode();
+        strDN = QString( "CN=%1" ).arg( userRec.getName() );
         log( QString( "AuthCode: %1" ).arg( strAuthCode ));
     }
     else
@@ -264,6 +266,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
             goto end;
         }
 
+        strDN = certRec.getSubjectDN();
         JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSignCert );
     }
 
@@ -274,11 +277,11 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         break;
     case JS_CMP_PKIBODY_IR:
     case JS_CMP_PKIBODY_CR:
-        ret = runCMP_IR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, userRec.getName(), pRsp );
+        ret = runCMP_IR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_P10CR:
-        ret = runCMP_P10CR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, userRec.getName(), pRsp );
+        ret = runCMP_P10CR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_KUR:
@@ -672,14 +675,14 @@ int CAServer::readReady()
         ret = procCMP( &binReq, &binRsp );
         if( ret != 0 )
         {
-            log( QString( "fail procCMP(%1)" ).arg(ret) );
+            log( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
             goto end;
         }
 
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+    //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
@@ -846,21 +849,21 @@ int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCo
     ret = makeCert( &sIssueCertInfo, &binNewCert );
     if( ret != 0 )
     {
-        log( QString( "fail to make certificate : %1").arg( ret ) );
+        log( QString( "fail to make certificate : %1").arg( JERR(ret) ) );
         goto end;
     }
 
     ret = JS_CMP_encodeRspIR( pSrvCTX, pReq, strAuthCode.toStdString().c_str(), &binNewCert, pRsp );
     if( ret != 0 )
     {
-        log( QString( "fail to make certificate : %1").arg( ret ) );
+        log( QString( "fail to make certificate : %1").arg( JERR(ret) ) );
         goto end;
     }
 
     ret = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
     if( ret != 0 )
     {
-        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        log( QString( "fail to get certificate information: %1" ).arg( JERR(ret) ));
         goto end;
     }
 
@@ -915,7 +918,7 @@ int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nR
     ret = JS_CMP_encodeRspRR( pSrvCTX, pReq, &binCert, pRsp );
     if( ret != 0 )
     {
-        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        log( QString( "fail to encode RSP : %1").arg( JERR(ret) ) );
         goto end;
     }
 
@@ -979,21 +982,21 @@ int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const
     ret = makeCert( &sIssueCertInfo, &binNewCert );
     if( ret != 0 )
     {
-        log( QString( "fail to make certificate : %1").arg( ret ) );
+        log( QString( "fail to make certificate : %1").arg( JERR(ret) ) );
         goto end;
     }
 
     ret = JS_CMP_encodeRspKUR( pSrvCTX, pReq, &binCert, &binNewCert, pRsp );
     if( ret != 0 )
     {
-        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        log( QString( "fail to encode RSP : %1").arg( JERR(ret) ) );
         goto end;
     }
 
     ret = JS_PKI_getCertInfo( &binNewCert, &sCertInfo, NULL );
     if( ret != 0 )
     {
-        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        log( QString( "fail to get certificate information: %1" ).arg( JERR(ret) ));
         goto end;
     }
 
@@ -1037,7 +1040,7 @@ int CAServer::runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
     ret = JS_CMP_encodeRspCertConf( pSrvCTX, pReq, pRsp );
     if( ret != 0 )
     {
-        log( QString( "fail to encode RSP : %1").arg( ret ) );
+        log( QString( "fail to encode RSP : %1").arg( JERR(ret) ) );
         goto end;
     }
 
