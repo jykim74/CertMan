@@ -856,7 +856,7 @@ int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCo
     ret = JS_CMP_encodeRspIR( pSrvCTX, pReq, strAuthCode.toStdString().c_str(), &binNewCert, pRsp );
     if( ret != 0 )
     {
-        log( QString( "fail to make certificate : %1").arg( JERR(ret) ) );
+        log( QString( "fail to encodeRspIR : %1").arg( JERR(ret) ) );
         goto end;
     }
 
