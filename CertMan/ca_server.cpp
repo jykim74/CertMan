@@ -247,6 +247,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 
     memcpy( sKID, sReqInfo.binSendKID.pVal, sReqInfo.binSendKID.nLen );
     nReqType = sReqInfo.nType;
+    strDN = sReqInfo.pSubjectDN;
 
     log( QString( "KID: %1" ).arg( sKID ));
 
@@ -254,7 +255,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     if( ret == JSR_OK )
     {
         strAuthCode = userRec.getAuthCode();
-        strDN = QString( "CN=%1" ).arg( userRec.getName() );
+        if( strDN.length() < 1 ) strDN = QString( "CN=%1" ).arg( userRec.getName() );
         log( QString( "AuthCode: %1" ).arg( strAuthCode ));
     }
     else
@@ -266,7 +267,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
             goto end;
         }
 
-        strDN = certRec.getSubjectDN();
+        if( strDN.length() < 1 ) strDN = certRec.getSubjectDN();
         JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSignCert );
     }
 
