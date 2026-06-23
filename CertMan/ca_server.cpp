@@ -304,7 +304,12 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 end :
     if( ret != JSR_OK )
     {
+        log( QString( "CMP Error Status: %1").arg( JERR(ret)) );
         ret = JS_CMP_encodeRspError( pSrvCTX, pReq, strAuthCode.length() > 1 ? strAuthCode.toStdString().c_str() : NULL, &binSignCert, ret, pRsp );
+    }
+    else
+    {
+        log( QString( "CMP Run OK [Type: %1]" ).arg( nReqType ));
     }
 
     JS_CMP_resetReqInfo( &sReqInfo );
@@ -676,9 +681,11 @@ int CAServer::readReady()
         ret = procCMP( &binReq, &binRsp );
         if( ret != 0 )
         {
-            log( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
+            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
             goto end;
         }
+
+        log( "ProcCMP OK" );
 
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
