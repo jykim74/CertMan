@@ -55,7 +55,7 @@ protected:
     int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
     int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
 
-    int runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, BIN *pRsp );
+    int runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, const JStrList *pITAVList, BIN *pRsp );
     int runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
 
     int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
@@ -67,6 +67,8 @@ protected:
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
+
+    int setITAVValue( const JStrList *pOIDList, JStrBINList **ppValueList );
 };
 
 #endif // CA_SERVER_H

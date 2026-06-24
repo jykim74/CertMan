@@ -109,6 +109,12 @@ void CAServer::elog( const QString strLog )
     log( strLog, QColor(0xFF,0x00,0x00));
 }
 
+
+int CAServer::setITAVValue( const JStrList *pOIDList, JStrBINList **ppValueList )
+{
+    return 0;
+}
+
 int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
 {
     int ret = 0;
@@ -275,7 +281,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 
     switch (nReqType) {
     case JS_CMP_PKIBODY_GENM:
-        ret = runCMP_GENM( pSrvCTX, pReq, strAuthCode, &binSignCert, pRsp );
+        ret = runCMP_GENM( pSrvCTX, pReq, strAuthCode, &binSignCert, pITAVList, pRsp );
         break;
     case JS_CMP_PKIBODY_IR:
     case JS_CMP_PKIBODY_CR:
@@ -793,9 +799,13 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
     connect( client_, &QTcpSocket::readyRead, this, &CAServer::readReady );
 }
 
-int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, BIN *pRsp )
+int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, const JStrList *pITAVList, BIN *pRsp )
 {
     int ret = 0;
+
+    JStrBINList *pValueList = NULL;
+
+    setITAVValue( pITAVList, &pValueList );
 
     if( strAuthCode.length() > 1 )
     {
@@ -806,6 +816,7 @@ int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuth
         ret = JS_CMP_encodeRspGENM_Cert( pSrvCTX, pReq, &ca_cert_, pSignCert, pRsp );
     }
 
+    if( pValueList ) JS_UTIL_resetStrBINList( &pValueList );
     return ret;
 }
 
