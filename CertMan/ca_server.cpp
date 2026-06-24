@@ -228,6 +228,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     BIN binSignCert = {0,0};
     QString strAuthCode;
     QString strDN;
+    JStrList *pITAVList = NULL;
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
     memset( sKID, 0x00, sizeof(sKID));
@@ -239,7 +240,7 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
-    ret = JS_CMP_decodeReq( pReq, &sReqInfo );
+    ret = JS_CMP_decodeReq( pReq, &sReqInfo, &pITAVList );
     if( ret != JSR_OK )
     {
         goto end;
@@ -315,7 +316,7 @@ end :
     JS_CMP_resetReqInfo( &sReqInfo );
     JS_BIN_reset( &binSignCert );
     if( pSrvCTX ) JS_CMP_release( &pSrvCTX );
-
+    if( pITAVList ) JS_UTIL_resetStrList( &pITAVList );
 
     return ret;
 }
