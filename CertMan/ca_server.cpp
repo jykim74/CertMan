@@ -417,7 +417,7 @@ end :
     if( ret != JSR_OK )
     {
         log( QString( "CMP Error Status: %1").arg( JERR(ret)) );
-        ret = JS_CMP_encodeRspError( pSrvCTX, pReq, strAuthCode.length() > 1 ? strAuthCode.toStdString().c_str() : NULL, &binSignCert, ret, pRsp );
+        ret = JS_CMP_encodeRspError( pSrvCTX, pReq, ret, pRsp );
     }
     else
     {
