@@ -68,7 +68,7 @@ protected:
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
 
-    int setITAVValue( const JStrList *pOIDList, JStrBINList **ppValueList );
+    int setITAVValue( const JStrList *pOIDList, JNumBINList **ppValueList );
     int getRootCA( BIN *pRootCA );
 };
 
