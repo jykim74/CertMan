@@ -69,6 +69,7 @@ protected:
     void elog( const QString strLog );
 
     int setITAVValue( const JStrList *pOIDList, JStrBINList **ppValueList );
+    int getRootCA( BIN *pRootCA );
 };
 
 #endif // CA_SERVER_H

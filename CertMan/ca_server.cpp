@@ -112,6 +112,84 @@ void CAServer::elog( const QString strLog )
 
 int CAServer::setITAVValue( const JStrList *pOIDList, JStrBINList **ppValueList )
 {
+    const JStrList *pCurList = NULL;
+
+    if( pOIDList == NULL || ppValueList == NULL )
+        return JSR_ERR;
+
+    pCurList = pOIDList;
+
+    while( pCurList )
+    {
+        QString strOID = pCurList->pStr;
+        int nNid = JS_PKI_getNidFromTextOID( strOID.toStdString().c_str() );
+        BIN binValue = {0,0};
+        JStrBIN sStrBIN;
+
+        memset( &sStrBIN, 0x00, sizeof(sStrBIN));
+
+        if( strOID == JS_CMP_ITAV_OID_CA_CERT )
+        {
+            JS_BIN_copy( &binValue, &ca_cert_ );
+        }
+        else if( strOID == JS_CMP_ITAV_OID_ROOT_CA_CERT )
+        {
+            getRootCA( &binValue );
+        }
+        else if( strOID == JS_CMP_ITAV_OID_CERT_PROFILE )
+        {
+
+        }
+        else if( strOID == JS_CMP_ITAV_OID_CERT_REQ_TEMPLATE )
+        {
+
+        }
+        else if( strOID == JS_CMP_ITAV_OID_CURRENT_CRL )
+        {
+
+        }
+        else if( strOID == JS_CMP_ITAV_OID_SIGN_KEY_PAIR_TYPES )
+        {
+
+        }
+        else
+        {
+            pCurList = pCurList->pNext;
+            continue;
+        }
+
+        JS_UTIL_setStrBIN( &sStrBIN, strOID.toStdString().c_str(), &binValue );
+        JS_UTIL_addStrBINList( ppValueList, &sStrBIN );
+        JS_UTIL_resetStrBIN( &sStrBIN );
+
+        pCurList = pCurList->pNext;
+        JS_BIN_reset( &binValue );
+    }
+
+    return JSR_OK;
+}
+
+int CAServer::getRootCA( BIN *pRootCA )
+{
+    CertRec caRec;
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    int ret = dbMgr->getCertRec( ca_num_, caRec );
+    if( ret != 0 ) return ret;
+
+    while( caRec.getIssuerNum() > 0 )
+    {
+        if( caRec.isSelf() == true )
+        {
+            JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), pRootCA );
+            break;
+        }
+
+        int nNum = caRec.getIssuerNum();
+        ret = dbMgr->getCertRec( nNum, caRec );
+        if( ret != JSR_OK ) return ret;
+    }
+
     return 0;
 }
 
