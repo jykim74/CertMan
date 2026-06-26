@@ -179,7 +179,7 @@ int CAServer::getRootCA( BIN *pRootCA )
     int ret = dbMgr->getCertRec( ca_num_, caRec );
     if( ret != 0 ) return ret;
 
-    while( caRec.getIssuerNum() > 0 )
+    while( caRec.getIssuerNum() >= 0 )
     {
         if( caRec.isSelf() == true )
         {
@@ -204,7 +204,7 @@ int CAServer::getChainList( BINList **ppChainList )
     int ret = dbMgr->getCertRec( ca_num_, caRec );
     if( ret != 0 ) return ret;
 
-    while( caRec.getIssuerNum() > 0 )
+    while( caRec.getIssuerNum() >= 0 )
     {
         JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCert );
         JS_BIN_addList( ppChainList, &binCert );
