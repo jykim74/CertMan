@@ -144,25 +144,6 @@ int CAServer::setITAVValue( const JStrList *pOIDList, JNumBINList **ppValueList 
             dbMgr->getCertProfileRec( profile_num_, profileRec );
             JS_BIN_set( &binValue, (unsigned char *)profileRec.getName().toStdString().c_str(), profileRec.getName().length() );
         }
-        else if( strOID == JS_CMP_ITAV_OID_CERT_REQ_TEMPLATE )
-        {
-            BIN binPub = {0,0};
-            int nKeyType = -1;
-            int nParam = -1;
-            const char *pParam = NULL;
-
-            JS_PKI_getPubKeyFromCert( &ca_cert_, &binPub );
-
-            JS_PKI_getPubKeyInfo( &binPub, &nKeyType, &nParam );
-            pParam = JS_PKI_getKeyParamName( nKeyType, nParam );
-
-            QString strInfo = QString( "alg=%1&param=%2&keygen=user" )
-                                  .arg( JS_PKI_getKeyAlgName(nKeyType))
-                                  .arg(pParam);
-
-            JS_BIN_reset( &binPub );
-            JS_BIN_set( &binValue, (unsigned char *)strInfo.toStdString().c_str(), strInfo.length() );
-        }
         else if( strOID == JS_CMP_ITAV_OID_CURRENT_CRL )
         {
             CRLRec crlRec;
@@ -171,13 +152,7 @@ int CAServer::setITAVValue( const JStrList *pOIDList, JNumBINList **ppValueList 
         }
         else if( strOID == JS_CMP_ITAV_OID_SIGN_KEY_PAIR_TYPES )
         {
-            JCertInfo sCertInfo;
-
-            memset( &sCertInfo, 0x00, sizeof(sCertInfo));
-
-            ret = JS_PKI_getCertInfo( &ca_cert_, &sCertInfo, NULL );
-            JS_BIN_set( &binValue, (unsigned char *)sCertInfo.pSignAlgorithm, strlen(sCertInfo.pSignAlgorithm));
-            JS_PKI_resetCertInfo( &sCertInfo );
+            ret = JS_BIN_copy( &binValue, &ca_cert_ );
         }
         else
         {
@@ -215,6 +190,29 @@ int CAServer::getRootCA( BIN *pRootCA )
         int nNum = caRec.getIssuerNum();
         ret = dbMgr->getCertRec( nNum, caRec );
         if( ret != JSR_OK ) return ret;
+    }
+
+    return 0;
+}
+
+int CAServer::getChainList( BINList **ppChainList )
+{
+    CertRec caRec;
+    DBMgr* dbMgr = manApplet->dbMgr();
+    BIN binCert = {0,0};
+
+    int ret = dbMgr->getCertRec( ca_num_, caRec );
+    if( ret != 0 ) return ret;
+
+    while( caRec.getIssuerNum() > 0 )
+    {
+        JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCert );
+        JS_BIN_addList( ppChainList, &binCert );
+        JS_BIN_reset( &binCert );
+
+        int nNum = caRec.getIssuerNum();
+        ret = dbMgr->getCertRec( nNum, caRec );
+        if( ret != JSR_OK ) break;
     }
 
     return 0;
@@ -909,8 +907,10 @@ int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuth
     int ret = 0;
 
     JNumBINList *pValueList = NULL;
+    BINList *pChainList = NULL;
 
     setITAVValue( pITAVList, &pValueList );
+    getChainList( &pChainList );
 
     if( strAuthCode.length() > 1 )
     {
@@ -918,6 +918,7 @@ int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuth
             pSrvCTX,
             pReq,
             &ca_cert_,
+            pChainList,
             strAuthCode.toStdString().c_str(),
             pValueList,
             pRsp );
@@ -928,12 +929,15 @@ int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuth
             pSrvCTX,
             pReq,
             &ca_cert_,
+            pChainList,
             pSignCert,
             pValueList,
             pRsp );
     }
 
     if( pValueList ) JS_UTIL_resetNumBINList( &pValueList );
+    if( pChainList ) JS_BIN_resetList( &pChainList );
+
     return ret;
 }
 

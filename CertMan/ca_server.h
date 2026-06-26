@@ -70,6 +70,7 @@ protected:
 
     int setITAVValue( const JStrList *pOIDList, JNumBINList **ppValueList );
     int getRootCA( BIN *pRootCA );
+    int getChainList( BINList **ppChainList );
 };
 
 #endif // CA_SERVER_H
