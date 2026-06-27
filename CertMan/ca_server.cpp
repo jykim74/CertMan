@@ -29,6 +29,8 @@ CAServer::CAServer( QObject *parent ) :
 
     memset( &ca_cert_, 0x00, sizeof(BIN));
     memset( &ca_pri_key_, 0x00, sizeof(BIN));
+
+    JS_SCEP_init();
 }
 
 CAServer::~CAServer()
@@ -580,7 +582,7 @@ int CAServer::workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp )
 {
     int ret = 0;
     int nType = 0;
-    int nFlag = 0;
+    int nFlag = JS_PKCS7_FLAG_BINARY;
 
     BIN binSignCert = {0,0};
     BIN binSenderNonce = {0,0};
@@ -593,8 +595,6 @@ int CAServer::workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp )
     BIN binSrvSenderNonce = {0,0};
     char sResMsg[1024];
 
-    bool bP11 = true;
-
     memset( sResMsg, 0x00, sizeof(sResMsg));
 
     ret = JS_SCEP_verifyParseSignedData( pPKIReq, &nType, &binSignCert, &binSenderNonce, &pTransID, &binData );
@@ -604,7 +604,7 @@ int CAServer::workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp )
         goto end;
     }
 
-    if( bP11 )
+    if( p11_ == true )
     {
         ret = JS_PKCS7_makeDevelopedDataByP11( &binData, &ca_pri_key_, NULL, &ca_cert_, nFlag, &binDevData, sResMsg );
     }
@@ -652,7 +652,7 @@ int CAServer::workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp )
 
     JS_PKI_genRandom( 16, &binSrvSenderNonce );
 
-    if( bP11 )
+    if( p11_ == true )
     {
         ret = JS_SCEP_makeSignedDataByP11( JS_SCEP_REPLY_CERTREP,
                                           "SHA256",
@@ -707,7 +707,7 @@ int CAServer::procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pR
         return -1;
     }
 
-    log( "SCEP Operation: %s", pOper );
+    log( QString( "SCEP Operation: %1").arg( pOper ));
 
     if( strcasecmp( pOper, "GetCACaps") == 0 )
     {
@@ -731,7 +731,7 @@ int CAServer::procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pR
     }
     else
     {
-        log( "invalid operation : %s", pOper );
+        log( QString( "invalid operation : %1").arg( pOper ) );
         return -1;
     }
 
@@ -834,19 +834,21 @@ int CAServer::readReady()
         log( QString( "Content Length: %1" ).arg( content.length() ));
         JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
 
-        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+//        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
         ret = procSCEP( pParamList, &binReq, &binRsp );
         if( ret != 0 )
         {
-            log( QString( "fail procSCEP(%1)" ).arg(ret) );
+            log( QString( "fail procSCEP(%1)" ).arg(JERR(ret)) );
             goto end;
         }
+
+        log( "ProcSCEP OK" );
 
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+//        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
