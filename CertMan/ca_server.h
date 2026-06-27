@@ -49,17 +49,17 @@ private:
     QTcpSocket *client_;
     bool p11_;
 
-protected:
+private:
     void incomingConnection( qintptr socketDescriptor );
     int workSCEPOperation( const BIN *pPKIReq, BIN *pCertRsp );
     int runSCEP_PKIReq( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
     int runSCEP_GetCRL( const BIN *pSignCert, const BIN *pData, BIN *pSignedData );
 
     int runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pSignCert, const JStrList *pITAVList, BIN *pRsp );
-    int runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
+    int runCMP_IR( void *pSrvCTX, const BIN *pReq, UserRec userRec, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
 
-    int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
-    int runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nReason, BIN *pRsp );
+    int runCMP_P10CR( void *pSrvCTX, const BIN *pReq, UserRec userRec, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp );
+    int runCMP_RR( void *pSrvCTX, const BIN *pReq, UserRec userRec, CertRec certRec, int nReason, BIN *pRsp );
     int runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const BIN *pPubKey, BIN *pRsp );
     int runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp );
 

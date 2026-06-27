@@ -333,14 +333,13 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     DBMgr* dbMgr = manApplet->dbMgr();
     UserRec userRec;
     CertRec certRec;
-    char sKID[1024];
     BIN binSignCert = {0,0};
     QString strAuthCode;
     QString strDN;
     JStrList *pITAVList = NULL;
+    QString strKID;
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
-    memset( sKID, 0x00, sizeof(sKID));
 
     pSrvCTX = JS_CMP_getSrvCTX( NULL, &ca_cert_, &ca_pri_key_ );
     if( pSrvCTX == NULL )
@@ -355,13 +354,13 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
-    memcpy( sKID, sReqInfo.binSendKID.pVal, sReqInfo.binSendKID.nLen );
+    strKID = getHexString( &sReqInfo.binSendKID );
     nReqType = sReqInfo.nType;
     strDN = sReqInfo.pSubjectDN;
 
-    log( QString( "KID: %1" ).arg( sKID ));
+    log( QString( "KID: %1" ).arg( strKID ));
 
-    ret = dbMgr->getUserRecByRefNum( sKID, userRec );
+    ret = dbMgr->getUserRecByRefNum( strKID.toStdString().c_str(), userRec );
     if( ret == JSR_OK )
     {
         strAuthCode = userRec.getAuthCode();
@@ -370,10 +369,10 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     }
     else
     {
-        ret = dbMgr->getCertRecByKeyHash( sKID, certRec );
+        ret = dbMgr->getCertRecByKeyHash( strKID, certRec );
         if( ret != JSR_OK )
         {
-            log( "There is no certificate" );
+            log( QString( "There is no certificate(KID: %1)" ).arg( strKID) );
             goto end;
         }
 
@@ -386,13 +385,14 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     case JS_CMP_PKIBODY_GENM:
         ret = runCMP_GENM( pSrvCTX, pReq, strAuthCode, &binSignCert, pITAVList, pRsp );
         break;
+
     case JS_CMP_PKIBODY_IR:
     case JS_CMP_PKIBODY_CR:
-        ret = runCMP_IR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
+        ret = runCMP_IR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_P10CR:
-        ret = runCMP_P10CR( pSrvCTX, pReq, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
+        ret = runCMP_P10CR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_KUR:
@@ -400,12 +400,13 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         break;
 
     case JS_CMP_PKIBODY_RR:
-        ret = runCMP_RR( pSrvCTX, pReq, certRec, sReqInfo.nNum, pRsp );
+        ret = runCMP_RR( pSrvCTX, pReq, userRec, certRec, sReqInfo.nNum, pRsp );
         break;
 
     case JS_CMP_PKIBODY_CERTCONF:
         ret = runCMP_CertConf( pSrvCTX, pReq, pRsp );
         break;
+
     default:
         ret = JSR_INVALID_ALG;
         break;
@@ -941,7 +942,7 @@ int CAServer::runCMP_GENM( void *pSrvCTX, const BIN *pReq, const QString strAuth
     return ret;
 }
 
-int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp )
+int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, UserRec userRec, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp )
 {
     int ret = 0;
     BIN binNewCert = {0,0};
@@ -1013,13 +1014,20 @@ int CAServer::runCMP_IR( void *pSrvCTX, const BIN *pReq, const QString strAuthCo
     certRec.setNotAfter( notAfter );
     certRec.setSignAlg( sCertInfo.pSignAlgorithm );
     certRec.setCert( getHexString( &binNewCert ));
+    certRec.setUserNum( userRec.getNum() );
     certRec.setIssuerNum( ca_num_ );
     certRec.setSubjectDN( sCertInfo.pSubjectName );
     certRec.setSerial( sCertInfo.pSerial );
     certRec.setDNHash( sCertInfo.pDNHash );
     certRec.setKeyHash( getHexString( &binKeyID) );
 
-    dbMgr->addCertRec( certRec );
+    ret = dbMgr->addCertRec( certRec );
+    if( ret == JSR_OK )
+    {
+        userRec.setAuthCode( "" );
+        userRec.setStatus( JS_USER_STATUS_ISSUED );
+        dbMgr->modUserRec( userRec.getNum(), userRec );
+    }
 
 end :
     JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
@@ -1030,12 +1038,12 @@ end :
     return ret;
 }
 
-int CAServer::runCMP_P10CR( void *pSrvCTX, const BIN *pReq, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp  )
+int CAServer::runCMP_P10CR( void *pSrvCTX, const BIN *pReq, UserRec userRec, const QString strAuthCode, const BIN *pPubKey,const QString strDN,BIN *pRsp  )
 {
-    return runCMP_IR( pSrvCTX, pReq, strAuthCode, pPubKey, strDN, pRsp );
+    return runCMP_IR( pSrvCTX, pReq, userRec, strAuthCode, pPubKey, strDN, pRsp );
 }
 
-int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nReason, BIN *pRsp )
+int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, UserRec userRec, CertRec certRec, int nReason, BIN *pRsp )
 {
     int ret = 0;
     RevokeRec revoke;
@@ -1053,8 +1061,19 @@ int CAServer::runCMP_RR( void *pSrvCTX, const BIN *pReq, CertRec certRec, int nR
     revoke.setRevokeDate( now_t );
     revoke.setCRLDP( certRec.getCRLDP() );
 
-    dbMgr->addRevokeRec( revoke );
-    dbMgr->modCertStatus( certRec.getNum(), JS_CERT_STATUS_REVOKE );
+    ret = dbMgr->addRevokeRec( revoke );
+    if( ret != 0 )
+    {
+        log( QString( "failed to add revoke rec" ));
+        goto end;
+    }
+
+    ret = dbMgr->modCertStatus( certRec.getNum(), JS_CERT_STATUS_REVOKE );
+    if( ret != JSR_OK )
+    {
+        log( QString( "failed to change certificate status" ));
+        goto end;
+    }
 
     ret = JS_CMP_encodeRspRR( pSrvCTX, pReq, &binCert, pRsp );
     if( ret != 0 )
@@ -1070,7 +1089,7 @@ end :
 
 int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const BIN *pPubKey, BIN *pRsp )
 {
-    return 0;    int ret = 0;
+    int ret = 0;
     BIN binNewCert = {0,0};
     DBMgr* dbMgr = manApplet->dbMgr();
     CertProfileRec profileRec;
@@ -1155,6 +1174,7 @@ int CAServer::runCMP_KUR( void *pSrvCTX, const BIN *pReq, CertRec certRec, const
     certNewRec.setRegTime( now_t );
     certNewRec.setNotBefore( notBefore );
     certNewRec.setNotAfter( notAfter );
+    certNewRec.setUserNum( certRec.getUserNum() );
     certNewRec.setSignAlg( sCertInfo.pSignAlgorithm );
     certNewRec.setCert( getHexString( &binNewCert ));
     certNewRec.setIssuerNum( ca_num_ );
@@ -1172,7 +1192,8 @@ end :
     JS_BIN_reset( &binNewCert );
     JS_BIN_reset( &binCert );
 
-    return ret;}
+    return ret;
+}
 
 int CAServer::runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 {
