@@ -340,6 +340,9 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     QString strDN;
     JStrList *pITAVList = NULL;
     QString strKID;
+    int nProtectNid = -1;
+
+    const char* kSYMAlg = "1.2.840.113533.7.66.13";
 
     memset( &sReqInfo, 0x00, sizeof(sReqInfo));
 
@@ -356,21 +359,17 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
-    strKID = getHexString( &sReqInfo.binSendKID );
-    nReqType = sReqInfo.nType;
     strDN = sReqInfo.pSubjectDN;
+    nProtectNid = JS_PKI_getNidFromTextOID( sReqInfo.pProtectAlg );
 
-    log( QString( "KID: %1" ).arg( strKID ));
+    if( nProtectNid != NID_id_PasswordBasedMAC )
+    {
+        strKID = getHexString( &sReqInfo.binSendKID );
+        nReqType = sReqInfo.nType;
+        strDN = sReqInfo.pSubjectDN;
 
-    ret = dbMgr->getUserRecByRefNum( strKID.toStdString().c_str(), userRec );
-    if( ret == JSR_OK )
-    {
-        strAuthCode = userRec.getAuthCode();
-        if( strDN.length() < 1 ) strDN = QString( "CN=%1" ).arg( userRec.getName() );
-        log( QString( "AuthCode: %1" ).arg( strAuthCode ));
-    }
-    else
-    {
+        log( QString( "KID: %1" ).arg( strKID ));
+
         ret = dbMgr->getCertRecByKeyHash( strKID, certRec );
         if( ret != JSR_OK )
         {
@@ -381,7 +380,30 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
         if( strDN.length() < 1 ) strDN = certRec.getSubjectDN();
         JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSignCert );
     }
+    else
+    {
+        char *pRef = NULL;
+        JS_BIN_string( &sReqInfo.binSendKID, &pRef );
 
+        log( QString( "Ref: %1" ).arg( pRef ));
+
+        ret = dbMgr->getUserRecByRefNum( pRef, userRec );
+        if( ret == JSR_OK )
+        {
+            strAuthCode = userRec.getAuthCode();
+            if( strDN.length() < 1 ) strDN = QString( "CN=%1" ).arg( userRec.getName() );
+            log( QString( "AuthCode: %1" ).arg( strAuthCode ));
+        }
+        else
+        {
+            log( QString( "There is no referrence number(REF: %1)" ).arg( pRef ) );
+            goto end;
+        }
+
+        if( pRef ) JS_free( pRef );
+    }
+
+    nReqType = sReqInfo.nType;
 
     switch (nReqType) {
     case JS_CMP_PKIBODY_GENM:
@@ -390,15 +412,15 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
 
     case JS_CMP_PKIBODY_IR:
     case JS_CMP_PKIBODY_CR:
-        ret = runCMP_IR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
+        ret = runCMP_IR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binNewPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_P10CR:
-        ret = runCMP_P10CR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binPubKey, strDN, pRsp );
+        ret = runCMP_P10CR( pSrvCTX, pReq, userRec, strAuthCode, &sReqInfo.binNewPubKey, strDN, pRsp );
         break;
 
     case JS_CMP_PKIBODY_KUR:
-        ret = runCMP_KUR( pSrvCTX, pReq, certRec, &sReqInfo.binPubKey, pRsp );
+        ret = runCMP_KUR( pSrvCTX, pReq, certRec, &sReqInfo.binNewPubKey, pRsp );
         break;
 
     case JS_CMP_PKIBODY_RR:
@@ -787,7 +809,7 @@ int CAServer::readReady()
         log( QString( "Content Length: %1" ).arg( content.length() ));
         JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
 
-        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+//        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
         ret = procCMP( &binReq, &binRsp );
         if( ret != 0 )
