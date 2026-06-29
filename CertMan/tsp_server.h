@@ -21,6 +21,7 @@ public:
     void setLogEdit( QPlainTextEdit *pEdit );
     void setTSPCert( const BIN *pCert );
     void setTSPPriKey( const BIN *pPriKey, bool bP11 = false );
+    void setTLS( const BIN *pCert, const BIN *pPriKey );
 
 public slots:
     int readReady();
@@ -34,6 +35,8 @@ private:
 
     BIN tsp_cert_;
     BIN tsp_pri_key_;
+    BIN tls_cert_;
+    BIN tls_pri_key_;
     QTcpSocket *client_;
     bool p11_;
     bool tls_;

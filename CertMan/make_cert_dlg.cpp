@@ -237,6 +237,7 @@ void MakeCertDlg::accept()
     bool bCA = false;
     bool bTSP = false;
     bool bOCSP = false;
+    bool bTLS = false;
     BIN binPub = {0,0};
     BIN binKeyID = {0,0};
 
@@ -564,6 +565,9 @@ void MakeCertDlg::accept()
 
             if( strEKUValue.contains( "timeStamping" ) == true )
                 bTSP = true;
+
+            if( strEKUValue.contains( "serverAuth" ) == true )
+                bTLS = true;
         }
         else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
         {
@@ -745,6 +749,12 @@ void MakeCertDlg::accept()
         {
             bool bVal = manApplet->yesOrNoBox( tr( "Would you like to designate it for the OCSP server?" ), this, true );
             if( bVal ) madeCertRec.setKind( JS_CERT_TYPE_OCSP );
+        }
+
+        if( bTLS == true )
+        {
+            bool bVal = manApplet->yesOrNoBox( tr( "Would you like to designate it for the TLS server?" ), this, true );
+            if( bVal ) madeCertRec.setKind( JS_CERT_TYPE_TLS );
         }
     }
     madeCertRec.setIssuerNum( nIssuerNum );

@@ -22,12 +22,17 @@ TSPServer::TSPServer( QObject *parent ) :
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
+    memset( &tls_cert_, 0x00, sizeof(BIN));
+    memset( &tls_pri_key_, 0x00, sizeof(BIN));
 }
 
 TSPServer::~TSPServer()
 {
     JS_BIN_reset( &tsp_cert_ );
     JS_BIN_reset( &tsp_pri_key_ );
+    JS_BIN_reset( &tls_cert_ );
+    JS_BIN_reset( &tls_pri_key_ );
+
     if( client_ ) delete client_;
 }
 
@@ -47,6 +52,16 @@ void TSPServer::setTSPPriKey( const BIN *pPriKey, bool bP11 )
     JS_BIN_reset( &tsp_pri_key_ );
     JS_BIN_copy( &tsp_pri_key_, pPriKey );
     p11_ = bP11;
+}
+
+void TSPServer::setTLS( const BIN *pCert, const BIN *pPriKey )
+{
+    tls_ = true;
+
+    JS_BIN_reset( &tls_cert_ );
+    JS_BIN_reset( &tls_pri_key_ );
+    JS_BIN_copy( &tls_cert_, pCert );
+    JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
 void TSPServer::startServer( int nPort )

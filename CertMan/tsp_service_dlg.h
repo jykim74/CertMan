@@ -21,11 +21,17 @@ public:
     ~TSPServiceDlg();
 
 private slots:
+    void checkTLS();
+
     void clickStart();
     void clickLogClear();
     void clickSelect();
     void clickView();
     void changeNum();
+
+    void clickTLSSelect();
+    void clickTLSView();
+    void changeTLSNum();
 
 private:
     void initUI();
