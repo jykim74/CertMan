@@ -1,5 +1,7 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
+#include <QSslCertificate>
+#include <QSslKey>
 
 #include "tsp_server.h"
 #include "man_applet.h"
@@ -16,6 +18,7 @@ TSPServer::TSPServer( QObject *parent ) :
 {
     log_edit_ = nullptr;
     p11_ = false;
+    tls_ = false;
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -305,10 +308,62 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
 
-    client_ = new QTcpSocket;
-    client_->setSocketDescriptor( socketDescriptor );
+    if( tls_ == true )
+    {
+        QSslSocket *socket = new QSslSocket(this);
 
-    connect( client_, &QTcpSocket::readyRead, this, &TSPServer::readReady );
+        if (!socket->setSocketDescriptor(socketDescriptor))
+        {
+            delete socket;
+            return;
+        }
+
+        // 서버 인증서
+        QFile certFile("server.crt");
+        certFile.open(QIODevice::ReadOnly);
+
+        QSslCertificate cert(&certFile, QSsl::Pem);
+        // 개인키
+        QFile keyFile("server.key");
+        keyFile.open(QIODevice::ReadOnly);
+
+        QSslKey key(&keyFile, QSsl::Rsa, QSsl::Pem);
+
+        socket->setLocalCertificate(cert);
+        socket->setPrivateKey(key);
+
+        connect(socket, &QSslSocket::encrypted,
+                [socket]()
+                {
+                    qDebug() << "TLS Connected";
+                    socket->write("Hello TLS Client\r\n");
+                });
+
+        connect(socket, &QSslSocket::readyRead,
+                [socket]()
+                {
+                    QByteArray data = socket->readAll();
+                    qDebug() << "RX =" << data;
+                    socket->write(data);       // Echo
+                });
+
+        connect(socket,
+                QOverload<const QList<QSslError>&>::of(&QSslSocket::sslErrors),
+                [](const QList<QSslError> &errors)
+                {
+                    for (const auto &e : errors)
+                        qDebug() << e.errorString();
+                });
+
+        socket->startServerEncryption();
+    }
+    else
+    {
+        client_ = new QTcpSocket;
+        client_->setSocketDescriptor( socketDescriptor );
+
+        connect( client_, &QTcpSocket::readyRead, this, &TSPServer::readReady );
+    }
 }
 
 void TSPServer::log( const QString strLog, QColor cr )

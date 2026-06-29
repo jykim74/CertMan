@@ -43,7 +43,6 @@ TSPServiceDlg::~TSPServiceDlg()
 void TSPServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_TSP_PORT ));
-    mSSLPortText->setText( QString( "%1" ).arg( JS_TSP_SSL_PORT ));
 }
 
 void TSPServiceDlg::initialize()

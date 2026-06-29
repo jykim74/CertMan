@@ -60,11 +60,29 @@
      <property name="topMargin">
       <number>0</number>
      </property>
+     <item row="0" column="2">
+      <widget class="Line" name="line_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="4">
-      <widget class="QLineEdit" name="mSSLPortText"/>
+      <widget class="QCheckBox" name="mTLSCheck">
+       <property name="text">
+        <string>TLS</string>
+       </property>
+      </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="mPortText"/>
+      <widget class="QLineEdit" name="mPortText">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
@@ -80,24 +98,17 @@
       </widget>
      </item>
      <item row="0" column="3">
-      <widget class="QLabel" name="label_3">
-       <property name="minimumSize">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>60</width>
-         <height>0</height>
+         <width>40</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="text">
-        <string>SSL Port</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="Line" name="line_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
    </item>

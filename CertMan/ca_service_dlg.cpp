@@ -49,7 +49,6 @@ CAServiceDlg::~CAServiceDlg()
 void CAServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_CMP_PORT ));
-    mSSLPortText->setText( QString( "%1" ).arg( JS_CMP_SSL_PORT ));
 }
 
 void CAServiceDlg::initialize()

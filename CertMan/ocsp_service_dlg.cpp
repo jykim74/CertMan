@@ -48,7 +48,6 @@ OCSPServiceDlg::~OCSPServiceDlg()
 void OCSPServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_OCSP_PORT ));
-    mSSLPortText->setText( QString( "%1" ).arg( JS_OCSP_SSL_PORT ));
 }
 
 void OCSPServiceDlg::initialize()

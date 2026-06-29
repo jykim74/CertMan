@@ -36,6 +36,7 @@ private:
     BIN tsp_pri_key_;
     QTcpSocket *client_;
     bool p11_;
+    bool tls_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
