@@ -129,6 +129,9 @@ void TSPServiceDlg::clickStart()
             manApplet->warningBox( tr("TLS does not support PKCS11"), this );
             goto end;
         }
+
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binTLSCert );
+        manApplet->getPriKey( keyPair.getPrivateKey(), &binTLSPriKey );
     }
 
     tsp_srv_ = new TSPServer;

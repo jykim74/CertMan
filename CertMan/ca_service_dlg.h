@@ -28,6 +28,11 @@ private slots:
     void clickProfileView();
     void changeProfileNum();
 
+    void checkTLS();
+    void clickTLSSelect();
+    void clickTLSView();
+    void changeTLSNum();
+
 private:
     void initUI();
     void initialize();

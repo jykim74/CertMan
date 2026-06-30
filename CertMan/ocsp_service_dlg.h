@@ -27,6 +27,11 @@ private slots:
     void clickView();
     void changeNum();
 
+    void checkTLS();
+    void clickTLSSelect();
+    void clickTLSView();
+    void changeTLSNum();
+
 private:
     void initUI();
     void initialize();

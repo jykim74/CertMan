@@ -33,6 +33,12 @@ OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
     connect( mNumText, SIGNAL(textChanged(QString)), this, SLOT(changeNum()));
 
+    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
+    connect( mTLSSelectBtn, SIGNAL(clicked()), this, SLOT(clickTLSSelect()));
+    connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
+    connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
+
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -61,10 +67,13 @@ void OCSPServiceDlg::clickStart()
     BIN binCA = {0,0};
     BIN binCert = {0,0};
     BIN binPriKey = {0,0};
+    BIN binTLSCert = {0,0};
+    BIN binTLSPriKey = {0,0};
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
     QString strPort = mPortText->text();
+    int nPort = -1;
 
     if( strPort.length() < 1 )
     {
@@ -106,25 +115,60 @@ void OCSPServiceDlg::clickStart()
 
     bP11 = isPKCS11Private( keyPair.getAlg() );
 
-    if( ocsp_srv_ ) delete ocsp_srv_;
-
     JS_BIN_decodeHex( caRec.getCert().toStdString().c_str(), &binCA );
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
+    if( mTLSCheck->isChecked() == true )
+    {
+        nNum = mTLSNumText->text().toInt();
+
+        int ret = dbMgr->getCertRec( nNum, certRec );
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr("failed to get TSP certificate" ), this );
+            goto end;
+        }
+
+        ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr("failed to get TSP private key" ), this );
+            goto end;
+        }
+
+        if( isPKCS11Private( keyPair.getAlg() ) == true )
+        {
+            manApplet->warningBox( tr("TLS does not support PKCS11"), this );
+            goto end;
+        }
+
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binTLSCert );
+        manApplet->getPriKey( keyPair.getPrivateKey(), &binTLSPriKey );
+    }
+
+    if( ocsp_srv_ ) delete ocsp_srv_;
     ocsp_srv_ = new OCSPServer;
-    int nPort = strPort.toInt();
+    nPort = strPort.toInt();
     ocsp_srv_->setNeedSign( mNeedSignCheck->isChecked() );
     ocsp_srv_->setLogEdit( mLogText );
     ocsp_srv_->setCACert( &binCA );
     ocsp_srv_->setOCSPCert( &binCert );
     ocsp_srv_->setOCSPPriKey( &binPriKey, bP11 );
+
+    if( mTLSCheck->isChecked() == true )
+    {
+        ocsp_srv_->setTLS( &binTLSCert, &binTLSPriKey );
+    }
+
     ocsp_srv_->startServer( nPort );
 
 end :
     JS_BIN_reset( &binCA );
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPriKey );
+    JS_BIN_reset( &binTLSCert );
+    JS_BIN_reset( &binTLSPriKey );
 }
 
 void OCSPServiceDlg::clickLogClear()
@@ -227,4 +271,58 @@ void OCSPServiceDlg::changeNum()
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mInfoText->setText( keyPair.getDesc() );
+}
+
+void OCSPServiceDlg::checkTLS()
+{
+    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
+}
+
+void OCSPServiceDlg::clickTLSSelect()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select TLS Server certificate" ));
+    caMan.setMode( CAManModeSelectCACert );
+    caMan.mSignerCheck->setChecked(true);
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+        mTLSNumText->setText(QString("%1").arg( caMan.getNum() ));
+    }
+}
+
+void OCSPServiceDlg::clickTLSView()
+{
+    int num = mTLSNumText->text().toInt();
+    CertRec cert;
+    int ret = manApplet->dbMgr()->getCertRec( num, cert );
+    if( ret != 0 ) return;
+
+    CertInfoDlg certInfo;
+    certInfo.setCertNum( num );
+    certInfo.exec();
+}
+
+void OCSPServiceDlg::changeTLSNum()
+{
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    int nNum = mTLSNumText->text().toInt();
+
+    CertRec certRec;
+    KeyPairRec keyPair;
+
+    int ret = dbMgr->getCertRec( nNum, certRec );
+    if( ret != 0 )
+    {
+        mTLSNumText->clear();
+        return;
+    }
+
+    mTLSNameText->setText( certRec.getSubjectDN() );
+
+    dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+    mTLSInfoText->setText( keyPair.getDesc() );
 }

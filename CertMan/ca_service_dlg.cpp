@@ -33,6 +33,11 @@ CAServiceDlg::CAServiceDlg(QWidget *parent)
     connect( mProfileViewBtn, SIGNAL(clicked()), this, SLOT(clickProfileView()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(changeProfileNum()));
 
+    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
+    connect( mTLSSelectBtn, SIGNAL(clicked()), this, SLOT(clickTLSSelect()));
+    connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
+    connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -61,12 +66,15 @@ void CAServiceDlg::clickStart()
     int ret = 0;
     BIN binCert = {0,0};
     BIN binPriKey = {0,0};
+    BIN binTLSCert = {0,0};
+    BIN binTLSPriKey = {0,0};
 
     DBMgr* dbMgr = manApplet->dbMgr();
     if( dbMgr == NULL ) return;
     QString strPort = mPortText->text();
 
     bool bP11 = false;
+    int nPort = -1;
 
     if( strPort.length() < 1 )
     {
@@ -109,18 +117,54 @@ void CAServiceDlg::clickStart()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
+    if( mTLSCheck->isChecked() == true )
+    {
+        nNum = mTLSNumText->text().toInt();
+
+        int ret = dbMgr->getCertRec( nNum, certRec );
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr("failed to get TSP certificate" ), this );
+            goto end;
+        }
+
+        ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+        if( ret != 0 )
+        {
+            manApplet->warningBox( tr("failed to get TSP private key" ), this );
+            goto end;
+        }
+
+        if( isPKCS11Private( keyPair.getAlg() ) == true )
+        {
+            manApplet->warningBox( tr("TLS does not support PKCS11"), this );
+            goto end;
+        }
+
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binTLSCert );
+        manApplet->getPriKey( keyPair.getPrivateKey(), &binTLSPriKey );
+    }
+
     ca_srv_ = new CAServer;
-    int nPort = strPort.toInt();
+    nPort = strPort.toInt();
     ca_srv_->setLogEdit( mLogText );
     ca_srv_->setCACert( &binCert );
     ca_srv_->setCANum( nNum );
     ca_srv_->setProfileNum( nProfileNum );
     ca_srv_->setCAPriKey( &binPriKey, bP11 );
+
+    if( mTLSCheck->isChecked() == true )
+    {
+        ca_srv_->setTLS( &binTLSCert, &binTLSPriKey );
+    }
+
     ca_srv_->startServer( nPort );
 
 end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPriKey );
+    JS_BIN_reset( &binTLSCert );
+    JS_BIN_reset( &binTLSPriKey );
 }
 
 void CAServiceDlg::clickLogClear()
@@ -215,4 +259,58 @@ void CAServiceDlg::changeProfileNum()
     }
 
     mProfileNameText->setText( profile.getName() );
+}
+
+void CAServiceDlg::checkTLS()
+{
+    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
+}
+
+void CAServiceDlg::clickTLSSelect()
+{
+    CAManDlg caMan;
+    caMan.setTitle( tr( "Select TLS Server certificate" ));
+    caMan.setMode( CAManModeSelectCACert );
+    caMan.mSignerCheck->setChecked(true);
+
+    if( caMan.exec() == QDialog::Accepted )
+    {
+        mTLSNumText->setText(QString("%1").arg( caMan.getNum() ));
+    }
+}
+
+void CAServiceDlg::clickTLSView()
+{
+    int num = mTLSNumText->text().toInt();
+    CertRec cert;
+    int ret = manApplet->dbMgr()->getCertRec( num, cert );
+    if( ret != 0 ) return;
+
+    CertInfoDlg certInfo;
+    certInfo.setCertNum( num );
+    certInfo.exec();
+}
+
+void CAServiceDlg::changeTLSNum()
+{
+    DBMgr* dbMgr = manApplet->dbMgr();
+    if( dbMgr == NULL ) return;
+
+    int nNum = mTLSNumText->text().toInt();
+
+    CertRec certRec;
+    KeyPairRec keyPair;
+
+    int ret = dbMgr->getCertRec( nNum, certRec );
+    if( ret != 0 )
+    {
+        mTLSNumText->clear();
+        return;
+    }
+
+    mTLSNameText->setText( certRec.getSubjectDN() );
+
+    dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
+
+    mTLSInfoText->setText( keyPair.getDesc() );
 }

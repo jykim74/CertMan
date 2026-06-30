@@ -6,6 +6,7 @@
 #include <QtCore/QObject>
 #include <QtNetwork/QTcpServer>
 #include <QPlainTextEdit>
+#include <QSslSocket>
 
 #include "js_bin.h"
 #include "js_pkcs11.h"
@@ -31,9 +32,11 @@ public:
     void setCANum( int nNum );
     void setProfileNum( int nNum );
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
+    void setTLS( const BIN *pCert, const BIN *pPriKey );
 
 public slots:
     int readReady();
+    int readTLSReady();
 
 private :
     int procCMP( const BIN *pReq, BIN *pRsp );
@@ -46,8 +49,12 @@ private:
     int profile_num_;
     BIN ca_cert_;
     BIN ca_pri_key_;
+    BIN tls_cert_;
+    BIN tls_pri_key_;
     QTcpSocket *client_;
+    QSslSocket *tls_client_;
     bool p11_;
+    bool tls_;
 
 private:
     void incomingConnection( qintptr socketDescriptor );

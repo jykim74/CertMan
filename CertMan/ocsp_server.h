@@ -4,6 +4,7 @@
 #include <QtCore/QObject>
 #include <QtNetwork/QTcpServer>
 #include <QPlainTextEdit>
+#include <QSslSocket>
 
 #include "js_bin.h"
 #include "js_pkcs11.h"
@@ -23,9 +24,11 @@ public:
     void setCACert( const BIN *pCert );
     void setOCSPCert( const BIN *pCert );
     void setOCSPPriKey( const BIN *pPriKey, bool bP11 = false );
+    void setTLS( const BIN *pCert, const BIN *pPriKey );
 
 public slots:
     int readReady();
+    int readTLSReady();
 
 private :
     int procOCSP( const BIN *pReq, BIN *pRsp );
@@ -38,9 +41,15 @@ private:
     BIN ca_cert_;
     BIN ocsp_cert_;
     BIN ocsp_pri_key_;
+    BIN tls_cert_;
+    BIN tls_pri_key_;
+
     QTcpSocket *client_;
+    QSslSocket *tls_client_;
+
     bool need_sign_;
     bool p11_;
+    bool tls_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
