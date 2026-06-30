@@ -58,7 +58,7 @@ void CAServiceDlg::initUI()
 
 void CAServiceDlg::initialize()
 {
-
+    checkTLS();
 }
 
 void CAServiceDlg::clickStart()

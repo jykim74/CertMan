@@ -51,7 +51,7 @@ void TSPServiceDlg::initUI()
 
 void TSPServiceDlg::initialize()
 {
-
+    checkTLS();
 }
 
 void TSPServiceDlg::checkTLS()

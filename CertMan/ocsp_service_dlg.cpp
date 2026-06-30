@@ -58,7 +58,7 @@ void OCSPServiceDlg::initUI()
 
 void OCSPServiceDlg::initialize()
 {
-
+    checkTLS();
 }
 
 void OCSPServiceDlg::clickStart()
