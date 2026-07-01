@@ -1109,16 +1109,38 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
             return;
         }
 
+
         // 서버 인증서
+        /*
         QFile certFile("server.crt");
         certFile.open(QIODevice::ReadOnly);
-
         QSslCertificate cert(&certFile, QSsl::Pem);
-        // 개인키
+
         QFile keyFile("server.key");
         keyFile.open(QIODevice::ReadOnly);
 
         QSslKey key(&keyFile, QSsl::Rsa, QSsl::Pem);
+        */
+
+        int nKeyType = JS_PKI_getCertKeyType( &tls_cert_ );
+        int nPriType = -1;
+        if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+            nPriType = QSsl::Rsa;
+        else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
+            nPriType = QSsl::Ec;
+        else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+            nPriType = QSsl::Dsa;
+        else
+        {
+            elog( QString( "Invalid TLS KeyAlgorithm: %1").arg( nKeyType ));
+            return;
+        }
+
+        QByteArray der_cert = QByteArray( (const char *)tls_cert_.pVal, tls_cert_.nLen );
+        QSslCertificate cert( der_cert, QSsl::Der );
+
+        QByteArray der_key = QByteArray( (const char *)tls_pri_key_.pVal, tls_pri_key_.nLen );
+        QSslKey key( der_key, (QSsl::KeyAlgorithm)nPriType, QSsl::Der );
 
         tls_client_->setLocalCertificate(cert);
         tls_client_->setPrivateKey(key);
