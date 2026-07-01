@@ -19,6 +19,7 @@ public:
 
 private slots:
     void clickStart();
+    void clickStop();
     void clickLogClear();
     void clickCASelect();
     void clickCAView();

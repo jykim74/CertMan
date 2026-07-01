@@ -24,6 +24,7 @@ private slots:
     void checkTLS();
 
     void clickStart();
+    void clickStop();
     void clickLogClear();
     void clickSelect();
     void clickView();

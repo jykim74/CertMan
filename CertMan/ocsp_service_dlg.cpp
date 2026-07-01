@@ -23,6 +23,8 @@ OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
+    connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
+
     connect( mLogClearBtn, SIGNAL(clicked()), this, SLOT(clickLogClear()));
 
     connect( mCASelectBtn, SIGNAL(clicked()), this, SLOT(clickCASelect()));
@@ -162,6 +164,7 @@ void OCSPServiceDlg::clickStart()
     }
 
     ocsp_srv_->startServer( nPort );
+    mStartBtn->setStyleSheet( kColorBackGreen );
 
 end :
     JS_BIN_reset( &binCA );
@@ -169,6 +172,15 @@ end :
     JS_BIN_reset( &binPriKey );
     JS_BIN_reset( &binTLSCert );
     JS_BIN_reset( &binTLSPriKey );
+}
+
+void OCSPServiceDlg::clickStop()
+{
+    mStartBtn->setStyleSheet( "" );
+    if( ocsp_srv_ == nullptr ) return;
+
+    ocsp_srv_->deleteLater();
+    ocsp_srv_ = nullptr;
 }
 
 void OCSPServiceDlg::clickLogClear()

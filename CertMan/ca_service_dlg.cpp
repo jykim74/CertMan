@@ -24,6 +24,8 @@ CAServiceDlg::CAServiceDlg(QWidget *parent)
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
+    connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
+
     connect( mLogClearBtn, SIGNAL(clicked()), this, SLOT(clickLogClear()));
     connect( mSelectBtn, SIGNAL(clicked()), this, SLOT(clickSelect()));
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
@@ -159,12 +161,22 @@ void CAServiceDlg::clickStart()
     }
 
     ca_srv_->startServer( nPort );
+    mStartBtn->setStyleSheet( kColorBackGreen );
 
 end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPriKey );
     JS_BIN_reset( &binTLSCert );
     JS_BIN_reset( &binTLSPriKey );
+}
+
+void CAServiceDlg::clickStop()
+{
+    mStartBtn->setStyleSheet( "" );
+    if( ca_srv_ == nullptr ) return;
+
+    ca_srv_->deleteLater();
+    ca_srv_ = nullptr;
 }
 
 void CAServiceDlg::clickLogClear()

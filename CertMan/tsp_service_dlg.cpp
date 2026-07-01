@@ -22,6 +22,8 @@ TSPServiceDlg::TSPServiceDlg(QWidget *parent)
 
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
+    connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
+
     connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
     connect( mLogClearBtn, SIGNAL(clicked()), this, SLOT(clickLogClear()));
     connect( mSelectBtn, SIGNAL(clicked()), this, SLOT(clickSelect()));
@@ -145,12 +147,22 @@ void TSPServiceDlg::clickStart()
     }
 
     tsp_srv_->startServer( nPort );
+    mStartBtn->setStyleSheet( kColorBackGreen );
 
 end :
     JS_BIN_reset( &binCert );
     JS_BIN_reset( &binPriKey );
     JS_BIN_reset( &binTLSCert );
     JS_BIN_reset( &binTLSPriKey );
+}
+
+void TSPServiceDlg::clickStop()
+{
+    mStartBtn->setStyleSheet( "" );
+    if( tsp_srv_ == nullptr ) return;
+
+    tsp_srv_->deleteLater();
+    tsp_srv_ = nullptr;
 }
 
 void TSPServiceDlg::clickLogClear()
