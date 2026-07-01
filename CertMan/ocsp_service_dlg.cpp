@@ -64,8 +64,9 @@ void OCSPServiceDlg::initUI()
 void OCSPServiceDlg::initialize()
 {
     QString strDefault = getDefault();
-    QStringList listDefault = strDefault.split(":");
+    QStringList listDefault;
 
+    if( strDefault.length() > 4 ) listDefault = strDefault.split(":");
     /* Port:TLS:NeedSign:CANum:OCSPNum:TLSNum */
 
     if( listDefault.size() >= 6 )
@@ -83,6 +84,8 @@ void OCSPServiceDlg::initialize()
         if( nCANum > 0 ) mCANumText->setText( QString("%1").arg( nCANum ));
         if( nOCSPNum > 0 ) mNumText->setText( QString("%1").arg( nOCSPNum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+
+        mSetDefaultCheck->setChecked(true);
     }
 
     checkTLS();
@@ -224,6 +227,10 @@ void OCSPServiceDlg::clickStart()
             .arg( nTLSNum );
 
         setDefault( strDefault );
+    }
+    else
+    {
+        setDefault( "" );
     }
 
 end :

@@ -39,6 +39,8 @@ TSPServer::~TSPServer()
 
     if( client_ ) delete client_;
     if( tls_client_ ) delete tls_client_;
+
+    log( "TSP server stopped" );
 }
 
 void TSPServer::setLogEdit( QPlainTextEdit *pEdit )

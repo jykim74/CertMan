@@ -49,6 +49,8 @@ CAServer::~CAServer()
 
     if( client_ ) delete client_;
     if( tls_client_ ) delete tls_client_;
+
+    log( "CA server stopped" );
 }
 
 void CAServer::setLogEdit( QPlainTextEdit *pEdit )

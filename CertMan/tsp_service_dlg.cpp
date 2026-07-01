@@ -57,7 +57,9 @@ void TSPServiceDlg::initUI()
 void TSPServiceDlg::initialize()
 {
     QString strDefault = getDefault();
-    QStringList listDefault = strDefault.split(":");
+    QStringList listDefault;
+
+    if( strDefault.length() > 4 ) listDefault = strDefault.split(":");
 
     /* Port:TLS:TSPNum:TLSNum */
 
@@ -65,13 +67,15 @@ void TSPServiceDlg::initialize()
     {
         int nPort = listDefault.at(0).toInt();
         bool bTLS = listDefault.at(1).toInt();
-        int nNum = listDefault.at(3).toInt();
-        int nTLSNum = listDefault.at(4).toInt();
+        int nNum = listDefault.at(2).toInt();
+        int nTLSNum = listDefault.at(3).toInt();
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
         mTLSCheck->setChecked( bTLS );
         if( nNum > 0 ) mNumText->setText( QString("%1").arg( nNum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+
+        mSetDefaultCheck->setChecked( true );
     }
 
     checkTLS();
@@ -201,6 +205,10 @@ void TSPServiceDlg::clickStart()
                                  .arg( nTLSNum );
 
         setDefault( strDefault );
+    }
+    else
+    {
+        setDefault( "" );
     }
 
 

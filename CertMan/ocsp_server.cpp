@@ -39,6 +39,8 @@ OCSPServer::~OCSPServer()
 
     if( client_ ) delete client_;
     if( tls_client_ ) delete tls_client_;
+
+    log( "OCSP server stopped" );
 }
 
 void OCSPServer::setLogEdit( QPlainTextEdit *pEdit )

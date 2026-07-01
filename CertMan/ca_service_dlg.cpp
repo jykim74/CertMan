@@ -64,8 +64,9 @@ void CAServiceDlg::initUI()
 void CAServiceDlg::initialize()
 {
     QString strDefault = getDefault();
-    QStringList listDefault = strDefault.split(":");
+    QStringList listDefault;
 
+    if( strDefault.length() > 4 ) listDefault = strDefault.split(":");
     /* Port:TLS:ProfileNum:CANum:TLSNum */
 
     if( listDefault.size() >= 5 )
@@ -81,6 +82,8 @@ void CAServiceDlg::initialize()
         if( nProfileNum > 0 ) mProfileNumText->setText( QString("%1").arg( nProfileNum ));
         if( nCANum > 0 ) mNumText->setText( QString("%1").arg( nCANum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+
+        mSetDefaultCheck->setChecked( true );
     }
 
     checkTLS();
@@ -218,6 +221,10 @@ void CAServiceDlg::clickStart()
                                  .arg( nTLSNum );
 
         setDefault( strDefault );
+    }
+    else
+    {
+        setDefault( "" );
     }
 
 end :

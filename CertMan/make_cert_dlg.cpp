@@ -566,7 +566,8 @@ void MakeCertDlg::accept()
             if( strEKUValue.contains( "timeStamping" ) == true )
                 bTSP = true;
 
-            if( strEKUValue.contains( "serverAuth" ) == true )
+            if( strEKUValue.contains( "serverAuth" ) == true ||
+                strEKUValue.contains( "TLS Web Server Authentication" ) == true )
                 bTLS = true;
         }
         else if( profileExt.getSN() == JS_PKI_ExtNameAKI )
