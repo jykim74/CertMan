@@ -32,7 +32,7 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="2">
+     <item row="0" column="3">
       <widget class="QPushButton" name="mStartBtn">
        <property name="text">
         <string>Start</string>
@@ -46,10 +46,17 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
+     <item row="0" column="4">
       <widget class="QPushButton" name="mStopBtn">
        <property name="text">
         <string>Stop</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QCheckBox" name="mSetDefaultCheck">
+       <property name="text">
+        <string>Set to default</string>
        </property>
       </widget>
      </item>

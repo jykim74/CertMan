@@ -1,4 +1,5 @@
 #include <QLayout>
+#include <QSettings>
 
 #include "js_gen.h"
 #include "js_pki.h"
@@ -12,6 +13,8 @@
 #include "db_mgr.h"
 #include "cert_info_dlg.h"
 #include "commons.h"
+
+const QString kOCSPDefault = "OCSPDefault";
 
 OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -60,7 +63,49 @@ void OCSPServiceDlg::initUI()
 
 void OCSPServiceDlg::initialize()
 {
+    QString strDefault = getDefault();
+    QStringList listDefault = strDefault.split(":");
+
+    /* Port:TLS:NeedSign:CANum:OCSPNum:TLSNum */
+
+    if( listDefault.size() >= 6 )
+    {
+        int nPort = listDefault.at(0).toInt();
+        bool bTLS = listDefault.at(1).toInt();
+        bool bNeedSign = listDefault.at(2).toInt();
+        int nCANum = listDefault.at(3).toInt();
+        int nOCSPNum = listDefault.at(4).toInt();
+        int nTLSNum = listDefault.at(5).toInt();
+
+        if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
+        mTLSCheck->setChecked( bTLS );
+        mNeedSignCheck->setChecked( bNeedSign );
+        if( nCANum > 0 ) mCANumText->setText( QString("%1").arg( nCANum ));
+        if( nOCSPNum > 0 ) mNumText->setText( QString("%1").arg( nOCSPNum ));
+        if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+    }
+
     checkTLS();
+}
+
+QString OCSPServiceDlg::getDefault()
+{
+    QSettings settings;
+    QString strDefault;
+
+    settings.beginGroup( kSettingBer );
+    strDefault = settings.value( kOCSPDefault ).toString();
+    settings.endGroup();
+
+    return strDefault;
+}
+
+void OCSPServiceDlg::setDefault( const QString strDefault )
+{
+    QSettings settings;
+    settings.beginGroup( kSettingBer );
+    settings.setValue( kOCSPDefault, strDefault );
+    settings.endGroup();
 }
 
 void OCSPServiceDlg::clickStart()
@@ -87,6 +132,7 @@ void OCSPServiceDlg::clickStart()
 
     CertRec caRec;
     int nCANum = mCANumText->text().toInt();
+    int nTLSNum = -1;
 
     ret = dbMgr->getCertRec( nCANum, caRec );
     if( ret != 0 )
@@ -123,9 +169,9 @@ void OCSPServiceDlg::clickStart()
 
     if( mTLSCheck->isChecked() == true )
     {
-        nNum = mTLSNumText->text().toInt();
+        nTLSNum = mTLSNumText->text().toInt();
 
-        int ret = dbMgr->getCertRec( nNum, certRec );
+        int ret = dbMgr->getCertRec( nTLSNum, certRec );
         if( ret != 0 )
         {
             manApplet->warningBox( tr("failed to get TSP certificate" ), this );
@@ -165,6 +211,20 @@ void OCSPServiceDlg::clickStart()
 
     ocsp_srv_->startServer( nPort );
     mStartBtn->setStyleSheet( kColorBackGreen );
+
+    if( mSetDefaultCheck->isChecked() == true )
+    {
+        /* Port:TLS:NeedSign:CANum:OCSPNum:TLSNum */
+        QString strDefault = QString( "%1:%2:%3:%4:%5:%6" )
+            .arg( nPort )
+            .arg( mTLSCheck->isChecked() )
+            .arg( mNeedSignCheck->isChecked() )
+            .arg(nCANum)
+            .arg( nNum )
+            .arg( nTLSNum );
+
+        setDefault( strDefault );
+    }
 
 end :
     JS_BIN_reset( &binCA );

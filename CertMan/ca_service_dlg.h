@@ -38,6 +38,9 @@ private:
     void initUI();
     void initialize();
 
+    QString getDefault();
+    void setDefault( const QString strDefault );
+
     CAServer *ca_srv_;
 };
 

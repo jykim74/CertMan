@@ -37,6 +37,9 @@ private:
     void initUI();
     void initialize();
 
+    QString getDefault();
+    void setDefault( const QString strDefault );
+
     OCSPServer *ocsp_srv_;
 };
 

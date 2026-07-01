@@ -1,4 +1,5 @@
 #include <QLayout>
+#include <QSettings>
 
 #include "js_gen.h"
 #include "js_pki.h"
@@ -13,6 +14,8 @@
 #include "profile_man_dlg.h"
 #include "view_cert_profile_dlg.h"
 #include "commons.h"
+
+const QString kCADefault = "CADefault";
 
 CAServiceDlg::CAServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -60,7 +63,47 @@ void CAServiceDlg::initUI()
 
 void CAServiceDlg::initialize()
 {
+    QString strDefault = getDefault();
+    QStringList listDefault = strDefault.split(":");
+
+    /* Port:TLS:ProfileNum:CANum:TLSNum */
+
+    if( listDefault.size() >= 5 )
+    {
+        int nPort = listDefault.at(0).toInt();
+        bool bTLS = listDefault.at(1).toInt();
+        int nProfileNum = listDefault.at(2).toInt();
+        int nCANum = listDefault.at(3).toInt();
+        int nTLSNum = listDefault.at(4).toInt();
+
+        if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
+        mTLSCheck->setChecked( bTLS );
+        if( nProfileNum > 0 ) mProfileNumText->setText( QString("%1").arg( nProfileNum ));
+        if( nCANum > 0 ) mNumText->setText( QString("%1").arg( nCANum ));
+        if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+    }
+
     checkTLS();
+}
+
+QString CAServiceDlg::getDefault()
+{
+    QSettings settings;
+    QString strDefault;
+
+    settings.beginGroup( kSettingBer );
+    strDefault = settings.value( kCADefault ).toString();
+    settings.endGroup();
+
+    return strDefault;
+}
+
+void CAServiceDlg::setDefault( const QString strDefault )
+{
+    QSettings settings;
+    settings.beginGroup( kSettingBer );
+    settings.setValue( kCADefault, strDefault );
+    settings.endGroup();
 }
 
 void CAServiceDlg::clickStart()
@@ -91,6 +134,7 @@ void CAServiceDlg::clickStart()
 
     int nNum = mNumText->text().toInt();
     int nProfileNum = mProfileNumText->text().toInt();
+    int nTLSNum = -1;
 
     if( nProfileNum <= 0 )
     {
@@ -121,9 +165,9 @@ void CAServiceDlg::clickStart()
 
     if( mTLSCheck->isChecked() == true )
     {
-        nNum = mTLSNumText->text().toInt();
+        nTLSNum = mTLSNumText->text().toInt();
 
-        int ret = dbMgr->getCertRec( nNum, certRec );
+        int ret = dbMgr->getCertRec( nTLSNum, certRec );
         if( ret != 0 )
         {
             manApplet->warningBox( tr("failed to get TSP certificate" ), this );
@@ -162,6 +206,19 @@ void CAServiceDlg::clickStart()
 
     ca_srv_->startServer( nPort );
     mStartBtn->setStyleSheet( kColorBackGreen );
+
+    if( mSetDefaultCheck->isChecked() == true )
+    {
+        /* Port:TLS:ProfileNum:CANum:TLSNum */
+        QString strDefault = QString( "%1:%2:%3:%4:%5" )
+                                 .arg( nPort )
+                                 .arg( mTLSCheck->isChecked() )
+                                 .arg( nProfileNum )
+                                 .arg(nNum)
+                                 .arg( nTLSNum );
+
+        setDefault( strDefault );
+    }
 
 end :
     JS_BIN_reset( &binCert );

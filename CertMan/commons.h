@@ -65,6 +65,7 @@ const QString kFalse = "false";
 const QString kModalessStyle = "QDialog { background:#EEF4FF; }";
 const QString kColorBackGreen = "background-color: #99FF00;";
 
+static const QString kSettingBer = "SettingBer";
 
 #define VIEW_FILE           0x01000000
 #define VIEW_TOOL           0x02000000

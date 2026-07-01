@@ -1,3 +1,5 @@
+#include <QSettings>
+
 #include "js_gen.h"
 #include "js_pki.h"
 #include "js_tsp.h"
@@ -11,6 +13,7 @@
 #include "cert_info_dlg.h"
 #include "commons.h"
 
+const QString kTSPDefault = "TSPDefault";
 
 TSPServiceDlg::TSPServiceDlg(QWidget *parent)
     : QDialog(parent)
@@ -53,7 +56,45 @@ void TSPServiceDlg::initUI()
 
 void TSPServiceDlg::initialize()
 {
+    QString strDefault = getDefault();
+    QStringList listDefault = strDefault.split(":");
+
+    /* Port:TLS:TSPNum:TLSNum */
+
+    if( listDefault.size() >= 4 )
+    {
+        int nPort = listDefault.at(0).toInt();
+        bool bTLS = listDefault.at(1).toInt();
+        int nNum = listDefault.at(3).toInt();
+        int nTLSNum = listDefault.at(4).toInt();
+
+        if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
+        mTLSCheck->setChecked( bTLS );
+        if( nNum > 0 ) mNumText->setText( QString("%1").arg( nNum ));
+        if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
+    }
+
     checkTLS();
+}
+
+QString TSPServiceDlg::getDefault()
+{
+    QSettings settings;
+    QString strDefault;
+
+    settings.beginGroup( kSettingBer );
+    strDefault = settings.value( kTSPDefault ).toString();
+    settings.endGroup();
+
+    return strDefault;
+}
+
+void TSPServiceDlg::setDefault( const QString strDefault )
+{
+    QSettings settings;
+    settings.beginGroup( kSettingBer );
+    settings.setValue( kTSPDefault, strDefault );
+    settings.endGroup();
 }
 
 void TSPServiceDlg::checkTLS()
@@ -83,6 +124,7 @@ void TSPServiceDlg::clickStart()
     }
 
     int nNum = mNumText->text().toInt();
+    int nTLSNum = -1;
 
     CertRec certRec;
     KeyPairRec keyPair;
@@ -110,9 +152,9 @@ void TSPServiceDlg::clickStart()
 
     if( mTLSCheck->isChecked() == true )
     {
-        nNum = mTLSNumText->text().toInt();
+        nTLSNum = mTLSNumText->text().toInt();
 
-        int ret = dbMgr->getCertRec( nNum, certRec );
+        int ret = dbMgr->getCertRec( nTLSNum, certRec );
         if( ret != 0 )
         {
             manApplet->warningBox( tr("failed to get TSP certificate" ), this );
@@ -148,6 +190,19 @@ void TSPServiceDlg::clickStart()
 
     tsp_srv_->startServer( nPort );
     mStartBtn->setStyleSheet( kColorBackGreen );
+
+    if( mSetDefaultCheck->isChecked() == true )
+    {
+        /* Port:TLS:TSPNum:TLSNum */
+        QString strDefault = QString( "%1:%2:%3:%4" )
+                                 .arg( nPort )
+                                 .arg( mTLSCheck->isChecked() )
+                                 .arg(nNum)
+                                 .arg( nTLSNum );
+
+        setDefault( strDefault );
+    }
+
 
 end :
     JS_BIN_reset( &binCert );
