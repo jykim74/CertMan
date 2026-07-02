@@ -20,6 +20,9 @@ TSPServer::TSPServer( QObject *parent ) :
     log_edit_ = nullptr;
     p11_ = false;
     tls_ = false;
+    tls_body_len_ = -1;
+    tls_header_.clear();
+    tls_body_.clear();
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -351,8 +354,8 @@ int TSPServer::readTLSReady()
 //    tls_client_ = qobject_cast<QSslSocket*>(sender());
 //    if (!tls_client_) return JSR_ERR;
 
-    QByteArray data = tls_client_->readAll();
-    qDebug() << "Recv =" << data;
+//    QByteArray data = tls_client_->readAll();
+//    qDebug() << "Recv =" << data;
 
     Line = tls_client_->readLine();
 
@@ -452,6 +455,10 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
 
     if( tls_ == true )
     {
+        tls_body_len_ = -1;
+        tls_header_.clear();
+        tls_body_.clear();
+
         tls_client_ = new QSslSocket(this);
 
         if (!tls_client_->setSocketDescriptor(socketDescriptor))

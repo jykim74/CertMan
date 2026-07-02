@@ -240,6 +240,7 @@ add_executable(${PROJECT_NAME}
     ocsp_service_dlg.h ocsp_service_dlg.cpp ocsp_service_dlg.ui
     ca_server.h ca_server.cpp
     ca_service_dlg.h ca_service_dlg.cpp ca_service_dlg.ui
+    tls_socket.h tls_socket.cpp
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

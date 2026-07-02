@@ -48,6 +48,11 @@ private:
     bool p11_;
     bool tls_;
 
+    QString tls_path_;
+    int tls_body_len_;
+    QByteArray tls_header_;
+    QByteArray tls_body_;
+
 protected:
     void incomingConnection( qintptr socketDescriptor );
 
