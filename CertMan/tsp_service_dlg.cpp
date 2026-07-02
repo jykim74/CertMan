@@ -189,6 +189,12 @@ void TSPServiceDlg::clickStart()
 
     if( mTLSCheck->isChecked() == true )
     {
+        if( binTLSCert.nLen < 1 || binTLSPriKey.nLen < 1 )
+        {
+            manApplet->warningBox( tr( "Failed to configure TLS certificate and private key." ), this );
+            goto end;
+        }
+
         tsp_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
 

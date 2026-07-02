@@ -8,6 +8,7 @@
 #include <QSslKey>
 #include <QSslSocket>
 
+
 #include "js_bin.h"
 #include "js_pkcs11.h"
 
@@ -29,6 +30,7 @@ public:
 public slots:
     int readReady();
     int readTLSReady();
+    void onEncrypted();
 
 private :
     int procTSP( const BIN *pReq, BIN *pRsp );
@@ -42,6 +44,7 @@ private:
     BIN tls_cert_;
     BIN tls_pri_key_;
     QTcpSocket *client_;
+    QSslSocket *tls_server_;
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;

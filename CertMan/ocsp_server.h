@@ -29,6 +29,7 @@ public:
 public slots:
     int readReady();
     int readTLSReady();
+    void onEncrypted();
 
 private :
     int procOCSP( const BIN *pReq, BIN *pRsp );
@@ -45,6 +46,7 @@ private:
     BIN tls_pri_key_;
 
     QTcpSocket *client_;
+    QSslSocket *tls_server_;
     QSslSocket *tls_client_;
 
     bool need_sign_;
