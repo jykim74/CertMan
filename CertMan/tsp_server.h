@@ -44,7 +44,6 @@ private:
     BIN tls_cert_;
     BIN tls_pri_key_;
     QTcpSocket *client_;
-    QSslSocket *tls_server_;
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;

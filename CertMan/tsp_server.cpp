@@ -27,7 +27,6 @@ TSPServer::TSPServer( QObject *parent ) :
     memset( &tls_pri_key_, 0x00, sizeof(BIN));
 
     client_ = nullptr;
-    tls_server_ = nullptr;
     tls_client_ = nullptr;
 }
 
@@ -39,7 +38,6 @@ TSPServer::~TSPServer()
     JS_BIN_reset( &tls_pri_key_ );
 
     if( client_ ) delete client_;
-    if( tls_server_ ) delete tls_server_;
     if( tls_client_ ) delete tls_client_;
 
     log( "TSP server stopped" );
@@ -350,8 +348,11 @@ int TSPServer::readTLSReady()
     const QByteArray key = "Content-Length:";
     int nContentLength = 0;
 
-    tls_client_ = qobject_cast<QSslSocket*>(sender());
-    if (!tls_client_) return JSR_ERR;
+//    tls_client_ = qobject_cast<QSslSocket*>(sender());
+//    if (!tls_client_) return JSR_ERR;
+
+    QByteArray data = tls_client_->readAll();
+    qDebug() << "Recv =" << data;
 
     Line = tls_client_->readLine();
 
@@ -371,6 +372,7 @@ int TSPServer::readTLSReady()
         }
 
         Line = tls_client_->readLine();
+
         if( Line.length() <= 2 ) break;
     }
 
@@ -450,11 +452,11 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
 
     if( tls_ == true )
     {
-        tls_server_ = new QSslSocket(this);
+        tls_client_ = new QSslSocket(this);
 
-        if (!tls_server_->setSocketDescriptor(socketDescriptor))
+        if (!tls_client_->setSocketDescriptor(socketDescriptor))
         {
-            delete tls_server_;
+            delete tls_client_;
             return;
         }
 
@@ -478,13 +480,13 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
         QByteArray der_key = QByteArray( reinterpret_cast<const char *>(tls_pri_key_.pVal), tls_pri_key_.nLen );
         QSslKey key( der_key, (QSsl::KeyAlgorithm)nPriType, QSsl::Der );
 
-        tls_server_->setLocalCertificate(cert);
-        tls_server_->setPrivateKey(key);
-        tls_server_->setPeerVerifyMode(QSslSocket::VerifyNone);
+        tls_client_->setLocalCertificate(cert);
+        tls_client_->setPrivateKey(key);
+        tls_client_->setPeerVerifyMode(QSslSocket::VerifyNone);
 
-        connect(tls_server_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
-        connect(tls_server_, &QSslSocket::readyRead, this, &TSPServer::readTLSReady );
-        connect(tls_server_, SIGNAL(disconnected()), tls_server_, SLOT(deleteLater()));
+        connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
+        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::readTLSReady );
+        connect(tls_client_, SIGNAL(disconnected()), tls_client_, SLOT(deleteLater()));
 
         qDebug() << QSslSocket::supportsSsl();
         qDebug() << QSslSocket::sslLibraryVersionString();
@@ -493,7 +495,7 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
         qDebug() << cert.isNull();
         qDebug() << key.isNull();
 
-        tls_server_->startServerEncryption();
+        tls_client_->startServerEncryption();
     }
     else
     {
