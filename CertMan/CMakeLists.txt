@@ -241,6 +241,8 @@ add_executable(${PROJECT_NAME}
     ca_server.h ca_server.cpp
     ca_service_dlg.h ca_service_dlg.cpp ca_service_dlg.ui
     tls_socket.h tls_socket.cpp
+    acme_service_dlg.h acme_service_dlg.cpp acme_service_dlg.ui
+    acme_server.h acme_server.cpp
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

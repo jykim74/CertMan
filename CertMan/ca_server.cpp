@@ -970,6 +970,12 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
 
     if( tls_ == true )
     {
+        if( QSslSocket::supportsSsl() == false )
+        {
+            elog( "TLS is not supported." );
+            return;
+        }
+
         tls_client_ = new QSslSocket(this);
 
         if (!tls_client_->setSocketDescriptor(socketDescriptor))
@@ -1005,13 +1011,6 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
         connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
         connect(tls_client_, &QSslSocket::readyRead, this, &CAServer::onTLSReadyRead);
         connect(tls_client_, &QSslSocket::disconnected, this, &CAServer::onTLSDisconnected);
-
-        qDebug() << QSslSocket::supportsSsl();
-        qDebug() << QSslSocket::sslLibraryVersionString();
-        qDebug() << QSslSocket::sslLibraryBuildVersionString();
-
-        qDebug() << cert.isNull();
-        qDebug() << key.isNull();
 
         tls_client_->startServerEncryption();
     }

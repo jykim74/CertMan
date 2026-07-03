@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CAServiceDlg</class>
- <widget class="QDialog" name="CAServiceDlg">
+ <class>ACMEServiceDlg</class>
+ <widget class="QDialog" name="ACMEServiceDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>524</width>
+    <width>518</width>
     <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CA Service</string>
+   <string>ACME Service window</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="4">
+      <widget class="QPushButton" name="mStartBtn">
+       <property name="text">
+        <string>Start</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="5">
       <widget class="QPushButton" name="mStopBtn">
        <property name="text">
@@ -23,10 +30,17 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="4">
-      <widget class="QPushButton" name="mStartBtn">
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mSetDefaultCheck">
        <property name="text">
-        <string>Start</string>
+        <string>Set to default</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>ACME Service</string>
        </property>
       </widget>
      </item>
@@ -43,22 +57,8 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>CA Service</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="mSetDefaultCheck">
-       <property name="text">
-        <string>Set to default</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_11">
        <property name="maximumSize">
         <size>
          <width>16</width>
@@ -70,7 +70,7 @@
        </property>
        <property name="icon">
         <iconset resource="certman.qrc">
-         <normaloff>:/images/cmp_srv.png</normaloff>:/images/cmp_srv.png</iconset>
+         <normaloff>:/images/acme.png</normaloff>:/images/acme.png</iconset>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -87,7 +87,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_4">
+    <layout class="QGridLayout" name="gridLayout_6">
      <item row="0" column="1">
       <widget class="QLineEdit" name="mPortText">
        <property name="maximumSize">
@@ -95,13 +95,6 @@
          <width>80</width>
          <height>16777215</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="mTLSCheck">
-       <property name="text">
-        <string>TLS</string>
        </property>
       </widget>
      </item>
@@ -131,27 +124,28 @@
        </property>
       </spacer>
      </item>
+     <item row="0" column="3">
+      <widget class="QCheckBox" name="mTLSCheck">
+       <property name="text">
+        <string>TLS</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line_3">
+    <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
+    <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Certificate Profile</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <property name="spacing">
        <number>5</number>
       </property>
@@ -169,6 +163,26 @@
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="mProfileSelectBtn">
+          <property name="text">
+           <string>Select</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QLineEdit" name="mProfileNumText">
           <property name="maximumSize">
@@ -206,26 +220,6 @@
           </property>
           <property name="readOnly">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="minimumSize">
-           <size>
-            <width>60</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Profile</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="mProfileSelectBtn">
-          <property name="text">
-           <string>Select</string>
           </property>
          </widget>
         </item>
@@ -276,18 +270,18 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_4">
+    <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>CA Server Certificate and Private Key</string>
+      <string>CA Certificate and Private Key</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="spacing">
        <number>5</number>
       </property>
@@ -304,20 +298,7 @@
        <number>5</number>
       </property>
       <item>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="minimumSize">
-           <size>
-            <width>60</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Name</string>
-          </property>
-         </widget>
-        </item>
+       <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="1">
          <widget class="QLineEdit" name="mNameText">
           <property name="palette">
@@ -349,6 +330,19 @@
           </property>
           <property name="readOnly">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Name</string>
           </property>
          </widget>
         </item>
@@ -446,7 +440,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_6">
+    <widget class="Line" name="line_4">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -454,14 +448,8 @@
    </item>
    <item>
     <widget class="QGroupBox" name="mTLSGroup">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
      <property name="title">
-      <string>TLS Certificate and Private Key</string>
+      <string>TLS Certificate and Privte Key</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="spacing">
@@ -480,7 +468,48 @@
        <number>5</number>
       </property>
       <item>
-       <layout class="QGridLayout" name="gridLayout_6">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="mTLSNameText">
+          <property name="palette">
+           <palette>
+            <active>
+             <colorrole role="Base">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>221</red>
+                <green>221</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </active>
+            <inactive>
+             <colorrole role="Base">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>221</red>
+                <green>221</green>
+                <blue>255</blue>
+               </color>
+              </brush>
+             </colorrole>
+            </inactive>
+            <disabled/>
+           </palette>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QPushButton" name="mTLSSelectBtn">
+          <property name="text">
+           <string>Select</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QLineEdit" name="mTLSNumText">
           <property name="maximumSize">
@@ -521,49 +550,8 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QPushButton" name="mTLSSelectBtn">
-          <property name="text">
-           <string>Select</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="mTLSNameText">
-          <property name="palette">
-           <palette>
-            <active>
-             <colorrole role="Base">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>221</red>
-                <green>221</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </active>
-            <inactive>
-             <colorrole role="Base">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>221</red>
-                <green>221</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </colorrole>
-            </inactive>
-            <disabled/>
-           </palette>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="label_5">
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -669,7 +657,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_2">
+    <widget class="Line" name="line_6">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

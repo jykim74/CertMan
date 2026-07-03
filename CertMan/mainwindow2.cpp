@@ -333,6 +333,13 @@ void MainWindow::createViewActions()
     connect( serviceCAAct, &QAction::triggered, this, &MainWindow::viewServiceCA );
     serviceMenu->addAction( serviceCAAct );
 
+    QAction *serviceACMEAct = new QAction( tr( "ACME Service" ), this );
+    bVal = isView( ACT_SERVICE_ACME );
+    serviceACMEAct->setCheckable( true );
+    serviceACMEAct->setChecked( bVal );
+    connect( serviceACMEAct, &QAction::triggered, this, &MainWindow::viewServiceACME );
+    serviceMenu->addAction( serviceACMEAct );
+
     QAction *helpSettingAct = new QAction( tr( "Settings" ), this );
     bVal = isView( ACT_HELP_SETTING );
     helpSettingAct->setCheckable( true );
@@ -935,7 +942,7 @@ void MainWindow::viewServiceCA( bool bChecked )
 
     if( bChecked == true )
     {
-        service_tool_->addAction( ca_service_act_ );
+        service_tool_->insertAction( acme_service_act_, ca_service_act_ );
         setView( nAct );
     }
     else
@@ -945,6 +952,23 @@ void MainWindow::viewServiceCA( bool bChecked )
     }
 }
 
+void MainWindow::viewServiceACME( bool bChecked )
+{
+    int nAct = ACT_SERVICE_ACME;
+
+    if( acme_service_act_ == nullptr ) return;
+
+    if( bChecked == true )
+    {
+        service_tool_->addAction( acme_service_act_ );
+        setView( nAct );
+    }
+    else
+    {
+        service_tool_->removeAction( acme_service_act_ );
+        unsetView( nAct );
+    }
+}
 
 void MainWindow::viewHelpServerStatus( bool bChecked )
 {

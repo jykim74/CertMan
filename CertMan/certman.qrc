@@ -106,5 +106,6 @@
         <file>images/passwd.png</file>
         <file>images/progbar.png</file>
         <file>images/info.png</file>
+        <file>images/acme.png</file>
     </qresource>
 </RCC>

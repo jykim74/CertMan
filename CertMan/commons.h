@@ -110,6 +110,7 @@ static const QString kSettingBer = "SettingBer";
 #define ACT_SERVICE_TSP                 VIEW_SERVICE | 0x00000001
 #define ACT_SERVICE_OCSP                VIEW_SERVICE | 0x00000002
 #define ACT_SERVICE_CA                  VIEW_SERVICE | 0x00000004
+#define ACT_SERVICE_ACME                VIEW_SERVICE | 0x00000008
 
 #define ACT_HELP_SERVER_STATUS          VIEW_HELP | 0x00000001
 #define ACT_HELP_SETTING                VIEW_HELP | 0x00000002

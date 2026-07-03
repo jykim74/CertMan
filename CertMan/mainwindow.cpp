@@ -92,6 +92,7 @@
 #include "tsp_service_dlg.h"
 #include "ocsp_service_dlg.h"
 #include "ca_service_dlg.h"
+#include "acme_service_dlg.h"
 
 const int kMaxRecentFiles = 10;
 
@@ -606,11 +607,20 @@ void MainWindow::createServiceActions()
     serviceMenu->addAction( ca_service_act_ );
     if( isView( ACT_SERVICE_CA ) ) service_tool_->addAction( ca_service_act_ );
 
+    const QIcon acmeIcon = QIcon::fromTheme("ACME", QIcon(":/images/acme.png"));
+    acme_service_act_ = new QAction( acmeIcon, tr("&ACME Service"), this);
+    acme_service_act_->setShortcut(QKeySequence(Qt::SHIFT | Qt::Key_A));
+    connect( acme_service_act_, &QAction::triggered, this, &MainWindow::ACMEService);
+    acme_service_act_->setStatusTip(tr("Setting up an ACME server"));
+    serviceMenu->addAction( acme_service_act_ );
+    if( isView( ACT_SERVICE_ACME ) ) service_tool_->addAction( acme_service_act_ );
+
     if( manApplet->isLicense() == false )
     {
         tsp_service_act_->setEnabled( false );
         ocsp_service_act_->setEnabled( false );
         ca_service_act_->setEnabled( false );
+        acme_service_act_->setEnabled( false );
     }
 }
 
@@ -4387,6 +4397,26 @@ void MainWindow::CAService()
     ca_service_dlg_->raise();
     ca_service_dlg_->activateWindow();
 }
+
+void MainWindow::ACMEService()
+{
+    if( manApplet->isDBOpen() == false )
+    {
+        manApplet->warningBox( tr("The database is not connected."), this );
+        return;
+    }
+
+    if( acme_service_dlg_ == nullptr )
+    {
+        acme_service_dlg_ = new ACMEServiceDlg;
+        setModaless( acme_service_dlg_ );
+    }
+
+    acme_service_dlg_->show();
+    acme_service_dlg_->raise();
+    acme_service_dlg_->activateWindow();
+}
+
 
 void MainWindow::expandMenu()
 {

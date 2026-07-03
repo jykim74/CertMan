@@ -28,6 +28,7 @@ class ProfileManDlg;
 class TSPServiceDlg;
 class OCSPServiceDlg;
 class CAServiceDlg;
+class ACMEServiceDlg;
 
 #ifdef _ENABLE_CHARTS
 class StatForm;
@@ -272,6 +273,7 @@ public slots:
     void TSPService();
     void OCSPService();
     void CAService();
+    void ACMEService();
 
 private slots:
     void showRightMenu( QPoint point );
@@ -331,6 +333,7 @@ private:
     void viewServiceTSP( bool bChecked );
     void viewServiceOCSP( bool bChecked );
     void viewServiceCA( bool bChecked );
+    void viewServiceACME( bool bChecked );
 
     void viewHelpServerStatus( bool bChecked );
     void viewHelpSetting( bool bChecked );
@@ -367,6 +370,7 @@ private:
     TSPServiceDlg   *tsp_service_dlg_ = nullptr;
     OCSPServiceDlg  *ocsp_service_dlg_ = nullptr;
     CAServiceDlg    *ca_service_dlg_ = nullptr;
+    ACMEServiceDlg   *acme_service_dlg_ = nullptr;
 
     QToolBar*       file_tool_;
     QAction*        new_act_;
@@ -409,6 +413,7 @@ private:
     QAction*        tsp_service_act_;
     QAction*        ocsp_service_act_;
     QAction*        ca_service_act_;
+    QAction*        acme_service_act_;
 
     QToolBar*       help_tool_;
     QAction*        server_status_act_;

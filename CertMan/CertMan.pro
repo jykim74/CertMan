@@ -117,7 +117,9 @@ SOURCES += \
         ocsp_service_dlg.cpp \
         ca_server.cpp \
         ca_service_dlg.cpp \
-        tls_socket.cpp
+        tls_socket.cpp \
+        acme_server.cpp \
+        acme_service_dlg.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -198,7 +200,9 @@ HEADERS += \
         ocsp_service_dlg.h \
         ca_server.h \
         ca_service_dlg.h \
-        tls_socket.h
+        tls_socket.h \
+        acme_server.h \
+        acme_service_dlg.h
 
 FORMS += \
         about_dlg.ui \
@@ -249,7 +253,8 @@ FORMS += \
         progress_dlg.ui \
         tsp_service_dlg.ui \
         ocsp_service_dlg.ui \
-        ca_service_dlg.ui
+        ca_service_dlg.ui \
+        acme_service_dlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
