@@ -29,11 +29,10 @@ public:
 
 public slots:
     int readReady();
-    int readTLSReady();
     void onEncrypted();
 
-    void onReadyRead();
-    void onDisconnected();
+    void onTLSReadyRead();
+    void onTLSDisconnected();
 
 private :
     enum State
@@ -74,7 +73,6 @@ private:
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
-
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );

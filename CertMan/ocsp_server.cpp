@@ -20,7 +20,6 @@ OCSPServer::OCSPServer( QObject *parent ) :
     tls_ = false;
 
     client_ = nullptr;
-    tls_server_ = nullptr;
     tls_client_ = nullptr;
 
     memset( &ca_cert_, 0x00, sizeof(BIN));
@@ -39,7 +38,6 @@ OCSPServer::~OCSPServer()
     JS_BIN_reset( &tls_pri_key_ );
 
     if( client_ ) delete client_;
-    if( tls_server_ ) delete tls_server_;
     if( tls_client_ ) delete tls_client_;
 
     log( "OCSP server stopped" );
@@ -456,58 +454,188 @@ end :
     return ret;
 }
 
-int OCSPServer::readTLSReady()
+void OCSPServer::onEncrypted()
+{
+    QSslSocket *socket = qobject_cast<QSslSocket *>(sender());
+
+    qDebug() << "TLS Connected";
+}
+
+void OCSPServer::onTLSReadyRead()
+{
+    buffer_ += tls_client_->readAll();
+
+    processBuffer();
+}
+
+void OCSPServer::onTLSDisconnected()
+{
+    resetState();
+}
+
+void OCSPServer::incomingConnection( qintptr  socketDescriptor )
+{
+    log( "Connecting..." );
+
+    if( tls_ == true )
+    {
+        tls_client_ = new QSslSocket(this);
+
+        if (!tls_client_->setSocketDescriptor(socketDescriptor))
+        {
+            delete tls_client_;
+            return;
+        }
+
+        int nKeyType = JS_PKI_getCertKeyType( &tls_cert_ );
+        int nPriType = -1;
+        if( nKeyType == JS_PKI_KEY_TYPE_RSA )
+            nPriType = QSsl::Rsa;
+        else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
+            nPriType = QSsl::Ec;
+        else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
+            nPriType = QSsl::Dsa;
+        else
+        {
+            elog( QString( "Invalid TLS KeyAlgorithm: %1").arg( nKeyType ));
+            return;
+        }
+
+        QByteArray der_cert = QByteArray( (const char *)tls_cert_.pVal, tls_cert_.nLen );
+        QSslCertificate cert( der_cert, QSsl::Der );
+
+        QByteArray der_key = QByteArray( (const char *)tls_pri_key_.pVal, tls_pri_key_.nLen );
+        QSslKey key( der_key, (QSsl::KeyAlgorithm)nPriType, QSsl::Der );
+
+        tls_client_->setLocalCertificate(cert);
+        tls_client_->setPrivateKey(key);
+        tls_client_->setPeerVerifyMode(QSslSocket::VerifyNone);
+
+        connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
+        connect(tls_client_, &QSslSocket::readyRead, this, &OCSPServer::onTLSReadyRead);
+        connect(tls_client_, &QSslSocket::disconnected, this, &OCSPServer::onTLSDisconnected);
+
+        qDebug() << QSslSocket::supportsSsl();
+        qDebug() << QSslSocket::sslLibraryVersionString();
+        qDebug() << QSslSocket::sslLibraryBuildVersionString();
+
+        qDebug() << cert.isNull();
+        qDebug() << key.isNull();
+
+        tls_client_->startServerEncryption();
+    }
+    else
+    {
+        client_ = new QTcpSocket;
+        client_->setSocketDescriptor( socketDescriptor );
+
+        connect( client_, &QTcpSocket::readyRead, this, &OCSPServer::readReady );
+    }
+}
+
+void OCSPServer::processBuffer()
+{
+    while( 1 )
+    {
+        if( state_ == WaitingHeader )
+        {
+            int pos = buffer_.indexOf( "\r\n\r\n" );
+            if( pos < 0 ) return;
+
+            QByteArray header = buffer_.left(pos);
+
+            parseHeader( header );
+
+            buffer_.remove(0, pos+4);
+            if( content_len_ == 0 )
+            {
+                processOCSP();
+                continue;
+            }
+
+            state_ = WaitingBody;
+        }
+
+        if( state_ == WaitingBody )
+        {
+            if( buffer_.size() < content_len_ )
+                return;
+
+            body_ = buffer_.left( content_len_ );
+            buffer_.remove( 0, content_len_ );
+            processOCSP();
+        }
+    }
+}
+
+void OCSPServer::parseHeader(const QByteArray &header)
+{
+    headers_.clear();
+    content_len_ = 0;
+
+    QList<QByteArray> lines = header.split( '\n' );
+
+    if( lines.isEmpty() ) return;
+
+    QByteArray requestLine = lines.takeFirst().trimmed();
+    QList<QByteArray> first = requestLine.split(' ');
+
+    if( first.size() >= 3 )
+    {
+        method_ = first[0];
+        path_ = first[1];
+        version_ = first[2];
+    }
+
+    for( const QByteArray &line : lines )
+    {
+        QByteArray l = line.trimmed();
+        int pos = l.indexOf( ':' );
+
+        if( pos < 0 ) continue;
+
+        QString key = QString::fromUtf8( l.left(pos) ).trimmed();
+        QString value = QString::fromUtf8( l.mid(pos+1)).trimmed();
+
+        headers_[key] = value;
+
+        if( key.compare( "Content-Length", Qt::CaseInsensitive ) == 0 )
+        {
+            content_len_ = value.toInt();
+        }
+    }
+}
+
+void OCSPServer::resetState()
+{
+    state_ = WaitingHeader;
+    content_len_ = 0;
+    headers_.clear();
+    body_.clear();
+    method_.clear();
+    path_.clear();
+    version_.clear();
+}
+
+void OCSPServer::processOCSP()
 {
     int ret = 0;
 
     BIN binReq = {0,0};
     BIN binRsp = {0,0};
 
-    JNameValList    *pParamList = NULL;
-
-    char            *pPath = NULL;
-    int             nType = -1;
     const char      *pMethod = NULL;
 
-    QByteArray Line;
-    const QByteArray key = "Content-Length:";
-    int nContentLength = 0;
-
-    tls_client_ = qobject_cast<QSslSocket*>(sender());
-    if (!tls_client_) return JSR_ERR;
-
-    Line = tls_client_->readLine();
-
-    JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
-    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
-
-    while( Line.length() > 0 )
-    {
-        log( QString( "Line: %1" ).arg( Line.data() ));
-
-        int pos = Line.indexOf( key );
-        if( pos >= 0 )
-        {
-            QByteArray value = Line.mid( pos + key.length(), Line.length() - pos ).trimmed();
-            nContentLength = value.toLongLong();
-            log( QString( "Content-Length: %1" ).arg( nContentLength ));
-        }
-
-        Line = tls_client_->readLine();
-        if( Line.length() <= 2 ) break;
-    }
-
-    if( strcasecmp( pPath, "/PING" ) == 0 )
+    if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
     {
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
     }
-    else if( strcasecmp( pPath, "/OCSP" ) == 0 )
+    else if( strcasecmp( path_.toStdString().c_str(), "/OCSP" ) == 0 )
     {
-        QByteArray content = tls_client_->readAll();
         QByteArray rsp;
 
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
         log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
@@ -549,7 +677,7 @@ int OCSPServer::readTLSReady()
     else
     {
         ret = -1;
-        log( QString( "Invalid URL: %1" ).arg(pPath) );
+        log( QString( "Invalid URL: %1" ).arg( path_ ) );
         goto end;
     }
 
@@ -558,77 +686,8 @@ end :
     tls_client_->disconnectFromHost();
     tls_client_->deleteLater();
 
-    if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
-    if( pPath ) JS_free( pPath );
-
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
-    return ret;
-}
 
-void OCSPServer::onEncrypted()
-{
-    QSslSocket *socket = qobject_cast<QSslSocket *>(sender());
-
-    qDebug() << "TLS Connected";
-}
-
-void OCSPServer::incomingConnection( qintptr  socketDescriptor )
-{
-    log( "Connecting..." );
-
-    if( tls_ == true )
-    {
-        tls_server_ = new QSslSocket(this);
-
-        if (!tls_server_->setSocketDescriptor(socketDescriptor))
-        {
-            delete tls_server_;
-            return;
-        }
-
-        int nKeyType = JS_PKI_getCertKeyType( &tls_cert_ );
-        int nPriType = -1;
-        if( nKeyType == JS_PKI_KEY_TYPE_RSA )
-            nPriType = QSsl::Rsa;
-        else if( nKeyType == JS_PKI_KEY_TYPE_ECDSA )
-            nPriType = QSsl::Ec;
-        else if( nKeyType == JS_PKI_KEY_TYPE_DSA )
-            nPriType = QSsl::Dsa;
-        else
-        {
-            elog( QString( "Invalid TLS KeyAlgorithm: %1").arg( nKeyType ));
-            return;
-        }
-
-        QByteArray der_cert = QByteArray( (const char *)tls_cert_.pVal, tls_cert_.nLen );
-        QSslCertificate cert( der_cert, QSsl::Der );
-
-        QByteArray der_key = QByteArray( (const char *)tls_pri_key_.pVal, tls_pri_key_.nLen );
-        QSslKey key( der_key, (QSsl::KeyAlgorithm)nPriType, QSsl::Der );
-
-        tls_server_->setLocalCertificate(cert);
-        tls_server_->setPrivateKey(key);
-        tls_server_->setPeerVerifyMode(QSslSocket::VerifyNone);
-
-        connect(tls_server_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
-        connect(tls_server_, &QSslSocket::readyRead, this, &OCSPServer::readTLSReady );
-        connect(tls_server_, SIGNAL(disconnected()), tls_server_, SLOT(deleteLater()));
-
-        qDebug() << QSslSocket::supportsSsl();
-        qDebug() << QSslSocket::sslLibraryVersionString();
-        qDebug() << QSslSocket::sslLibraryBuildVersionString();
-
-        qDebug() << cert.isNull();
-        qDebug() << key.isNull();
-
-        tls_server_->startServerEncryption();
-    }
-    else
-    {
-        client_ = new QTcpSocket;
-        client_->setSocketDescriptor( socketDescriptor );
-
-        connect( client_, &QTcpSocket::readyRead, this, &OCSPServer::readReady );
-    }
+    resetState();
 }

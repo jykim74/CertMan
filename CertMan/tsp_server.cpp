@@ -331,121 +331,6 @@ end :
     return ret;
 }
 
-int TSPServer::readTLSReady()
-{
-    int ret = 0;
-
-    BIN binReq = {0,0};
-    BIN binRsp = {0,0};
-
-    JNameValList    *pParamList = NULL;
-
-    char            *pPath = NULL;
-    int             nType = -1;
-    const char      *pMethod = NULL;
-
-    QByteArray Line;
-    const QByteArray key = "Content-Length:";
-    int nContentLength = 0;
-
-//    tls_client_ = qobject_cast<QSslSocket*>(sender());
-//    if (!tls_client_) return JSR_ERR;
-
-//    QByteArray data = tls_client_->readAll();
-//    qDebug() << "Recv =" << data;
-
-    Line = tls_client_->readLine();
-
-    JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
-    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
-
-    while( Line.length() > 0 )
-    {
-        log( QString( "Line: %1" ).arg( Line.data() ));
-
-        int pos = Line.indexOf( key );
-        if( pos >= 0 )
-        {
-            QByteArray value = Line.mid( pos + key.length(), Line.length() - pos ).trimmed();
-            nContentLength = value.toLongLong();
-            log( QString( "Content-Length: %1" ).arg( nContentLength ));
-        }
-
-        Line = tls_client_->readLine();
-
-        if( Line.length() <= 2 ) break;
-    }
-
-    if( strcasecmp( pPath, "/PING" ) == 0 )
-    {
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-    }
-    else if( strcasecmp( pPath, "/TSP" ) == 0 )
-    {
-        QByteArray content = tls_client_->readAll();
-        QByteArray rsp;
-
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
-
-        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procTSP( &binReq, &binRsp );
-        if( ret != 0 )
-        {
-            log( QString( "fail procTSP(%1)" ).arg(ret) );
-            goto end;
-        }
-
-        QString strLen = QString( "%1" ).arg( binRsp.nLen );
-
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
-
-        rsp = QByteArray( pMethod );
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "accept: application/tsp-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "content-type: application/tsp-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "Content-Length: ";
-        rsp += strLen;
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
-
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
-        tls_client_->flush();
-    }
-    else
-    {
-        ret = -1;
-        log( QString( "Invalid URL: %1" ).arg( pPath) );
-        goto end;
-    }
-
-
-end :
-    tls_client_->disconnectFromHost();
-    //    client_->waitForDisconnected();
-    tls_client_->deleteLater();
-
-    if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
-    if( pPath ) JS_free( pPath );
-
-    JS_BIN_reset( &binReq );
-    JS_BIN_reset( &binRsp );
-    return ret;
-}
-
 void TSPServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
@@ -485,10 +370,8 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
         tls_client_->setPeerVerifyMode(QSslSocket::VerifyNone);
 
         connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
-        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::onReadyRead);
-        connect(tls_client_, &QSslSocket::disconnected, this, &TSPServer::onDisconnected);
-//        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::readTLSReady );
-//        connect(tls_client_, SIGNAL(disconnected()), tls_client_, SLOT(deleteLater()));
+        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::onTLSReadyRead);
+        connect(tls_client_, &QSslSocket::disconnected, this, &TSPServer::onTLSDisconnected);
 
         qDebug() << QSslSocket::supportsSsl();
         qDebug() << QSslSocket::sslLibraryVersionString();
@@ -515,16 +398,15 @@ void TSPServer::onEncrypted()
     qDebug() << "TLS Connected";
 }
 
-void TSPServer::onReadyRead()
+void TSPServer::onTLSReadyRead()
 {
     buffer_ += tls_client_->readAll();
 
     processBuffer();
 }
 
-void TSPServer::onDisconnected()
+void TSPServer::onTLSDisconnected()
 {
-//    deleteLater();
     resetState();
 }
 

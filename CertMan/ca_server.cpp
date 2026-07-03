@@ -30,8 +30,9 @@ CAServer::CAServer( QObject *parent ) :
     tls_ = false;
 
     client_ = nullptr;
-    tls_server_ = nullptr;
     tls_client_ = nullptr;
+
+    param_list_ = nullptr;
 
     memset( &ca_cert_, 0x00, sizeof(BIN));
     memset( &ca_pri_key_, 0x00, sizeof(BIN));
@@ -49,8 +50,9 @@ CAServer::~CAServer()
     JS_BIN_reset( &tls_pri_key_ );
 
     if( client_ ) delete client_;
-    if( tls_server_ ) delete tls_server_;
     if( tls_client_ ) delete tls_client_;
+
+    resetState();
 
     log( "CA server stopped" );
 }
@@ -932,168 +934,7 @@ int CAServer::readReady()
 
 end :
     client_->disconnectFromHost();
-//    client_->waitForDisconnected();
     client_->deleteLater();
-
-    if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
-    if( pPath ) JS_free( pPath );
-
-    JS_BIN_reset( &binReq );
-    JS_BIN_reset( &binRsp );
-
-    return ret;
-}
-
-int CAServer::readTLSReady()
-{
-    int ret = 0;
-
-    BIN binReq = {0,0};
-    BIN binRsp = {0,0};
-
-    JNameValList    *pParamList = NULL;
-
-    char            *pPath = NULL;
-    int             nType = -1;
-    const char      *pMethod = NULL;
-
-    QByteArray Line;
-    const QByteArray key = "Content-Length:";
-    int nContentLength = 0;
-
-    tls_client_ = qobject_cast<QSslSocket*>(sender());
-    if (!tls_client_) return JSR_ERR;
-
-    Line = tls_client_->readLine();
-
-    JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
-    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
-
-    while( Line.length() > 0 )
-    {
-        log( QString( "Line: %1" ).arg( Line.data() ));
-
-        int pos = Line.indexOf( key );
-        if( pos >= 0 )
-        {
-            QByteArray value = Line.mid( pos + key.length(), Line.length() - pos ).trimmed();
-            nContentLength = value.toLongLong();
-            log( QString( "Content-Length: %1" ).arg( nContentLength ));
-        }
-
-        Line = tls_client_->readLine();
-        if( Line.length() <= 2 ) break;
-    }
-
-    if( strcasecmp( pPath, "/PING" ) == 0 )
-    {
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-    }
-    else if( strcasecmp( pPath, "/CMP" ) == 0 )
-    {
-        QByteArray content = tls_client_->readAll();
-        QByteArray rsp;
-
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
-
-        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procCMP( &binReq, &binRsp );
-        if( ret != 0 )
-        {
-            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
-            goto end;
-        }
-
-        log( "ProcCMP OK" );
-
-        QString strLen = QString( "%1" ).arg( binRsp.nLen );
-
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
-
-        rsp = QByteArray( pMethod );
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "accept: application/cmp-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "content-type: application/cmp-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "Content-Length: ";
-        rsp += strLen;
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
-
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
-        tls_client_->flush();
-    }
-    else if( strcasecmp( pPath, "/pkiclient.exe" ) == 0 )
-    {
-        QByteArray content = client_->readAll();
-        QByteArray rsp;
-
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
-
-        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procSCEP( pParamList, &binReq, &binRsp );
-        if( ret != 0 )
-        {
-            log( QString( "fail procSCEP(%1)" ).arg(JERR(ret)) );
-            goto end;
-        }
-
-        log( "ProcSCEP OK" );
-
-        QString strLen = QString( "%1" ).arg( binRsp.nLen );
-
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        //        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
-
-        rsp = QByteArray( pMethod );
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "accept: application/scep-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "content-type: application/scep-response";
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp = "Content-Length: ";
-        rsp += strLen;
-        rsp += "\r\n";
-        tls_client_->write( rsp );
-
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
-
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
-        tls_client_->flush();
-    }
-    else
-    {
-        ret = -1;
-        log( QString( "Invalid URL: %1" ).arg(pPath) );
-        goto end;
-    }
-
-
-end :
-    tls_client_->disconnectFromHost();
-    tls_client_->deleteLater();
 
     if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
     if( pPath ) JS_free( pPath );
@@ -1111,17 +952,29 @@ void CAServer::onEncrypted()
     qDebug() << "TLS Connected";
 }
 
+void CAServer::onTLSReadyRead()
+{
+    buffer_ += tls_client_->readAll();
+
+    processBuffer();
+}
+
+void CAServer::onTLSDisconnected()
+{
+    resetState();
+}
+
 void CAServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
 
     if( tls_ == true )
     {
-        tls_server_ = new QSslSocket(this);
+        tls_client_ = new QSslSocket(this);
 
-        if (!tls_server_->setSocketDescriptor(socketDescriptor))
+        if (!tls_client_->setSocketDescriptor(socketDescriptor))
         {
-            delete tls_server_;
+            delete tls_client_;
             return;
         }
 
@@ -1145,13 +998,13 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
         QByteArray der_key = QByteArray( (const char *)tls_pri_key_.pVal, tls_pri_key_.nLen );
         QSslKey key( der_key, (QSsl::KeyAlgorithm)nPriType, QSsl::Der );
 
-        tls_server_->setLocalCertificate(cert);
-        tls_server_->setPrivateKey(key);
-        tls_server_->setPeerVerifyMode(QSslSocket::VerifyNone);
+        tls_client_->setLocalCertificate(cert);
+        tls_client_->setPrivateKey(key);
+        tls_client_->setPeerVerifyMode(QSslSocket::VerifyNone);
 
-        connect(tls_server_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
-        connect(tls_server_, &QSslSocket::readyRead, this, &CAServer::readTLSReady );
-        connect(tls_server_, SIGNAL(disconnected()), tls_server_, SLOT(deleteLater()));
+        connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
+        connect(tls_client_, &QSslSocket::readyRead, this, &CAServer::onTLSReadyRead);
+        connect(tls_client_, &QSslSocket::disconnected, this, &CAServer::onTLSDisconnected);
 
         qDebug() << QSslSocket::supportsSsl();
         qDebug() << QSslSocket::sslLibraryVersionString();
@@ -1160,7 +1013,7 @@ void CAServer::incomingConnection( qintptr  socketDescriptor )
         qDebug() << cert.isNull();
         qDebug() << key.isNull();
 
-        tls_server_->startServerEncryption();
+        tls_client_->startServerEncryption();
     }
     else
     {
@@ -1477,4 +1330,216 @@ int CAServer::runCMP_CertConf( void *pSrvCTX, const BIN *pReq, BIN *pRsp )
 end :
 
     return ret;
+}
+
+void CAServer::processBuffer()
+{
+    while( 1 )
+    {
+        if( state_ == WaitingHeader )
+        {
+            int pos = buffer_.indexOf( "\r\n\r\n" );
+            if( pos < 0 ) return;
+
+            QByteArray header = buffer_.left(pos);
+
+            parseHeader( header );
+
+            buffer_.remove(0, pos+4);
+            if( content_len_ == 0 )
+            {
+                processCA();
+                continue;
+            }
+
+            state_ = WaitingBody;
+        }
+
+        if( state_ == WaitingBody )
+        {
+            if( buffer_.size() < content_len_ )
+                return;
+
+            body_ = buffer_.left( content_len_ );
+            buffer_.remove( 0, content_len_ );
+            processCA();
+        }
+    }
+}
+
+void CAServer::parseHeader(const QByteArray &header)
+{
+    headers_.clear();
+    content_len_ = 0;
+
+    QList<QByteArray> lines = header.split( '\n' );
+
+    if( lines.isEmpty() ) return;
+
+    QByteArray requestLine = lines.takeFirst().trimmed();
+    QList<QByteArray> first = requestLine.split(' ');
+
+    if( first.size() >= 3 )
+    {
+        char *pPath = NULL;
+        int nType = -1;
+        method_ = first[0];
+        path_ = first[1];
+        version_ = first[2];
+
+        JS_HTTP_getMethodPath( requestLine.data(), &nType, &pPath, &param_list_ );
+    }
+
+    for( const QByteArray &line : lines )
+    {
+        QByteArray l = line.trimmed();
+        int pos = l.indexOf( ':' );
+
+        if( pos < 0 ) continue;
+
+        QString key = QString::fromUtf8( l.left(pos) ).trimmed();
+        QString value = QString::fromUtf8( l.mid(pos+1)).trimmed();
+
+        headers_[key] = value;
+
+        if( key.compare( "Content-Length", Qt::CaseInsensitive ) == 0 )
+        {
+            content_len_ = value.toInt();
+        }
+    }
+}
+
+void CAServer::resetState()
+{
+    state_ = WaitingHeader;
+    content_len_ = 0;
+    headers_.clear();
+    body_.clear();
+    method_.clear();
+    path_.clear();
+    version_.clear();
+
+    if( param_list_ ) JS_UTIL_resetNameValList( &param_list_ );
+}
+
+void CAServer::processCA()
+{
+    int ret = 0;
+
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+
+    const char      *pMethod = NULL;
+
+    if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
+    {
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+    }
+    else if( strcasecmp( path_.toStdString().c_str(), "/CMP" ) == 0 )
+    {
+        QByteArray rsp;
+
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+
+        ret = procCMP( &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
+            goto end;
+        }
+
+        log( "ProcCMP OK" );
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "accept: application/cmp-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "content-type: application/cmp-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        tls_client_->write( "\r\n" );
+        tls_client_->write( rsp );
+        tls_client_->flush();
+    }
+    else if( strcasecmp( path_.toStdString().c_str(), "/pkiclient.exe" ) == 0 )
+    {
+        QByteArray content = tls_client_->readAll();
+        QByteArray rsp;
+
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        ret = procSCEP( param_list_, &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            log( QString( "fail procSCEP(%1)" ).arg(JERR(ret)) );
+            goto end;
+        }
+
+        log( "ProcSCEP OK" );
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        //        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "accept: application/scep-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "content-type: application/scep-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        tls_client_->write( "\r\n" );
+        tls_client_->write( rsp );
+        tls_client_->flush();
+    }
+    else
+    {
+        ret = -1;
+        log( QString( "Invalid URL: %1" ).arg( path_ ) );
+        goto end;
+    }
+
+
+end :
+    tls_client_->disconnectFromHost();
+    tls_client_->deleteLater();
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    resetState();
 }

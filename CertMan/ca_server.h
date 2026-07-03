@@ -36,12 +36,25 @@ public:
 
 public slots:
     int readReady();
-    int readTLSReady();
     void onEncrypted();
 
+    void onTLSReadyRead();
+    void onTLSDisconnected();
+
 private :
+    enum State
+    {
+        WaitingHeader,
+        WaitingBody
+    };
+
     int procCMP( const BIN *pReq, BIN *pRsp );
     int procSCEP( const JNameValList *pParamList, const BIN *pReq, BIN *pRsp );
+
+    void processBuffer();
+    void parseHeader(const QByteArray &header);
+    void resetState();
+    void processCA();
 
 private:
     QPlainTextEdit* log_edit_;
@@ -53,10 +66,20 @@ private:
     BIN tls_cert_;
     BIN tls_pri_key_;
     QTcpSocket *client_;
-    QSslSocket *tls_server_;
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
+
+    QByteArray buffer_;
+    State state_ = WaitingHeader;
+    int content_len_ = 0;
+    QString method_;
+    QString path_;
+    QString version_;
+
+    QMap<QString, QString> headers_;
+    QByteArray body_;
+    JNameValList *param_list_;
 
 private:
     void incomingConnection( qintptr socketDescriptor );
