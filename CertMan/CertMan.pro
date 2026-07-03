@@ -116,7 +116,8 @@ SOURCES += \
         ocsp_server.cpp \
         ocsp_service_dlg.cpp \
         ca_server.cpp \
-        ca_service_dlg.cpp
+        ca_service_dlg.cpp \
+        tls_socket.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -196,7 +197,8 @@ HEADERS += \
         ocsp_server.h \
         ocsp_service_dlg.h \
         ca_server.h \
-        ca_service_dlg.h
+        ca_service_dlg.h \
+        tls_socket.h
 
 FORMS += \
         about_dlg.ui \

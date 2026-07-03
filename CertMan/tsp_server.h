@@ -32,9 +32,23 @@ public slots:
     int readTLSReady();
     void onEncrypted();
 
+    void onReadyRead();
+    void onDisconnected();
+
 private :
+    enum State
+    {
+        WaitingHeader,
+        WaitingBody
+    };
+
     int procTSP( const BIN *pReq, BIN *pRsp );
 
+private:
+    void processBuffer();
+    void parseHeader(const QByteArray &header);
+    void resetState();
+    void processTSP();
 
 private:
     QPlainTextEdit* log_edit_;
@@ -48,13 +62,19 @@ private:
     bool p11_;
     bool tls_;
 
-    QString tls_path_;
-    int tls_body_len_;
-    QByteArray tls_header_;
-    QByteArray tls_body_;
+    QByteArray buffer_;
+    State state_ = WaitingHeader;
+    int content_len_ = 0;
+    QString method_;
+    QString path_;
+    QString version_;
+
+    QMap<QString, QString> headers_;
+    QByteArray body_;
 
 protected:
     void incomingConnection( qintptr socketDescriptor );
+
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );

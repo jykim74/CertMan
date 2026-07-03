@@ -20,9 +20,6 @@ TSPServer::TSPServer( QObject *parent ) :
     log_edit_ = nullptr;
     p11_ = false;
     tls_ = false;
-    tls_body_len_ = -1;
-    tls_header_.clear();
-    tls_body_.clear();
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -431,7 +428,7 @@ int TSPServer::readTLSReady()
     else
     {
         ret = -1;
-        log( QString( "Invalid URL: %1" ).arg(pPath) );
+        log( QString( "Invalid URL: %1" ).arg( pPath) );
         goto end;
     }
 
@@ -455,10 +452,6 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
 
     if( tls_ == true )
     {
-        tls_body_len_ = -1;
-        tls_header_.clear();
-        tls_body_.clear();
-
         tls_client_ = new QSslSocket(this);
 
         if (!tls_client_->setSocketDescriptor(socketDescriptor))
@@ -492,8 +485,10 @@ void TSPServer::incomingConnection( qintptr  socketDescriptor )
         tls_client_->setPeerVerifyMode(QSslSocket::VerifyNone);
 
         connect(tls_client_, SIGNAL(encrypted()), this, SLOT(onEncrypted()));
-        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::readTLSReady );
-        connect(tls_client_, SIGNAL(disconnected()), tls_client_, SLOT(deleteLater()));
+        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::onReadyRead);
+        connect(tls_client_, &QSslSocket::disconnected, this, &TSPServer::onDisconnected);
+//        connect(tls_client_, &QSslSocket::readyRead, this, &TSPServer::readTLSReady );
+//        connect(tls_client_, SIGNAL(disconnected()), tls_client_, SLOT(deleteLater()));
 
         qDebug() << QSslSocket::supportsSsl();
         qDebug() << QSslSocket::sslLibraryVersionString();
@@ -518,6 +513,175 @@ void TSPServer::onEncrypted()
     QSslSocket *socket = qobject_cast<QSslSocket *>(sender());
 
     qDebug() << "TLS Connected";
+}
+
+void TSPServer::onReadyRead()
+{
+    buffer_ += tls_client_->readAll();
+
+    processBuffer();
+}
+
+void TSPServer::onDisconnected()
+{
+//    deleteLater();
+    resetState();
+}
+
+void TSPServer::processBuffer()
+{
+    while( 1 )
+    {
+        if( state_ == WaitingHeader )
+        {
+            int pos = buffer_.indexOf( "\r\n\r\n" );
+            if( pos < 0 ) return;
+
+            QByteArray header = buffer_.left(pos);
+
+            parseHeader( header );
+
+            buffer_.remove(0, pos+4);
+            if( content_len_ == 0 )
+            {
+                processTSP();
+                continue;
+            }
+
+            state_ = WaitingBody;
+        }
+
+        if( state_ == WaitingBody )
+        {
+            if( buffer_.size() < content_len_ )
+                return;
+
+            body_ = buffer_.left( content_len_ );
+            buffer_.remove( 0, content_len_ );
+            processTSP();
+        }
+    }
+}
+
+void TSPServer::parseHeader(const QByteArray &header)
+{
+    headers_.clear();
+    content_len_ = 0;
+
+    QList<QByteArray> lines = header.split( '\n' );
+
+    if( lines.isEmpty() ) return;
+
+    QByteArray requestLine = lines.takeFirst().trimmed();
+    QList<QByteArray> first = requestLine.split(' ');
+
+    if( first.size() >= 3 )
+    {
+        method_ = first[0];
+        path_ = first[1];
+        version_ = first[2];
+    }
+
+    for( const QByteArray &line : lines )
+    {
+        QByteArray l = line.trimmed();
+        int pos = l.indexOf( ':' );
+
+        if( pos < 0 ) continue;
+
+        QString key = QString::fromUtf8( l.left(pos) ).trimmed();
+        QString value = QString::fromUtf8( l.mid(pos+1)).trimmed();
+
+        headers_[key] = value;
+
+        if( key.compare( "Content-Length", Qt::CaseInsensitive ) == 0 )
+        {
+            content_len_ = value.toInt();
+        }
+    }
+}
+
+void TSPServer::resetState()
+{
+    state_ = WaitingHeader;
+    content_len_ = 0;
+    headers_.clear();
+    body_.clear();
+    method_.clear();
+    path_.clear();
+    version_.clear();
+}
+
+void TSPServer::processTSP()
+{
+    int ret = 0;
+    const char      *pMethod = NULL;
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+
+    if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
+    {
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+    }
+    else if( strcasecmp( path_.toStdString().c_str(), "/TSP" ) == 0 )
+    {
+        QByteArray rsp;
+
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+
+        ret = procTSP( &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            log( QString( "fail procTSP(%1)" ).arg(ret) );
+            goto end;
+        }
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+//        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "accept: application/tsp-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "content-type: application/tsp-response";
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        tls_client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        tls_client_->write( "\r\n" );
+        tls_client_->write( rsp );
+        tls_client_->flush();
+    }
+    else
+    {
+        ret = -1;
+        log( QString( "Invalid URL: %1" ).arg( path_ ) );
+        goto end;
+    }
+
+end :
+    tls_client_->disconnectFromHost();
+    tls_client_->deleteLater();
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
+
+    resetState();
 }
 
 void TSPServer::log( const QString strLog, QColor cr )
