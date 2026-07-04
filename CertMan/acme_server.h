@@ -16,6 +16,13 @@
 
 #include "db_mgr.h"
 
+const QString kEST_CACerts = "cacerts";
+const QString kEST_SimpleEnroll = "simpleenroll";
+const QString kEST_SimpleReenroll = "simplereenroll";
+const QString kEST_FullCMC = "fullcmc";
+const QString kEST_ServerKeyGen = "serverkeygen";
+const QString kEST_CSRAttrs = "csrattrs";
+
 class ACMEServer : public QTcpServer
 {
     Q_OBJECT
@@ -46,7 +53,7 @@ private :
     };
 
     int procACME( const BIN *pReq, BIN *pRsp );
-    int procEST( const BIN *pReq, BIN *pRsp );
+    int procEST( const char *pPath, const BIN *pReq, BIN *pRsp );
 
     void processBuffer();
     void parseHeader(const QByteArray &header);
@@ -82,6 +89,8 @@ private:
     void incomingConnection( qintptr socketDescriptor );
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
+
+    int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
 };
 

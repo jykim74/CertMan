@@ -243,14 +243,173 @@ end :
     return ret;
 }
 
+int ACMEServer::issueCert( const BIN *pCSR, BIN *pCert )
+{
+    int ret = 0;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    CertProfileRec profileRec;
+    QList<ProfileExtRec> profileExtList;
+    CertRec certRec;
+
+    JCertInfo   sNewCertInfo;
+
+    dbMgr->getCertProfileRec( profile_num_, profileRec );
+    dbMgr->getCertProfileExtensionList( profile_num_, profileExtList );
+
+    time_t now_t = time(NULL);
+    time_t notBefore = 0;
+    time_t notAfter = 0;
+
+    JReqInfo sReqInfo;
+    char        sSerial[64];
+    JIssueCertInfo sIssueCertInfo;
+    int nSeq = -1;
+    int nKeyType = -1;
+    BIN binNewCert ={0,0};
+    char        *pHexCert = NULL;
+    BIN binPub = {0,0};
+    BIN binKeyID = {0,0};
+
+    memset( &sReqInfo, 0x00, sizeof(sReqInfo));
+    memset( sSerial, 0x00, sizeof(sSerial));
+    memset( &sIssueCertInfo, 0x00, sizeof(sIssueCertInfo));
+    memset( &sNewCertInfo, 0x00, sizeof(sNewCertInfo));
+
+    JS_PKI_getPeriod( profileRec.getNotBefore(),
+                     profileRec.getNotAfter(),
+                     now_t,
+                     &notBefore,
+                     &notAfter );
+
+    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, 1, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to parse request : %1" ).arg(ret ));
+        goto end;
+    }
+
+    JS_BIN_decodeHex( sReqInfo.pPublicKey, &binPub );
+    nKeyType = JS_PKI_getPubKeyType( &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binKeyID );
+
+    nSeq = dbMgr->getNextVal( "TB_CERT" );
+    sprintf( sSerial, "%d", nSeq );
+
+    JS_PKI_setIssueCertInfo( &sIssueCertInfo,
+                            profileRec.getVersion(),
+                            sSerial,
+                            profileRec.getHash().toStdString().c_str(),
+                            sReqInfo.pSubjectDN,
+                            notBefore,
+                            notAfter,
+                            nKeyType,
+                            sReqInfo.pPublicKey );
+
+    ret = makeCert( &sIssueCertInfo, &binNewCert );
+
+    if( ret != 0 )
+    {
+        log( QString( "fail to make certificate : %1").arg( ret ) );
+        goto end;
+    }
+
+    JS_BIN_encodeHex( &binNewCert, &pHexCert );
+
+    ret = JS_PKI_getCertInfo( &binNewCert, &sNewCertInfo, NULL );
+    if( ret != 0 )
+    {
+        log( QString( "fail to get certificate information: %1" ).arg( ret ));
+        goto end;
+    }
+
+    certRec.setRegTime( now_t );
+    certRec.setNotBefore( notBefore );
+    certRec.setNotAfter( notAfter );
+    certRec.setSignAlg( sNewCertInfo.pSignAlgorithm );
+    certRec.setCert( getHexString( &binNewCert ));
+    certRec.setIssuerNum( ca_num_ );
+    certRec.setSubjectDN( sNewCertInfo.pSubjectName );
+    certRec.setSerial( sNewCertInfo.pSerial );
+    certRec.setDNHash( sNewCertInfo.pDNHash );
+    certRec.setKeyHash( getHexString( &binKeyID) );
+
+    dbMgr->addCertRec( certRec );
+    JS_BIN_copy( pCert, &binNewCert );
+
+end :
+    JS_PKI_resetIssueCertInfo( &sIssueCertInfo );
+    JS_PKI_resetReqInfo( &sReqInfo );
+    JS_BIN_reset( &binNewCert );
+    JS_PKI_resetCertInfo( &sNewCertInfo );
+    if( pHexCert ) JS_free( pHexCert );
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binKeyID );
+
+    return ret;
+}
+
 int ACMEServer::procACME( const BIN *pReq, BIN *pRsp )
 {
     return 0;
 }
 
-int ACMEServer::procEST( const BIN *pReq, BIN *pRsp )
+int ACMEServer::procEST( const char *pPath, const BIN *pReq, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+    QString strPath;
+    char *pPEM = NULL;
+    BIN binCSR = {0,0};
+    char *pCSR = NULL;
+    int nType = -1;
+    BIN binNewCert = {0,0};
+
+    if( pPath == NULL ) return JSR_ERR;
+
+    strPath = pPath;
+
+    if( strPath.contains( kEST_CACerts ) == true )
+    {
+        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &ca_cert_, &pPEM );
+        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
+    }
+    else if( strPath.contains( kEST_SimpleEnroll ) == true  )
+    {
+        JS_BIN_string( pReq, &pCSR );
+        JS_BIN_decodePEM( pCSR, &nType, &binCSR );
+
+        ret = issueCert( &binCSR, &binNewCert );
+        if( ret != 0 ) goto end;
+
+        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binNewCert, &pPEM );
+        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
+    }
+    else if( strPath.contains( kEST_SimpleReenroll ) == true )
+    {
+        JS_BIN_string( pReq, &pCSR );
+
+        JS_BIN_decodePEM( pCSR, &nType, &binCSR );
+
+        ret = issueCert( &binCSR, &binNewCert );
+        if(ret != 0 ) goto end;
+
+        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binNewCert, &pPEM );
+        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
+    }
+    else
+    {
+        elog( QString( "Not supported path: %1").arg( pPath ));
+    }
+
+
+end :
+    if( pPEM ) JS_free( pPEM );
+    JS_BIN_reset( &binCSR );
+    if( pCSR ) JS_free( pCSR );
+    JS_BIN_reset( &binNewCert );
+
+    return ret;
 }
 
 int ACMEServer::readReady()
@@ -274,6 +433,8 @@ int ACMEServer::readReady()
     JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
     if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
 
+    QString strPath = pPath;
+
     while( Line.length() > 0 )
     {
         log( QString( "Line: %1" ).arg( Line.data() ));
@@ -294,7 +455,7 @@ int ACMEServer::readReady()
     {
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
     }
-    else if( strcasecmp( pPath, "/Directory" ) == 0 )
+    else if( strPath.contains( "/EST" ) == true )
     {
         QByteArray content = client_->readAll();
         QByteArray rsp;
@@ -302,31 +463,14 @@ int ACMEServer::readReady()
         log( QString( "Content Length: %1" ).arg( content.length() ));
         JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
 
-        ret = procEST( &binReq, &binRsp );
-        if( ret != 0 )
-        {
-            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
-            goto end;
-        }
-    }
-    else if( strcasecmp( pPath, "/ACME" ) == 0 )
-    {
-        QByteArray content = client_->readAll();
-        QByteArray rsp;
-
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
-
-        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procACME( &binReq, &binRsp );
+        ret = procEST( pPath, &binReq, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
             goto end;
         }
 
-        log( "ProcCMP OK" );
+        log( "ProcEST OK" );
 
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
@@ -356,9 +500,52 @@ int ACMEServer::readReady()
         client_->write( rsp );
         client_->flush();
     }
-    else if( strcasecmp( pPath, "/EST" ) == 0 )
+    else if( strcasecmp( pPath, "/ACME" ) == 0 )
     {
+        QByteArray content = client_->readAll();
+        QByteArray rsp;
 
+        log( QString( "Content Length: %1" ).arg( content.length() ));
+        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
+
+        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+
+        ret = procACME( &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
+            goto end;
+        }
+
+        log( "ProcACME OK" );
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "accept: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "content-type: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        client_->write( "\r\n" );
+        client_->write( rsp );
+        client_->flush();
     }
     else
     {
@@ -551,5 +738,120 @@ void ACMEServer::resetState()
 
 void ACMEServer::processACME()
 {
+    int ret = 0;
 
+    BIN binReq = {0,0};
+    BIN binRsp = {0,0};
+
+    int             nType = -1;
+    const char      *pMethod = NULL;
+
+    if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
+    {
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+    }
+    else if( path_.contains( "/EST" ) == true )
+    {
+        QByteArray rsp;
+
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        ret = procEST( path_.toStdString().c_str(), &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
+            goto end;
+        }
+
+        log( "ProcEST OK" );
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "accept: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "content-type: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        client_->write( "\r\n" );
+        client_->write( rsp );
+        client_->flush();
+    }
+    else if( strcasecmp( path_.toStdString().c_str(), "/ACME" ) == 0 )
+    {
+        QByteArray rsp;
+
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+
+        ret = procACME( &binReq, &binRsp );
+        if( ret != 0 )
+        {
+            elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
+            goto end;
+        }
+
+        log( "ProcACME OK" );
+
+        QString strLen = QString( "%1" ).arg( binRsp.nLen );
+
+        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
+
+        rsp = QByteArray( pMethod );
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "accept: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "content-type: application/cmp-response";
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp = "Content-Length: ";
+        rsp += strLen;
+        rsp += "\r\n";
+        client_->write( rsp );
+
+        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+
+        client_->write( "\r\n" );
+        client_->write( rsp );
+        client_->flush();
+    }
+    else
+    {
+        ret = -1;
+        log( QString( "Invalid URL: %1" ).arg( path_) );
+        goto end;
+    }
+
+
+end :
+    client_->disconnectFromHost();
+    client_->deleteLater();
+
+    JS_BIN_reset( &binReq );
+    JS_BIN_reset( &binRsp );
 }
