@@ -7,6 +7,10 @@
 #include <QPlainTextEdit>
 #include <QSslSocket>
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include "js_bin.h"
 #include "js_pkcs11.h"
 #include "js_cmp.h"
@@ -15,6 +19,29 @@
 #include "js_cmp.h"
 
 #include "db_mgr.h"
+
+static QString kACME_Directory = "DIRECTORY";
+static QString kACME_Location = "LOCATION";
+static QString kACME_Account = "ACCOUNT";
+static QString kACME_Order = "ORDER";
+static QString kACME_Orders = "ORDERS";
+
+static QString kACME_KeyChange = "KEYCHANGE";
+static QString kACME_NewAccount = "NEWACCOUNT";
+static QString kACME_NewNonce = "NEWNONCE";
+static QString kACME_NewOrder = "NEWORDER";
+static QString kACME_RenewalInfo = "RENEWALINFO";
+static QString kACME_RevokeCert = "REVOKECERT";
+
+static QString kACME_NewAuthz = "NEWAUTHZ";
+static QString kACME_Finalize = "FINALIZE";
+static QString kACME_Certificate = "CERTIFICATE";
+
+static QString kACME_Authorization = "AUTHORIZATION";
+static QString kACME_Challenge = "CHALLENGE";
+
+static QString kACME_Deactivate = "DEACTIVATE";
+static QString kACME_UpdateAccount = "UPDATEACCOUNT";
 
 const QString kEST_CACerts = "cacerts";
 const QString kEST_SimpleEnroll = "simpleenroll";
@@ -52,13 +79,15 @@ private :
         WaitingBody
     };
 
-    int procACME( const BIN *pReq, BIN *pRsp );
+    int procACME( const char *pPath, const BIN *pReq, BIN *pRsp );
     int procEST( const char *pPath, const BIN *pReq, BIN *pRsp );
 
     void processBuffer();
     void parseHeader(const QByteArray &header);
     void resetState();
     void processACME();
+
+    int runACME_Directory( QJsonObject& rspJson );
 
 private:
     QPlainTextEdit* log_edit_;

@@ -1,5 +1,7 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
+
+
 #include "ocsp_server.h"
 #include "man_applet.h"
 #include "commons.h"
@@ -350,9 +352,101 @@ end :
     return ret;
 }
 
-int ACMEServer::procACME( const BIN *pReq, BIN *pRsp )
+int ACMEServer::procACME( const char *pPath, const BIN *pReq, BIN *pRsp )
 {
-    return 0;
+    int ret = 0;
+    QString strPath = pPath;
+    QStringList listPath = strPath.split( "/" );
+    int nSize = listPath.size();
+
+    if( nSize < 1 ) return JSR_ERR;
+
+    QString strCmd = listPath.at( nSize - 1 );
+    QJsonDocument rspJDoc;
+    QJsonObject rspJson;
+
+    if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
+    {
+        ret = runACME_Directory( rspJson );
+    }
+    else if( strCmd.compare( kACME_Location, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Order, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Orders, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_KeyChange, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_RenewalInfo, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_RevokeCert, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_NewAuthz, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Finalize, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Certificate, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Authorization, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_Deactivate, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else if( strCmd.compare(kACME_UpdateAccount, Qt::CaseInsensitive ) == 0 )
+    {
+
+    }
+    else
+    {
+        elog( QString( "Invalid ACME Path: %1" ).arg( strCmd ));
+        return JSR_ERR2;
+    }
+
+    rspJDoc.setObject( rspJson );
+    JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+
+    return ret;
 }
 
 int ACMEServer::procEST( const char *pPath, const BIN *pReq, BIN *pRsp )
@@ -500,7 +594,7 @@ int ACMEServer::readReady()
         client_->write( rsp );
         client_->flush();
     }
-    else if( strcasecmp( pPath, "/ACME" ) == 0 )
+    else if( strPath.contains( "/ACME" ) == true )
     {
         QByteArray content = client_->readAll();
         QByteArray rsp;
@@ -510,7 +604,7 @@ int ACMEServer::readReady()
 
         //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
-        ret = procACME( &binReq, &binRsp );
+        ret = procACME( pPath, &binReq, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -803,7 +897,7 @@ void ACMEServer::processACME()
 
         //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
 
-        ret = procACME( &binReq, &binRsp );
+        ret = procACME( path_.toStdString().c_str(), &binReq, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -854,4 +948,12 @@ end :
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+}
+
+int ACMEServer::runACME_Directory( QJsonObject& rspJson )
+{
+    rspJson[kACME_NewAccount] = "newAccount";
+    rspJson[kACME_NewNonce] = "newNonce";
+
+    return 0;
 }
