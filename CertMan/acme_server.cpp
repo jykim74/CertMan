@@ -519,51 +519,65 @@ int ACMEServer::readReady()
     BIN binReq = {0,0};
     BIN binRsp = {0,0};
 
-    JNameValList    *pParamList = NULL;
-
-    char            *pPath = NULL;
-    int             nType = -1;
-    const char      *pMethod = NULL;
+    const char *pMethod = NULL;
 
     QByteArray Line;
-    const QByteArray key = "Content-Length:";
-    int nContentLength = 0;
     Line = client_->readLine();
 
-    JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
-    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
-
-    QString strPath = pPath;
-
-    while( Line.length() > 0 )
+    QList<QByteArray> first = Line.split( ' ' );
+    if( first.size() >= 3 )
     {
+        int nType = -1;
+        char *pPath = NULL;
+
+        method_ = first[0];
+        path_ = first[1];
+        version_ = first[2];
+
+        JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &param_list_ );
+        if( pPath ) JS_free( pPath );
+    }
+
+    while( 1 )
+    {
+        Line = client_->readLine();
         log( QString( "Line: %1" ).arg( Line.data() ));
 
-        int pos = Line.indexOf( key );
-        if( pos >= 0 )
-        {
-            QByteArray value = Line.mid( pos + key.length(), Line.length() - pos ).trimmed();
-            nContentLength = value.toLongLong();
-            log( QString( "Content-Length: %1" ).arg( nContentLength ));
-        }
-
-        Line = client_->readLine();
         if( Line.length() <= 2 ) break;
+
+        QByteArray l = Line.trimmed();
+        int pos = l.indexOf( ':' );
+
+        if( pos < 0 ) continue;
+
+        QString key = QString::fromUtf8( l.left(pos) ).trimmed();
+        QString value = QString::fromUtf8( l.mid(pos+1)).trimmed();
+
+        headers_[key] = value;
+
+        if( key.compare( "Content-Length", Qt::CaseInsensitive ) == 0 )
+        {
+            content_len_ = value.toInt();
+        }
     }
 
-    if( strcasecmp( pPath, "/PING" ) == 0 )
+    if( content_len_ > 0 )
     {
-        pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+        body_ = client_->readAll();
     }
-    else if( strPath.contains( "/EST" ) == true )
+
+    if( path_.compare( "/PING", Qt::CaseInsensitive ) == 0 )
     {
-        QByteArray content = client_->readAll();
+        JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
+    }
+    else if( path_.contains( "/EST" ) == true )
+    {
         QByteArray rsp;
 
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-        ret = procEST( pPath, &binReq, &binRsp );
+        ret = procEST( path_.toStdString().c_str(), &binReq, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -600,17 +614,14 @@ int ACMEServer::readReady()
         client_->write( rsp );
         client_->flush();
     }
-    else if( strPath.contains( "/ACME" ) == true )
+    else if( path_.contains( "/ACME" ) == true )
     {
-        QByteArray content = client_->readAll();
         QByteArray rsp;
 
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procACME( pPath, &binReq, &binRsp );
+        ret = procACME( path_.toStdString().c_str(), &binReq, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -650,7 +661,7 @@ int ACMEServer::readReady()
     else
     {
         ret = -1;
-        log( QString( "Invalid URL: %1" ).arg(pPath) );
+        log( QString( "Invalid URL: %1" ).arg(path_) );
         goto end;
     }
 
@@ -659,11 +670,10 @@ end :
     client_->disconnectFromHost();
     client_->deleteLater();
 
-    if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
-    if( pPath ) JS_free( pPath );
-
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+
+    resetState();
 
     return ret;
 }
@@ -802,6 +812,7 @@ void ACMEServer::parseHeader(const QByteArray &header)
         version_ = first[2];
 
         JS_HTTP_getMethodPath( requestLine.data(), &nType, &pPath, &param_list_ );
+        if( pPath ) JS_free( pPath );
     }
 
     for( const QByteArray &line : lines )

@@ -799,49 +799,63 @@ int CAServer::readReady()
     BIN binReq = {0,0};
     BIN binRsp = {0,0};
 
-    JNameValList    *pParamList = NULL;
-
-    char            *pPath = NULL;
-    int             nType = -1;
     const char      *pMethod = NULL;
 
     QByteArray Line;
-    const QByteArray key = "Content-Length:";
-    int nContentLength = 0;
     Line = client_->readLine();
 
-    JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &pParamList );
-    if( pPath == NULL ) return JSR_HTTP_BAD_PATH;
-
-    while( Line.length() > 0 )
+    QList<QByteArray> first = Line.split( ' ' );
+    if( first.size() >= 3 )
     {
-        log( QString( "Line: %1" ).arg( Line.data() ));
+        int nType = -1;
+        char *pPath = NULL;
 
-        int pos = Line.indexOf( key );
-        if( pos >= 0 )
-        {
-            QByteArray value = Line.mid( pos + key.length(), Line.length() - pos ).trimmed();
-            nContentLength = value.toLongLong();
-            log( QString( "Content-Length: %1" ).arg( nContentLength ));
-        }
+        method_ = first[0];
+        path_ = first[1];
+        version_ = first[2];
 
-        Line = client_->readLine();
-        if( Line.length() <= 2 ) break;
+        JS_HTTP_getMethodPath( Line.data(), &nType, &pPath, &param_list_ );
+        if( pPath ) JS_free( pPath );
     }
 
-    if( strcasecmp( pPath, "/PING" ) == 0 )
+    while( 1 )
+    {
+        Line = client_->readLine();
+        log( QString( "Line: %1" ).arg( Line.data() ));
+
+        if( Line.length() <= 2 ) break;
+
+        QByteArray l = Line.trimmed();
+        int pos = l.indexOf( ':' );
+
+        if( pos < 0 ) continue;
+
+        QString key = QString::fromUtf8( l.left(pos) ).trimmed();
+        QString value = QString::fromUtf8( l.mid(pos+1)).trimmed();
+
+        headers_[key] = value;
+
+        if( key.compare( "Content-Length", Qt::CaseInsensitive ) == 0 )
+        {
+            content_len_ = value.toInt();
+        }
+    }
+
+    if( content_len_ > 0 )
+    {
+        body_ = client_->readAll();
+    }
+
+    if( path_.compare( "/PING", Qt::CaseInsensitive ) == 0)
     {
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
     }
-    else if( strcasecmp( pPath, "/CMP" ) == 0 )
+    else if( path_.compare( "/CMP", Qt::CaseInsensitive ) == 0 )
     {
-        QByteArray content = client_->readAll();
         QByteArray rsp;
 
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
-
-//        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
         ret = procCMP( &binReq, &binRsp );
         if( ret != 0 )
@@ -853,9 +867,7 @@ int CAServer::readReady()
         log( "ProcCMP OK" );
 
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
-
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-    //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
@@ -880,17 +892,14 @@ int CAServer::readReady()
         client_->write( rsp );
         client_->flush();
     }
-    else if( strcasecmp( pPath, "/pkiclient.exe" ) == 0 )
+    else if( path_.compare( "/pkiclient.exe", Qt::CaseInsensitive ) == 0 )
     {
-        QByteArray content = client_->readAll();
         QByteArray rsp;
 
-        log( QString( "Content Length: %1" ).arg( content.length() ));
-        JS_BIN_set( &binReq, (const unsigned char *)content.data(), content.length() );
+        log( QString( "Content Length: %1" ).arg( content_len_ ));
+        JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-//        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procSCEP( pParamList, &binReq, &binRsp );
+        ret = procSCEP( param_list_, &binReq, &binRsp );
         if( ret != 0 )
         {
             log( QString( "fail procSCEP(%1)" ).arg(JERR(ret)) );
@@ -902,7 +911,6 @@ int CAServer::readReady()
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-//        log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
@@ -930,7 +938,7 @@ int CAServer::readReady()
     else
     {
         ret = -1;
-        log( QString( "Invalid URL: %1" ).arg(pPath) );
+        log( QString( "Invalid URL: %1" ).arg( path_ ) );
         goto end;
     }
 
@@ -939,11 +947,9 @@ end :
     client_->disconnectFromHost();
     client_->deleteLater();
 
-    if( pParamList ) JS_UTIL_resetNameValList( &pParamList );
-    if( pPath ) JS_free( pPath );
-
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
+    resetState();
 
     return ret;
 }
