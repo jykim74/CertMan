@@ -26,7 +26,7 @@ public:
     explicit CAServer( QObject *parent = nullptr );
     ~CAServer();
 
-    void startServer( int nPort );
+    int startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setCACert( const BIN *pCert );
     void setCANum( int nNum );

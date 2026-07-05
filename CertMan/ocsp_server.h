@@ -19,7 +19,7 @@ public:
     ~OCSPServer();
 
     void setNeedSign( bool bVal );
-    void startServer( int nPort );
+    int startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setCACert( const BIN *pCert );
     void setOCSPCert( const BIN *pCert );

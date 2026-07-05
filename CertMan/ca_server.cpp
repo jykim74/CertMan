@@ -95,11 +95,12 @@ void CAServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
-void CAServer::startServer( int nPort )
+int CAServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
     {
         log( "Could not start server" );
+        return JSR_ERR;
     }
     else
     {
@@ -107,6 +108,8 @@ void CAServer::startServer( int nPort )
             log( QString( "TLS Listening to port: %1" ).arg( nPort ));
         else
             log( QString( "Listening to port: %1" ).arg( nPort ));
+
+        return JSR_OK;
     }
 }
 

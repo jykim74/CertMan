@@ -21,7 +21,7 @@ public:
     explicit TSPServer( QObject *parent = nullptr );
     ~TSPServer();
 
-    void startServer( int nPort );
+    int startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setTSPCert( const BIN *pCert );
     void setTSPPriKey( const BIN *pPriKey, bool bP11 = false );

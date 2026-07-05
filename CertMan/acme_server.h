@@ -57,7 +57,7 @@ public:
     explicit ACMEServer( QObject *parent = nullptr  );
     ~ACMEServer();
 
-    void startServer( int nPort );
+    int startServer( int nPort );
     void setLogEdit( QPlainTextEdit *pEdit );
     void setCACert( const BIN *pCert );
     void setCANum( int nNum );
@@ -87,6 +87,7 @@ private :
     void resetState();
     void processACME();
 
+    const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
 
 private:
@@ -102,6 +103,7 @@ private:
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
+    int port_;
 
     QByteArray buffer_;
     State state_ = WaitingHeader;

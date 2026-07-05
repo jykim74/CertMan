@@ -28,6 +28,7 @@ ACMEServer::ACMEServer( QObject *parent ) :
 {
     log_edit_ = nullptr;
     ca_num_ = -1;
+    port_ = -1;
     p11_ = false;
     tls_ = false;
 
@@ -95,11 +96,12 @@ void ACMEServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
-void ACMEServer::startServer( int nPort )
+int ACMEServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
     {
         log( "Could not start server" );
+        return JSR_ERR;
     }
     else
     {
@@ -107,6 +109,10 @@ void ACMEServer::startServer( int nPort )
             log( QString( "TLS Listening to port: %1" ).arg( nPort ));
         else
             log( QString( "Listening to port: %1" ).arg( nPort ));
+
+        port_ = nPort;
+
+        return JSR_OK;
     }
 }
 
@@ -950,10 +956,47 @@ end :
     JS_BIN_reset( &binRsp );
 }
 
+const QString ACMEServer::strACME_URL( const QString strCmd )
+{
+    QString strBase;
+
+    if( tls_ == true )
+        strBase = "https://localhost";
+    else
+        strBase = "http://localhost";
+
+    strBase += QString( ":%1" ).arg( port_ );
+
+    QString strURL = QString( "%1%2" ).arg( strBase ).arg( strCmd );
+
+    return strURL;
+}
+
 int ACMEServer::runACME_Directory( QJsonObject& rspJson )
 {
-    rspJson[kACME_NewAccount] = "newAccount";
-    rspJson[kACME_NewNonce] = "newNonce";
+    /*
+    "keyChange": "https://localhost:14000/rollover-account-key",
+    "meta": {
+        "externalAccountRequired": false,
+        "profiles": {
+            "default": "The profile you know and love",
+            "shortlived": "A short-lived cert profile, without actual enforcement"
+        },
+        "termsOfService": "data:text/plain,Do%20what%20thou%20wilt"
+    },
+    "newAccount": "https://localhost:14000/sign-me-up",
+    "newNonce": "https://localhost:14000/nonce-plz",
+    "newOrder": "https://localhost:14000/order-plz",
+    "renewalInfo": "https://localhost:14000/draft-ietf-acme-ari-03/renewalInfo",
+    "revokeCert": "https://localhost:14000/revoke-cert"
+    */
+
+    rspJson[kACME_KeyChange] = strACME_URL(kACME_KeyChange);
+    rspJson[kACME_NewAccount] = strACME_URL(kACME_NewAccount);
+    rspJson[kACME_NewNonce] = strACME_URL(kACME_NewNonce);
+    rspJson[kACME_NewOrder] = strACME_URL(kACME_NewOrder);
+    rspJson[kACME_RenewalInfo] = strACME_URL(kACME_RenewalInfo);
+    rspJson[kACME_RevokeCert] = strACME_URL(kACME_RevokeCert);
 
     return 0;
 }

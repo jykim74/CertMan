@@ -82,11 +82,12 @@ void OCSPServer::setNeedSign( bool bVal )
 
 }
 
-void OCSPServer::startServer( int nPort )
+int OCSPServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
     {
         log( "Could not start server" );
+        return JSR_ERR;
     }
     else
     {
@@ -94,6 +95,8 @@ void OCSPServer::startServer( int nPort )
             log( QString( "TLS Listening to port: %1" ).arg( nPort ));
         else
             log( QString( "Listening to port: %1" ).arg( nPort ));
+
+        return JSR_OK;
     }
 }
 
