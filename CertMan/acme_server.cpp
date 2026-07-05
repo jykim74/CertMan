@@ -521,6 +521,9 @@ int ACMEServer::readReady()
 
     const char *pMethod = NULL;
 
+    headers_.clear();
+    content_len_ = 0;
+
     QByteArray Line;
     Line = client_->readLine();
 

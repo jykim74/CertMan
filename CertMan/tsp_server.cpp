@@ -233,6 +233,8 @@ int TSPServer::readReady()
     BIN binRsp = {0,0};
 
     const char      *pMethod = NULL;
+    headers_.clear();
+    content_len_ = 0;
 
     QByteArray Line;
     Line = client_->readLine();
