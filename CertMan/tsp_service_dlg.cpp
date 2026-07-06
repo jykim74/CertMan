@@ -119,6 +119,12 @@ void TSPServiceDlg::clickStart()
     bool bP11 = false;
     int nPort = strPort.toInt();
 
+    if( tsp_srv_ != nullptr )
+    {
+        manApplet->warningBox( tr("The server has already started."), this );
+        return;
+    }
+
     if( strPort.length() < 1 )
     {
         manApplet->warningBox( tr( "Enter a port" ), this );

@@ -50,8 +50,17 @@ ACMEServer::~ACMEServer()
     JS_BIN_reset( &tls_cert_ );
     JS_BIN_reset( &tls_pri_key_ );
 
-    if( client_ ) delete client_;
-    if( tls_client_ ) delete tls_client_;
+    if( client_ )
+    {
+        client_->deleteLater();
+        client_ = nullptr;
+    }
+
+    if( tls_client_ )
+    {
+        tls_client_->deleteLater();
+        tls_client_ = nullptr;
+    }
 
     resetState();
 
@@ -405,7 +414,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
         BIN binRand = {0,0};
-        ret = JS_PKI_genRandom( 16, &binRand );
+        ret = JS_PKI_genRandom( 8, &binRand );
         QString strNonce = QString( "Replay-Nonce: %1" ).arg( getHexString( &binRand ));
         rspHeaders.append( strNonce );
         JS_BIN_reset( &binRand );
@@ -1014,7 +1023,7 @@ const QString ACMEServer::strACME_URL( const QString strCmd )
 
     strBase += QString( ":%1" ).arg( port_ );
 
-    QString strURL = QString( "%1%2" ).arg( strBase ).arg( strCmd );
+    QString strURL = QString( "%1/ACME/%2" ).arg( strBase ).arg( strCmd );
 
     return strURL;
 }
@@ -1045,5 +1054,17 @@ int ACMEServer::runACME_Directory( QJsonObject& rspJson )
     rspJson[kACME_RenewalInfo] = strACME_URL(kACME_RenewalInfo);
     rspJson[kACME_RevokeCert] = strACME_URL(kACME_RevokeCert);
 
+    return 0;
+}
+
+void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson )
+{
+    rspJson["type"] = strType;
+    rspJson["detail"] = strDetail;
+    rspJson["status"] = nStatus;
+}
+
+int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJon )
+{
     return 0;
 }

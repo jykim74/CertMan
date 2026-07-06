@@ -89,6 +89,7 @@ private :
 
     const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
+    int runACME_NewAcount( const QJsonObject request, QJsonObject& rspJon );
 
 private:
     QPlainTextEdit* log_edit_;
@@ -123,6 +124,8 @@ private:
 
     int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
+
+    void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
 };
 
 #endif // ACME_SERVER_H

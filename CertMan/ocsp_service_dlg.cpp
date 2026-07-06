@@ -125,6 +125,12 @@ void OCSPServiceDlg::clickStart()
     QString strPort = mPortText->text();
     int nPort = -1;
 
+    if( ocsp_srv_ != nullptr )
+    {
+        manApplet->warningBox( tr("The server has already started."), this );
+        return;
+    }
+
     if( strPort.length() < 1 )
     {
         manApplet->warningBox( tr( "Enter a port" ), this );

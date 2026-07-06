@@ -37,8 +37,17 @@ TSPServer::~TSPServer()
     JS_BIN_reset( &tls_cert_ );
     JS_BIN_reset( &tls_pri_key_ );
 
-    if( client_ ) delete client_;
-    if( tls_client_ ) delete tls_client_;
+    if( client_ )
+    {
+        client_->deleteLater();
+        client_ = nullptr;
+    }
+
+    if( tls_client_ )
+    {
+        tls_client_->deleteLater();
+        tls_client_ = nullptr;
+    }
 
     log( "TSP server stopped" );
 }
