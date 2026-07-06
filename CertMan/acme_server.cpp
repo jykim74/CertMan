@@ -907,29 +907,29 @@ void ACMEServer::processACME()
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "accept: application/cmp-response";
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "content-type: application/cmp-response";
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "Content-Length: ";
         rsp += strLen;
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         if( binRsp.nLen > 0 )
         {
             rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
-            client_->write( "\r\n" );
-            client_->write( rsp );
+            tls_client_->write( "\r\n" );
+            tls_client_->write( rsp );
         }
 
-        client_->flush();
+        tls_client_->flush();
     }
     else if( strcasecmp( path_.toStdString().c_str(), "/ACME" ) == 0 )
     {
@@ -955,37 +955,37 @@ void ACMEServer::processACME()
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "accept: application/cmp-response";
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "content-type: application/cmp-response";
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         rsp = "Content-Length: ";
         rsp += strLen;
         rsp += "\r\n";
-        client_->write( rsp );
+        tls_client_->write( rsp );
 
         for( int i = 0; i < rspHeaders.size(); i++ )
         {
             QString strHeader = rspHeaders.at( i );
             rsp = strHeader.toUtf8();
             rsp += "r\n";
-            client_->write( rsp );
+            tls_client_->write( rsp );
         }
 
         if( binRsp.nLen > 0 )
         {
             rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
-            client_->write( "\r\n" );
-            client_->write( rsp );
+            tls_client_->write( "\r\n" );
+            tls_client_->write( rsp );
         }
 
-        client_->flush();
+        tls_client_->flush();
     }
     else
     {
@@ -996,8 +996,8 @@ void ACMEServer::processACME()
 
 
 end :
-    client_->disconnectFromHost();
-    client_->deleteLater();
+    tls_client_->disconnectFromHost();
+    tls_client_->deleteLater();
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );

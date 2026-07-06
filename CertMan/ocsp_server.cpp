@@ -443,10 +443,13 @@ int OCSPServer::readReady()
         rsp += "\r\n";
         client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            client_->write( "\r\n" );
+            client_->write( rsp );
+        }
 
-        client_->write( "\r\n" );
-        client_->write( rsp );
         client_->flush();
     }
     else
@@ -681,10 +684,13 @@ void OCSPServer::processOCSP()
         rsp += "\r\n";
         tls_client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            tls_client_->write( "\r\n" );
+            tls_client_->write( rsp );
+        }
 
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
         tls_client_->flush();
     }
     else

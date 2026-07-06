@@ -1492,10 +1492,13 @@ void CAServer::processCA()
         rsp += "\r\n";
         tls_client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            tls_client_->write( "\r\n" );
+            tls_client_->write( rsp );
+        }
 
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
         tls_client_->flush();
     }
     else if( strcasecmp( path_.toStdString().c_str(), "/pkiclient.exe" ) == 0 )
@@ -1537,10 +1540,13 @@ void CAServer::processCA()
         rsp += "\r\n";
         tls_client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            tls_client_->write( "\r\n" );
+            tls_client_->write( rsp );
+        }
 
-        tls_client_->write( "\r\n" );
-        tls_client_->write( rsp );
         tls_client_->flush();
     }
     else
