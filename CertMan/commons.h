@@ -367,4 +367,7 @@ int writePubKeyPEM( const BIN *pPubKey, const QString strPath );
 
 void setFixedLineText( QLineEdit *pEdit, const QString strText );
 
+QString getBase64URL_FromHex( const QString strHex );
+QString getHex_FromBase64URL( const QString strBase64URL );
+
 #endif // COMMONS_H

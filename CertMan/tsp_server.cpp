@@ -346,6 +346,7 @@ int TSPServer::readReady()
 end :
     client_->disconnectFromHost();
     client_->deleteLater();
+    client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
@@ -586,6 +587,7 @@ void TSPServer::processTSP()
 end :
     tls_client_->disconnectFromHost();
     tls_client_->deleteLater();
+    tls_client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );

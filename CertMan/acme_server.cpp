@@ -21,6 +21,7 @@
 #include "user_rec.h"
 #include "commons.h"
 
+#include "acme_object.h"
 #include "acme_server.h"
 
 ACMEServer::ACMEServer( QObject *parent ) :
@@ -409,7 +410,17 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
     {
+        QJsonObject request;
+        QByteArray rsp;
 
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
+
+        ret = runACME_NewAcount( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
@@ -606,7 +617,6 @@ int ACMEServer::readReady()
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
@@ -641,6 +651,8 @@ int ACMEServer::readReady()
 
         log( QString( "Content Length: %1" ).arg( content_len_ ));
         JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
+
+        log( QString( "Body: %1" ).arg( body_.data() ));
 
         ret = procACME( path_.toStdString().c_str(), &binReq, rspHeaders, &binRsp );
         if( ret != 0 )
@@ -700,6 +712,7 @@ int ACMEServer::readReady()
 end :
     client_->disconnectFromHost();
     client_->deleteLater();
+    client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
@@ -1007,6 +1020,7 @@ void ACMEServer::processACME()
 end :
     tls_client_->disconnectFromHost();
     tls_client_->deleteLater();
+    tls_client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
@@ -1066,5 +1080,66 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
 
 int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJon )
 {
-    return 0;
+    int ret = 0;
+    QJsonArray jArr;
+    QJsonObject jObj;
+
+    QJsonObject jReqObj;
+
+    BIN binPub = {0,0};
+    BIN binID = {0,0};
+    QString strName;
+
+    BIN binPayload = {0,0};
+    BIN binProtected = {0,0};
+    BIN binSignature = {0,0};
+
+    QString strPayload = request["payload"].toString();
+    QString strProtected = request["protected"].toString();
+    QString strSignature = request["signature"].toString();
+
+    JS_BIN_decodeBase64URL( strPayload.toStdString().c_str(), &binPayload );
+    JS_BIN_decodeBase64URL( strProtected.toStdString().c_str(), &binProtected );
+    JS_BIN_decodeBase64URL( strSignature.toStdString().c_str(), &binSignature );
+
+    jReqObj = QJsonDocument::fromJson( strPayload.toUtf8() ).object();
+    jArr = jReqObj["contact"].toArray();
+
+    JS_PKI_getPubKeyFromCert( &ca_cert_, &binPub );
+    JS_PKI_getKeyIdentifier( &binPub, &binID );
+    strName = getHexString( &binID );
+
+    jObj = ACMEObject::getJWK( &binPub, "SHA256", strName );
+
+    rspJon["Status"] = "valid";
+    rspJon["orders"] = strACME_URL( kACME_Orders );
+    rspJon["contact"] = jArr;
+    rspJon["key"] = jObj;
+
+/*
+    {
+        "status": "valid",
+        "contact": [
+            "mailto:aa@bb.com"
+        ],
+        "orders": "https://localhost:14000/list-orderz/745d0b2c3315699e",
+        "key": {
+            "kty": "RSA",
+            "kid": "RSA2048",
+            "alg": "RS256",
+            "n": "uPfQkY4MJ-W_Sw6mRrzLtXWhnOGcyMU-6Y4pz8xBV1uICI3aBIxHWUulEUA6yeDyhFrs0Jp9u25InhKDIS0Va-n7LGhLscssDOyqluuvTrQeWFjtn9RIdbLitVF8Ij1jEHZX8ijE31vjJC06MaKbm_UP9sVAGLyIzgTJz6BXUz9sacOZ7MIwDlJO3v818ljOkTjxdFeZvl-cQ1vocW2LTP7RzifKJY7PumeaU0vQ9SVev2GXj9HoWpvEhr9M6aJ2Wt4wfJN247g-h_dcffqNBvh6An6uZiMKKkZZImu4c6rAUs8O2Ea_W2t93MbnsQgiLRQs1DtnUGxTUbE1lL2bgQ",
+            "e": "AQAB"
+        }
+    }
+*/
+
+end :
+    JS_BIN_reset( &binPayload );
+    JS_BIN_reset( &binProtected );
+    JS_BIN_reset( &binSignature );
+
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binID );
+
+    return ret;
 }

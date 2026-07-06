@@ -243,6 +243,8 @@ add_executable(${PROJECT_NAME}
     tls_socket.h tls_socket.cpp
     acme_service_dlg.h acme_service_dlg.cpp acme_service_dlg.ui
     acme_server.h acme_server.cpp
+    acme_object.h
+    acme_object.cpp
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

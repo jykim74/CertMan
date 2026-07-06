@@ -4443,3 +4443,35 @@ void setFixedLineText( QLineEdit *pEdit, const QString strText )
     int width = fm.horizontalAdvance( strText ) + 10;
     pEdit->setFixedWidth(width);
 }
+
+QString getBase64URL_FromHex( const QString strHex )
+{
+    BIN binData = {0,0};
+    char *pValue = NULL;
+    QString strValue;
+
+    JS_BIN_decodeHex( strHex.toStdString().c_str(), &binData );
+    JS_BIN_encodeBase64URL( &binData, &pValue );
+    strValue = pValue;
+
+    if( pValue ) JS_free( pValue );
+    JS_BIN_reset( &binData );
+
+    return strValue;
+}
+
+QString getHex_FromBase64URL( const QString strBase64URL )
+{
+    BIN binData = {0,0};
+    char *pValue = NULL;
+    QString strValue;
+
+    JS_BIN_decodeBase64URL( strBase64URL.toStdString().c_str(), &binData );
+    JS_BIN_encodeHex( &binData, &pValue );
+    strValue = pValue;
+
+    if( pValue ) JS_free( pValue );
+    JS_BIN_reset( &binData );
+
+    return strValue;
+}
