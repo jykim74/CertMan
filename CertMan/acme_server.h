@@ -79,7 +79,7 @@ private :
         WaitingBody
     };
 
-    int procACME( const char *pPath, const BIN *pReq, BIN *pRsp );
+    int procACME( const char *pPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp );
     int procEST( const char *pPath, const BIN *pReq, BIN *pRsp );
 
     void processBuffer();

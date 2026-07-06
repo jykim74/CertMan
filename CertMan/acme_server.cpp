@@ -358,7 +358,7 @@ end :
     return ret;
 }
 
-int ACMEServer::procACME( const char *pPath, const BIN *pReq, BIN *pRsp )
+int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp )
 {
     int ret = 0;
     QString strPath = pPath;
@@ -374,6 +374,9 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, BIN *pRsp )
     if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
     {
         ret = runACME_Directory( rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare( kACME_Location, Qt::CaseInsensitive ) == 0 )
     {
@@ -401,7 +404,11 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, BIN *pRsp )
     }
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
-
+        BIN binRand = {0,0};
+        ret = JS_PKI_genRandom( 16, &binRand );
+        QString strNonce = QString( "Replay-Nonce: %1" ).arg( getHexString( &binRand ));
+        rspHeaders.append( strNonce );
+        JS_BIN_reset( &binRand );
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
     {
@@ -448,9 +455,6 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, BIN *pRsp )
         elog( QString( "Invalid ACME Path: %1" ).arg( strCmd ));
         return JSR_ERR2;
     }
-
-    rspJDoc.setObject( rspJson );
-    JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
 
     return ret;
 }
@@ -520,6 +524,7 @@ int ACMEServer::readReady()
     BIN binRsp = {0,0};
 
     const char *pMethod = NULL;
+
 
     headers_.clear();
     content_len_ = 0;
@@ -611,20 +616,24 @@ int ACMEServer::readReady()
         rsp += "\r\n";
         client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            client_->write( "\r\n" );
+            client_->write( rsp );
+        }
 
-        client_->write( "\r\n" );
-        client_->write( rsp );
         client_->flush();
     }
     else if( path_.contains( "/ACME" ) == true )
     {
         QByteArray rsp;
+        QStringList rspHeaders;
 
         log( QString( "Content Length: %1" ).arg( content_len_ ));
         JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-        ret = procACME( path_.toStdString().c_str(), &binReq, &binRsp );
+        ret = procACME( path_.toStdString().c_str(), &binReq, rspHeaders, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -636,7 +645,6 @@ int ACMEServer::readReady()
         QString strLen = QString( "%1" ).arg( binRsp.nLen );
 
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
-        //    log( QString( "Response: %1" ).arg( getHexString( &binRsp )));
 
         rsp = QByteArray( pMethod );
         rsp += "\r\n";
@@ -655,10 +663,21 @@ int ACMEServer::readReady()
         rsp += "\r\n";
         client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        for( int i = 0; i < rspHeaders.size(); i++ )
+        {
+            QString strHeader = rspHeaders.at( i );
+            rsp = strHeader.toUtf8();
+            rsp += "r\n";
+            client_->write( rsp );
+        }
 
-        client_->write( "\r\n" );
-        client_->write( rsp );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            client_->write( "\r\n" );
+            client_->write( rsp );
+        }
+
         client_->flush();
     }
     else
@@ -860,6 +879,7 @@ void ACMEServer::processACME()
     int             nType = -1;
     const char      *pMethod = NULL;
 
+
     if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
     {
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
@@ -902,22 +922,24 @@ void ACMEServer::processACME()
         rsp += "\r\n";
         client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            client_->write( "\r\n" );
+            client_->write( rsp );
+        }
 
-        client_->write( "\r\n" );
-        client_->write( rsp );
         client_->flush();
     }
     else if( strcasecmp( path_.toStdString().c_str(), "/ACME" ) == 0 )
     {
         QByteArray rsp;
+        QStringList     rspHeaders;
 
         log( QString( "Content Length: %1" ).arg( content_len_ ));
         JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-        //        log( QString( "Contents: %1" ).arg( getHexString(&binReq)));
-
-        ret = procACME( path_.toStdString().c_str(), &binReq, &binRsp );
+        ret = procACME( path_.toStdString().c_str(), &binReq, rspHeaders, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -948,10 +970,21 @@ void ACMEServer::processACME()
         rsp += "\r\n";
         client_->write( rsp );
 
-        rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+        for( int i = 0; i < rspHeaders.size(); i++ )
+        {
+            QString strHeader = rspHeaders.at( i );
+            rsp = strHeader.toUtf8();
+            rsp += "r\n";
+            client_->write( rsp );
+        }
 
-        client_->write( "\r\n" );
-        client_->write( rsp );
+        if( binRsp.nLen > 0 )
+        {
+            rsp.setRawData( (const char *)binRsp.pVal, binRsp.nLen );
+            client_->write( "\r\n" );
+            client_->write( rsp );
+        }
+
         client_->flush();
     }
     else
