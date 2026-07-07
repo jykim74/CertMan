@@ -432,7 +432,17 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
     {
+        QJsonObject request;
+        QByteArray rsp;
 
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
+
+        ret = runACME_NewOrder( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_RenewalInfo, Qt::CaseInsensitive ) == 0 )
     {
@@ -1078,7 +1088,7 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
-int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJon )
+int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJson )
 {
     int ret = 0;
     QJsonArray jArr;
@@ -1104,17 +1114,20 @@ int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJo
 
     jReqObj = QJsonDocument::fromJson( strPayload.toUtf8() ).object();
     jArr = jReqObj["contact"].toArray();
+    jObj = QJsonDocument::fromJson( strProtected.toUtf8() ).object();
 
-    JS_PKI_getPubKeyFromCert( &ca_cert_, &binPub );
+    ACMEObject::getPubKey( jObj, &binPub );
     JS_PKI_getKeyIdentifier( &binPub, &binID );
     strName = getHexString( &binID );
 
-    jObj = ACMEObject::getJWK( &binPub, "SHA256", strName );
+//    jObj = ACMEObject::getJWK( &binPub, "SHA256", strName );
 
-    rspJon["Status"] = "valid";
-    rspJon["orders"] = strACME_URL( kACME_Orders );
-    rspJon["contact"] = jArr;
-    rspJon["key"] = jObj;
+    rspJson["Status"] = "valid";
+    rspJson["orders"] = strACME_URL( kACME_Orders );
+    rspJson["contact"] = jArr;
+
+    /* Key 는 Optional 값 */
+    rspJson["key"] = jObj;
 
 /*
     {
@@ -1142,4 +1155,39 @@ end :
     JS_BIN_reset( &binID );
 
     return ret;
+}
+
+int ACMEServer::runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson )
+{
+/*
+    {
+        "status": "pending",
+        "expires": "2026-07-08T07:32:17Z",
+        "identifiers": [
+            {
+                "type": "dns",
+                "value": "example.com"
+            }
+        ],
+        "profile": "shortlived",
+        "finalize": "https://localhost:14000/finalize-order/b2Y8WKgmPGRk0DaEN8DToz9n97FTE-2eLZjcrT6CRD8",
+        "authorizations": [
+                "https://localhost:14000/authZ/-E9VbRbqYzKWSLIQugpJ9NKOGSQCbZXuOeiS2imC-WI"
+        ]
+    }
+*/
+    QJsonArray jArr;
+    QJsonObject jObj;
+
+    QJsonObject jReqObj;
+
+    jArr.insert( 0, strACME_URL( kACME_Authorization ));
+
+    rspJson["status"] = "valid";
+    rspJson["expires"] = "2026-07-08T07:32:17Z";
+    rspJson["identifiers"] = jArr;
+    rspJson["profile"] = "shortlived";
+    rspJson["finalize"] = strACME_URL( kACME_Finalize );
+
+    return 0;
 }

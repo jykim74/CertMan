@@ -89,7 +89,8 @@ private :
 
     const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
-    int runACME_NewAcount( const QJsonObject request, QJsonObject& rspJon );
+    int runACME_NewAcount( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
 
 private:
     QPlainTextEdit* log_edit_;
