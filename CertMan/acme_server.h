@@ -91,6 +91,8 @@ private :
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAcount( const QJsonObject request, QJsonObject& rspJson );
     int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
 
 private:
     QPlainTextEdit* log_edit_;

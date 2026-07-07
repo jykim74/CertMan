@@ -381,6 +381,9 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     QJsonDocument rspJDoc;
     QJsonObject rspJson;
 
+    QJsonObject request;
+    QByteArray rsp;
+
     if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
     {
         ret = runACME_Directory( rspJson );
@@ -410,9 +413,6 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
     {
-        QJsonObject request;
-        QByteArray rsp;
-
         rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
@@ -432,9 +432,6 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
     {
-        QJsonObject request;
-        QByteArray rsp;
-
         rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
@@ -458,7 +455,14 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_Finalize, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Finalize( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Certificate, Qt::CaseInsensitive ) == 0 )
     {
@@ -466,7 +470,14 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_Authorization, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Authorization( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
     {
@@ -1188,6 +1199,92 @@ int ACMEServer::runACME_NewOrder( const QJsonObject request, QJsonObject& rspJso
     rspJson["identifiers"] = jArr;
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
+
+    return 0;
+}
+
+int ACMEServer::runACME_Authorization( const QJsonObject request, QJsonObject& rspJson )
+{
+    /*
+    {
+        "status": "pending",
+        "identifier": {
+            "type": "dns",
+            "value": "example.com"
+        },
+        "challenges": [
+            {
+                "type": "tls-alpn-01",
+                "url": "https://localhost:14000/chalZ/fyq7BVDYOE3t5oSRPAiED5zHT4FPuupmzdS_4B6nBMA",
+                "token": "JxHyf4HLiNNFkZmluLVXh4ArUNqyGpv19R5rHHfH5-8",
+                "status": "pending"
+            },
+            {
+                "type": "http-01",
+                "url": "https://localhost:14000/chalZ/d5Ot8SKEKfj9uMD_ffS3e2BepuF5uyzLxmx6WpTGCVk",
+                "token": "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY",
+                "status": "pending"
+            },
+            {
+                "type": "dns-01",
+                "url": "https://localhost:14000/chalZ/T9LnChz4C5SVgVTQFhKaRkKO91RqKB_vGAKqDJ_7aw4",
+                "token": "IHXyqVDbGFraOC2LdhgUhuV0O2wzoqgSBBllcjpFIXI",
+                "status": "pending"
+            },
+            {
+                "type": "dns-account-01",
+                "url": "https://localhost:14000/chalZ/X6e1LF6HxvS_FFh0F1rqfyIn71at9YUjtDGV1Lu4InA",
+                "token": "bEU5v9G6ratA3ZebG1-OPoB4PLf0qhODBhfnplyycQ0",
+                "status": "pending"
+            }
+        ],
+        "expires": "2026-07-07T14:50:40Z"
+    }
+    */
+
+    QJsonArray jArr;
+    QJsonObject jObj;
+    QJsonObject jObj2;
+
+    jObj["type"] = "http-01";
+    jObj["url"] = "https://localhost:14000/chalZ/d5Ot8SKEKfj9uMD_ffS3e2BepuF5uyzLxmx6WpTGCVk";
+    jObj["token"] = "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY";
+    jObj["status"] = "pending";
+
+    jObj2["type"] = "dns-01";
+    jObj2["url"] = "https://localhost:14000/chalZ/T9LnChz4C5SVgVTQFhKaRkKO91RqKB_vGAKqDJ_7aw4";
+    jObj2["token"] = "IHXyqVDbGFraOC2LdhgUhuV0O2wzoqgSBBllcjpFIXI";
+    jObj2["status"] = "pending";
+
+    jArr.insert( 0, jObj );
+    jArr.insert( 1, jObj2 );
+
+    rspJson["status"] = "pending";
+    rspJson["expires"] = "2026-07-07T14:50:40Z";
+    rspJson["identifier"] = request["identifier"].toObject();
+
+    return 0;
+}
+
+int ACMEServer::runACME_Finalize( const QJsonObject request, QJsonObject& rspJson )
+{
+    /*
+    {
+        "status": "processing",
+        "expires": "2026-07-08T14:37:23Z",
+        "identifiers": [
+            {
+                "type": "dns",
+                "value": "example.com"
+            }
+        ],
+        "profile": "default",
+        "finalize": "https://localhost:14000/finalize-order/NpfXMVaLW8-UZBIkOQHLeiVaAGts39QSVtTSEDu42-w",
+        "authorizations": [
+            "https://localhost:14000/authZ/7v5ap9bhdtX61MFBqHUXTpMd62DFi1H90EHbW-rOxBo"
+        ]
+    }
+    */
 
     return 0;
 }
