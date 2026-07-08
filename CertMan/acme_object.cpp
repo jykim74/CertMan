@@ -605,6 +605,26 @@ int ACMEObject::getPubKey( QJsonObject objKey, BIN *pPub )
     return 0;
 }
 
+const QString ACMEObject::getID( QJsonObject objKey )
+{
+    int ret = 0;
+    BIN binPub = {0,0};
+    BIN binID = {0,0};
+
+    QString strID = "";
+
+    ret = ACMEObject::getPubKey( objKey, &binPub );
+    if( ret != JSR_OK ) goto end;
+
+    JS_PKI_getKeyIdentifier( &binPub, &binID );
+    strID = getHexString( &binID );
+
+end :
+    JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binID );
+
+    return strID;
+}
 
 const QString ACMEObject::getAlg( int nKeyType, const QString strHash )
 {

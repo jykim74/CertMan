@@ -120,7 +120,8 @@ SOURCES += \
         tls_socket.cpp \
         acme_server.cpp \
         acme_service_dlg.cpp \
-        acme_object.cpp
+        acme_object.cpp \
+        acme_stat.cpp
 
 HEADERS += \
         about_dlg.h \
@@ -204,7 +205,8 @@ HEADERS += \
         tls_socket.h \
         acme_server.h \
         acme_service_dlg.h \
-        acme_object.h
+        acme_object.h \
+        acme_stat.h
 
 FORMS += \
         about_dlg.ui \

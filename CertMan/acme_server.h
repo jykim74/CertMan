@@ -19,6 +19,7 @@
 #include "js_cmp.h"
 
 #include "db_mgr.h"
+#include "acme_stat.h"
 
 static QString kACME_Directory = "DIRECTORY";
 static QString kACME_Location = "LOCATION";
@@ -89,10 +90,22 @@ private :
 
     const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
-    int runACME_NewAcount( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_NewAccount( const QJsonObject request, QJsonObject& rspJson );
     int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Challenge( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Account( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Location( QJsonObject& rspJson );
+    int runACME_Certificate( BINList **ppCertList );
+    int runACME_Order( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Orders( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_RenewalInfo( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_RevokeCert( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_NewAuthz( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Deactivate( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_UpdateAccount( const QJsonObject request, QJsonObject& rspJson );
 
 private:
     QPlainTextEdit* log_edit_;
@@ -108,6 +121,8 @@ private:
     bool p11_;
     bool tls_;
     int port_;
+
+    QMap<QString, ACMEStat> acme_stats_;
 
     QByteArray buffer_;
     State state_ = WaitingHeader;

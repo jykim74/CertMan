@@ -245,6 +245,7 @@ add_executable(${PROJECT_NAME}
     acme_server.h acme_server.cpp
     acme_object.h
     acme_object.cpp
+    acme_stat.h acme_stat.cpp
 )
 
 target_link_options( ${PROJECT_NAME} PRIVATE -mwindows -MD )

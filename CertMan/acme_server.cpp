@@ -23,6 +23,7 @@
 
 #include "acme_object.h"
 #include "acme_server.h"
+#include "acme_stat.h"
 
 ACMEServer::ACMEServer( QObject *parent ) :
     QTcpServer(parent)
@@ -62,6 +63,8 @@ ACMEServer::~ACMEServer()
         tls_client_->deleteLater();
         tls_client_ = nullptr;
     }
+
+    acme_stats_.clear();
 
     resetState();
 
@@ -393,23 +396,58 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare( kACME_Location, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Location( rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Account( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Order, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Order( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Orders, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Orders( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_KeyChange, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_KeyChange( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
     {
@@ -417,7 +455,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
 
-        ret = runACME_NewAcount( request, rspJson );
+        ret = runACME_NewAccount( request, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
@@ -443,15 +481,36 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_RenewalInfo, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_RenewalInfo( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_RevokeCert, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_RevokeCert( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_NewAuthz, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_NewAuthz( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Finalize, Qt::CaseInsensitive ) == 0 )
     {
@@ -466,7 +525,19 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_Certificate, Qt::CaseInsensitive ) == 0 )
     {
+        BINList *pCertList = NULL;
+        BINList *pCurList = NULL;
 
+        ret = runACME_Certificate( &pCertList );
+
+        pCurList = pCertList;
+
+        while( pCurList )
+        {
+            pCurList = pCurList->pNext;
+        }
+
+        if( pCertList ) JS_BIN_resetList( &pCertList );
     }
     else if( strCmd.compare(kACME_Authorization, Qt::CaseInsensitive ) == 0 )
     {
@@ -481,15 +552,36 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Challenge( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_Deactivate, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_Deactivate( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else if( strCmd.compare(kACME_UpdateAccount, Qt::CaseInsensitive ) == 0 )
     {
+        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        rspJDoc = QJsonDocument::fromJson( rsp );
+        request = rspJDoc.object();
 
+        ret = runACME_UpdateAccount( request, rspJson );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
     else
     {
@@ -1099,16 +1191,13 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
-int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJson )
+int ACMEServer::runACME_NewAccount( const QJsonObject request, QJsonObject& rspJson )
 {
     int ret = 0;
     QJsonArray jArr;
     QJsonObject jObj;
 
     QJsonObject jReqObj;
-
-    BIN binPub = {0,0};
-    BIN binID = {0,0};
     QString strName;
 
     BIN binPayload = {0,0};
@@ -1119,6 +1208,8 @@ int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJs
     QString strProtected = request["protected"].toString();
     QString strSignature = request["signature"].toString();
 
+    ACMEStat stat;
+
     JS_BIN_decodeBase64URL( strPayload.toStdString().c_str(), &binPayload );
     JS_BIN_decodeBase64URL( strProtected.toStdString().c_str(), &binProtected );
     JS_BIN_decodeBase64URL( strSignature.toStdString().c_str(), &binSignature );
@@ -1127,11 +1218,9 @@ int ACMEServer::runACME_NewAcount( const QJsonObject request, QJsonObject& rspJs
     jArr = jReqObj["contact"].toArray();
     jObj = QJsonDocument::fromJson( strProtected.toUtf8() ).object();
 
-    ACMEObject::getPubKey( jObj, &binPub );
-    JS_PKI_getKeyIdentifier( &binPub, &binID );
-    strName = getHexString( &binID );
+    strName = ACMEObject::getID( jObj );
 
-//    jObj = ACMEObject::getJWK( &binPub, "SHA256", strName );
+    acme_stats_.insert( strName, stat );
 
     rspJson["Status"] = "valid";
     rspJson["orders"] = strACME_URL( kACME_Orders );
@@ -1161,9 +1250,6 @@ end :
     JS_BIN_reset( &binPayload );
     JS_BIN_reset( &binProtected );
     JS_BIN_reset( &binSignature );
-
-    JS_BIN_reset( &binPub );
-    JS_BIN_reset( &binID );
 
     return ret;
 }
@@ -1285,6 +1371,81 @@ int ACMEServer::runACME_Finalize( const QJsonObject request, QJsonObject& rspJso
         ]
     }
     */
+    QJsonArray jArr;
+    jArr.insert( 0, strACME_URL( kACME_Authorization ));
 
+    QJsonArray jIDArr;
+    QJsonObject jIDObj;
+    jIDObj["type"] = "dns";
+    jIDObj["value"] = "example.com";
+
+    jIDArr.insert( 0, jIDObj );
+
+    rspJson["status"] = "processing";
+    rspJson["expires"] = "2026-07-08T14:37:23Z";
+    rspJson["identifiers"] = jIDArr;
+    rspJson["finalize"] = strACME_URL( kACME_Finalize );
+    rspJson["autorizaions"] = jArr;
+
+    return 0;
+}
+
+int ACMEServer::runACME_Challenge( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Account( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Location( QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Certificate( BINList **ppCertList )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Order( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Orders( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_RenewalInfo( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_RevokeCert( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_NewAuthz( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_Deactivate( const QJsonObject request, QJsonObject& rspJson )
+{
+    return 0;
+}
+
+int ACMEServer::runACME_UpdateAccount( const QJsonObject request, QJsonObject& rspJson )
+{
     return 0;
 }
