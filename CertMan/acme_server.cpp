@@ -1203,12 +1203,27 @@ int ACMEServer::runACME_NewAccount( const QJsonObject request, QJsonObject& rspJ
     BIN binPayload = {0,0};
     BIN binProtected = {0,0};
     BIN binSignature = {0,0};
+    BIN binPub = {0,0};
 
     QString strPayload = request["payload"].toString();
     QString strProtected = request["protected"].toString();
     QString strSignature = request["signature"].toString();
 
     ACMEStat stat;
+    ACMEObject acmeObj;
+
+    acmeObj.setObject( request );
+    ACMEObject::getPubKey( request, &binPub );
+
+    QJsonObject objProt = request["protected"].toObject();
+    QString strNonce = objProt["nonce"].toString();
+
+    ret = acmeObj.verifySignature( &binPub );
+    if( ret != JSR_VERIFY )
+    {
+        elog( QString( "failed to verify signature: %1" ).arg(ret));
+        goto end;
+    }
 
     JS_BIN_decodeBase64URL( strPayload.toStdString().c_str(), &binPayload );
     JS_BIN_decodeBase64URL( strProtected.toStdString().c_str(), &binProtected );
@@ -1250,6 +1265,7 @@ end :
     JS_BIN_reset( &binPayload );
     JS_BIN_reset( &binProtected );
     JS_BIN_reset( &binSignature );
+    JS_BIN_reset( &binPub );
 
     return ret;
 }

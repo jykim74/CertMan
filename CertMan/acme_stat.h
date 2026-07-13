@@ -11,37 +11,13 @@ public:
     ACMEStat();
 
     // 복사 생성자
-    ACMEStat(const ACMEStat& other)
-    {
-        status_ = other.status_;
-        key_ = other.key_;
-        csr_ = other.csr_;
-        cert_ = other.cert_;
-        nonce_ = other.nonce_;
-        identifier_ = other.identifier_;
-        contact_ = other.contact_;
-    }
+    ACMEStat(const ACMEStat& other);
 
     // 대입 연산자
-    ACMEStat& operator=(const ACMEStat& other)
-    {
-        // 자기 자신 대입 방지
-        if (this != &other)
-        {
-            status_ = other.status_;
-            key_ = other.key_;
-            csr_ = other.csr_;
-            cert_ = other.cert_;
-            nonce_ = other.nonce_;
-            identifier_ = other.identifier_;
-            contact_ = other.contact_;
-        }
-
-        return *this;
-    }
+    ACMEStat& operator=(const ACMEStat& other);
 
     int getStatus() { return status_; };
-    const QString getKey() { return key_; };
+    const QString getPubKey() { return pub_key_; };
     const QString getCSR() { return csr_; };
     const QString getCert() { return cert_; };
     const QString getNonce() { return nonce_; };
@@ -49,7 +25,7 @@ public:
     const QString getContact() { return contact_; };
 
     void setStatus( int nStatus );
-    void setKey( const QString strKey );
+    void setPubKey( const QString strPubKey );
     void setCSR( const QString strCSR );
     void setCert( const QString strCert );
     void setNonce( const QString strNonce );
@@ -58,7 +34,7 @@ public:
 
 private:
     int         status_;
-    QString     key_;
+    QString     pub_key_;
     QString     csr_;
     QString     cert_;
     QString     nonce_;
