@@ -1392,21 +1392,96 @@ int ACMEServer::runACME_Finalize( const QJsonObject request, QJsonObject& rspJso
 
 int ACMEServer::runACME_Challenge( const QJsonObject request, QJsonObject& rspJson )
 {
+    /*
+    {
+        "type": "dns-01",
+        "url": "https://localhost:14000/chalZ/sW0wRYjRAe7twtBn5OE56BEpaJNqJKcfyk2DarOPGJU",
+        "token": "slUfb4u4H-Dw64Fq9wWF6BvqmbCDUlVj5tNRJBOXtLU",
+        "status": "processing"
+    }
+    */
+
     return 0;
 }
 
 int ACMEServer::runACME_Account( const QJsonObject request, QJsonObject& rspJson )
 {
+    /*
+    {
+        "contact": [
+            "mailto:jykim74@gmail.com"
+        ],
+        "key": {
+            "alg": "RS256",
+            "e": "AQAB",
+            "kid": "RSA2048",
+            "kty": "RSA",
+            "n": "o-uSO8dWrkNNANT0IGzSh6mTHZRlUMuPvgiTtHU0361K81FuNNtRKm3kf91SoGFoFZvp4zUKulZE5KkSeXHpGW7NZjwrjXZM-pXY_sn2DJO_ACnDZSc3Tkfkc-Ye2rqwPbSvmH7SVe4915t_V4M1-vzQXQwEMP1BAD03-sxr_gnq5x-3VKYgXvtaQiUIh0OvdaQA44RRnFyxXv-hhN3p-4sPhN2tzlrlVQNVse1JAzhwUOZ4_VF5Lq6DE9c0F3r_os_42HebKLNP5l-OyvFgPfCi-DlAJ0n_S0q34OGBCyz4KKlKXODDhtzlVmLyl-lvO1ho05V2PqvQ7bt8K1B3Sw"
+        },
+        "orders": "https://localhost:14000/list-orderz/50bf9ebf4776792b",
+        "status": "valid"
+    }
+    */
+
     return 0;
 }
 
 int ACMEServer::runACME_Location( QJsonObject& rspJson )
 {
+    /*
+    {
+        "status": "valid",
+        "expires": "2026-07-14T06:53:16Z",
+        "identifiers": [
+            {
+                "type": "dns",
+                "value": "example.com"
+            }
+        ],
+        "profile": "shortlived",
+        "finalize": "https://localhost:14000/finalize-order/x6OPEYHH0Nj5AYXhREWBlf78d250j5jRzEOd0SKIIy8",
+        "authorizations": [
+            "https://localhost:14000/authZ/C5uDmRFsgcRtprXWjc6MozzaTfb6NXl-DvfNuW7jNLI"
+        ],
+        "certificate": "https://localhost:14000/certZ/119eadf8f6d15ef2"
+    }
+    */
+
     return 0;
 }
 
 int ACMEServer::runACME_Certificate( BINList **ppCertList )
 {
+    /*
+    -----BEGIN CERTIFICATE-----
+    MIICWjCCAgCgAwIBAgIIEZ6t+PbRXvIwCgYIKoZIzj0EAwIwKDEmMCQGA1UEAxMd
+    UGViYmxlIEludGVybWVkaWF0ZSBDQSA0NTNjYzAwHhcNMjYwNzEzMDY1NDA5WhcN
+    MjYwNzE5MDY1NDA4WjAAMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
+    lMVYefPBEl6H6tzUWLdBpcOWorHuvk/cCVyhVKg64g5Iq00ll0yrGJyVNdFlYbJG
+    87qcKw8jCujbG3cxo9JvoDUi8fSZue+UQXGKYc/QjFvUZXKpfz+LiKCJOYjLRwlG
+    AWw+ZycuEsdj1ZMfaTdbLJ1As+K/KscMUtwukrBu1eCa77AB+1UfRZni5/1aLiDL
+    6u1YeyQwwyMif5oMg+O3xSf+TWNHeVtodq9FvB6CptBtfwHLZtIS0aDeqtSs36yC
+    xhYSaiJAktC+N5BvNVYNYa1oWpD5pl0v4wJsO7Aj6uhhcEy2wowie6UJ9xkvKd9G
+    BTu9bWykvyLa+cyhCCO8lwIDAQABo3EwbzAOBgNVHQ8BAf8EBAMCB4AwEwYDVR0l
+    BAwwCgYIKwYBBQUHAwEwDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBSqjj2QiPkn
+    PE7Yy+/9zjUCsfUxvjAZBgNVHREBAf8EDzANggtleGFtcGxlLmNvbTAKBggqhkjO
+    PQQDAgNIADBFAiEAv/3ypSJkz4fUix5j6oaov55w4s4IONP8dOyxx3lN0VUCIHZb
+    NayY7oMLa/IZque8J+twmQ9r9rwDqIacG1c2LWKH
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIBuTCCAV6gAwIBAgIIHQpShl3bTQcwCgYIKoZIzj0EAwIwIDEeMBwGA1UEAxMV
+    UGViYmxlIFJvb3QgQ0EgMzUzMTA2MCAXDTI2MDcxMzAxMjIxNloYDzIwNTYwNzEz
+    MDEyMjE2WjAoMSYwJAYDVQQDEx1QZWJibGUgSW50ZXJtZWRpYXRlIENBIDQ1M2Nj
+    MDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABGhG7Vuv0uGddOhJIuHz9ZNe8S+1
+    ztJj+9dlvic/lbtcsaRNH4L199xShV89obxrp5hNrzvPiyBL6r6VVBovzZ6jeDB2
+    MA4GA1UdDwEB/wQEAwIChDATBgNVHSUEDDAKBggrBgEFBQcDATAPBgNVHRMBAf8E
+    BTADAQH/MB0GA1UdDgQWBBSqjj2QiPknPE7Yy+/9zjUCsfUxvjAfBgNVHSMEGDAW
+    gBTU2o3RyS23b5iuxsmZNG6ByC6bVDAKBggqhkjOPQQDAgNJADBGAiEAmZlp+lel
+    6GeBtEs5Tq/WbCqxwfzuebv3VlkoqQ9Rw9gCIQCC2qc+cuQSXrUZvWbtLI3Oyn5C
+    T3QXc3+LeljOLrqBTA==
+    -----END CERTIFICATE-----
+    */
+
     return 0;
 }
 
