@@ -19,6 +19,24 @@ ACMEObject::ACMEObject(QObject *parent)
 
 }
 
+// 복사 생성자
+ACMEObject::ACMEObject(const ACMEObject& other)
+{
+    json_ = other.json_;
+}
+
+// 대입 연산자
+ACMEObject& ACMEObject::operator=(const ACMEObject& other)
+{
+    // 자기 자신 대입 방지
+    if (this != &other)
+    {
+        json_ = other.json_;
+    }
+
+    return *this;
+}
+
 void ACMEObject::setObject( const QJsonObject object )
 {
     json_ = object;
@@ -59,6 +77,10 @@ void ACMEObject::setObjectFromJson( const QString strJson )
     manApplet->log( QString( "JWS: %1" ).arg( getPacketJson() ));
 }
 
+const QString ACMEObject::getKID()
+{
+    return ACMEObject::getID( json_[kNameProtected].toObject() );
+}
 
 void ACMEObject::setProtected( const QJsonObject object )
 {

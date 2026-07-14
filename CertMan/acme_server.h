@@ -20,6 +20,7 @@
 
 #include "db_mgr.h"
 #include "acme_stat.h"
+#include "acme_object.h"
 
 static QString kACME_Directory = "DIRECTORY";
 static QString kACME_Location = "LOCATION";
@@ -90,7 +91,7 @@ private :
 
     const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
-    int runACME_NewAccount( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_NewAccount( const ACMEObject& request, QJsonObject& rspJson );
     int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );

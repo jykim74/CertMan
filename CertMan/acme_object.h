@@ -18,6 +18,12 @@ class ACMEObject : public QObject
 public:
     explicit ACMEObject(QObject *parent = nullptr);
 
+    // 복사 생성자
+    ACMEObject(const ACMEObject& other);
+
+    // 대입 연산자
+    ACMEObject& operator=(const ACMEObject& other);
+
     void setProtected( const QJsonObject object );
     void setProtected( const QString strProtected );
     void setPayload( const QJsonObject objPayload );
@@ -40,6 +46,8 @@ public:
     const QJsonObject getObject() { return json_; };
     void setObject( const QJsonObject object );
     void setObjectFromJson( const QString strJson );
+
+    const QString getKID();
 
     static const QString getObjectPacket( const QJsonObject obj );
 

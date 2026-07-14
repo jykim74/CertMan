@@ -386,6 +386,14 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
 
     QJsonObject request;
     QByteArray rsp;
+    ACMEObject acmeObj;
+
+    if( pReq && pReq->nLen > 0 )
+    {
+        QByteArray data;
+        data.setRawData( (const char *)pReq->pVal, pReq->nLen );
+        acmeObj.setObjectFromJson( data.data() );
+    }
 
     if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
     {
@@ -407,10 +415,6 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
     {
-        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
-        rspJDoc = QJsonDocument::fromJson( rsp );
-        request = rspJDoc.object();
-
         ret = runACME_Account( request, rspJson );
 
         rspJDoc.setObject( rspJson );
@@ -455,7 +459,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
 
-        ret = runACME_NewAccount( request, rspJson );
+        ret = runACME_NewAccount( acmeObj, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
@@ -1191,58 +1195,20 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
-int ACMEServer::runACME_NewAccount( const QJsonObject request, QJsonObject& rspJson )
+int ACMEServer::runACME_NewAccount( const ACMEObject& request, QJsonObject& rspJson )
 {
     int ret = 0;
-    QJsonArray jArr;
-    QJsonObject jObj;
-
-    QJsonObject jReqObj;
-    QString strName;
-
-    BIN binPayload = {0,0};
-    BIN binProtected = {0,0};
-    BIN binSignature = {0,0};
-    BIN binPub = {0,0};
-
-    QString strPayload = request["payload"].toString();
-    QString strProtected = request["protected"].toString();
-    QString strSignature = request["signature"].toString();
-
     ACMEStat stat;
-    ACMEObject acmeObj;
 
-    acmeObj.setObject( request );
-    ACMEObject::getPubKey( request, &binPub );
-
-    QJsonObject objProt = request["protected"].toObject();
-    QString strNonce = objProt["nonce"].toString();
-
-    ret = acmeObj.verifySignature( &binPub );
-    if( ret != JSR_VERIFY )
-    {
-        elog( QString( "failed to verify signature: %1" ).arg(ret));
-        goto end;
-    }
-
-    JS_BIN_decodeBase64URL( strPayload.toStdString().c_str(), &binPayload );
-    JS_BIN_decodeBase64URL( strProtected.toStdString().c_str(), &binProtected );
-    JS_BIN_decodeBase64URL( strSignature.toStdString().c_str(), &binSignature );
-
-    jReqObj = QJsonDocument::fromJson( strPayload.toUtf8() ).object();
-    jArr = jReqObj["contact"].toArray();
-    jObj = QJsonDocument::fromJson( strProtected.toUtf8() ).object();
-
-    strName = ACMEObject::getID( jObj );
-
-    acme_stats_.insert( strName, stat );
+//    QString strName = request.getKID();
+//    acme_stats_.insert( strName, stat );
 
     rspJson["Status"] = "valid";
     rspJson["orders"] = strACME_URL( kACME_Orders );
-    rspJson["contact"] = jArr;
+    rspJson["contact"] = "";
 
     /* Key 는 Optional 값 */
-    rspJson["key"] = jObj;
+    rspJson["pub_key"] = "";
 
 /*
     {
@@ -1262,10 +1228,6 @@ int ACMEServer::runACME_NewAccount( const QJsonObject request, QJsonObject& rspJ
 */
 
 end :
-    JS_BIN_reset( &binPayload );
-    JS_BIN_reset( &binProtected );
-    JS_BIN_reset( &binSignature );
-    JS_BIN_reset( &binPub );
 
     return ret;
 }
