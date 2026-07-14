@@ -79,7 +79,38 @@ void ACMEObject::setObjectFromJson( const QString strJson )
 
 const QString ACMEObject::getKID()
 {
-    return ACMEObject::getID( json_[kNameProtected].toObject() );
+    int ret = 0;
+    BIN binPub = {0,0};
+    BIN binID = {0,0};
+    QString strID;
+
+    ret = getPubKey( &binPub );
+    if( ret != 0 ) goto end;
+
+    JS_PKI_getKeyIdentifier( &binPub, &binID );
+    strID = getHexString( &binID );
+
+end :
+    JS_BIN_reset( &binPub );
+    return strID;
+}
+
+int ACMEObject::getPubKey( BIN *pPubKey )
+{
+    QJsonObject objKey = json_[kNameProtected].toObject();
+    QJsonObject objJWK = objKey["jwk"].toObject();
+
+    return ACMEObject::getPubKey( objJWK, pPubKey );
+}
+
+const QString ACMEObject::getNonce()
+{
+    QString strNonce;
+    QJsonObject objKey = json_[kNameProtected].toObject();
+
+    strNonce = objKey["nonce"].toString();
+
+    return strNonce;
 }
 
 void ACMEObject::setProtected( const QJsonObject object )

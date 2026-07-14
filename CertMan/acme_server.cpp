@@ -387,12 +387,40 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     QJsonObject request;
     QByteArray rsp;
     ACMEObject acmeObj;
+    QString strNonce;
 
     if( pReq && pReq->nLen > 0 )
     {
         QByteArray data;
         data.setRawData( (const char *)pReq->pVal, pReq->nLen );
         acmeObj.setObjectFromJson( data.data() );
+
+        strNonce = acmeObj.getNonce();
+
+        if( strNonce != nonce_ )
+        {
+            rspJson["type"] = "urn:ietf:params:acme:error:badNonce";
+            rspJson["detail"] = "JWS has no anti-replay nonce";
+            rspJson["status"] = 400;
+            rspJDoc.setObject( rspJson );
+            JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+            return JSR_ERR;
+        }
+
+        QString strKID = acmeObj.getKID();
+        ACMEStat acme_stat;
+
+        int count = acme_stats_.count( strKID );
+        if( count > 0 )
+        {
+            acme_stat = acme_stats_[strKID];
+        }
+        else
+        {
+            acme_stats_.insert( strKID, acme_stat );
+        }
+
+        acme_stat.setNonce( strNonce );
     }
 
     if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
@@ -455,10 +483,6 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
     {
-        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
-        rspJDoc = QJsonDocument::fromJson( rsp );
-        request = rspJDoc.object();
-
         ret = runACME_NewAccount( acmeObj, rspJson );
 
         rspJDoc.setObject( rspJson );
@@ -468,9 +492,8 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     {
         BIN binRand = {0,0};
         ret = JS_PKI_genRandom( 8, &binRand );
-        QString strNonce = QString( "Replay-Nonce: %1" ).arg( getHexString( &binRand ));
+        QString strNonce = QString( "Replay-Nonce: %1" ).arg( nonce_);
         rspHeaders.append( strNonce );
-        JS_BIN_reset( &binRand );
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
     {
@@ -862,6 +885,14 @@ void ACMEServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
 
+    if( nonce_.length() < 1 )
+    {
+        BIN binRand = {0,0};
+        JS_PKI_genRandom( 8, &binRand );
+        nonce_ = getHexString( &binRand );
+        JS_BIN_reset( &binRand );
+    }
+
     if( tls_ == true )
     {
         if( QSslSocket::supportsSsl() == false )
@@ -1195,13 +1226,29 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
-int ACMEServer::runACME_NewAccount( const ACMEObject& request, QJsonObject& rspJson )
+int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
 {
     int ret = 0;
     ACMEStat stat;
+    BIN binPub = {0,0};
+    QString strName;
 
-//    QString strName = request.getKID();
-//    acme_stats_.insert( strName, stat );
+    ret = acmeObj.getPubKey( &binPub );
+    if( ret != JSR_OK )
+    {
+        elog( QString( "failed to get public key: %1" ).arg( ret ));
+        goto end;
+    }
+
+    ret = acmeObj.verifySignature( &binPub );
+    if( ret != JSR_VERIFY )
+    {
+        elog( QString( "failed to verify signature: %1" ).arg(ret ));
+        goto end;
+    }
+
+    strName = acmeObj.getKID();
+    acme_stats_.insert( strName, stat );
 
     rspJson["Status"] = "valid";
     rspJson["orders"] = strACME_URL( kACME_Orders );
@@ -1228,6 +1275,7 @@ int ACMEServer::runACME_NewAccount( const ACMEObject& request, QJsonObject& rspJ
 */
 
 end :
+    JS_BIN_reset( &binPub );
 
     return ret;
 }

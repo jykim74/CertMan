@@ -48,6 +48,8 @@ public:
     void setObjectFromJson( const QString strJson );
 
     const QString getKID();
+    int getPubKey( BIN *pPubKey );
+    const QString getNonce();
 
     static const QString getObjectPacket( const QJsonObject obj );
 

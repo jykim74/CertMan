@@ -91,7 +91,7 @@ private :
 
     const QString strACME_URL( const QString strCmd );
     int runACME_Directory( QJsonObject& rspJson );
-    int runACME_NewAccount( const ACMEObject& request, QJsonObject& rspJson );
+    int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
@@ -131,6 +131,7 @@ private:
     QString method_;
     QString path_;
     QString version_;
+    QString nonce_;
 
     QMap<QString, QString> headers_;
     QByteArray body_;
