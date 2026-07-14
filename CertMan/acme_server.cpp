@@ -1248,14 +1248,15 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     }
 
     strName = acmeObj.getKID();
-    acme_stats_.insert( strName, stat );
+    stat = acme_stats_[strName];
+    stat.setPubKey( getHexString( &binPub ));
 
     rspJson["Status"] = "valid";
     rspJson["orders"] = strACME_URL( kACME_Orders );
     rspJson["contact"] = "";
 
     /* Key 는 Optional 값 */
-    rspJson["pub_key"] = "";
+    rspJson["key"] = "";
 
 /*
     {
