@@ -89,7 +89,7 @@ private :
     void resetState();
     void processACME();
 
-    const QString strACME_URL( const QString strCmd );
+
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
@@ -144,6 +144,7 @@ private:
 
     int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
+    const QString strACME_URL( const QString strCmd, const QString strID = "" );
 
     void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
 };

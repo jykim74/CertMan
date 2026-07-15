@@ -377,10 +377,29 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     QString strPath = pPath;
     QStringList listPath = strPath.split( "/" );
     int nSize = listPath.size();
+    int nCmdPos = 0;
 
     if( nSize < 1 ) return JSR_ERR;
 
-    QString strCmd = listPath.at( nSize - 1 );
+    QString strCmd;
+    QString strID;
+
+    for( int i=0; i < nSize; i++ )
+    {
+        QString strPart = listPath.at(i);
+
+        if( strPart.compare( "ACME", Qt::CaseInsensitive ) == 0 )
+        {
+            if( (i+1) < nSize )
+                strCmd = listPath.at( i+1 );
+
+            if( (i+2) < nSize )
+                strID = listPath.at( i+2 );
+
+            break;
+        }
+    }
+
     QJsonDocument rspJDoc;
     QJsonObject rspJson;
 
@@ -399,12 +418,13 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
 
         if( strNonce != nonce_ )
         {
+            elog( QString( "Nonce is wrong [ S:%1 C:%2 ]" ).arg( nonce_ ).arg( strNonce ) );
             rspJson["type"] = "urn:ietf:params:acme:error:badNonce";
             rspJson["detail"] = "JWS has no anti-replay nonce";
             rspJson["status"] = 400;
             rspJDoc.setObject( rspJson );
             JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
-            return JSR_ERR;
+            return JSR_OK;
         }
 
         QString strKID = acmeObj.getKID();
@@ -490,8 +510,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
-        BIN binRand = {0,0};
-        ret = JS_PKI_genRandom( 8, &binRand );
+        log( QString( "NewNonce: %1" ).arg( nonce_ ));
         QString strNonce = QString( "Replay-Nonce: %1" ).arg( nonce_);
         rspHeaders.append( strNonce );
     }
@@ -828,7 +847,7 @@ int ACMEServer::readReady()
         {
             QString strHeader = rspHeaders.at( i );
             rsp = strHeader.toUtf8();
-            rsp += "r\n";
+            rsp += "\r\n";
             client_->write( rsp );
         }
 
@@ -1174,7 +1193,7 @@ end :
     JS_BIN_reset( &binRsp );
 }
 
-const QString ACMEServer::strACME_URL( const QString strCmd )
+const QString ACMEServer::strACME_URL( const QString strCmd, const QString strID )
 {
     QString strBase;
 
@@ -1186,6 +1205,9 @@ const QString ACMEServer::strACME_URL( const QString strCmd )
     strBase += QString( ":%1" ).arg( port_ );
 
     QString strURL = QString( "%1/ACME/%2" ).arg( strBase ).arg( strCmd );
+
+    if( strID.length() > 0 )
+        strURL += QString( "/%1" ).arg( strID );
 
     return strURL;
 }
@@ -1232,6 +1254,8 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     ACMEStat stat;
     BIN binPub = {0,0};
     QString strName;
+    QJsonObject objPayload;
+    QJsonObject objKey;
 
     ret = acmeObj.getPubKey( &binPub );
     if( ret != JSR_OK )
@@ -1251,12 +1275,18 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     stat = acme_stats_[strName];
     stat.setPubKey( getHexString( &binPub ));
 
-    rspJson["Status"] = "valid";
-    rspJson["orders"] = strACME_URL( kACME_Orders );
-    rspJson["contact"] = "";
+    objPayload = acmeObj.getPayload();
+
+    rspJson["Status"] = objPayload["status"].toString();
+    rspJson["orders"] = strACME_URL( kACME_Orders, strName );
+    rspJson["contact"] = objPayload["contact"].toArray();
+
+    stat.setContact( objPayload["contact"].toString() );
 
     /* Key 는 Optional 값 */
-    rspJson["key"] = "";
+    objKey = ACMEObject::getJWK( &binPub, "SHA256", "Name" );
+    rspJson["key"] = objKey;
+    ret = JSR_OK;
 
 /*
     {
