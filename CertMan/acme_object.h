@@ -80,6 +80,8 @@ public:
     static const QString getCurve( const QString strOID );
     static const QString getCurveOID( const QString strCurve );
     static const QString getEdDSA( const QString strName );
+    static const QString getJson( QJsonObject obj );
+    static const QString getJson( QJsonArray arr );
 
 
 private:

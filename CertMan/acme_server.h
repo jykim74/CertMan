@@ -92,11 +92,11 @@ private :
 
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
-    int runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Challenge( const QJsonObject request, QJsonObject& rspJson );
-    int runACME_Account( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Location( QJsonObject& rspJson );
     int runACME_Certificate( BINList **ppCertList );
     int runACME_Order( const QJsonObject request, QJsonObject& rspJson );

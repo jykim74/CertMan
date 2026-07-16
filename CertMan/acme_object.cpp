@@ -12,6 +12,7 @@
 #include "js_pki_tools.h"
 #include "js_bin.h"
 #include "js_error.h"
+#include "acme_server.h"
 
 ACMEObject::ACMEObject(QObject *parent)
     : QObject{parent}
@@ -84,11 +85,40 @@ const QString ACMEObject::getKID()
     BIN binID = {0,0};
     QString strID;
 
-    ret = getPubKey( &binPub );
-    if( ret != 0 ) goto end;
+    QJsonObject objKey = json_[kNameProtected].toObject();
+    QJsonObject objJWK = objKey["jwk"].toObject();
 
-    JS_PKI_getKeyIdentifier( &binPub, &binID );
-    strID = getHexString( &binID );
+    if( objJWK.isEmpty() == true )
+    {
+        QString strKID = objKey["kid"].toString();
+        QString strURL = objKey["url"].toString();
+
+        if( strKID.length() < 1 ) strKID = strURL;
+
+        QStringList list = strKID.split( "/" );
+        int nSize = list.size();
+
+        for( int i = 0; i < nSize; i++ )
+        {
+            QString strPart = list.at(i);
+            if( strPart.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
+            {
+                if( (i+1) < nSize )
+                {
+                    strID = list.at(i+1);
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        ret = getPubKey( &binPub );
+        if( ret != 0 ) goto end;
+
+        JS_PKI_getKeyIdentifier( &binPub, &binID );
+        strID = getHexString( &binID );
+    }
 
 end :
     JS_BIN_reset( &binPub );
@@ -769,4 +799,26 @@ const QString ACMEObject::getEdDSA( const QString strName )
         strEdDSA = "Ed448";
 
     return strEdDSA;
+}
+
+const QString ACMEObject::getJson( QJsonObject obj )
+{
+    QString strJson;
+
+    QJsonDocument jDoc;
+    jDoc.setObject( obj );
+
+    strJson = jDoc.toJson();
+    return strJson;
+}
+
+const QString ACMEObject::getJson( QJsonArray arr )
+{
+    QString strJson;
+
+    QJsonDocument jDoc;
+    jDoc.setArray( arr );
+
+    strJson = jDoc.toJson();
+    return strJson;
 }

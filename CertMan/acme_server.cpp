@@ -463,7 +463,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     }
     else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
     {
-        ret = runACME_Account( request, rspJson );
+        ret = runACME_Account( acmeObj, strID, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
@@ -520,7 +520,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
 
-        ret = runACME_NewOrder( request, rspJson );
+        ret = runACME_NewOrder( acmeObj, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
@@ -1281,10 +1281,10 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["orders"] = strACME_URL( kACME_Orders, strName );
     rspJson["contact"] = objPayload["contact"].toArray();
 
-    stat.setContact( objPayload["contact"].toString() );
+    stat.setContact( ACMEObject::getJson( objPayload["contact"].toArray()) );
 
     /* Key 는 Optional 값 */
-    objKey = ACMEObject::getJWK( &binPub, "SHA256", "Name" );
+    objKey = ACMEObject::getJWK( &binPub, "SHA256", strName );
     rspJson["key"] = objKey;
     ret = JSR_OK;
 
@@ -1311,7 +1311,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_NewOrder( const QJsonObject request, QJsonObject& rspJson )
+int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
 {
 /*
     {
@@ -1461,8 +1461,31 @@ int ACMEServer::runACME_Challenge( const QJsonObject request, QJsonObject& rspJs
     return 0;
 }
 
-int ACMEServer::runACME_Account( const QJsonObject request, QJsonObject& rspJson )
+int ACMEServer::runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
 {
+    int ret = 0;
+    ACMEStat stat;
+    BIN binPub = {0,0};
+    QJsonObject objKey;
+
+    stat = acme_stats_[strKID];
+    JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
+
+    ret = acmeObj.verifySignature( &binPub );
+    if( ret != JSR_VERIFY )
+    {
+        elog( QString( "failed to verify signature: %1" ).arg(ret ));
+        goto end;
+    }
+
+    rspJson["contact"] = stat.getContact();
+    rspJson["status"] = "valid";
+    rspJson["orders"] = strACME_URL( kACME_Orders, strKID );
+
+    objKey = ACMEObject::getJWK( &binPub, "SHA256", strKID );
+    rspJson["key"] = objKey;
+    ret = JSR_OK;
+
     /*
     {
         "contact": [
@@ -1480,7 +1503,10 @@ int ACMEServer::runACME_Account( const QJsonObject request, QJsonObject& rspJson
     }
     */
 
-    return 0;
+end :
+    JS_BIN_reset( &binPub );
+
+    return ret;
 }
 
 int ACMEServer::runACME_Location( QJsonObject& rspJson )
