@@ -1330,20 +1330,41 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
         ]
     }
 */
-    QJsonArray jArr;
-    QJsonObject jObj;
+    int ret = 0;
+    QJsonArray jAuthArr;
+    QJsonArray jIDArr;
+    BIN binPub = {0,0};
+    ACMEStat stat;
+    QJsonObject objPayload;
 
-    QJsonObject jReqObj;
+    QString strKID = acmeObj.getKID();
 
-    jArr.insert( 0, strACME_URL( kACME_Authorization ));
+    stat = acme_stats_[strKID];
+    JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
+
+    ret = acmeObj.verifySignature( &binPub );
+    if( ret != JSR_VERIFY )
+    {
+        elog( QString( "failed to verify signature: %1" ).arg(ret ));
+        goto end;
+    }
+
+    objPayload = acmeObj.getPayload();
+
+    jAuthArr.insert( 0, strACME_URL( kACME_Authorization ));
 
     rspJson["status"] = "valid";
     rspJson["expires"] = "2026-07-08T07:32:17Z";
-    rspJson["identifiers"] = jArr;
+    rspJson["identifiers"] = objPayload["identifiers"].toArray();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
+    rspJson["authorizations"] = jAuthArr;
 
-    return 0;
+    stat.setIdentifier( ACMEObject::getJson( objPayload["identifiers"].toArray() ));
+
+end :
+    JS_BIN_reset( &binPub );
+    return ret;
 }
 
 int ACMEServer::runACME_Authorization( const QJsonObject request, QJsonObject& rspJson )
