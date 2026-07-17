@@ -93,12 +93,12 @@ private :
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson );
-    int runACME_Authorization( const QJsonObject request, QJsonObject& rspJson );
-    int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
-    int runACME_Challenge( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson );
+    int runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson );
+    int runACME_Challenge( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
-    int runACME_Certificate( BINList **ppCertList );
+    int runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList );
     int runACME_Order( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Orders( const QJsonObject request, QJsonObject& rspJson );
     int runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson );
@@ -147,6 +147,7 @@ private:
     int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
     const QString strACME_URL( const QString strCmd, const QString strID = "" );
+    int getChainList( BINList **ppChainList );
 
     void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
 };
