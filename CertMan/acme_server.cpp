@@ -159,6 +159,33 @@ void ACMEServer::elog( const QString strLog )
     log( strLog, QColor(0xFF,0x00,0x00));
 }
 
+void ACMEServer::makeErrorRsp( int nStatus, QJsonObject& rspObj )
+{
+    QString strType;
+    QString strDetail;
+
+    switch (nStatus) {
+    case 400:
+        strType = "urn:ietf:params:acme:error:badNonce";
+        strDetail = "JWS has no anti-replay nonce";
+        break;
+
+    case 405:
+        strType = "JWS has no anti-replay nonce";
+        strDetail = "JWS has no anti-replay nonce";
+        break;
+
+    default:
+        strType = "System Error";
+        strDetail = "Unknown error";
+        break;
+    }
+
+    rspObj["type"] = strType;
+    rspObj["detail"] = strDetail;
+    rspObj["status"] = nStatus;
+}
+
 int ACMEServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
 {
     int ret = 0;
@@ -371,13 +398,13 @@ end :
     return ret;
 }
 
-int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp )
+int ACMEServer::procACME( const QString strMethod, const QString strPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp )
 {
     int ret = 0;
-    QString strPath = pPath;
     QStringList listPath = strPath.split( "/" );
     int nSize = listPath.size();
     int nCmdPos = 0;
+    bool bPost = false;
 
     if( nSize < 1 ) return JSR_ERR;
 
@@ -408,7 +435,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     ACMEObject acmeObj;
     QString strNonce;
 
-    if( pReq && pReq->nLen > 0 )
+    if( strMethod.compare( "POST", Qt::CaseInsensitive ) == 0 )
     {
         QByteArray data;
         data.setRawData( (const char *)pReq->pVal, pReq->nLen );
@@ -419,9 +446,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         if( strNonce != nonce_ )
         {
             elog( QString( "Nonce is wrong [ S:%1 C:%2 ]" ).arg( nonce_ ).arg( strNonce ) );
-            rspJson["type"] = "urn:ietf:params:acme:error:badNonce";
-            rspJson["detail"] = "JWS has no anti-replay nonce";
-            rspJson["status"] = 400;
+            makeErrorRsp( 400, rspJson );
             rspJDoc.setObject( rspJson );
             JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
             return JSR_OK;
@@ -441,6 +466,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         }
 
         acme_stat.setNonce( strNonce );
+        bPost = true;
     }
 
     if( strCmd.compare( kACME_Directory, Qt::CaseInsensitive ) == 0 )
@@ -450,18 +476,14 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
-    else if( strCmd.compare( kACME_Location, Qt::CaseInsensitive ) == 0 )
+    else if( strCmd.compare( kACME_Location, Qt::CaseInsensitive ) == 0 && (bPost == true) )
     {
-        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
-        rspJDoc = QJsonDocument::fromJson( rsp );
-        request = rspJDoc.object();
-
-        ret = runACME_Location( rspJson );
+        ret = runACME_Location( acmeObj, strID, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
-    else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 )
+    else if( strCmd.compare( kACME_Account, Qt::CaseInsensitive ) == 0 && (bPost == true) )
     {
         ret = runACME_Account( acmeObj, strID, rspJson );
 
@@ -501,12 +523,15 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
     }
-    else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0 )
+    else if( strCmd.compare(kACME_NewAccount, Qt::CaseInsensitive ) == 0  && (bPost == true) )
     {
         ret = runACME_NewAccount( acmeObj, rspJson );
+        QString strKID = acmeObj.getKID();
+        QString strAccount = QString( "Location: %1" ).arg( strACME_URL( kACME_Account, strKID ) );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+        rspHeaders.append( strAccount );
     }
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
@@ -514,7 +539,7 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
         QString strNonce = QString( "Replay-Nonce: %1" ).arg( nonce_);
         rspHeaders.append( strNonce );
     }
-    else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 )
+    else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 && (bPost == true) )
     {
         rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
         rspJDoc = QJsonDocument::fromJson( rsp );
@@ -632,7 +657,10 @@ int ACMEServer::procACME( const char *pPath, const BIN *pReq, QStringList& rspHe
     else
     {
         elog( QString( "Invalid ACME Path: %1" ).arg( strCmd ));
-        return JSR_ERR2;
+        makeErrorRsp( 405, rspJson );
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+        ret = JSR_OK;
     }
 
     return ret;
@@ -813,7 +841,7 @@ int ACMEServer::readReady()
 
         log( QString( "Body: %1" ).arg( body_.data() ));
 
-        ret = procACME( path_.toStdString().c_str(), &binReq, rspHeaders, &binRsp );
+        ret = procACME( method_, path_, &binReq, rspHeaders, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -1128,7 +1156,7 @@ void ACMEServer::processACME()
         log( QString( "Content Length: %1" ).arg( content_len_ ));
         JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
 
-        ret = procACME( path_.toStdString().c_str(), &binReq, rspHeaders, &binRsp );
+        ret = procACME( method_, path_, &binReq, rspHeaders, &binRsp );
         if( ret != 0 )
         {
             elog( QString( "fail procCMP(%1)" ).arg( JERR(ret)) );
@@ -1530,7 +1558,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Location( QJsonObject& rspJson )
+int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
 {
     /*
     {
@@ -1551,7 +1579,15 @@ int ACMEServer::runACME_Location( QJsonObject& rspJson )
     }
     */
 
-    return 0;
+    int ret = 0;
+    ACMEStat stat;
+    BIN binPub = {0,0};
+
+
+end :
+    JS_BIN_reset( &binPub );
+
+    return ret;
 }
 
 int ACMEServer::runACME_Certificate( BINList **ppCertList )

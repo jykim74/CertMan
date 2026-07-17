@@ -81,7 +81,7 @@ private :
         WaitingBody
     };
 
-    int procACME( const char *pPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp );
+    int procACME( const QString strMethod, const QString strPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp );
     int procEST( const char *pPath, const BIN *pReq, BIN *pRsp );
 
     void processBuffer();
@@ -97,7 +97,7 @@ private :
     int runACME_Finalize( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Challenge( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
-    int runACME_Location( QJsonObject& rspJson );
+    int runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Certificate( BINList **ppCertList );
     int runACME_Order( const QJsonObject request, QJsonObject& rspJson );
     int runACME_Orders( const QJsonObject request, QJsonObject& rspJson );
@@ -141,6 +141,8 @@ private:
     void incomingConnection( qintptr socketDescriptor );
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
+
+    void makeErrorRsp( int nStatus, QJsonObject& rspObj );
 
     int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
