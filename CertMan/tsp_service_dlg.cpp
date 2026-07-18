@@ -204,7 +204,13 @@ void TSPServiceDlg::clickStart()
         tsp_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
 
-    tsp_srv_->startServer( nPort );
+    ret = tsp_srv_->startServer( nPort );
+    if( ret != JSR_OK )
+    {
+        manApplet->warningBox( tr( "failed to start server: %1").arg(ret), this );
+        goto end;
+    }
+
     mStartBtn->setStyleSheet( kColorBackGreen );
 
     if( mSetDefaultCheck->isChecked() == true )

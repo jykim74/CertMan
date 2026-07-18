@@ -213,7 +213,13 @@ void ACMEServiceDlg::clickStart()
         acme_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
 
-    acme_srv_->startServer( nPort );
+    ret = acme_srv_->startServer( nPort );
+    if( ret != JSR_OK )
+    {
+        manApplet->warningBox( tr( "failed to start server: %1").arg(ret), this );
+        goto end;
+    }
+
     mStartBtn->setStyleSheet( kColorBackGreen );
 
     if( mSetDefaultCheck->isChecked() == true )

@@ -507,7 +507,7 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
         rspJDoc = QJsonDocument::fromJson( rsp );
         request = rspJDoc.object();
 
-        ret = runACME_Orders( request, rspJson );
+        ret = runACME_Orders( acmeObj, strID, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
@@ -541,10 +541,6 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 && (bPost == true) )
     {
-        rsp.setRawData( (const char *)pReq->pVal, pReq->nLen );
-        rspJDoc = QJsonDocument::fromJson( rsp );
-        request = rspJDoc.object();
-
         ret = runACME_NewOrder( acmeObj, rspJson );
 
         rspJDoc.setObject( rspJson );
@@ -1275,7 +1271,7 @@ int ACMEServer::runACME_Directory( QJsonObject& rspJson )
     rspJson[kACME_RenewalInfo] = strACME_URL(kACME_RenewalInfo);
     rspJson[kACME_RevokeCert] = strACME_URL(kACME_RevokeCert);
 
-    return 0;
+    return JSR_OK;
 }
 
 void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson )
@@ -1312,6 +1308,7 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     stat = acme_stats_[strName];
     stat.setPubKey( getHexString( &binPub ));
 
+
     objPayload = acmeObj.getPayload();
 
     rspJson["Status"] = objPayload["status"].toString();
@@ -1324,6 +1321,8 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     objKey = ACMEObject::getJWK( &binPub, "SHA256", strName );
     rspJson["key"] = objKey;
     ret = JSR_OK;
+
+    acme_stats_.insert( strName, stat );
 
 /*
     {
@@ -1375,6 +1374,8 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     QJsonObject objPayload;
 
     QString strKID = acmeObj.getKID();
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
+    QString iso8601 = expireUtc.toString(Qt::ISODate);
 
     stat = acme_stats_[strKID];
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
@@ -1391,13 +1392,16 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     jAuthArr.insert( 0, strACME_URL( kACME_Authorization ));
 
     rspJson["status"] = "valid";
-    rspJson["expires"] = "2026-07-08T07:32:17Z";
+//    rspJson["expires"] = "2026-07-08T07:32:17Z";
+    rspJson["expires"] = iso8601;
     rspJson["identifiers"] = objPayload["identifiers"].toArray();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["authorizations"] = jAuthArr;
 
     stat.setIdentifier( ACMEObject::getJson( objPayload["identifiers"].toArray() ));
+    acme_stats_.insert( strKID, stat );
+    ret = JSR_OK;
 
 end :
     JS_BIN_reset( &binPub );
@@ -1452,6 +1456,8 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     BIN binPub = {0,0};
     ACMEStat stat;
     QJsonObject objPayload;
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
+    QString iso8601 = expireUtc.toString(Qt::ISODate);
 
     QString strKID = acmeObj.getKID();
 
@@ -1473,9 +1479,12 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     jArr.insert( 0, jObj );
 
     rspJson["status"] = "pending";
-    rspJson["expires"] = "2026-07-07T14:50:40Z";
+//    rspJson["expires"] = "2026-07-07T14:50:40Z";
+    rspJson["expires"] = iso8601;
     rspJson["identifier"] = stat.getIdentifier();
     rspJson["challenges"] = jArr;
+
+    ret = JSR_OK;
 
 end :
     JS_BIN_reset( &binPub );
@@ -1509,6 +1518,8 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QJsonObject objPayload;
     QJsonArray jArr;
     QString strCSR;
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
+    QString iso8601 = expireUtc.toString(Qt::ISODate);
 
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
@@ -1529,11 +1540,14 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     jArr.insert( 0, strACME_URL( kACME_Authorization ));
 
     rspJson["status"] = "processing";
-    rspJson["expires"] = "2026-07-08T14:37:23Z";
+//    rspJson["expires"] = "2026-07-08T14:37:23Z";
+    rspJson["expires"] = iso8601;
     rspJson["identifiers"] = stat.getIdentifier();
     rspJson["profile"] = "default";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["autorizaions"] = jArr;
+
+    ret = JSR_OK;
 
 end :
     JS_BIN_reset( &binPub );
@@ -1570,6 +1584,8 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["type"] = "http-01";
     rspJson["url"] = strACME_URL( kACME_Challenge, strKID );
     rspJson["token"] = "slUfb4u4H-Dw64Fq9wWF6BvqmbCDUlVj5tNRJBOXtLU";
+
+    ret = JSR_OK;
 
 end :
     JS_BIN_reset( &binPub );
@@ -1653,6 +1669,9 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
     QJsonArray jAuthArr;
     QString strURL;
 
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
+    QString iso8601 = expireUtc.toString(Qt::ISODate);
+
     stat = acme_stats_[strKID];
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -1667,13 +1686,15 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
     jAuthArr.insert( 0, strURL );
 
     rspJson["status"] = "valid";
-    rspJson["expires"] = "2026-07-14T06:53:16Z";
+//    rspJson["expires"] = "2026-07-14T06:53:16Z";
+    rspJson["expires"] = iso8601;
     rspJson["identifiers"] = stat.getIdentifier();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize, strKID );
     rspJson["authorizations"] = jAuthArr;
     rspJson["certificate"] = strACME_URL( kACME_Certificate, strKID );
 
+    ret = JSR_OK;
 
 end :
     JS_BIN_reset( &binPub );
@@ -1739,6 +1760,8 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
     getChainList( ppCertList );
     JS_BIN_addList( ppCertList, &binCert );
 
+    ret = JSR_OK;
+
 end :
     JS_BIN_reset( &binPub );
     JS_BIN_reset( &binCSR );
@@ -1752,9 +1775,48 @@ int ACMEServer::runACME_Order( const QJsonObject request, QJsonObject& rspJson )
     return 0;
 }
 
-int ACMEServer::runACME_Orders( const QJsonObject request, QJsonObject& rspJson )
+int ACMEServer::runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
 {
-    return 0;
+    /*
+    {
+        "orders": [
+            "https://localhost:14000/my-order/5kquX4gxPgEuymyknKHtHsDzTvnuAyp2Py5NzhxSrQY",
+            "https://localhost:14000/my-order/Rl-ZcIKS6_CD3DX0_VecZ6ySUdTyU3chWjlNIZPLPKw"
+        ]
+    }
+    */
+
+    int ret = 0;
+    ACMEStat stat;
+    BIN binPub = {0,0};
+    QJsonObject objKey;
+    QJsonArray jOrderArr;
+    QString strURL;
+
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
+    QString iso8601 = expireUtc.toString(Qt::ISODate);
+
+    stat = acme_stats_[strKID];
+    JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
+
+    ret = acmeObj.verifySignature( &binPub );
+    if( ret != JSR_VERIFY )
+    {
+        elog( QString( "failed to verify signature: %1" ).arg(ret ));
+        goto end;
+    }
+
+    strURL = strACME_URL( kACME_Order, strKID );
+    jOrderArr.insert( 0, strURL );
+
+    rspJson["orders"] = jOrderArr;
+
+    ret = JSR_OK;
+
+end :
+    JS_BIN_reset( &binPub );
+
+    return ret;
 }
 
 int ACMEServer::runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson )

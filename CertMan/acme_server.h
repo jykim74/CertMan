@@ -100,7 +100,7 @@ private :
     int runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList );
     int runACME_Order( const QJsonObject request, QJsonObject& rspJson );
-    int runACME_Orders( const QJsonObject request, QJsonObject& rspJson );
+    int runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson );
     int runACME_RenewalInfo( const QJsonObject request, QJsonObject& rspJson );
     int runACME_RevokeCert( const QJsonObject request, QJsonObject& rspJson );
