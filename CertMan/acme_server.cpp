@@ -1304,7 +1304,7 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
 
-    rspJson["Status"] = objPayload["status"].toString();
+    rspJson["status"] = objPayload["status"].toString();
     rspJson["orders"] = strACME_URL( kACME_Orders, strName );
     rspJson["contact"] = objPayload["contact"].toArray();
 
