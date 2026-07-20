@@ -75,3 +75,8 @@ void ACMEStat::setContact( const QString strContact )
 {
     contact_ = strContact;
 }
+
+void ACMEStat::setOrder( const QString strOrder )
+{
+    order_list_.append( strOrder );
+}

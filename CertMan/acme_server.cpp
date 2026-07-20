@@ -1393,6 +1393,8 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["authorizations"] = jAuthArr;
 
     stat.setIdentifier( ACMEObject::getJson( objPayload["identifiers"].toArray() ));
+    stat.setOrder( "NewOrder" );
+
     acme_stats_.insert( strKID, stat );
     ret = JSR_OK;
 
@@ -1843,6 +1845,7 @@ int ACMEServer::runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJson
 
     QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
     QString iso8601 = expireUtc.toString(Qt::ISODate);
+    QStringList orderList;
 
     stat = acme_stats_[strKID];
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
@@ -1854,8 +1857,15 @@ int ACMEServer::runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJson
         goto end;
     }
 
-    strURL = strACME_URL( kACME_Order, strKID );
-    jOrderArr.insert( 0, strURL );
+    orderList = stat.getOrderList();
+
+    for( int i = 0; i < orderList.size(); i++ )
+    {
+        QString strLink = orderList.at(i);
+
+        strURL = strACME_URL( kACME_Order, strLink );
+        jOrderArr.append( strURL );
+    }
 
     rspJson["orders"] = jOrderArr;
 

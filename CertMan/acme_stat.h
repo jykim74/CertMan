@@ -23,6 +23,7 @@ public:
     const QString getNonce() { return nonce_; };
     const QString getIdentifier() { return identifier_; };
     const QString getContact() { return contact_; };
+    const QStringList getOrderList() { return order_list_; };
 
     void setStatus( int nStatus );
     void setPubKey( const QString strPubKey );
@@ -31,15 +32,17 @@ public:
     void setNonce( const QString strNonce );
     void setIdentifier( const QString strIdentifier );
     void setContact( const QString strContact );
+    void setOrder( const QString strOrder );
 
 private:
-    int         status_;
-    QString     pub_key_;
-    QString     csr_;
-    QString     cert_;
-    QString     nonce_;
-    QString     identifier_;
-    QString     contact_;
+    int             status_;
+    QString         pub_key_;
+    QString         csr_;
+    QString         cert_;
+    QString         nonce_;
+    QString         identifier_;
+    QString         contact_;
+    QStringList     order_list_;
 };
 
 #endif // ACME_STAT_H
