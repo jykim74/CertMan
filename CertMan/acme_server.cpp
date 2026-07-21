@@ -537,6 +537,13 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+
+        QString strKID = acmeObj.getKID();
+        QString strOrder = QString( "Location: %1" ).arg( strACME_URL( kACME_Order, strKID ) );
+
+        rspJDoc.setObject( rspJson );
+        JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
+        rspHeaders.append( strOrder );
     }
     else if( strCmd.compare(kACME_RenewalInfo, Qt::CaseInsensitive ) == 0 )
     {
