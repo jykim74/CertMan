@@ -608,6 +608,16 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     }
     else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
     {
+        QString strURL = acmeObj.getProtected()["url"].toString();
+        QStringList list = strURL.split( ' ' );
+
+        if( list.size() < 3 ) return JSR_ERR;
+
+        if( strPath.compare( list.at(1), Qt::CaseInsensitive ) != 0 )
+        {
+            return JSR_ERR2;
+        }
+
         ret = runACME_Challenge( acmeObj, rspJson );
 
         rspJDoc.setObject( rspJson );
