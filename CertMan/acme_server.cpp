@@ -1532,6 +1532,8 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strCSR;
     QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time(NULL) + 300 );
     QString iso8601 = expireUtc.toString(Qt::ISODate);
+    BIN binCert = {0,0};
+    BIN binCSR = {0,0};
 
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
@@ -1546,8 +1548,13 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
     strCSR = objPayload["csr"].toString();
+    JS_BIN_decodeHex( strCSR.toStdString().c_str(), &binCSR );
+
+    ret = issueCert( &binCSR, &binCert );
+    if( ret != JSR_OK ) goto end;
 
     stat.setCSR( strCSR );
+    stat.setCert( getHexString( &binCert ));
 
     jArr.insert( 0, strACME_URL( kACME_Authorization ));
 
@@ -1563,6 +1570,9 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
 
 end :
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binCert );
+    JS_BIN_reset( &binCSR );
+
     return ret;
 }
 
@@ -1749,7 +1759,6 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
     int ret = 0;
     ACMEStat stat;
     BIN binPub = {0,0};
-    BIN binCSR = {0,0};
     BIN binCert = {0,0};
     QJsonObject objKey;
 
@@ -1764,10 +1773,7 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
         goto end;
     }
 
-    JS_BIN_decodeHex( stat.getCSR().toStdString().c_str(), &binCSR );
-
-    ret = issueCert( &binCSR, &binCert );
-    if( ret != JSR_OK ) goto end;
+    JS_BIN_decodeHex( stat.getCert().toStdString().c_str(), &binCert );
 
     getChainList( ppCertList );
     JS_BIN_addList( ppCertList, &binCert );
@@ -1776,7 +1782,6 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
 
 end :
     JS_BIN_reset( &binPub );
-    JS_BIN_reset( &binCSR );
     JS_BIN_reset( &binCert );
 
     return ret;
