@@ -25,6 +25,39 @@
 #include "acme_server.h"
 #include "acme_stat.h"
 
+const QString ACMEErrString( AcmeError error )
+{
+    switch (error) {
+    case AccountDoesNotExist: return "AccountDoesNotExist";
+    case AlreadyRevoked: return "AlreadyRevoked";
+    case BadCSR: return "BadCSR";
+    case BadNonce: return "BadNonce";
+    case BadPublicKey: return "BadPublicKey";
+    case BadRevocationReason: return "BadRevocationReason";
+    case BadSignatureAlgorithm: return "BadSignatureAlgorithm";
+    case CAA: return "CAA";
+    case Compound: return "Compound";
+    case Connection: return "Connection";
+    case DNS: return "DNS";
+    case ExternalAccountRequired: return "ExternalAccountRequired";
+    case IncorrectResponse: return "IncorrectResponse";
+    case InvalidContact: return "InvalidContact";
+    case Malformed: return "Malformed";
+    case OrderNotReady: return "OrderNotReady";
+    case RateLimited: return "RateLimited";
+    case RejectedIdentifier: return "RejectedIdentifier";
+    case ServerInternal: return "ServerInternal";
+    case TLS: return "TLS";
+    case Unauthorized: return "Unauthorized";
+    case UnsupportedContact: return "UnsupportedContact";
+    case UnsupportedIdentifier: return "UnsupportedIdentifier";
+    case UserActionRequired: return "UserActionRequired";
+    case UnknownError: return "UnknownError";
+    default:
+        return "UnknownError";
+    }
+}
+
 ACMEServer::ACMEServer( QObject *parent ) :
     QTcpServer(parent)
 {

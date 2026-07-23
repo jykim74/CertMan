@@ -93,8 +93,10 @@ enum AcmeError
     UnsupportedContact,     // 지원하지 않는 Contact 형식
     UnsupportedIdentifier,  // 지원하지 않는 Identifier 형식
     UserActionRequired,     // 사용자 추가 조치 필요
-    Unknown
+    UnknownError
 };
+
+const QString ACMEErrString( AcmeError error );
 
 class ACMEServer : public QTcpServer
 {
