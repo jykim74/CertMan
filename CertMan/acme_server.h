@@ -52,6 +52,50 @@ const QString kEST_FullCMC = "fullcmc";
 const QString kEST_ServerKeyGen = "serverkeygen";
 const QString kEST_CSRAttrs = "csrattrs";
 
+/*
+200 OK	요청 성공	GET, POST-as-GET 성공
+201 Created	리소스 생성	NewAccount, NewOrder 성공
+204 No Content	내용 없음	인증서 폐기 등 응답 본문이 없는 경우
+400 Bad Request	잘못된 요청	malformed, badNonce, badCSR
+401 Unauthorized	인증 실패	JWS 서명 오류, 계정 인증 실패
+403 Forbidden	권한 없음	unauthorized, CAA 정책 위반 등
+404 Not Found	리소스 없음	존재하지 않는 Order, Authorization
+405 Method Not Allowed	메서드 오류	GET 대신 POST가 필요한 경우
+409 Conflict	충돌	계정 중복 등 일부 서버 구현
+429 Too Many Requests	요청 제한 초과	rateLimited
+500 Internal Server Error	서버 내부 오류	serverInternal
+503 Service Unavailable	서비스 사용 불가	서버 점검, 일시적 장애
+*/
+
+enum AcmeError
+{
+    AccountDoesNotExist,    // 지정한 계정이 존재하지 않음
+    AlreadyRevoked,         // 인증서가 이미 폐기됨
+    BadCSR,                 // CSR이 올바르지 않음
+    BadNonce,               // Nonce가 잘못되었거나 만료됨
+    BadPublicKey,           // 공개키가 유효하지 않음
+    BadRevocationReason,    // 폐기 사유 코드가 잘못됨
+    BadSignatureAlgorithm,  // 지원하지 않는 서명 알고리즘
+    CAA,                    // CAA 레코드 정책 때문에 발급 불가
+    Compound,               // 여러 개의 오류를 포함하는 복합 오류
+    Connection,             // CA가 대상 서버에 연결할 수 없음
+    DNS,                    // DNS 조회 실패
+    ExternalAccountRequired,// External Account Binding(EAB)이 필요함
+    IncorrectResponse,      // Challenge 응답이 올바르지 않음
+    InvalidContact,         // Contact 정보가 잘못됨
+    Malformed,              // 요청 형식이 잘못됨
+    OrderNotReady,          // Order가 아직 준비되지 않음
+    RateLimited,            // 요청 제한 초과
+    RejectedIdentifier,     // 도메인 식별자가 거부됨
+    ServerInternal,         // 서버 내부 오류
+    TLS,                    // TLS 검증 실패
+    Unauthorized,           // 권한 없음 또는 Challenge 실패
+    UnsupportedContact,     // 지원하지 않는 Contact 형식
+    UnsupportedIdentifier,  // 지원하지 않는 Identifier 형식
+    UserActionRequired,     // 사용자 추가 조치 필요
+    Unknown
+};
+
 class ACMEServer : public QTcpServer
 {
     Q_OBJECT
