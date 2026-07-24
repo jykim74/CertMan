@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QString>
 
+#define JS_ACME_STATUS_START        0x00000001
+#define JS_ACME_STATUS_NEWORDER     0x00000002
+#define JS_ACME_STATUS_AUTH         0x00000004
+#define JS_ACME_STATUS_CHALLENGE    0x00000008
+#define JS_ACME_STATUS_CHAL_DONE    0x00000010
+#define JS_ACME_STATUS_CERTIFICATE  0x00000020
+
 class ACMEStat : public QObject
 {
     Q_OBJECT

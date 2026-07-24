@@ -97,6 +97,7 @@ enum AcmeError
 };
 
 const QString ACMEErrString( AcmeError error );
+int ACMEErrStatus( AcmeError error );
 
 class ACMEServer : public QTcpServer
 {
@@ -189,6 +190,8 @@ private:
     void elog( const QString strLog );
 
     void makeErrorRsp( int nStatus, QJsonObject& rspObj );
+
+    void makeErrorJson( AcmeError error, const QString strDetail, QJsonObject& rspObj );
 
     int issueCert( const BIN *pCSR, BIN *pCert );
     int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );

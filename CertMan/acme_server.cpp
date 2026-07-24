@@ -58,6 +58,46 @@ const QString ACMEErrString( AcmeError error )
     }
 }
 
+int ACMEErrStatus( AcmeError error )
+{
+    int nStatus = 0;
+    switch (error) {
+    case BadCSR:
+    case BadNonce:
+    case Malformed:
+    case AccountDoesNotExist:
+    case AlreadyRevoked:
+    case BadPublicKey:
+    case BadRevocationReason:
+    case BadSignatureAlgorithm:
+    case CAA:
+    case Compound:
+    case Connection:
+    case DNS:
+    case ExternalAccountRequired:
+    case IncorrectResponse:
+    case InvalidContact:
+    case OrderNotReady:
+    case RateLimited:
+    case RejectedIdentifier:
+    case ServerInternal:
+    case TLS:
+    case Unauthorized:
+    case UnsupportedContact:
+    case UnsupportedIdentifier:
+    case UserActionRequired:
+    case UnknownError:
+        nStatus = 400;
+        break;
+
+    default:
+        nStatus = 500;
+        break;
+    }
+
+    return nStatus;
+}
+
 ACMEServer::ACMEServer( QObject *parent ) :
     QTcpServer(parent)
 {
@@ -213,6 +253,17 @@ void ACMEServer::makeErrorRsp( int nStatus, QJsonObject& rspObj )
         strDetail = "Unknown error";
         break;
     }
+
+    rspObj["type"] = strType;
+    rspObj["detail"] = strDetail;
+    rspObj["status"] = nStatus;
+}
+
+void ACMEServer::makeErrorJson( AcmeError error, const QString strDetail, QJsonObject& rspObj )
+{
+    QString strError = ACMEErrString( error );
+    QString strType = QString( "urn:ietf:params:acme:error:%1" ).arg( strError );
+    int nStatus = ACMEErrStatus( error );
 
     rspObj["type"] = strType;
     rspObj["detail"] = strDetail;
@@ -1880,7 +1931,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
+int ACMEServer:: runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
 {
     /*
     {
