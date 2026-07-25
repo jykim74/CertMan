@@ -1,6 +1,6 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
-
+#include <QUrl>
 
 #include "ocsp_server.h"
 #include "man_applet.h"
@@ -677,8 +677,18 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
         ret = runACME_Certificate( acmeObj, &pCertList );
         if( ret == JSR_OK )
         {
-            JS_BIN_encodePEMList( pCertList, &pPEMList );
-            JS_BIN_set( pRsp, (unsigned char *)pPEMList, strlen(pPEMList));
+            ret = JS_BIN_encodePEMList( pCertList, &pPEMList );
+            if( ret > 0 )
+            {
+                JS_BIN_set( pRsp, (unsigned char *)pPEMList, strlen(pPEMList));
+                ret = JSR_OK;
+            }
+            else
+            {
+                elog( QString( "failed to make chain: %1").arg(ret));
+                ret = JSR_ERR2;
+            }
+
         }
 
         if( pCertList ) JS_BIN_resetList( &pCertList );
@@ -693,12 +703,11 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
     {
         QString strURL = acmeObj.getProtected()["url"].toString();
-        QStringList list = strURL.split( ' ' );
+        QUrl url( strURL );
 
-        if( list.size() < 3 ) return JSR_ERR;
-
-        if( strPath.compare( list.at(1), Qt::CaseInsensitive ) != 0 )
+        if( strPath.compare( url.path(), Qt::CaseInsensitive ) != 0 )
         {
+            elog( QString( "URL is not matached[%1").arg( url.path() ));
             return JSR_ERR2;
         }
 
@@ -1632,7 +1641,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
     strCSR = objPayload["csr"].toString();
-    JS_BIN_decodeHex( strCSR.toStdString().c_str(), &binCSR );
+    JS_BIN_decodeBase64URL( strCSR.toStdString().c_str(), &binCSR );
 
     ret = issueCert( &binCSR, &binCert );
     if( ret != JSR_OK ) goto end;
@@ -1650,6 +1659,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["autorizaions"] = jArr;
 
+    acme_stats_.insert( strKID, stat );
     ret = JSR_OK;
 
 end :
@@ -1854,10 +1864,17 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
     if( ret != JSR_VERIFY )
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
+        ret = JSR_CRYPT_VERIFY_FAIL;
         goto end;
     }
 
     JS_BIN_decodeHex( stat.getCert().toStdString().c_str(), &binCert );
+    if( binCert.nLen <= 0 )
+    {
+        elog( QString( "failed to get certificate" ) );
+        ret = JSR_PKI_CERT_DECODE_FAIL;
+        goto end;
+    }
 
     getChainList( ppCertList );
     JS_BIN_addList( ppCertList, &binCert );
