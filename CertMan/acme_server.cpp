@@ -1533,7 +1533,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
 
     int ret = 0;
     QJsonArray jAuthArr;
-    QJsonArray jIDArr;
+
     BIN binPub = {0,0};
     ACMEStat stat;
     QJsonObject objPayload;
@@ -1542,6 +1542,8 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
 
     QString strKID = acmeObj.getKID();
     int nStatus = 0;
+    QJsonDocument jDoc;
+    QJsonArray jIDArr;
 
     stat = acme_stats_[strKID];
     nStatus = stat.getStatus();
@@ -1557,12 +1559,40 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
         goto end;
     }
 
-    jObj["type"] = "http-01";
-    jObj["url"] = strACME_URL( kACME_Challenge, strKID );
-    jObj["token"] = "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY";
-    jObj["status"] = "pending";
+    jDoc = QJsonDocument::fromJson( stat.getIdentifier().toLocal8Bit() );
+    jIDArr = jDoc.array();
+    for( int i = 0; i < jIDArr.size(); i++ )
+    {
+        QJsonObject jIDObj = jIDArr.at(i).toObject();
+        QString strType = jIDObj["type"].toString();
+        QString strValue = jIDObj["value"].toString();
+        BIN binData = {0,0};
+        char *pToken = NULL;
 
-    jArr.insert( 0, jObj );
+        JS_BIN_set( &binData, (unsigned char *)strValue.toStdString().c_str(), strValue.length() );
+        JS_BIN_encodeBase64URL( &binData, &pToken );
+
+        if( strType.compare( "dns", Qt::CaseInsensitive ) == 0 )
+        {
+            jObj["type"] = "dns-01";
+        }
+        else
+        {
+            jObj["type"] = "http-01";
+        }
+
+        jObj["url"] = strACME_URL( kACME_Challenge, strKID );
+//        jObj["token"] = "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY";
+        jObj["token"] = pToken;
+        jObj["status"] = "pending";
+
+        JS_BIN_reset( &binData );
+        if( pToken ) JS_free( pToken );
+
+        jArr.insert( i, jObj );
+    }
+
+
 
     rspJson["status"] = "pending";
 //    rspJson["expires"] = "2026-07-07T14:50:40Z";
