@@ -1340,6 +1340,16 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
+int ACMEServer::checkDNS_01( const QString strDNS )
+{
+    return JSR_OK;
+}
+
+int ACMEServer::checkHTTP_01( const QString strDNS )
+{
+    return JSR_OK;
+}
+
 int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
 {
     int ret = 0;
@@ -1922,6 +1932,8 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonO
 
 
     stat = acme_stats_[strKID];
+    int nStatus = stat.getStatus();
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1936,12 +1948,21 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonO
     strURL = strACME_URL( kACME_Authorization, strKID );
     jAuthArr.insert( 0, strURL );
 
-    rspJson["status"] = "pending";
+    if( nStatus & JS_ACME_STATUS_CERTIFICATE )
+    {
+        rspJson["status"] = "valid";
+        rspJson["certificate"] = strACME_URL( kACME_Certificate, strKID );
+    }
+    else
+    {
+        rspJson["status"] = "pending";
+    }
+
     rspJson["expires"] = iso8601;
     rspJson["identifiers"] = stat.getIdentifier();
     rspJson["profile"] = "shortlived";
     rspJson["authorizations"] = jAuthArr;
-    rspJson["certificate"] = strACME_URL( kACME_Certificate, strKID );
+
 
     ret = JSR_OK;
 

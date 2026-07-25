@@ -199,6 +199,8 @@ private:
     int getChainList( BINList **ppChainList );
 
     void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
+    int checkDNS_01( const QString strDNS );
+    int checkHTTP_01( const QString strDNS );
 };
 
 #endif // ACME_SERVER_H
