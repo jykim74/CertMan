@@ -1465,7 +1465,11 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
 
-    jAuthArr.insert( 0, strACME_URL( kACME_Authorization ));
+    for( int i = 0; i < stat.getIDList().size(); i++ )
+    {
+        QString strURL = QString( "%1_%2" ).arg( strACME_URL( kACME_Authorization )).arg(i);
+        jAuthArr.insert( 0, strURL );
+    }
 
     rspJson["status"] = "valid";
 //    rspJson["expires"] = "2026-07-08T07:32:17Z";
