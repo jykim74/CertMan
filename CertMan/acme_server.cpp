@@ -1475,7 +1475,13 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["authorizations"] = jAuthArr;
 
-    stat.setIdentifier( ACMEObject::getJson( objPayload["identifiers"].toArray() ));
+    jIDArr = objPayload["identifiers"].toArray();
+    for( int i = 0; i < jIDArr.size(); i++ )
+    {
+        QJsonObject jIDObj = jIDArr.at(i).toObject();
+        stat.setID( jIDObj["value"].toString() );
+    }
+
     stat.setOrder( "NewOrder" );
 
     nStatus |= JS_ACME_STATUS_NEWORDER;
@@ -1543,7 +1549,8 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     QString strKID = acmeObj.getKID();
     int nStatus = 0;
     QJsonDocument jDoc;
-    QJsonArray jIDArr;
+
+    QStringList idList;
 
     stat = acme_stats_[strKID];
     nStatus = stat.getStatus();
@@ -1559,28 +1566,19 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
         goto end;
     }
 
-    jDoc = QJsonDocument::fromJson( stat.getIdentifier().toLocal8Bit() );
-    jIDArr = jDoc.array();
-    for( int i = 0; i < jIDArr.size(); i++ )
+    idList = stat.getIDList();
+
+
+    for( int i = 0; i < idList.size(); i++ )
     {
-        QJsonObject jIDObj = jIDArr.at(i).toObject();
-        QString strType = jIDObj["type"].toString();
-        QString strValue = jIDObj["value"].toString();
+        QString strValue = idList.at(i);
         BIN binData = {0,0};
         char *pToken = NULL;
 
         JS_BIN_set( &binData, (unsigned char *)strValue.toStdString().c_str(), strValue.length() );
         JS_BIN_encodeBase64URL( &binData, &pToken );
 
-        if( strType.compare( "dns", Qt::CaseInsensitive ) == 0 )
-        {
-            jObj["type"] = "dns-01";
-        }
-        else
-        {
-            jObj["type"] = "http-01";
-        }
-
+        jObj["type"] = "dns-01";
         jObj["url"] = strACME_URL( kACME_Challenge, strKID );
 //        jObj["token"] = "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY";
         jObj["token"] = pToken;
@@ -1597,7 +1595,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     rspJson["status"] = "pending";
 //    rspJson["expires"] = "2026-07-07T14:50:40Z";
     rspJson["expires"] = iso8601;
-    rspJson["identifier"] = stat.getIdentifier();
+    rspJson["identifier"] = stat.getIDListJson();
     rspJson["challenges"] = jArr;
 
     nStatus |= JS_ACME_STATUS_AUTH;
@@ -1672,7 +1670,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["status"] = "processing";
 //    rspJson["expires"] = "2026-07-08T14:37:23Z";
     rspJson["expires"] = iso8601;
-    rspJson["identifiers"] = stat.getIdentifier();
+    rspJson["identifiers"] = stat.getIDListJson();
     rspJson["profile"] = "default";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["autorizaions"] = jArr;
@@ -1837,7 +1835,7 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
     rspJson["status"] = "valid";
 //    rspJson["expires"] = "2026-07-14T06:53:16Z";
     rspJson["expires"] = iso8601;
-    rspJson["identifiers"] = stat.getIdentifier();
+    rspJson["identifiers"] = stat.getIDListJson();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize, strKID );
     rspJson["authorizations"] = jAuthArr;
@@ -1989,7 +1987,7 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonO
     }
 
     rspJson["expires"] = iso8601;
-    rspJson["identifiers"] = stat.getIdentifier();
+    rspJson["identifiers"] = stat.getIDListJson();
     rspJson["profile"] = "shortlived";
     rspJson["authorizations"] = jAuthArr;
 

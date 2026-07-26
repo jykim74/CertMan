@@ -28,7 +28,9 @@ public:
     const QString getCSR() { return csr_; };
     const QString getCert() { return cert_; };
     const QString getNonce() { return nonce_; };
-    const QString getIdentifier() { return identifier_; };
+    const QStringList getIDList() { return id_list_; };
+    const QString getIDListJson();
+
     const QString getContact() { return contact_; };
     const QStringList getOrderList() { return order_list_; };
 
@@ -37,7 +39,7 @@ public:
     void setCSR( const QString strCSR );
     void setCert( const QString strCert );
     void setNonce( const QString strNonce );
-    void setIdentifier( const QString strIdentifier );
+    void setID( const QString strID );
     void setContact( const QString strContact );
     void setOrder( const QString strOrder );
 
@@ -47,7 +49,7 @@ private:
     QString         csr_;
     QString         cert_;
     QString         nonce_;
-    QString         identifier_;
+    QStringList     id_list_;
     QString         contact_;
     QStringList     order_list_;
 };

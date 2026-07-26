@@ -1,3 +1,7 @@
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include "acme_stat.h"
 
 ACMEStat::ACMEStat()
@@ -7,7 +11,7 @@ ACMEStat::ACMEStat()
     csr_.clear();
     cert_.clear();
     nonce_.clear();
-    identifier_.clear();
+    id_list_.clear();
     contact_.clear();
 }
 
@@ -19,7 +23,7 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     csr_ = other.csr_;
     cert_ = other.cert_;
     nonce_ = other.nonce_;
-    identifier_ = other.identifier_;
+    id_list_ = other.id_list_;
     contact_ = other.contact_;
 }
 
@@ -34,11 +38,31 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         csr_ = other.csr_;
         cert_ = other.cert_;
         nonce_ = other.nonce_;
-        identifier_ = other.identifier_;
+        id_list_ = other.id_list_;
         contact_ = other.contact_;
     }
 
     return *this;
+}
+
+const QString ACMEStat::getIDListJson()
+{
+    QJsonArray jArr;
+    QJsonDocument jDoc;
+
+    for( int i = 0; i < id_list_.size(); i++ )
+    {
+        QJsonObject jObj;
+
+        jObj["type"] = "dns";
+        jObj["value"] = id_list_.at(i);
+
+        jArr.append( jObj );
+    }
+
+    jDoc.setArray( jArr );
+
+    return jDoc.toJson();
 }
 
 void ACMEStat::setStatus( int nStatus )
@@ -66,9 +90,9 @@ void ACMEStat::setNonce( const QString strNonce )
     nonce_ = strNonce;
 }
 
-void ACMEStat::setIdentifier( const QString strIdentifier )
+void ACMEStat::setID( const QString strID )
 {
-    identifier_ = strIdentifier;
+    id_list_.append( strID );
 }
 
 void ACMEStat::setContact( const QString strContact )
