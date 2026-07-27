@@ -13,6 +13,8 @@ ACMEStat::ACMEStat()
     nonce_.clear();
     id_list_.clear();
     contact_.clear();
+    auths_.clear();
+    orders_.clear();
 }
 
 // 복사 생성자
@@ -25,6 +27,8 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     nonce_ = other.nonce_;
     id_list_ = other.id_list_;
     contact_ = other.contact_;
+    auths_ = other.auths_;
+    orders_ = other.orders_;
 }
 
 // 대입 연산자
@@ -40,6 +44,8 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         nonce_ = other.nonce_;
         id_list_ = other.id_list_;
         contact_ = other.contact_;
+        auths_ = other.auths_;
+        orders_ = other.orders_;
     }
 
     return *this;

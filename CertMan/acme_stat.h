@@ -23,6 +23,7 @@ public:
 
     int         status_;
     QString     type_;
+    QString     id_;
 };
 
 class ACMEOrder

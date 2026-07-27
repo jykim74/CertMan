@@ -1586,6 +1586,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
 
         auth.status_ = 0;
         auth.type_ = "dns-01";
+        auth.id_ = strValue;
 
         jArr.insert( i, jObj );
         JS_BIN_reset( &binRand );
