@@ -610,7 +610,6 @@ void TSPServer::log( const QString strLog, QColor cr )
         format.setForeground( cr );
         cursor.mergeCharFormat(format);
 
-
         cursor.insertText( strMsg );
 
         log_edit_->setTextCursor( cursor );

@@ -142,7 +142,7 @@ private :
     int runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson );
-    int runACME_Challenge( ACMEObject& acmeObj, QJsonObject& rspJson );
+    int runACME_Challenge( ACMEObject& acmeObj, const QString strToken, QJsonObject& rspJson );
     int runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList );

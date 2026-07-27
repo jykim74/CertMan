@@ -65,6 +65,16 @@ const QString ACMEStat::getIDListJson()
     return jDoc.toJson();
 }
 
+const ACMEAuth ACMEStat::getAuth( const QString strToken )
+{
+    return auths_[strToken];
+}
+
+const ACMEOrder ACMEStat::getOrder( const QString strToken )
+{
+    return orders_[strToken];
+}
+
 void ACMEStat::setStatus( int nStatus )
 {
     status_ = nStatus;
@@ -103,4 +113,14 @@ void ACMEStat::setContact( const QString strContact )
 void ACMEStat::setOrder( const QString strOrder )
 {
     order_list_.append( strOrder );
+}
+
+void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
+{
+    auths_.insert( strToken, auth );
+}
+
+void ACMEStat::addOrder( const QString strToken, const ACMEOrder order )
+{
+    orders_.insert( strToken, order );
 }
