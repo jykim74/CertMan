@@ -675,7 +675,7 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
             return JSR_ERR2;
         }
 
-        ret = runACME_Challenge( acmeObj, rspJson );
+        ret = runACME_Challenge( acmeObj, strID, rspJson );
     }
     else if( strCmd.compare(kACME_Deactivate, Qt::CaseInsensitive ) == 0 )
     {
@@ -1576,22 +1576,55 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     for( int i = 0; i < idList.size(); i++ )
     {
         QString strValue = idList.at(i);
-        BIN binData = {0,0};
+        BIN binRand = {0,0};
         char *pToken = NULL;
+        ACMEAuth auth;
 
-        JS_BIN_set( &binData, (unsigned char *)strValue.toStdString().c_str(), strValue.length() );
-        JS_BIN_encodeBase64URL( &binData, &pToken );
+        JS_PKI_genRandom( 16, &binRand );
+        JS_BIN_encodeBase64URL( &binRand, &pToken );
 
         jObj["type"] = "dns-01";
-        jObj["url"] = strACME_URL( kACME_Challenge, strKID );
-//        jObj["token"] = "oJwAsBqE6Hokcfl_nR2lWaNb0-TXq_XkCj9OdK6b_WY";
+        jObj["url"] = strACME_URL( kACME_Challenge, pToken );
         jObj["token"] = pToken;
         jObj["status"] = "pending";
 
-        JS_BIN_reset( &binData );
-        if( pToken ) JS_free( pToken );
+        auth.status_ = 0;
+        auth.type_ = "dns-01";
+        auth.id_ = strValue;
 
         jArr.insert( i, jObj );
+        JS_BIN_reset( &binRand );
+        if( pToken )
+        {
+            JS_free( pToken );
+            pToken = NULL;
+        }
+
+        stat.addAuth( pToken, auth );
+
+        if( strValue.contains( "*" ) == false )
+        {
+            JS_PKI_genRandom( 16, &binRand );
+            JS_BIN_encodeBase64URL( &binRand, &pToken );
+
+            jObj["type"] = "http-01";
+            jObj["url"] = strACME_URL( kACME_Challenge, pToken );
+            jObj["token"] = pToken;
+            jObj["status"] = "pending";
+
+            auth.status_ = 0;
+            auth.type_ = "http-01";
+
+            jArr.insert( i, jObj );
+            JS_BIN_reset( &binRand );
+            if( pToken )
+            {
+                JS_free( pToken );
+                pToken = NULL;
+            }
+
+            stat.addAuth( pToken, auth );
+        }
     }
 
 
@@ -1693,7 +1726,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, QJsonObject& rspJson )
+int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, QJsonObject& rspJson )
 {
     /*
     {
@@ -1711,6 +1744,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
+    ACMEAuth auth = stat.getAuth( strToken );
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 

@@ -13,6 +13,8 @@ ACMEStat::ACMEStat()
     nonce_.clear();
     id_list_.clear();
     contact_.clear();
+    auths_.clear();
+    orders_.clear();
 }
 
 // 복사 생성자
@@ -25,6 +27,8 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     nonce_ = other.nonce_;
     id_list_ = other.id_list_;
     contact_ = other.contact_;
+    auths_ = other.auths_;
+    orders_ = other.orders_;
 }
 
 // 대입 연산자
@@ -40,6 +44,8 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         nonce_ = other.nonce_;
         id_list_ = other.id_list_;
         contact_ = other.contact_;
+        auths_ = other.auths_;
+        orders_ = other.orders_;
     }
 
     return *this;
@@ -63,6 +69,16 @@ const QString ACMEStat::getIDListJson()
     jDoc.setArray( jArr );
 
     return jDoc.toJson();
+}
+
+const ACMEAuth ACMEStat::getAuth( const QString strToken )
+{
+    return auths_[strToken];
+}
+
+const ACMEOrder ACMEStat::getOrder( const QString strToken )
+{
+    return orders_[strToken];
 }
 
 void ACMEStat::setStatus( int nStatus )
@@ -103,4 +119,14 @@ void ACMEStat::setContact( const QString strContact )
 void ACMEStat::setOrder( const QString strOrder )
 {
     order_list_.append( strOrder );
+}
+
+void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
+{
+    auths_.insert( strToken, auth );
+}
+
+void ACMEStat::addOrder( const QString strToken, const ACMEOrder order )
+{
+    orders_.insert( strToken, order );
 }
