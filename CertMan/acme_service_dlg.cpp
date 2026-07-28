@@ -179,14 +179,14 @@ void ACMEServiceDlg::clickStart()
         int ret = dbMgr->getCertRec( nTLSNum, certRec );
         if( ret != 0 )
         {
-            manApplet->warningBox( tr("failed to get TSP certificate" ), this );
+            manApplet->warningBox( tr("failed to get TLS certificate" ), this );
             goto end;
         }
 
         ret = dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
         if( ret != 0 )
         {
-            manApplet->warningBox( tr("failed to get TSP private key" ), this );
+            manApplet->warningBox( tr("failed to get TLS private key" ), this );
             goto end;
         }
 
