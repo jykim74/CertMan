@@ -126,6 +126,22 @@ void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
     auths_.insert( strToken, auth );
 }
 
+void ACMEStat::setAuthStatus( const QString strID, int nStatus )
+{
+    QMap<QString, ACMEAuth>::iterator i;
+
+    for( i = auths_.begin(); i != auths_.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEAuth auth = i.value();
+
+        if( auth.id_ == strID )
+        {
+            auth.status_ = nStatus;
+        }
+    }
+}
+
 void ACMEStat::addOrder( const QString strToken, const ACMEOrder order )
 {
     orders_.insert( strToken, order );

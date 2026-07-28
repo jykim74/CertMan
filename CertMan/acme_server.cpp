@@ -1681,6 +1681,16 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
+    QMap<QString, ACMEAuth> auths = stat.getAuths();
+    QMap<QString, ACMEAuth>::iterator i;
+
+    for( i = auths.begin(); i != auths.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEAuth auth = i.value();
+    }
+
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1758,13 +1768,25 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     }
 
     rspJson["status"] = "processing";
-    rspJson["type"] = "http-01";
-    rspJson["url"] = strACME_URL( kACME_Challenge, strKID );
-    rspJson["token"] = "slUfb4u4H-Dw64Fq9wWF6BvqmbCDUlVj5tNRJBOXtLU";
+    rspJson["type"] = auth.type_;
+    rspJson["url"] = strACME_URL( kACME_Challenge, strToken );
+    rspJson["token"] = strToken;
 
     nStatus |= JS_ACME_STATUS_CHAL_DONE;
     stat.setStatus( nStatus );
     acme_stats_.insert( strKID, stat );
+
+    if( auth.type_ == "http-01" )
+        ret = checkHTTP_01( auth.id_ );
+    else
+        ret = checkDNS_01( auth.id_ );
+
+    if( ret == JSR_OK )
+    {
+        int nStatus = auth.status_;
+        nStatus |= JS_ACME_STATUS_CHAL_DONE;
+        stat.setAuthStatus( strToken, nStatus );
+    }
 
     ret = JSR_OK;
 

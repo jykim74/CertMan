@@ -62,6 +62,8 @@ public:
 
     const ACMEAuth getAuth( const QString strToken );
     const ACMEOrder getOrder( const QString strToken );
+    const QMap<QString, ACMEAuth> getAuths() { return auths_; };
+    const QMap<QString, ACMEOrder> getOrders() { return orders_; };
 
     void setStatus( int nStatus );
     void setPubKey( const QString strPubKey );
@@ -73,6 +75,7 @@ public:
     void setOrder( const QString strOrder );
 
     void addAuth( const QString strToken, const ACMEAuth auth );
+    void setAuthStatus( const QString strID, int nStatus );
     void addOrder( const QString strToken, const ACMEOrder order );
 
 private:
