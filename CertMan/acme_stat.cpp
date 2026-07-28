@@ -51,10 +51,9 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
     return *this;
 }
 
-const QString ACMEStat::getIDListJson()
+const QJsonArray ACMEStat::getIDListArray()
 {
     QJsonArray jArr;
-    QJsonDocument jDoc;
 
     for( int i = 0; i < id_list_.size(); i++ )
     {
@@ -66,9 +65,7 @@ const QString ACMEStat::getIDListJson()
         jArr.append( jObj );
     }
 
-    jDoc.setArray( jArr );
-
-    return jDoc.toJson();
+    return jArr;
 }
 
 const ACMEAuth ACMEStat::getAuth( const QString strToken )

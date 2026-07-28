@@ -201,6 +201,8 @@ private:
     void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
     int checkDNS_01( const QString strDNS );
     int checkHTTP_01( const QString strDNS );
+
+    const QString getUTC( time_t time );
 };
 
 #endif // ACME_SERVER_H

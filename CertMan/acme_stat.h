@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QString>
 #include <QMap>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #define JS_ACME_STATUS_START        0x00000001
 #define JS_ACME_STATUS_NEWORDER     0x00000002
@@ -55,7 +57,7 @@ public:
     const QString getCert() { return cert_; };
     const QString getNonce() { return nonce_; };
     const QStringList getIDList() { return id_list_; };
-    const QString getIDListJson();
+    const QJsonArray getIDListArray();
 
     const QString getContact() { return contact_; };
     const QStringList getOrderList() { return order_list_; };
