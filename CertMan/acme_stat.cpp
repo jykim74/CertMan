@@ -13,6 +13,7 @@ ACMEStat::ACMEStat()
     nonce_.clear();
     contact_.clear();
     auths_.clear();
+    challs_.clear();
     orders_.clear();
 }
 
@@ -26,6 +27,7 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     nonce_ = other.nonce_;
     contact_ = other.contact_;
     auths_ = other.auths_;
+    challs_ = other.challs_;
     orders_ = other.orders_;
 }
 
@@ -42,6 +44,7 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         nonce_ = other.nonce_;
         contact_ = other.contact_;
         auths_ = other.auths_;
+        challs_ = other.challs_;
         orders_ = other.orders_;
     }
 

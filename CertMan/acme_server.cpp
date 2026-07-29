@@ -670,7 +670,7 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     }
     else if( strCmd.compare(kACME_Authorization, Qt::CaseInsensitive ) == 0 )
     {
-        ret = runACME_Authorization( acmeObj, rspJson );
+        ret = runACME_Authorization( acmeObj, strID, rspJson );
     }
     else if( strCmd.compare(kACME_Challenge, Qt::CaseInsensitive ) == 0 )
     {
@@ -1525,7 +1525,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson )
+int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID, QJsonObject& rspJson )
 {
     /*
     {
@@ -1581,7 +1581,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
 
     stat = acme_stats_[strKID];
     nStatus = stat.getStatus();
-    ACMEAuth auth = stat.getAuth( strKID );
+    ACMEAuth auth = stat.getAuth( strAID );
     QJsonObject idObj;
     char *pToken = NULL;
     BIN binRand = {0,0};
@@ -1613,7 +1613,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     jArr.insert( 0, jObj );
 
     chall.status_ = ACME_Init;
-    chall.auth_id_ = strKID;
+    chall.auth_id_ = strAID;
     stat.addChall( pToken, chall );
 
     JS_BIN_reset( &binRand );
@@ -1655,6 +1655,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
 
     nStatus |= JS_ACME_STATUS_AUTH;
     stat.setStatus( nStatus );
+
     acme_stats_.insert( strKID, stat );
 
     ret = JSR_OK;
@@ -1754,7 +1755,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, QJsonObject& rspJson )
+int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJsonObject& rspJson )
 {
     /*
     {
@@ -1772,7 +1773,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
-    ACMEChall chall = stat.getChall( strToken );
+    ACMEChall chall = stat.getChall( strCID );
     ACMEAuth auth = stat.getAuth( chall.auth_id_ );
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
@@ -1788,8 +1789,8 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
 
     rspJson["status"] = "processing";
     rspJson["type"] = auth.type_;
-    rspJson["url"] = strACME_URL( kACME_Challenge, strToken );
-    rspJson["token"] = strToken;
+    rspJson["url"] = strACME_URL( kACME_Challenge, strCID );
+    rspJson["token"] = strCID;
 
 
 
@@ -1801,12 +1802,12 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     if( ret == JSR_OK )
     {
         stat.setAuthStatus( chall.auth_id_, ACME_Done );
-        stat.setChallStatus( strToken, ACME_Done );
+        stat.setChallStatus( strCID, ACME_Done );
         nStatus |= JS_ACME_STATUS_CHAL_DONE;
     }
     else
     {
-        stat.setChallStatus( strToken, ACME_Run );
+        stat.setChallStatus( strCID, ACME_Run );
         nStatus |= JS_ACME_STATUS_CHALLENGE;
     }
 
