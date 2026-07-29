@@ -11,7 +11,6 @@ ACMEStat::ACMEStat()
     csr_.clear();
     cert_.clear();
     nonce_.clear();
-    id_list_.clear();
     contact_.clear();
     auths_.clear();
     orders_.clear();
@@ -25,7 +24,6 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     csr_ = other.csr_;
     cert_ = other.cert_;
     nonce_ = other.nonce_;
-    id_list_ = other.id_list_;
     contact_ = other.contact_;
     auths_ = other.auths_;
     orders_ = other.orders_;
@@ -42,7 +40,6 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         csr_ = other.csr_;
         cert_ = other.cert_;
         nonce_ = other.nonce_;
-        id_list_ = other.id_list_;
         contact_ = other.contact_;
         auths_ = other.auths_;
         orders_ = other.orders_;
@@ -54,13 +51,16 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
 const QJsonArray ACMEStat::getIDListArray()
 {
     QJsonArray jArr;
+    QMap<QString, ACMEAuth>::iterator i;
 
-    for( int i = 0; i < id_list_.size(); i++ )
+    for( i = auths_.begin(); i != auths_.end(); ++i )
     {
-        QJsonObject jObj;
+        QString key = i.key();
+        ACMEAuth auth = i.value();
 
-        jObj["type"] = "dns";
-        jObj["value"] = id_list_.at(i);
+        QJsonObject jObj;
+        jObj["type"] = auth.type_;
+        jObj["value"] = auth.id_;
 
         jArr.append( jObj );
     }
@@ -103,19 +103,9 @@ void ACMEStat::setNonce( const QString strNonce )
     nonce_ = strNonce;
 }
 
-void ACMEStat::setID( const QString strID )
-{
-    id_list_.append( strID );
-}
-
 void ACMEStat::setContact( const QString strContact )
 {
     contact_ = strContact;
-}
-
-void ACMEStat::setOrder( const QString strOrder )
-{
-    order_list_.append( strOrder );
 }
 
 void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
@@ -139,7 +129,79 @@ void ACMEStat::setAuthStatus( const QString strID, int nStatus )
     }
 }
 
+void ACMEStat::setOrderStatus( const QString strID, int nStatus )
+{
+    QMap<QString, ACMEOrder>::iterator i;
+
+    for( i = orders_.begin(); i != orders_.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEOrder order = i.value();
+
+        if( key == strID )
+        {
+            order.status_ = nStatus;
+        }
+    }
+}
+
+void ACMEStat::setAuthLinkStatus( const QString strLink, int nStatus )
+{
+    QMap<QString, ACMEAuth>::iterator i;
+
+    ACMEAuth auth = auths_[strLink];
+    auth.status_ = nStatus;
+    auths_.insert( strLink, auth );
+}
+
+bool ACMEStat::isAuthDone()
+{
+    QMap<QString, ACMEAuth>::iterator i;
+
+    for( i = auths_.begin(); i != auths_.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEAuth auth = i.value();
+
+        if( auth.status_ != ACME_Done )
+            return false;
+    }
+
+    return true;
+}
+
 void ACMEStat::addOrder( const QString strToken, const ACMEOrder order )
 {
     orders_.insert( strToken, order );
+}
+
+const QStringList ACMEStat::getIDList()
+{
+    QStringList idList;
+
+    QMap<QString, ACMEAuth>::iterator i;
+
+    for( i = auths_.begin(); i != auths_.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEAuth auth = i.value();
+        idList.append( auth.id_ );
+    }
+
+    return idList;
+}
+
+const QStringList ACMEStat::getOrderList()
+{
+    QStringList idList;
+
+    QMap<QString, ACMEOrder>::iterator i;
+
+    for( i = orders_.begin(); i != orders_.end(); ++i )
+    {
+        QString key = i.key();
+        idList.append( key );
+    }
+
+    return idList;
 }

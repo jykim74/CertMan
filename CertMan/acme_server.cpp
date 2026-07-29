@@ -1484,8 +1484,6 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
 
         ACMEAuth auth;
 
-        stat.setID( strID );
-
         JS_BIN_set( &binSrc, (unsigned char *)strID.data(), strID.length() );
         JS_PKI_genHash( "SHA256", &binSrc, &binHash );
         JS_BIN_encodeBase64URL( &binHash, &pURL );
@@ -1493,7 +1491,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
         QString strURL = strACME_URL( kACME_Authorization, pURL );
         jAuthArr.insert( 0, strURL );
 
-        auth.status_ = 0;
+        auth.status_ = ACME_Init;
         auth.id_ = strID;
         auth.type_ = jIDObj["type"].toString();
         stat.addAuth( pURL, auth );
@@ -1510,8 +1508,6 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["authorizations"] = jAuthArr;
-
-    stat.setOrder( "NewOrder" );
 
     nStatus |= JS_ACME_STATUS_NEWORDER;
     stat.setStatus( nStatus );
@@ -1578,10 +1574,17 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     int nStatus = 0;
     QJsonDocument jDoc;
 
-    QStringList idList;
-
     stat = acme_stats_[strKID];
     nStatus = stat.getStatus();
+    ACMEAuth auth = stat.getAuth( strKID );
+    QJsonObject idObj;
+    char *pToken = NULL;
+    BIN binRand = {0,0};
+    QString strValue;
+    ACMEOrder order;
+
+    idObj["type"] = auth.type_;
+    idObj["value"] = auth.id_;
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -1594,70 +1597,54 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
         goto end;
     }
 
-    idList = stat.getIDList();
+    JS_PKI_genRandom( 16, &binRand );
+    JS_BIN_encodeBase64URL( &binRand, &pToken );
+    strValue = auth.id_;
 
+    jObj["type"] = "dns-01";
+    jObj["url"] = strACME_URL( kACME_Challenge, pToken );
+    jObj["token"] = pToken;
+    jObj["status"] = "pending";
 
-    for( int i = 0; i < idList.size(); i++ )
+    order.status_ = ACME_Init;
+    order.auth_id_ = strKID;
+    stat.addOrder( pToken, order );
+
+    JS_BIN_reset( &binRand );
+    if( pToken )
     {
-        QString strValue = idList.at(i);
-        BIN binRand = {0,0};
-        char *pToken = NULL;
-        ACMEAuth auth;
+        JS_free( pToken );
+        pToken = NULL;
+    }
 
+    if( strValue.contains( "*" ) == false )
+    {
         JS_PKI_genRandom( 16, &binRand );
         JS_BIN_encodeBase64URL( &binRand, &pToken );
 
-        jObj["type"] = "dns-01";
+        jObj["type"] = "http-01";
         jObj["url"] = strACME_URL( kACME_Challenge, pToken );
         jObj["token"] = pToken;
         jObj["status"] = "pending";
 
-        auth.status_ = 0;
-        auth.type_ = "dns-01";
-        auth.id_ = strValue;
+        order.status_ = ACME_Init;
+        order.auth_id_ = strKID;
+        stat.addOrder( pToken, order );
 
-        jArr.insert( i, jObj );
         JS_BIN_reset( &binRand );
         if( pToken )
         {
             JS_free( pToken );
             pToken = NULL;
         }
-
-        stat.addAuth( pToken, auth );
-
-        if( strValue.contains( "*" ) == false )
-        {
-            JS_PKI_genRandom( 16, &binRand );
-            JS_BIN_encodeBase64URL( &binRand, &pToken );
-
-            jObj["type"] = "http-01";
-            jObj["url"] = strACME_URL( kACME_Challenge, pToken );
-            jObj["token"] = pToken;
-            jObj["status"] = "pending";
-
-            auth.status_ = 0;
-            auth.type_ = "http-01";
-
-            jArr.insert( i, jObj );
-            JS_BIN_reset( &binRand );
-            if( pToken )
-            {
-                JS_free( pToken );
-                pToken = NULL;
-            }
-
-            stat.addAuth( pToken, auth );
-        }
     }
 
-
-
     rspJson["status"] = "pending";
-//    rspJson["expires"] = "2026-07-07T14:50:40Z";
     rspJson["expires"] = getUTC( time(NULL) + 300);
-    rspJson["identifier"] = stat.getIDListArray();
+    rspJson["identifier"] = idObj;
     rspJson["challenges"] = jArr;
+
+    stat.setAuthStatus( strKID, ACME_Run );
 
     nStatus |= JS_ACME_STATUS_AUTH;
     stat.setStatus( nStatus );
@@ -1707,13 +1694,6 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QMap<QString, ACMEAuth> auths = stat.getAuths();
     QMap<QString, ACMEAuth>::iterator i;
 
-    for( i = auths.begin(); i != auths.end(); ++i )
-    {
-        QString key = i.key();
-        ACMEAuth auth = i.value();
-    }
-
-
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1721,6 +1701,14 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
         makeErrorJson( Malformed, "JWS verification error", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
+    if( stat.isAuthDone() == false )
+    {
+        elog( QString( "order not ready" ));
+        makeErrorJson( OrderNotReady, "order not ready", rspJson );
         ret = JSR_OK;
         goto end;
     }
@@ -1777,7 +1765,8 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
-    ACMEAuth auth = stat.getAuth( strToken );
+    ACMEOrder order = stat.getOrder( strToken );
+    ACMEAuth auth = stat.getAuth( order.auth_id_ );
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -1795,9 +1784,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     rspJson["url"] = strACME_URL( kACME_Challenge, strToken );
     rspJson["token"] = strToken;
 
-    nStatus |= JS_ACME_STATUS_CHAL_DONE;
-    stat.setStatus( nStatus );
-    acme_stats_.insert( strKID, stat );
+
 
     if( auth.type_ == "http-01" )
         ret = checkHTTP_01( auth.id_ );
@@ -1806,10 +1793,18 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
 
     if( ret == JSR_OK )
     {
-        int nStatus = auth.status_;
+        stat.setAuthStatus( order.auth_id_, ACME_Done );
+        stat.setOrderStatus( strToken, ACME_Done );
         nStatus |= JS_ACME_STATUS_CHAL_DONE;
-        stat.setAuthStatus( strToken, nStatus );
     }
+    else
+    {
+        stat.setOrderStatus( strToken, ACME_Run );
+        nStatus |= JS_ACME_STATUS_CHALLENGE;
+    }
+
+    stat.setStatus( nStatus );
+    acme_stats_.insert( strKID, stat );
 
     ret = JSR_OK;
 

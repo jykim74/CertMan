@@ -14,6 +14,12 @@
 #define JS_ACME_STATUS_CHAL_DONE    0x00000010
 #define JS_ACME_STATUS_CERTIFICATE  0x00000020
 
+enum {
+    ACME_Init = 0,
+    ACME_Run,
+    ACME_Done,
+};
+
 class ACMEAuth
 {
 public:
@@ -37,6 +43,7 @@ public :
     }
 
     int         status_;
+    QString     auth_id_;
 };
 
 class ACMEStat : public QObject
@@ -56,11 +63,10 @@ public:
     const QString getCSR() { return csr_; };
     const QString getCert() { return cert_; };
     const QString getNonce() { return nonce_; };
-    const QStringList getIDList() { return id_list_; };
-    const QJsonArray getIDListArray();
 
+    const QJsonArray getIDListArray();
     const QString getContact() { return contact_; };
-    const QStringList getOrderList() { return order_list_; };
+
 
     const ACMEAuth getAuth( const QString strToken );
     const ACMEOrder getOrder( const QString strToken );
@@ -72,13 +78,18 @@ public:
     void setCSR( const QString strCSR );
     void setCert( const QString strCert );
     void setNonce( const QString strNonce );
-    void setID( const QString strID );
     void setContact( const QString strContact );
-    void setOrder( const QString strOrder );
 
     void addAuth( const QString strToken, const ACMEAuth auth );
     void setAuthStatus( const QString strID, int nStatus );
+    void setOrderStatus( const QString strID, int nStatus );
+    void setAuthLinkStatus( const QString strLink, int nStatus );
+    bool isAuthDone();
+
+
     void addOrder( const QString strToken, const ACMEOrder order );
+    const QStringList getIDList();
+    const QStringList getOrderList();
 
 private:
     int             status_;
@@ -86,9 +97,7 @@ private:
     QString         csr_;
     QString         cert_;
     QString         nonce_;
-    QStringList     id_list_;
     QString         contact_;
-    QStringList     order_list_;
 
     QMap<QString, ACMEAuth> auths_;
     QMap<QString, ACMEOrder> orders_;
