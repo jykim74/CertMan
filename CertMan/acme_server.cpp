@@ -1451,6 +1451,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     QJsonArray jIDArr;
     BIN binPub = {0,0};
     ACMEStat stat;
+    ACMEOrder order;
     QJsonObject objPayload;
 
     QString strKID = acmeObj.getKID();
@@ -1508,6 +1509,10 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["authorizations"] = jAuthArr;
+
+    order.status_ = ACME_Init;
+    order.kid_ = strKID;
+    stat.addOrder( strKID, order );
 
     nStatus |= JS_ACME_STATUS_NEWORDER;
     stat.setStatus( nStatus );
@@ -1581,7 +1586,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     char *pToken = NULL;
     BIN binRand = {0,0};
     QString strValue;
-    ACMEOrder order;
+    ACMEChall chall;
 
     idObj["type"] = auth.type_;
     idObj["value"] = auth.id_;
@@ -1605,10 +1610,11 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
     jObj["url"] = strACME_URL( kACME_Challenge, pToken );
     jObj["token"] = pToken;
     jObj["status"] = "pending";
+    jArr.insert( 0, jObj );
 
-    order.status_ = ACME_Init;
-    order.auth_id_ = strKID;
-    stat.addOrder( pToken, order );
+    chall.status_ = ACME_Init;
+    chall.auth_id_ = strKID;
+    stat.addChall( pToken, chall );
 
     JS_BIN_reset( &binRand );
     if( pToken )
@@ -1626,10 +1632,11 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, QJsonObject& rspJson
         jObj["url"] = strACME_URL( kACME_Challenge, pToken );
         jObj["token"] = pToken;
         jObj["status"] = "pending";
+        jArr.insert(0, jObj);
 
-        order.status_ = ACME_Init;
-        order.auth_id_ = strKID;
-        stat.addOrder( pToken, order );
+        chall.status_ = ACME_Init;
+        chall.auth_id_ = strKID;
+        stat.addChall( pToken, chall );
 
         JS_BIN_reset( &binRand );
         if( pToken )
@@ -1765,8 +1772,8 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
-    ACMEOrder order = stat.getOrder( strToken );
-    ACMEAuth auth = stat.getAuth( order.auth_id_ );
+    ACMEChall chall = stat.getChall( strToken );
+    ACMEAuth auth = stat.getAuth( chall.auth_id_ );
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -1793,13 +1800,13 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strToken, 
 
     if( ret == JSR_OK )
     {
-        stat.setAuthStatus( order.auth_id_, ACME_Done );
-        stat.setOrderStatus( strToken, ACME_Done );
+        stat.setAuthStatus( chall.auth_id_, ACME_Done );
+        stat.setChallStatus( strToken, ACME_Done );
         nStatus |= JS_ACME_STATUS_CHAL_DONE;
     }
     else
     {
-        stat.setOrderStatus( strToken, ACME_Run );
+        stat.setChallStatus( strToken, ACME_Run );
         nStatus |= JS_ACME_STATUS_CHALLENGE;
     }
 

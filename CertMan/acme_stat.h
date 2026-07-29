@@ -43,6 +43,18 @@ public :
     }
 
     int         status_;
+    QString     kid_;
+};
+
+class ACMEChall
+{
+public :
+    ACMEChall()
+    {
+        status_ = -1;
+    }
+
+    int         status_;
     QString     auth_id_;
 };
 
@@ -70,8 +82,10 @@ public:
 
     const ACMEAuth getAuth( const QString strToken );
     const ACMEOrder getOrder( const QString strToken );
+    const ACMEChall getChall( const QString strToken );
     const QMap<QString, ACMEAuth> getAuths() { return auths_; };
     const QMap<QString, ACMEOrder> getOrders() { return orders_; };
+    const QMap<QString, ACMEChall> getChalls() { return challs_; };
 
     void setStatus( int nStatus );
     void setPubKey( const QString strPubKey );
@@ -81,7 +95,9 @@ public:
     void setContact( const QString strContact );
 
     void addAuth( const QString strToken, const ACMEAuth auth );
+    void addChall( const QString strToken, const ACMEChall chall );
     void setAuthStatus( const QString strID, int nStatus );
+    void setChallStatus( const QString strID, int nStatus );
     void setOrderStatus( const QString strID, int nStatus );
     void setAuthLinkStatus( const QString strLink, int nStatus );
     bool isAuthDone();
@@ -100,6 +116,7 @@ private:
     QString         contact_;
 
     QMap<QString, ACMEAuth> auths_;
+    QMap<QString, ACMEChall> challs_;
     QMap<QString, ACMEOrder> orders_;
 };
 

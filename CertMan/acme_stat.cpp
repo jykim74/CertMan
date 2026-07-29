@@ -78,6 +78,11 @@ const ACMEOrder ACMEStat::getOrder( const QString strToken )
     return orders_[strToken];
 }
 
+const ACMEChall ACMEStat::getChall( const QString strToken )
+{
+    return challs_[strToken];
+}
+
 void ACMEStat::setStatus( int nStatus )
 {
     status_ = nStatus;
@@ -113,6 +118,11 @@ void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
     auths_.insert( strToken, auth );
 }
 
+void ACMEStat::addChall( const QString strToken, const ACMEChall chall )
+{
+    challs_.insert( strToken, chall );
+}
+
 void ACMEStat::setAuthStatus( const QString strID, int nStatus )
 {
     QMap<QString, ACMEAuth>::iterator i;
@@ -125,6 +135,22 @@ void ACMEStat::setAuthStatus( const QString strID, int nStatus )
         if( auth.id_ == strID )
         {
             auth.status_ = nStatus;
+        }
+    }
+}
+
+void ACMEStat::setChallStatus( const QString strID, int nStatus )
+{
+    QMap<QString, ACMEChall>::iterator i;
+
+    for( i = challs_.begin(); i != challs_.end(); ++i )
+    {
+        QString key = i.key();
+        ACMEChall chall = i.value();
+
+        if( key == strID )
+        {
+            chall.status_ = nStatus;
         }
     }
 }
