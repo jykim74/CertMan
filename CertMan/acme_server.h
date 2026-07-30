@@ -139,14 +139,14 @@ private :
 
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
-    int runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson );
+    int runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJsonObject& rspJson );
     int runACME_Authorization( ACMEObject& acmeObj, const QString strAID, QJsonObject& rspJson );
     int runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson );
     int runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJsonObject& rspJson );
     int runACME_Account( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Location( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList );
-    int runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
+    int runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonObject& rspJson );
     int runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson );
     int runACME_KeyChange( const QJsonObject request, QJsonObject& rspJson );
     int runACME_RenewalInfo( const QJsonObject request, QJsonObject& rspJson );

@@ -606,14 +606,17 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     }
     else if( strCmd.compare(kACME_NewOrder, Qt::CaseInsensitive ) == 0 && (bPost == true) )
     {
-        ret = runACME_NewOrder( acmeObj, rspJson );
+        QString strOrderLink;
+        ret = runACME_NewOrder( acmeObj, strOrderLink, rspJson );
 
         rspJDoc.setObject( rspJson );
         JS_BIN_set( pRsp, (unsigned char *)rspJDoc.toJson().data(), rspJDoc.toJson().length() );
 
-        QString strKID = acmeObj.getKID();
-        QString strOrder = QString( "Location: %1" ).arg( strACME_URL( kACME_Order, strKID ) );
-        rspHeaders.append( strOrder );
+        if( strOrderLink.length() > 0 )
+        {
+            QString strOrder = QString( "Location: %1" ).arg( strOrderLink );
+            rspHeaders.append( strOrder );
+        }
     }
     else if( strCmd.compare(kACME_RenewalInfo, Qt::CaseInsensitive ) == 0 )
     {
@@ -1427,7 +1430,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
+int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJsonObject& rspJson )
 {
 /*
     {
@@ -1457,9 +1460,20 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strKID = acmeObj.getKID();
 
     int nStatus = 0;
+    BIN binRand = {0,0};
+    char *pOrder = NULL;
 
-    stat = acme_stats_[strKID];
+    stat = acme_stats_[strKID];    
     nStatus = stat.getStatus();
+
+    if( nStatus < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( nStatus ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1510,9 +1524,13 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
     rspJson["authorizations"] = jAuthArr;
 
+    JS_PKI_genRandom( 16, &binRand );
+    JS_BIN_encodeBase64URL( &binRand, &pOrder );
+
     order.status_ = ACME_Init;
     order.kid_ = strKID;
-    stat.addOrder( strKID, order );
+    stat.addOrder( pOrder, order );
+    orderLink = strACME_URL( kACME_Order, pOrder );
 
     nStatus |= JS_ACME_STATUS_NEWORDER;
     stat.setStatus( nStatus );
@@ -1522,6 +1540,9 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QJsonObject& rspJson )
 
 end :
     JS_BIN_reset( &binPub );
+    JS_BIN_reset( &binRand );
+    if( pOrder ) JS_free( pOrder );
+
     return ret;
 }
 
@@ -1587,6 +1608,14 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     BIN binRand = {0,0};
     QString strValue;
     ACMEChall chall;
+
+    if( nStatus < 0 || auth.status_ < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( nStatus ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
 
     idObj["type"] = auth.type_;
     idObj["value"] = auth.id_;
@@ -1699,8 +1728,14 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
-    QMap<QString, ACMEAuth> auths = stat.getAuths();
-    QMap<QString, ACMEAuth>::iterator i;
+
+    if( nStatus < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( nStatus ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -1776,6 +1811,14 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
     ACMEChall chall = stat.getChall( strCID );
     ACMEAuth auth = stat.getAuth( chall.auth_id_ );
 
+    if( nStatus < 0 || chall.status_ < 0 || auth.status_ < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( nStatus ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1830,6 +1873,15 @@ int ACMEServer::runACME_Account( ACMEObject& acmeObj, const QString strKID, QJso
     QJsonObject objKey;
 
     stat = acme_stats_[strKID];
+
+    if( stat.getStatus() < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( stat.getStatus() ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -1902,6 +1954,14 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
 
 
     stat = acme_stats_[strKID];
+    if( stat.getStatus() < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( stat.getStatus() ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );
@@ -2011,7 +2071,7 @@ end :
     return ret;
 }
 
-int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonObject& rspJson )
+int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonObject& rspJson )
 {
     /*
     {
@@ -2040,8 +2100,18 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strKID, QJsonO
     QString strURL;
 
 
+    QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
+    ACMEOrder order = stat.getOrder( strOID );
+
+    if( nStatus < 0 || order.status_ < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( nStatus ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
 
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
@@ -2102,6 +2172,14 @@ int ACMEServer:: runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJso
     QStringList orderList;
 
     stat = acme_stats_[strKID];
+    if( stat.getStatus() < 0 )
+    {
+        elog( QString( "Status invalid: %1" ).arg( stat.getStatus() ) );
+        makeErrorJson( Malformed, "STAT invalid", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_BIN_decodeHex( stat.getPubKey().toStdString().c_str(), &binPub );
 
     ret = acmeObj.verifySignature( &binPub );

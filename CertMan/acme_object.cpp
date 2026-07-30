@@ -116,11 +116,17 @@ const QString ACMEObject::getKID()
     }
     else
     {
+        char *pKID = NULL;
         ret = getPubKey( &binPub );
         if( ret != 0 ) goto end;
 
         JS_PKI_getKeyIdentifier( &binPub, &binID );
-        strID = getHexString( &binID );
+        JS_BIN_encodeBase64URL( &binID, &pKID );
+        if( pKID )
+        {
+            strID = pKID;
+            JS_free( pKID );
+        }
     }
 
 end :
