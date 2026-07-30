@@ -135,11 +135,14 @@ void ACMEStat::setAuthStatus( const QString strID, int nStatus )
         QString key = i.key();
         ACMEAuth auth = i.value();
 
-        if( auth.id_ == strID )
+        if( key == strID )
         {
-            auth.status_ = nStatus;
+//            auth.status_ = nStatus;
+            i->status_ = nStatus;
         }
     }
+
+//    auths_[strID].status_ = nStatus;
 }
 
 void ACMEStat::setChallStatus( const QString strID, int nStatus )
@@ -153,7 +156,7 @@ void ACMEStat::setChallStatus( const QString strID, int nStatus )
 
         if( key == strID )
         {
-            chall.status_ = nStatus;
+            i->status_ = nStatus;
         }
     }
 }
@@ -169,7 +172,7 @@ void ACMEStat::setOrderStatus( const QString strID, int nStatus )
 
         if( key == strID )
         {
-            order.status_ = nStatus;
+            i->status_ = nStatus;
         }
     }
 }

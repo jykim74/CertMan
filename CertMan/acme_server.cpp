@@ -1635,7 +1635,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         jArr.insert(0, jObj);
 
         chall.status_ = ACME_Init;
-        chall.auth_id_ = strKID;
+        chall.auth_id_ = strAID;
         stat.addChall( pToken, chall );
 
         JS_BIN_reset( &binRand );
@@ -1651,7 +1651,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     rspJson["identifier"] = idObj;
     rspJson["challenges"] = jArr;
 
-    stat.setAuthStatus( strKID, ACME_Run );
+    stat.setAuthStatus( strAID, ACME_Run );
 
     nStatus |= JS_ACME_STATUS_AUTH;
     stat.setStatus( nStatus );
