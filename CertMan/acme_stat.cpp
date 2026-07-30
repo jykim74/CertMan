@@ -195,7 +195,7 @@ bool ACMEStat::isAuthDone()
         QString key = i.key();
         ACMEAuth auth = i.value();
 
-        if( auth.status_ != ACME_Done )
+        if( auth.status_ != ACME_STATUS_VALID )
             return false;
     }
 

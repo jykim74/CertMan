@@ -99,6 +99,22 @@ int ACMEErrStatus( AcmeError error )
     return nStatus;
 }
 
+const QString getACMEStatusName( ACMEStatus status )
+{
+    switch (status) {
+    case ACME_STATUS_PENDING: return "pending";
+    case ACME_STATUS_PROCESSING: return "processing";
+    case ACME_STATUS_READY: return "ready";
+    case ACME_STATUS_VALID: return "valid";
+    case ACME_STATUS_INVALID: return "invalid";
+    case ACME_STATUS_DEACTIVATED: return "deactivated";
+    case ACME_STATUS_EXPIRED: return "expired";
+    case ACME_STATUS_REVOKED: return "revoked";
+    default:
+        return "";
+    }
+}
+
 ACMEServer::ACMEServer( QObject *parent ) :
     QTcpServer(parent)
 {
@@ -1394,7 +1410,7 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
 
-    rspJson["status"] = objPayload["status"].toString();
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
     rspJson["orders"] = strACME_URL( kACME_Orders, strName );
     rspJson["contact"] = objPayload["contact"].toArray();
 
@@ -1506,7 +1522,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJson
         QString strURL = strACME_URL( kACME_Authorization, pURL );
         jAuthArr.insert( 0, strURL );
 
-        auth.status_ = ACME_Init;
+        auth.status_ = ACME_STATUS_PENDING;
         auth.id_ = strID;
         auth.type_ = jIDObj["type"].toString();
         stat.addAuth( pURL, auth );
@@ -1516,7 +1532,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJson
         if( pURL ) JS_free( pURL );
     }
 
-    rspJson["status"] = "valid";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
 //    rspJson["expires"] = "2026-07-08T07:32:17Z";
     rspJson["expires"] = getUTC( time(NULL) + 300);
     rspJson["identifiers"] = objPayload["identifiers"].toArray();
@@ -1527,7 +1543,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJson
     JS_PKI_genRandom( 16, &binRand );
     JS_BIN_encodeBase64URL( &binRand, &pOrder );
 
-    order.status_ = ACME_Init;
+    order.status_ = ACME_STATUS_PENDING;
     order.kid_ = strKID;
     stat.addOrder( pOrder, order );
     orderLink = strACME_URL( kACME_Order, pOrder );
@@ -1641,7 +1657,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     jObj["status"] = "pending";
     jArr.insert( 0, jObj );
 
-    chall.status_ = ACME_Init;
+    chall.status_ = ACME_STATUS_PENDING;
     chall.auth_id_ = strAID;
     stat.addChall( pToken, chall );
 
@@ -1663,7 +1679,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         jObj["status"] = "pending";
         jArr.insert(0, jObj);
 
-        chall.status_ = ACME_Init;
+        chall.status_ = ACME_STATUS_PENDING;
         chall.auth_id_ = strAID;
         stat.addChall( pToken, chall );
 
@@ -1675,12 +1691,12 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         }
     }
 
-    rspJson["status"] = "pending";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
     rspJson["expires"] = getUTC( time(NULL) + 300);
     rspJson["identifier"] = idObj;
     rspJson["challenges"] = jArr;
 
-    stat.setAuthStatus( strAID, ACME_Run );
+    stat.setAuthStatus( strAID, ACME_STATUS_PROCESSING );
 
     nStatus |= JS_ACME_STATUS_AUTH;
     stat.setStatus( nStatus );
@@ -1768,8 +1784,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     jArr.insert( 0, strACME_URL( kACME_Authorization ));
 
-    rspJson["status"] = "processing";
-//    rspJson["expires"] = "2026-07-08T14:37:23Z";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_PROCESSING );
     rspJson["expires"] = getUTC( time(NULL) + 300);
     rspJson["identifiers"] = stat.getIDListArray();
     rspJson["profile"] = "default";
@@ -1830,7 +1845,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
         goto end;
     }
 
-    rspJson["status"] = "processing";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_PROCESSING );
     rspJson["type"] = auth.type_;
     rspJson["url"] = strACME_URL( kACME_Challenge, strCID );
     rspJson["token"] = strCID;
@@ -1844,13 +1859,13 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
 
     if( ret == JSR_OK )
     {
-        stat.setAuthStatus( chall.auth_id_, ACME_Done );
-        stat.setChallStatus( strCID, ACME_Done );
+        stat.setAuthStatus( chall.auth_id_, ACME_STATUS_VALID );
+        stat.setChallStatus( strCID, ACME_STATUS_VALID );
         nStatus |= JS_ACME_STATUS_CHAL_DONE;
     }
     else
     {
-        stat.setChallStatus( strCID, ACME_Run );
+        stat.setChallStatus( strCID, ACME_STATUS_PROCESSING );
         nStatus |= JS_ACME_STATUS_CHALLENGE;
     }
 
@@ -1894,7 +1909,7 @@ int ACMEServer::runACME_Account( ACMEObject& acmeObj, const QString strKID, QJso
     }
 
     rspJson["contact"] = stat.getContact();
-    rspJson["status"] = "valid";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
     rspJson["orders"] = strACME_URL( kACME_Orders, strKID );
 
     objKey = ACMEObject::getJWK( &binPub, "SHA256", strKID );
@@ -1976,7 +1991,7 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
     strURL = strACME_URL( kACME_Authorization, strKID );
     jAuthArr.insert( 0, strURL );
 
-    rspJson["status"] = "valid";
+    rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
 //    rspJson["expires"] = "2026-07-14T06:53:16Z";
     rspJson["expires"] = getUTC( time(NULL) + 300);
     rspJson["identifiers"] = stat.getIDListArray();
@@ -2129,12 +2144,12 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonO
 
     if( nStatus & JS_ACME_STATUS_CERTIFICATE )
     {
-        rspJson["status"] = "valid";
+        rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
         rspJson["certificate"] = strACME_URL( kACME_Certificate, strKID );
     }
     else
     {
-        rspJson["status"] = "pending";
+        rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
     }
 
     rspJson["expires"] = getUTC( time(NULL) + 300);

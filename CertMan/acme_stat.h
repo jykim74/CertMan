@@ -14,10 +14,15 @@
 #define JS_ACME_STATUS_CHAL_DONE    0x00000010
 #define JS_ACME_STATUS_CERTIFICATE  0x00000020
 
-enum {
-    ACME_Init = 0,
-    ACME_Run,
-    ACME_Done,
+enum ACMEStatus{
+    ACME_STATUS_PENDING = 0,
+    ACME_STATUS_PROCESSING,
+    ACME_STATUS_READY,
+    ACME_STATUS_VALID,
+    ACME_STATUS_INVALID,
+    ACME_STATUS_DEACTIVATED,
+    ACME_STATUS_EXPIRED,
+    ACME_STATUS_REVOKED
 };
 
 class ACMEAuth
@@ -57,6 +62,8 @@ public :
     int         status_;
     QString     auth_id_;
 };
+
+const QString getACMEStatusName( ACMEStatus status );
 
 class ACMEStat : public QObject
 {
