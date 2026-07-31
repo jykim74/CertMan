@@ -123,6 +123,7 @@ void ACMEServiceDlg::clickStart()
 
     bool bP11 = false;
     int nPort = -1;
+    int nChallenge = 0;
 
     if( acme_srv_ != nullptr )
     {
@@ -144,6 +145,7 @@ void ACMEServiceDlg::clickStart()
     int nNum = mNumText->text().toInt();
     int nProfileNum = mProfileNumText->text().toInt();
     int nTLSNum = -1;
+    int nChallFlag = 0;
 
     if( nProfileNum <= 0 )
     {
@@ -200,6 +202,18 @@ void ACMEServiceDlg::clickStart()
         manApplet->getPriKey( keyPair.getPrivateKey(), &binTLSPriKey );
     }
 
+    if( mChallGroup->isChecked() == true )
+    {
+        if( mHttp01Check->isChecked() )
+            nChallFlag |= JS_CHALL_FLAG_HTTP_01;
+
+        if( mDNS01Check->isChecked() )
+            nChallFlag |= JS_CHALL_FLAG_DNS_01;
+
+        if( mTLS_ALPN01Check->isChecked() )
+            nChallFlag |= JS_CHALL_FLAG_TLS_ALPN_01;
+    }
+
     acme_srv_ = new ACMEServer;
     nPort = strPort.toInt();
     acme_srv_->setLogEdit( mLogText );
@@ -207,6 +221,7 @@ void ACMEServiceDlg::clickStart()
     acme_srv_->setCANum( nNum );
     acme_srv_->setProfileNum( nProfileNum );
     acme_srv_->setCAPriKey( &binPriKey, bP11 );
+    acme_srv_->setCheckChallenge( nChallFlag );
 
     if( mTLSCheck->isChecked() == true )
     {

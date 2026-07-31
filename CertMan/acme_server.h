@@ -113,6 +113,7 @@ public:
     void setProfileNum( int nNum );
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
+    void setCheckChallenge( int nChallenge );
 
 public slots:
     int readReady();
@@ -168,6 +169,7 @@ private:
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
+    int check_challenge_;
     int port_;
 
     QMap<QString, ACMEStat> acme_stats_;
@@ -199,8 +201,9 @@ private:
     int getChainList( BINList **ppChainList );
 
     void makeACMEFail( const QString strType, const QString strDetail, int nStatus, QJsonObject& rspJson );
-    int checkDNS_01( const QString strDNS );
-    int checkHTTP_01( const QString strDNS );
+    int checkDNS_01( const QString strDNS, const QString strCID, const BIN *pPub );
+    int checkHTTP_01( const QString strDNS, const QString strCID, const BIN *pPub );
+    int checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub );
 
     const QString getUTC( time_t time );
 };

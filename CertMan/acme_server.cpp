@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
 #include <QUrl>
+#include <QDnsLookup>
 
 #include "ocsp_server.h"
 #include "man_applet.h"
@@ -15,6 +16,7 @@
 #include "js_cmp_srv.h"
 #include "js_pkcs11.h"
 #include "js_pki.h"
+#include "js_http.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
@@ -123,6 +125,7 @@ ACMEServer::ACMEServer( QObject *parent ) :
     port_ = -1;
     p11_ = false;
     tls_ = false;
+    check_challenge_ = 0;
 
     client_ = nullptr;
     tls_client_ = nullptr;
@@ -197,6 +200,11 @@ void ACMEServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_reset( &tls_pri_key_ );
     JS_BIN_copy( &tls_cert_, pCert );
     JS_BIN_copy( &tls_pri_key_, pPriKey );
+}
+
+void ACMEServer::setCheckChallenge( int nChallenge )
+{
+    check_challenge_ = nChallenge;
 }
 
 const QString ACMEServer::getUTC( time_t time )
@@ -1367,12 +1375,60 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
     rspJson["status"] = nStatus;
 }
 
-int ACMEServer::checkDNS_01( const QString strDNS )
+int ACMEServer::checkDNS_01( const QString strDNS, const QString strCID, const BIN *pPub )
 {
+    QString strKeyAuth;
+    QDnsLookup dns;
+    QString strURL;
+
+    QString strThumbPrint = ACMEObject::getThumbPrint( pPub );
+    strKeyAuth = QString("%1.%2").arg( strCID ).arg( strThumbPrint );
+
+    strURL = QString( "_acme-challenge.%1").arg( strDNS );
+    dns.setType(QDnsLookup::TXT);
+    dns.setName( strURL );
+    dns.lookup();
+
+    QList<QDnsTextRecord> dnsList = dns.textRecords();
+
+    for( int i = 0; i < dnsList.size(); i++ )
+    {
+        if( strDNS == dnsList.at(i).name() )
+        {
+            return JSR_OK;
+        }
+    }
+
+    log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
+
+    return JSR_ERR;
+}
+
+int ACMEServer::checkHTTP_01( const QString strDNS, const QString strCID, const BIN *pPub )
+{
+    int ret = 0;
+    int status = 0;
+    char *pRsp = NULL;
+
+    QString strKeyAuth;
+    QString strURL;
+    QString strThumbPrint = ACMEObject::getThumbPrint( pPub );
+
+    strURL = QString( "http://%1/.well-known/acme-challenge/%2" ).arg( strDNS ).arg( strCID );
+    strKeyAuth = QString("%1.%2").arg( strCID ).arg( strThumbPrint );
+
+    log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
+
+    ret = JS_HTTP_requestGet( strURL.toStdString().c_str(), &status, &pRsp );
+    if( ret != JSR_OK ) return ret;
+
+    if( strKeyAuth.compare( QString("%1").arg(pRsp), Qt::CaseInsensitive ) != 0 )
+        return JSR_ERR;
+
     return JSR_OK;
 }
 
-int ACMEServer::checkHTTP_01( const QString strDNS )
+int ACMEServer::checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub )
 {
     return JSR_OK;
 }
@@ -1651,29 +1707,14 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     JS_BIN_encodeBase64URL( &binRand, &pToken );
     strValue = auth.id_;
 
-    jObj["type"] = "dns-01";
-    jObj["url"] = strACME_URL( kACME_Challenge, pToken );
-    jObj["token"] = pToken;
-    jObj["status"] = "pending";
-    jArr.insert( 0, jObj );
 
-    chall.status_ = ACME_STATUS_PENDING;
-    chall.auth_id_ = strAID;
-    stat.addChall( pToken, chall );
 
-    JS_BIN_reset( &binRand );
-    if( pToken )
-    {
-        JS_free( pToken );
-        pToken = NULL;
-    }
-
-    if( strValue.contains( "*" ) == false )
+    if( (strValue.contains( "*" ) == false) && (check_challenge_ & JS_CHALL_FLAG_DNS_01) )
     {
         JS_PKI_genRandom( 16, &binRand );
         JS_BIN_encodeBase64URL( &binRand, &pToken );
 
-        jObj["type"] = "http-01";
+        jObj["type"] = "dns-01";
         jObj["url"] = strACME_URL( kACME_Challenge, pToken );
         jObj["token"] = pToken;
         jObj["status"] = "pending";
@@ -1688,6 +1729,68 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         {
             JS_free( pToken );
             pToken = NULL;
+        }
+    }
+    else
+    {
+        if( check_challenge_ & JS_CHALL_FLAG_HTTP_01 )
+        {
+            jObj["type"] = "http-01";
+            jObj["url"] = strACME_URL( kACME_Challenge, pToken );
+            jObj["token"] = pToken;
+            jObj["status"] = "pending";
+            jArr.insert( 0, jObj );
+
+            chall.status_ = ACME_STATUS_PENDING;
+            chall.auth_id_ = strAID;
+            stat.addChall( pToken, chall );
+
+            JS_BIN_reset( &binRand );
+            if( pToken )
+            {
+                JS_free( pToken );
+                pToken = NULL;
+            }
+        }
+
+        if( check_challenge_ & JS_CHALL_FLAG_DNS_01 )
+        {
+            jObj["type"] = "dns-01";
+            jObj["url"] = strACME_URL( kACME_Challenge, pToken );
+            jObj["token"] = pToken;
+            jObj["status"] = "pending";
+            jArr.insert( 0, jObj );
+
+            chall.status_ = ACME_STATUS_PENDING;
+            chall.auth_id_ = strAID;
+            stat.addChall( pToken, chall );
+
+            JS_BIN_reset( &binRand );
+            if( pToken )
+            {
+                JS_free( pToken );
+                pToken = NULL;
+            }
+        }
+
+        if( check_challenge_ & JS_CHALL_FLAG_TLS_ALPN_01 )
+        {
+            jObj["type"] = "tls-alpn-01";
+            jObj["url"] = strACME_URL( kACME_Challenge, pToken );
+            jObj["token"] = pToken;
+            jObj["status"] = "pending";
+            jArr.insert( 0, jObj );
+
+            chall.status_ = ACME_STATUS_PENDING;
+            chall.auth_id_ = strAID;
+            stat.addChall( pToken, chall );
+
+            JS_BIN_reset( &binRand );
+            if( pToken )
+            {
+                JS_free( pToken );
+                pToken = NULL;
+            }
         }
     }
 
@@ -1852,10 +1955,19 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
 
 
 
-    if( auth.type_ == "http-01" )
-        ret = checkHTTP_01( auth.id_ );
+    if( check_challenge_ == true )
+    {
+        if( auth.type_ == "http-01" )
+            ret = checkHTTP_01( auth.id_, strCID, &binPub );
+        else if( auth.type_ == "tls-alpn-01" )
+            ret = checkTLS_ALPN_01( auth.id_, strCID, &binPub );
+        else
+            ret = checkDNS_01( auth.id_, strCID, &binPub );
+    }
     else
-        ret = checkDNS_01( auth.id_ );
+    {
+        ret = JSR_OK;
+    }
 
     if( ret == JSR_OK )
     {

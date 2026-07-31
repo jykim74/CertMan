@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>518</width>
-    <height>471</height>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,19 +98,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="minimumSize">
-        <size>
-         <width>60</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Port</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
@@ -128,6 +115,19 @@
       <widget class="QCheckBox" name="mTLSCheck">
        <property name="text">
         <string>TLS</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Port</string>
        </property>
       </widget>
      </item>
@@ -444,6 +444,52 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="mChallGroup">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Enable challenge check</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="mHttp01Check">
+          <property name="text">
+           <string>HTTP-01</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="mDNS01Check">
+          <property name="text">
+           <string>DNS-01</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QCheckBox" name="mTLS_ALPN01Check">
+          <property name="text">
+           <string>TLS-ALPN-01</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
