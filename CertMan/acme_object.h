@@ -72,8 +72,9 @@ public:
 
     static const QJsonObject getIdentifiers( const QStringList strNameList );
 
-    static const QJsonObject getJWK( const BIN *pPub, const QString strHash, const QString strName );
+    static const QJsonObject getJWK( const BIN *pPub, const QString strHash, const QString strName = "" );
     static int getPubKey( QJsonObject objKey, BIN *pPub );
+    static const QString getThumbPrint( const BIN *pPub );
     static const QString getID( QJsonObject objKey );
     static const QString getAlg( int nKeyType, const QString strHash );
     static const QString getHash( const QString strAlg );
