@@ -118,6 +118,7 @@ public:
     void addOrder( const QString strToken, const ACMEOrder order );
     const QStringList getIDList();
     const QStringList getOrderList();
+    const QStringList getAuthList();
 
 private:
     int             status_;

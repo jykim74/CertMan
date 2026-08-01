@@ -58,6 +58,10 @@ ACMEServiceDlg::~ACMEServiceDlg()
 
 void ACMEServiceDlg::initUI()
 {
+    mChallGroup->setChecked( true );
+    mHttp01Check->setChecked( true );
+    mDNS01Check->setChecked( true );
+    mChallValidCheck->setChecked( true );
     mPortText->setText( QString("%1").arg( JS_ACME_PORT ));
 }
 
@@ -221,6 +225,7 @@ void ACMEServiceDlg::clickStart()
     acme_srv_->setCANum( nNum );
     acme_srv_->setProfileNum( nProfileNum );
     acme_srv_->setCAPriKey( &binPriKey, bP11 );
+    acme_srv_->setChallValid( mChallValidCheck->isChecked() );
     acme_srv_->setCheckChallenge( nChallFlag );
 
     if( mTLSCheck->isChecked() == true )

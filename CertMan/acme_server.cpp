@@ -126,6 +126,7 @@ ACMEServer::ACMEServer( QObject *parent ) :
     p11_ = false;
     tls_ = false;
     check_challenge_ = 0;
+    chall_valid_ = false;
 
     client_ = nullptr;
     tls_client_ = nullptr;
@@ -207,12 +208,37 @@ void ACMEServer::setCheckChallenge( int nChallenge )
     check_challenge_ = nChallenge;
 }
 
+void ACMEServer::setChallValid( bool bVal )
+{
+    chall_valid_ = bVal;
+}
+
 const QString ACMEServer::getUTC( time_t time )
 {
     QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time );
     QString iso8601 = expireUtc.toUTC().toString(Qt::ISODate);
 
     return iso8601;
+}
+
+const QString ACMEServer::getNewNonce()
+{
+    QString strNonce;
+    BIN binRand = {0,0};
+    char *pNonce = NULL;
+
+    JS_PKI_genRandom( 8, &binRand );
+    JS_BIN_encodeBase64URL( &binRand, &pNonce );
+
+    if( pNonce )
+    {
+        strNonce = pNonce;
+        JS_free( pNonce );
+    }
+
+    JS_BIN_reset( &binRand );
+
+    return strNonce;
 }
 
 int ACMEServer::startServer( int nPort )
@@ -303,13 +329,15 @@ void ACMEServer::makeErrorJson( AcmeError error, const QString strDetail, QJsonO
     rspObj["status"] = nStatus;
 }
 
-int ACMEServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
+int ACMEServer::makeCert( const JIssueCertInfo *pIssueCertInfo, const JExtensionInfoList *pCSRExtInfoList, BIN *pCert )
 {
     int ret = 0;
 
     DBMgr* dbMgr = manApplet->dbMgr();
 
     JExtensionInfoList  *pExtInfoList = NULL;
+    JExtensionInfoList  *pNewExtInfoList = NULL;
+
     CertProfileRec profileRec;
     QList<ProfileExtRec> profileExtList;
 
@@ -368,6 +396,12 @@ int ACMEServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
             JS_PKI_addExtensionInfoList( &pExtInfoList, &sExtInfo );
     }
 
+    ret = JS_PKI_getExtensionUsageList( profileRec.getExtUsage(), pExtInfoList, pCSRExtInfoList, &pNewExtInfoList );
+    if( ret != JSR_OK )
+    {
+        log( QString( "failed to getExtensionUsageList: %1").arg(ret));
+        goto end;
+    }
 
     if( p11_ == true )
     {
@@ -392,18 +426,19 @@ int ACMEServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
             goto end;
         }
 
-        ret = JS_PKI_makeCertificateByP11( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, pP11CTX, pCert );
+        ret = JS_PKI_makeCertificateByP11( 0, pIssueCertInfo, pNewExtInfoList, &ca_pri_key_, &ca_cert_, pP11CTX, pCert );
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
     else
     {
-        ret = JS_PKI_makeCertificate( 0, pIssueCertInfo, pExtInfoList, &ca_pri_key_, &ca_cert_, pCert );
+        ret = JS_PKI_makeCertificate( 0, pIssueCertInfo, pNewExtInfoList, &ca_pri_key_, &ca_cert_, pCert );
     }
 
 end :
     if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    if( pNewExtInfoList ) JS_PKI_resetExtensionInfoList( &pNewExtInfoList );
 
     return ret;
 }
@@ -419,6 +454,7 @@ int ACMEServer::issueCert( const BIN *pCSR, BIN *pCert )
     CertRec certRec;
 
     JCertInfo   sNewCertInfo;
+    JExtensionInfoList *pCSRExtInfoList = NULL;
 
     dbMgr->getCertProfileRec( profile_num_, profileRec );
     dbMgr->getCertProfileExtensionList( profile_num_, profileExtList );
@@ -448,7 +484,7 @@ int ACMEServer::issueCert( const BIN *pCSR, BIN *pCert )
                      &notBefore,
                      &notAfter );
 
-    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, 1, NULL );
+    ret = JS_PKI_getReqInfo( pCSR, &sReqInfo, 0, &pCSRExtInfoList );
     if( ret != 0 )
     {
         log( QString( "fail to parse request : %1" ).arg(ret ));
@@ -472,7 +508,7 @@ int ACMEServer::issueCert( const BIN *pCSR, BIN *pCert )
                             nKeyType,
                             sReqInfo.pPublicKey );
 
-    ret = makeCert( &sIssueCertInfo, &binNewCert );
+    ret = makeCert( &sIssueCertInfo, pCSRExtInfoList, &binNewCert );
 
     if( ret != 0 )
     {
@@ -511,6 +547,7 @@ end :
     if( pHexCert ) JS_free( pHexCert );
     JS_BIN_reset( &binPub );
     JS_BIN_reset( &binKeyID );
+    if( pCSRExtInfoList ) JS_PKI_resetExtensionInfoList( &pCSRExtInfoList );
 
     return ret;
 }
@@ -624,6 +661,7 @@ int ACMEServer::procACME( const QString strMethod, const QString strPath, const 
     }
     else if( strCmd.compare(kACME_NewNonce, Qt::CaseInsensitive ) == 0 )
     {
+        nonce_ = getNewNonce();
         log( QString( "NewNonce: %1" ).arg( nonce_ ));
         QString strNonce = QString( "Replay-Nonce: %1" ).arg( nonce_);
         rspHeaders.append( strNonce );
@@ -1008,12 +1046,10 @@ void ACMEServer::incomingConnection( qintptr  socketDescriptor )
 {
     log( "Connecting..." );
 
+
     if( nonce_.length() < 1 )
     {
-        BIN binRand = {0,0};
-        JS_PKI_genRandom( 8, &binRand );
-        nonce_ = getHexString( &binRand );
-        JS_BIN_reset( &binRand );
+        nonce_ = getNewNonce();
     }
 
     if( tls_ == true )
@@ -1709,7 +1745,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
 
 
-    if( (strValue.contains( "*" ) == false) && (check_challenge_ & JS_CHALL_FLAG_DNS_01) )
+    if( (strValue.contains( "*" ) == true) && (check_challenge_ & JS_CHALL_FLAG_DNS_01) )
     {
         JS_PKI_genRandom( 16, &binRand );
         JS_BIN_encodeBase64URL( &binRand, &pToken );
@@ -1735,10 +1771,13 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     {
         if( check_challenge_ & JS_CHALL_FLAG_HTTP_01 )
         {
+            JS_PKI_genRandom( 16, &binRand );
+            JS_BIN_encodeBase64URL( &binRand, &pToken );
+
             jObj["type"] = "http-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
             jObj["token"] = pToken;
-            jObj["status"] = "pending";
+            jObj["status"] = getACMEStatusName( ACME_STATUS_PENDING );
             jArr.insert( 0, jObj );
 
             chall.status_ = ACME_STATUS_PENDING;
@@ -1755,10 +1794,13 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
         if( check_challenge_ & JS_CHALL_FLAG_DNS_01 )
         {
+            JS_PKI_genRandom( 16, &binRand );
+            JS_BIN_encodeBase64URL( &binRand, &pToken );
+
             jObj["type"] = "dns-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
             jObj["token"] = pToken;
-            jObj["status"] = "pending";
+            jObj["status"] = getACMEStatusName( ACME_STATUS_PENDING );
             jArr.insert( 0, jObj );
 
             chall.status_ = ACME_STATUS_PENDING;
@@ -1775,10 +1817,13 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
         if( check_challenge_ & JS_CHALL_FLAG_TLS_ALPN_01 )
         {
+            JS_PKI_genRandom( 16, &binRand );
+            JS_BIN_encodeBase64URL( &binRand, &pToken );
+
             jObj["type"] = "tls-alpn-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
             jObj["token"] = pToken;
-            jObj["status"] = "pending";
+            jObj["status"] = getACMEStatusName( ACME_STATUS_PENDING );
             jArr.insert( 0, jObj );
 
             chall.status_ = ACME_STATUS_PENDING;
@@ -1847,6 +1892,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     QString strKID = acmeObj.getKID();
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
+    QStringList listAuth;
 
     if( nStatus < 0 )
     {
@@ -1885,7 +1931,12 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     stat.setCSR( strCSR );
     stat.setCert( getHexString( &binCert ));
 
-    jArr.insert( 0, strACME_URL( kACME_Authorization ));
+    listAuth = stat.getAuthList();
+    for( int i = 0; i < listAuth.size(); i++ )
+    {
+        QString strID = listAuth.at(i);
+        jArr.insert( 0, strACME_URL( kACME_Authorization, strID ));
+    }
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_PROCESSING );
     rspJson["expires"] = getUTC( time(NULL) + 300);
@@ -1953,9 +2004,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
     rspJson["url"] = strACME_URL( kACME_Challenge, strCID );
     rspJson["token"] = strCID;
 
-
-
-    if( check_challenge_ == true )
+    if( chall_valid_ == false )
     {
         if( auth.type_ == "http-01" )
             ret = checkHTTP_01( auth.id_, strCID, &binPub );
@@ -2231,6 +2280,7 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonO
     stat = acme_stats_[strKID];
     int nStatus = stat.getStatus();
     ACMEOrder order = stat.getOrder( strOID );
+    QStringList listAuth = stat.getAuthList();
 
     if( nStatus < 0 || order.status_ < 0 )
     {
@@ -2251,8 +2301,12 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonO
         goto end;
     }
 
-    strURL = strACME_URL( kACME_Authorization, strKID );
-    jAuthArr.insert( 0, strURL );
+    for( int i = 0; i < listAuth.size(); i++ )
+    {
+        QString strID = listAuth.at(i);
+        strURL = strACME_URL( kACME_Authorization, strID );
+        jAuthArr.insert( 0, strURL );
+    }
 
     if( nStatus & JS_ACME_STATUS_CERTIFICATE )
     {

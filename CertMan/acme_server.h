@@ -114,6 +114,7 @@ public:
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
     void setCheckChallenge( int nChallenge );
+    void setChallValid( bool bVal );
 
 public slots:
     int readReady();
@@ -170,6 +171,7 @@ private:
     bool p11_;
     bool tls_;
     int check_challenge_;
+    bool chall_valid_;
     int port_;
 
     QMap<QString, ACMEStat> acme_stats_;
@@ -196,7 +198,7 @@ private:
     void makeErrorJson( AcmeError error, const QString strDetail, QJsonObject& rspObj );
 
     int issueCert( const BIN *pCSR, BIN *pCert );
-    int makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert );
+    int makeCert( const JIssueCertInfo *pIssueCertInfo, const JExtensionInfoList *pCSRExtInfoList, BIN *pCert );
     const QString strACME_URL( const QString strCmd, const QString strID = "" );
     int getChainList( BINList **ppChainList );
 
@@ -206,6 +208,7 @@ private:
     int checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub );
 
     const QString getUTC( time_t time );
+    const QString getNewNonce();
 };
 
 #endif // ACME_SERVER_H

@@ -223,6 +223,21 @@ const QStringList ACMEStat::getIDList()
     return idList;
 }
 
+const QStringList ACMEStat::getAuthList()
+{
+    QStringList idList;
+
+    QMap<QString, ACMEAuth>::iterator i;
+
+    for( i = auths_.begin(); i != auths_.end(); ++i )
+    {
+        QString key = i.key();
+        idList.append( key );
+    }
+
+    return idList;
+}
+
 const QStringList ACMEStat::getOrderList()
 {
     QStringList idList;
