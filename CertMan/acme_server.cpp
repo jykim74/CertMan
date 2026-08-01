@@ -1201,7 +1201,7 @@ void ACMEServer::processACME()
     const char      *pMethod = NULL;
 
 
-    if( strcasecmp( path_.toStdString().c_str(), "/PING" ) == 0 )
+    if( path_.compare( "/PING", Qt::CaseInsensitive ) == 0 )
     {
         pMethod = JS_HTTP_getStatusMsg( JS_HTTP_STATUS_OK );
     }
@@ -1252,7 +1252,7 @@ void ACMEServer::processACME()
 
         tls_client_->flush();
     }
-    else if( strcasecmp( path_.toStdString().c_str(), "/ACME" ) == 0 )
+    else if( path_.contains( "/ACME" ) == true )
     {
         QByteArray rsp;
         QStringList     rspHeaders;
@@ -1295,7 +1295,7 @@ void ACMEServer::processACME()
         {
             QString strHeader = rspHeaders.at( i );
             rsp = strHeader.toUtf8();
-            rsp += "r\n";
+            rsp += "\r\n";
             tls_client_->write( rsp );
         }
 
