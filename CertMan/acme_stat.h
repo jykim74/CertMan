@@ -105,6 +105,7 @@ public:
     void setCert( const QString strCert );
     void setNonce( const QString strNonce );
     void setContact( const QString strContact );
+    void setValidTime( time_t time );
 
     void addAuth( const QString strToken, const ACMEAuth auth );
     void addChall( const QString strToken, const ACMEChall chall );
@@ -119,6 +120,8 @@ public:
     const QStringList getIDList();
     const QStringList getOrderList();
     const QStringList getAuthList();
+    const QString getValidTime();
+    time_t getValidTimeT() { return valid_time_; };
 
 private:
     int             status_;
@@ -127,6 +130,7 @@ private:
     QString         cert_;
     QString         nonce_;
     QString         contact_;
+    time_t          valid_time_;
 
     QMap<QString, ACMEAuth> auths_;
     QMap<QString, ACMEChall> challs_;

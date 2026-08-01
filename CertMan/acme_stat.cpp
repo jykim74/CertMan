@@ -116,6 +116,19 @@ void ACMEStat::setContact( const QString strContact )
     contact_ = strContact;
 }
 
+void ACMEStat::setValidTime( time_t time )
+{
+    valid_time_ = time;
+}
+
+const QString ACMEStat::getValidTime()
+{
+    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( valid_time_ );
+    QString iso8601 = expireUtc.toUTC().toString(Qt::ISODate);
+
+    return iso8601;
+}
+
 void ACMEStat::addAuth( const QString strToken, const ACMEAuth auth )
 {
     auths_.insert( strToken, auth );

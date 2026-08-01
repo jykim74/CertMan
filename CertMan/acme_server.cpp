@@ -213,14 +213,6 @@ void ACMEServer::setChallValid( bool bVal )
     chall_valid_ = bVal;
 }
 
-const QString ACMEServer::getUTC( time_t time )
-{
-    QDateTime expireUtc = QDateTime::fromSecsSinceEpoch( time );
-    QString iso8601 = expireUtc.toUTC().toString(Qt::ISODate);
-
-    return iso8601;
-}
-
 const QString ACMEServer::getNewNonce()
 {
     QString strNonce;
@@ -1496,9 +1488,7 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     }
 
     strName = acmeObj.getKID();
-    stat = acme_stats_[strName];
-    stat.setPubKey( getHexString( &binPub ));
-    stat.setStatus( nStatus );
+    acme_stats_.remove( strName );
 
     objPayload = acmeObj.getPayload();
 
@@ -1513,6 +1503,9 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     rspJson["key"] = objKey;
     ret = JSR_OK;
 
+    stat.setValidTime( time(NULL) + 300 );
+    stat.setPubKey( getHexString( &binPub ));
+    stat.setStatus( nStatus );
     acme_stats_.insert( strName, stat );
 
 /*
@@ -1593,6 +1586,15 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJson
         goto end;
     }
 
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
+        ret = JSR_OK;
+        goto end;
+    }
+
     objPayload = acmeObj.getPayload();
     jIDArr = objPayload["identifiers"].toArray();
 
@@ -1626,7 +1628,7 @@ int ACMEServer::runACME_NewOrder( ACMEObject& acmeObj, QString& orderLink, QJson
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
 //    rspJson["expires"] = "2026-07-08T07:32:17Z";
-    rspJson["expires"] = getUTC( time(NULL) + 300);
+    rspJson["expires"] = stat.getValidTime();
     rspJson["identifiers"] = objPayload["identifiers"].toArray();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
@@ -1739,11 +1741,18 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         goto end;
     }
 
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
+        ret = JSR_OK;
+        goto end;
+    }
+
     JS_PKI_genRandom( 16, &binRand );
     JS_BIN_encodeBase64URL( &binRand, &pToken );
     strValue = auth.id_;
-
-
 
     if( (strValue.contains( "*" ) == true) && (check_challenge_ & JS_CHALL_FLAG_DNS_01) )
     {
@@ -1840,7 +1849,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     }
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
-    rspJson["expires"] = getUTC( time(NULL) + 300);
+    rspJson["expires"] = stat.getValidTime();
     rspJson["identifier"] = idObj;
     rspJson["challenges"] = jArr;
 
@@ -1913,6 +1922,15 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
         goto end;
     }
 
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
+        ret = JSR_OK;
+        goto end;
+    }
+
     if( stat.isAuthDone() == false )
     {
         elog( QString( "order not ready" ));
@@ -1939,7 +1957,7 @@ int ACMEServer::runACME_Finalize( ACMEObject& acmeObj, QJsonObject& rspJson )
     }
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_PROCESSING );
-    rspJson["expires"] = getUTC( time(NULL) + 300);
+    rspJson["expires"] = stat.getValidTime();
     rspJson["identifiers"] = stat.getIDListArray();
     rspJson["profile"] = "default";
     rspJson["finalize"] = strACME_URL( kACME_Finalize );
@@ -1995,6 +2013,15 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
         makeErrorJson( Malformed, "JWS verification error", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
         ret = JSR_OK;
         goto end;
     }
@@ -2065,6 +2092,15 @@ int ACMEServer::runACME_Account( ACMEObject& acmeObj, const QString strKID, QJso
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
         makeErrorJson( Malformed, "JWS verification error", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
         ret = JSR_OK;
         goto end;
     }
@@ -2149,12 +2185,21 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
         goto end;
     }
 
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
+        ret = JSR_OK;
+        goto end;
+    }
+
     strURL = strACME_URL( kACME_Authorization, strKID );
     jAuthArr.insert( 0, strURL );
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
 //    rspJson["expires"] = "2026-07-14T06:53:16Z";
-    rspJson["expires"] = getUTC( time(NULL) + 300);
+    rspJson["expires"] = stat.getValidTime();
     rspJson["identifiers"] = stat.getIDListArray();
     rspJson["profile"] = "shortlived";
     rspJson["finalize"] = strACME_URL( kACME_Finalize, strKID );
@@ -2218,6 +2263,14 @@ int ACMEServer::runACME_Certificate( ACMEObject& acmeObj, BINList **ppCertList )
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
         ret = JSR_CRYPT_VERIFY_FAIL;
+        goto end;
+    }
+
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        ret = JSR_ACME_NO_CERT;
+        acme_stats_.remove( strKID );
         goto end;
     }
 
@@ -2301,6 +2354,15 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonO
         goto end;
     }
 
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
+        ret = JSR_OK;
+        goto end;
+    }
+
     for( int i = 0; i < listAuth.size(); i++ )
     {
         QString strID = listAuth.at(i);
@@ -2318,7 +2380,7 @@ int ACMEServer::runACME_Order( ACMEObject& acmeObj, const QString strOID, QJsonO
         rspJson["status"] = getACMEStatusName( ACME_STATUS_PENDING );
     }
 
-    rspJson["expires"] = getUTC( time(NULL) + 300);
+    rspJson["expires"] = stat.getValidTime();
     rspJson["identifiers"] = stat.getIDListArray();
     rspJson["profile"] = "shortlived";
     rspJson["authorizations"] = jAuthArr;
@@ -2368,6 +2430,15 @@ int ACMEServer:: runACME_Orders( ACMEObject& acmeObj, const QString strKID, QJso
     {
         elog( QString( "failed to verify signature: %1" ).arg(ret ));
         makeErrorJson( Malformed, "JWS verification error", rspJson );
+        ret = JSR_OK;
+        goto end;
+    }
+
+    if( stat.getValidTimeT() < time(NULL) )
+    {
+        elog( QString( "timeover: %1" ).arg(ret ));
+        makeErrorJson( Compound, "Time is over", rspJson );
+        acme_stats_.remove( strKID );
         ret = JSR_OK;
         goto end;
     }

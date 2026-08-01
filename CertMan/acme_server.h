@@ -207,7 +207,6 @@ private:
     int checkHTTP_01( const QString strDNS, const QString strCID, const BIN *pPub );
     int checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub );
 
-    const QString getUTC( time_t time );
     const QString getNewNonce();
 };
 
