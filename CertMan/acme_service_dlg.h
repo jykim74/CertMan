@@ -34,6 +34,10 @@ private slots:
     void clickTLSView();
     void changeTLSNum();
 
+    void checkHTTP01ServerFix();
+    void checkDNS01ServerFix();
+    void checkTLS_ALPN01ServerFix();
+
 private:
     void initUI();
     void initialize();

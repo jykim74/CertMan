@@ -113,8 +113,11 @@ public:
     void setProfileNum( int nNum );
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
-    void setCheckChallenge( int nChallenge );
     void setChallValid( bool bVal );
+
+    void setHTTP01( const QString strHTTP01 );
+    void setDNS01( const QString strDNS01 );
+    void setTLS_ALPN01( const QString strTLS_ALPN01 );
 
 public slots:
     int readReady();
@@ -170,9 +173,12 @@ private:
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
-    int check_challenge_;
+
     bool chall_valid_;
     int port_;
+    QString http_01_;
+    QString dns_01_;
+    QString tls_alpn_01_;
 
     QMap<QString, ACMEStat> acme_stats_;
 

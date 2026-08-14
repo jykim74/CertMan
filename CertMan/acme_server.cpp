@@ -17,6 +17,8 @@
 #include "js_pkcs11.h"
 #include "js_pki.h"
 #include "js_http.h"
+#include "js_dns.h"
+#include "js_net.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
@@ -125,7 +127,6 @@ ACMEServer::ACMEServer( QObject *parent ) :
     port_ = -1;
     p11_ = false;
     tls_ = false;
-    check_challenge_ = 0;
     chall_valid_ = false;
 
     client_ = nullptr;
@@ -203,14 +204,24 @@ void ACMEServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
-void ACMEServer::setCheckChallenge( int nChallenge )
-{
-    check_challenge_ = nChallenge;
-}
-
 void ACMEServer::setChallValid( bool bVal )
 {
     chall_valid_ = bVal;
+}
+
+void ACMEServer::setHTTP01( const QString strHTTP01 )
+{
+    http_01_ = strHTTP01;
+}
+
+void ACMEServer::setDNS01( const QString strDNS01 )
+{
+    dns_01_ = strDNS01;
+}
+
+void ACMEServer::setTLS_ALPN01( const QString strTLS_ALPN01 )
+{
+    tls_alpn_01_ = strTLS_ALPN01;
 }
 
 const QString ACMEServer::getNewNonce()
@@ -1405,31 +1416,107 @@ void ACMEServer::makeACMEFail( const QString strType, const QString strDetail, i
 
 int ACMEServer::checkDNS_01( const QString strDNS, const QString strCID, const BIN *pPub )
 {
+    int ret = JSR_ERR;
     QString strKeyAuth;
-    QDnsLookup dns;
+
     QString strURL;
+    BIN binSrc = {0,0};
+    BIN binHash = {0,0};
+    char *pAuthKey = NULL;
 
     QString strThumbPrint = ACMEObject::getThumbPrint( pPub );
     strKeyAuth = QString("%1.%2").arg( strCID ).arg( strThumbPrint );
+    manApplet->log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
 
-    strURL = QString( "_acme-challenge.%1").arg( strDNS );
-    dns.setType(QDnsLookup::TXT);
-    dns.setName( strURL );
-    dns.lookup();
+    JS_BIN_set( &binSrc, (unsigned char *)strKeyAuth.toStdString().c_str(), strKeyAuth.length() );
+    JS_PKI_genHash( "SHA256", &binSrc, &binHash );
+    JS_BIN_encodeBase64URL( &binHash, &pAuthKey );
 
-    QList<QDnsTextRecord> dnsList = dns.textRecords();
+    QString strExpected = pAuthKey;
+    strURL = QString( "_acme-challenge.%1.").arg( strDNS );
 
-    for( int i = 0; i < dnsList.size(); i++ )
+    QStringList listVal = dns_01_.split( "|" );
+
+    if( listVal.size() >= 0 )
     {
-        if( strDNS == dnsList.at(i).name() )
+        QString strHost = listVal.at(1);
+        int nPort = listVal.at(2).toInt();
+        if( nPort <= 0 ) nPort = 53;
+
+        BIN binQuery = {0,0};
+        BIN binRsp = {0,0};
+        int nType = -1;
+        JStrList *pStrList = NULL;
+        JStrList *pCurList = NULL;
+
+        unsigned char packet[4096];
+
+        memset( packet, 0x00, sizeof(packet));
+
+        ret = JS_DNS_makeQuery( JS_DNS_TYPE_TXT, strDNS.toStdString().c_str(), &binQuery );
+        if( ret != JSR_OK )
         {
-            return JSR_OK;
+            manApplet->elog( QString( "makeQuery failed: %1" ).arg(ret));
+            goto end;
+        }
+
+        int nRetry = 3;
+        int nTimeout = 5; //secs
+
+        ret = JS_DNS_askQuery( strHost.toStdString().c_str(), nPort, &binQuery, nRetry, nTimeout, &binRsp );
+        if( ret != JSR_OK )
+        {
+            manApplet->elog( QString( "askQuery failed: %1" ).arg(ret));
+            goto end;
+        }
+
+        ret = JS_DNS_parseRsp( &binRsp, &nType, &pStrList );
+        if( ret != JSR_OK )
+        {
+            manApplet->elog( QString( "parseRsp failed: %1" ).arg(ret));
+            goto end;
+        }
+
+        pCurList = pStrList;
+        while( pCurList )
+        {
+            if( strExpected.compare( pCurList->pStr, Qt::CaseInsensitive ) == 0 )
+            {
+                ret = JSR_OK;
+                break;
+            }
+
+            pCurList = pCurList->pNext;
+        }
+
+        if( pStrList ) JS_UTIL_resetStrList( &pStrList );
+    }
+    else
+    {
+        QDnsLookup dns;
+        dns.setType(QDnsLookup::TXT);
+        dns.setName( strURL );
+        dns.lookup();
+
+        QList<QDnsTextRecord> dnsList = dns.textRecords();
+
+        for( int i = 0; i < dnsList.size(); i++ )
+        {
+            if( strExpected.compare( dnsList.at(i).name(), Qt::CaseInsensitive ) == 0 )
+            {
+                ret = JSR_OK;
+                break;
+            }
         }
     }
 
-    log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
 
-    return JSR_ERR;
+end :
+    JS_BIN_reset( &binSrc );
+    JS_BIN_reset( &binHash );
+    if( pAuthKey ) JS_free( pAuthKey );
+
+    return ret;
 }
 
 int ACMEServer::checkHTTP_01( const QString strDNS, const QString strCID, const BIN *pPub )
@@ -1442,23 +1529,143 @@ int ACMEServer::checkHTTP_01( const QString strDNS, const QString strCID, const 
     QString strURL;
     QString strThumbPrint = ACMEObject::getThumbPrint( pPub );
 
-    strURL = QString( "http://%1/.well-known/acme-challenge/%2" ).arg( strDNS ).arg( strCID );
+    QStringList listVal = http_01_.split( "|" );
+
+    if( listVal.size() >= 3 )
+    {
+        QString strHost = listVal.at(1);
+        int nPort = listVal.at(2).toInt();
+        if( nPort <= 0 ) nPort = 80;
+
+        strURL = QString( "http://%1:%2/.well-known/acme-challenge/%3" ).arg( strHost ).arg( nPort ).arg( strCID );
+    }
+    else
+    {
+        strURL = QString( "http://%1/.well-known/acme-challenge/%2" ).arg( strDNS ).arg( strCID );
+    }
+
     strKeyAuth = QString("%1.%2").arg( strCID ).arg( strThumbPrint );
 
-    log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
+    manApplet->log( QString( "keyAuthorization: %1").arg( strKeyAuth ));
 
     ret = JS_HTTP_requestGet( strURL.toStdString().c_str(), &status, &pRsp );
     if( ret != JSR_OK ) return ret;
 
-    if( strKeyAuth.compare( QString("%1").arg(pRsp), Qt::CaseInsensitive ) != 0 )
-        return JSR_ERR;
+    manApplet->log( QString( "Rsp: %1").arg( pRsp ));
 
-    return JSR_OK;
+    if( strKeyAuth.compare( QString("%1").arg(pRsp), Qt::CaseInsensitive ) != 0 )
+    {
+        ret = JSR_ERR;
+        goto end;
+    }
+
+    ret = JSR_OK;
+
+end :
+    if( pRsp ) JS_free( pRsp );
+
+    return ret;
 }
 
 int ACMEServer::checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub )
 {
-    return JSR_OK;
+    int ret = 0;
+    int nSockFd = -1;
+    QString strKeyAuth;
+    QString strURL;
+
+    BIN binCert = {0,0};
+    JCertInfo sCertInfo;
+    JExtensionInfoList *pExtInfoList = NULL;
+    JExtensionInfoList *pCurList = NULL;
+
+    int bSelf = 0;
+    const QString strAuthOID = "1.3.6.1.5.5.7.1.31";
+    BIN binSrc = {0,0};
+    BIN binAuth = {0,0};
+    BIN binExt = {0,0};
+    BIN binExtVal = {0,0};
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+
+    JS_BIN_set( &binSrc, (unsigned char *)strCID.toStdString().c_str(), strCID.length() );
+    JS_PKI_genHash( "SHA256", &binSrc, &binAuth );
+
+    QStringList listVal = tls_alpn_01_.split( "|" );
+
+    if( listVal.size() >= 3 )
+    {
+        QString strHost = listVal.at(1);
+        int nPort = listVal.at(2).toInt();
+        if( nPort <= 0 ) nPort = 443;
+
+        nSockFd = JS_NET_connectTimeout( strHost.toStdString().c_str(), nPort, 5 );
+    }
+    else
+    {
+        nSockFd = JS_NET_connectTimeout( strDNS.toStdString().c_str(), 443, 5 );
+    }
+
+    ret = JS_SSL_ALPNClient( nSockFd, strDNS.toStdString().c_str(), &binCert );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "failed to run ALPNclient: %1" ).arg(ret));
+        goto end;
+    }
+
+    ret = JS_PKI_getCertInfo2( &binCert, &sCertInfo, &pExtInfoList, &bSelf );
+    if( ret != 0 )
+    {
+        manApplet->elog( QString( "failed to get self sign certificate info: %1" ).arg(ret));
+        goto end;
+    }
+
+    pCurList = pExtInfoList;
+    while( pCurList )
+    {
+        if( strAuthOID.compare( pCurList->sExtensionInfo.pOID, Qt::CaseInsensitive) == 0 )
+        {
+            JS_BIN_decodeHex( pCurList->sExtensionInfo.pValue, &binExt );
+            char *pExt = NULL;
+            JS_PKI_getOctetValue( &binExt, &pExt );
+
+            if( pExt )
+            {
+                JS_BIN_decodeHex( pExt, &binExtVal );
+                JS_free( pExt );
+            }
+
+
+            if( JS_BIN_cmp( &binAuth, &binExtVal ) == 0 )
+            {
+                ret = JSR_OK;
+            }
+            else
+            {
+                manApplet->elog( QString( "Auth Value is bad [%1 : %2]" )
+                                    .arg( getHexString( &binAuth ))
+                                    .arg( getHexString( &binExtVal )));
+
+                ret = JSR_INVALID_VALUE;
+            }
+
+            break;
+        }
+
+        pCurList = pCurList->pNext;
+    }
+
+end :
+    JS_BIN_reset( &binCert );
+    JS_PKI_resetCertInfo( &sCertInfo );
+    if( pExtInfoList ) JS_PKI_resetExtensionInfoList( &pExtInfoList );
+    JS_BIN_reset( &binSrc );
+    JS_BIN_reset( &binAuth );
+    JS_BIN_reset( &binExt );
+    JS_BIN_reset( &binExtVal );
+    if( nSockFd >= 0 ) JS_NET_close( nSockFd );
+
+    return ret;
 }
 
 int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
@@ -1754,7 +1961,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     JS_BIN_encodeBase64URL( &binRand, &pToken );
     strValue = auth.id_;
 
-    if( (strValue.contains( "*" ) == true) && (check_challenge_ & JS_CHALL_FLAG_DNS_01) )
+    if( (strValue.contains( "*" ) == true) && ( dns_01_.length() > 1 ) )
     {
         JS_PKI_genRandom( 16, &binRand );
         JS_BIN_encodeBase64URL( &binRand, &pToken );
@@ -1778,7 +1985,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
     }
     else
     {
-        if( check_challenge_ & JS_CHALL_FLAG_HTTP_01 )
+        if( http_01_.length() > 1 )
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );
@@ -1801,7 +2008,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
             }
         }
 
-        if( check_challenge_ & JS_CHALL_FLAG_DNS_01 )
+        if( dns_01_.length() > 1 )
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );
@@ -1824,7 +2031,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
             }
         }
 
-        if( check_challenge_ & JS_CHALL_FLAG_TLS_ALPN_01 )
+        if( tls_alpn_01_.length() > 1 )
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );

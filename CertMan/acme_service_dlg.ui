@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>648</height>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -447,14 +447,14 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line_4">
+    <widget class="Line" name="line_7">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="mChallGroup">
+    <widget class="QGroupBox" name="mHTTP01Group">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -462,7 +462,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Enable challenge check</string>
+      <string>Support HTTP01 Challenge</string>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -488,30 +488,198 @@
       </property>
       <item>
        <layout class="QGridLayout" name="gridLayout_7">
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="mHttp01Check">
-          <property name="text">
-           <string>HTTP-01</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
-         <widget class="QCheckBox" name="mDNS01Check">
+         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>DNS-01</string>
+           <string>Host</string>
           </property>
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QCheckBox" name="mTLS_ALPN01Check">
+         <widget class="QLineEdit" name="mHTTP01HostText"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="mHTTP01FixCheck">
           <property name="text">
-           <string>TLS-ALPN-01</string>
+           <string>Fix Server</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLineEdit" name="mHTTP01PortText">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
           </property>
          </widget>
         </item>
        </layout>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="mDNS01Group">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Support DNS01 Challenge</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <property name="spacing">
+       <number>5</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Host</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="mDNS01HostText"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="mDNS01FixCheck">
+          <property name="text">
+           <string>Fix Server</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLineEdit" name="mDNS01PortText">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="mTLS_ALPN01Group">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Support TLS ALPN01 Challenge</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <property name="spacing">
+       <number>5</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <layout class="QGridLayout" name="gridLayout_9">
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Host</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLineEdit" name="mTLS_ALPN01HostText"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="mTLS_ALPN01FixCheck">
+          <property name="text">
+           <string>Fix Server</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLineEdit" name="mTLS_ALPN01PortText">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
     </widget>
    </item>
    <item>

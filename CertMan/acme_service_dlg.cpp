@@ -43,6 +43,10 @@ ACMEServiceDlg::ACMEServiceDlg(QWidget *parent)
     connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
     connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
 
+    connect( mHTTP01FixCheck, SIGNAL(clicked()), this, SLOT(checkHTTP01ServerFix()));
+    connect( mDNS01FixCheck, SIGNAL(clicked()), this, SLOT(checkDNS01ServerFix()));
+    connect( mTLS_ALPN01FixCheck, SIGNAL(clicked()), this, SLOT(checkTLS_ALPN01ServerFix()));
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 #endif
@@ -58,11 +62,19 @@ ACMEServiceDlg::~ACMEServiceDlg()
 
 void ACMEServiceDlg::initUI()
 {
-    mChallGroup->setChecked( true );
-    mHttp01Check->setChecked( true );
-    mDNS01Check->setChecked( true );
+    mHTTP01Group->setChecked( true );
+    mDNS01Group->setChecked( true );
     mChallValidCheck->setChecked( true );
     mPortText->setText( QString("%1").arg( JS_ACME_PORT ));
+
+    mHTTP01HostText->setText( "127.0.0.1" );
+    mHTTP01PortText->setText( "80" );
+    mDNS01HostText->setText( "127.0.0.1" );
+    mDNS01PortText->setText( "53" );
+    mTLS_ALPN01HostText->setText( "127.0.0.1" );
+    mTLS_ALPN01PortText->setText( "443" );
+
+
 }
 
 void ACMEServiceDlg::initialize()
@@ -73,13 +85,16 @@ void ACMEServiceDlg::initialize()
     if( strDefault.length() > 4 ) listDefault = strDefault.split(":");
     /* Port:TLS:ProfileNum:CANum:TLSNum */
 
-    if( listDefault.size() >= 5 )
+    if( listDefault.size() >= 8 )
     {
         int nPort = listDefault.at(0).toInt();
         bool bTLS = listDefault.at(1).toInt();
         int nProfileNum = listDefault.at(2).toInt();
         int nCANum = listDefault.at(3).toInt();
         int nTLSNum = listDefault.at(4).toInt();
+        QString strHTTP01 = listDefault.at(5);
+        QString strDNS01 = listDefault.at(6);
+        QString strTLS_ALPN01 = listDefault.at(7);
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
         mTLSCheck->setChecked( bTLS );
@@ -88,7 +103,41 @@ void ACMEServiceDlg::initialize()
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
 
         mSetDefaultCheck->setChecked( true );
+
+        QStringList listHTTP01 = strHTTP01.split( "|" );
+
+        if( strHTTP01.length() > 1 ) mHTTP01Group->setChecked( true );
+        if( listHTTP01.size() >= 3 )
+        {
+            mHTTP01FixCheck->setChecked(true);
+            mHTTP01HostText->setText( listHTTP01.at(1) );
+            mHTTP01PortText->setText( listHTTP01.at(2) );
+        }
+
+        QStringList listDNS01 = strDNS01.split( "|" );
+
+        if( strDNS01.length() > 1 ) mDNS01Group->setChecked( true );
+        if( listDNS01.size() >= 3 )
+        {
+            mDNS01FixCheck->setChecked(true);
+            mDNS01HostText->setText( listDNS01.at(1) );
+            mDNS01PortText->setText( listDNS01.at(2) );
+        }
+
+        QStringList listTLS_ALPN01 = strHTTP01.split( "|" );
+
+        if( strTLS_ALPN01.length() > 1 ) mTLS_ALPN01Group->setChecked( true );
+        if( listTLS_ALPN01.size() >= 3 )
+        {
+            mTLS_ALPN01FixCheck->setChecked(true);
+            mTLS_ALPN01HostText->setText( listTLS_ALPN01.at(1) );
+            mTLS_ALPN01PortText->setText( listTLS_ALPN01.at(2) );
+        }
     }
+
+    checkHTTP01ServerFix();
+    checkDNS01ServerFix();
+    checkTLS_ALPN01ServerFix();
 
     checkTLS();
 }
@@ -127,7 +176,9 @@ void ACMEServiceDlg::clickStart()
 
     bool bP11 = false;
     int nPort = -1;
-    int nChallenge = 0;
+    QString strHTTP01Val;
+    QString strDNS01Val;
+    QString strTLS_ALPN01Val;
 
     if( acme_srv_ != nullptr )
     {
@@ -206,18 +257,6 @@ void ACMEServiceDlg::clickStart()
         manApplet->getPriKey( keyPair.getPrivateKey(), &binTLSPriKey );
     }
 
-    if( mChallGroup->isChecked() == true )
-    {
-        if( mHttp01Check->isChecked() )
-            nChallFlag |= JS_CHALL_FLAG_HTTP_01;
-
-        if( mDNS01Check->isChecked() )
-            nChallFlag |= JS_CHALL_FLAG_DNS_01;
-
-        if( mTLS_ALPN01Check->isChecked() )
-            nChallFlag |= JS_CHALL_FLAG_TLS_ALPN_01;
-    }
-
     acme_srv_ = new ACMEServer;
     nPort = strPort.toInt();
     acme_srv_->setLogEdit( mLogText );
@@ -226,7 +265,51 @@ void ACMEServiceDlg::clickStart()
     acme_srv_->setProfileNum( nProfileNum );
     acme_srv_->setCAPriKey( &binPriKey, bP11 );
     acme_srv_->setChallValid( mChallValidCheck->isChecked() );
-    acme_srv_->setCheckChallenge( nChallFlag );
+
+    if( mHTTP01Group->isChecked() )
+    {
+        strHTTP01Val = "true";
+
+        if( mHTTP01FixCheck->isChecked() )
+        {
+            QString strHost = mHTTP01HostText->text();
+            QString strPort = mHTTP01PortText->text();
+
+            strHTTP01Val += QString( "|%1|%2" ).arg( strHost ).arg( strPort );
+        }
+
+        acme_srv_->setHTTP01( strHTTP01Val );
+    }
+
+    if( mDNS01Group->isChecked() )
+    {
+        strDNS01Val = "true";
+
+        if( mDNS01FixCheck->isChecked() )
+        {
+            QString strHost = mDNS01HostText->text();
+            QString strPort = mDNS01PortText->text();
+
+            strDNS01Val += QString( "|%1|%2" ).arg( strHost ).arg( strPort );
+        }
+
+        acme_srv_->setDNS01( strDNS01Val );
+    }
+
+    if( mTLS_ALPN01Group->isChecked() )
+    {
+        strTLS_ALPN01Val = "true";
+
+        if( mTLS_ALPN01FixCheck->isChecked() )
+        {
+            QString strHost = mTLS_ALPN01HostText->text();
+            QString strPort = mTLS_ALPN01PortText->text();
+
+            strTLS_ALPN01Val += QString( "|%1|%2" ).arg( strHost ).arg( strPort );
+        }
+
+        acme_srv_->setTLS_ALPN01( strTLS_ALPN01Val );
+    }
 
     if( mTLSCheck->isChecked() == true )
     {
@@ -245,12 +328,15 @@ void ACMEServiceDlg::clickStart()
     if( mSetDefaultCheck->isChecked() == true )
     {
         /* Port:TLS:ProfileNum:CANum:TLSNum */
-        QString strDefault = QString( "%1:%2:%3:%4:%5" )
+        QString strDefault = QString( "%1:%2:%3:%4:%5:%6:%7:%8" )
                                  .arg( nPort )
                                  .arg( mTLSCheck->isChecked() )
                                  .arg( nProfileNum )
                                  .arg(nNum)
-                                 .arg( nTLSNum );
+                                 .arg( nTLSNum )
+                                 .arg(strHTTP01Val)
+                                 .arg(strDNS01Val)
+                                 .arg(strTLS_ALPN01Val);
 
         setDefault( strDefault );
     }
@@ -421,4 +507,28 @@ void ACMEServiceDlg::changeTLSNum()
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mTLSInfoText->setText( keyPair.getDesc() );
+}
+
+void ACMEServiceDlg::checkHTTP01ServerFix()
+{
+    bool bVal = mHTTP01FixCheck->isChecked();
+
+    mHTTP01HostText->setEnabled( bVal );
+    mHTTP01PortText->setEnabled( bVal );
+}
+
+void ACMEServiceDlg::checkDNS01ServerFix()
+{
+    bool bVal = mDNS01FixCheck->isChecked();
+
+    mDNS01HostText->setEnabled( bVal );
+    mDNS01PortText->setEnabled( bVal );
+}
+
+void ACMEServiceDlg::checkTLS_ALPN01ServerFix()
+{
+    bool bVal = mTLS_ALPN01FixCheck->isChecked();
+
+    mTLS_ALPN01HostText->setEnabled( bVal );
+    mTLS_ALPN01PortText->setEnabled( bVal );
 }
