@@ -29,119 +29,156 @@
         <translation>ACME 서비스</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="110"/>
+        <location filename="../acme_service_dlg.ui" line="120"/>
+        <location filename="../acme_service_dlg.ui" line="511"/>
+        <location filename="../acme_service_dlg.ui" line="575"/>
+        <location filename="../acme_service_dlg.ui" line="659"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="130"/>
+        <location filename="../acme_service_dlg.ui" line="94"/>
         <source>TLS</source>
         <translation>TLS</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="146"/>
+        <location filename="../acme_service_dlg.ui" line="137"/>
+        <source>always challenge valid</source>
+        <translation>항상 챌린지 유효함</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="153"/>
         <source>Certificate Profile</source>
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="175"/>
-        <location filename="../acme_service_dlg.ui" line="345"/>
-        <location filename="../acme_service_dlg.ui" line="562"/>
+        <location filename="../acme_service_dlg.ui" line="182"/>
+        <location filename="../acme_service_dlg.ui" line="352"/>
+        <location filename="../acme_service_dlg.ui" line="798"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="182"/>
-        <location filename="../acme_service_dlg.ui" line="352"/>
-        <location filename="../acme_service_dlg.ui" line="509"/>
+        <location filename="../acme_service_dlg.ui" line="189"/>
+        <location filename="../acme_service_dlg.ui" line="359"/>
+        <location filename="../acme_service_dlg.ui" line="745"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="263"/>
-        <location filename="../acme_service_dlg.ui" line="399"/>
-        <location filename="../acme_service_dlg.ui" line="569"/>
+        <location filename="../acme_service_dlg.ui" line="270"/>
+        <location filename="../acme_service_dlg.ui" line="406"/>
+        <location filename="../acme_service_dlg.ui" line="805"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="282"/>
+        <location filename="../acme_service_dlg.ui" line="289"/>
         <source>CA Certificate and Private Key</source>
         <translation>CA 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="452"/>
+        <location filename="../acme_service_dlg.ui" line="465"/>
+        <source>Support HTTP01 Challenge</source>
+        <translation>HTTP01 챌리지 지원</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="494"/>
+        <location filename="../acme_service_dlg.ui" line="568"/>
+        <location filename="../acme_service_dlg.ui" line="642"/>
+        <source>Host</source>
+        <translation>호스트</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="504"/>
+        <location filename="../acme_service_dlg.ui" line="585"/>
+        <location filename="../acme_service_dlg.ui" line="652"/>
+        <source>Fix Server</source>
+        <translation>서버 고정</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="539"/>
+        <source>Support DNS01 Challenge</source>
+        <translation>DNS01 챌리지 지원</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="613"/>
+        <source>Support TLS ALPN01 Challenge</source>
+        <translation>TLS_ALPN01 챌리지 지원</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="688"/>
         <source>TLS Certificate and Privte Key</source>
         <translation>TLS 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="671"/>
+        <location filename="../acme_service_dlg.ui" line="907"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="678"/>
+        <location filename="../acme_service_dlg.ui" line="914"/>
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="129"/>
+        <location filename="../acme_service_dlg.cpp" line="185"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="135"/>
+        <location filename="../acme_service_dlg.cpp" line="191"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="150"/>
-        <location filename="../acme_service_dlg.cpp" line="315"/>
+        <location filename="../acme_service_dlg.cpp" line="207"/>
+        <location filename="../acme_service_dlg.cpp" line="421"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="157"/>
+        <location filename="../acme_service_dlg.cpp" line="214"/>
         <source>failed to get CA certificate</source>
         <translation>CA 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="164"/>
+        <location filename="../acme_service_dlg.cpp" line="221"/>
         <source>failed to get CA private key</source>
         <translation>CA 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="182"/>
+        <location filename="../acme_service_dlg.cpp" line="239"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="189"/>
+        <location filename="../acme_service_dlg.cpp" line="246"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="195"/>
+        <location filename="../acme_service_dlg.cpp" line="252"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="219"/>
+        <location filename="../acme_service_dlg.cpp" line="322"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="266"/>
+        <location filename="../acme_service_dlg.cpp" line="372"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="329"/>
+        <location filename="../acme_service_dlg.cpp" line="435"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="360"/>
+        <location filename="../acme_service_dlg.cpp" line="466"/>
         <source>Select TLS Server certificate</source>
         <translation>TLS 서버 인증서를 선택하세요</translation>
     </message>
