@@ -66,6 +66,7 @@ public :
 
     int         status_;
     QString     auth_id_;
+    QString     type_;
 };
 
 const QString getACMEStatusName( ACMEStatus status );
@@ -89,7 +90,7 @@ public:
     const QString getNonce() { return nonce_; };
 
     const QJsonArray getIDListArray();
-    const QString getContact() { return contact_; };
+    const QJsonArray getContactArray();
 
 
     const ACMEAuth getAuth( const QString strToken );
@@ -104,7 +105,7 @@ public:
     void setCSR( const QString strCSR );
     void setCert( const QString strCert );
     void setNonce( const QString strNonce );
-    void setContact( const QString strContact );
+    void addContact( const QString strContact );
     void setValidTime( time_t time );
 
     void addAuth( const QString strToken, const ACMEAuth auth );
@@ -129,7 +130,7 @@ private:
     QString         csr_;
     QString         cert_;
     QString         nonce_;
-    QString         contact_;
+    QStringList     contact_list_;
     time_t          valid_time_;
 
     QMap<QString, ACMEAuth> auths_;

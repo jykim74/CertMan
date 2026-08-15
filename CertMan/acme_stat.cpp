@@ -11,7 +11,7 @@ ACMEStat::ACMEStat()
     csr_.clear();
     cert_.clear();
     nonce_.clear();
-    contact_.clear();
+    contact_list_.clear();
     auths_.clear();
     challs_.clear();
     orders_.clear();
@@ -25,7 +25,7 @@ ACMEStat::ACMEStat(const ACMEStat& other)
     csr_ = other.csr_;
     cert_ = other.cert_;
     nonce_ = other.nonce_;
-    contact_ = other.contact_;
+    contact_list_ = other.contact_list_;
     auths_ = other.auths_;
     challs_ = other.challs_;
     orders_ = other.orders_;
@@ -42,7 +42,7 @@ ACMEStat& ACMEStat::operator=(const ACMEStat& other)
         csr_ = other.csr_;
         cert_ = other.cert_;
         nonce_ = other.nonce_;
-        contact_ = other.contact_;
+        contact_list_ = other.contact_list_;
         auths_ = other.auths_;
         challs_ = other.challs_;
         orders_ = other.orders_;
@@ -66,6 +66,20 @@ const QJsonArray ACMEStat::getIDListArray()
         jObj["value"] = auth.id_;
 
         jArr.append( jObj );
+    }
+
+    return jArr;
+}
+
+const QJsonArray ACMEStat::getContactArray()
+{
+    QJsonArray jArr;
+
+    for( int i = 0; i < contact_list_.size(); i++ )
+    {
+        QString strContact = contact_list_.at(i);
+
+        jArr.append( strContact );
     }
 
     return jArr;
@@ -111,9 +125,9 @@ void ACMEStat::setNonce( const QString strNonce )
     nonce_ = strNonce;
 }
 
-void ACMEStat::setContact( const QString strContact )
+void ACMEStat::addContact( const QString strContact )
 {
-    contact_ = strContact;
+    contact_list_.append( strContact );
 }
 
 void ACMEStat::setValidTime( time_t time )

@@ -30,6 +30,10 @@
 #include "acme_server.h"
 #include "acme_stat.h"
 
+const QString kChallHttp01 = "http-01";
+const QString kChallDns01 = "dns-01";
+const QString kChallTlsAlpn01 = "tls-alpn-01";
+
 const QString ACMEErrString( AcmeError error )
 {
     switch (error) {
@@ -1437,7 +1441,7 @@ int ACMEServer::checkDNS_01( const QString strDNS, const QString strCID, const B
 
     QStringList listVal = dns_01_.split( "|" );
 
-    if( listVal.size() >= 0 )
+    if( listVal.size() >= 3 )
     {
         QString strHost = listVal.at(1);
         int nPort = listVal.at(2).toInt();
@@ -1677,6 +1681,7 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
     QJsonObject objPayload;
     QJsonObject objKey;
     int nStatus = JS_ACME_STATUS_START;
+    QJsonArray jConList = objPayload["contact"].toArray();
 
     ret = acmeObj.getPubKey( &binPub );
     if( ret != JSR_OK )
@@ -1699,11 +1704,16 @@ int ACMEServer::runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson )
 
     objPayload = acmeObj.getPayload();
 
+    jConList = objPayload["contact"].toArray();
+    for( int i = 0; i < jConList.size(); i++ )
+    {
+        QString strContact = jConList.at(i).toString();
+        stat.addContact( strContact );
+    }
+
     rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
     rspJson["orders"] = strACME_URL( kACME_Orders, strName );
-    rspJson["contact"] = objPayload["contact"].toArray();
-
-    stat.setContact( ACMEObject::getJson( objPayload["contact"].toArray()) );
+    rspJson["contact"] = stat.getContactArray();
 
     /* Key 는 Optional 값 */
     objKey = ACMEObject::getJWK( &binPub, "SHA256", strName );
@@ -1974,6 +1984,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
         chall.status_ = ACME_STATUS_PENDING;
         chall.auth_id_ = strAID;
+        chall.type_ = kChallDns01;
         stat.addChall( pToken, chall );
 
         JS_BIN_reset( &binRand );
@@ -1998,6 +2009,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
             chall.status_ = ACME_STATUS_PENDING;
             chall.auth_id_ = strAID;
+            chall.type_ = kChallHttp01;
             stat.addChall( pToken, chall );
 
             JS_BIN_reset( &binRand );
@@ -2021,6 +2033,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
             chall.status_ = ACME_STATUS_PENDING;
             chall.auth_id_ = strAID;
+            chall.type_ = kChallTlsAlpn01;
             stat.addChall( pToken, chall );
 
             JS_BIN_reset( &binRand );
@@ -2240,9 +2253,9 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
 
     if( chall_valid_ == false )
     {
-        if( auth.type_ == "http-01" )
+        if( chall.type_ == kChallHttp01 )
             ret = checkHTTP_01( auth.id_, strCID, &binPub );
-        else if( auth.type_ == "tls-alpn-01" )
+        else if( chall.type_ == kChallTlsAlpn01 )
             ret = checkTLS_ALPN_01( auth.id_, strCID, &binPub );
         else
             ret = checkDNS_01( auth.id_, strCID, &binPub );
@@ -2312,7 +2325,7 @@ int ACMEServer::runACME_Account( ACMEObject& acmeObj, const QString strKID, QJso
         goto end;
     }
 
-    rspJson["contact"] = stat.getContact();
+    rspJson["contact"] = stat.getContactArray();
     rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
     rspJson["orders"] = strACME_URL( kACME_Orders, strKID );
 
