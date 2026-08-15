@@ -124,7 +124,7 @@ void ACMEServiceDlg::initialize()
             mDNS01PortText->setText( listDNS01.at(2) );
         }
 
-        QStringList listTLS_ALPN01 = strHTTP01.split( "|" );
+        QStringList listTLS_ALPN01 = strTLS_ALPN01.split( "|" );
 
         if( strTLS_ALPN01.length() > 1 ) mTLS_ALPN01Group->setChecked( true );
         if( listTLS_ALPN01.size() >= 3 )
