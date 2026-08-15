@@ -1976,6 +1976,8 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         JS_PKI_genRandom( 16, &binRand );
         JS_BIN_encodeBase64URL( &binRand, &pToken );
 
+        log( QString( "DNS_01 Token: %1").arg( pToken ));
+
         jObj["type"] = "dns-01";
         jObj["url"] = strACME_URL( kACME_Challenge, pToken );
         jObj["token"] = pToken;
@@ -2000,6 +2002,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );
+            log( QString( "HTTP_01 Token: %1").arg( pToken ));
 
             jObj["type"] = "http-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
@@ -2024,6 +2027,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );
+            log( QString( "DNS_01 Token: %1").arg( pToken ));
 
             jObj["type"] = "dns-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
@@ -2033,7 +2037,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
             chall.status_ = ACME_STATUS_PENDING;
             chall.auth_id_ = strAID;
-            chall.type_ = kChallTlsAlpn01;
+            chall.type_ = kChallDns01;
             stat.addChall( pToken, chall );
 
             JS_BIN_reset( &binRand );
@@ -2048,6 +2052,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
         {
             JS_PKI_genRandom( 16, &binRand );
             JS_BIN_encodeBase64URL( &binRand, &pToken );
+            log( QString( "TLS_ALPN_01 Token: %1").arg( pToken ));
 
             jObj["type"] = "tls-alpn-01";
             jObj["url"] = strACME_URL( kACME_Challenge, pToken );
@@ -2057,6 +2062,7 @@ int ACMEServer::runACME_Authorization( ACMEObject& acmeObj, const QString strAID
 
             chall.status_ = ACME_STATUS_PENDING;
             chall.auth_id_ = strAID;
+            chall.type_ = kChallTlsAlpn01;
             stat.addChall( pToken, chall );
 
             JS_BIN_reset( &binRand );
@@ -2247,7 +2253,7 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
     }
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_PROCESSING );
-    rspJson["type"] = auth.type_;
+    rspJson["type"] = chall.type_;
     rspJson["url"] = strACME_URL( kACME_Challenge, strCID );
     rspJson["token"] = strCID;
 
@@ -2270,11 +2276,13 @@ int ACMEServer::runACME_Challenge( ACMEObject& acmeObj, const QString strCID, QJ
         stat.setAuthStatus( chall.auth_id_, ACME_STATUS_VALID );
         stat.setChallStatus( strCID, ACME_STATUS_VALID );
         nStatus |= JS_ACME_STATUS_CHAL_DONE;
+        log( QString( "%1 check OK" ).arg( chall.type_ ));
     }
     else
     {
         stat.setChallStatus( strCID, ACME_STATUS_PROCESSING );
         nStatus |= JS_ACME_STATUS_CHALLENGE;
+        elog( QString( "%1 check fail: %2" ).arg( chall.type_ ).arg( ret ));
     }
 
     stat.setStatus( nStatus );
@@ -2418,7 +2426,6 @@ int ACMEServer::runACME_Location( ACMEObject& acmeObj, const QString strKID, QJs
     jAuthArr.insert( 0, strURL );
 
     rspJson["status"] = getACMEStatusName( ACME_STATUS_VALID );
-//    rspJson["expires"] = "2026-07-14T06:53:16Z";
     rspJson["expires"] = stat.getValidTime();
     rspJson["identifiers"] = stat.getIDListArray();
     rspJson["profile"] = "shortlived";
