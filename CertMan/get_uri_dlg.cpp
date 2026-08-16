@@ -265,14 +265,23 @@ end :
 
 const QString GetURIDlg::getValidURL()
 {
+    QString strLink;
     QString strURL = mURICombo->currentText();
 
-    strURL.remove( "url=" );
-    strURL.remove( "uri=" );
-    strURL.remove( "URL=" );
-    strURL.remove( "URI=" );
+    if( strURL.startsWith( "URL=", Qt::CaseInsensitive ) )
+    {
+        strLink = strURL.replace( "URL=", "" );
+    }
+    else if( strURL.startsWith( "URI=", Qt::CaseInsensitive ) )
+    {
+        strLink = strURL.replace( "URI=", "" );
+    }
+    else
+    {
+        strLink = strURL;
+    }
 
-    return strURL.simplified();
+    return strLink.simplified();
 }
 
 void GetURIDlg::changeURI( int index )
