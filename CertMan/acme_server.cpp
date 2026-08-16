@@ -532,6 +532,8 @@ int ACMEServer::issueCert( const BIN *pCSR, BIN *pCert )
         goto end;
     }
 
+
+    certRec.setNum( nSeq );
     certRec.setRegTime( now_t );
     certRec.setNotBefore( notBefore );
     certRec.setNotAfter( notAfter );
