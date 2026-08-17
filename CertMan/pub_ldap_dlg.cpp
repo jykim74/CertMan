@@ -143,7 +143,14 @@ void PubLDAPDlg::accept()
         goto end;
     }
 
-    ret = JS_LDAP_publishData( pLD, mPublishDNText->text().toUtf8().toStdString().c_str(), nType, &binData );
+    ret = JS_LDAP_createParentAll( pLD, strPubDN.toUtf8().toStdString().c_str() );
+    if( ret != 0 )
+    {
+        manApplet->warningBox( tr( "failed to create parent all: %1").arg(ret), this );
+        goto end;
+    }
+
+    ret = JS_LDAP_publishData( pLD, strPubDN.toUtf8().toStdString().c_str(), nType, &binData );
     if( ret != 0 )
     {
         manApplet->warningBox( tr( "LDAP Publish fail: %1" ).arg( ret ), this );
@@ -250,7 +257,7 @@ void PubLDAPDlg::initialize()
 
         url.setUrl( crl.getCRLDP() );
         mInfoText->setText( strInfo );
-        mPublishDNText->setText( url.host() );
+        mPublishDNText->setText( crl.getCRLDP() );
 
         mTypeCombo->setCurrentText( "CRL" );
     }
