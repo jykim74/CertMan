@@ -139,21 +139,21 @@ void PubLDAPDlg::accept()
     ret = JS_LDAP_bind( pLD, mBindDNText->text().toStdString().c_str(), mPasswordText->text().toStdString().c_str() );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "LDAP bind fail: %1").arg( ret ), this);
+        manApplet->warningBox( tr( "LDAP bind fail: %1").arg( JERR(ret) ), this);
         goto end;
     }
 
     ret = JS_LDAP_createParentAll( pLD, strPubDN.toUtf8().toStdString().c_str() );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "failed to create parent all: %1").arg(ret), this );
+        manApplet->warningBox( tr( "failed to create parent all: %1").arg( JERR(ret) ), this );
         goto end;
     }
 
     ret = JS_LDAP_publishData( pLD, strPubDN.toUtf8().toStdString().c_str(), nType, &binData );
     if( ret != 0 )
     {
-        manApplet->warningBox( tr( "LDAP Publish fail: %1" ).arg( ret ), this );
+        manApplet->warningBox( tr( "LDAP Publish fail: %1" ).arg( JERR(ret) ), this );
         goto end;
     }
 
