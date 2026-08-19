@@ -247,17 +247,21 @@ void PubLDAPDlg::initialize()
     else if( data_type_ == RightType::TYPE_CRL )
     {
         CRLRec crl;
-        dbMgr->getCRLRec( data_num_, crl );
+        QString strURL;
 
-        QUrl url;
+        dbMgr->getCRLRec( data_num_, crl );
 
         QString strInfo = QString( "Num: %1\nSignAlgorithm: %2")
                 .arg( crl.getNum() )
                 .arg( crl.getSignAlg() );
 
-        url.setUrl( crl.getCRLDP() );
         mInfoText->setText( strInfo );
-        mPublishDNText->setText( crl.getCRLDP() );
+
+        strURL = crl.getCRLDP();
+        if( strURL.startsWith( "ldap", Qt::CaseInsensitive) == true )
+        {
+            mPublishDNText->setText( strURL );
+        }
 
         mTypeCombo->setCurrentText( "CRL" );
     }
