@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CertMan
-    VERSION 2.3.0
+    VERSION 2.3.1
     DESCRIPTION "CertMan Application"
     LANGUAGES CXX C )
 
