@@ -18,6 +18,8 @@
 #include "js_cc.h"
 #include "js_error.h"
 
+const QString kUUID = "UUID";
+
 
 LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
     QDialog(parent)
@@ -143,8 +145,10 @@ void LCNInfoDlg::initialize()
     }
 
     mUpdateBtn->setEnabled( mCurGroup->isEnabled() );
-//    mUseFileCheck->click();
     tabWidget->setCurrentIndex(0);
+    mCloseBtn->setDefault( true );
+
+    notifyCheck();
 }
 
 void LCNInfoDlg::settingsLCN( const QString strUser, const BIN *pLCN )
@@ -156,6 +160,92 @@ void LCNInfoDlg::settingsLCN( const QString strUser, const BIN *pLCN )
     manApplet->settingsMgr()->setLicense( getHexString( &binEncLCN ));
 
     JS_BIN_reset( &binEncLCN );
+}
+
+void LCNInfoDlg::notifyCheck()
+{
+    int ret = 0;
+    int status = 0;
+    char *pRsp = NULL;
+    QString strURL;
+    QString strUUID = getUUID();
+
+    if( strUUID.length() < 1 )
+    {
+        QUuid uuid = QUuid::createUuid();
+        strUUID = uuid.toString();
+        setUUID( strUUID );
+    }
+
+    QString strSysInfo = getSysInfo();
+    QString strProduct = manApplet->getBrand();
+
+    strURL = getLicenseURI();
+    strURL += JS_LCN_NOTIFY_PATH;
+
+    QString strBody = QString( "uuid=%1&product=%2&sysinfo=%3")
+                          .arg( strUUID.simplified() )
+                          .arg( strProduct.simplified() )
+                          .arg( strSysInfo.simplified() );
+
+    ret = JS_HTTP_requestPost2(
+        strURL.toStdString().c_str(),
+        NULL,
+        NULL,
+        "application/x-www-form-urlencoded",
+        strBody.toStdString().c_str(),
+        &status,
+        &pRsp );
+
+    QString strRsp = pRsp;
+    if( strRsp.length() > 1 && status == 200 )
+    {
+        if( strRsp.compare( "None", Qt::CaseInsensitive ) != 0 )
+        {
+            QString strLabel = mMessageLabel->text();
+            strLabel += QString( "\nNotify: %1" ).arg( strRsp );
+            mMessageLabel->setText( strLabel );
+        }
+    }
+
+end :
+    if( pRsp ) JS_free( pRsp );
+}
+
+QString LCNInfoDlg::getUUID()
+{
+    QSettings settings;
+    QString strUUID;
+
+    settings.beginGroup( kSettingMan );
+    strUUID = settings.value( kUUID ).toString();
+    settings.endGroup();
+
+    return strUUID;
+}
+
+void LCNInfoDlg::setUUID( const QString strUUID )
+{
+    QSettings settings;
+    settings.beginGroup( kSettingMan );
+    settings.setValue( kUUID, strUUID );
+    settings.endGroup();
+}
+
+QString LCNInfoDlg::getSysInfo()
+{
+    QString strProduct = manApplet->getBrand();
+    QString strVersion = STRINGIZE(BER_EDITOR_VERSION);
+
+    QSysInfo sysInfo;
+    QString strInfo = QString( "%1_%2_%3_%4_%5")
+                          .arg( strProduct )
+                          .arg( strVersion )
+                          .arg( sysInfo.currentCpuArchitecture())
+                          .arg( sysInfo.productType() )
+                          .arg( sysInfo.productVersion());
+
+    return strInfo;
 }
 
 

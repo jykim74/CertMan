@@ -96,7 +96,7 @@ QString OCSPServiceDlg::getDefault()
     QSettings settings;
     QString strDefault;
 
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     strDefault = settings.value( kOCSPDefault ).toString();
     settings.endGroup();
 
@@ -106,7 +106,7 @@ QString OCSPServiceDlg::getDefault()
 void OCSPServiceDlg::setDefault( const QString strDefault )
 {
     QSettings settings;
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     settings.setValue( kOCSPDefault, strDefault );
     settings.endGroup();
 }

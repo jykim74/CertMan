@@ -86,7 +86,7 @@ QString TSPServiceDlg::getDefault()
     QSettings settings;
     QString strDefault;
 
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     strDefault = settings.value( kTSPDefault ).toString();
     settings.endGroup();
 
@@ -96,7 +96,7 @@ QString TSPServiceDlg::getDefault()
 void TSPServiceDlg::setDefault( const QString strDefault )
 {
     QSettings settings;
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     settings.setValue( kTSPDefault, strDefault );
     settings.endGroup();
 }

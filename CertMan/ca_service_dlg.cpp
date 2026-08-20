@@ -94,7 +94,7 @@ QString CAServiceDlg::getDefault()
     QSettings settings;
     QString strDefault;
 
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     strDefault = settings.value( kCADefault ).toString();
     settings.endGroup();
 
@@ -104,7 +104,7 @@ QString CAServiceDlg::getDefault()
 void CAServiceDlg::setDefault( const QString strDefault )
 {
     QSettings settings;
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     settings.setValue( kCADefault, strDefault );
     settings.endGroup();
 }

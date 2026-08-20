@@ -145,7 +145,7 @@ QString ACMEServiceDlg::getDefault()
     QSettings settings;
     QString strDefault;
 
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     strDefault = settings.value( kACMEDefault ).toString();
     settings.endGroup();
 
@@ -155,7 +155,7 @@ QString ACMEServiceDlg::getDefault()
 void ACMEServiceDlg::setDefault( const QString strDefault )
 {
     QSettings settings;
-    settings.beginGroup( kSettingBer );
+    settings.beginGroup( kSettingMan );
     settings.setValue( kACMEDefault, strDefault );
     settings.endGroup();
 }
