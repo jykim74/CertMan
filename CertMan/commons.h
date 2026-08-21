@@ -370,4 +370,6 @@ void setFixedLineText( QLineEdit *pEdit, const QString strText );
 QString getBase64URL_FromHex( const QString strHex );
 QString getHex_FromBase64URL( const QString strBase64URL );
 
+const QString getCountryString();
+
 #endif // COMMONS_H

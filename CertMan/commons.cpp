@@ -4475,3 +4475,9 @@ QString getHex_FromBase64URL( const QString strBase64URL )
 
     return strValue;
 }
+
+const QString getCountryString()
+{
+    QLocale locale;
+    return QLocale::countryToString( locale.country() );
+}

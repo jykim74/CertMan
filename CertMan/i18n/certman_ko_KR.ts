@@ -2320,7 +2320,7 @@
     </message>
     <message>
         <location filename="../lcn_info_dlg.ui" line="419"/>
-        <location filename="../lcn_info_dlg.cpp" line="742"/>
+        <location filename="../lcn_info_dlg.cpp" line="763"/>
         <source>Get</source>
         <translation>가져오기</translation>
     </message>
@@ -2405,7 +2405,7 @@
         <translation type="vanished">라이선스가 발급 되지 못했습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="113"/>
+        <location filename="../lcn_info_dlg.cpp" line="115"/>
         <source>The CertMan is licensed version</source>
         <translation>CertMan 은 라이센스 버전입니다</translation>
     </message>
@@ -2423,23 +2423,28 @@
         <translation type="vanished">라이센스가 유효 하지 않은 라이센스입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="118"/>
+        <location filename="../lcn_info_dlg.cpp" line="120"/>
         <source>The CertMan is unlicensed version</source>
         <translation>CertMan은 라이센스가 없는 버전입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="127"/>
+        <location filename="../lcn_info_dlg.cpp" line="129"/>
         <source>[Expired:%1]</source>
         <translation>[만료일: %1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="135"/>
+        <location filename="../lcn_info_dlg.cpp" line="137"/>
         <source>[No license]</source>
         <translation>[라이선스 없음]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="435"/>
-        <location filename="../lcn_info_dlg.cpp" line="521"/>
+        <location filename="../lcn_info_dlg.cpp" line="219"/>
+        <source>Notice: </source>
+        <translation>알림: </translation>
+    </message>
+    <message>
+        <location filename="../lcn_info_dlg.cpp" line="456"/>
+        <location filename="../lcn_info_dlg.cpp" line="542"/>
         <source>This service is not yet supported.</source>
         <translation>아직 지원하지 않는 서비스 입니다</translation>
     </message>
@@ -2448,32 +2453,32 @@
         <translation type="vanished">이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="527"/>
+        <location filename="../lcn_info_dlg.cpp" line="548"/>
         <source>Please enter an email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="534"/>
+        <location filename="../lcn_info_dlg.cpp" line="555"/>
         <source>Please enter a license key</source>
         <translation>라이센스 키를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="542"/>
+        <location filename="../lcn_info_dlg.cpp" line="563"/>
         <source>failed to get license %1 : %2</source>
         <translation>라이센스 가져오기 실패 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="563"/>
+        <location filename="../lcn_info_dlg.cpp" line="584"/>
         <source>The license is not valid :[%1]</source>
         <translation>라이선스가 유효하지 않습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="617"/>
+        <location filename="../lcn_info_dlg.cpp" line="638"/>
         <source>An email address is required to issue a free license.</source>
         <translation>무료 라이선스 발급을 위해서 이메일 주소가 필요합니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="622"/>
+        <location filename="../lcn_info_dlg.cpp" line="643"/>
         <source>Would you like to request a free license?</source>
         <translation>무료 라이선스를 요청하겠습니까?</translation>
     </message>
@@ -2482,22 +2487,22 @@
         <translation type="vanished">이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="628"/>
+        <location filename="../lcn_info_dlg.cpp" line="649"/>
         <source>failed to get free license %1 : %2</source>
         <translation>무료 라이선스 가져오기 실패 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="641"/>
+        <location filename="../lcn_info_dlg.cpp" line="662"/>
         <source>A free license has been issued. Restart to apply it?</source>
         <translation>무료 라이선스가 발급 되었습니다. 다시 시작하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="677"/>
+        <location filename="../lcn_info_dlg.cpp" line="698"/>
         <source>failed to renew the license %1 : %2</source>
         <translation>라이센스 갱신에 실패하였습니다 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="738"/>
+        <location filename="../lcn_info_dlg.cpp" line="759"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
@@ -2510,17 +2515,17 @@
         <translation type="vanished">라이선스가 유효하지 않습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="701"/>
+        <location filename="../lcn_info_dlg.cpp" line="722"/>
         <source>License is invalid : %1</source>
         <translation>라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="721"/>
+        <location filename="../lcn_info_dlg.cpp" line="742"/>
         <source>Are you sure you want to remove invalid license information?</source>
         <translation>유효하지 않는 라이선스 정보를 제거 하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="728"/>
+        <location filename="../lcn_info_dlg.cpp" line="749"/>
         <source>Remove invalid license settings</source>
         <translation>유효하지 않는 라이선스 설정 제거</translation>
     </message>
@@ -2529,7 +2534,7 @@
         <translation type="vanished">라이센스 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="554"/>
+        <location filename="../lcn_info_dlg.cpp" line="575"/>
         <source>failed to parse license file [%1]</source>
         <translation>라이센스 파일 파싱에 실패 [%1]</translation>
     </message>
@@ -2538,19 +2543,19 @@
         <translation type="vanished">라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="577"/>
-        <location filename="../lcn_info_dlg.cpp" line="688"/>
+        <location filename="../lcn_info_dlg.cpp" line="598"/>
+        <location filename="../lcn_info_dlg.cpp" line="709"/>
         <source>Your current license has a longer usage period.</source>
         <translation>현재 라이선스가 사용기간이 더 긴 라이선스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="596"/>
-        <location filename="../lcn_info_dlg.cpp" line="712"/>
+        <location filename="../lcn_info_dlg.cpp" line="617"/>
+        <location filename="../lcn_info_dlg.cpp" line="733"/>
         <source>You have changed license. Restart to apply it?</source>
         <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="665"/>
+        <location filename="../lcn_info_dlg.cpp" line="686"/>
         <source>There is currently no license.</source>
         <translation>현재 라이선스가 없습니다</translation>
     </message>
