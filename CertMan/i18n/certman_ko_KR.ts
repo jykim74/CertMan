@@ -10846,6 +10846,61 @@
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="124"/>
+        <source>The server has already started.</source>
+        <translation>서버가 이미 시작 되었습니다</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="130"/>
+        <source>Enter a port</source>
+        <translation>포트를 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="145"/>
+        <source>failed to get TSP certificate</source>
+        <translation>TSP 인증서 가져오기 실패</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="152"/>
+        <source>failed to get TSP private key</source>
+        <translation>TSP 개인키 가져오기 실패</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="170"/>
+        <source>failed to get TLS certificate</source>
+        <translation>TLS 인증서 가져오기 실패</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="177"/>
+        <source>failed to get TLS private key</source>
+        <translation>TLS 개인키 가져오기 실패</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="183"/>
+        <source>TLS does not support PKCS11</source>
+        <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="200"/>
+        <source>Failed to configure TLS certificate and private key.</source>
+        <translation>TLS 인증서와 개인키 설정에 실패 하였습니다</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="210"/>
+        <source>failed to start server: %1</source>
+        <translation>서버 시작에 실패하였습니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="257"/>
+        <source>Select CA certificate</source>
+        <translation>CA 인증서를 선택하세요</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="306"/>
+        <source>Select TLS Server certificate</source>
+        <translation>TLS 서버 인증서를 선택하세요</translation>
+    </message>
 </context>
 <context>
     <name>TSTInfoDlg</name>

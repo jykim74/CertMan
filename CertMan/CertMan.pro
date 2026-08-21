@@ -111,7 +111,7 @@ SOURCES += \
         view_cert_profile_dlg.cpp \
         view_crl_profile_dlg.cpp \
         progress_dlg.cpp \
-        tsp_server_dlg.cpp \
+        tsp_service_dlg.cpp \
         tsp_server.cpp \
         ocsp_server.cpp \
         ocsp_service_dlg.cpp \
