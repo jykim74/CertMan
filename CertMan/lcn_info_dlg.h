@@ -44,6 +44,8 @@ private:
     void notifyCheck();
     QString getUUID();
     void setUUID( const QString strUUID );
+    time_t getNotifyTime();
+    void setNotifyTime( time_t time );
     QString getSysInfo();
 
     QString SID_;

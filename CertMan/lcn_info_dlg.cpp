@@ -19,6 +19,8 @@
 #include "js_error.h"
 
 const QString kUUID = "UUID";
+const QString kNotifyTime = "NotifyTime";
+const int kCheckSecs = 43200;
 
 
 LCNInfoDlg::LCNInfoDlg(QWidget *parent) :
@@ -169,11 +171,17 @@ void LCNInfoDlg::notifyCheck()
     char *pRsp = NULL;
     QString strURL;
     QString strUUID = getUUID();
+    time_t now_t = time(NULL);
+
+    time_t notify_t = getNotifyTime();
+
+    // 12 hours check
+    if( now_t < ( notify_t + kCheckSecs ) ) return;
 
     if( strUUID.length() < 1 )
     {
         QUuid uuid = QUuid::createUuid();
-        strUUID = uuid.toString();
+        strUUID = uuid.toString(QUuid::WithoutBraces);
         setUUID( strUUID );
     }
 
@@ -208,6 +216,8 @@ void LCNInfoDlg::notifyCheck()
         }
     }
 
+    setNotifyTime( now_t );
+
 end :
     if( pRsp ) JS_free( pRsp );
 }
@@ -232,10 +242,32 @@ void LCNInfoDlg::setUUID( const QString strUUID )
     settings.endGroup();
 }
 
+time_t LCNInfoDlg::getNotifyTime()
+{
+    QSettings settings;
+    time_t notify_t;
+
+    settings.beginGroup( kSettingMan );
+    notify_t = settings.value( kNotifyTime ).toLongLong();
+    settings.endGroup();
+
+    return notify_t;
+}
+
+void LCNInfoDlg::setNotifyTime( time_t time )
+{
+    long long notify_t = time;
+
+    QSettings settings;
+    settings.beginGroup( kSettingMan );
+    settings.setValue( kNotifyTime, notify_t );
+    settings.endGroup();
+}
+
 QString LCNInfoDlg::getSysInfo()
 {
     QString strProduct = manApplet->getBrand();
-    QString strVersion = STRINGIZE(BER_EDITOR_VERSION);
+    QString strVersion = STRINGIZE(CERTMAN_VERSION);
 
     QSysInfo sysInfo;
     QString strInfo = QString( "%1_%2_%3_%4_%5")

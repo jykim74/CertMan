@@ -122,48 +122,48 @@
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="185"/>
+        <location filename="../acme_service_dlg.cpp" line="183"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="191"/>
+        <location filename="../acme_service_dlg.cpp" line="189"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="207"/>
+        <location filename="../acme_service_dlg.cpp" line="206"/>
         <location filename="../acme_service_dlg.cpp" line="421"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="214"/>
+        <location filename="../acme_service_dlg.cpp" line="213"/>
         <source>failed to get CA certificate</source>
         <translation>CA 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="221"/>
+        <location filename="../acme_service_dlg.cpp" line="220"/>
         <source>failed to get CA private key</source>
         <translation>CA 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="239"/>
+        <location filename="../acme_service_dlg.cpp" line="238"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="246"/>
+        <location filename="../acme_service_dlg.cpp" line="245"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="252"/>
+        <location filename="../acme_service_dlg.cpp" line="251"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="322"/>
+        <location filename="../acme_service_dlg.cpp" line="321"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
@@ -2029,17 +2029,17 @@
         <translation type="vanished">URL 가져오기 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="334"/>
+        <location filename="../get_uri_dlg.cpp" line="343"/>
         <source>Failed to connect to LDAP server</source>
         <translation>LDAP 서버 연결 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="341"/>
+        <location filename="../get_uri_dlg.cpp" line="350"/>
         <source>Failed to bind to LDAP server</source>
         <translation>LDAP 서버 바인딩 실패</translation>
     </message>
     <message>
-        <location filename="../get_uri_dlg.cpp" line="348"/>
+        <location filename="../get_uri_dlg.cpp" line="357"/>
         <source>Failed to retrieve data from LDAP server[%1]</source>
         <translation>LDAP 서버로 부터 데이타 가져오기 실패 [%1]</translation>
     </message>
@@ -2320,7 +2320,7 @@
     </message>
     <message>
         <location filename="../lcn_info_dlg.ui" line="419"/>
-        <location filename="../lcn_info_dlg.cpp" line="652"/>
+        <location filename="../lcn_info_dlg.cpp" line="742"/>
         <source>Get</source>
         <translation>가져오기</translation>
     </message>
@@ -2405,7 +2405,7 @@
         <translation type="vanished">라이선스가 발급 되지 못했습니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="111"/>
+        <location filename="../lcn_info_dlg.cpp" line="113"/>
         <source>The CertMan is licensed version</source>
         <translation>CertMan 은 라이센스 버전입니다</translation>
     </message>
@@ -2423,23 +2423,23 @@
         <translation type="vanished">라이센스가 유효 하지 않은 라이센스입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="116"/>
+        <location filename="../lcn_info_dlg.cpp" line="118"/>
         <source>The CertMan is unlicensed version</source>
         <translation>CertMan은 라이센스가 없는 버전입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="125"/>
+        <location filename="../lcn_info_dlg.cpp" line="127"/>
         <source>[Expired:%1]</source>
         <translation>[만료일: %1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="133"/>
+        <location filename="../lcn_info_dlg.cpp" line="135"/>
         <source>[No license]</source>
         <translation>[라이선스 없음]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="345"/>
-        <location filename="../lcn_info_dlg.cpp" line="431"/>
+        <location filename="../lcn_info_dlg.cpp" line="435"/>
+        <location filename="../lcn_info_dlg.cpp" line="521"/>
         <source>This service is not yet supported.</source>
         <translation>아직 지원하지 않는 서비스 입니다</translation>
     </message>
@@ -2448,32 +2448,32 @@
         <translation type="vanished">이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="437"/>
+        <location filename="../lcn_info_dlg.cpp" line="527"/>
         <source>Please enter an email</source>
         <translation>이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="444"/>
+        <location filename="../lcn_info_dlg.cpp" line="534"/>
         <source>Please enter a license key</source>
         <translation>라이센스 키를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="452"/>
+        <location filename="../lcn_info_dlg.cpp" line="542"/>
         <source>failed to get license %1 : %2</source>
         <translation>라이센스 가져오기 실패 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="473"/>
+        <location filename="../lcn_info_dlg.cpp" line="563"/>
         <source>The license is not valid :[%1]</source>
         <translation>라이선스가 유효하지 않습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="527"/>
+        <location filename="../lcn_info_dlg.cpp" line="617"/>
         <source>An email address is required to issue a free license.</source>
         <translation>무료 라이선스 발급을 위해서 이메일 주소가 필요합니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="532"/>
+        <location filename="../lcn_info_dlg.cpp" line="622"/>
         <source>Would you like to request a free license?</source>
         <translation>무료 라이선스를 요청하겠습니까?</translation>
     </message>
@@ -2482,22 +2482,22 @@
         <translation type="vanished">이메일을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="538"/>
+        <location filename="../lcn_info_dlg.cpp" line="628"/>
         <source>failed to get free license %1 : %2</source>
         <translation>무료 라이선스 가져오기 실패 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="551"/>
+        <location filename="../lcn_info_dlg.cpp" line="641"/>
         <source>A free license has been issued. Restart to apply it?</source>
         <translation>무료 라이선스가 발급 되었습니다. 다시 시작하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="587"/>
+        <location filename="../lcn_info_dlg.cpp" line="677"/>
         <source>failed to renew the license %1 : %2</source>
         <translation>라이센스 갱신에 실패하였습니다 %1 : %2</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="648"/>
+        <location filename="../lcn_info_dlg.cpp" line="738"/>
         <source>Find</source>
         <translation>찾기</translation>
     </message>
@@ -2510,17 +2510,17 @@
         <translation type="vanished">라이선스가 유효하지 않습니다 [%1]</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="611"/>
+        <location filename="../lcn_info_dlg.cpp" line="701"/>
         <source>License is invalid : %1</source>
         <translation>라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="631"/>
+        <location filename="../lcn_info_dlg.cpp" line="721"/>
         <source>Are you sure you want to remove invalid license information?</source>
         <translation>유효하지 않는 라이선스 정보를 제거 하겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="638"/>
+        <location filename="../lcn_info_dlg.cpp" line="728"/>
         <source>Remove invalid license settings</source>
         <translation>유효하지 않는 라이선스 설정 제거</translation>
     </message>
@@ -2529,7 +2529,7 @@
         <translation type="vanished">라이센스 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="464"/>
+        <location filename="../lcn_info_dlg.cpp" line="554"/>
         <source>failed to parse license file [%1]</source>
         <translation>라이센스 파일 파싱에 실패 [%1]</translation>
     </message>
@@ -2538,19 +2538,19 @@
         <translation type="vanished">라이선스가 유효하지 않습니다: %1</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="487"/>
-        <location filename="../lcn_info_dlg.cpp" line="598"/>
+        <location filename="../lcn_info_dlg.cpp" line="577"/>
+        <location filename="../lcn_info_dlg.cpp" line="688"/>
         <source>Your current license has a longer usage period.</source>
         <translation>현재 라이선스가 사용기간이 더 긴 라이선스 입니다</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="506"/>
-        <location filename="../lcn_info_dlg.cpp" line="622"/>
+        <location filename="../lcn_info_dlg.cpp" line="596"/>
+        <location filename="../lcn_info_dlg.cpp" line="712"/>
         <source>You have changed license. Restart to apply it?</source>
         <translation>라이선스가 변경 되었습니다.적용을 위해 다시 시작 하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../lcn_info_dlg.cpp" line="575"/>
+        <location filename="../lcn_info_dlg.cpp" line="665"/>
         <source>There is currently no license.</source>
         <translation>현재 라이선스가 없습니다</translation>
     </message>
@@ -9227,32 +9227,37 @@
     </message>
     <message>
         <location filename="../pub_ldap_dlg.cpp" line="149"/>
+        <source>failed to create parent all: %1</source>
+        <translation>상단 모두 생성에 실패하였습니다: %1</translation>
+    </message>
+    <message>
+        <location filename="../pub_ldap_dlg.cpp" line="156"/>
         <source>LDAP Publish fail: %1</source>
         <translation>LDAP 배포 실패: %1</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="153"/>
+        <location filename="../pub_ldap_dlg.cpp" line="160"/>
         <source>publish to LDAP successfully</source>
         <translation>LDAP 배포에 성공하였습니다</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="169"/>
+        <location filename="../pub_ldap_dlg.cpp" line="176"/>
         <source>LDAP Server hostname or ipaddress</source>
         <translation>LDAP 서버 호스트 명 또는 IP 주소</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="170"/>
+        <location filename="../pub_ldap_dlg.cpp" line="177"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="172"/>
-        <location filename="../pub_ldap_dlg.cpp" line="173"/>
+        <location filename="../pub_ldap_dlg.cpp" line="179"/>
+        <location filename="../pub_ldap_dlg.cpp" line="180"/>
         <source>Distinguished Name</source>
         <translation>고유 이름</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="259"/>
+        <location filename="../pub_ldap_dlg.cpp" line="270"/>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
     </message>
