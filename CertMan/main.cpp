@@ -10,13 +10,13 @@
 #include "man_applet.h"
 #include "i18n_helper.h"
 #include "settings_mgr.h"
+#include "js_gen.h"
 
 #if defined(QT_DEBUG)
 int g_nVerbose = 1;
 #else
 int g_nVerbose = 0;
 #endif
-
 
 int main(int argc, char *argv[])
 {
