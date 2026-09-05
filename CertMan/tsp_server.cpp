@@ -106,12 +106,12 @@ static ASN1_INTEGER *serialCallback( void *data )
     int nSerial = dbMgr->getNextVal( "TB_SERIAL" );
     if( nSerial <= 0 )
     {
-        fprintf( stderr, "fail to get serial value: %d", nSerial );
+        manApplet->elog( QString( "fail to get serial value: %1" ).arg( nSerial ));
         return NULL;
     }
 
 
-    fprintf( stderr, "Serial: %d", nSerial );
+    manApplet->log( QString( "Serial: %1" ).arg( nSerial ) );
     pASerial = ASN1_INTEGER_new();
 
     ASN1_INTEGER_set( pASerial, nSerial );
