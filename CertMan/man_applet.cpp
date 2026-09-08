@@ -483,14 +483,14 @@ bool ManApplet::yesOrCancelBox(const QString& msg, QWidget *parent, bool default
 
 void ManApplet::messageLog( const QString strLog, QWidget *parent )
 {
-    messageBox( strLog, parent );
     log( strLog );
+    messageBox( strLog, parent );
 }
 
 void ManApplet::warnLog( const QString strLog, QWidget *parent )
 {
-    warningBox( strLog, parent );
     elog( strLog );
+    warningBox( strLog, parent );
 }
 
 void ManApplet::formatWarn( int rv, QWidget *parent )
