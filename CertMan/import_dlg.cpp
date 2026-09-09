@@ -813,7 +813,7 @@ int ImportDlg::ImportPFX( const BIN *pPFX )
 
     QString strPasswd = mPasswordText->text().toStdString().c_str();
 
-    ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert );
+    ret = JS_PKI_decodePFX( pPFX, strPasswd.toStdString().c_str(), &binPri, &binCert, NULL );
     if( ret != 0 )
     {
         manApplet->elog( QString( "failed to decode pfx:%1").arg(ret));

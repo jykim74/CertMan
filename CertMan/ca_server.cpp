@@ -12,6 +12,7 @@
 #include "js_pki_tools.h"
 #include "js_cmp_srv.h"
 #include "js_pkcs11.h"
+#include "js_nid.h"
 
 #include "db_mgr.h"
 #include "audit_rec.h"
@@ -39,7 +40,7 @@ CAServer::CAServer( QObject *parent ) :
     memset( &tls_cert_, 0x00, sizeof(BIN));
     memset( &tls_pri_key_, 0x00, sizeof(BIN));
 
-    JS_SCEP_init();
+    JS_NID_init();
 }
 
 CAServer::~CAServer()
