@@ -165,19 +165,31 @@ const QString NewKeyDlg::getMechanism()
     }
     else if( mSM2Radio->isChecked() )
     {
-        strMech = JS_PKI_KEY_NAME_SM2;
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_SM2;
+        else
+            strMech = JS_PKI_KEY_NAME_SM2;
     }
     else if( mEdDSARadio->isChecked() )
     {
-        strMech = JS_PKI_KEY_NAME_EDDSA;
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_EDDSA;
+        else
+            strMech = JS_PKI_KEY_NAME_EDDSA;
     }
     else if( mML_DSARadio->isChecked() )
     {
-        strMech = JS_PKI_KEY_NAME_ML_DSA;
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_ML_DSA;
+        else
+            strMech = JS_PKI_KEY_NAME_ML_DSA;
     }
     else if( mSLH_DSARadio->isChecked() )
     {
-        strMech = JS_PKI_KEY_NAME_SLH_DSA;
+        if( mPKCS11Check->isChecked() )
+            strMech = kMechPKCS11_SLH_DSA;
+        else
+            strMech = JS_PKI_KEY_NAME_SLH_DSA;
     }
 
     return strMech;
@@ -475,8 +487,10 @@ void NewKeyDlg::checkPKCS11()
     {
         bool bVal = mPKCS11Check->isChecked();
 
-        mEdDSARadio->setEnabled( !bVal );
+//        mEdDSARadio->setEnabled( !bVal );
         mSM2Radio->setEnabled( !bVal );
+        mML_DSARadio->setEnabled( !bVal );
+        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 

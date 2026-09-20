@@ -2048,6 +2048,16 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sMech.mechanism = CKM_EC_EDWARDS_KEY_PAIR_GEN;
         keyType = CKK_EC_EDWARDS;
     }
+    else if( strAlg == kMechPKCS11_ML_DSA )
+    {
+        sMech.mechanism = CKM_ML_DSA_KEY_PAIR_GEN;
+        keyType = CKK_ML_DSA;
+    }
+    else if( strAlg == kMechPKCS11_SLH_DSA )
+    {
+        sMech.mechanism = CKM_SLH_DSA_KEY_PAIR_GEN;
+        keyType = CKK_SLH_DSA;
+    }
 
     sPubTemplate[uPubCount].type = CKA_CLASS;
     sPubTemplate[uPubCount].pValue = &pubClass;
@@ -2102,15 +2112,15 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         if( strParam == JS_EDDSA_PARAM_NAME_25519 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
-            sPubTemplate[uPubCount].pValue = kOID_X25519;
-            sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_X25519);
+            sPubTemplate[uPubCount].pValue = kOID_ED25519;
+            sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_ED25519);
             uPubCount++;
         }
         else if( strParam == JS_EDDSA_PARAM_NAME_448 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
             sPubTemplate[uPubCount].pValue = kOID_X448;
-            sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_X448);
+            sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_ED448);
             uPubCount++;
         }
     }
@@ -2132,6 +2142,26 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sPubTemplate[uPubCount].type = CKA_BASE;
         sPubTemplate[uPubCount].pValue = binG.pVal;
         sPubTemplate[uPubCount].ulValueLen = binG.nLen;
+        uPubCount++;
+    }
+    else if( keyType == CKK_ML_DSA )
+    {
+        CK_ML_DSA_PARAMETER_SET_TYPE parameterSet;
+        parameterSet = getSLH_DSAParamType( strParam );
+
+        sPubTemplate[uPubCount].type = CKA_PARAMETER_SET;
+        sPubTemplate[uPubCount].pValue = &parameterSet;
+        sPubTemplate[uPubCount].ulValueLen = sizeof(parameterSet);
+        uPubCount++;
+    }
+    else if( keyType == CKK_SLH_DSA )
+    {
+        CK_SLH_DSA_PARAMETER_SET_TYPE parameterSet;
+        parameterSet = getSLH_DSAParamType( strParam );
+
+        sPubTemplate[uPubCount].type = CKA_PARAMETER_SET;
+        sPubTemplate[uPubCount].pValue = &parameterSet;
+        sPubTemplate[uPubCount].ulValueLen = sizeof(parameterSet);
         uPubCount++;
     }
 
@@ -4203,6 +4233,8 @@ bool isPKCS11Private( const QString strKeyMech )
     if( strKeyMech == kMechPKCS11_ECDSA ) return true;
     if( strKeyMech == kMechPKCS11_DSA ) return true;
     if( strKeyMech == kMechPKCS11_EDDSA ) return true;
+    if( strKeyMech == kMechPKCS11_ML_DSA ) return true;
+    if( strKeyMech == kMechPKCS11_SLH_DSA ) return true;
 
     return false;
 }
@@ -4481,4 +4513,46 @@ const QString getCountryString()
 {
     QLocale locale;
     return QLocale::countryToString( locale.country() );
+}
+
+CK_ML_DSA_PARAMETER_SET_TYPE getML_DSAParamType( const QString strParam )
+{
+    if( strParam.compare( JS_PQC_PARAM_ML_DSA_44_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_ML_DSA_44;
+    else if( strParam.compare( JS_PQC_PARAM_ML_DSA_65_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_ML_DSA_65;
+    else if( strParam.compare( JS_PQC_PARAM_ML_DSA_87_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_ML_DSA_87;
+
+    return JSR_ERR;
+}
+
+CK_SLH_DSA_PARAMETER_SET_TYPE getSLH_DSAParamType( const QString strParam )
+{
+    if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_128F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_128F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_128S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_128S;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_192F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_192F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_192S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_192S;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_256F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_256F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHA2_256S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHA2_256S;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_128F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_128F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_128S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_128S;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_192F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_192F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_192S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_192S;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_256F_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_256F;
+    else if( strParam.compare( JS_PQC_PARAM_SLH_DSA_SHAKE_256S_NAME, Qt::CaseInsensitive ) == 0 )
+        return CKP_SLH_DSA_SHAKE_256S;
+
+    return JSR_ERR;
 }

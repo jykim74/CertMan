@@ -832,6 +832,8 @@ void MakeReqDlg::checkPKCS11()
 
         mEdDSARadio->setEnabled( !bVal );
         mSM2Radio->setEnabled( !bVal );
+        mML_DSARadio->setEnabled( !bVal );
+        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 

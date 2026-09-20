@@ -158,7 +158,10 @@ const int kPeriodYear = 2;
 const QString kMechPKCS11_RSA = "PKCS11_RSA";
 const QString kMechPKCS11_ECDSA = "PKCS11_ECDSA";
 const QString kMechPKCS11_DSA = "PKCS11_DSA";
+const QString kMechPKCS11_SM2 = "PKCS11_SM2";
 const QString kMechPKCS11_EDDSA = "PKCS11_EdDSA";
+const QString kMechPKCS11_ML_DSA = "PKCS11_ML_DSA";
+const QString kMechPKCS11_SLH_DSA = "PKCS11_SLH_DSA";
 const QString kMechKMIP_RSA = "KMIP_RSA";
 const QString kMechKMIP_ECDSA = "KMIP_ECDSA";
 
@@ -168,10 +171,12 @@ const QStringList kStatusList = { "Invalid", "Valid", "Stop" };
 //PrintableString curve25519
 static unsigned char kCurveNameX25519[] = { 0x13, 0x0a, 0x63, 0x75, 0x72, 0x76, 0x65, 0x32, 0x35, 0x35, 0x31, 0x39 };
 static unsigned char kOID_X25519[] = { 0x06, 0x03, 0x2B, 0x65, 0x6E };
+static unsigned char kOID_ED25519[] = { 0x06, 0x03, 0x2B, 0x65, 0x70 };
 
 //PrintableString cruve448
 static unsigned char kCurveNameX448[] = { 0x13, 0x08, 0x63, 0x75, 0x72, 0x76, 0x65, 0x34, 0x34, 0x38 };
 static unsigned char kOID_X448[] = { 0x06, 0x03, 0x2B, 0x65, 0x6F };
+static unsigned char kOID_ED448[] = { 0x06, 0x03, 0x2B, 0x65, 0x71 };
 
 
 const QStringList kHashList = { "SHA1", "SHA224", "SHA256", "SHA384", "SHA512", "SM3" };
@@ -371,5 +376,8 @@ QString getBase64URL_FromHex( const QString strHex );
 QString getHex_FromBase64URL( const QString strBase64URL );
 
 const QString getCountryString();
+CK_ML_DSA_PARAMETER_SET_TYPE getML_DSAParamType( const QString strParam );
+CK_SLH_DSA_PARAMETER_SET_TYPE getSLH_DSAParamType( const QString strParam );
+
 
 #endif // COMMONS_H
