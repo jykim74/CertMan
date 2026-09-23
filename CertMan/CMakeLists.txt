@@ -21,6 +21,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Network)
 
 add_definitions( -D_USE_LCN_SRV )
+add_definitions( -D_STDLIB_PATCH )
 
 # add_definitions( -DJS_PRO )
 
