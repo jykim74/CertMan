@@ -807,7 +807,7 @@ void MakeReqDlg::clickML_DSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 
-    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::clickSLH_DSA()
@@ -821,7 +821,7 @@ void MakeReqDlg::clickSLH_DSA()
     mNewOptionLabel->setText( strParamLabel );
     mHashCombo->setEnabled(false);
 
-    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(true);
 }
 
 void MakeReqDlg::checkPKCS11()
@@ -830,10 +830,10 @@ void MakeReqDlg::checkPKCS11()
     {
         bool bVal = mPKCS11Check->isChecked();
 
-        mEdDSARadio->setEnabled( !bVal );
+//        mEdDSARadio->setEnabled( !bVal );
         mSM2Radio->setEnabled( !bVal );
-        mML_DSARadio->setEnabled( !bVal );
-        mSLH_DSARadio->setEnabled( !bVal );
+//        mML_DSARadio->setEnabled( !bVal );
+//        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 

@@ -2147,7 +2147,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
     else if( keyType == CKK_ML_DSA )
     {
         CK_ML_DSA_PARAMETER_SET_TYPE parameterSet;
-        parameterSet = getSLH_DSAParamType( strParam );
+        parameterSet = getML_DSAParamType( strParam );
 
         sPubTemplate[uPubCount].type = CKA_PARAMETER_SET;
         sPubTemplate[uPubCount].pValue = &parameterSet;
@@ -2270,6 +2270,31 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         if( pPubHex ) JS_free( pPubHex );
         JS_BIN_reset( &binVal );
         JS_BIN_reset( &binXY );
+    }
+    else if( keyType == CKK_ML_DSA || keyType == CKK_SLH_DSA )
+    {
+        BIN binVal = {0,0};
+
+        JRawKeyVal sRawKey;
+        char *pPubHex = NULL;
+
+        memset( &sRawKey, 0x00, sizeof(sRawKey));
+
+        rv = JS_PKCS11_GetAttributeValue2( pP11CTX, uPubObj, CKA_VALUE, &binVal );
+        if( rv != 0 ) goto end;
+
+        JS_BIN_encodeHex( &binVal, &pPubHex );
+
+        if( keyType == CKK_ML_DSA )
+            JS_PKI_setRawKeyVal( &sRawKey, JS_PKI_KEY_NAME_ML_DSA, strParam.toStdString().c_str(), pPubHex, NULL );
+        else if( keyType == CKK_SLH_DSA )
+            JS_PKI_setRawKeyVal( &sRawKey, JS_PKI_KEY_NAME_SLH_DSA, strParam.toStdString().c_str(), pPubHex, NULL );
+
+        rv = JS_PKI_encodeRawPublicKey( &sRawKey, pPub );
+
+        JS_PKI_resetRawKeyVal( &sRawKey );
+        if( pPubHex ) JS_free( pPubHex );
+        JS_BIN_reset( &binVal );
     }
     else if( keyType == CKK_DSA )
     {

@@ -465,7 +465,7 @@ void NewKeyDlg::clickML_DSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled( true );
 }
 
 void NewKeyDlg::clickSLH_DSA()
@@ -478,7 +478,7 @@ void NewKeyDlg::clickSLH_DSA()
     mExponentText->setEnabled(false);
     mOptionLabel->setText( strOptionLabel );
 
-    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled(false);
+    if( manApplet->P11CTX() ) mPKCS11Check->setEnabled( true );
 }
 
 void NewKeyDlg::checkPKCS11()
@@ -489,8 +489,8 @@ void NewKeyDlg::checkPKCS11()
 
 //        mEdDSARadio->setEnabled( !bVal );
         mSM2Radio->setEnabled( !bVal );
-        mML_DSARadio->setEnabled( !bVal );
-        mSLH_DSARadio->setEnabled( !bVal );
+//        mML_DSARadio->setEnabled( !bVal );
+//        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 
