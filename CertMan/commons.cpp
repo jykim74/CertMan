@@ -2119,7 +2119,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         else if( strParam == JS_EDDSA_PARAM_NAME_448 )
         {
             sPubTemplate[uPubCount].type = CKA_EC_PARAMS;
-            sPubTemplate[uPubCount].pValue = kOID_X448;
+            sPubTemplate[uPubCount].pValue = kOID_ED448;
             sPubTemplate[uPubCount].ulValueLen = sizeof(kOID_ED448);
             uPubCount++;
         }
