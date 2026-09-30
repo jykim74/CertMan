@@ -227,6 +227,12 @@ int MakeReqDlg::genKeyPair( KeyPairRec& keyPair )
         return -1;
     }
 
+    if( strAlg.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please check the mechanism" ), this );
+        return -2;
+    }
+
     if( strAlg == JS_PKI_KEY_NAME_RSA )
     {
         int nKeySize = strParam.toInt();
@@ -830,16 +836,16 @@ void MakeReqDlg::checkPKCS11()
     {
         bool bVal = mPKCS11Check->isChecked();
 
-//        mEdDSARadio->setEnabled( !bVal );
-        mSM2Radio->setEnabled( !bVal );
-        mML_DSARadio->setEnabled( !bVal );
-        mSLH_DSARadio->setEnabled( !bVal );
-
         if( bVal == true )
         {
             mML_DSARadio->setChecked( false );
             mSLH_DSARadio->setChecked( false );
         }
+
+//        mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
+        mML_DSARadio->setEnabled( !bVal );
+        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 

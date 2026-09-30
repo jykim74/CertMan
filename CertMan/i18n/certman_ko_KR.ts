@@ -7479,8 +7479,13 @@
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="275"/>
-        <location filename="../make_req_dlg.cpp" line="509"/>
+        <location filename="../make_req_dlg.cpp" line="232"/>
+        <source>Please check the mechanism</source>
+        <translation>메커니즘을 체크 하세요</translation>
+    </message>
+    <message>
+        <location filename="../make_req_dlg.cpp" line="281"/>
+        <location filename="../make_req_dlg.cpp" line="515"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
@@ -7489,17 +7494,17 @@
         <translation type="vanished">키 쌍 생성 실패</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="364"/>
+        <location filename="../make_req_dlg.cpp" line="370"/>
         <source>failed to generate key pair: %1</source>
         <translation>키 쌍 생성 실패 [%1]</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="398"/>
+        <location filename="../make_req_dlg.cpp" line="404"/>
         <source>Please enter a name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="407"/>
+        <location filename="../make_req_dlg.cpp" line="413"/>
         <source>Please enter a DN</source>
         <translation>DN을 입력하세요</translation>
     </message>
@@ -7508,73 +7513,73 @@
         <translation type="vanished">키 쌍 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="454"/>
+        <location filename="../make_req_dlg.cpp" line="460"/>
         <source>Please select a keypair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="522"/>
+        <location filename="../make_req_dlg.cpp" line="528"/>
         <source>PKCS11 library was not loaded</source>
         <translation>PKCS11 라이브러리가 로드 되지 않았습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="530"/>
+        <location filename="../make_req_dlg.cpp" line="536"/>
         <source>Failed to fetch session:%1 </source>
         <translation>세션 가져오기 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="609"/>
+        <location filename="../make_req_dlg.cpp" line="615"/>
         <source>Failed to create CSR : %1</source>
         <translation>CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="629"/>
+        <location filename="../make_req_dlg.cpp" line="635"/>
         <source>Failed to save DB : %1</source>
         <translation>DB 저장 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="650"/>
+        <location filename="../make_req_dlg.cpp" line="656"/>
         <source>CSR created</source>
         <translation>CSR 생성 되었습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="879"/>
+        <location filename="../make_req_dlg.cpp" line="893"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="955"/>
+        <location filename="../make_req_dlg.cpp" line="969"/>
         <source>Request Name</source>
         <translation>요청자 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="956"/>
+        <location filename="../make_req_dlg.cpp" line="970"/>
         <source>Select a keypair from CA Man</source>
         <translation>CA 관리에서 키쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="957"/>
+        <location filename="../make_req_dlg.cpp" line="971"/>
         <source>Distinguished Name</source>
         <translation>고유 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="958"/>
-        <location filename="../make_req_dlg.cpp" line="959"/>
+        <location filename="../make_req_dlg.cpp" line="972"/>
+        <location filename="../make_req_dlg.cpp" line="973"/>
         <source>String value</source>
         <translation>문자열 값</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="960"/>
+        <location filename="../make_req_dlg.cpp" line="974"/>
         <source>Num</source>
         <translation>번호</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="962"/>
+        <location filename="../make_req_dlg.cpp" line="976"/>
         <source>KeyPair Name</source>
         <translation>키 쌍 이름</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="963"/>
+        <location filename="../make_req_dlg.cpp" line="977"/>
         <source>Key pair description</source>
         <translation>키 쌍 설명</translation>
     </message>
@@ -7583,7 +7588,7 @@
         <translation type="vanished">CA 관리에서 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="421"/>
+        <location filename="../make_req_dlg.cpp" line="427"/>
         <source>Please select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -7592,12 +7597,12 @@
         <translation type="vanished">CSR 생성 실패: %1</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="853"/>
+        <location filename="../make_req_dlg.cpp" line="867"/>
         <source>Select KeyPair</source>
         <translation>키 쌍을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../make_req_dlg.cpp" line="865"/>
+        <location filename="../make_req_dlg.cpp" line="879"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
@@ -7627,28 +7632,28 @@
         <translation>확인</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="463"/>
-        <location filename="../man_applet.cpp" line="477"/>
-        <location filename="../man_applet.cpp" line="510"/>
-        <location filename="../man_applet.cpp" line="534"/>
+        <location filename="../man_applet.cpp" line="462"/>
+        <location filename="../man_applet.cpp" line="476"/>
+        <location filename="../man_applet.cpp" line="509"/>
+        <location filename="../man_applet.cpp" line="533"/>
         <source>Yes</source>
         <translation>예</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="464"/>
-        <location filename="../man_applet.cpp" line="511"/>
-        <location filename="../man_applet.cpp" line="535"/>
+        <location filename="../man_applet.cpp" line="463"/>
+        <location filename="../man_applet.cpp" line="510"/>
+        <location filename="../man_applet.cpp" line="534"/>
         <source>No</source>
         <translation>아니오</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="478"/>
-        <location filename="../man_applet.cpp" line="512"/>
+        <location filename="../man_applet.cpp" line="477"/>
+        <location filename="../man_applet.cpp" line="511"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="499"/>
+        <location filename="../man_applet.cpp" line="498"/>
         <source>There is an invalid format character: %1</source>
         <translation>잘못된 문자 형식이 있습니다: %1</translation>
     </message>
@@ -8105,22 +8110,27 @@
         <translation>키 이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="196"/>
+        <location filename="../new_key_dlg.cpp" line="208"/>
         <source>You have to write name</source>
         <translation>이름을 입력하세요</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="258"/>
+        <location filename="../new_key_dlg.cpp" line="226"/>
+        <source>Please check the mechanism</source>
+        <translation>메커니즘을 체크 하세요</translation>
+    </message>
+    <message>
+        <location filename="../new_key_dlg.cpp" line="276"/>
         <source>No PKCS11 settings</source>
         <translation>PKCS11 설정이 안됨</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="304"/>
+        <location filename="../new_key_dlg.cpp" line="322"/>
         <source>No algorithm selected</source>
         <translation>알고리즘이 선택 되지ㅣ 않았습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="368"/>
+        <location filename="../new_key_dlg.cpp" line="386"/>
         <source>Key pair generated</source>
         <translation>키 쌍 생성 되었습니다</translation>
     </message>
@@ -8129,7 +8139,7 @@
         <translation type="vanished">키 쌍 생성에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../new_key_dlg.cpp" line="373"/>
+        <location filename="../new_key_dlg.cpp" line="391"/>
         <source>failed to generate key pair: %1</source>
         <translation>키 쌍 생성 실패: %1</translation>
     </message>
@@ -9285,146 +9295,146 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../man_applet.cpp" line="623"/>
+        <location filename="../man_applet.cpp" line="622"/>
         <source>Cert Files</source>
         <translation>인증서 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="628"/>
+        <location filename="../man_applet.cpp" line="627"/>
         <source>CRL Files</source>
         <translation>CRL 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="633"/>
+        <location filename="../man_applet.cpp" line="632"/>
         <source>CSR Files</source>
         <translation>CSR 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="638"/>
-        <location filename="../man_applet.cpp" line="703"/>
+        <location filename="../man_applet.cpp" line="637"/>
+        <location filename="../man_applet.cpp" line="702"/>
         <source>PrivateKey Files</source>
         <translation>개인키 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="643"/>
+        <location filename="../man_applet.cpp" line="642"/>
         <source>DB Files</source>
         <translation>데이타 베이스 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="649"/>
+        <location filename="../man_applet.cpp" line="648"/>
         <source>DLL Files</source>
         <translation>DLL 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="652"/>
+        <location filename="../man_applet.cpp" line="651"/>
         <source>SO Files</source>
         <translation>SO 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="658"/>
+        <location filename="../man_applet.cpp" line="657"/>
         <source>Text Files</source>
         <translation>텍스트 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="663"/>
+        <location filename="../man_applet.cpp" line="662"/>
         <source>BER Files</source>
         <translation>BER 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="668"/>
+        <location filename="../man_applet.cpp" line="667"/>
         <source>Config Files</source>
         <translation>설정 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="673"/>
-        <location filename="../man_applet.cpp" line="711"/>
+        <location filename="../man_applet.cpp" line="672"/>
+        <location filename="../man_applet.cpp" line="710"/>
         <source>PFX Files</source>
         <translation>PFX 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="678"/>
+        <location filename="../man_applet.cpp" line="677"/>
         <source>Binary Files</source>
         <translation>바이너리 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="683"/>
+        <location filename="../man_applet.cpp" line="682"/>
         <source>PKCS7 Files</source>
         <translation>PKCS7 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="688"/>
-        <location filename="../man_applet.cpp" line="707"/>
+        <location filename="../man_applet.cpp" line="687"/>
+        <location filename="../man_applet.cpp" line="706"/>
         <source>PKCS8 Files</source>
         <translation>PKCS8 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="693"/>
+        <location filename="../man_applet.cpp" line="692"/>
         <source>JSON Files</source>
         <translation>JSON 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="698"/>
+        <location filename="../man_applet.cpp" line="697"/>
         <source>License Files</source>
         <translation>라이선스 파일들</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="716"/>
+        <location filename="../man_applet.cpp" line="715"/>
         <source>All Files (*.*)</source>
         <translation>모든 파일들 (*.*)</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="799"/>
-        <location filename="../man_applet.cpp" line="823"/>
+        <location filename="../man_applet.cpp" line="798"/>
+        <location filename="../man_applet.cpp" line="822"/>
         <source>Open %1</source>
         <translation>%1 열기</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="847"/>
-        <location filename="../man_applet.cpp" line="883"/>
+        <location filename="../man_applet.cpp" line="846"/>
+        <location filename="../man_applet.cpp" line="882"/>
         <source>Save %1</source>
         <translation>%1 저장</translation>
     </message>
     <message>
-        <location filename="../man_applet.cpp" line="904"/>
+        <location filename="../man_applet.cpp" line="903"/>
         <source>Open Directory</source>
         <translation>디렉토리 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3538"/>
+        <location filename="../commons.cpp" line="3594"/>
         <source>Key Files (*.key);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3540"/>
+        <location filename="../commons.cpp" line="3596"/>
         <source>Cert Files (*.crt);;DER Files (*.der);;All Files(*.*)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="3543"/>
+        <location filename="../commons.cpp" line="3599"/>
         <source>Open File</source>
         <translation>파일 열기</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4313"/>
-        <location filename="../commons.cpp" line="4318"/>
-        <location filename="../commons.cpp" line="4323"/>
+        <location filename="../commons.cpp" line="4371"/>
+        <location filename="../commons.cpp" line="4376"/>
+        <location filename="../commons.cpp" line="4381"/>
         <source>CreationTime</source>
         <translation>생성시간</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4361"/>
+        <location filename="../commons.cpp" line="4419"/>
         <source>Parameter</source>
         <translation>파라미터</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4371"/>
+        <location filename="../commons.cpp" line="4429"/>
         <source>Key Length</source>
         <translation>키 길이</translation>
     </message>
     <message>
-        <location filename="../commons.cpp" line="4364"/>
-        <location filename="../commons.cpp" line="4366"/>
-        <location filename="../commons.cpp" line="4368"/>
+        <location filename="../commons.cpp" line="4422"/>
+        <location filename="../commons.cpp" line="4424"/>
+        <location filename="../commons.cpp" line="4426"/>
         <source>Named Curve</source>
         <translation>커브 이름</translation>
     </message>

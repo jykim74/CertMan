@@ -221,6 +221,12 @@ void NewKeyDlg::clickOK()
     QString strParam = mOptionCombo->currentText();
     QString strDefault;
 
+    if( strMech.length() < 1 )
+    {
+        manApplet->warningBox( tr( "Please check the mechanism" ), this );
+        return;
+    }
+
     if( strMech == JS_PKI_KEY_NAME_RSA )
     {
         int nKeySize = strParam.toInt();
@@ -487,16 +493,16 @@ void NewKeyDlg::checkPKCS11()
     {
         bool bVal = mPKCS11Check->isChecked();
 
-//        mEdDSARadio->setEnabled( !bVal );
-        mSM2Radio->setEnabled( !bVal );
-        mML_DSARadio->setEnabled( !bVal );
-        mSLH_DSARadio->setEnabled( !bVal );
-
         if( bVal == true )
         {
             mML_DSARadio->setChecked( false );
             mSLH_DSARadio->setChecked( false );
         }
+
+//        mEdDSARadio->setEnabled( !bVal );
+        mSM2Radio->setEnabled( !bVal );
+        mML_DSARadio->setEnabled( !bVal );
+        mSLH_DSARadio->setEnabled( !bVal );
     }
 }
 
