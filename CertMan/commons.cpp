@@ -2048,6 +2048,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sMech.mechanism = CKM_EC_EDWARDS_KEY_PAIR_GEN;
         keyType = CKK_EC_EDWARDS;
     }
+#if 0
     else if( strAlg == kMechPKCS11_ML_DSA )
     {
         sMech.mechanism = CKM_ML_DSA_KEY_PAIR_GEN;
@@ -2058,6 +2059,7 @@ int genKeyPairWithP11( JP11_CTX *pCTX, QString strName, QString strAlg, QString 
         sMech.mechanism = CKM_SLH_DSA_KEY_PAIR_GEN;
         keyType = CKK_SLH_DSA;
     }
+#endif
 
     sPubTemplate[uPubCount].type = CKA_CLASS;
     sPubTemplate[uPubCount].pValue = &pubClass;
@@ -4258,8 +4260,8 @@ bool isPKCS11Private( const QString strKeyMech )
     if( strKeyMech == kMechPKCS11_ECDSA ) return true;
     if( strKeyMech == kMechPKCS11_DSA ) return true;
     if( strKeyMech == kMechPKCS11_EDDSA ) return true;
-    if( strKeyMech == kMechPKCS11_ML_DSA ) return true;
-    if( strKeyMech == kMechPKCS11_SLH_DSA ) return true;
+//    if( strKeyMech == kMechPKCS11_ML_DSA ) return true;
+//    if( strKeyMech == kMechPKCS11_SLH_DSA ) return true;
 
     return false;
 }

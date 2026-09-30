@@ -179,17 +179,25 @@ const QString NewKeyDlg::getMechanism()
     }
     else if( mML_DSARadio->isChecked() )
     {
+#if 0
         if( mPKCS11Check->isChecked() )
             strMech = kMechPKCS11_ML_DSA;
         else
             strMech = JS_PKI_KEY_NAME_ML_DSA;
+#else
+        strMech = JS_PKI_KEY_NAME_ML_DSA;
+#endif
     }
     else if( mSLH_DSARadio->isChecked() )
     {
+#if 0
         if( mPKCS11Check->isChecked() )
             strMech = kMechPKCS11_SLH_DSA;
         else
             strMech = JS_PKI_KEY_NAME_SLH_DSA;
+#else
+        strMech = JS_PKI_KEY_NAME_SLH_DSA;
+#endif
     }
 
     return strMech;
