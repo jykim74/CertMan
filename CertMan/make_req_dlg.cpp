@@ -618,8 +618,10 @@ void MakeReqDlg::accept()
 
     JS_BIN_encodeHex( &binCSR, &pHexCSR );
 
-    if( strAlg == JS_PKI_KEY_NAME_EDDSA || strAlg == JS_PKI_KEY_NAME_ML_DSA || strAlg == JS_PKI_KEY_NAME_SLH_DSA )
+    if( strAlg.contains( JS_PKI_KEY_NAME_EDDSA ) || strAlg.contains(JS_PKI_KEY_NAME_ML_DSA) || strAlg.contains(JS_PKI_KEY_NAME_SLH_DSA) )
+    {
         strHash = "NA";
+    }
 
     reqRec.setName( strName );
     reqRec.setRegTime( time(NULL) );
