@@ -199,6 +199,16 @@ void MakeReqDlg::initialize()
             QString strParam = typeParam.at(1);
             mNewOptionCombo->setCurrentText( strParam );
         }
+
+        if( typeParam.size() > 2 && mPKCS11Check->isEnabled() )
+        {
+            QString strHSM = typeParam.at(2);
+
+            if( strHSM.compare( "HSM", Qt::CaseInsensitive) == 0 )
+            {
+                mPKCS11Check->setChecked( true );
+            }
+        }
     }
     else
     {
@@ -435,6 +445,7 @@ void MakeReqDlg::accept()
     QString strAlg;
     QString strHash = mHashCombo->currentText();
     QString strParam;
+    QString strHSM;
 
     if( mGenKeyPairCheck->isChecked() )
     {
@@ -557,6 +568,7 @@ void MakeReqDlg::accept()
 
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
+        strHSM = "HSM";
     }
     else if( isKMIPPrivate( strAlg ) == true )
     {
@@ -659,7 +671,11 @@ end :
 
         if( mUseExtensionCheck->isChecked() == true )
         {
-            QString strDefault = QString( "%1:%2" ).arg( mUseExtensionCheck->isChecked() ).arg( mProfileNumText->text().toInt());
+            QString strDefault = QString( "%1:%2:%3" )
+                                     .arg( mUseExtensionCheck->isChecked() )
+                                     .arg( mProfileNumText->text().toInt())
+                                     .arg(strHSM);
+
             setDefault( strDefault );
         }
         else

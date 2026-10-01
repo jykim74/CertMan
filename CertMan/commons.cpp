@@ -4284,7 +4284,7 @@ int getKeyMechType( const QString strKeyMech )
         return JS_PKI_KEY_TYPE_DSA;
     else if( strKeyMech == JS_PKI_KEY_NAME_SM2 )
         return JS_PKI_KEY_TYPE_SM2;
-    else if( strKeyMech == JS_PKI_KEY_NAME_EDDSA )
+    else if( strKeyMech == JS_PKI_KEY_NAME_EDDSA || strKeyMech == kMechPKCS11_EDDSA )
         return JS_PKI_KEY_TYPE_EDDSA;
     else if( strKeyMech == JS_PKI_KEY_NAME_ML_DSA )
         return JS_PKI_KEY_TYPE_ML_DSA;

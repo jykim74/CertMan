@@ -118,6 +118,16 @@ void NewKeyDlg::initialize()
             QString strParam = typeParam.at(1);
             mOptionCombo->setCurrentText( strParam );
         }
+
+        if( typeParam.size() > 2 && mPKCS11Check->isEnabled() )
+        {
+            QString strHSM = typeParam.at(2);
+
+            if( strHSM.compare( "HSM", Qt::CaseInsensitive) == 0 )
+            {
+                mPKCS11Check->setChecked( true );
+            }
+        }
     }
     else
     {
@@ -228,6 +238,7 @@ void NewKeyDlg::clickOK()
     QString strMech = getMechanism();
     QString strParam = mOptionCombo->currentText();
     QString strDefault;
+    QString strHSM;
 
     if( strMech.length() < 1 )
     {
@@ -315,6 +326,7 @@ void NewKeyDlg::clickOK()
 
         JS_PKCS11_Logout( (JP11_CTX *)manApplet->P11CTX() );
         JS_PKCS11_CloseSession( (JP11_CTX *)manApplet->P11CTX() );
+        strHSM = "HSM";
     }
     else if( isKMIPPrivate( strMech ) == true )
     {
@@ -371,9 +383,10 @@ void NewKeyDlg::clickOK()
     {
         int nAlg = getKeyMechType( strMech );
 
-        strDefault = QString( "%1:%2" )
+        strDefault = QString( "%1:%2:%3" )
                          .arg( JS_PKI_getKeyAlgName( nAlg ) )
-                         .arg( strParam );
+                         .arg( strParam )
+                         .arg( strHSM );
     }
 
     manApplet->settingsMgr()->setKeyTypeParam( strDefault );
