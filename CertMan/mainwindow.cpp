@@ -678,6 +678,13 @@ void MainWindow::createHelpActions()
     helpMenu->addAction( lcn_info_act_ );
     lcn_info_act_->setStatusTip(tr("License Information"));
 
+    const QIcon manIcon = QIcon::fromTheme("certman_manual", QIcon(":/images/manual.png"));
+    man_act_ = new QAction( manIcon, tr("Manual"), this);
+    connect( man_act_, &QAction::triggered, this, &MainWindow::openManual);
+    helpMenu->addAction( man_act_ );
+    man_act_->setStatusTip(tr("CertMan manual"));
+    if( isView( ACT_HELP_MANUAL ) ) help_tool_->addAction( man_act_ );
+
     const QIcon certManIcon = QIcon::fromTheme("certman", QIcon(":/images/certman.png"));
 
     bug_issue_act_ = new QAction( certManIcon, tr("Bug or Issue Report"), this);
@@ -4444,11 +4451,14 @@ void MainWindow::bugIssueReport()
 void MainWindow::qnaDiscussion()
 {
     QString link = "https://github.com/jykim74/CertMan/discussions";
-//    QString link = "https://groups.google.com/g/certman";
     QDesktopServices::openUrl(QUrl(link));
 }
 
-
+void MainWindow::openManual()
+{
+    QString link = "https://jykim74.github.io/certman_manual";
+    QDesktopServices::openUrl(QUrl(link));
+}
 
 void MainWindow::certStatus()
 {

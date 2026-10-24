@@ -219,6 +219,7 @@ public slots:
     void licenseInfo();
     void bugIssueReport();
     void qnaDiscussion();
+    void openManual();
 
     void certStatus();
 
@@ -421,6 +422,7 @@ private:
     QAction*        clear_log_act_;
     QAction*        halt_log_act_;
     QAction*        lcn_info_act_;
+    QAction*        man_act_;
     QAction*        bug_issue_act_;
     QAction*        qna_act_;
     QAction*        about_act_;
