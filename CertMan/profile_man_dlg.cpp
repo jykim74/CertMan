@@ -395,6 +395,6 @@ void ProfileManDlg::clickCRLProfileDelete()
     bool bVal = manApplet->yesOrCancelBox( tr( "Are you sure you want to delete the CRL profile?" ), this, false );
     if( bVal == false ) return;
 
-    int ret = manApplet->dbMgr()->delCertProfile(num);
+    int ret = manApplet->dbMgr()->delCRLProfile(num);
     if( ret == 0 ) loadCRLProfileList();
 }
