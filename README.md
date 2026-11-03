@@ -1,6 +1,6 @@
 # CertMan
 
-This tool is for making X.509 Cert, CRL, CSR and KeyPair.
+CertMan is a certificate management tool that supports the management and verification of digital certificates and Public Key Infrastructure (PKI). It enables users to examine certificate issuance details, validity periods, public keys, extension fields, and certificate chains, while facilitating the efficient execution of technical tasks related to certificate management.
 
 https://jykim74.github.io/wiki/certman/download/
 
