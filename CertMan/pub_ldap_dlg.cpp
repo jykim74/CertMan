@@ -260,7 +260,9 @@ void PubLDAPDlg::initialize()
         strURL = crl.getCRLDP();
         if( strURL.startsWith( "ldap", Qt::CaseInsensitive) == true )
         {
-            mPublishDNText->setText( strURL );
+            QUrl url = strURL;
+            QString strPath = url.path().remove( "/" );
+            mPublishDNText->setText( strPath );
         }
 
         mTypeCombo->setCurrentText( "CRL" );
