@@ -88,7 +88,7 @@ void OCSPServer::setTLS( const BIN *pCert, const BIN *pPriKey )
 
 void OCSPServer::setNeedSign( bool bVal )
 {
-
+    need_sign_ = bVal;
 }
 
 int OCSPServer::startServer( int nPort )
@@ -255,6 +255,7 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     DBMgr* dbMgr = manApplet->dbMgr();
 
     SignerRec signerRec;
+    CertRec certRec;
 
     memset( &sIDInfo, 0x00, sizeof(sIDInfo));
     memset( &sStatusInfo, 0x00, sizeof(sStatusInfo));
@@ -270,7 +271,8 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
         }
 
         log( QString("Request is Signed( SignerName : %1)").arg( pSignerName ) );
-        ret = dbMgr->getSignerRecByDNHash( SIGNER_TYPE_OCSP, pDNHash, signerRec );
+ //       ret = dbMgr->getSignerRecByDNHash( SIGNER_TYPE_OCSP, pDNHash, signerRec );
+        ret = dbMgr->getCertRecByDNHash( pDNHash, certRec );
 
         if( ret != JSR_OK )
         {
@@ -279,14 +281,16 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
             goto end;
         }
 
-        if( signerRec.getStatus() != 1 )
+//        if( signerRec.getStatus() != 1 )
+        if( certRec.getStatus() != 1 )
         {
             log( QString("The signer is not valid[%1]").arg( signerRec.getStatus() ));
             ret = JS_OCSP_encodeFailResponse( JS_OCSP_RESPONSE_STATUS_UNAUTHORIZED, pRsp );
             goto end;
         }
 
-        JS_BIN_decodeHex( signerRec.getCert().toStdString().c_str(), &binSigner );
+//        JS_BIN_decodeHex( signerRec.getCert().toStdString().c_str(), &binSigner );
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binSigner );
     }
 
 

@@ -89,6 +89,7 @@ public:
 
     int getCertRec( int nNum, CertRec& cert );
     int getCertRecByKeyHash( const QString strKeyHash, CertRec& cert );
+    int getCertRecByDNHash( const QString strDNHash, CertRec& cert );
     int getCertRecBySerial( const QString strSerial, CertRec& cert );
 
     int getCertList( int nIssuerNum, QList<CertRec>& certList );
