@@ -27,7 +27,6 @@ TSPServiceDlg::TSPServiceDlg(QWidget *parent)
     connect( mStartBtn, SIGNAL(clicked()), this, SLOT(clickStart()));
     connect( mStopBtn, SIGNAL(clicked()), this, SLOT(clickStop()));
 
-    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
     connect( mLogClearBtn, SIGNAL(clicked()), this, SLOT(clickLogClear()));
     connect( mSelectBtn, SIGNAL(clicked()), this, SLOT(clickSelect()));
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
@@ -71,14 +70,12 @@ void TSPServiceDlg::initialize()
         int nTLSNum = listDefault.at(3).toInt();
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
-        mTLSCheck->setChecked( bTLS );
+        mTLSGroup->setChecked( bTLS );
         if( nNum > 0 ) mNumText->setText( QString("%1").arg( nNum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
 
         mSetDefaultCheck->setChecked( true );
     }
-
-    checkTLS();
 }
 
 QString TSPServiceDlg::getDefault()
@@ -99,11 +96,6 @@ void TSPServiceDlg::setDefault( const QString strDefault )
     settings.beginGroup( kSettingMan );
     settings.setValue( kTSPDefault, strDefault );
     settings.endGroup();
-}
-
-void TSPServiceDlg::checkTLS()
-{
-    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
 }
 
 void TSPServiceDlg::clickStart()
@@ -179,7 +171,7 @@ void TSPServiceDlg::clickStart()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         nTLSNum = mTLSNumText->text().toInt();
 
@@ -213,7 +205,7 @@ void TSPServiceDlg::clickStart()
     tsp_srv_->setTSPPriKey( &binPriKey, bP11 );
     if( mAuthGroup->isChecked() ) tsp_srv_->setAuthorization( strUserID, strPasswd );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         if( binTLSCert.nLen < 1 || binTLSPriKey.nLen < 1 )
         {
@@ -238,7 +230,7 @@ void TSPServiceDlg::clickStart()
         /* Port:TLS:TSPNum:TLSNum */
         QString strDefault = QString( "%1:%2:%3:%4" )
                                  .arg( nPort )
-                                 .arg( mTLSCheck->isChecked() )
+                                 .arg( mTLSGroup->isChecked() )
                                  .arg(nNum)
                                  .arg( nTLSNum );
 

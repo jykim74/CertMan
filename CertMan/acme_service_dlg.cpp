@@ -38,7 +38,6 @@ ACMEServiceDlg::ACMEServiceDlg(QWidget *parent)
     connect( mProfileViewBtn, SIGNAL(clicked()), this, SLOT(clickProfileView()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(changeProfileNum()));
 
-    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
     connect( mTLSSelectBtn, SIGNAL(clicked()), this, SLOT(clickTLSSelect()));
     connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
     connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
@@ -94,7 +93,7 @@ void ACMEServiceDlg::initialize()
         QString strTLS_ALPN01 = listDefault.at(8);
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
-        mTLSCheck->setChecked( bTLS );
+        mTLSGroup->setChecked( bTLS );
         if( nProfileNum > 0 ) mProfileNumText->setText( QString("%1").arg( nProfileNum ));
         if( nCANum > 0 ) mNumText->setText( QString("%1").arg( nCANum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
@@ -136,8 +135,6 @@ void ACMEServiceDlg::initialize()
     checkHTTP01ServerFix();
     checkDNS01ServerFix();
     checkTLS_ALPN01ServerFix();
-
-    checkTLS();
 }
 
 QString ACMEServiceDlg::getDefault()
@@ -228,7 +225,7 @@ void ACMEServiceDlg::clickStart()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         nTLSNum = mTLSNumText->text().toInt();
 
@@ -310,7 +307,7 @@ void ACMEServiceDlg::clickStart()
         acme_srv_->setTLS_ALPN01( strTLS_ALPN01Val );
     }
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         acme_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
@@ -329,7 +326,7 @@ void ACMEServiceDlg::clickStart()
         /* Port:TLS:ProfileNum:CANum:TLSNum */
         QString strDefault = QString( "%1:%2:%3:%4:%5:%6:%7:%8:%9" )
                                  .arg( nPort )
-                                 .arg( mTLSCheck->isChecked() )
+                                 .arg( mTLSGroup->isChecked() )
                                  .arg( nProfileNum )
                                  .arg(nNum)
                                  .arg( nTLSNum )
@@ -453,11 +450,6 @@ void ACMEServiceDlg::changeProfileNum()
     }
 
     mProfileNameText->setText( profile.getName() );
-}
-
-void ACMEServiceDlg::checkTLS()
-{
-    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
 }
 
 void ACMEServiceDlg::clickTLSSelect()

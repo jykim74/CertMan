@@ -38,7 +38,6 @@ CAServiceDlg::CAServiceDlg(QWidget *parent)
     connect( mProfileViewBtn, SIGNAL(clicked()), this, SLOT(clickProfileView()));
     connect( mProfileNumText, SIGNAL(textChanged(QString)), this, SLOT(changeProfileNum()));
 
-    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
     connect( mTLSSelectBtn, SIGNAL(clicked()), this, SLOT(clickTLSSelect()));
     connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
     connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
@@ -78,15 +77,13 @@ void CAServiceDlg::initialize()
         int nTLSNum = listDefault.at(4).toInt();
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
-        mTLSCheck->setChecked( bTLS );
+        mTLSGroup->setChecked( bTLS );
         if( nProfileNum > 0 ) mProfileNumText->setText( QString("%1").arg( nProfileNum ));
         if( nCANum > 0 ) mNumText->setText( QString("%1").arg( nCANum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
 
         mSetDefaultCheck->setChecked( true );
     }
-
-    checkTLS();
 }
 
 QString CAServiceDlg::getDefault()
@@ -172,7 +169,7 @@ void CAServiceDlg::clickStart()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         nTLSNum = mTLSNumText->text().toInt();
 
@@ -208,7 +205,7 @@ void CAServiceDlg::clickStart()
     ca_srv_->setProfileNum( nProfileNum );
     ca_srv_->setCAPriKey( &binPriKey, bP11 );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         ca_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
@@ -227,7 +224,7 @@ void CAServiceDlg::clickStart()
         /* Port:TLS:ProfileNum:CANum:TLSNum */
         QString strDefault = QString( "%1:%2:%3:%4:%5" )
                                  .arg( nPort )
-                                 .arg( mTLSCheck->isChecked() )
+                                 .arg( mTLSGroup->isChecked() )
                                  .arg( nProfileNum )
                                  .arg(nNum)
                                  .arg( nTLSNum );
@@ -347,11 +344,6 @@ void CAServiceDlg::changeProfileNum()
     }
 
     mProfileNameText->setText( profile.getName() );
-}
-
-void CAServiceDlg::checkTLS()
-{
-    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
 }
 
 void CAServiceDlg::clickTLSSelect()

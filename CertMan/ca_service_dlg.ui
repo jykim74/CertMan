@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>524</width>
-    <height>471</height>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,6 +88,19 @@
    </item>
    <item>
     <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="mPortText">
        <property name="maximumSize">
@@ -95,13 +108,6 @@
          <width>80</width>
          <height>16777215</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="mTLSCheck">
-       <property name="text">
-        <string>TLS</string>
        </property>
       </widget>
      </item>
@@ -117,19 +123,6 @@
         <string>Port</string>
        </property>
       </widget>
-     </item>
-     <item row="0" column="2">
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -462,6 +455,12 @@
      </property>
      <property name="title">
       <string>TLS Certificate and Private Key</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <property name="spacing">

@@ -21,7 +21,6 @@ public:
     ~TSPServiceDlg();
 
 private slots:
-    void checkTLS();
 
     void clickStart();
     void clickStop();

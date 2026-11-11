@@ -38,7 +38,6 @@ OCSPServiceDlg::OCSPServiceDlg(QWidget *parent)
     connect( mViewBtn, SIGNAL(clicked()), this, SLOT(clickView()));
     connect( mNumText, SIGNAL(textChanged(QString)), this, SLOT(changeNum()));
 
-    connect( mTLSCheck, SIGNAL(clicked()), this, SLOT(checkTLS()));
     connect( mTLSSelectBtn, SIGNAL(clicked()), this, SLOT(clickTLSSelect()));
     connect( mTLSViewBtn, SIGNAL(clicked()), this, SLOT(clickTLSView()));
     connect( mTLSNumText, SIGNAL(textChanged(QString)), this, SLOT(changeTLSNum()));
@@ -79,7 +78,7 @@ void OCSPServiceDlg::initialize()
         int nTLSNum = listDefault.at(5).toInt();
 
         if( nPort > 0 ) mPortText->setText( QString("%1").arg(nPort));
-        mTLSCheck->setChecked( bTLS );
+        mTLSGroup->setChecked( bTLS );
         mNeedSignCheck->setChecked( bNeedSign );
         if( nCANum > 0 ) mCANumText->setText( QString("%1").arg( nCANum ));
         if( nOCSPNum > 0 ) mNumText->setText( QString("%1").arg( nOCSPNum ));
@@ -87,8 +86,6 @@ void OCSPServiceDlg::initialize()
 
         mSetDefaultCheck->setChecked(true);
     }
-
-    checkTLS();
 }
 
 QString OCSPServiceDlg::getDefault()
@@ -176,7 +173,7 @@ void OCSPServiceDlg::clickStart()
     JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
     manApplet->getPriKey( keyPair.getPrivateKey(), &binPriKey );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         nTLSNum = mTLSNumText->text().toInt();
 
@@ -213,7 +210,7 @@ void OCSPServiceDlg::clickStart()
     ocsp_srv_->setOCSPCert( &binCert );
     ocsp_srv_->setOCSPPriKey( &binPriKey, bP11 );
 
-    if( mTLSCheck->isChecked() == true )
+    if( mTLSGroup->isChecked() == true )
     {
         ocsp_srv_->setTLS( &binTLSCert, &binTLSPriKey );
     }
@@ -232,7 +229,7 @@ void OCSPServiceDlg::clickStart()
         /* Port:TLS:NeedSign:CANum:OCSPNum:TLSNum */
         QString strDefault = QString( "%1:%2:%3:%4:%5:%6" )
             .arg( nPort )
-            .arg( mTLSCheck->isChecked() )
+            .arg( mTLSGroup->isChecked() )
             .arg( mNeedSignCheck->isChecked() )
             .arg(nCANum)
             .arg( nNum )
@@ -362,11 +359,6 @@ void OCSPServiceDlg::changeNum()
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mInfoText->setText( keyPair.getDesc() );
-}
-
-void OCSPServiceDlg::checkTLS()
-{
-    mTLSGroup->setEnabled( mTLSCheck->isChecked() );
 }
 
 void OCSPServiceDlg::clickTLSSelect()

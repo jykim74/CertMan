@@ -674,6 +674,7 @@ void TSPServer::elog( const QString strLog )
 
 bool TSPServer::isValidBasicAuth( const QString strAuth )
 {
+    char *pValue = NULL;
 
     QStringList strList = strAuth.split( " " );
     if( strList.size() < 2 ) return false;
@@ -684,5 +685,29 @@ bool TSPServer::isValidBasicAuth( const QString strAuth )
     if( strMode.compare( "Basic", Qt::CaseInsensitive ) == false )
         return false;
 
+    JS_BIN_decodeBase64Str( strValue.toStdString().c_str(), &pValue );
+
+    if( pValue )
+    {
+        QString strData = pValue;
+        QStringList valList;
+
+        valList = strData.split( ":" );
+        if( valList.size() < 2 )
+        {
+            JS_free( pValue );
+            return false;
+        }
+
+        if( valList.at(0) == userid_ && valList.at(1) == passwd_ )
+        {
+            JS_free( pValue );
+            return true;
+        }
+
+        JS_free( pValue );
+    }
+
+end :
     return false;
 }
