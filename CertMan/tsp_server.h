@@ -26,6 +26,7 @@ public:
     void setTSPCert( const BIN *pCert );
     void setTSPPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
+    void setAuthorization( const QString strUserID, const QString strPasswd );
 
 public slots:
     int readReady();
@@ -45,7 +46,7 @@ private :
 
 private:
     void processBuffer();
-    void parseHeader(const QByteArray &header);
+    int parseHeader(const QByteArray &header);
     void resetState();
     void processTSP();
 
@@ -60,6 +61,10 @@ private:
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
+    bool auth_;
+
+    QString userid_;
+    QString passwd_;
 
     QByteArray buffer_;
     State state_ = WaitingHeader;
@@ -76,6 +81,7 @@ protected:
 
     void log( const QString strLog, QColor cr = QColor(0x00, 0x00, 0x00) );
     void elog( const QString strLog );
+    bool isValidBasicAuth( const QString strAuth );
 };
 
 #endif // TSP_SERVER_H

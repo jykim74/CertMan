@@ -20,6 +20,7 @@ TSPServer::TSPServer( QObject *parent ) :
     log_edit_ = nullptr;
     p11_ = false;
     tls_ = false;
+    auth_ = false;
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -78,6 +79,13 @@ void TSPServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_reset( &tls_pri_key_ );
     JS_BIN_copy( &tls_cert_, pCert );
     JS_BIN_copy( &tls_pri_key_, pPriKey );
+}
+
+void TSPServer::setAuthorization( const QString strUserID, const QString strPasswd )
+{
+    auth_ = true;
+    userid_ = strUserID;
+    passwd_ = strPasswd;
 }
 
 int TSPServer::startServer( int nPort )
@@ -246,6 +254,8 @@ int TSPServer::readReady()
     content_len_ = 0;
 
     QByteArray Line;
+    QString strAuth;
+
     Line = client_->readLine();
 
     QList<QByteArray> first = Line.split( ' ' );
@@ -277,11 +287,27 @@ int TSPServer::readReady()
         {
             content_len_ = value.toInt();
         }
+
+        if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
+        {
+            strAuth = value.toStdString().c_str();
+        }
     }
 
     if( content_len_ > 0 )
     {
         body_ = client_->readAll();
+    }
+
+    if( auth_ == true )
+    {
+        bool bAuth = isValidBasicAuth( strAuth );
+        if( bAuth == false )
+        {
+            ret = -1;
+            log( QString( "Authorization fail" ));
+            goto end;
+        }
     }
 
     if( path_.compare( "/PING", Qt::CaseInsensitive ) == 0 )
@@ -446,7 +472,8 @@ void TSPServer::processBuffer()
 
             QByteArray header = buffer_.left(pos);
 
-            parseHeader( header );
+            if( parseHeader( header ) != 0 )
+                return;
 
             buffer_.remove(0, pos+4);
             if( content_len_ == 0 )
@@ -470,14 +497,15 @@ void TSPServer::processBuffer()
     }
 }
 
-void TSPServer::parseHeader(const QByteArray &header)
+int TSPServer::parseHeader(const QByteArray &header)
 {
     headers_.clear();
     content_len_ = 0;
 
     QList<QByteArray> lines = header.split( '\n' );
+    QString strAuth;
 
-    if( lines.isEmpty() ) return;
+    if( lines.isEmpty() ) return -1;
 
     QByteArray requestLine = lines.takeFirst().trimmed();
     QList<QByteArray> first = requestLine.split(' ');
@@ -505,7 +533,25 @@ void TSPServer::parseHeader(const QByteArray &header)
         {
             content_len_ = value.toInt();
         }
+
+        if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
+        {
+            strAuth = value.toStdString().c_str();
+        }
     }
+
+    if( auth_ == true )
+    {
+        bool bAuth = isValidBasicAuth( strAuth );
+        if( bAuth == false )
+        {
+            log( QString( "Authorization fail" ));
+        }
+
+        return -2;
+    }
+
+    return 0;
 }
 
 void TSPServer::resetState()
@@ -624,4 +670,9 @@ void TSPServer::log( const QString strLog, QColor cr )
 void TSPServer::elog( const QString strLog )
 {
     log( strLog, QColor(0xFF,0x00,0x00));
+}
+
+bool TSPServer::isValidBasicAuth( const QString strAuth )
+{
+    return false;
 }

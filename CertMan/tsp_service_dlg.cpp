@@ -118,6 +118,8 @@ void TSPServiceDlg::clickStart()
     QString strPort = mPortText->text();
     bool bP11 = false;
     int nPort = strPort.toInt();
+    QString strUserID = mUserIDText->text();
+    QString strPasswd = mPasswdText->text();
 
     if( tsp_srv_ != nullptr )
     {
@@ -131,6 +133,23 @@ void TSPServiceDlg::clickStart()
         mPortText->setFocus();
 
         return;
+    }
+
+    if( mAuthGroup->isChecked() )
+    {
+        if( strUserID.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Enter a userid" ), this );
+            mUserIDText->setFocus();
+            return;
+        }
+
+        if( strPasswd.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Enter a password" ), this );
+            mPasswdText->setFocus();
+            return;
+        }
     }
 
     int nNum = mNumText->text().toInt();
@@ -192,6 +211,7 @@ void TSPServiceDlg::clickStart()
     tsp_srv_->setLogEdit( mLogText );
     tsp_srv_->setTSPCert( &binCert );
     tsp_srv_->setTSPPriKey( &binPriKey, bP11 );
+    if( mAuthGroup->isChecked() ) tsp_srv_->setAuthorization( strUserID, strPasswd );
 
     if( mTLSCheck->isChecked() == true )
     {
