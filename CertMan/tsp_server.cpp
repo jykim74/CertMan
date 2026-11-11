@@ -674,5 +674,15 @@ void TSPServer::elog( const QString strLog )
 
 bool TSPServer::isValidBasicAuth( const QString strAuth )
 {
+
+    QStringList strList = strAuth.split( " " );
+    if( strList.size() < 2 ) return false;
+
+    QString strMode = strList.at(0);
+    QString strValue = strList.at(1);
+
+    if( strMode.compare( "Basic", Qt::CaseInsensitive ) == false )
+        return false;
+
     return false;
 }
