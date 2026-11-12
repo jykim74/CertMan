@@ -70,6 +70,8 @@ void ACMEServiceDlg::initUI()
     mDNS01PortText->setText( "53" );
     mTLS_ALPN01HostText->setText( "127.0.0.1" );
     mTLS_ALPN01PortText->setText( "443" );
+
+    tabWidget->setCurrentIndex(0);
 }
 
 void ACMEServiceDlg::initialize()
@@ -175,6 +177,9 @@ void ACMEServiceDlg::clickStart()
     QString strDNS01Val;
     QString strTLS_ALPN01Val;
 
+    QString strESTUserID = mESTUserIDText->text();
+    QString strESTPasswd = mESTPasswdText->text();
+
     if( acme_srv_ != nullptr )
     {
         manApplet->warningBox( tr("The server has already started."), this );
@@ -187,6 +192,23 @@ void ACMEServiceDlg::clickStart()
         mPortText->setFocus();
 
         return;
+    }
+
+    if( mESTAuthGroup->isChecked() )
+    {
+        if( strESTUserID.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Enter a userid" ), this );
+            mESTUserIDText->setFocus();
+            return;
+        }
+
+        if( strESTPasswd.length() < 1 )
+        {
+            manApplet->warningBox( tr( "Enter a password" ), this );
+            mESTPasswdText->setFocus();
+            return;
+        }
     }
 
     CertRec certRec;
@@ -261,6 +283,10 @@ void ACMEServiceDlg::clickStart()
     acme_srv_->setProfileNum( nProfileNum );
     acme_srv_->setCAPriKey( &binPriKey, bP11 );
     acme_srv_->setChallValid( bChallValid );
+
+    if( mESTAuthGroup->isChecked() )
+        acme_srv_->setESTAuthorization( strESTUserID, strESTPasswd );
+
 
     if( mHTTP01Group->isChecked() )
     {

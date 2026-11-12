@@ -29,156 +29,190 @@
         <translation>ACME 서비스</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="120"/>
-        <location filename="../acme_service_dlg.ui" line="511"/>
-        <location filename="../acme_service_dlg.ui" line="575"/>
-        <location filename="../acme_service_dlg.ui" line="659"/>
+        <location filename="../acme_service_dlg.ui" line="130"/>
+        <location filename="../acme_service_dlg.ui" line="514"/>
+        <location filename="../acme_service_dlg.ui" line="578"/>
+        <location filename="../acme_service_dlg.ui" line="662"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="94"/>
         <source>TLS</source>
-        <translation>TLS</translation>
+        <translation type="vanished">TLS</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="137"/>
+        <location filename="../acme_service_dlg.ui" line="117"/>
         <source>always challenge valid</source>
         <translation>항상 챌린지 유효함</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="153"/>
+        <location filename="../acme_service_dlg.ui" line="146"/>
         <source>Certificate Profile</source>
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="182"/>
-        <location filename="../acme_service_dlg.ui" line="352"/>
-        <location filename="../acme_service_dlg.ui" line="798"/>
+        <location filename="../acme_service_dlg.ui" line="175"/>
+        <location filename="../acme_service_dlg.ui" line="345"/>
+        <location filename="../acme_service_dlg.ui" line="885"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="189"/>
-        <location filename="../acme_service_dlg.ui" line="359"/>
-        <location filename="../acme_service_dlg.ui" line="745"/>
+        <location filename="../acme_service_dlg.ui" line="182"/>
+        <location filename="../acme_service_dlg.ui" line="352"/>
+        <location filename="../acme_service_dlg.ui" line="832"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="270"/>
-        <location filename="../acme_service_dlg.ui" line="406"/>
-        <location filename="../acme_service_dlg.ui" line="805"/>
+        <location filename="../acme_service_dlg.ui" line="263"/>
+        <location filename="../acme_service_dlg.ui" line="399"/>
+        <location filename="../acme_service_dlg.ui" line="892"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="289"/>
+        <location filename="../acme_service_dlg.ui" line="282"/>
         <source>CA Certificate and Private Key</source>
         <translation>CA 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="465"/>
+        <location filename="../acme_service_dlg.ui" line="456"/>
+        <source>ACME</source>
+        <translation>ACME</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="468"/>
         <source>Support HTTP01 Challenge</source>
         <translation>HTTP01 챌리지 지원</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="494"/>
-        <location filename="../acme_service_dlg.ui" line="568"/>
-        <location filename="../acme_service_dlg.ui" line="642"/>
+        <location filename="../acme_service_dlg.ui" line="497"/>
+        <location filename="../acme_service_dlg.ui" line="571"/>
+        <location filename="../acme_service_dlg.ui" line="645"/>
         <source>Host</source>
         <translation>호스트</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="504"/>
-        <location filename="../acme_service_dlg.ui" line="585"/>
-        <location filename="../acme_service_dlg.ui" line="652"/>
+        <location filename="../acme_service_dlg.ui" line="507"/>
+        <location filename="../acme_service_dlg.ui" line="588"/>
+        <location filename="../acme_service_dlg.ui" line="655"/>
         <source>Fix Server</source>
         <translation>서버 고정</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="539"/>
+        <location filename="../acme_service_dlg.ui" line="542"/>
         <source>Support DNS01 Challenge</source>
         <translation>DNS01 챌리지 지원</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="613"/>
+        <location filename="../acme_service_dlg.ui" line="616"/>
         <source>Support TLS ALPN01 Challenge</source>
         <translation>TLS_ALPN01 챌리지 지원</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="688"/>
+        <location filename="../acme_service_dlg.ui" line="685"/>
+        <source>EST</source>
+        <translation>EST</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="691"/>
+        <source>EST Server requires authorization</source>
+        <translation>EST 서버는 인증을 요구 합니다</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="720"/>
+        <source>Passwd</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="727"/>
+        <source>UserID</source>
+        <translation>사용자 ID</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.ui" line="769"/>
         <source>TLS Certificate and Privte Key</source>
         <translation>TLS 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="907"/>
+        <location filename="../acme_service_dlg.ui" line="994"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.ui" line="914"/>
+        <location filename="../acme_service_dlg.ui" line="1001"/>
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="183"/>
+        <location filename="../acme_service_dlg.cpp" line="185"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="189"/>
+        <location filename="../acme_service_dlg.cpp" line="191"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="206"/>
-        <location filename="../acme_service_dlg.cpp" line="421"/>
+        <location filename="../acme_service_dlg.cpp" line="201"/>
+        <source>Enter a userid</source>
+        <translation>사용자 ID을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.cpp" line="208"/>
+        <source>Enter a password</source>
+        <translation>암호를 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../acme_service_dlg.cpp" line="225"/>
+        <location filename="../acme_service_dlg.cpp" line="444"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="213"/>
+        <location filename="../acme_service_dlg.cpp" line="232"/>
         <source>failed to get CA certificate</source>
         <translation>CA 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="220"/>
+        <location filename="../acme_service_dlg.cpp" line="239"/>
         <source>failed to get CA private key</source>
         <translation>CA 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="238"/>
+        <location filename="../acme_service_dlg.cpp" line="257"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="245"/>
+        <location filename="../acme_service_dlg.cpp" line="264"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="251"/>
+        <location filename="../acme_service_dlg.cpp" line="270"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="321"/>
+        <location filename="../acme_service_dlg.cpp" line="344"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="372"/>
+        <location filename="../acme_service_dlg.cpp" line="395"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="435"/>
+        <location filename="../acme_service_dlg.cpp" line="458"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
     <message>
-        <location filename="../acme_service_dlg.cpp" line="466"/>
+        <location filename="../acme_service_dlg.cpp" line="484"/>
         <source>Select TLS Server certificate</source>
         <translation>TLS 서버 인증서를 선택하세요</translation>
     </message>
@@ -604,12 +638,11 @@
         <translation>기본값 설정</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="104"/>
         <source>TLS</source>
-        <translation>TLS</translation>
+        <translation type="vanished">TLS</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="117"/>
+        <location filename="../ca_service_dlg.ui" line="123"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
@@ -618,113 +651,113 @@
         <translation type="vanished">SSL 포트</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="152"/>
+        <location filename="../ca_service_dlg.ui" line="145"/>
         <source>Certificate Profile</source>
         <translation>인증서 프로파일</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="221"/>
+        <location filename="../ca_service_dlg.ui" line="214"/>
         <source>Profile</source>
         <translation>프로파일</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="228"/>
-        <location filename="../ca_service_dlg.ui" line="358"/>
-        <location filename="../ca_service_dlg.ui" line="527"/>
+        <location filename="../ca_service_dlg.ui" line="221"/>
+        <location filename="../ca_service_dlg.ui" line="351"/>
+        <location filename="../ca_service_dlg.ui" line="526"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="269"/>
-        <location filename="../ca_service_dlg.ui" line="405"/>
-        <location filename="../ca_service_dlg.ui" line="581"/>
+        <location filename="../ca_service_dlg.ui" line="262"/>
+        <location filename="../ca_service_dlg.ui" line="398"/>
+        <location filename="../ca_service_dlg.ui" line="580"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="288"/>
+        <location filename="../ca_service_dlg.ui" line="281"/>
         <source>CA Server Certificate and Private Key</source>
         <translation>CA 서버 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="317"/>
-        <location filename="../ca_service_dlg.ui" line="574"/>
+        <location filename="../ca_service_dlg.ui" line="310"/>
+        <location filename="../ca_service_dlg.ui" line="573"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="464"/>
+        <location filename="../ca_service_dlg.ui" line="457"/>
         <source>TLS Certificate and Private Key</source>
         <translation>TLS 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="683"/>
+        <location filename="../ca_service_dlg.ui" line="682"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.ui" line="690"/>
+        <location filename="../ca_service_dlg.ui" line="689"/>
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="135"/>
+        <location filename="../ca_service_dlg.cpp" line="132"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="157"/>
+        <location filename="../ca_service_dlg.cpp" line="154"/>
         <source>failed to get CA certificate</source>
         <translation>CA 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="164"/>
+        <location filename="../ca_service_dlg.cpp" line="161"/>
         <source>failed to get CA private key</source>
         <translation>CA 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="182"/>
+        <location filename="../ca_service_dlg.cpp" line="179"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="189"/>
+        <location filename="../ca_service_dlg.cpp" line="186"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="195"/>
+        <location filename="../ca_service_dlg.cpp" line="192"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="219"/>
+        <location filename="../ca_service_dlg.cpp" line="216"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="266"/>
+        <location filename="../ca_service_dlg.cpp" line="263"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="360"/>
+        <location filename="../ca_service_dlg.cpp" line="352"/>
         <source>Select TLS Server certificate</source>
         <translation>TLS 서버 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="150"/>
-        <location filename="../ca_service_dlg.cpp" line="315"/>
+        <location filename="../ca_service_dlg.cpp" line="147"/>
+        <location filename="../ca_service_dlg.cpp" line="312"/>
         <source>Select a profile</source>
         <translation>프로파일을 선택하세요</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="129"/>
+        <location filename="../ca_service_dlg.cpp" line="126"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../ca_service_dlg.cpp" line="329"/>
+        <location filename="../ca_service_dlg.cpp" line="326"/>
         <source>No profile selected</source>
         <translation>선택된 프로파일이 없습니다</translation>
     </message>
@@ -8254,40 +8287,39 @@
         <translation type="vanished">SSL 포트</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="110"/>
+        <location filename="../ocsp_service_dlg.ui" line="120"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="117"/>
-        <location filename="../ocsp_service_dlg.ui" line="525"/>
+        <location filename="../ocsp_service_dlg.ui" line="524"/>
         <source>TLS</source>
         <translation>TLS</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="124"/>
+        <location filename="../ocsp_service_dlg.ui" line="94"/>
         <source>Need Sign</source>
         <translation>서명 요구</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="159"/>
+        <location filename="../ocsp_service_dlg.ui" line="152"/>
         <source>CA certificate and private key</source>
         <translation>CA 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="236"/>
+        <location filename="../ocsp_service_dlg.ui" line="229"/>
         <source>CA</source>
         <translation>CA</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="329"/>
+        <location filename="../ocsp_service_dlg.ui" line="322"/>
         <source>OCSP Server Certificate and Private Key</source>
         <translation>OCSP 서버 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="216"/>
-        <location filename="../ocsp_service_dlg.ui" line="389"/>
-        <location filename="../ocsp_service_dlg.ui" line="532"/>
+        <location filename="../ocsp_service_dlg.ui" line="209"/>
+        <location filename="../ocsp_service_dlg.ui" line="382"/>
+        <location filename="../ocsp_service_dlg.ui" line="531"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -8296,89 +8328,89 @@
         <translation type="vanished">이름</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="223"/>
-        <location filename="../ocsp_service_dlg.ui" line="440"/>
-        <location filename="../ocsp_service_dlg.ui" line="613"/>
+        <location filename="../ocsp_service_dlg.ui" line="216"/>
+        <location filename="../ocsp_service_dlg.ui" line="433"/>
+        <location filename="../ocsp_service_dlg.ui" line="612"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="433"/>
+        <location filename="../ocsp_service_dlg.ui" line="426"/>
         <source>OCSP</source>
         <translation>OCSP</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="496"/>
+        <location filename="../ocsp_service_dlg.ui" line="489"/>
         <source>TLS Certificate and Private Key</source>
         <translation>TLS 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="728"/>
+        <location filename="../ocsp_service_dlg.ui" line="727"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.ui" line="735"/>
+        <location filename="../ocsp_service_dlg.ui" line="734"/>
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="130"/>
+        <location filename="../ocsp_service_dlg.cpp" line="127"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="136"/>
+        <location filename="../ocsp_service_dlg.cpp" line="133"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="149"/>
+        <location filename="../ocsp_service_dlg.cpp" line="146"/>
         <source>failed to get CA certificate</source>
         <translation>CA 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="162"/>
+        <location filename="../ocsp_service_dlg.cpp" line="159"/>
         <source>failed to get OCSP certificate</source>
         <translation>OCSP 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="169"/>
+        <location filename="../ocsp_service_dlg.cpp" line="166"/>
         <source>failed to get OCSP private key</source>
         <translation>OCSP 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="186"/>
+        <location filename="../ocsp_service_dlg.cpp" line="183"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="193"/>
+        <location filename="../ocsp_service_dlg.cpp" line="190"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="199"/>
+        <location filename="../ocsp_service_dlg.cpp" line="196"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="224"/>
+        <location filename="../ocsp_service_dlg.cpp" line="221"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="273"/>
+        <location filename="../ocsp_service_dlg.cpp" line="270"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="321"/>
+        <location filename="../ocsp_service_dlg.cpp" line="318"/>
         <source>Select OCSP server certificate</source>
         <translation>OCSP 서버 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../ocsp_service_dlg.cpp" line="375"/>
+        <location filename="../ocsp_service_dlg.cpp" line="367"/>
         <source>Select TLS Server certificate</source>
         <translation>TLS 서버 인증서를 선택하세요</translation>
     </message>
@@ -9282,7 +9314,7 @@
         <translation>고유 이름</translation>
     </message>
     <message>
-        <location filename="../pub_ldap_dlg.cpp" line="270"/>
+        <location filename="../pub_ldap_dlg.cpp" line="272"/>
         <source>Invalid data type</source>
         <translation>잘못 된 데이타 타입</translation>
     </message>
@@ -10811,18 +10843,32 @@
         <translation>정지</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="107"/>
-        <location filename="../tsp_service_dlg.ui" line="373"/>
+        <location filename="../tsp_service_dlg.ui" line="337"/>
+        <source>Authorization</source>
+        <translation>인증</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.ui" line="369"/>
+        <source>UserID</source>
+        <translation>사용자 ID</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.ui" line="376"/>
+        <source>Passwd</source>
+        <translation>암호</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.ui" line="443"/>
         <source>TLS</source>
         <translation>TLS</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="130"/>
+        <location filename="../tsp_service_dlg.ui" line="136"/>
         <source>Port</source>
         <translation>포트</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="278"/>
+        <location filename="../tsp_service_dlg.ui" line="271"/>
         <source>TSP</source>
         <translation>타임스탬프</translation>
     </message>
@@ -10831,13 +10877,13 @@
         <translation type="vanished">SSL 포트</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="165"/>
+        <location filename="../tsp_service_dlg.ui" line="158"/>
         <source>TSP Server Certificate and Private Key</source>
         <translation>TSP 서버 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="225"/>
-        <location filename="../tsp_service_dlg.ui" line="451"/>
+        <location filename="../tsp_service_dlg.ui" line="218"/>
+        <location filename="../tsp_service_dlg.ui" line="521"/>
         <source>Select</source>
         <translation>선택</translation>
     </message>
@@ -10846,78 +10892,88 @@
         <translation type="vanished">이름</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="319"/>
-        <location filename="../tsp_service_dlg.ui" line="458"/>
+        <location filename="../tsp_service_dlg.ui" line="312"/>
+        <location filename="../tsp_service_dlg.ui" line="528"/>
         <source>View</source>
         <translation>보기</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="344"/>
+        <location filename="../tsp_service_dlg.ui" line="408"/>
         <source>TLS Server Certificate and Private Key</source>
         <translation>TSP 서버 인증서 및 개인키</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="573"/>
+        <location filename="../tsp_service_dlg.ui" line="643"/>
         <source>Close</source>
         <translation>닫기</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.ui" line="580"/>
+        <location filename="../tsp_service_dlg.ui" line="650"/>
         <source>Log Clear</source>
         <translation>로그 지우기</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="124"/>
+        <location filename="../tsp_service_dlg.cpp" line="129"/>
         <source>The server has already started.</source>
         <translation>서버가 이미 시작 되었습니다</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="130"/>
+        <location filename="../tsp_service_dlg.cpp" line="135"/>
         <source>Enter a port</source>
         <translation>포트를 입력하세요</translation>
     </message>
     <message>
         <location filename="../tsp_service_dlg.cpp" line="145"/>
+        <source>Enter a userid</source>
+        <translation>사용자 ID을 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="152"/>
+        <source>Enter a password</source>
+        <translation>암호를 입력하세요</translation>
+    </message>
+    <message>
+        <location filename="../tsp_service_dlg.cpp" line="167"/>
         <source>failed to get TSP certificate</source>
         <translation>TSP 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="152"/>
+        <location filename="../tsp_service_dlg.cpp" line="174"/>
         <source>failed to get TSP private key</source>
         <translation>TSP 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="170"/>
+        <location filename="../tsp_service_dlg.cpp" line="192"/>
         <source>failed to get TLS certificate</source>
         <translation>TLS 인증서 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="177"/>
+        <location filename="../tsp_service_dlg.cpp" line="199"/>
         <source>failed to get TLS private key</source>
         <translation>TLS 개인키 가져오기 실패</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="183"/>
+        <location filename="../tsp_service_dlg.cpp" line="205"/>
         <source>TLS does not support PKCS11</source>
         <translation>TLS는 PKCS#11을 지원 하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="200"/>
+        <location filename="../tsp_service_dlg.cpp" line="223"/>
         <source>Failed to configure TLS certificate and private key.</source>
         <translation>TLS 인증서와 개인키 설정에 실패 하였습니다</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="210"/>
+        <location filename="../tsp_service_dlg.cpp" line="233"/>
         <source>failed to start server: %1</source>
         <translation>서버 시작에 실패하였습니다: %1</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="257"/>
+        <location filename="../tsp_service_dlg.cpp" line="283"/>
         <source>Select CA certificate</source>
         <translation>CA 인증서를 선택하세요</translation>
     </message>
     <message>
-        <location filename="../tsp_service_dlg.cpp" line="306"/>
+        <location filename="../tsp_service_dlg.cpp" line="332"/>
         <source>Select TLS Server certificate</source>
         <translation>TLS 서버 인증서를 선택하세요</translation>
     </message>

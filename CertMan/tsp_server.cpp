@@ -41,13 +41,11 @@ TSPServer::~TSPServer()
     if( client_ )
     {
         client_->deleteLater();
-        client_ = nullptr;
     }
 
     if( tls_client_ )
     {
         tls_client_->deleteLater();
-        tls_client_ = nullptr;
     }
 
     log( "TSP server stopped" );
@@ -187,8 +185,6 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             (void (*)(void *))serialCallback, (void *)dbMgr,
             &nSerial, &binTST, &binP7, pRsp );
 
-        log( QString( "EncodeResponseByP11 Ret: %1" ).arg( JERR(ret) ));
-
         JS_PKCS11_Logout( pP11CTX );
         JS_PKCS11_CloseSession( pP11CTX );
     }
@@ -198,8 +194,6 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             pReq, sHash, sPolicy, &tsp_cert_, &tsp_pri_key_,
             (void (*)(void *))serialCallback, dbMgr,
             &nSerial, &binTST, &binP7, pRsp );
-
-        log( QString( "EncodeResponse Ret: %1" ).arg( JERR(ret) ) );
     }
 
     if( ret != 0 )
@@ -290,7 +284,7 @@ int TSPServer::readReady()
 
         if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
         {
-            strAuth = value.toStdString().c_str();
+            strAuth = value;
         }
     }
 
@@ -306,6 +300,7 @@ int TSPServer::readReady()
         {
             ret = -1;
             log( QString( "Authorization fail" ));
+            responseUnauthorized();
             goto end;
         }
     }
@@ -458,11 +453,14 @@ void TSPServer::onTLSReadyRead()
 
 void TSPServer::onTLSDisconnected()
 {
+    tls_client_->deleteLater();
     resetState();
 }
 
 void TSPServer::processBuffer()
 {
+    int ret = 0;
+
     while( 1 )
     {
         if( state_ == WaitingHeader )
@@ -472,14 +470,21 @@ void TSPServer::processBuffer()
 
             QByteArray header = buffer_.left(pos);
 
-            if( parseHeader( header ) != 0 )
+            ret = parseHeader( header );
+            if( ret == JSR_HTTP_UNAUTHORIZED )
+            {
+                responseUnauthorized();
+                tls_client_->disconnectFromHost();
                 return;
+            }
 
             buffer_.remove(0, pos+4);
+
             if( content_len_ == 0 )
             {
                 processTSP();
-                continue;
+                tls_client_->disconnectFromHost();
+                return;
             }
 
             state_ = WaitingBody;
@@ -493,6 +498,9 @@ void TSPServer::processBuffer()
             body_ = buffer_.left( content_len_ );
             buffer_.remove( 0, content_len_ );
             processTSP();
+            tls_client_->disconnectFromHost();
+
+            return;
         }
     }
 }
@@ -546,9 +554,8 @@ int TSPServer::parseHeader(const QByteArray &header)
         if( bAuth == false )
         {
             log( QString( "Authorization fail" ));
+            return JSR_HTTP_UNAUTHORIZED;
         }
-
-        return -2;
     }
 
     return 0;
@@ -563,6 +570,7 @@ void TSPServer::resetState()
     method_.clear();
     path_.clear();
     version_.clear();
+    buffer_.clear();
 }
 
 void TSPServer::processTSP()
@@ -631,14 +639,8 @@ void TSPServer::processTSP()
     }
 
 end :
-    tls_client_->disconnectFromHost();
-    tls_client_->deleteLater();
-    tls_client_ = nullptr;
-
     JS_BIN_reset( &binReq );
-    JS_BIN_reset( &binRsp );
-
-    resetState();
+    JS_BIN_reset( &binRsp );    
 }
 
 void TSPServer::log( const QString strLog, QColor cr )
@@ -682,7 +684,7 @@ bool TSPServer::isValidBasicAuth( const QString strAuth )
     QString strMode = strList.at(0);
     QString strValue = strList.at(1);
 
-    if( strMode.compare( "Basic", Qt::CaseInsensitive ) == false )
+    if( strMode.compare( "Basic", Qt::CaseInsensitive ) != 0 )
         return false;
 
     JS_BIN_decodeBase64Str( strValue.toStdString().c_str(), &pValue );
@@ -710,4 +712,25 @@ bool TSPServer::isValidBasicAuth( const QString strAuth )
 
 end :
     return false;
+}
+
+void TSPServer::responseUnauthorized()
+{
+    QDateTime dateTime;
+    dateTime.setTime_t( time(NULL));
+
+    QByteArray strRsp = "HTTP/1.0 401 Unauthorized\r\n";
+    strRsp += QString( "Data: %1\r\n" ).arg( dateTime.toString());
+    strRsp += "WWW-Authenticate: Berarer\r\n";
+
+    if( tls_ == true )
+    {
+        tls_client_->write( strRsp );
+        tls_client_->flush();
+    }
+    else
+    {
+        client_->write( strRsp );
+        client_->flush();
+    }
 }

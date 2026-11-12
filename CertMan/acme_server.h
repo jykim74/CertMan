@@ -119,6 +119,8 @@ public:
     void setDNS01( const QString strDNS01 );
     void setTLS_ALPN01( const QString strTLS_ALPN01 );
 
+    void setESTAuthorization( const QString strUserID, const QString strPasswd );
+
 public slots:
     int readReady();
     void onEncrypted();
@@ -133,11 +135,13 @@ private :
         WaitingBody
     };
 
+    void responseUnauthorized();
+
     int procACME( const QString strMethod, const QString strPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp );
     int procEST( const char *pPath, const BIN *pReq, BIN *pRsp );
 
     void processBuffer();
-    void parseHeader(const QByteArray &header);
+    int parseHeader(const QByteArray &header);
     void resetState();
     void processACME();
 
@@ -176,6 +180,10 @@ private:
 
     bool chall_valid_;
     int port_;
+    bool est_auth_;
+    QString est_userid_;
+    QString est_passwd_;
+
     QString http_01_;
     QString dns_01_;
     QString tls_alpn_01_;
@@ -214,6 +222,7 @@ private:
     int checkTLS_ALPN_01( const QString strDNS, const QString strCID, const BIN *pPub );
 
     const QString getNewNonce();
+    bool isValidBasicAuth( const QString strAuth );
 };
 
 #endif // ACME_SERVER_H

@@ -50,6 +50,8 @@ private:
     void resetState();
     void processTSP();
 
+    void responseUnauthorized();
+
 private:
     QPlainTextEdit* log_edit_;
 

@@ -132,6 +132,7 @@ ACMEServer::ACMEServer( QObject *parent ) :
     p11_ = false;
     tls_ = false;
     chall_valid_ = false;
+    est_auth_ = false;
 
     client_ = nullptr;
     tls_client_ = nullptr;
@@ -154,13 +155,11 @@ ACMEServer::~ACMEServer()
     if( client_ )
     {
         client_->deleteLater();
-        client_ = nullptr;
     }
 
     if( tls_client_ )
     {
         tls_client_->deleteLater();
-        tls_client_ = nullptr;
     }
 
     acme_stats_.clear();
@@ -228,6 +227,13 @@ void ACMEServer::setTLS_ALPN01( const QString strTLS_ALPN01 )
     tls_alpn_01_ = strTLS_ALPN01;
 }
 
+void ACMEServer::setESTAuthorization( const QString strUserID, const QString strPasswd )
+{
+    est_auth_ = true;
+    est_userid_ = strUserID;
+    est_passwd_ = strPasswd;
+}
+
 const QString ACMEServer::getNewNonce()
 {
     QString strNonce;
@@ -246,6 +252,46 @@ const QString ACMEServer::getNewNonce()
     JS_BIN_reset( &binRand );
 
     return strNonce;
+}
+
+bool ACMEServer::isValidBasicAuth( const QString strAuth )
+{
+    char *pValue = NULL;
+
+    QStringList strList = strAuth.split( " " );
+    if( strList.size() < 2 ) return false;
+
+    QString strMode = strList.at(0);
+    QString strValue = strList.at(1);
+
+    if( strMode.compare( "Basic", Qt::CaseInsensitive ) != 0 )
+        return false;
+
+    JS_BIN_decodeBase64Str( strValue.toStdString().c_str(), &pValue );
+
+    if( pValue )
+    {
+        QString strData = pValue;
+        QStringList valList;
+
+        valList = strData.split( ":" );
+        if( valList.size() < 2 )
+        {
+            JS_free( pValue );
+            return false;
+        }
+
+        if( valList.at(0) == est_userid_ && valList.at(1) == est_passwd_ )
+        {
+            JS_free( pValue );
+            return true;
+        }
+
+        JS_free( pValue );
+    }
+
+end :
+    return false;
 }
 
 int ACMEServer::startServer( int nPort )
@@ -561,6 +607,27 @@ end :
     return ret;
 }
 
+void ACMEServer::responseUnauthorized()
+{
+    QDateTime dateTime;
+    dateTime.setTime_t( time(NULL));
+
+    QByteArray strRsp = "HTTP/1.0 401 Unauthorized\r\n";
+    strRsp += QString( "Data: %1\r\n" ).arg( dateTime.toString());
+    strRsp += "WWW-Authenticate: Berarer\r\n";
+
+    if( tls_ == true )
+    {
+        tls_client_->write( strRsp );
+        tls_client_->flush();
+    }
+    else
+    {
+        client_->write( strRsp );
+        client_->flush();
+    }
+}
+
 int ACMEServer::procACME( const QString strMethod, const QString strPath, const BIN *pReq, QStringList& rspHeaders, BIN *pRsp )
 {
     int ret = 0;
@@ -854,11 +921,12 @@ int ACMEServer::readReady()
 
     const char *pMethod = NULL;
 
-
     headers_.clear();
     content_len_ = 0;
 
     QByteArray Line;
+    QString strAuth;
+
     Line = client_->readLine();
 
     QList<QByteArray> first = Line.split( ' ' );
@@ -896,6 +964,11 @@ int ACMEServer::readReady()
         {
             content_len_ = value.toInt();
         }
+
+        if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
+        {
+            strAuth = value;
+        }
     }
 
     if( content_len_ > 0 )
@@ -910,6 +983,18 @@ int ACMEServer::readReady()
     else if( path_.contains( "/EST" ) == true )
     {
         QByteArray rsp;
+
+        if( est_auth_ == true )
+        {
+            bool bAuth = isValidBasicAuth( strAuth );
+            if( bAuth == false )
+            {
+                ret = -1;
+                log( QString( "Authorization fail" ));
+                responseUnauthorized();
+                goto end;
+            }
+        }
 
         log( QString( "Content Length: %1" ).arg( content_len_ ));
         JS_BIN_set( &binReq, (const unsigned char *)body_.data(), content_len_ );
@@ -1048,6 +1133,7 @@ void ACMEServer::onTLSReadyRead()
 
 void ACMEServer::onTLSDisconnected()
 {
+    tls_client_->deleteLater();
     resetState();
 }
 
@@ -1118,6 +1204,8 @@ void ACMEServer::incomingConnection( qintptr  socketDescriptor )
 
 void ACMEServer::processBuffer()
 {
+    int ret = 0;
+
     while( 1 )
     {
         if( state_ == WaitingHeader )
@@ -1127,13 +1215,20 @@ void ACMEServer::processBuffer()
 
             QByteArray header = buffer_.left(pos);
 
-            parseHeader( header );
+            ret = parseHeader( header );
+            if( ret == JSR_HTTP_UNAUTHORIZED )
+            {
+                responseUnauthorized();
+                tls_client_->disconnectFromHost();
+                return;
+            }
 
             buffer_.remove(0, pos+4);
             if( content_len_ == 0 )
             {
                 processACME();
-                continue;
+                tls_client_->disconnectFromHost();
+                return;
             }
 
             state_ = WaitingBody;
@@ -1147,18 +1242,23 @@ void ACMEServer::processBuffer()
             body_ = buffer_.left( content_len_ );
             buffer_.remove( 0, content_len_ );
             processACME();
+
+            tls_client_->disconnectFromHost();
+
+            return;
         }
     }
 }
 
-void ACMEServer::parseHeader(const QByteArray &header)
+int ACMEServer::parseHeader(const QByteArray &header)
 {
     headers_.clear();
     content_len_ = 0;
 
     QList<QByteArray> lines = header.split( '\n' );
+    QString strAuth;
 
-    if( lines.isEmpty() ) return;
+    if( lines.isEmpty() ) return -1;
 
     QByteArray requestLine = lines.takeFirst().trimmed();
     QList<QByteArray> first = requestLine.split(' ');
@@ -1191,7 +1291,24 @@ void ACMEServer::parseHeader(const QByteArray &header)
         {
             content_len_ = value.toInt();
         }
+
+        if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
+        {
+            strAuth = value.toStdString().c_str();
+        }
     }
+
+    if( path_.contains( "/EST", Qt::CaseInsensitive ) == true && est_auth_ == true )
+    {
+        bool bAuth = isValidBasicAuth( strAuth );
+        if( bAuth == false )
+        {
+            log( QString( "Authorization fail" ));
+            return JSR_HTTP_UNAUTHORIZED;
+        }
+    }
+
+    return 0;
 }
 
 void ACMEServer::resetState()
