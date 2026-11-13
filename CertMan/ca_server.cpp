@@ -1446,6 +1446,7 @@ void CAServer::resetState()
     method_.clear();
     path_.clear();
     version_.clear();
+    buffer_.clear();
 
     if( param_list_ ) JS_UTIL_resetNameValList( &param_list_ );
 }

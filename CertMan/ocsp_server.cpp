@@ -645,6 +645,7 @@ void OCSPServer::resetState()
     method_.clear();
     path_.clear();
     version_.clear();
+    buffer_.clear();
 }
 
 void OCSPServer::processOCSP()

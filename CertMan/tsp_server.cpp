@@ -38,15 +38,8 @@ TSPServer::~TSPServer()
     JS_BIN_reset( &tls_cert_ );
     JS_BIN_reset( &tls_pri_key_ );
 
-    if( client_ )
-    {
-        client_->deleteLater();
-    }
-
-    if( tls_client_ )
-    {
-        tls_client_->deleteLater();
-    }
+    if( client_ ) client_->deleteLater();
+    if( tls_client_ ) tls_client_->deleteLater();
 
     log( "TSP server stopped" );
 }
@@ -544,7 +537,7 @@ int TSPServer::parseHeader(const QByteArray &header)
 
         if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
         {
-            strAuth = value.toStdString().c_str();
+            strAuth = value;
         }
     }
 

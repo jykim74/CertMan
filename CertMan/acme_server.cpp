@@ -152,15 +152,8 @@ ACMEServer::~ACMEServer()
     JS_BIN_reset( &tls_cert_ );
     JS_BIN_reset( &tls_pri_key_ );
 
-    if( client_ )
-    {
-        client_->deleteLater();
-    }
-
-    if( tls_client_ )
-    {
-        tls_client_->deleteLater();
-    }
+//    if( client_ ) client_->deleteLater();
+//    if( tls_client_ ) tls_client_->deleteLater();
 
     acme_stats_.clear();
 
@@ -1107,7 +1100,6 @@ int ACMEServer::readReady()
 end :
     client_->disconnectFromHost();
     client_->deleteLater();
-    client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
@@ -1294,7 +1286,7 @@ int ACMEServer::parseHeader(const QByteArray &header)
 
         if( key.compare( "Authorization", Qt::CaseInsensitive ) == 0 )
         {
-            strAuth = value.toStdString().c_str();
+            strAuth = value;
         }
     }
 
@@ -1320,6 +1312,7 @@ void ACMEServer::resetState()
     method_.clear();
     path_.clear();
     version_.clear();
+    buffer_.clear();
 
     if( param_list_ ) JS_UTIL_resetNameValList( &param_list_ );
 }
@@ -1451,9 +1444,6 @@ void ACMEServer::processACME()
 
 
 end :
-    tls_client_->disconnectFromHost();
-    tls_client_->deleteLater();
-    tls_client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
