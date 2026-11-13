@@ -74,7 +74,7 @@ void TSPServiceDlg::initialize()
         mTLSGroup->setChecked( bTLS );
         if( nNum > 0 ) mNumText->setText( QString("%1").arg( nNum ));
         if( nTLSNum > 0 ) mTLSNumText->setText( QString("%1").arg( nTLSNum ));
-
+/*
         if( listDefault.size() >= 7 )
         {
             bool bAuth = listDefault.at(4).toInt();
@@ -84,6 +84,7 @@ void TSPServiceDlg::initialize()
             mUserIDText->setText( strUserID );
             mPasswdText->setText( strPasswd );
         }
+*/
 
         mSetDefaultCheck->setChecked( true );
     }
@@ -239,6 +240,7 @@ void TSPServiceDlg::clickStart()
     if( mSetDefaultCheck->isChecked() == true )
     {
         /* Port:TLS:TSPNum:TLSNum:Auth:UserID:Passwd */
+        /*
         QString strDefault = QString( "%1:%2:%3:%4:%5:%6:%7" )
                                  .arg( nPort )
                                  .arg( mTLSGroup->isChecked() )
@@ -247,6 +249,14 @@ void TSPServiceDlg::clickStart()
                                  .arg( mAuthGroup->isChecked() )
                                  .arg( strUserID )
                                  .arg( strPasswd );
+        */
+
+        /* Port:TLS:TSPNum:TLSNum */
+        QString strDefault = QString( "%1:%2:%3:%4" )
+                                 .arg( nPort )
+                                 .arg( mTLSGroup->isChecked() )
+                                 .arg(nNum)
+                                 .arg( nTLSNum );
 
         setDefault( strDefault );
     }

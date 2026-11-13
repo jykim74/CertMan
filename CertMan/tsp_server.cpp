@@ -447,6 +447,8 @@ void TSPServer::onTLSReadyRead()
 void TSPServer::onTLSDisconnected()
 {
     tls_client_->deleteLater();
+    tls_client_ = nullptr;
+
     resetState();
 }
 

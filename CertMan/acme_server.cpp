@@ -152,8 +152,8 @@ ACMEServer::~ACMEServer()
     JS_BIN_reset( &tls_cert_ );
     JS_BIN_reset( &tls_pri_key_ );
 
-//    if( client_ ) client_->deleteLater();
-//    if( tls_client_ ) tls_client_->deleteLater();
+    if( client_ ) client_->deleteLater();
+    if( tls_client_ ) tls_client_->deleteLater();
 
     acme_stats_.clear();
 
@@ -852,44 +852,20 @@ int ACMEServer::procEST( const char *pPath, const BIN *pReq, BIN *pRsp )
 {
     int ret = 0;
     QString strPath;
-    char *pPEM = NULL;
-    BIN binCSR = {0,0};
-    char *pCSR = NULL;
-    int nType = -1;
-    BIN binNewCert = {0,0};
+    DBMgr* dbMgr = manApplet->dbMgr();
 
     if( pPath == NULL ) return JSR_ERR;
 
     strPath = pPath;
 
     if( strPath.contains( kEST_CACerts ) == true )
-    {
-        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &ca_cert_, &pPEM );
-        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
-    }
+        ret = runEST_CACerts( pRsp );
     else if( strPath.contains( kEST_SimpleEnroll ) == true  )
-    {
-        JS_BIN_string( pReq, &pCSR );
-        JS_BIN_decodePEM( pCSR, &nType, &binCSR );
-
-        ret = issueCert( &binCSR, &binNewCert );
-        if( ret != 0 ) goto end;
-
-        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binNewCert, &pPEM );
-        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
-    }
+        ret = runEST_SimpleEnroll( pReq, pRsp );
     else if( strPath.contains( kEST_SimpleReenroll ) == true )
-    {
-        JS_BIN_string( pReq, &pCSR );
-
-        JS_BIN_decodePEM( pCSR, &nType, &binCSR );
-
-        ret = issueCert( &binCSR, &binNewCert );
-        if(ret != 0 ) goto end;
-
-        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binNewCert, &pPEM );
-        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
-    }
+        ret = runEST_SimpleReenroll( pReq, pRsp );
+    else if( strPath.contains( kEST_CSRAttrs ) == true )
+        ret = runEST_CSRAttrs( pRsp );
     else
     {
         elog( QString( "Not supported path: %1").arg( pPath ));
@@ -897,11 +873,6 @@ int ACMEServer::procEST( const char *pPath, const BIN *pReq, BIN *pRsp )
 
 
 end :
-    if( pPEM ) JS_free( pPEM );
-    JS_BIN_reset( &binCSR );
-    if( pCSR ) JS_free( pCSR );
-    JS_BIN_reset( &binNewCert );
-
     return ret;
 }
 
@@ -1100,6 +1071,7 @@ int ACMEServer::readReady()
 end :
     client_->disconnectFromHost();
     client_->deleteLater();
+    client_ = nullptr;
 
     JS_BIN_reset( &binReq );
     JS_BIN_reset( &binRsp );
@@ -1126,6 +1098,8 @@ void ACMEServer::onTLSReadyRead()
 void ACMEServer::onTLSDisconnected()
 {
     tls_client_->deleteLater();
+    tls_client_ = nullptr;
+
     resetState();
 }
 
@@ -1488,7 +1462,120 @@ int ACMEServer::getChainList( BINList **ppChainList )
         if( ret != JSR_OK ) break;
     }
 
-    return 0;
+    return CKR_OK;
+}
+
+int ACMEServer::runEST_CACerts( BIN *pRsp )
+{
+    int ret = 0;
+    char *pPEM = NULL;
+
+    DBMgr* dbMgr = manApplet->dbMgr();
+
+    JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &ca_cert_, &pPEM );
+
+    if( pPEM )
+    {
+        JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
+        JS_free( pPEM );
+        pPEM = NULL;
+    }
+
+    CertRec certRec;
+    dbMgr->getCertRec( ca_num_, certRec );
+    int nIssueNum = certRec.getIssuerNum();
+
+    while( nIssueNum > 0 )
+    {
+        BIN binCert = {0,0};
+
+        ret = dbMgr->getCertRec( nIssueNum, certRec );
+        if( ret < 0 ) break;
+
+        JS_BIN_decodeHex( certRec.getCert().toStdString().c_str(), &binCert );
+        JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binCert, &pPEM );
+
+        JS_BIN_reset( &binCert );
+        if( pPEM == NULL ) break;
+
+        JS_BIN_append( pRsp, (unsigned char *)pPEM, strlen(pPEM));
+        JS_free( pPEM );
+        pPEM = NULL;
+        nIssueNum = certRec.getIssuerNum();
+    }
+
+end :
+    if( pPEM ) JS_free( pPEM );
+
+    return ret;
+}
+
+int ACMEServer::runEST_SimpleEnroll( const BIN *pReq, BIN *pRsp )
+{
+    int ret = 0;
+    char *pCSR = NULL;
+    int nType = -1;
+    BIN binCSR = {0,0};
+    BIN binNewCert = {0,0};
+    char *pPEM = NULL;
+
+    JS_BIN_string( pReq, &pCSR );
+    JS_BIN_decodePEM( pCSR, &nType, &binCSR );
+
+    ret = issueCert( &binCSR, &binNewCert );
+    if( ret != 0 ) goto end;
+
+    JS_BIN_encodePEM( JS_PEM_TYPE_CERTIFICATE, &binNewCert, &pPEM );
+    JS_BIN_set( pRsp, (unsigned char *)pPEM, strlen( pPEM ));
+
+end :
+    if( pPEM ) JS_free( pPEM );
+    if( pCSR ) JS_free( pCSR );
+    JS_BIN_reset( &binCSR );
+    JS_BIN_reset( &binNewCert );
+
+    return ret;
+}
+
+int ACMEServer::runEST_SimpleReenroll( const BIN *pReq, BIN *pRsp )
+{
+    return runEST_SimpleEnroll( pReq, pRsp );
+}
+
+int ACMEServer::runEST_CSRAttrs( BIN *pRsp )
+{
+    int ret = 0;
+    BIN binOID = {0,0};
+    BIN binSeq = {0,0};
+    JCertInfo sCertInfo;
+
+    char sOID[1024];
+    char *pBase64 = NULL;
+    unsigned char sSeq[2] = {0x30, 0x00};
+
+    memset( &sCertInfo, 0x00, sizeof(sCertInfo));
+    memset( sOID, 0x00, sizeof(sOID));
+
+    JS_PKI_getCertInfo( &ca_cert_, &sCertInfo, NULL );
+
+    JS_PKI_getOIDFromSN( sCertInfo.pSignAlgorithm, sOID );
+    JS_PKI_getOIDFromString( sOID, &binOID );
+    sSeq[1] = binOID.nLen;
+
+    JS_BIN_set( &binSeq, sSeq, sizeof(sSeq));
+    JS_BIN_appendBin( &binSeq, &binOID );
+
+    JS_BIN_encodeBase64( &binSeq, &pBase64 );
+
+    if( pBase64 ) JS_BIN_set( pRsp, (unsigned char *)pBase64, strlen(pBase64 ));
+
+end :
+    JS_PKI_resetCertInfo( &sCertInfo );
+    JS_BIN_reset( &binOID );
+    JS_BIN_reset( &binSeq );
+    if( pBase64 ) JS_free( pBase64 );
+
+    return ret;
 }
 
 int ACMEServer::runACME_Directory( QJsonObject& rspJson )

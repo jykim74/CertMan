@@ -145,6 +145,10 @@ private :
     void resetState();
     void processACME();
 
+    int runEST_CACerts( BIN *pRsp );
+    int runEST_SimpleEnroll( const BIN *pReq, BIN *pRsp );
+    int runEST_SimpleReenroll( const BIN *pReq, BIN *pRsp );
+    int runEST_CSRAttrs( BIN *pRsp );
 
     int runACME_Directory( QJsonObject& rspJson );
     int runACME_NewAccount( ACMEObject& acmeObj, QJsonObject& rspJson );
