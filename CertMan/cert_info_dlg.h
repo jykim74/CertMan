@@ -30,6 +30,9 @@ public:
 
 private slots:
     void showEvent(QShowEvent *event);
+    void slotTreeMenuRequested( QPoint pos );
+    void treeViewCert();
+
     void clickField( QModelIndex index );
     void clickCheck();
     void clickExport();

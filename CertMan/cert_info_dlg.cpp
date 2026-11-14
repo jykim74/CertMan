@@ -3,6 +3,8 @@
  *
  * All rights reserved.
  */
+#include <QMenu>
+
 #include "mainwindow.h"
 #include "man_applet.h"
 #include "db_mgr.h"
@@ -91,6 +93,10 @@ CertInfoDlg::CertInfoDlg(QWidget *parent) :
     connect( mCloseBtn, SIGNAL(clicked()), this, SLOT(close()));
     connect( mFieldTable, SIGNAL(clicked(QModelIndex)), this, SLOT(clickField(QModelIndex)));
 
+    connect( mCertPathTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(treeViewCert()));
+    connect( mCertPathTree, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotTreeMenuRequested(QPoint)));
+
+
 #if defined(Q_OS_MAC)
     layout()->setSpacing(5);
 
@@ -117,6 +123,56 @@ void CertInfoDlg::showEvent(QShowEvent *event)
 {
     getFields();
     pathInit();
+}
+
+void CertInfoDlg::slotTreeMenuRequested( QPoint pos )
+{
+    QMenu *menu = new QMenu(this);
+    BIN binCert = {0,0};
+
+    QTreeWidgetItem* item = mCertPathTree->currentItem();
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "No avaiable item" ), this );
+        return;
+    }
+
+    int nPos = item->data(0, Qt::UserRole).toInt();
+    CertRec cert = cert_list_.at(nPos);
+
+    JS_BIN_decodeHex( cert.getCert().toStdString().c_str(), &binCert );
+    if( binCert.nLen <= 0 ) return;
+
+    QAction *viewCertAct = new QAction( tr( "View Cert" ), this );
+
+    connect( viewCertAct, SIGNAL(triggered(bool)), this, SLOT(treeViewCert()));
+
+    if( item->childCount() > 0 )
+        menu->addAction( viewCertAct );
+
+    menu->popup( mCertPathTree->viewport()->mapToGlobal(pos));
+    JS_BIN_reset( &binCert );
+}
+
+void CertInfoDlg::treeViewCert()
+{
+    QTreeWidgetItem* item = mCertPathTree->currentItem();
+
+    if( item == NULL )
+    {
+        manApplet->warningBox( tr( "No avaiable item" ), this );
+        return;
+    }
+
+    if( item->childCount() <= 0 ) return;
+
+    int nPos = item->data(0, Qt::UserRole).toInt();
+    CertRec cert = cert_list_.at(nPos);
+
+    CertInfoDlg certInfo;
+    certInfo.setCertNum( cert.getNum() );
+    certInfo.exec();
 }
 
 void CertInfoDlg::getFields()
@@ -363,6 +419,7 @@ void CertInfoDlg::pathInit()
         CertRec cert = cert_list_.at(i);
         QTreeWidgetItem *item = new QTreeWidgetItem( 0 );
         item->setText( 0, cert.getSubjectDN() );
+        item->setData(0, Qt::UserRole, i );
 
         if( i == 0 )
         {
