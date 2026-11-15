@@ -402,6 +402,12 @@ int CAServer::procCMP( const BIN *pReq, BIN *pRsp )
     }
 
     strDN = sReqInfo.pSubjectDN;
+    if( strDN.length() < 1 )
+    {
+        log( QString( "There is no DN value." ));
+        goto end;
+    }
+
     nProtectNid = JS_PKI_getNidFromTextOID( sReqInfo.pProtectAlg );
 
     if( nProtectNid != NID_id_PasswordBasedMAC )
