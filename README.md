@@ -4,6 +4,9 @@ CertMan is a desktop application for managing X.509 certificates and related PKI
 
 ![CertMan main window](https://jykim74.github.io/certman_manual/images/mainwindow.png)
 
+## Download
+[CertMan Download](https://jykim74.github.io/wiki/certman/download/)
+
 ## What you can do
 
 ### Manage PKI records
