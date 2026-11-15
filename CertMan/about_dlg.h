@@ -29,7 +29,6 @@ private slots:
     void anchorClick( const QUrl& url );
 
 private:
-//    Ui::AboutDlg *ui;
     Q_DISABLE_COPY(AboutDlg)
     QString version_label_;
     QString getBuild();
@@ -37,6 +36,8 @@ private:
 
     void showInfo();
     void showCopyright();
+
+    QString readLicenseText();
 };
 
 

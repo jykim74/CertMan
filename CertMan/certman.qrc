@@ -108,5 +108,6 @@
         <file>images/info.png</file>
         <file>images/acme.png</file>
         <file>images/manual.png</file>
+        <file>LICENSE</file>
     </qresource>
 </RCC>
