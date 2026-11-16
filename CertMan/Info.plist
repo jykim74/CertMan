@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
         <string>certman</string>
 	<key>CFBundleIdentifier</key>
-        <string>com.jsinc.certman</string>
+        <string>com.jklab.certman</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleName</key>
