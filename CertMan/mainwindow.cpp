@@ -994,6 +994,12 @@ void MainWindow::newFile()
         return;
     }
 
+    QFileInfo fileInfo(fileName);
+    if( fileInfo.suffix().length() < 1 )
+    {
+        fileName += ".db";
+    }
+
     JS_BIN_set( &binDB, (unsigned char *)data.data(), data.size() );
     JS_BIN_fileWrite( &binDB, fileName.toLocal8Bit().toStdString().c_str() );
     JS_BIN_reset(&binDB);

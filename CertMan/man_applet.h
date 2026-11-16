@@ -90,8 +90,10 @@ public:
     QString findSaveFile( QWidget *parent, const QString strFilter, const QString strPath, bool bSave = true );
     QString findFolder( QWidget *parent, const QString strPath, bool bSave = true );
 
-private:
     int loadPKCS11();
+    void releasePKCS11();
+private:
+
 
 signals:
 

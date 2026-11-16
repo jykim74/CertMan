@@ -134,6 +134,14 @@ int ManApplet::loadPKCS11()
     return rv;
 }
 
+void ManApplet::releasePKCS11()
+{
+    if( p11_ctx_ == NULL ) return;
+
+    JS_PKCS11_Finalize( (JP11_CTX *)p11_ctx_, NULL );
+    JS_PKCS11_ReleaseLibrary( (JP11_CTX **)&p11_ctx_ );
+}
+
 void ManApplet::start()
 {
     checkLicense();

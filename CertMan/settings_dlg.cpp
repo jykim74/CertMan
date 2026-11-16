@@ -114,6 +114,11 @@ void SettingsDlg::updateSettings()
         mgr->setPKCS11Use( mP11Group->isChecked() );
         mgr->setSlotIndex( mSlotIndexText->text().toInt() );
         mgr->setPKCS11LibraryPath( mLibraryP11PathText->text() );
+
+        if( mP11Group->isChecked() )
+            manApplet->loadPKCS11();
+        else
+            manApplet->releasePKCS11();
     }
 
 #ifdef _AUTO_UPDATE

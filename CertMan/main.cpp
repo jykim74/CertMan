@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QCoreApplication::setOrganizationName( "JKLab" );
-    QCoreApplication::setOrganizationDomain( "jklab.com" );
-    QCoreApplication::setApplicationName( "CertMan" );
+    QCoreApplication::setOrganizationName( JS_ORG_NAME );
+    QCoreApplication::setOrganizationDomain( JS_ORG_DOMAIN );
+    QCoreApplication::setApplicationName( JS_APP_NAME_CERTMAN );
 
     QGuiApplication::setWindowIcon(QIcon(":/images/certman.png"));
 
