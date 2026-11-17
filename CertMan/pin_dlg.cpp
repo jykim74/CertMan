@@ -14,6 +14,7 @@ PinDlg::PinDlg(QWidget *parent) :
     layout()->setSpacing(5);
 #endif
     resize(minimumSizeHint().width(), minimumSizeHint().height());
+    mPinText->setFocus();
 }
 
 PinDlg::~PinDlg()

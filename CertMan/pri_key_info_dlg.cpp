@@ -874,7 +874,7 @@ int PriKeyInfoDlg::readPrivateKeyHSM( KeyPairRec& keyRec )
     int ret = 0;
     QString strAlg = keyRec.getAlg();
 
-    CK_OBJECT_HANDLE hKey = 0;
+    CK_OBJECT_HANDLE hKey = -1;
 
     int nIndex = manApplet->settingsMgr()->slotIndex();
     QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
@@ -896,10 +896,14 @@ int PriKeyInfoDlg::readPrivateKeyHSM( KeyPairRec& keyRec )
 
     JS_BIN_decodeHex( keyRec.getPrivateKey().toStdString().c_str(), &binID );
 
-    JS_PKCS11_getPublicKey( pCTX, hKey, &binPub );
-    JS_PKI_getKeyIdentifier( &binPub, &binKID );
+    JS_PKCS11_getPriHandle( pCTX, &binID, &hKey );
 
-    setFixedLineText( mKIDText, getHexString( &binKID ));
+    JS_PKCS11_getPublicKey( pCTX, hKey, &binPub );
+    if( binPub.nLen > 0 )
+    {
+        JS_PKI_getKeyIdentifier( &binPub, &binKID );
+        setFixedLineText( mKIDText, getHexString( &binKID ));
+    }
 
     hKey = getHandleHSM( pCTX, CKO_PRIVATE_KEY, &binID );
     if( hKey <= 0 )
