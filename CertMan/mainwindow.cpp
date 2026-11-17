@@ -2212,12 +2212,13 @@ void MainWindow::exportPriKeyAndCert()
 
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
     QString strAlg = keyPair.getAlg();
-
+/*
     if( strAlg.contains( "PKCS11" ) )
     {
         manApplet->warningBox( tr("can not read PKCS11 private key:%1").arg(strAlg), this);
         return;
     }
+*/
 
     if( strAlg.contains( "KMIP" ) )
     {
@@ -2239,7 +2240,12 @@ void MainWindow::exportPriKeyAndCert()
 
     ExportDlg exportDlg;
     exportDlg.setName( sCertInfo.pSubjectName );
-    exportDlg.setPriKeyAndCert( num, &binPri, &binCert );
+
+    if( isPKCS11Private( strAlg ) || isKMIPPrivate( strAlg ) )
+        exportDlg.setCert( &binCert );
+    else
+        exportDlg.setPriKeyAndCert( num, &binPri, &binCert );
+
     exportDlg.exec();
 
     JS_BIN_reset( &binPri );
