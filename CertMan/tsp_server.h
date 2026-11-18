@@ -27,6 +27,8 @@ public:
     void setTSPPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
     void setAuthorization( const QString strUserID, const QString strPasswd );
+    void setNonce( bool bVal );
+    void setPIN( const QString strPIN );
 
 public slots:
     int readReady();
@@ -64,6 +66,8 @@ private:
     bool p11_;
     bool tls_;
     bool auth_;
+    bool nonce_;
+    QString pin_;
 
     QString userid_;
     QString passwd_;

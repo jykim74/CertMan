@@ -21,6 +21,7 @@ TSPServer::TSPServer( QObject *parent ) :
     p11_ = false;
     tls_ = false;
     auth_ = false;
+    nonce_ = false;
 
     memset( &tsp_cert_, 0x00, sizeof(BIN));
     memset( &tsp_pri_key_, 0x00, sizeof(BIN));
@@ -77,6 +78,16 @@ void TSPServer::setAuthorization( const QString strUserID, const QString strPass
     auth_ = true;
     userid_ = strUserID;
     passwd_ = strPasswd;
+}
+
+void TSPServer::setNonce( bool bVal )
+{
+    nonce_ = bVal;
+}
+
+void TSPServer::setPIN( const QString strPIN )
+{
+    pin_ = strPIN;
 }
 
 int TSPServer::startServer( int nPort )
@@ -148,13 +159,22 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
         goto end;
     }
 
+    if( nonce_ == true )
+    {
+        if( binNonce.nLen <= 0 )
+        {
+            log( QString( "need nonce value" ) );
+            ret = JS_TSP_encodeFailResponse( JS_TS_STATUS_REJECTION, pRsp );
+            goto end;
+        }
+    }
+
     //    if( g_nMsgDump ) msgDump( 1, pReq );
 
     if( p11_ == true )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
-        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
         if( pP11CTX == NULL )
         {
@@ -163,7 +183,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             goto end;
         }
 
-        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        ret = getP11Session( pP11CTX, nSlotID, pin_ );
         if( ret != 0 )
         {
             log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));

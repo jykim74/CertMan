@@ -105,6 +105,11 @@ void CAServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
+void CAServer::setPIN( const QString strPIN )
+{
+    pin_ = strPIN;
+}
+
 int CAServer::startServer( int nPort )
 {
     if( !this->listen( QHostAddress::Any, nPort) )
@@ -332,22 +337,21 @@ int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
-        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
         if( pP11CTX == NULL )
         {
             log( QString("PKCS11 library was not loaded") );
-            ret = -1;
+            ret = JSR_PKCS11_NO_LOAD;
             goto end;
         }
 
-        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        ret = getP11Session( pP11CTX, nSlotID, pin_ );
         if( ret != 0 )
         {
             log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
             JS_PKCS11_Logout( pP11CTX );
             JS_PKCS11_CloseSession( pP11CTX );
-            ret = -1;
+            ret = JSR_PKCS11_LOGIN_FAIL;
             goto end;
         }
 

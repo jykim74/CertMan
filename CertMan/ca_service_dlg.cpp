@@ -58,6 +58,9 @@ CAServiceDlg::~CAServiceDlg()
 void CAServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_CMP_PORT ));
+    mPINText->setText( manApplet->settingsMgr()->PKCS11Pin() );
+    mPINLabel->setEnabled( false );
+    mPINText->setEnabled( false );
 }
 
 void CAServiceDlg::initialize()
@@ -204,6 +207,7 @@ void CAServiceDlg::clickStart()
     ca_srv_->setCANum( nNum );
     ca_srv_->setProfileNum( nProfileNum );
     ca_srv_->setCAPriKey( &binPriKey, bP11 );
+    ca_srv_->setPIN( mPINText->text() );
 
     if( mTLSGroup->isChecked() == true )
     {
@@ -300,10 +304,12 @@ void CAServiceDlg::changeNum()
     }
 
     mNameText->setText( certRec.getSubjectDN() );
-
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
-
     mInfoText->setText( keyPair.getDesc() );
+
+    bool bVal = isPKCS11Private( keyPair.getAlg() );
+    mPINLabel->setEnabled( bVal );
+    mPINText->setEnabled( bVal );
 }
 
 void CAServiceDlg::clickProfileSelect()

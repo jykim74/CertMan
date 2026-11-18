@@ -86,6 +86,11 @@ void OCSPServer::setTLS( const BIN *pCert, const BIN *pPriKey )
     JS_BIN_copy( &tls_pri_key_, pPriKey );
 }
 
+void OCSPServer::setPIN( const QString strPIN )
+{
+    pin_ = strPIN;
+}
+
 void OCSPServer::setNeedSign( bool bVal )
 {
     need_sign_ = bVal;
@@ -314,22 +319,21 @@ int OCSPServer::procOCSP( const BIN *pReq, BIN *pRsp )
     {
         JP11_CTX    *pP11CTX = (JP11_CTX *)manApplet->P11CTX();
         int nSlotID = manApplet->settingsMgr()->slotIndex();
-        QString strPIN = manApplet->settingsMgr()->PKCS11Pin();
 
         if( pP11CTX == NULL )
         {
             log( QString("PKCS11 library was not loaded") );
-            ret = -1;
+            ret = JSR_PKCS11_NO_LOAD;
             goto end;
         }
 
-        ret = getP11Session( pP11CTX, nSlotID, strPIN );
+        ret = getP11Session( pP11CTX, nSlotID, pin_ );
         if( ret != 0 )
         {
             log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
             JS_PKCS11_Logout( pP11CTX );
             JS_PKCS11_CloseSession( pP11CTX );
-            ret = -1;
+            ret = JSR_PKCS11_LOGIN_FAIL;
             goto end;
         }
 

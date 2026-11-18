@@ -33,6 +33,7 @@ public:
     void setProfileNum( int nNum );
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
+    void setPIN( const QString strPIN );
 
 public slots:
     int readReady();
@@ -69,6 +70,7 @@ private:
     QSslSocket *tls_client_;
     bool p11_;
     bool tls_;
+    QString pin_;
 
     QByteArray buffer_;
     State state_ = WaitingHeader;

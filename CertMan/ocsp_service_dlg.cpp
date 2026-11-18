@@ -58,6 +58,9 @@ OCSPServiceDlg::~OCSPServiceDlg()
 void OCSPServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_OCSP_PORT ));
+    mPINText->setText( manApplet->settingsMgr()->PKCS11Pin() );
+    mPINLabel->setEnabled( false );
+    mPINText->setEnabled( false );
 }
 
 void OCSPServiceDlg::initialize()
@@ -209,6 +212,7 @@ void OCSPServiceDlg::clickStart()
     ocsp_srv_->setCACert( &binCA );
     ocsp_srv_->setOCSPCert( &binCert );
     ocsp_srv_->setOCSPPriKey( &binPriKey, bP11 );
+    ocsp_srv_->setPIN( mPINText->text() );
 
     if( mTLSGroup->isChecked() == true )
     {
@@ -355,10 +359,12 @@ void OCSPServiceDlg::changeNum()
     }
 
     mNameText->setText( certRec.getSubjectDN() );
-
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
-
     mInfoText->setText( keyPair.getDesc() );
+
+    bool bVal = isPKCS11Private( keyPair.getAlg() );
+    mPINLabel->setEnabled( bVal );
+    mPINText->setEnabled( bVal );
 }
 
 void OCSPServiceDlg::clickTLSSelect()

@@ -51,6 +51,9 @@ TSPServiceDlg::~TSPServiceDlg()
 void TSPServiceDlg::initUI()
 {
     mPortText->setText( QString("%1").arg( JS_TSP_PORT ));
+    mPINText->setText( manApplet->settingsMgr()->PKCS11Pin() );
+    mPINLabel->setEnabled( false );
+    mPINText->setEnabled( false );
 }
 
 void TSPServiceDlg::initialize()
@@ -215,6 +218,9 @@ void TSPServiceDlg::clickStart()
     tsp_srv_->setLogEdit( mLogText );
     tsp_srv_->setTSPCert( &binCert );
     tsp_srv_->setTSPPriKey( &binPriKey, bP11 );
+    tsp_srv_->setNonce( mNeedNonceCheck->isChecked() );
+    tsp_srv_->setPIN( mPINText->text() );
+
     if( mAuthGroup->isChecked() ) tsp_srv_->setAuthorization( strUserID, strPasswd );
 
     if( mTLSGroup->isChecked() == true )
@@ -330,10 +336,12 @@ void TSPServiceDlg::changeNum()
     }
 
     mNameText->setText( certRec.getSubjectDN() );
-
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
-
     mInfoText->setText( keyPair.getDesc() );
+
+    bool bVal = isPKCS11Private( keyPair.getAlg() );
+    mPINLabel->setEnabled( bVal );
+    mPINText->setEnabled( bVal );
 }
 
 void TSPServiceDlg::clickTLSSelect()

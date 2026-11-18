@@ -114,6 +114,7 @@ public:
     void setCAPriKey( const BIN *pPriKey, bool bP11 = false );
     void setTLS( const BIN *pCert, const BIN *pPriKey );
     void setChallValid( bool bVal );
+    void setPIN( const QString strPIN );
 
     void setHTTP01( const QString strHTTP01 );
     void setDNS01( const QString strDNS01 );
@@ -187,6 +188,7 @@ private:
     bool est_auth_;
     QString est_userid_;
     QString est_passwd_;
+    QString pin_;
 
     QString http_01_;
     QString dns_01_;

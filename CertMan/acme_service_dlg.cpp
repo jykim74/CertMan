@@ -63,6 +63,9 @@ void ACMEServiceDlg::initUI()
 {
     mChallValidCheck->setChecked( true );
     mPortText->setText( QString("%1").arg( JS_ACME_PORT ));
+    mPINText->setText( manApplet->settingsMgr()->PKCS11Pin() );
+    mPINLabel->setEnabled( false );
+    mPINText->setEnabled( false );
 
     mHTTP01HostText->setText( "127.0.0.1" );
     mHTTP01PortText->setText( "80" );
@@ -283,6 +286,7 @@ void ACMEServiceDlg::clickStart()
     acme_srv_->setProfileNum( nProfileNum );
     acme_srv_->setCAPriKey( &binPriKey, bP11 );
     acme_srv_->setChallValid( bChallValid );
+    acme_srv_->setPIN( mPINText->text() );
 
     if( mESTAuthGroup->isChecked() )
         acme_srv_->setESTAuthorization( strESTUserID, strESTPasswd );
@@ -436,6 +440,10 @@ void ACMEServiceDlg::changeNum()
     dbMgr->getKeyPairRec( certRec.getKeyNum(), keyPair );
 
     mInfoText->setText( keyPair.getDesc() );
+
+    bool bVal = isPKCS11Private( keyPair.getAlg() );
+    mPINLabel->setEnabled( bVal );
+    mPINText->setEnabled( bVal );
 }
 
 void ACMEServiceDlg::clickProfileSelect()
