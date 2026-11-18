@@ -179,7 +179,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
         if( pP11CTX == NULL )
         {
             log( QString("PKCS11 library was not loaded") );
-            ret = -1;
+            ret = JSR_HSM_NO_LOAD;
             goto end;
         }
 
@@ -189,7 +189,7 @@ int TSPServer::procTSP( const BIN *pReq, BIN *pRsp )
             log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
             JS_PKCS11_Logout( pP11CTX );
             JS_PKCS11_CloseSession( pP11CTX );
-            ret = -1;
+            ret = JSR_HSM_LOGIN_FAIL;
             goto end;
         }
 

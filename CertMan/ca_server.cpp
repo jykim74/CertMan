@@ -341,7 +341,7 @@ int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
         if( pP11CTX == NULL )
         {
             log( QString("PKCS11 library was not loaded") );
-            ret = JSR_PKCS11_NO_LOAD;
+            ret = JSR_HSM_NO_LOAD;
             goto end;
         }
 
@@ -351,7 +351,7 @@ int CAServer::makeCert( const JIssueCertInfo *pIssueCertInfo, BIN *pCert )
             log( QString( "Failed to fetch session: %1 ").arg( JERR(ret) ));
             JS_PKCS11_Logout( pP11CTX );
             JS_PKCS11_CloseSession( pP11CTX );
-            ret = JSR_PKCS11_LOGIN_FAIL;
+            ret = JSR_HSM_LOGIN_FAIL;
             goto end;
         }
 
