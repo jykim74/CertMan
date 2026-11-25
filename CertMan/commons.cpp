@@ -1358,6 +1358,10 @@ const QString GetSystemID()
 {
     QString strID;
 
+    strID = QSysInfo::machineUniqueId();
+
+    if( strID.length() >= 8 ) return strID;
+
 #ifdef Q_OS_MACOS
     QProcess proc;
     QStringList args;
