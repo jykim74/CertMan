@@ -97,7 +97,7 @@ void LCNInfoDlg::initialize()
 
     if( manApplet->isLicense() )
     {
-        ret = JS_LCN_IsValid( &sLicenseInfo, strEmail.toStdString().c_str(), JS_LCN_PRODUCT_CERTMAN_NAME, SID_.toStdString().c_str(), time(NULL) );
+        ret = JS_LCN_IsValid( &sLicenseInfo, strEmail.toStdString().c_str(), JS_APP_NAME_CERTMAN, SID_.toStdString().c_str(), time(NULL) );
         if( ret == JSR_VALID )
         {
             mCurGroup->setEnabled( true );
@@ -581,7 +581,7 @@ void LCNInfoDlg::clickGet()
         goto end;
     }
 
-    ret = JS_LCN_IsValid( &sInfo, sInfo.sUser, JS_LCN_PRODUCT_CERTMAN_NAME, SID_.toStdString().c_str(), time(NULL) );
+    ret = JS_LCN_IsValid( &sInfo, sInfo.sUser, JS_APP_NAME_CERTMAN, SID_.toStdString().c_str(), time(NULL) );
     if( ret != JSR_VALID )
     {
         strErr = tr("The license is not valid :[%1]").arg(ret);

@@ -335,12 +335,23 @@ int ManApplet::checkLicense()
 
     JS_BIN_decodeHex( strLicense.toStdString().c_str(), &binEncLCN );
     if( binEncLCN.nLen > 0 )
-        JS_LCN_dec( strEmail.toStdString().c_str(), &binEncLCN, &binLCN );
+    {
+        ret = JS_LCN_dec( strEmail.toStdString().c_str(), &binEncLCN, &binLCN );
+        if( ret != 0 )
+        {
+            elog( QString( "failed to decrypt license: %1" ).arg( JERR(ret)));
+            goto end;
+        }
+    }
     else
         goto end;
 
     ret = JS_LCN_ParseBIN( &binLCN, &license_info_ );
-    if( ret != 0 ) goto end;
+    if( ret != 0 )
+    {
+        elog( QString( "failed to parse license: %1" ).arg( JERR(ret)));
+        goto end;
+    }
 
     if( run_t > 0 )
     {
@@ -353,12 +364,16 @@ int ManApplet::checkLicense()
         }
     }
 
-    ret = JS_LCN_IsValid( &license_info_, strEmail.toStdString().c_str(), JS_LCN_PRODUCT_CERTMAN_NAME, strSID.toStdString().c_str(), now_t );
+    ret = JS_LCN_IsValid( &license_info_, strEmail.toStdString().c_str(), JS_APP_NAME_CERTMAN, strSID.toStdString().c_str(), now_t );
 
     if( ret == JSR_VALID )
     {
         is_license_ = true;
         settings_mgr_->setRunTime( now_t );
+    }
+    else
+    {
+        elog( QString( "The license is invalid: %1" ).arg( JERR(ret)));
     }
 
 end :
